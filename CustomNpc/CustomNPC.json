@@ -39,7 +39,7 @@
     "condition": {"math":["u_currhp","==","0"]}
   },
   {
-    "id": "init_curr_hp",
+    "id": "CustomNPC_EOC_InitCurrHP",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CustomNPC_if0"}
@@ -47,10 +47,10 @@
     "eoc_type": "ACTIVATION"
   },
   {
-    "id": "update_mon_hp",
+    "id": "CustomNPC_EOC_UpdateInitCurrHP",
     "type": "effect_on_condition",
     "effect": [
-      {"u_cast_spell":{"id":"init_curr_hp_spell"}}
+      {"u_cast_spell":{"id":"CustomNPC_SPELL_InitCurrHP"}}
     ],
     "recurrence": 1
   },
@@ -58,13 +58,13 @@
     "id": "CustomNPC_if1",
     "type": "effect_on_condition",
     "effect": [
-      {"u_cast_spell":{"id":"tgsummon"}},
+      {"u_cast_spell":{"id":"CustomNPC_SPELL_SummonTarget"}},
       {"math":["has_target","=","1"]}
     ],
     "condition": {"and":[{"math":["u_currhp",">","u_hp()"]},{"math":["has_target","==","0"]}]}
   },
   {
-    "id": "check_curr_hp",
+    "id": "CustomNPC_EOC_CheckCurrHP",
     "type": "effect_on_condition",
     "effect": [
       {"math":["mag1","=","u_currhp"]},
@@ -78,9 +78,9 @@
     "id": "hiteocs",
     "type": "effect_on_condition",
     "effect": [
-      {"u_cast_spell":{"id":"check_mon_hp_spell"}},
+      {"u_cast_spell":{"id":"CustomNPC_SPELL_CheckCurrHP"}},
       {"math":["has_target","=","0"]},
-      {"u_cast_spell":{"id":"testconfire"},"targeted":true}
+      {"u_cast_spell":{"id":"CustomNPC_SPELL_TestConeSpell"},"targeted":true}
     ],
     "eoc_type": "ACTIVATION"
   },
