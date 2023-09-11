@@ -1,0 +1,15 @@
+{
+  "name": "cdda-customnpc",
+  "version": "1.0.0",
+  "description": "快速定义cdda的随从npc",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "author": "zwa73",
+  "license": "ISC",
+  "dependencies": {
+    "@zwa73/utils": "^1.0.36",
+    "typescript": "^5.2.2"
+  }
+}

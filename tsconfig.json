@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "strict": true,
+		"experimentalDecorators": true,
+        "target": "ES2022",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true,
+        "baseUrl": ".",
+        "paths": {
+            "DataManager"       : ["./src/DataManager"],
+            "LaMAdapter"        : ["./src/LaMAdapter"],
+            "TranslationAdapter": ["./src/TranslationAdapter"],
+            "LaMChar"           : ["./src/LaMChar"],
+            "TTSAdapter"        : ["./src/TTSAdapter"],
+            "CmdBackend"        : ["./src/CmdBackend"],
+			"@/src/*"           : ["./src/*"],
+			"@/*"               : ["./*"]
+        }
+    },
+    "include": ["./src/**/*.ts", "./src/**/*.js"],
+    "exclude": ["./node_modules/**/*"]
+}
