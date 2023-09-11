@@ -1,2 +1,2 @@
-declare class NPC {
-}
+export * from './StaticData';
+export * from './CddaJsonFormat';
