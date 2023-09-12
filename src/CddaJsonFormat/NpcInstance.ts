@@ -1,3 +1,4 @@
+import { MOD_PREFIX } from "@src/Data";
 
 
 export type NpcInstance = {
@@ -24,5 +25,11 @@ export type NpcInstance = {
         altruism?    : number;
     }
 }
+
+/**生成适用于此mod的 NPCID */
+export function genNpcInstanceID(id:string){
+    return `${MOD_PREFIX}_NPC_${id}`;
+}
+
 
 export type DefineFaction = "your_followers"|"no_faction";

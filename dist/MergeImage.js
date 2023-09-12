@@ -2,15 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mergeImage = exports.getCharImagePath = void 0;
 const Data_1 = require("./Data");
-const Utyils_1 = require("./Utyils");
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
+const AnimTool_1 = require("./AnimTool");
+const Armor_1 = require("./CddaJsonFormat/Armor");
 /**获取 角色图片目录 */
 function getCharImagePath(charName) {
     return path.join(Data_1.DATA_PATH, charName, 'image');
 }
 exports.getCharImagePath = getCharImagePath;
+/**合并并创建序列帧 */
 async function mergeImage(charName) {
     const imagePath = getCharImagePath(charName);
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
@@ -23,16 +25,23 @@ async function mergeImage(charName) {
     const tmpPath = path.join(imagePath, 'tmp');
     const rawPath = path.join(tmpPath, 'raw');
     const mergePath = path.join(tmpPath, 'merge');
-    for (let mtnName in info) {
-        let mtnInfo = info[mtnName];
+    for (const mtnName in info) {
+        const animType = mtnName;
+        const mtnInfo = info[animType];
+        //检查是否有Idle动作
+        if (mtnInfo == undefined && mtnName == "Idle")
+            throw `${charName} 必须要有Idle动画`;
+        if (mtnInfo == undefined)
+            continue;
         const mtnPath = path.join(imagePath, mtnName);
-        const formatMtnName = charName + mtnName;
-        const tmpMthPath = path.join(rawPath, `pngs_${formatMtnName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`);
+        const animName = (0, AnimTool_1.formatAnimName)(charName, animType);
+        //创建缓存文件夹
+        const tmpMthPath = path.join(rawPath, `pngs_${animName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`);
         await utils_1.UtilFT.ensurePathExists(tmpMthPath, true);
-        //复制到tmp
+        //复制数据到缓存
         await fs.promises.cp(mtnPath, tmpMthPath, { recursive: true });
         const { interval, ...rest } = mtnInfo;
-        //检查图片 创建动态数据
+        //检查图片 创建动画数据
         const animages = (await fs.promises.readdir(tmpMthPath))
             .filter(fileName => path.parse(fileName).ext == '.png')
             .sort((a, b) => {
@@ -43,15 +52,15 @@ async function mergeImage(charName) {
             return parseInt(amatch[1]) - parseInt(bmatch[1]);
         })
             .map(fileName => ({ weight: (interval || 10), sprite: path.parse(fileName).name }));
-        //创建动态数据
-        await utils_1.UtilFT.writeJSONFile(path.join(tmpMthPath, formatMtnName), {
-            id: formatMtnName,
+        //写入动画数据
+        await utils_1.UtilFT.writeJSONFile(path.join(tmpMthPath, animName), {
+            id: `overlay_worn_${(0, Armor_1.genArmorID)(animName)}`,
             fg: animages,
             animated: true,
         });
-        //添加info
+        //添加主info
         tmpInfo.push({
-            [formatMtnName + '.png']: {
+            [animName + '.png']: {
                 ...rest
             }
         });
@@ -65,12 +74,11 @@ async function mergeImage(charName) {
     await fs.promises.writeFile(path.join(rawPath, 'tileset.txt'), str);
     //打包
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
-    await (0, Utyils_1.execAsync)(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
+    await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
     //写入角色文件夹
     const tilesetNew = (await utils_1.UtilFT.loadJSONFile(path.join(mergePath, 'tile_config.json')))["tiles-new"]
         .filter(item => item.file != "fallback.png");
-    const outCharPath = (0, Data_1.getOutCharPath)(charName);
-    const outCharImgPath = path.join(outCharPath, 'image');
+    const outCharImgPath = path.join((0, Data_1.getOutCharPath)(charName), 'image');
     await utils_1.UtilFT.ensurePathExists(outCharImgPath, true);
     await utils_1.UtilFT.writeJSONFile(path.join(outCharImgPath, "mod_tileset.json"), [{
             type: "mod_tileset",

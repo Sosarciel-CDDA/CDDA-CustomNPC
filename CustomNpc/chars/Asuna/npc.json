@@ -1,0 +1,14 @@
+[
+	{
+		"type": "npc_class",
+		"id": "CNPC_NPC_Asuna",
+		"name": "Asuna",
+		"job_description": "Asuna专用的职业",
+		"common": false
+	},
+	{
+		"type": "npc",
+		"id": "CNPC_NPC_Asuna",
+		"name_unique": "Asuna"
+	}
+]

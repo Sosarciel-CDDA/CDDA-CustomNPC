@@ -4,13 +4,14 @@ import { CHAR_LIST, getCharPath } from "./Data";
 import { mergeImage } from "./MergeImage";
 import { Mutation } from "./CddaJsonFormat/Mutattion";
 import { createAnimTool } from "./AnimTool";
+import { createCharClass } from "./CharClass";
 
 
 export async function build(charName:string){
     const charPath = getCharPath(charName);
     await mergeImage(charName);
     await createAnimTool(charName);
-    
+    await createCharClass(charName);
 
 }
 

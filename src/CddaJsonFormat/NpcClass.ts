@@ -1,3 +1,4 @@
+import { MOD_PREFIX } from "@src/Data";
 
 
 
@@ -47,6 +48,11 @@ export type NpcClass = {
     /**默认值为 6 天 */
     restock_interval?: `${string} days`,
     traits?: Traits
+}
+
+/**生成适用于此mod的 NPC职业ID */
+export function genNpcClassID(id:string){
+    return `${MOD_PREFIX}_NPCLASS_${id}`;
 }
 
 type ShopItemGroup = [

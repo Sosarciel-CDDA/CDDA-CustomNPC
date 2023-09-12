@@ -22,4 +22,6 @@ export type NpcInstance = {
         altruism?: number;
     };
 };
+/**生成适用于此mod的 NPCID */
+export declare function genNpcInstanceID(id: string): string;
 export type DefineFaction = "your_followers" | "no_faction";

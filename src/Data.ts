@@ -2,6 +2,9 @@ import * as path from 'path';
 import * as  fs from 'fs';
 import { JToken, UtilFT } from '@zwa73/utils';
 
+/**mod物品前缀 */
+export const MOD_PREFIX = "CNPC";
+
 /**资源目录 */
 export const DATA_PATH = path.join(process.cwd(),'data');
 /**角色列表 */

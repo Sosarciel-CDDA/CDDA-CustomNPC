@@ -17,3 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./ItemGroup"), exports);
 __exportStar(require("./NpcClass"), exports);
 __exportStar(require("./NpcInstance"), exports);
+__exportStar(require("./Armor"), exports);
+__exportStar(require("./Spell"), exports);
+__exportStar(require("./EOC"), exports);

@@ -1,3 +1,11 @@
+import { MOD_PREFIX } from "@src/Data";
+
+
+
+/**生成适用于此mod的 变异ID */
+export function genMutationID(id:string){
+    return `${MOD_PREFIX}_MUT_${id}`;
+}
 
 /**变异 */
 export type Mutation = {
@@ -26,6 +34,7 @@ export type Mutation = {
     /**潮湿保护 */
 	wet_protection?: BPWetProte[];
 };
+
 
 /**肢体组 */
 const PartSet = ["head", "leg_l", "leg_r", "foot_l", "foot_r",

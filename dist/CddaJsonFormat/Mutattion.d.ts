@@ -1,3 +1,5 @@
+/**生成适用于此mod的 变异ID */
+export declare function genMutationID(id: string): string;
 /**变异 */
 export type Mutation = {
     type: "mutation";
@@ -28,11 +30,11 @@ export type Mutation = {
 /**肢体组 */
 declare const PartSet: readonly ["head", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r", "torso"];
 /**肢体 */
-export type Part = typeof PartSet[number];
+export type BodyPart = typeof PartSet[number];
 /**肢体的潮湿保护 */
 export type BPWetProte = {
     /**肢体 */
-    part: Part;
+    part: BodyPart;
     /**忽略潮湿点数 */
     ignored: number;
 };

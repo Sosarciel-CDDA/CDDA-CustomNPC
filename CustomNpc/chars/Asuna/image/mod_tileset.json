@@ -17,7 +17,7 @@
 				"pixelscale": 0.25,
 				"tiles": [
 					{
-						"id": "AsunaIdle",
+						"id": "overlay_worn_CNPC_ARMOR_AsunaIdle",
 						"fg": [
 							{
 								"weight": 10,

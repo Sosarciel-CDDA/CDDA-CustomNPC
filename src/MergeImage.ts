@@ -2,7 +2,8 @@ import { DATA_PATH, getCharPath, getOutCharPath } from "./Data";
 import * as path from "path";
 import * as fs from "fs";
 import { JArray, UtilFT, UtilFunc } from "@zwa73/utils";
-import { AnimType } from "./AnimTool";
+import { AnimType, formatAnimName } from "./AnimTool";
+import { genArmorID } from "./CddaJsonFormat/Armor";
 
 /**获取 角色图片目录 */
 export function getCharImagePath(charName:string){
@@ -37,16 +38,24 @@ export async function mergeImage(charName:string){
     const rawPath = path.join(tmpPath,'raw');
     const mergePath = path.join(tmpPath,'merge');
     for(const mtnName in info){
-        const mtnInfo = info[(mtnName as AnimType)];
+        const animType = mtnName as AnimType;
+        const mtnInfo = info[animType];
+
+        //检查是否有Idle动作
         if(mtnInfo==undefined && mtnName=="Idle") throw `${charName} 必须要有Idle动画`;
         if(mtnInfo==undefined) continue;
+
         const mtnPath = path.join(imagePath,mtnName);
-        const formatMtnName = charName+mtnName;
-        const tmpMthPath = path.join(rawPath,`pngs_${formatMtnName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`)
+        const animName = formatAnimName(charName,animType);
+
+        //创建缓存文件夹
+        const tmpMthPath = path.join(rawPath,`pngs_${animName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`)
         await UtilFT.ensurePathExists(tmpMthPath,true);
-        //复制到tmp
+
+        //复制数据到缓存
         await fs.promises.cp(mtnPath,tmpMthPath,{ recursive: true });
         const {interval,...rest} = mtnInfo;
+
         //检查图片 创建动画数据
         const animages = (await fs.promises.readdir(tmpMthPath))
             .filter(fileName=> path.parse(fileName).ext=='.png')
@@ -59,14 +68,14 @@ export async function mergeImage(charName:string){
             })
             .map(fileName=>({weight:(interval||10),sprite:path.parse(fileName).name}));
         //写入动画数据
-        await UtilFT.writeJSONFile(path.join(tmpMthPath,formatMtnName),{
-            id:`overlay_worn_CNPC_ARMOR_${formatMtnName}`,
+        await UtilFT.writeJSONFile(path.join(tmpMthPath,animName),{
+            id:`overlay_worn_${genArmorID(animName)}`,
             fg:animages,
             animated: true,
         });
         //添加主info
         tmpInfo.push({
-            [formatMtnName+'.png']:{
+            [animName+'.png']:{
                 ...rest
             }
         });

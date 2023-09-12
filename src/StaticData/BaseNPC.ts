@@ -1,11 +1,11 @@
-import { NpcClass, NpcInstance } from "..";
+import { NpcClass, NpcInstance, genNpcClassID, genNpcInstanceID } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
 
 
 
 const BaseNpcClass:NpcClass={
     type:'npc_class',
-    id:"CNPC_NPCLASS_BaseNpcClass",
+    id:genNpcClassID("BaseNpcClass"),
     name:"BaseNpcClass",
     job_description:"基础NPC职业",
     common:false,
@@ -15,8 +15,8 @@ const BaseNpcClass:NpcClass={
 }
 const BaseNpcInstance:NpcInstance={
     type:"npc",
-    id:"CNPC_NPC_BaseNpc",
-    class:"CNPC_NPCLASS_BaseNpcClass",
+    id:genNpcInstanceID("BaseNpc"),
+    class:genNpcClassID("BaseNpcClass"),
     attitude: 0,
     mission: 0,
     faction: "your_followers",

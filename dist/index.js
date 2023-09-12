@@ -17,9 +17,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.build = void 0;
 const Data_1 = require("./Data");
 const MergeImage_1 = require("./MergeImage");
+const AnimTool_1 = require("./AnimTool");
+const CharClass_1 = require("./CharClass");
 async function build(charName) {
     const charPath = (0, Data_1.getCharPath)(charName);
     await (0, MergeImage_1.mergeImage)(charName);
+    await (0, AnimTool_1.createAnimTool)(charName);
+    await (0, CharClass_1.createCharClass)(charName);
 }
 exports.build = build;
 for (let charName of Data_1.CHAR_LIST) {

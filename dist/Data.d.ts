@@ -1,3 +1,6 @@
+import { JToken } from '@zwa73/utils';
+/**mod物品前缀 */
+export declare const MOD_PREFIX = "CNPC";
 /**资源目录 */
 export declare const DATA_PATH: string;
 /**角色列表 */
@@ -8,3 +11,5 @@ export declare function getCharPath(charName: string): string;
 export declare const OUT_PATH: string;
 /**获取 输出角色目录 */
 export declare function getOutCharPath(charName: string): string;
+/**输出数据到角色目录 */
+export declare function outCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;

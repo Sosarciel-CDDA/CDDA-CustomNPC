@@ -1,7 +1,11 @@
+import { MOD_PREFIX } from "@src/Data";
 import { BodyPart } from "./Mutattion"
 
-
-
+/**生成适用于此mod的ARMOR ID */
+export function genArmorID(id:string){
+    return `${MOD_PREFIX}_ARMOR_${id}`;
+}
+/**一件护甲 */
 export type Armor = {
 	type: "ARMOR";
     /**衣物还是盔甲 */
