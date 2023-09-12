@@ -1,9 +1,7 @@
 export type NpcClass = {
     type: "npc_class";
     id: string;
-    name: {
-        "str": string;
-    };
+    name: string;
     job_description: string;
     /**false意味着这个NPC职业不会随机生成。
      * 如果未指定，则默认为 。true
@@ -14,16 +12,16 @@ export type NpcClass = {
      * 如果未指定，则默认为 。true
      */
     sells_belongings?: boolean;
-    bonus_str: {
+    bonus_str?: {
         "rng": [-4, 0];
     };
-    bonus_dex: {
+    bonus_dex?: {
         "rng": [-2, 0];
     };
-    bonus_int: {
+    bonus_int?: {
         "rng": [1, 5];
     };
-    skills: [
+    skills?: [
         {
             "skill": "ALL";
             "level": {
@@ -49,11 +47,11 @@ export type NpcClass = {
         }
     ];
     /**npc穿戴的物品组 */
-    worn_override: "NC_EXAMPLE_worn";
+    worn_override?: "NC_EXAMPLE_worn";
     /**npc携带的物品组 */
-    carry_override: "NC_EXAMPLE_carried";
+    carry_override?: "NC_EXAMPLE_carried";
     /**npc拿起的物品组 */
-    weapon_override: "NC_EXAMPLE_weapon";
+    weapon_override?: "NC_EXAMPLE_weapon";
     /**仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。 */
     shopkeeper_item_group?: ShopItemGroup;
     /**用于定义此店主的物料消耗费率。默认设置是在补货前消耗所有商品 */
@@ -100,15 +98,9 @@ type ShopPriceRules = [
         "price": 10000;
     }
 ];
-type Traits = [
-    {
-        "group": "BG_survival_story_EVACUEE";
-    },
-    {
-        "group": "NPC_starting_traits";
-    },
-    {
-        "group": "Appearance_demographics";
-    }
-];
+type Traits = ({
+    "group": string;
+} | {
+    "trait": string;
+})[];
 export {};

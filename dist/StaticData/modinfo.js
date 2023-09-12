@@ -5,7 +5,7 @@ const StaticData_1 = require("./StaticData");
 exports.modinfo = [
     {
         "type": "MOD_INFO",
-        "id": "customnpc",
+        "id": "cnpc",
         "name": "CustomNPC",
         "authors": ["zwa73"],
         "maintainers": ["zwa73"],

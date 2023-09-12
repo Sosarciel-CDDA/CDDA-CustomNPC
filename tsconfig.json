@@ -10,13 +10,8 @@
         "declaration": true,
         "baseUrl": ".",
         "paths": {
-            "DataManager"       : ["./src/DataManager"],
-            "LaMAdapter"        : ["./src/LaMAdapter"],
-            "TranslationAdapter": ["./src/TranslationAdapter"],
-            "LaMChar"           : ["./src/LaMChar"],
-            "TTSAdapter"        : ["./src/TTSAdapter"],
-            "CmdBackend"        : ["./src/CmdBackend"],
-			"@/src/*"           : ["./src/*"],
+            "CddaJsonFormat"    : ["./src/CddaJsonFormat"],
+			"@src/*"            : ["./src/*"],
 			"@/*"               : ["./*"]
         }
     },

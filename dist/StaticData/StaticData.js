@@ -4,7 +4,7 @@ exports.saveStaticData = exports.StaticDataPath = void 0;
 const path = require("path");
 const utils_1 = require("@zwa73/utils");
 /**静态数据的目录 */
-exports.StaticDataPath = path.join(process.cwd(), 'CustomNpc', 'StaticData');
+exports.StaticDataPath = path.join(process.cwd(), 'CustomNpc');
 /**保存静态数据 */
 async function saveStaticData(name, data) {
     const filePath = path.join(exports.StaticDataPath, name);

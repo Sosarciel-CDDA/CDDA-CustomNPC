@@ -1,0 +1,9 @@
+{
+    "Idle":{
+        "sprite_width": 128,
+        "sprite_height": 160,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": -8,
+        "pixelscale": 0.25
+    }
+}

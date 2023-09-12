@@ -1,11 +1,12 @@
 import { JArray } from "@zwa73/utils";
 import { saveStaticData } from "./StaticData";
 
+/**用于必定成功的控制法术的flags */
 export const ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 export const BaseSpell:JArray = [
 	{
 		type: "SPELL",
-		id: "CustomNPC_SPELL_SummonTarget",
+		id: "CNPC_SPELL_SummonTarget",
 		name: "召唤标靶",
 		description: "召唤标靶怪物",
 		flags: ["HOSTILE_SUMMON",...ControlSpellFlags],
@@ -22,7 +23,7 @@ export const BaseSpell:JArray = [
 	},
 	{
 		type: "SPELL",
-		id: "CustomNPC_SPELL_InitCurrHP",
+		id: "CNPC_SPELL_InitCurrHP",
 		name: "初始化当前生命值",
 		description: "初始化当前生命值变量",
 		flags: ControlSpellFlags,
@@ -30,12 +31,12 @@ export const BaseSpell:JArray = [
 		min_aoe: 20,
 		max_aoe: 20,
 		effect: "effect_on_condition",
-		effect_str: "CustomNPC_EOC_InitCurrHP",
+		effect_str: "CNPC_EOC_InitCurrHP",
 		shape: "blast",
 	},
 	{
 		type: "SPELL",
-		id: "CustomNPC_SPELL_CheckCurrHP",
+		id: "CNPC_SPELL_CheckCurrHP",
 		name: "检测当前生命值",
 		description: "检测当前生命值是否有变动",
 		flags: ControlSpellFlags,
@@ -43,11 +44,11 @@ export const BaseSpell:JArray = [
 		min_aoe: 20,
 		max_aoe: 20,
 		effect: "effect_on_condition",
-		effect_str: "CustomNPC_EOC_CheckCurrHP",
+		effect_str: "CNPC_EOC_CheckCurrHP",
 		shape: "blast",
 	},
 	{
-		id: "CustomNPC_SPELL_TestConeSpell_DMG",
+		id: "CNPC_SPELL_TestConeSpell_DMG",
 		type: "SPELL",
 		name: "测试用锥形法术 伤害部分",
 		description: "测试用锥形法术 伤害部分",
@@ -62,7 +63,7 @@ export const BaseSpell:JArray = [
 		damage_type: "heat",
 	},
 	{
-		id: "CustomNPC_SPELL_TestConeSpell",
+		id: "CNPC_SPELL_TestConeSpell",
 		type: "SPELL",
 		name: "测试用锥形法术",
 		description: "测试用锥形法术",
@@ -75,8 +76,19 @@ export const BaseSpell:JArray = [
 		min_aoe: 90,
 		min_range: 20,
 		base_casting_time: 100,
-		extra_effects: [{ id: "CustomNPC_SPELL_TestConeSpell_DMG" }],
+		extra_effects: [{ id: "CNPC_SPELL_TestConeSpell_DMG" }],
 		targeted_monster_ids: ["mon_chicken"],
+	},
+    {
+		type: "SPELL",
+		id: "CNPC_SPELL_SpawnBaseNpc",
+		name: "生成测试NPC",
+		description: "生成测试NPC",
+		flags: ControlSpellFlags,
+		valid_targets: ["self"],
+		effect: "effect_on_condition",
+		effect_str: "CNPC_EOC_SpawnBaseNpc",
+		shape: "blast",
 	}
 ];
 

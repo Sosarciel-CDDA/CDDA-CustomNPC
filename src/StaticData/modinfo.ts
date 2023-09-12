@@ -3,7 +3,7 @@ import { saveStaticData } from "./StaticData";
 export const modinfo = [
 	{
 		"type": "MOD_INFO",
-		"id": "customnpc",
+		"id": "cnpc",
 		"name": "CustomNPC",
 		"authors": ["zwa73"],
 		"maintainers": ["zwa73"],

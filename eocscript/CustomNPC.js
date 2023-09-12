@@ -14,39 +14,54 @@ function update_stat(){
 
 
 //初始化现有血量
-function CustomNPC_EOC_InitCurrHP(){
+function CNPC_EOC_InitCurrHP(){
 	eoc_type("ACTIVATION")
 	if(u_currhp==0)
 		u_currhp = u_hp();
 }
 //刷新现有血量
-function CustomNPC_EOC_UpdateInitCurrHP(){
+function CNPC_EOC_UpdateInitCurrHP(){
 	recurrence(1);
-	eobj({ "u_cast_spell": { "id": "CustomNPC_SPELL_InitCurrHP" } })
+	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 }
 
 //检测现有血量并触发get_hit
-function CustomNPC_EOC_CheckCurrHP(){
+function CNPC_EOC_CheckCurrHP(){
 	eoc_type("ACTIVATION")
 	mag1 = u_currhp;
 	mag2 = u_hp();
 	if(and(u_currhp > u_hp(),has_target==0)){
-		eobj({ "u_cast_spell": { "id": "CustomNPC_SPELL_SummonTarget" } })
+		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonTarget" } })
 		has_target=1;
 	}
 	u_currhp = u_hp();
 }
 
 //尝试攻击触发的eoc
-function hiteocs(){
+function CNPC_EOC_HitEocs(){
 	eoc_type("ACTIVATION")
-	eobj({"u_cast_spell":{"id":"CustomNPC_SPELL_CheckCurrHP"}})
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
 	has_target=0;
 	eobj({
-		"u_cast_spell":{"id":"CustomNPC_SPELL_TestConeSpell"},
+		"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
 		"targeted":true
 	})
 }
+
+//生成基础npc
+function CNPC_EOC_SpawnBaseNpc(){
+	eobj({
+		"u_spawn_npc": "CNPC_NPC_BaseNpc",
+		"real_count": 1,
+		"min_radius": 1,
+		"max_radius": 1,
+		"spawn_message": "生成了一个基础NPC"
+	})
+}
+
+
+
+
 
 
 

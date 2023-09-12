@@ -4,10 +4,10 @@ export type NpcInstance = {
     name_unique?: string;
     name_suffix?: string;
     class?: string;
-    attitude?: 0;
-    mission?: 0;
+    attitude?: number;
+    mission?: number;
     chat?: string;
-    faction?: string;
+    faction?: DefineFaction;
     death_eocs?: string[];
     age?: number;
     height?: number;
@@ -22,3 +22,4 @@ export type NpcInstance = {
         altruism?: number;
     };
 };
+export type DefineFaction = "your_followers" | "no_faction";
