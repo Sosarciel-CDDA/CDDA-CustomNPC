@@ -1,0 +1,48 @@
+[
+	{
+		"type": "npc_class",
+		"id": "CNPC_NPCLASS_StaticData",
+		"name": "StaticData",
+		"job_description": "StaticData专用的职业",
+		"common": false,
+		"worn_override": "CNPC_MUT_StaticDataIdle"
+	},
+	{
+		"type": "npc",
+		"id": "CNPC_NPC_StaticData",
+		"name_unique": "StaticData",
+		"class": "CNPC_NPCLASS_StaticData",
+		"faction": "your_followers",
+		"chat": "TALK_DONE",
+		"attitude": 0,
+		"mission": 0
+	},
+	{
+		"type": "GENERIC",
+		"id": "CNPC_GENERIC_StaticData_Spawner",
+		"name": "StaticData生成器",
+		"description": "生成一个StaticData",
+		"use_action": {
+			"type": "effect_on_conditions",
+			"description": "生成一个StaticData",
+			"effect_on_conditions": [
+				"CNPC_NPC_StaticData_Spawner"
+			]
+		},
+		"weight": 1,
+		"volume": 1,
+		"symbol": "O"
+	},
+	{
+		"type": "effect_on_condition",
+		"id": "CNPC_NPC_StaticData_Spawner",
+		"effect": [
+			{
+				"u_spawn_npc": "CNPC_NPC_StaticData",
+				"real_count": 1,
+				"min_radius": 1,
+				"max_radius": 1
+			}
+		]
+	}
+]

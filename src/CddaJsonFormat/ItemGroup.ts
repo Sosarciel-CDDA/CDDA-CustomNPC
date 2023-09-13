@@ -1,4 +1,11 @@
+import { MOD_PREFIX } from "@src/DataManager";
 
+
+
+/**生成适用于此mod的 物品组ID */
+export function genItemGroupID(id:string){
+    return `${MOD_PREFIX}_MUT_${id}`;
+}
 
 export type ItemGroup = {
     type: "item_group",
@@ -10,8 +17,8 @@ export type ItemGroup = {
      */
     subtype?: "collection"|"distribution",
 }& ({entries?: ItemGroupEntrie[];}|
-    {item?:ItemGroupEntrieQuick[];}|
-    {group?:ItemGroupEntrieQuick[];})
+    {items?:ItemGroupEntrieQuick[];}|
+    {groups?:ItemGroupEntrieQuick[];})
 
 type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|ItemGroupEntrieDist|ItemGroupEntrieColl)&ItemGroupEntrieOpt;
 type ItemGroupEntrieItem = {item:string};

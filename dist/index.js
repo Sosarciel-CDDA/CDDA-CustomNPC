@@ -14,20 +14,25 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build = void 0;
-const Data_1 = require("./Data");
+exports.main = exports.buildChar = void 0;
+const DataManager_1 = require("./DataManager");
 const MergeImage_1 = require("./MergeImage");
 const AnimTool_1 = require("./AnimTool");
 const CharClass_1 = require("./CharClass");
-async function build(charName) {
-    const charPath = (0, Data_1.getCharPath)(charName);
+const StaticData_1 = require("./StaticData");
+async function buildChar(charName) {
+    const charPath = (0, DataManager_1.getCharPath)(charName);
     await (0, MergeImage_1.mergeImage)(charName);
     await (0, AnimTool_1.createAnimTool)(charName);
     await (0, CharClass_1.createCharClass)(charName);
 }
-exports.build = build;
-for (let charName of Data_1.CHAR_LIST) {
-    build(charName);
+exports.buildChar = buildChar;
+async function main() {
+    await (0, StaticData_1.outStaticData)();
+    for (let charName of DataManager_1.CHAR_LIST)
+        buildChar(charName);
 }
+exports.main = main;
+main();
 __exportStar(require("./StaticData"), exports);
 __exportStar(require("./CddaJsonFormat"), exports);

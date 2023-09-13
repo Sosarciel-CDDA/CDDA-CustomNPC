@@ -1,16 +1,20 @@
-import { MOD_PREFIX } from "@src/Data";
+import { MOD_PREFIX } from "@src/DataManager";
+import { DefineNpcFaction } from "./GenericDefine";
 
 
 export type NpcInstance = {
     type: "npc";
     id: string;
+    /**独特名称 */
     name_unique?:string;
+    /**名称后缀 */
     name_suffix?: string;
-    class?: string,
-    attitude?: number,
-    mission?: number,
-    chat?: string,
-    faction?: DefineFaction,
+    /**职业 */
+    class: string,
+    attitude: number,
+    mission: number,
+    chat: string,
+    faction?: DefineNpcFaction,
     death_eocs?: string[],
     age?: number,
     height?: number,
@@ -31,5 +35,3 @@ export function genNpcInstanceID(id:string){
     return `${MOD_PREFIX}_NPC_${id}`;
 }
 
-
-export type DefineFaction = "your_followers"|"no_faction";

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseSpell = exports.ControlSpellFlags = void 0;
 const StaticData_1 = require("./StaticData");
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
+const BaseMonster_1 = require("./BaseMonster");
 /**用于必定成功的控制法术的flags */
 exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [
@@ -18,7 +19,7 @@ exports.BaseSpell = [
         min_aoe: 1,
         max_aoe: 1,
         effect: "summon",
-        effect_str: "mon_chicken",
+        effect_str: BaseMonster_1.TARGET_MON_ID,
         min_duration: 1,
         max_duration: 1,
         shape: "blast",
@@ -79,7 +80,7 @@ exports.BaseSpell = [
         min_range: 20,
         base_casting_time: 100,
         extra_effects: [{ id: (0, CddaJsonFormat_1.genSpellID)("TestConeSpell_DMG") }],
-        targeted_monster_ids: ["mon_chicken"],
+        targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
     {
         type: "SPELL",

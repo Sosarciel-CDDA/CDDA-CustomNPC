@@ -1,4 +1,4 @@
-import { MOD_PREFIX } from "@src/Data";
+import { MOD_PREFIX } from "@src/DataManager";
 
 
 
@@ -32,11 +32,11 @@ export type NpcClass = {
         }
     }],
     /**npc穿戴的物品组 */
-    worn_override?: "NC_EXAMPLE_worn";
+    worn_override?: string;
     /**npc携带的物品组 */
-    carry_override?: "NC_EXAMPLE_carried";
+    carry_override?: string;
     /**npc拿起的物品组 */
-    weapon_override?: "NC_EXAMPLE_weapon";
+    weapon_override?: string;
     /**仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。 */
     shopkeeper_item_group?: ShopItemGroup,
     /**用于定义此店主的物料消耗费率。默认设置是在补货前消耗所有商品 */

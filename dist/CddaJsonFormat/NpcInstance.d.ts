@@ -1,13 +1,17 @@
+import { DefineNpcFaction } from "./GenericDefine";
 export type NpcInstance = {
     type: "npc";
     id: string;
+    /**独特名称 */
     name_unique?: string;
+    /**名称后缀 */
     name_suffix?: string;
-    class?: string;
-    attitude?: number;
-    mission?: number;
-    chat?: string;
-    faction?: DefineFaction;
+    /**职业 */
+    class: string;
+    attitude: number;
+    mission: number;
+    chat: string;
+    faction?: DefineNpcFaction;
     death_eocs?: string[];
     age?: number;
     height?: number;
@@ -24,4 +28,3 @@ export type NpcInstance = {
 };
 /**生成适用于此mod的 NPCID */
 export declare function genNpcInstanceID(id: string): string;
-export type DefineFaction = "your_followers" | "no_faction";

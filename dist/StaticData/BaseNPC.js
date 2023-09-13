@@ -20,6 +20,7 @@ const BaseNpcInstance = {
     attitude: 0,
     mission: 0,
     faction: "your_followers",
+    chat: "TALK_DONE",
 };
 exports.BaseNpc = [BaseNpcClass, BaseNpcInstance];
 (0, StaticData_1.saveStaticData)('BaseNpc', exports.BaseNpc);

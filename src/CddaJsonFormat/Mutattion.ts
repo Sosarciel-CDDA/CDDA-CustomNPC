@@ -1,4 +1,5 @@
-import { MOD_PREFIX } from "@src/Data";
+import { MOD_PREFIX } from "@src/DataManager";
+import { BodyPart } from "./GenericDefine";
 
 
 
@@ -16,7 +17,7 @@ export type Mutation = {
     /**描述 */
 	description: string;
     /**消耗的点数 */
-	points?: number;
+	points: number;
     /**可见性 */
 	visibility?: number;
     /**丑陋度 */
@@ -36,11 +37,7 @@ export type Mutation = {
 };
 
 
-/**肢体组 */
-const PartSet = ["head", "leg_l", "leg_r", "foot_l", "foot_r",
-    "arm_l", "arm_r", "hand_l", "hand_r", "torso"] as const;
-/**肢体 */
-export type BodyPart = typeof PartSet[number];
+
 /**肢体的潮湿保护 */
 export type BPWetProte = {
     /**肢体 */

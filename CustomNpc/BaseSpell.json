@@ -19,7 +19,7 @@
 		"min_aoe": 1,
 		"max_aoe": 1,
 		"effect": "summon",
-		"effect_str": "mon_chicken",
+		"effect_str": "CNPC_MON_Target",
 		"min_duration": 1,
 		"max_duration": 1,
 		"shape": "blast"
@@ -111,7 +111,7 @@
 			}
 		],
 		"targeted_monster_ids": [
-			"mon_chicken"
+			"CNPC_MON_Target"
 		]
 	},
 	{

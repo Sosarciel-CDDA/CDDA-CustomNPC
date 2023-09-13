@@ -3,3 +3,5 @@ import { JToken } from '@zwa73/utils';
 export declare const StaticDataPath: string;
 /**保存静态数据 */
 export declare function saveStaticData(name: string, data: JToken): Promise<void>;
+/**输出静态数据 */
+export declare function outStaticData(): Promise<void>;

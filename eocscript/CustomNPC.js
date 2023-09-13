@@ -6,10 +6,10 @@ function print_global_val(varName){
 }
 
 function update_stat(){
-	recurrence("1 s");
-	print_global_val(mag3);
-	print_global_val(mag1);
-	print_global_val(mag2);
+	//recurrence("1 s");
+	//print_global_val(mag3);
+	//print_global_val(mag1);
+	//print_global_val(mag2);
 }
 
 

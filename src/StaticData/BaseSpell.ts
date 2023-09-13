@@ -1,6 +1,9 @@
 import { JArray } from "@zwa73/utils";
 import { saveStaticData } from "./StaticData";
-import { genSpellID } from "CddaJsonFormat";
+import { genMonsterID, genSpellID } from "CddaJsonFormat";
+import { TARGET_MON_ID } from "./BaseMonster";
+
+
 
 /**用于必定成功的控制法术的flags */
 export const ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
@@ -17,7 +20,7 @@ export const BaseSpell:JArray = [
 		min_aoe: 1,
 		max_aoe: 1,
 		effect: "summon",
-		effect_str: "mon_chicken",
+		effect_str: TARGET_MON_ID,
 		min_duration: 1,
 		max_duration: 1,
 		shape: "blast",
@@ -78,7 +81,7 @@ export const BaseSpell:JArray = [
 		min_range: 20,
 		base_casting_time: 100,
 		extra_effects: [{ id: genSpellID("TestConeSpell_DMG") }],
-		targeted_monster_ids: ["mon_chicken"],
+		targeted_monster_ids: [TARGET_MON_ID],
 	},
     {
 		type: "SPELL",

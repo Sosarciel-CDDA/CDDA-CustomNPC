@@ -1,0 +1,829 @@
+[
+	{
+		"type": "mod_tileset",
+		"compatibility": [
+			"MSX++DEAD_PEOPLE",
+			"UNDEAD_PEOPLE",
+			"UNDEAD_PEOPLE_BASE"
+		],
+		"tiles-new": [
+			{
+				"file": "AsunaIdle.png",
+				"//": "range 1 to 207",
+				"sprite_width": 128,
+				"sprite_height": 160,
+				"sprite_offset_x": 0,
+				"sprite_offset_y": -8,
+				"pixelscale": 0.25,
+				"tiles": [
+					{
+						"id": "overlay_worn_CNPC_ARMOR_AsunaIdle",
+						"fg": [
+							{
+								"weight": 1,
+								"sprite": 1
+							},
+							{
+								"weight": 1,
+								"sprite": 2
+							},
+							{
+								"weight": 1,
+								"sprite": 3
+							},
+							{
+								"weight": 1,
+								"sprite": 4
+							},
+							{
+								"weight": 1,
+								"sprite": 5
+							},
+							{
+								"weight": 1,
+								"sprite": 6
+							},
+							{
+								"weight": 1,
+								"sprite": 7
+							},
+							{
+								"weight": 1,
+								"sprite": 8
+							},
+							{
+								"weight": 1,
+								"sprite": 9
+							},
+							{
+								"weight": 1,
+								"sprite": 10
+							},
+							{
+								"weight": 1,
+								"sprite": 11
+							},
+							{
+								"weight": 1,
+								"sprite": 12
+							},
+							{
+								"weight": 1,
+								"sprite": 13
+							},
+							{
+								"weight": 1,
+								"sprite": 14
+							},
+							{
+								"weight": 1,
+								"sprite": 15
+							},
+							{
+								"weight": 1,
+								"sprite": 16
+							},
+							{
+								"weight": 1,
+								"sprite": 17
+							},
+							{
+								"weight": 1,
+								"sprite": 18
+							},
+							{
+								"weight": 1,
+								"sprite": 19
+							},
+							{
+								"weight": 1,
+								"sprite": 20
+							},
+							{
+								"weight": 1,
+								"sprite": 21
+							},
+							{
+								"weight": 1,
+								"sprite": 22
+							},
+							{
+								"weight": 1,
+								"sprite": 23
+							},
+							{
+								"weight": 1,
+								"sprite": 24
+							},
+							{
+								"weight": 1,
+								"sprite": 25
+							},
+							{
+								"weight": 1,
+								"sprite": 26
+							},
+							{
+								"weight": 1,
+								"sprite": 27
+							},
+							{
+								"weight": 1,
+								"sprite": 28
+							},
+							{
+								"weight": 1,
+								"sprite": 29
+							},
+							{
+								"weight": 1,
+								"sprite": 30
+							},
+							{
+								"weight": 1,
+								"sprite": 31
+							},
+							{
+								"weight": 1,
+								"sprite": 32
+							},
+							{
+								"weight": 1,
+								"sprite": 33
+							},
+							{
+								"weight": 1,
+								"sprite": 34
+							},
+							{
+								"weight": 1,
+								"sprite": 35
+							},
+							{
+								"weight": 1,
+								"sprite": 36
+							},
+							{
+								"weight": 1,
+								"sprite": 37
+							},
+							{
+								"weight": 1,
+								"sprite": 38
+							},
+							{
+								"weight": 1,
+								"sprite": 39
+							},
+							{
+								"weight": 1,
+								"sprite": 40
+							},
+							{
+								"weight": 1,
+								"sprite": 41
+							},
+							{
+								"weight": 1,
+								"sprite": 42
+							},
+							{
+								"weight": 1,
+								"sprite": 43
+							},
+							{
+								"weight": 1,
+								"sprite": 44
+							},
+							{
+								"weight": 1,
+								"sprite": 45
+							},
+							{
+								"weight": 1,
+								"sprite": 46
+							},
+							{
+								"weight": 1,
+								"sprite": 47
+							},
+							{
+								"weight": 1,
+								"sprite": 48
+							},
+							{
+								"weight": 1,
+								"sprite": 49
+							},
+							{
+								"weight": 1,
+								"sprite": 50
+							},
+							{
+								"weight": 1,
+								"sprite": 51
+							},
+							{
+								"weight": 1,
+								"sprite": 52
+							},
+							{
+								"weight": 1,
+								"sprite": 53
+							},
+							{
+								"weight": 1,
+								"sprite": 54
+							},
+							{
+								"weight": 1,
+								"sprite": 55
+							},
+							{
+								"weight": 1,
+								"sprite": 56
+							},
+							{
+								"weight": 1,
+								"sprite": 57
+							},
+							{
+								"weight": 1,
+								"sprite": 58
+							},
+							{
+								"weight": 1,
+								"sprite": 59
+							},
+							{
+								"weight": 1,
+								"sprite": 60
+							},
+							{
+								"weight": 1,
+								"sprite": 61
+							},
+							{
+								"weight": 1,
+								"sprite": 62
+							},
+							{
+								"weight": 1,
+								"sprite": 63
+							},
+							{
+								"weight": 1,
+								"sprite": 64
+							},
+							{
+								"weight": 1,
+								"sprite": 65
+							},
+							{
+								"weight": 1,
+								"sprite": 66
+							},
+							{
+								"weight": 1,
+								"sprite": 67
+							},
+							{
+								"weight": 1,
+								"sprite": 68
+							},
+							{
+								"weight": 1,
+								"sprite": 69
+							},
+							{
+								"weight": 1,
+								"sprite": 70
+							},
+							{
+								"weight": 1,
+								"sprite": 71
+							},
+							{
+								"weight": 1,
+								"sprite": 72
+							},
+							{
+								"weight": 1,
+								"sprite": 73
+							},
+							{
+								"weight": 1,
+								"sprite": 74
+							},
+							{
+								"weight": 1,
+								"sprite": 75
+							},
+							{
+								"weight": 1,
+								"sprite": 76
+							},
+							{
+								"weight": 1,
+								"sprite": 77
+							},
+							{
+								"weight": 1,
+								"sprite": 78
+							},
+							{
+								"weight": 1,
+								"sprite": 79
+							},
+							{
+								"weight": 1,
+								"sprite": 80
+							},
+							{
+								"weight": 1,
+								"sprite": 81
+							},
+							{
+								"weight": 1,
+								"sprite": 82
+							},
+							{
+								"weight": 1,
+								"sprite": 83
+							},
+							{
+								"weight": 1,
+								"sprite": 84
+							},
+							{
+								"weight": 1,
+								"sprite": 85
+							},
+							{
+								"weight": 1,
+								"sprite": 86
+							},
+							{
+								"weight": 1,
+								"sprite": 87
+							},
+							{
+								"weight": 1,
+								"sprite": 88
+							},
+							{
+								"weight": 1,
+								"sprite": 89
+							},
+							{
+								"weight": 1,
+								"sprite": 90
+							},
+							{
+								"weight": 1,
+								"sprite": 91
+							},
+							{
+								"weight": 1,
+								"sprite": 92
+							},
+							{
+								"weight": 1,
+								"sprite": 93
+							},
+							{
+								"weight": 1,
+								"sprite": 94
+							},
+							{
+								"weight": 1,
+								"sprite": 95
+							},
+							{
+								"weight": 1,
+								"sprite": 96
+							},
+							{
+								"weight": 1,
+								"sprite": 97
+							},
+							{
+								"weight": 1,
+								"sprite": 98
+							},
+							{
+								"weight": 1,
+								"sprite": 99
+							},
+							{
+								"weight": 1,
+								"sprite": 100
+							},
+							{
+								"weight": 1,
+								"sprite": 101
+							},
+							{
+								"weight": 1,
+								"sprite": 102
+							},
+							{
+								"weight": 1,
+								"sprite": 103
+							},
+							{
+								"weight": 1,
+								"sprite": 104
+							},
+							{
+								"weight": 1,
+								"sprite": 105
+							},
+							{
+								"weight": 1,
+								"sprite": 106
+							},
+							{
+								"weight": 1,
+								"sprite": 107
+							},
+							{
+								"weight": 1,
+								"sprite": 108
+							},
+							{
+								"weight": 1,
+								"sprite": 109
+							},
+							{
+								"weight": 1,
+								"sprite": 110
+							},
+							{
+								"weight": 1,
+								"sprite": 111
+							},
+							{
+								"weight": 1,
+								"sprite": 112
+							},
+							{
+								"weight": 1,
+								"sprite": 113
+							},
+							{
+								"weight": 1,
+								"sprite": 114
+							},
+							{
+								"weight": 1,
+								"sprite": 115
+							},
+							{
+								"weight": 1,
+								"sprite": 116
+							},
+							{
+								"weight": 1,
+								"sprite": 117
+							},
+							{
+								"weight": 1,
+								"sprite": 118
+							},
+							{
+								"weight": 1,
+								"sprite": 119
+							},
+							{
+								"weight": 1,
+								"sprite": 120
+							},
+							{
+								"weight": 1,
+								"sprite": 121
+							},
+							{
+								"weight": 1,
+								"sprite": 122
+							},
+							{
+								"weight": 1,
+								"sprite": 123
+							},
+							{
+								"weight": 1,
+								"sprite": 124
+							},
+							{
+								"weight": 1,
+								"sprite": 125
+							},
+							{
+								"weight": 1,
+								"sprite": 126
+							},
+							{
+								"weight": 1,
+								"sprite": 127
+							},
+							{
+								"weight": 1,
+								"sprite": 128
+							},
+							{
+								"weight": 1,
+								"sprite": 129
+							},
+							{
+								"weight": 1,
+								"sprite": 130
+							},
+							{
+								"weight": 1,
+								"sprite": 131
+							},
+							{
+								"weight": 1,
+								"sprite": 132
+							},
+							{
+								"weight": 1,
+								"sprite": 133
+							},
+							{
+								"weight": 1,
+								"sprite": 134
+							},
+							{
+								"weight": 1,
+								"sprite": 135
+							},
+							{
+								"weight": 1,
+								"sprite": 136
+							},
+							{
+								"weight": 1,
+								"sprite": 137
+							},
+							{
+								"weight": 1,
+								"sprite": 138
+							},
+							{
+								"weight": 1,
+								"sprite": 139
+							},
+							{
+								"weight": 1,
+								"sprite": 140
+							},
+							{
+								"weight": 1,
+								"sprite": 141
+							},
+							{
+								"weight": 1,
+								"sprite": 142
+							},
+							{
+								"weight": 1,
+								"sprite": 143
+							},
+							{
+								"weight": 1,
+								"sprite": 144
+							},
+							{
+								"weight": 1,
+								"sprite": 145
+							},
+							{
+								"weight": 1,
+								"sprite": 146
+							},
+							{
+								"weight": 1,
+								"sprite": 147
+							},
+							{
+								"weight": 1,
+								"sprite": 148
+							},
+							{
+								"weight": 1,
+								"sprite": 149
+							},
+							{
+								"weight": 1,
+								"sprite": 150
+							},
+							{
+								"weight": 1,
+								"sprite": 151
+							},
+							{
+								"weight": 1,
+								"sprite": 152
+							},
+							{
+								"weight": 1,
+								"sprite": 153
+							},
+							{
+								"weight": 1,
+								"sprite": 154
+							},
+							{
+								"weight": 1,
+								"sprite": 155
+							},
+							{
+								"weight": 1,
+								"sprite": 156
+							},
+							{
+								"weight": 1,
+								"sprite": 157
+							},
+							{
+								"weight": 1,
+								"sprite": 158
+							},
+							{
+								"weight": 1,
+								"sprite": 159
+							},
+							{
+								"weight": 1,
+								"sprite": 160
+							},
+							{
+								"weight": 1,
+								"sprite": 161
+							},
+							{
+								"weight": 1,
+								"sprite": 162
+							},
+							{
+								"weight": 1,
+								"sprite": 163
+							},
+							{
+								"weight": 1,
+								"sprite": 164
+							},
+							{
+								"weight": 1,
+								"sprite": 165
+							},
+							{
+								"weight": 1,
+								"sprite": 166
+							},
+							{
+								"weight": 1,
+								"sprite": 167
+							},
+							{
+								"weight": 1,
+								"sprite": 168
+							},
+							{
+								"weight": 1,
+								"sprite": 169
+							},
+							{
+								"weight": 1,
+								"sprite": 170
+							},
+							{
+								"weight": 1,
+								"sprite": 171
+							},
+							{
+								"weight": 1,
+								"sprite": 172
+							},
+							{
+								"weight": 1,
+								"sprite": 173
+							},
+							{
+								"weight": 1,
+								"sprite": 174
+							},
+							{
+								"weight": 1,
+								"sprite": 175
+							},
+							{
+								"weight": 1,
+								"sprite": 176
+							},
+							{
+								"weight": 1,
+								"sprite": 177
+							},
+							{
+								"weight": 1,
+								"sprite": 178
+							},
+							{
+								"weight": 1,
+								"sprite": 179
+							},
+							{
+								"weight": 1,
+								"sprite": 180
+							},
+							{
+								"weight": 1,
+								"sprite": 181
+							},
+							{
+								"weight": 1,
+								"sprite": 182
+							},
+							{
+								"weight": 1,
+								"sprite": 183
+							},
+							{
+								"weight": 1,
+								"sprite": 184
+							},
+							{
+								"weight": 1,
+								"sprite": 185
+							},
+							{
+								"weight": 1,
+								"sprite": 186
+							},
+							{
+								"weight": 1,
+								"sprite": 187
+							},
+							{
+								"weight": 1,
+								"sprite": 188
+							},
+							{
+								"weight": 1,
+								"sprite": 189
+							},
+							{
+								"weight": 1,
+								"sprite": 190
+							},
+							{
+								"weight": 1,
+								"sprite": 191
+							},
+							{
+								"weight": 1,
+								"sprite": 192
+							},
+							{
+								"weight": 1,
+								"sprite": 193
+							},
+							{
+								"weight": 1,
+								"sprite": 194
+							},
+							{
+								"weight": 1,
+								"sprite": 195
+							},
+							{
+								"weight": 1,
+								"sprite": 196
+							},
+							{
+								"weight": 1,
+								"sprite": 197
+							},
+							{
+								"weight": 1,
+								"sprite": 198
+							},
+							{
+								"weight": 1,
+								"sprite": 199
+							},
+							{
+								"weight": 1,
+								"sprite": 200
+							}
+						],
+						"animated": true
+					}
+				]
+			}
+		]
+	}
+]

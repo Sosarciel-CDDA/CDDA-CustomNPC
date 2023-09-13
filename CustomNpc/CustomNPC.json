@@ -1,34 +1,7 @@
 [
   {
-    "id": "print_global_val_mag3",
-    "type": "effect_on_condition",
-    "effect": [
-      {"u_message":"全局变量 mag3 当前的值为 : <global_val:mag3>"}
-    ]
-  },
-  {
-    "id": "print_global_val_mag1",
-    "type": "effect_on_condition",
-    "effect": [
-      {"u_message":"全局变量 mag1 当前的值为 : <global_val:mag1>"}
-    ]
-  },
-  {
-    "id": "print_global_val_mag2",
-    "type": "effect_on_condition",
-    "effect": [
-      {"u_message":"全局变量 mag2 当前的值为 : <global_val:mag2>"}
-    ]
-  },
-  {
     "id": "update_stat",
-    "type": "effect_on_condition",
-    "effect": [
-      {"run_eocs":"print_global_val_mag3"},
-      {"run_eocs":"print_global_val_mag1"},
-      {"run_eocs":"print_global_val_mag2"}
-    ],
-    "recurrence": "1 s"
+    "type": "effect_on_condition"
   },
   {
     "id": "CustomNPC_if0",

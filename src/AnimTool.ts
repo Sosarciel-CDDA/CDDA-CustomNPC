@@ -1,7 +1,8 @@
 import { UtilFT } from "@zwa73/utils";
-import { Armor, genArmorID } from "./CddaJsonFormat/Armor";
+import { Armor, genArmorID } from "CddaJsonFormat";
 import { Mutation, genMutationID } from "./CddaJsonFormat/Mutattion";
-import { outCharFile } from "./Data";
+import { outCharFile } from "./DataManager";
+import { ItemGroup, genItemGroupID } from "./CddaJsonFormat/ItemGroup";
 
 
 
@@ -29,20 +30,26 @@ export async function createAnimTool(charName:string){
             id:genMutationID(animName),
             name:`${charName}的${animType}动画变异`,
             description:`${charName}的${animType}动画变异`,
-            integrated_armor:[genArmorID(animName)]
+            integrated_armor:[genArmorID(animName)],
+            points:0,
         }
         const animArmor:Armor={
             type:"ARMOR",
-            id:`CNPC_ARMOR_${animName}`,
+            id:genArmorID(animName),
             name:`${charName}的${animType}动画变异`,
             description:`${charName}的${animType}动画变异`,
             category:"clothing",
             weight: 0,
             volume: 0,
-            armor:[{
-                layers:["AURA"],
-            }]
+            symbol: "O",
+            flags:["AURA","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT"]
         }
-        await outCharFile(charName,'anim_tool.json',[animMut,animArmor]);
+        const animArmorGroup:ItemGroup={
+            type:"item_group",
+            id:genItemGroupID(animName),
+            subtype:"collection",
+            items:[genArmorID(animName)]
+        }
+        await outCharFile(charName,'anim_tool.json',[animMut,animArmor,animArmorGroup]);
     }
 }

@@ -17,6 +17,7 @@
 		"class": "CNPC_NPCLASS_BaseNpcClass",
 		"attitude": 0,
 		"mission": 0,
-		"faction": "your_followers"
+		"faction": "your_followers",
+		"chat": "TALK_DONE"
 	}
 ]

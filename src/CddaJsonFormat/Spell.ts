@@ -1,4 +1,4 @@
-import { MOD_PREFIX } from "@src/Data";
+import { MOD_PREFIX } from "@src/DataManager";
 
 /**生成适用于此mod的 法术ID */
 export function genSpellID(id:string){

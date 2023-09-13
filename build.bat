@@ -1,5 +1,5 @@
 call tsc
 call tsc-alias
-node index
+node --trace-warnings index
 "./tools/EocScript" --input ./eocscript --output ./CustomNpc
 pause

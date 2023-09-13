@@ -1,3 +1,5 @@
+/**生成适用于此mod的 物品组ID */
+export declare function genItemGroupID(id: string): string;
 export type ItemGroup = {
     type: "item_group";
     id: string;
@@ -10,9 +12,9 @@ export type ItemGroup = {
 } & ({
     entries?: ItemGroupEntrie[];
 } | {
-    item?: ItemGroupEntrieQuick[];
+    items?: ItemGroupEntrieQuick[];
 } | {
-    group?: ItemGroupEntrieQuick[];
+    groups?: ItemGroupEntrieQuick[];
 });
 type ItemGroupEntrie = (ItemGroupEntrieItem | ItemGroupEntrieGroup | ItemGroupEntrieDist | ItemGroupEntrieColl) & ItemGroupEntrieOpt;
 type ItemGroupEntrieItem = {

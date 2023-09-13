@@ -1,14 +1,48 @@
 [
 	{
 		"type": "npc_class",
-		"id": "CNPC_NPC_Asuna",
+		"id": "CNPC_NPCLASS_Asuna",
 		"name": "Asuna",
 		"job_description": "Asuna专用的职业",
-		"common": false
+		"common": false,
+		"worn_override": "CNPC_MUT_AsunaIdle"
 	},
 	{
 		"type": "npc",
 		"id": "CNPC_NPC_Asuna",
-		"name_unique": "Asuna"
+		"name_unique": "Asuna",
+		"class": "CNPC_NPCLASS_Asuna",
+		"faction": "your_followers",
+		"chat": "TALK_DONE",
+		"attitude": 0,
+		"mission": 0
+	},
+	{
+		"type": "GENERIC",
+		"id": "CNPC_GENERIC_Asuna_Spawner",
+		"name": "Asuna生成器",
+		"description": "生成一个Asuna",
+		"use_action": {
+			"type": "effect_on_conditions",
+			"description": "生成一个Asuna",
+			"effect_on_conditions": [
+				"CNPC_NPC_Asuna_Spawner"
+			]
+		},
+		"weight": 1,
+		"volume": 1,
+		"symbol": "O"
+	},
+	{
+		"type": "effect_on_condition",
+		"id": "CNPC_NPC_Asuna_Spawner",
+		"effect": [
+			{
+				"u_spawn_npc": "CNPC_NPC_Asuna",
+				"real_count": 1,
+				"min_radius": 1,
+				"max_radius": 1
+			}
+		]
 	}
 ]

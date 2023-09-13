@@ -9,7 +9,7 @@
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {
-    "@zwa73/utils": "^1.0.37",
+    "@zwa73/utils": "^1.0.38",
     "typescript": "^5.2.2"
   }
 }

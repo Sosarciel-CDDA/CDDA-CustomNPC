@@ -1,0 +1,11 @@
+[
+	{
+		"type": "mod_tileset",
+		"compatibility": [
+			"MSX++DEAD_PEOPLE",
+			"UNDEAD_PEOPLE",
+			"UNDEAD_PEOPLE_BASE"
+		],
+		"tiles-new": []
+	}
+]

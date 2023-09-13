@@ -1,3 +1,4 @@
+import { BodyPart } from "./GenericDefine";
 /**生成适用于此mod的 变异ID */
 export declare function genMutationID(id: string): string;
 /**变异 */
@@ -9,7 +10,7 @@ export type Mutation = {
     /**描述 */
     description: string;
     /**消耗的点数 */
-    points?: number;
+    points: number;
     /**可见性 */
     visibility?: number;
     /**丑陋度 */
@@ -27,10 +28,6 @@ export type Mutation = {
     /**潮湿保护 */
     wet_protection?: BPWetProte[];
 };
-/**肢体组 */
-declare const PartSet: readonly ["head", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r", "torso"];
-/**肢体 */
-export type BodyPart = typeof PartSet[number];
 /**肢体的潮湿保护 */
 export type BPWetProte = {
     /**肢体 */
@@ -38,4 +35,3 @@ export type BPWetProte = {
     /**忽略潮湿点数 */
     ignored: number;
 };
-export {};

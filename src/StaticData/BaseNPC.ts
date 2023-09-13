@@ -20,6 +20,7 @@ const BaseNpcInstance:NpcInstance={
     attitude: 0,
     mission: 0,
     faction: "your_followers",
+    chat: "TALK_DONE",
 }
 export const BaseNpc = [BaseNpcClass,BaseNpcInstance];
 
