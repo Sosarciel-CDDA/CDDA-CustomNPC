@@ -9,7 +9,7 @@ const AnimTool_1 = require("./AnimTool");
 const CddaJsonFormat_1 = require("./CddaJsonFormat");
 /**获取 角色图片目录 */
 function getCharImagePath(charName) {
-    return path.join(DataManager_1.DATA_PATH, charName, 'image');
+    return path.join((0, DataManager_1.getCharPath)(charName), 'image');
 }
 exports.getCharImagePath = getCharImagePath;
 /**合并并创建序列帧 */

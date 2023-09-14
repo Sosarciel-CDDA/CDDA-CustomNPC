@@ -18,6 +18,8 @@ export async function saveStaticData(name:string,data:JToken){
 export async function outStaticData(){
     //复制静态数据
     const staticDataPath = path.join(DATA_PATH,"StaticData");
+    console.log(staticDataPath)
+    console.log(OUT_PATH)
     UtilFT.ensurePathExists(staticDataPath,true);
     await fs.promises.cp(staticDataPath,OUT_PATH,{ recursive: true });
     //导出js静态数据

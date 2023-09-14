@@ -3,6 +3,8 @@ import { JToken } from '@zwa73/utils';
 export declare const MOD_PREFIX = "CNPC";
 /**资源目录 */
 export declare const DATA_PATH: string;
+/**角色目录 */
+export declare const CHAR_PATH: string;
 /**角色列表 */
 export declare const CHAR_LIST: string[];
 /**获取 角色目录 */

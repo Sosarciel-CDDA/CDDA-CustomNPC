@@ -20,6 +20,8 @@ exports.saveStaticData = saveStaticData;
 async function outStaticData() {
     //复制静态数据
     const staticDataPath = path.join(DataManager_1.DATA_PATH, "StaticData");
+    console.log(staticDataPath);
+    console.log(DataManager_1.OUT_PATH);
     utils_1.UtilFT.ensurePathExists(staticDataPath, true);
     await fs.promises.cp(staticDataPath, DataManager_1.OUT_PATH, { recursive: true });
     //导出js静态数据

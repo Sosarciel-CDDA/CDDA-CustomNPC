@@ -1,4 +1,4 @@
-import { DATA_PATH, OUT_PATH, getCharPath, getOutCharPath } from "./DataManager";
+import { CHAR_PATH, DATA_PATH, OUT_PATH, getCharPath, getOutCharPath } from "./DataManager";
 import * as path from "path";
 import * as fs from "fs";
 import { JArray, UtilFT, UtilFunc } from "@zwa73/utils";
@@ -7,7 +7,7 @@ import { genArmorID } from "CddaJsonFormat";
 
 /**获取 角色图片目录 */
 export function getCharImagePath(charName:string){
-    return path.join(DATA_PATH,charName,'image');
+    return path.join(getCharPath(charName),'image');
 }
 
 /**动作图片信息 */

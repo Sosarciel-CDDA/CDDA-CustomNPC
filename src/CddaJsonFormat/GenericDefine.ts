@@ -9,11 +9,34 @@ export const ColorList = ["blue","white","brown","dark_gray"] as const;
 export type Color = typeof ColorList[number];
 
 
-/**肢体组 */
-const PartSet = ["head", "leg_l", "leg_r", "foot_l", "foot_r",
-    "arm_l", "arm_r", "hand_l", "hand_r", "torso"] as const;
+/**必要的肢体组 */
+const VitalBPList = [
+    "torso" ,
+    "head"  ,
+] as const;
+/**必要的肢体 */
+type VitalBP = typeof VitalBPList[number];
+
+/**四肢组 */
+const LimbBPList = [
+    "leg_l" , "leg_r" ,
+    "arm_l" , "arm_r" ,
+] as const;
+/**四肢 */
+type LimbBP = typeof LimbBPList[number];
+
+/**子肢体组 */
+const SubBPList = [
+    "foot_l", "foot_r",
+    "hand_l", "hand_r",
+] as const;
+/**子肢体 */
+type SubBP = typeof SubBPList[number];
+
+/**组肢体 */
+export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
 /**肢体 */
-export type BodyPart = typeof PartSet[number];
+export type BodyPart = VitalBP|LimbBP|SubBP;
 
 
 /**npc阵营 列表 */

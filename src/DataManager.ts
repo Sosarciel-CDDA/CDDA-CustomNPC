@@ -10,15 +10,17 @@ export const MOD_PREFIX = "CNPC";
 
 /**资源目录 */
 export const DATA_PATH = path.join(process.cwd(),'data');
+/**角色目录 */
+export const CHAR_PATH = path.join(DATA_PATH,'chars');
 /**角色列表 */
-export const CHAR_LIST = fs.readdirSync(DATA_PATH).filter(fileName=>{
+export const CHAR_LIST = fs.readdirSync(CHAR_PATH).filter(fileName=>{
     const filePath = getCharPath(fileName);
     if(fs.statSync(filePath).isDirectory())
         return true;
 });
 /**获取 角色目录 */
 export function getCharPath(charName:string){
-    return path.join(DATA_PATH,charName);
+    return path.join(CHAR_PATH,charName);
 }
 
 

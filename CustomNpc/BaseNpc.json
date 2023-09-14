@@ -9,7 +9,8 @@
 			{
 				"trait": ""
 			}
-		]
+		],
+		"weapon_override": "testgroup"
 	},
 	{
 		"type": "npc",
