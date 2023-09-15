@@ -1,4 +1,4 @@
-import { Color, Volume, Weight } from "../GenericDefine";
+import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Volume, Weight } from "../GenericDefine";
 
 
 
@@ -12,32 +12,96 @@ export type Generic = {
 }&GenericBase;
 
 /**通用物品基础 */
-export type GenericBase={
+export type GenericBase = {
 	/**物品唯一ID */
 	id: string;
 	/**物品显示名 */
 	name: string;
-    /**描述 */
+	/**该项目应在哪个容器（如果有）中生成 */
+	container?:string;
+	/**如果该物品没有配方，则修复该物品时等同于配方 */
+	repairs_like?: string,
+	/**提示图块集，如果该项目没有图块 使用looks_like图块 */
+	looks_like?: string,
+	/**描述 */
 	description: string;
+	/**用于该项目的 asci_art 的 ID */
+	ascii_picture?:string;
+	/**默认的状态 默认为固态 */
+	phase?: Phase;
 	/**重量 0重量物品需要添加 ZERO_WEIGHT标签 */
-    weight: Weight;
-    /**体积 0体积物品需要添加 ZERO_WEIGHT标签*/
+	weight: Weight;
+	/**体积 0体积物品需要添加 ZERO_WEIGHT标签*/
 	volume: Volume;
-    /**物品价格 */
-	price?: number|`${number} usd`;
-    /**大灾变后的物品价格 */
-	price_postapoc?: number|`${number} usd`;
+	/**当物品集成到另一个物品中时添加到基础物品的体积
+	 * 例如，集成到枪支的枪械 体积会添加到基础物品上。
+	 * 默认值与音量相同。 */
+	integral_volume?: Volume;
+	/**当物品集成到另一个物品中时
+	 * 例如，集成到枪中的枪械 重量会添加到基础物品上。
+	 * 默认值与重量相同。 */
+	integral_weight?: Weight;
+	/**最长物品尺寸的长度。 默认为体积的立方根 */
+	longest_side?: Length;
+	/**对于非刚性物品体积（以及磨损物品负担）与内容成比例增加 */
+	rigid?: boolean;
+	/**（可选，默认 = 1）如果是容器或车辆部件，它应为内容物提供多少绝缘程度 */
+	insulation?:number;
+	/**物品价格 */
+	price?: Price;
+	/**大灾变后的物品价格 */
+	price_postapoc?: Price;
+	/**控制物品在受到伤害时退化的速度。 0 = 无退化。
+	 * 默认为 1.0
+	 */
+	degradation_multiplier?: number;
 	/**ascii显示符号 */
 	symbol: string;
-    /**颜色 */
+	/**颜色 */
 	color?: Color;
 	/**材质 */
-	material?: string[];
+	material?: ItemMaterial[];
+	/**材质 可用哪些材料修复 */
+	repairs_with?: string[];
+	/**属于什么类型的武器 */
+	weapon_category?: string[];
+	/**作为近战武器的伤害 */
+	melee_damage?:MeleeDamage;
 	/**使用效果 */
-	use_action?:UseAction,
-}
+	use_action?: UseAction;
+	/**口袋数据 */
+	pocket_data?: PocketData[];
+	/**命中数据 */
+	to_hit?: ToHit;
+	/**超过该体积杂志开始从物品中突出并增加额外的体积 */
+	magazine_well?:number;
+	/**每种弹药类型（如果有）的杂志类型，可用于重新加载该物品 */
+	magazines?: Magazines[];
+	/**掉进火里会爆炸 */
+	explode_in_fire?: boolean;
+	/**爆炸数据 */
+	explosion?: Explosion;
+};
 
+/**弹夹 */
+export type Magazines = [
+	/**弹药类型 */
+	string,
+	/**具体弹药 默认为首个 */
+	[string,...string[]]
+]
 
+/**命中数据 */
+export type ToHit ={
+	/**物品的抓握类型 */
+	grip: "bad"|"none"|"solid"|"weapon";
+	/**项目的长度值 */
+	length: "hand"|"short"|"long";
+	/**物品的供给表面 */
+	surface: "point"|"line"|"any"|"every";
+	/**项目的余额值 */
+	balance: "clumsy"|"uneven"|"neutral"|"good";
+} | number;
 
 export type UseAction = {
 	type: "place_npc"; // place npc of specific class on the map
@@ -59,6 +123,14 @@ export const GenericFlagList = [
 ] as const;
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number];
+
+/**物品的材质 字符串时为材质类型 */
+export type ItemMaterial = string|{
+	/**材质类型 */
+	type:string;
+	/**材质占比 */
+	portion?:number;
+}
 
 
 

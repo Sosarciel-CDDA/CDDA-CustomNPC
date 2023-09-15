@@ -16,7 +16,7 @@
 				"pixelscale": 0,
 				"tiles": [
 					{
-					"id": "npc_female",
+						"id": "npc_female",
 						"fg": 0,
 						"bg": 0
 					},

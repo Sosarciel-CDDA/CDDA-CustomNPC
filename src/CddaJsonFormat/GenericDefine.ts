@@ -1,9 +1,13 @@
 /**重量 */
 export type Weight = number|`${number} ${"kg"|"g"}`;
 /**体积 */
-export type Volume = number|`${number} ${"L"|"ml"}`
+export type Volume = number|`${number} ${"L"|"ml"}`;
 /**长度 */
-export type Length = number|`${number} ${"mm"|"cm"|"m"|"km"}`
+export type Length = number|`${number} ${"mm"|"cm"|"m"|"km"}`;
+/**能量 */
+export type Energy = number|`${number} ${"mJ"|"kJ"}`;
+/**价格 */
+export type Price = number|`${number} ${"USD"|"cent"|"kUSD"}`;
 /**可用的颜色列表 */
 export const ColorList = ["blue","white","brown","dark_gray"] as const;
 /**可用的颜色 */
@@ -114,3 +118,54 @@ export type PocketData = {
     /**如果口袋继承了标志，则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。 */
 	inherits_flags?: true;
 };
+
+
+/**远程武器伤害 */
+export type RangeDamage = {
+    /**伤害类型 */
+    damage_type: DamageType;
+    /**伤害值 */
+    amount: number;
+    /**穿甲值 */
+    armor_penetration: number;
+}
+/**近战武器伤害 */
+export type MeleeDamage = {
+    /**伤害类型 : 伤害值 不能为负数*/
+    DamageType?:number
+}
+/**伤害类型 */
+export type DamageType = "stab"|"bash"|"cut";
+
+
+/**爆炸 */
+export type Explosion = {
+    /**TNT 当量炸药的克数为单位测量爆炸威力，影响伤害和射程 */
+    power: number;
+    /**每个爆炸方块保留了多少能量。 必须小于 1 且大于 0。 */
+    distance_factor: number;
+    /**爆炸可能产生的最大（听觉）噪音。 */
+    max_noise: number;
+    /**爆炸是否会留下火 */
+    fire?: boolean;
+    /**破片数据 */
+    shrapnel: ShrapnelData;
+}
+/**破片数据
+ * 为数字时 套管总质量，其余碎片变量设置为合理的默认值。
+ */
+export type ShrapnelData = {
+    /**套管总质量、套管/功率比决定破片速度。 */
+    casing_mass: number;
+    /**每个碎片的质量（以克为单位）。 大碎片击中更重，小碎片击中更频繁。 */
+    fragment_mass: number;
+    /**在着陆点掉落物品的几率百分比。 */
+    recovery?: number;
+    /**在着陆点掉落哪个物品。 */
+    drop?: string;
+}|number
+
+/**物理状态 */
+export type Phase = "solid";
+
+

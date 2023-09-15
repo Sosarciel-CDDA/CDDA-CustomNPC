@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genArmorID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
+import { genArmorID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
 
 
 /**主资源表 */
@@ -66,10 +66,11 @@ export class DataManager{
             const baseData:CharData = {
                 charName        : charName,
                 baseMutID       : genMutationID(charName),
-                baseMutArmorID  : genArmorID(charName),
                 classID         : genNpcClassID(charName),
                 instanceID      : genNpcInstanceID(charName),
                 animData        : animData,
+                baseArmorID     : genArmorID(charName),
+                baseWeaponID    : genGenericID(charName),
             }
             this.dataTable.charTable[charName] = {baseData,outData:{}}
         }
@@ -131,14 +132,16 @@ export type CharData=Readonly<{
     charName    : string;
     /**基础变异ID */
     baseMutID   : string;
-    /**基础变异装备ID */
-    baseMutArmorID   : string;
     /**职业ID */
     classID     : string;
     /**实例ID */
     instanceID  : string;
     /**动画数据 */
     animData    : Record<AnimType,AnimData>;
+    /**基础装备ID */
+    baseArmorID : string;
+    /**基础武器ID */
+    baseWeaponID: string;
 }>;
 
 /**动画数据 */

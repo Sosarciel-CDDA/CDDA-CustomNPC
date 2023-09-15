@@ -10,8 +10,6 @@ export type Armor = {
 	warmth?: number;
 	/**环境保护 */
 	environmental_protection?: number;
-	/**口袋数据 */
-	pocket_data?: PocketData[];
 	flags?: ArmorFlag[];
 	armor?: ArmorData[];
 } & GenericBase;
