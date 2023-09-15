@@ -2,14 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseSpell = exports.ControlSpellFlags = void 0;
 const StaticData_1 = require("./StaticData");
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const BaseMonster_1 = require("./BaseMonster");
+const ModDefine_1 = require("../ModDefine");
 /**用于必定成功的控制法术的flags */
 exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [
     {
         type: "SPELL",
-        id: (0, CddaJsonFormat_1.genSpellID)("SummonTarget"),
+        id: (0, ModDefine_1.genSpellID)("SummonTarget"),
         name: "召唤标靶",
         description: "召唤标靶怪物",
         flags: ["HOSTILE_SUMMON", ...exports.ControlSpellFlags],
@@ -26,7 +26,7 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, CddaJsonFormat_1.genSpellID)("InitCurrHP"),
+        id: (0, ModDefine_1.genSpellID)("InitCurrHP"),
         name: "初始化当前生命值",
         description: "初始化当前生命值变量",
         flags: exports.ControlSpellFlags,
@@ -39,7 +39,7 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, CddaJsonFormat_1.genSpellID)("CheckCurrHP"),
+        id: (0, ModDefine_1.genSpellID)("CheckCurrHP"),
         name: "检测当前生命值",
         description: "检测当前生命值是否有变动",
         flags: exports.ControlSpellFlags,
@@ -51,7 +51,7 @@ exports.BaseSpell = [
         shape: "blast",
     },
     {
-        id: (0, CddaJsonFormat_1.genSpellID)("TestConeSpell_DMG"),
+        id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG"),
         type: "SPELL",
         name: "测试用锥形法术 伤害部分",
         description: "测试用锥形法术 伤害部分",
@@ -66,7 +66,7 @@ exports.BaseSpell = [
         damage_type: "heat",
     },
     {
-        id: (0, CddaJsonFormat_1.genSpellID)("TestConeSpell"),
+        id: (0, ModDefine_1.genSpellID)("TestConeSpell"),
         type: "SPELL",
         name: "测试用锥形法术",
         description: "测试用锥形法术",
@@ -79,12 +79,12 @@ exports.BaseSpell = [
         min_aoe: 90,
         min_range: 20,
         base_casting_time: 100,
-        extra_effects: [{ id: (0, CddaJsonFormat_1.genSpellID)("TestConeSpell_DMG") }],
+        extra_effects: [{ id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG") }],
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
     {
         type: "SPELL",
-        id: (0, CddaJsonFormat_1.genSpellID)("SpawnBaseNpc"),
+        id: (0, ModDefine_1.genSpellID)("SpawnBaseNpc"),
         name: "生成测试NPC",
         description: "生成测试NPC",
         flags: exports.ControlSpellFlags,

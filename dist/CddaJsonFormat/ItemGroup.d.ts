@@ -1,5 +1,3 @@
-/**生成适用于此mod的 物品组ID */
-export declare function genItemGroupID(id: string): string;
 export type ItemGroup = {
     type: "item_group";
     id: string;

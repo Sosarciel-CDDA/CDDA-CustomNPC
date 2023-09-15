@@ -1,4 +1,3 @@
-import { MOD_PREFIX } from "@src/DataManager";
 import { Color, DefineMonFaction, DefineNpcFaction, Volume, Weight } from "./GenericDefine";
 
 export type Monster = {
@@ -46,10 +45,7 @@ export type Monster = {
 	attack_cost?: number;
 };
 
-/**生成适用于此mod的 怪物ID */
-export function genMonsterID(id:string){
-    return `${MOD_PREFIX}_MON_${id}`;
-}
+
 
 
 /**怪物可用的Flag 列表 */

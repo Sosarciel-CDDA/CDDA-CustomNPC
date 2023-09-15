@@ -1,11 +1,6 @@
-import { MOD_PREFIX } from "@src/DataManager";
 
 
 
-/**生成适用于此mod的 物品组ID */
-export function genItemGroupID(id:string){
-    return `${MOD_PREFIX}_MUT_${id}`;
-}
 
 export type ItemGroup = {
     type: "item_group",

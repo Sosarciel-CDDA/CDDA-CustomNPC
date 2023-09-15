@@ -1,6 +1,6 @@
-import { Monster, genMonsterID } from "CddaJsonFormat";
+import { Monster } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
-
+import { genMonsterID } from "@src/ModDefine";
 
 
 /**标靶怪物ID */

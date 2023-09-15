@@ -1,22 +1,20 @@
-import { MOD_PREFIX } from "@src/DataManager";
-import { BodyPart, GenericBase, GenericFlag } from "CddaJsonFormat"
+import { BodyPart, GenericBase, GenericFlag, PocketData } from "CddaJsonFormat"
 
-/**生成适用于此mod的ARMOR ID */
-export function genArmorID(id:string){
-    return `${MOD_PREFIX}_ARMOR_${id}`;
-}
+
 /**一件护甲 */
 export type Armor = {
 	type: "ARMOR";
-    /**衣物还是盔甲 */
-	category: "armor"|"clothing";
-    /**保暖度 */
+	/**衣物还是盔甲 */
+	category: "armor" | "clothing";
+	/**保暖度 */
 	warmth?: number;
-    /**环境保护 */
+	/**环境保护 */
 	environmental_protection?: number;
+	/**口袋数据 */
+	pocket_data?: PocketData[];
 	flags?: ArmorFlag[];
 	armor?: ArmorData[];
-}&GenericBase;
+} & GenericBase;
 
 export type ArmorData = {
 	material?: [{ type: "leather"; covered_by_mat: 100; thickness: 1 }];
@@ -31,6 +29,8 @@ export type ArmorData = {
 	/**层级 */
 	layers?: ArmorLayer[];
 };
+
+
 
 /**装甲图层显示优先级 从低到高 AURA显示在最外层 */
 export const ArmorLayerList = ["PERSONAL","SKINTIGHT","NORMAL","WAIST","OUTER","BELTED","AURA"] as const;

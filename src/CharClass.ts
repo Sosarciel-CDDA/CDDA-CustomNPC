@@ -1,6 +1,6 @@
-import { genItemGroupID } from ".";
-import { BodyPartList, EOC, Generic, Mutation, NpcClass, NpcInstance, genEOCID, genGenericID } from "./CddaJsonFormat";
+import { Armor, BodyPartList, EOC, Generic, Mutation, NpcClass, NpcInstance } from "./CddaJsonFormat";
 import { DataManager } from "./DataManager";
+import { genEOCID, genGenericID, genItemGroupID } from "./ModDefine";
 
 
 
@@ -67,13 +67,37 @@ export async function createCharClass(dm:DataManager,charName:string){
 	};
     /**基础变异 */
     const baseMut:Mutation = {
-        type            :"mutation",
-        id              :baseData.baseMutID,
-        name            :`${charName}的基础变异`,
-        description     :`${charName}的基础变异`,
-        points          :0,
+        type            : "mutation",
+        id              : baseData.baseMutID,
+        name            : `${charName}的基础变异`,
+        description     : `${charName}的基础变异`,
+        points          : 0,
         restricts_gear  : [...BodyPartList],
         remove_rigid    : [...BodyPartList],
+        integrated_armor: [baseData.baseMutArmorID]
     }
-    outData['npc'] = [charClass,charInstance,baseMut,charSpawner,charSpawnerEoc];
+    /**基础变异装备 */
+    const baseMutArmor:Armor={
+        type        : "ARMOR",
+        id          : baseData.baseMutArmorID,
+        name        : `${charName}的基础装备`,
+        description : `${charName}的基础装备`,
+        category    : "clothing",
+        weight      : 0,
+        volume      : 0,
+        symbol      : "O",
+        flags       : ["PERSONAL","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT","TARDIS"],
+        pocket_data : [{
+            rigid: true,
+            pocket_type: "CONTAINER",
+            max_contains_volume: "100 L",
+            max_contains_weight: "100 kg",
+            moves: 1,
+            fire_protection: true,
+            max_item_length: "1 km",
+            weight_multiplier: 0,
+            volume_multiplier: 0,
+        }]
+    }
+    outData['npc'] = [charClass,charInstance,baseMut,charSpawner,charSpawnerEoc,baseMutArmor];
 }

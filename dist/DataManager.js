@@ -1,18 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataManager = exports.MOD_PREFIX = void 0;
+exports.DataManager = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
 const AnimTool_1 = require("./AnimTool");
-const Mutattion_1 = require("./CddaJsonFormat/Mutattion");
-const Item_1 = require("./CddaJsonFormat/Item");
-const ItemGroup_1 = require("./CddaJsonFormat/ItemGroup");
-const NpcClass_1 = require("./CddaJsonFormat/NpcClass");
-const NpcInstance_1 = require("./CddaJsonFormat/NpcInstance");
-/**mod物品前缀 */
-exports.MOD_PREFIX = "CNPC";
+const ModDefine_1 = require("./ModDefine");
 class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
@@ -45,18 +39,19 @@ class DataManager {
             const animData = AnimTool_1.AnimTypeList.map(animType => ({
                 animType: animType,
                 animName: (0, AnimTool_1.formatAnimName)(charName, animType),
-                mutID: (0, Mutattion_1.genMutationID)((0, AnimTool_1.formatAnimName)(charName, animType)),
-                armorID: (0, Item_1.genArmorID)((0, AnimTool_1.formatAnimName)(charName, animType)),
-                itemGroupID: (0, ItemGroup_1.genItemGroupID)((0, AnimTool_1.formatAnimName)(charName, animType)),
+                mutID: (0, ModDefine_1.genMutationID)((0, AnimTool_1.formatAnimName)(charName, animType)),
+                armorID: (0, ModDefine_1.genArmorID)((0, AnimTool_1.formatAnimName)(charName, animType)),
+                itemGroupID: (0, ModDefine_1.genItemGroupID)((0, AnimTool_1.formatAnimName)(charName, animType)),
             })).reduce((acc, curr) => {
                 acc[curr.animType] = curr;
                 return acc;
             }, {});
             const baseData = {
                 charName: charName,
-                baseMutID: (0, Mutattion_1.genMutationID)(charName),
-                classID: (0, NpcClass_1.genNpcClassID)(charName),
-                instanceID: (0, NpcInstance_1.genNpcInstanceID)(charName),
+                baseMutID: (0, ModDefine_1.genMutationID)(charName),
+                baseMutArmorID: (0, ModDefine_1.genArmorID)(charName),
+                classID: (0, ModDefine_1.genNpcClassID)(charName),
+                instanceID: (0, ModDefine_1.genNpcInstanceID)(charName),
                 animData: animData,
             };
             this.dataTable.charTable[charName] = { baseData, outData: {} };

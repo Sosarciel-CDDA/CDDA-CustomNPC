@@ -1,14 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GenericFlagList = exports.genGenericID = void 0;
-const DataManager_1 = require("../../DataManager");
-/**生成适用于此mod的 通用物品 ID */
-function genGenericID(id) {
-    return `${DataManager_1.MOD_PREFIX}_GENERIC_${id}`;
-}
-exports.genGenericID = genGenericID;
+exports.GenericFlagList = void 0;
 /**通用物品的flag列表 */
-exports.GenericFlagList = ["ZERO_WEIGHT"];
+exports.GenericFlagList = [
+    "ZERO_WEIGHT",
+    "TARDIS"
+];
 /**
 ACT_IN_FIRE							如果掉落在带有火的瓷砖上，该物品将被激活
 ALLERGEN_MILK						该产品含有牛奶，乳糖不耐症人士不可食用

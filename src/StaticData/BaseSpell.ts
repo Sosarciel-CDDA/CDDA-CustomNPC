@@ -1,7 +1,7 @@
 import { JArray } from "@zwa73/utils";
 import { saveStaticData } from "./StaticData";
-import { genMonsterID, genSpellID } from "CddaJsonFormat";
 import { TARGET_MON_ID } from "./BaseMonster";
+import { genSpellID } from "@src/ModDefine";
 
 
 

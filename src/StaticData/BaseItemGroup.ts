@@ -1,5 +1,6 @@
-import { ItemGroup, genItemGroupID } from "CddaJsonFormat"
+import { ItemGroup } from "CddaJsonFormat"
 import { saveStaticData } from "./StaticData";
+import { genItemGroupID } from "@src/ModDefine";
 
 
 

@@ -1,12 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MonsterFlagList = exports.genMonsterID = void 0;
-const DataManager_1 = require("../DataManager");
-/**生成适用于此mod的 怪物ID */
-function genMonsterID(id) {
-    return `${DataManager_1.MOD_PREFIX}_MON_${id}`;
-}
-exports.genMonsterID = genMonsterID;
+exports.MonsterFlagList = void 0;
 /**怪物可用的Flag 列表 */
 exports.MonsterFlagList = [
     "SEES",

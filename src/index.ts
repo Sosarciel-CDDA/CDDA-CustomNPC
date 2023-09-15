@@ -30,3 +30,4 @@ main();
 
 export * from "./StaticData";
 export * from "./CddaJsonFormat";
+export * from './ModDefine';

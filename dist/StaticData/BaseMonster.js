@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseMonster = exports.TARGET_MON_ID = void 0;
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const StaticData_1 = require("./StaticData");
+const ModDefine_1 = require("../ModDefine");
 /**标靶怪物ID */
-exports.TARGET_MON_ID = (0, CddaJsonFormat_1.genMonsterID)("Target");
+exports.TARGET_MON_ID = (0, ModDefine_1.genMonsterID)("Target");
 /**标靶 */
 const Target = {
     type: "MONSTER",

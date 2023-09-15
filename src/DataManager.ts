@@ -3,11 +3,10 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genNpcInstanceID,genNpcClassID,genItemGroupID,genArmorID,genMutationID } from 'CddaJsonFormat';
+import { genArmorID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
 
-/**mod物品前缀 */
-export const MOD_PREFIX = "CNPC";
 
+/**主资源表 */
 export type DataTable={
     /**输出的角色数据表 */
     charTable:Record<string,{
@@ -65,11 +64,12 @@ export class DataManager{
             }, {} as Record<AnimType,AnimData>);
 
             const baseData:CharData = {
-                charName    : charName,
-                baseMutID   : genMutationID(charName),
-                classID     : genNpcClassID(charName),
-                instanceID  : genNpcInstanceID(charName),
-                animData    : animData,
+                charName        : charName,
+                baseMutID       : genMutationID(charName),
+                baseMutArmorID  : genArmorID(charName),
+                classID         : genNpcClassID(charName),
+                instanceID      : genNpcInstanceID(charName),
+                animData        : animData,
             }
             this.dataTable.charTable[charName] = {baseData,outData:{}}
         }
@@ -131,6 +131,8 @@ export type CharData=Readonly<{
     charName    : string;
     /**基础变异ID */
     baseMutID   : string;
+    /**基础变异装备ID */
+    baseMutArmorID   : string;
     /**职业ID */
     classID     : string;
     /**实例ID */

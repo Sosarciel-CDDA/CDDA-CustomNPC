@@ -1,6 +1,4 @@
 import { Color, Volume, Weight } from "../GenericDefine";
-/**生成适用于此mod的 通用物品 ID */
-export declare function genGenericID(id: string): string;
 /**通用物品 */
 export type Generic = {
     type: "GENERIC";
@@ -44,7 +42,7 @@ export type UseAction = {
     effect_on_conditions?: string[];
 };
 /**通用物品的flag列表 */
-export declare const GenericFlagList: readonly ["ZERO_WEIGHT"];
+export declare const GenericFlagList: readonly ["ZERO_WEIGHT", "TARDIS"];
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number];
 /**

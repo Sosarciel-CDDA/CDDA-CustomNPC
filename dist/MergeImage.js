@@ -75,12 +75,11 @@ async function mergeImage(dm, charName) {
     //写入 mod贴图设置 到角色文件夹
     const tilesetNew = (await utils_1.UtilFT.loadJSONFile(path.join(mergePath, 'tile_config.json')))["tiles-new"]
         .filter(item => item.file != "fallback.png");
-    await utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
-    await utils_1.UtilFT.writeJSONFile(path.join(dm.getOutCharPath(charName), "mod_tileset.json"), [{
+    outData["mod_tileset"] = [{
             type: "mod_tileset",
             compatibility: ["MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE", "UNDEAD_PEOPLE_BASE"],
             "tiles-new": tilesetNew,
-        }]);
+        }];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName => path.parse(fileName).ext == '.png');

@@ -64,8 +64,6 @@ export type NpcClass = {
     restock_interval?: `${string} days`;
     traits?: Traits;
 };
-/**生成适用于此mod的 NPC职业ID */
-export declare function genNpcClassID(id: string): string;
 type ShopItemGroup = [
     {
         "group": "example_shopkeeper_itemgroup1";

@@ -5,9 +5,9 @@
 		"name": "Asuna",
 		"job_description": "Asuna专用的职业",
 		"common": false,
-		"worn_override": "CNPC_MUT_EmptyGroup",
-		"weapon_override": "CNPC_MUT_EmptyGroup",
-		"carry_override": "CNPC_MUT_EmptyGroup",
+		"worn_override": "CNPC_ITEMGROUP_EmptyGroup",
+		"weapon_override": "CNPC_ITEMGROUP_EmptyGroup",
+		"carry_override": "CNPC_ITEMGROUP_EmptyGroup",
 		"traits": [
 			{
 				"trait": "CNPC_MUT_Asuna"
@@ -56,6 +56,9 @@
 			"foot_r",
 			"hand_l",
 			"hand_r"
+		],
+		"integrated_armor": [
+			"CNPC_ARMOR_Asuna"
 		]
 	},
 	{
@@ -83,6 +86,36 @@
 				"real_count": 1,
 				"min_radius": 1,
 				"max_radius": 1
+			}
+		]
+	},
+	{
+		"type": "ARMOR",
+		"id": "CNPC_ARMOR_Asuna",
+		"name": "Asuna的基础装备",
+		"description": "Asuna的基础装备",
+		"category": "clothing",
+		"weight": 0,
+		"volume": 0,
+		"symbol": "O",
+		"flags": [
+			"PERSONAL",
+			"UNBREAKABLE",
+			"INTEGRATED",
+			"ZERO_WEIGHT",
+			"TARDIS"
+		],
+		"pocket_data": [
+			{
+				"rigid": true,
+				"pocket_type": "CONTAINER",
+				"max_contains_volume": "100 L",
+				"max_contains_weight": "100 kg",
+				"moves": 1,
+				"fire_protection": true,
+				"max_item_length": "1 km",
+				"weight_multiplier": 0,
+				"volume_multiplier": 0
 			}
 		]
 	}

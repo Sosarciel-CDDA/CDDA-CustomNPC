@@ -1,7 +1,7 @@
 [
 	{
 		"type": "item_group",
-		"id": "undefined_MUT_EmptyGroup",
+		"id": "CNPC_ITEMGROUP_EmptyGroup",
 		"subtype": "collection",
 		"items": []
 	}

@@ -37,3 +37,4 @@ exports.main = main;
 main();
 __exportStar(require("./StaticData"), exports);
 __exportStar(require("./CddaJsonFormat"), exports);
+__exportStar(require("./ModDefine"), exports);

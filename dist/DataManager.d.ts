@@ -1,7 +1,6 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-/**mod物品前缀 */
-export declare const MOD_PREFIX = "CNPC";
+/**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
     charTable: Record<string, {
@@ -33,6 +32,8 @@ export declare class DataManager {
             charName: string;
             /**基础变异ID */
             baseMutID: string;
+            /**基础变异装备ID */
+            baseMutArmorID: string;
             /**职业ID */
             classID: string;
             /**实例ID */
@@ -73,6 +74,8 @@ export type CharData = Readonly<{
     charName: string;
     /**基础变异ID */
     baseMutID: string;
+    /**基础变异装备ID */
+    baseMutArmorID: string;
     /**职业ID */
     classID: string;
     /**实例ID */

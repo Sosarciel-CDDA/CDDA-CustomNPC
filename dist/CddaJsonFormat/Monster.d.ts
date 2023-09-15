@@ -43,8 +43,6 @@ export type Monster = {
     /**攻击的行动点 */
     attack_cost?: number;
 };
-/**生成适用于此mod的 怪物ID */
-export declare function genMonsterID(id: string): string;
 /**怪物可用的Flag 列表 */
 export declare const MonsterFlagList: readonly ["SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB"];
 /**怪物可用的Flag */

@@ -1,6 +1,4 @@
 import { BodyPart } from "./GenericDefine";
-/**生成适用于此mod的 变异ID */
-export declare function genMutationID(id: string): string;
 /**变异 */
 export type Mutation = {
     type: "mutation";

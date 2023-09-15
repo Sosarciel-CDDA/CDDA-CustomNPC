@@ -1,14 +1,10 @@
-import { MOD_PREFIX } from "@src/DataManager";
 import { Color, Volume, Weight } from "../GenericDefine";
 
 
 
 
 
-/**生成适用于此mod的 通用物品 ID */
-export function genGenericID(id:string){
-    return `${MOD_PREFIX}_GENERIC_${id}`;
-}
+
 /**通用物品 */
 export type Generic = {
 	type: "GENERIC";
@@ -57,7 +53,10 @@ export type UseAction = {
 };
 
 /**通用物品的flag列表 */
-export const GenericFlagList = ["ZERO_WEIGHT"] as const;
+export const GenericFlagList = [
+	"ZERO_WEIGHT",
+	"TARDIS"
+] as const;
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number];
 

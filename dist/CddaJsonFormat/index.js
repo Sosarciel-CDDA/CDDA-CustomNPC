@@ -18,7 +18,6 @@ __exportStar(require("./ItemGroup"), exports);
 __exportStar(require("./NpcClass"), exports);
 __exportStar(require("./NpcInstance"), exports);
 __exportStar(require("./Item"), exports);
-__exportStar(require("./Spell"), exports);
 __exportStar(require("./EOC"), exports);
 __exportStar(require("./Mutattion"), exports);
 __exportStar(require("./GenericDefine"), exports);

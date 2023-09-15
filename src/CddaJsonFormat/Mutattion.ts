@@ -1,10 +1,6 @@
-import { MOD_PREFIX } from "@src/DataManager";
 import { BodyPart } from "./GenericDefine";
 
-/**生成适用于此mod的 变异ID */
-export function genMutationID(id: string) {
-	return `${MOD_PREFIX}_MUT_${id}`;
-}
+
 
 /**变异 */
 export type Mutation = {

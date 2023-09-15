@@ -1,4 +1,3 @@
-import { MOD_PREFIX } from "@src/DataManager";
 
 
 
@@ -50,10 +49,7 @@ export type NpcClass = {
     traits?: Traits
 }
 
-/**生成适用于此mod的 NPC职业ID */
-export function genNpcClassID(id:string){
-    return `${MOD_PREFIX}_NPCLASS_${id}`;
-}
+
 
 type ShopItemGroup = [
     { "group": "example_shopkeeper_itemgroup1" },

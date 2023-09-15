@@ -1,4 +1,3 @@
-import { MOD_PREFIX } from "@src/DataManager";
 import { DefineNpcFaction } from "./GenericDefine";
 
 
@@ -30,8 +29,5 @@ export type NpcInstance = {
     }
 }
 
-/**生成适用于此mod的 NPCID */
-export function genNpcInstanceID(id:string){
-    return `${MOD_PREFIX}_NPC_${id}`;
-}
+
 
