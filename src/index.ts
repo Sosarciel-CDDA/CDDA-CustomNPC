@@ -2,6 +2,7 @@ import { DataManager } from "./DataManager";
 import { mergeImage } from "./MergeImage";
 import { createCharClass } from "./CharClass";
 import { createAnimTool } from "./AnimTool";
+import { createCharEquip } from "./CharEquip";
 
 
 
@@ -9,6 +10,7 @@ export async function buildChar(dm:DataManager,charName:string){
     await mergeImage(dm,charName);
     await createAnimTool(dm,charName);
     await createCharClass(dm,charName);
+    await createCharEquip(dm,charName);
 }
 
 

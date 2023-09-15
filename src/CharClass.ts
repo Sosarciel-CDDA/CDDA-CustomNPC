@@ -19,7 +19,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         job_description:`${charName}专用的职业`,
         common: false,
         worn_override:genItemGroupID("EmptyGroup"),
-        weapon_override:genItemGroupID("EmptyGroup"),
+        weapon_override:baseData.baseWeaponGroupID,
         carry_override:genItemGroupID("EmptyGroup"),
         traits:[{ "trait": baseData.baseMutID },{ "trait": baseData.animData.Idle.mutID }]
     }
@@ -54,6 +54,7 @@ export async function createCharClass(dm:DataManager,charName:string){
     /**生成器EOC */
     const charSpawnerEoc: EOC = {
 		type: "effect_on_condition",
+        eoc_type:"ACTIVATION",
 		id: genEOCID(spawnerId),
 		effect: [
 			//{ u_consume_item: genGenericID(spawnerId), count: 1 },

@@ -1,4 +1,4 @@
-import { BodyPart, GenericBase, GenericFlag, PocketData } from "..";
+import { BodyPart, GenericBase, GenericFlag } from "..";
 /**一件护甲 */
 export type Armor = {
     type: "ARMOR";
@@ -8,8 +8,6 @@ export type Armor = {
     warmth?: number;
     /**环境保护 */
     environmental_protection?: number;
-    /**口袋数据 */
-    pocket_data?: PocketData[];
     flags?: ArmorFlag[];
     armor?: ArmorData[];
 } & GenericBase;

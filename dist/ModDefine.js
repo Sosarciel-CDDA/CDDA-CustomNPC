@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genGenericID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGenericID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -13,6 +13,11 @@ function genGenericID(id) {
     return `${exports.MOD_PREFIX}_GENERIC_${id}`;
 }
 exports.genGenericID = genGenericID;
+/**生成适用于此mod的 子弹 ID */
+function genAmmoID(id) {
+    return `${exports.MOD_PREFIX}_AMMO_${id}`;
+}
+exports.genAmmoID = genAmmoID;
 /**生成适用于此mod的 EOC ID */
 function genEOCID(id) {
     return `${exports.MOD_PREFIX}_NPC_${id}`;
@@ -48,3 +53,8 @@ function genMonsterID(id) {
     return `${exports.MOD_PREFIX}_MON_${id}`;
 }
 exports.genMonsterID = genMonsterID;
+/**生成适用于此mod的 材质类型 ID */
+function genAmmiTypeID(id) {
+    return `${exports.MOD_PREFIX}_AMMITYPE_${id}`;
+}
+exports.genAmmiTypeID = genAmmiTypeID;

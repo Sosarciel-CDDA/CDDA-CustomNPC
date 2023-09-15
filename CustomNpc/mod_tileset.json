@@ -24,6 +24,11 @@
 						"id": "npc_male",
 						"fg": 0,
 						"bg": 0
+					},
+					{
+						"id": "CNPC_GENERIC_TransparentItem",
+						"fg": 0,
+						"bg": 0
 					}
 				]
 			}

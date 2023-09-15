@@ -22,3 +22,4 @@ __exportStar(require("./EOC"), exports);
 __exportStar(require("./Mutattion"), exports);
 __exportStar(require("./GenericDefine"), exports);
 __exportStar(require("./Monster"), exports);
+__exportStar(require("./AmmiunitionType"), exports);

@@ -11,6 +11,7 @@ const Target:Monster = {
     id: TARGET_MON_ID,
     name: "法术标靶",
     description: "用于法术瞄准索敌的标靶",
+    looks_like: "CNPC_GENERIC_TransparentItem",
     speed: 500,
     hp:1,
     default_faction:"passive_machine",

@@ -49,10 +49,14 @@ class DataManager {
             const baseData = {
                 charName: charName,
                 baseMutID: (0, ModDefine_1.genMutationID)(charName),
-                baseMutArmorID: (0, ModDefine_1.genArmorID)(charName),
                 classID: (0, ModDefine_1.genNpcClassID)(charName),
                 instanceID: (0, ModDefine_1.genNpcInstanceID)(charName),
                 animData: animData,
+                baseArmorID: (0, ModDefine_1.genArmorID)(charName),
+                baseWeaponID: (0, ModDefine_1.genGenericID)(`${charName}Weapon`),
+                baseAmmoID: (0, ModDefine_1.genAmmoID)(charName),
+                baseAmmoTypeID: (0, ModDefine_1.genAmmiTypeID)(charName + "Ammo"),
+                baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
             };
             this.dataTable.charTable[charName] = { baseData, outData: {} };
         }

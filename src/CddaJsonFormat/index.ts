@@ -6,3 +6,4 @@ export * from './EOC';
 export * from './Mutattion';
 export * from './GenericDefine';
 export * from './Monster';
+export * from './AmmiunitionType';

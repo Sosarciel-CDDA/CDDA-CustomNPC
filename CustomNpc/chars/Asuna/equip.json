@@ -1,0 +1,143 @@
+[
+	{
+		"type": "mutation",
+		"id": "CNPC_MUT_Asuna",
+		"name": "Asuna的基础变异",
+		"description": "Asuna的基础变异",
+		"points": 0,
+		"restricts_gear": [
+			"torso",
+			"head",
+			"leg_l",
+			"leg_r",
+			"arm_l",
+			"arm_r",
+			"foot_l",
+			"foot_r",
+			"hand_l",
+			"hand_r"
+		],
+		"remove_rigid": [
+			"torso",
+			"head",
+			"leg_l",
+			"leg_r",
+			"arm_l",
+			"arm_r",
+			"foot_l",
+			"foot_r",
+			"hand_l",
+			"hand_r"
+		],
+		"integrated_armor": [
+			"CNPC_ARMOR_Asuna"
+		]
+	},
+	{
+		"type": "ARMOR",
+		"id": "CNPC_ARMOR_Asuna",
+		"name": "Asuna的基础装备",
+		"description": "Asuna的基础装备",
+		"category": "clothing",
+		"weight": 0,
+		"volume": 0,
+		"symbol": "O",
+		"flags": [
+			"PERSONAL",
+			"UNBREAKABLE",
+			"INTEGRATED",
+			"ZERO_WEIGHT",
+			"TARDIS"
+		],
+		"pocket_data": [
+			{
+				"rigid": true,
+				"pocket_type": "CONTAINER",
+				"max_contains_volume": "100 L",
+				"max_contains_weight": "100 kg",
+				"moves": 1,
+				"fire_protection": true,
+				"max_item_length": "1 km",
+				"weight_multiplier": 0,
+				"volume_multiplier": 0
+			}
+		]
+	},
+	{
+		"type": "GUN",
+		"id": "CNPC_GENERIC_AsunaWeapon",
+		"name": "Asuna的武器",
+		"description": "Asuna的武器",
+		"ammo": [
+			"CNPC_AMMITYPE_AsunaAmmo"
+		],
+		"relic_data": {
+			"charge_info": {
+				"recharge_type": "periodic",
+				"time": 1,
+				"regenerate_ammo": true
+			}
+		},
+		"ammo_to_fire": 0,
+		"pocket_data": [
+			{
+				"pocket_type": "MAGAZINE",
+				"ammo_restriction": {
+					"CNPC_AMMITYPE_AsunaAmmo": 10
+				}
+			}
+		],
+		"skill": "rifle",
+		"weight": 0,
+		"volume": 0,
+		"symbol": "O",
+		"looks_like": "CNPC_GENERIC_TransparentItem",
+		"flags": [
+			"ZERO_WEIGHT",
+			"ACTIVATE_ON_PLACE",
+			"NO_RELOAD",
+			"NO_UNLOAD",
+			"NEVER_JAMS",
+			"NON_FOULING",
+			"NEEDS_NO_LUBE",
+			"TRADER_KEEP"
+		],
+		"countdown_interval": 1,
+		"range": 30,
+		"ranged_damage": {
+			"damage_type": "bullet",
+			"amount": 50,
+			"armor_penetration": 10
+		},
+		"melee_damage": {
+			"cut": 20
+		}
+	},
+	{
+		"type": "ammunition_type",
+		"name": "Asuna的子弹类型",
+		"id": "CNPC_AMMITYPE_AsunaAmmo",
+		"default": "CNPC_AMMO_Asuna"
+	},
+	{
+		"type": "AMMO",
+		"ammo_type": "CNPC_AMMITYPE_AsunaAmmo",
+		"id": "CNPC_AMMO_Asuna",
+		"name": "Asuna的子弹",
+		"description": "Asuna的子弹",
+		"weight": 0,
+		"volume": 0,
+		"symbol": "O",
+		"flags": [
+			"ZERO_WEIGHT"
+		]
+	},
+	{
+		"type": "item_group",
+		"id": "CNPC_ITEMGROUP_AsunaWeapon",
+		"subtype": "collection",
+		"items": [
+			"CNPC_GENERIC_AsunaWeapon"
+		]
+	}
+]

@@ -1,12 +1,10 @@
-import { BodyPartList } from "./CddaJsonFormat/GenericDefine";
-import { Armor } from "./CddaJsonFormat/Item";
-import { Mutation } from "./CddaJsonFormat/Mutattion";
+import { AmmiunitionType, Ammo, Armor, BodyPartList, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
-
 
 
 export function createCharEquip(dm:DataManager,charName:string){
     const {baseData,outData} = dm.getCharData(charName);
+    const TransparentItem = "CNPC_GENERIC_TransparentItem";
     /**基础变异 */
     const baseMut:Mutation = {
         type            : "mutation",
@@ -19,7 +17,7 @@ export function createCharEquip(dm:DataManager,charName:string){
         integrated_armor: [baseData.baseArmorID]
     }
     /**基础装备 */
-    const baseMutArmor:Armor={
+    const baseArmor:Armor={
         type        : "ARMOR",
         id          : baseData.baseArmorID,
         name        : `${charName}的基础装备`,
@@ -41,5 +39,68 @@ export function createCharEquip(dm:DataManager,charName:string){
             volume_multiplier: 0,
         }]
     }
-    outData['equip'] = [baseMut,baseMutArmor];
+    /**基础武器 */
+    const baseWeapon:Gun={
+        type:"GUN",
+        id:baseData.baseWeaponID,
+        name:`${charName}的武器`,
+        description:`${charName}的武器`,
+        ammo:[baseData.baseAmmoTypeID],
+        relic_data: {
+            charge_info: {
+                recharge_type: "periodic",
+                time: 1,
+                regenerate_ammo: true
+            }
+        },
+        ammo_to_fire:0,
+        pocket_data: [{
+            pocket_type: "MAGAZINE",
+            ammo_restriction: { [baseData.baseAmmoTypeID]: 10 }
+        }],
+        skill:"rifle",
+        weight:0,
+        volume:0,
+        symbol:"O",
+        looks_like:TransparentItem,
+        flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
+            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP"],
+        countdown_interval: 1,
+        range:30,
+        ranged_damage:{
+            damage_type:"bullet",
+            amount:50,
+            armor_penetration:10,
+        },
+        melee_damage:{
+            cut:20
+        },
+    }
+    /**基础弹药类型 */
+    const baseAmmoType:AmmiunitionType={
+        type:"ammunition_type",
+        name:`${charName}的子弹类型`,
+        id:baseData.baseAmmoTypeID,
+        default:baseData.baseAmmoID,
+    }
+    /**基础武器所用的弹药 */
+    const baseAmmo:Ammo={
+        type:"AMMO",
+        ammo_type:baseData.baseAmmoTypeID,
+        id:baseData.baseAmmoID,
+        name:`${charName}的子弹`,
+        description:`${charName}的子弹`,
+        weight:0,
+        volume:0,
+        symbol:"O",
+        flags:["ZERO_WEIGHT"],
+    }
+    /**基础武器物品组 */
+    const baseItemGroup:ItemGroup={
+        type:"item_group",
+        id:baseData.baseWeaponGroupID,
+        subtype:"collection",
+        items:[baseData.baseWeaponID],
+    }
+    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseAmmoType,baseAmmo,baseItemGroup];
 }

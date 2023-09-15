@@ -3,8 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GenericFlagList = void 0;
 /**通用物品的flag列表 */
 exports.GenericFlagList = [
+    "ACTIVATE_ON_PLACE",
+    "SINGLE_USE",
     "ZERO_WEIGHT",
-    "TARDIS"
+    "TARDIS",
+    "TRADER_KEEP", //商人不会售卖这个物品
 ];
 /**
 ACT_IN_FIRE							如果掉落在带有火的瓷砖上，该物品将被激活

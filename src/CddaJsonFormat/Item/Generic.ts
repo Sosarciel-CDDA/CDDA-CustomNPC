@@ -1,4 +1,4 @@
-import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Volume, Weight } from "../GenericDefine";
+import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 
 
 
@@ -17,6 +17,8 @@ export type GenericBase = {
 	id: string;
 	/**物品显示名 */
 	name: string;
+	/**复制某个物品的数据 */
+	"copy-from"?: string;
 	/**该项目应在哪个容器（如果有）中生成 */
 	container?:string;
 	/**如果该物品没有配方，则修复该物品时等同于配方 */
@@ -81,7 +83,26 @@ export type GenericBase = {
 	explode_in_fire?: boolean;
 	/**爆炸数据 */
 	explosion?: Explosion;
+	/**定时激活 一旦定时器的持续时间过去，就会"countdown_action"执行 */
+	countdown_interval?:Time;
+	/**定时激活的动作 */
+	countdown_action?:UseAction;
+	/**附魔数据 */
+	relic_data?: RelicData,
 };
+
+export type RelicData = {
+	/**自动充能 */
+	charge_info?: {
+		regenerate_ammo: true;
+		/**回复方式 periodic 为周期 */
+		recharge_type: "lunar"|"periodic"|"solar_cloudy"|"solar_sunny"|"none";
+		/**每次回复的间隔 */
+		time: Time;
+	},
+	/**被动效果 */
+	passive_effects?: { id: string }[];
+}
 
 /**弹夹 */
 export type Magazines = [
@@ -104,22 +125,58 @@ export type ToHit ={
 } | number;
 
 export type UseAction = {
-	type: "place_npc"; // place npc of specific class on the map
-	npc_class_id: string; // npc id, see npcs/npc.json
-	summon_msg?: string; // (optional) message when summoning the npc.
-	place_randomly?: true; // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
-	moves: number; // how many move points the action takes.
-	radius: number; // maximum radius for random npc placement.
+	/**在地图上放置一个NPC */
+	type: "place_npc";
+	/**npc职业ID */
+	npc_class_id: string;
+	/**生成时播报的消息 */
+	summon_msg?: string;
+	/**将 npc 随机放置在玩家周围，如果 false：让玩家决定将其放置在哪里（默认值：false） */
+	place_randomly?: boolean;
+	/**该动作需要多少移动点 */
+	moves?: number;
+	/**随机 NPC 放置的最大半径。 */
+	radius?: number;
 } | {
-	type: "effect_on_conditions"; 		// activate effect_on_conditions
-	description: string; 				// usage description
-	effect_on_conditions?: string[]; 	// ids of the effect_on_conditions to activate
+	/**执行某个ECO */
+	type: "effect_on_conditions";
+	/**说明 */
+	description: string;
+	/**eoc列表 */
+	effect_on_conditions: string[];
+} | {
+	/**产生爆炸 */
+	type: "explosion";
+	explosion: Explosion;
+	/**绘制爆炸半径的大小 */
+	draw_explosion_radius?: number;
+	/**绘制爆炸时使用的颜色。 */
+	draw_explosion_color?: Color;
+	/**是否做闪光弹效果 */
+	do_flashbang?: boolean;
+	/**玩家是否免疫闪光弹效果 */
+	flashbang_player_immune?: boolean;
+	/**产生的地形效果的传播半径 */
+	fields_radius?: number;
+	/**产生的地形效果 */
+	fields_type?: string;
+	/**产生的地形效果的最小强度 */
+	fields_min_intensity?: number;
+	/**产生的地形效果的最大强度 */
+	fields_max_intensity?: number;
+	/**爆炸产生的 EMP 爆炸半径 */
+	emp_blast_radius?: number;
+	/**爆炸产生的扰频器爆炸半径 */
+	scrambler_blast_radius?: number;
 };
 
 /**通用物品的flag列表 */
 export const GenericFlagList = [
-	"ZERO_WEIGHT",
-	"TARDIS"
+	"ACTIVATE_ON_PLACE"	, //放置时激活
+	"SINGLE_USE"		, //使用后删除
+	"ZERO_WEIGHT"		, //允许0重量/体积
+	"TARDIS"			, //跳过容器大小检查
+	"TRADER_KEEP"		, //商人不会售卖这个物品
 ] as const;
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number];

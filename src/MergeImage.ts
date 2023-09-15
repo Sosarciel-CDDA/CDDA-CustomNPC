@@ -26,6 +26,8 @@ export async function mergeImage(dm:DataManager,charName:string){
     const {baseData,outData} = dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
+    //检查是否有Idle动作
+    if(info.Idle==null) throw `${charName} 必须要有Idle动画`;
 
     const tmpInfo:any[] = [{
         "width": 32,            // default sprite size
@@ -41,10 +43,10 @@ export async function mergeImage(dm:DataManager,charName:string){
     for(const mtnName in info){
         const animType = mtnName as AnimType;
         const mtnInfo = info[animType];
+        //添加有效动画
+        baseData.vaildAnim.push(animType);
         const animData = baseData.animData[animType];
 
-        //检查是否有Idle动作
-        if(mtnInfo==undefined && animType=="Idle") throw `${charName} 必须要有Idle动画`;
         if(mtnInfo==undefined) continue;
 
         const mtnPath = path.join(imagePath,mtnName);

@@ -32,8 +32,6 @@ export declare class DataManager {
             charName: string;
             /**基础变异ID */
             baseMutID: string;
-            /**基础变异装备ID */
-            baseMutArmorID: string;
             /**职业ID */
             classID: string;
             /**实例ID */
@@ -51,6 +49,16 @@ export declare class DataManager {
                 /**动画装备物品组ID */
                 itemGroupID: string;
             }>>;
+            /**基础装备ID */
+            baseArmorID: string;
+            /**基础武器ID */
+            baseWeaponID: string;
+            /**基础弹药ID */
+            baseAmmoID: string;
+            /**基础弹药类型ID */
+            baseAmmoTypeID: string;
+            /**基础武器物品组ID */
+            baseWeaponGroupID: string;
         }>;
         /**输出数据 */
         outData: Record<string, JArray>;
@@ -74,14 +82,22 @@ export type CharData = Readonly<{
     charName: string;
     /**基础变异ID */
     baseMutID: string;
-    /**基础变异装备ID */
-    baseMutArmorID: string;
     /**职业ID */
     classID: string;
     /**实例ID */
     instanceID: string;
     /**动画数据 */
     animData: Record<AnimType, AnimData>;
+    /**基础装备ID */
+    baseArmorID: string;
+    /**基础武器ID */
+    baseWeaponID: string;
+    /**基础弹药ID */
+    baseAmmoID: string;
+    /**基础弹药类型ID */
+    baseAmmoTypeID: string;
+    /**基础武器物品组ID */
+    baseWeaponGroupID: string;
 }>;
 /**动画数据 */
 export type AnimData = Readonly<{

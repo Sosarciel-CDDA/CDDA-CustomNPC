@@ -1,4 +1,4 @@
-import { Color, Volume, Weight } from "../GenericDefine";
+import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 /**通用物品 */
 export type Generic = {
     type: "GENERIC";
@@ -10,41 +10,170 @@ export type GenericBase = {
     id: string;
     /**物品显示名 */
     name: string;
+    /**复制某个物品的数据 */
+    "copy-from"?: string;
+    /**该项目应在哪个容器（如果有）中生成 */
+    container?: string;
+    /**如果该物品没有配方，则修复该物品时等同于配方 */
+    repairs_like?: string;
+    /**提示图块集，如果该项目没有图块 使用looks_like图块 */
+    looks_like?: string;
     /**描述 */
     description: string;
+    /**用于该项目的 asci_art 的 ID */
+    ascii_picture?: string;
+    /**默认的状态 默认为固态 */
+    phase?: Phase;
     /**重量 0重量物品需要添加 ZERO_WEIGHT标签 */
     weight: Weight;
     /**体积 0体积物品需要添加 ZERO_WEIGHT标签*/
     volume: Volume;
+    /**当物品集成到另一个物品中时添加到基础物品的体积
+     * 例如，集成到枪支的枪械 体积会添加到基础物品上。
+     * 默认值与音量相同。 */
+    integral_volume?: Volume;
+    /**当物品集成到另一个物品中时
+     * 例如，集成到枪中的枪械 重量会添加到基础物品上。
+     * 默认值与重量相同。 */
+    integral_weight?: Weight;
+    /**最长物品尺寸的长度。 默认为体积的立方根 */
+    longest_side?: Length;
+    /**对于非刚性物品体积（以及磨损物品负担）与内容成比例增加 */
+    rigid?: boolean;
+    /**（可选，默认 = 1）如果是容器或车辆部件，它应为内容物提供多少绝缘程度 */
+    insulation?: number;
     /**物品价格 */
-    price?: number | `${number} usd`;
+    price?: Price;
     /**大灾变后的物品价格 */
-    price_postapoc?: number | `${number} usd`;
+    price_postapoc?: Price;
+    /**控制物品在受到伤害时退化的速度。 0 = 无退化。
+     * 默认为 1.0
+     */
+    degradation_multiplier?: number;
     /**ascii显示符号 */
     symbol: string;
     /**颜色 */
     color?: Color;
     /**材质 */
-    material?: string[];
+    material?: ItemMaterial[];
+    /**材质 可用哪些材料修复 */
+    repairs_with?: string[];
+    /**属于什么类型的武器 */
+    weapon_category?: string[];
+    /**作为近战武器的伤害 */
+    melee_damage?: MeleeDamage;
     /**使用效果 */
     use_action?: UseAction;
+    /**口袋数据 */
+    pocket_data?: PocketData[];
+    /**命中数据 */
+    to_hit?: ToHit;
+    /**超过该体积杂志开始从物品中突出并增加额外的体积 */
+    magazine_well?: number;
+    /**每种弹药类型（如果有）的杂志类型，可用于重新加载该物品 */
+    magazines?: Magazines[];
+    /**掉进火里会爆炸 */
+    explode_in_fire?: boolean;
+    /**爆炸数据 */
+    explosion?: Explosion;
+    /**定时激活 一旦定时器的持续时间过去，就会"countdown_action"执行 */
+    countdown_interval?: Time;
+    /**定时激活的动作 */
+    countdown_action?: UseAction;
+    /**附魔数据 */
+    relic_data?: RelicData;
 };
+export type RelicData = {
+    /**自动充能 */
+    charge_info?: {
+        regenerate_ammo: true;
+        /**回复方式 periodic 为周期 */
+        recharge_type: "lunar" | "periodic" | "solar_cloudy" | "solar_sunny" | "none";
+        /**每次回复的间隔 */
+        time: Time;
+    };
+    /**被动效果 */
+    passive_effects?: {
+        id: string;
+    }[];
+};
+/**弹夹 */
+export type Magazines = [
+    /**弹药类型 */
+    string,
+    /**具体弹药 默认为首个 */
+    [
+        string,
+        ...string[]
+    ]
+];
+/**命中数据 */
+export type ToHit = {
+    /**物品的抓握类型 */
+    grip: "bad" | "none" | "solid" | "weapon";
+    /**项目的长度值 */
+    length: "hand" | "short" | "long";
+    /**物品的供给表面 */
+    surface: "point" | "line" | "any" | "every";
+    /**项目的余额值 */
+    balance: "clumsy" | "uneven" | "neutral" | "good";
+} | number;
 export type UseAction = {
+    /**在地图上放置一个NPC */
     type: "place_npc";
+    /**npc职业ID */
     npc_class_id: string;
+    /**生成时播报的消息 */
     summon_msg?: string;
-    place_randomly?: true;
-    moves: number;
-    radius: number;
+    /**将 npc 随机放置在玩家周围，如果 false：让玩家决定将其放置在哪里（默认值：false） */
+    place_randomly?: boolean;
+    /**该动作需要多少移动点 */
+    moves?: number;
+    /**随机 NPC 放置的最大半径。 */
+    radius?: number;
 } | {
+    /**执行某个ECO */
     type: "effect_on_conditions";
+    /**说明 */
     description: string;
-    effect_on_conditions?: string[];
+    /**eoc列表 */
+    effect_on_conditions: string[];
+} | {
+    /**产生爆炸 */
+    type: "explosion";
+    explosion: Explosion;
+    /**绘制爆炸半径的大小 */
+    draw_explosion_radius?: number;
+    /**绘制爆炸时使用的颜色。 */
+    draw_explosion_color?: Color;
+    /**是否做闪光弹效果 */
+    do_flashbang?: boolean;
+    /**玩家是否免疫闪光弹效果 */
+    flashbang_player_immune?: boolean;
+    /**产生的地形效果的传播半径 */
+    fields_radius?: number;
+    /**产生的地形效果 */
+    fields_type?: string;
+    /**产生的地形效果的最小强度 */
+    fields_min_intensity?: number;
+    /**产生的地形效果的最大强度 */
+    fields_max_intensity?: number;
+    /**爆炸产生的 EMP 爆炸半径 */
+    emp_blast_radius?: number;
+    /**爆炸产生的扰频器爆炸半径 */
+    scrambler_blast_radius?: number;
 };
 /**通用物品的flag列表 */
-export declare const GenericFlagList: readonly ["ZERO_WEIGHT", "TARDIS"];
+export declare const GenericFlagList: readonly ["ACTIVATE_ON_PLACE", "SINGLE_USE", "ZERO_WEIGHT", "TARDIS", "TRADER_KEEP"];
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number];
+/**物品的材质 字符串时为材质类型 */
+export type ItemMaterial = string | {
+    /**材质类型 */
+    type: string;
+    /**材质占比 */
+    portion?: number;
+};
 /**
 ACT_IN_FIRE							如果掉落在带有火的瓷砖上，该物品将被激活
 ALLERGEN_MILK						该产品含有牛奶，乳糖不耐症人士不可食用

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
-const CddaJsonFormat_1 = require("./CddaJsonFormat");
 const ModDefine_1 = require("./ModDefine");
 /**创建角色职业和实例
  * @param charName 角色名
@@ -16,7 +15,7 @@ async function createCharClass(dm, charName) {
         job_description: `${charName}专用的职业`,
         common: false,
         worn_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
-        weapon_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
+        weapon_override: baseData.baseWeaponGroupID,
         carry_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
         traits: [{ "trait": baseData.baseMutID }, { "trait": baseData.animData.Idle.mutID }]
     };
@@ -62,40 +61,6 @@ async function createCharClass(dm, charName) {
             },
         ],
     };
-    /**基础变异 */
-    const baseMut = {
-        type: "mutation",
-        id: baseData.baseMutID,
-        name: `${charName}的基础变异`,
-        description: `${charName}的基础变异`,
-        points: 0,
-        restricts_gear: [...CddaJsonFormat_1.BodyPartList],
-        remove_rigid: [...CddaJsonFormat_1.BodyPartList],
-        integrated_armor: [baseData.baseMutArmorID]
-    };
-    /**基础变异装备 */
-    const baseMutArmor = {
-        type: "ARMOR",
-        id: baseData.baseMutArmorID,
-        name: `${charName}的基础装备`,
-        description: `${charName}的基础装备`,
-        category: "clothing",
-        weight: 0,
-        volume: 0,
-        symbol: "O",
-        flags: ["PERSONAL", "UNBREAKABLE", "INTEGRATED", "ZERO_WEIGHT", "TARDIS"],
-        pocket_data: [{
-                rigid: true,
-                pocket_type: "CONTAINER",
-                max_contains_volume: "100 L",
-                max_contains_weight: "100 kg",
-                moves: 1,
-                fire_protection: true,
-                max_item_length: "1 km",
-                weight_multiplier: 0,
-                volume_multiplier: 0,
-            }]
-    };
-    outData['npc'] = [charClass, charInstance, baseMut, charSpawner, charSpawnerEoc, baseMutArmor];
+    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc];
 }
 exports.createCharClass = createCharClass;

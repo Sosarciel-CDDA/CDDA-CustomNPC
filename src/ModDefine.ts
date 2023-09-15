@@ -9,6 +9,10 @@ export function genArmorID(id:string){
 export function genGenericID(id:string){
     return `${MOD_PREFIX}_GENERIC_${id}`;
 }
+/**生成适用于此mod的 子弹 ID */
+export function genAmmoID(id:string){
+    return `${MOD_PREFIX}_AMMO_${id}`;
+}
 /**生成适用于此mod的 EOC ID */
 export function genEOCID(id: string) {
 	return `${MOD_PREFIX}_NPC_${id}`;
@@ -36,4 +40,8 @@ export function genSpellID(id:string){
 /**生成适用于此mod的 怪物ID */
 export function genMonsterID(id:string){
     return `${MOD_PREFIX}_MON_${id}`;
+}
+/**生成适用于此mod的 材质类型 ID */
+export function genAmmiTypeID(id:string){
+    return `${MOD_PREFIX}_AMMITYPE_${id}`;
 }

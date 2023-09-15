@@ -8,6 +8,8 @@ export type Length = number|`${number} ${"mm"|"cm"|"m"|"km"}`;
 export type Energy = number|`${number} ${"mJ"|"kJ"}`;
 /**价格 */
 export type Price = number|`${number} ${"USD"|"cent"|"kUSD"}`;
+/**时间 */
+export type Time = number|`${number} ${"s"|"m"|"h"|"d"}`;
 /**可用的颜色列表 */
 export const ColorList = ["blue","white","brown","dark_gray"] as const;
 /**可用的颜色 */
@@ -67,9 +69,9 @@ export type PocketData = {
     /**容器或弹夹 */
 	pocket_type: "CONTAINER"|"MAGAZINE";
     /**此口袋可以容纳的最大体积，所有包含的物品的总和 */
-	max_contains_volume: Volume;
+	max_contains_volume?: Volume;
     /**此口袋可以容纳的最大重量，所有容器物品的总重量 */
-	max_contains_weight: Weight;
+	max_contains_weight?: Weight;
     /**可放入此口袋的物品的最小体积。 小于此尺寸的物品不能放入口袋中 */
 	min_item_volume?: Volume;
 	/**可通过开口放入此口袋的物品的最大体积 */
@@ -129,13 +131,10 @@ export type RangeDamage = {
     /**穿甲值 */
     armor_penetration: number;
 }
-/**近战武器伤害 */
-export type MeleeDamage = {
-    /**伤害类型 : 伤害值 不能为负数*/
-    DamageType?:number
-}
+/**近战武器伤害 伤害类型 : 伤害值 不能为负数* */
+export type MeleeDamage = Partial<Record<DamageType,number>>
 /**伤害类型 */
-export type DamageType = "stab"|"bash"|"cut";
+export type DamageType = "stab"|"bash"|"cut"|"bullet";
 
 
 /**爆炸 */
@@ -143,13 +142,13 @@ export type Explosion = {
     /**TNT 当量炸药的克数为单位测量爆炸威力，影响伤害和射程 */
     power: number;
     /**每个爆炸方块保留了多少能量。 必须小于 1 且大于 0。 */
-    distance_factor: number;
+    distance_factor?: number;
     /**爆炸可能产生的最大（听觉）噪音。 */
-    max_noise: number;
+    max_noise?: number;
     /**爆炸是否会留下火 */
     fire?: boolean;
     /**破片数据 */
-    shrapnel: ShrapnelData;
+    shrapnel?: ShrapnelData;
 }
 /**破片数据
  * 为数字时 套管总质量，其余碎片变量设置为合理的默认值。

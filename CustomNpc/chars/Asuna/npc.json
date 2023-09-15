@@ -6,7 +6,7 @@
 		"job_description": "Asuna专用的职业",
 		"common": false,
 		"worn_override": "CNPC_ITEMGROUP_EmptyGroup",
-		"weapon_override": "CNPC_ITEMGROUP_EmptyGroup",
+		"weapon_override": "CNPC_ITEMGROUP_AsunaWeapon",
 		"carry_override": "CNPC_ITEMGROUP_EmptyGroup",
 		"traits": [
 			{
@@ -26,40 +26,6 @@
 		"chat": "TALK_DONE",
 		"attitude": 0,
 		"mission": 0
-	},
-	{
-		"type": "mutation",
-		"id": "CNPC_MUT_Asuna",
-		"name": "Asuna的基础变异",
-		"description": "Asuna的基础变异",
-		"points": 0,
-		"restricts_gear": [
-			"torso",
-			"head",
-			"leg_l",
-			"leg_r",
-			"arm_l",
-			"arm_r",
-			"foot_l",
-			"foot_r",
-			"hand_l",
-			"hand_r"
-		],
-		"remove_rigid": [
-			"torso",
-			"head",
-			"leg_l",
-			"leg_r",
-			"arm_l",
-			"arm_r",
-			"foot_l",
-			"foot_r",
-			"hand_l",
-			"hand_r"
-		],
-		"integrated_armor": [
-			"CNPC_ARMOR_Asuna"
-		]
 	},
 	{
 		"type": "GENERIC",
@@ -86,36 +52,6 @@
 				"real_count": 1,
 				"min_radius": 1,
 				"max_radius": 1
-			}
-		]
-	},
-	{
-		"type": "ARMOR",
-		"id": "CNPC_ARMOR_Asuna",
-		"name": "Asuna的基础装备",
-		"description": "Asuna的基础装备",
-		"category": "clothing",
-		"weight": 0,
-		"volume": 0,
-		"symbol": "O",
-		"flags": [
-			"PERSONAL",
-			"UNBREAKABLE",
-			"INTEGRATED",
-			"ZERO_WEIGHT",
-			"TARDIS"
-		],
-		"pocket_data": [
-			{
-				"rigid": true,
-				"pocket_type": "CONTAINER",
-				"max_contains_volume": "100 L",
-				"max_contains_weight": "100 kg",
-				"moves": 1,
-				"fire_protection": true,
-				"max_item_length": "1 km",
-				"weight_multiplier": 0,
-				"volume_multiplier": 0
 			}
 		]
 	}

@@ -10,7 +10,7 @@ import { DataManager } from "./DataManager";
 
 
 /**可用的动画类型列表 */
-export const AnimTypeList = ["Idle"] as const;
+export const AnimTypeList = ["Idle","Move","Attack"] as const;
 /**动画类型 */
 export type AnimType = typeof AnimTypeList[number];
 
@@ -24,7 +24,7 @@ export function formatAnimName(charName:string,animType:AnimType){
  */
 export async function createAnimTool(dm:DataManager,charName:string){
     const {baseData,outData} = dm.getCharData(charName);
-    for(const animType of AnimTypeList){
+    for(const animType of baseData.vaildAnim){
         const animData = baseData.animData[animType];
         const animMut:Mutation={
             type:"mutation",

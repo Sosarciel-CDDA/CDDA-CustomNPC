@@ -6,6 +6,7 @@ function print_global_val(varName){
 }
 
 function update_stat(){
+	eoc_type("ACTIVATION")
 	//recurrence("1 s");
 	//print_global_val(mag3);
 	//print_global_val(mag1);
@@ -21,6 +22,7 @@ function CNPC_EOC_InitCurrHP(){
 }
 //刷新现有血量
 function CNPC_EOC_UpdateInitCurrHP(){
+	eoc_type("ACTIVATION")
 	recurrence(1);
 	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 }
@@ -40,12 +42,18 @@ function CNPC_EOC_CheckCurrHP(){
 //尝试攻击触发的eoc
 function CNPC_EOC_HitEocs(){
 	eoc_type("ACTIVATION")
-	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
-	has_target=0;
-	eobj({
-		"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
-		"targeted":true
-	})
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//释放检测血量法术判断是否击中目标
+		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
+		has_target=0; //重置flag
+		//施放测试法术
+		eobj({
+			"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
+			"targeted":true
+		})
+		//运行动态生成的事件eoc
+		CNPC_EOC_CharCauseHit()
+	}
 }
 
 //生成基础npc
@@ -59,7 +67,42 @@ function CNPC_EOC_SpawnBaseNpc(){
 	})
 }
 
+//移动事件
+function CNPC_EOC_MoveEvent(){
+	eoc_type("EVENT");
+	required_event("avatar_moves");
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//设置正在移动
+		u_inMove=2;
+		//运行动态生成的事件eoc
+		CNPC_EOC_CharMove();
+	}
+}
 
+//主循环函数 玩家
+function CNPC_EOC_PlayerUpdate(){
+	recurrence(1);
+	CNPC_EOC_UpdateInitCurrHP();
+	update_stat();
+}
+
+//主循环函数 全局
+function CNPC_EOC_GlobalUpdate(){
+	recurrence(1);
+	global(true);
+	run_for_npcs(true);
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//运行动态生成的事件eoc
+		CNPC_EOC_CharUpdate();
+
+		//设置不在移动
+		u_inMove=u_inMove-1;
+		if(u_inMove<=0){
+			u_inMove=0;
+			CNPC_EOC_CharIdle();
+		}
+	}
+}
 
 
 
