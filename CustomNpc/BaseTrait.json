@@ -1,0 +1,9 @@
+[
+	{
+		"type": "mutation",
+		"id": "CNPC_MUT_CnpcFlag",
+		"name": "自定义NPC标识符",
+		"description": "表示此角色是自定义NPC的NPC,会启用EOC",
+		"points": 0
+	}
+]

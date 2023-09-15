@@ -100,6 +100,12 @@ export class DataManager{
         }
         return this.dataTable.charTable[charName];
     }
+    /**添加事件 */
+    addEvent(etype:EventType,...events:EOC[]){
+        this.dataTable.eventEocs[etype].effect?.push(
+            ...events.map(eoc=>({"run_eocs":eoc.id}))
+        );
+    }
 
     /**获取 角色目录 */
     getCharPath(charName:string){

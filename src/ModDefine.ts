@@ -15,7 +15,7 @@ export function genAmmoID(id:string){
 }
 /**生成适用于此mod的 EOC ID */
 export function genEOCID(id: string) {
-	return `${MOD_PREFIX}_NPC_${id}`;
+	return `${MOD_PREFIX}_EOC_${id}`;
 }
 /**生成适用于此mod的 物品组ID */
 export function genItemGroupID(id:string){

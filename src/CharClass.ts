@@ -1,6 +1,6 @@
 import { Armor, BodyPartList, EOC, Generic, Mutation, NpcClass, NpcInstance } from "./CddaJsonFormat";
 import { DataManager } from "./DataManager";
-import { genEOCID, genGenericID, genItemGroupID } from "./ModDefine";
+import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
 
 
 
@@ -21,7 +21,10 @@ export async function createCharClass(dm:DataManager,charName:string){
         worn_override:genItemGroupID("EmptyGroup"),
         weapon_override:baseData.baseWeaponGroupID,
         carry_override:genItemGroupID("EmptyGroup"),
-        traits:[{ "trait": baseData.baseMutID },{ "trait": baseData.animData.Idle.mutID }]
+        traits:[
+            { "trait": baseData.baseMutID },
+            { "trait": baseData.animData.Idle.mutID },
+            { "trait": genMutationID("CnpcFlag") }]
     }
     /**NPC实例 */
     const charInstance:NpcInstance={

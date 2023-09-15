@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAnimTool = exports.formatAnimName = exports.AnimTypeList = void 0;
 const path = require("path");
 /**可用的动画类型列表 */
-exports.AnimTypeList = ["Idle"];
+exports.AnimTypeList = ["Idle", "Move", "Attack"];
 /**生成某角色的动作id */
 function formatAnimName(charName, animType) {
     return `${charName}${animType}`;
@@ -14,7 +14,7 @@ exports.formatAnimName = formatAnimName;
  */
 async function createAnimTool(dm, charName) {
     const { baseData, outData } = dm.getCharData(charName);
-    for (const animType of exports.AnimTypeList) {
+    for (const animType of baseData.vaildAnim) {
         const animData = baseData.animData[animType];
         const animMut = {
             type: "mutation",

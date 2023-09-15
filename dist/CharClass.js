@@ -17,7 +17,11 @@ async function createCharClass(dm, charName) {
         worn_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
         weapon_override: baseData.baseWeaponGroupID,
         carry_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
-        traits: [{ "trait": baseData.baseMutID }, { "trait": baseData.animData.Idle.mutID }]
+        traits: [
+            { "trait": baseData.baseMutID },
+            { "trait": baseData.animData.Idle.mutID },
+            { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") }
+        ]
     };
     /**NPC实例 */
     const charInstance = {
@@ -50,6 +54,7 @@ async function createCharClass(dm, charName) {
     /**生成器EOC */
     const charSpawnerEoc = {
         type: "effect_on_condition",
+        eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(spawnerId),
         effect: [
             //{ u_consume_item: genGenericID(spawnerId), count: 1 },

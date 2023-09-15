@@ -1,5 +1,6 @@
-import { Mutation, genMutationID } from "..";
+import { Mutation } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
+import { genMutationID } from "@src/ModDefine";
 
 
 export const CnpcFlag:Mutation={

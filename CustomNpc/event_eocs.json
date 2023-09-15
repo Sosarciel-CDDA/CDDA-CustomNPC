@@ -1,0 +1,38 @@
+[
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharIdle",
+		"effect": [
+			{
+				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Idle"
+			}
+		]
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharMove",
+		"effect": [
+			{
+				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Move"
+			}
+		]
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharCauseHit",
+		"effect": [
+			{
+				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Attack"
+			}
+		]
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharUpdate",
+		"effect": []
+	}
+]

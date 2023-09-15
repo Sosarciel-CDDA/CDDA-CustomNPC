@@ -1,5 +1,10 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
+import { EOC } from './CddaJsonFormat/EOC';
+/**事件列表 */
+export declare const EvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+/**事件类型 */
+export type EventType = typeof EvemtTypeList[number];
 /**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
@@ -11,6 +16,8 @@ export type DataTable = {
     }>;
     /**输出的静态数据表 */
     staticTable: Record<string, JObject>;
+    /**输出的Eoc事件 */
+    eventEocs: Record<EventType, EOC>;
 };
 export declare class DataManager {
     /**资源目录 */
@@ -37,9 +44,9 @@ export declare class DataManager {
             /**实例ID */
             instanceID: string;
             /**动画数据 */
-            animData: Record<"Idle", Readonly<{
+            animData: Record<"Idle" | "Move" | "Attack", Readonly<{
                 /**动画类型 */
-                animType: "Idle";
+                animType: "Idle" | "Move" | "Attack";
                 /**动画名 */
                 animName: string;
                 /**动画变异ID */
@@ -49,6 +56,8 @@ export declare class DataManager {
                 /**动画装备物品组ID */
                 itemGroupID: string;
             }>>;
+            /**有效的动作 */
+            vaildAnim: ("Idle" | "Move" | "Attack")[];
             /**基础装备ID */
             baseArmorID: string;
             /**基础武器ID */
@@ -63,6 +72,8 @@ export declare class DataManager {
         /**输出数据 */
         outData: Record<string, JArray>;
     };
+    /**添加事件 */
+    addEvent(etype: EventType, ...events: EOC[]): void;
     /**获取 角色目录 */
     getCharPath(charName: string): string;
     /**获取 角色图片目录 */
@@ -88,6 +99,8 @@ export type CharData = Readonly<{
     instanceID: string;
     /**动画数据 */
     animData: Record<AnimType, AnimData>;
+    /**有效的动作 */
+    vaildAnim: AnimType[];
     /**基础装备ID */
     baseArmorID: string;
     /**基础武器ID */

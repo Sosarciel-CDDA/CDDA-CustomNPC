@@ -1,12 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataManager = void 0;
+exports.DataManager = exports.EvemtTypeList = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
 const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
+/**事件列表 */
+exports.EvemtTypeList = ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
 class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
@@ -20,6 +22,18 @@ class DataManager {
     dataTable = {
         charTable: {},
         staticTable: {},
+        eventEocs: exports.EvemtTypeList.reduce((acc, item) => {
+            const subEoc = {
+                type: "effect_on_condition",
+                eoc_type: "ACTIVATION",
+                id: (0, ModDefine_1.genEOCID)(item),
+                effect: [],
+            };
+            return {
+                ...acc,
+                [item]: subEoc
+            };
+        }, {})
     };
     constructor(outPath, dataPath) {
         this.dataTable.staticTable = Object.assign({}, this.dataTable.staticTable, StaticData_1.StaticDataMap);
@@ -52,6 +66,7 @@ class DataManager {
                 classID: (0, ModDefine_1.genNpcClassID)(charName),
                 instanceID: (0, ModDefine_1.genNpcInstanceID)(charName),
                 animData: animData,
+                vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseWeaponID: (0, ModDefine_1.genGenericID)(`${charName}Weapon`),
                 baseAmmoID: (0, ModDefine_1.genAmmoID)(charName),
@@ -61,6 +76,10 @@ class DataManager {
             this.dataTable.charTable[charName] = { baseData, outData: {} };
         }
         return this.dataTable.charTable[charName];
+    }
+    /**添加事件 */
+    addEvent(etype, ...events) {
+        this.dataTable.eventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -96,6 +115,11 @@ class DataManager {
             //await
             this.saveToFile(key, obj);
         }
+        //导出事件EOC
+        const eventEocs = [];
+        for (const etype in this.dataTable.eventEocs)
+            eventEocs.push(this.dataTable.eventEocs[etype]);
+        this.saveToFile('event_eocs', eventEocs);
         //导出角色数据
         for (let charName in this.dataTable.charTable) {
             const charOutData = this.dataTable.charTable[charName].outData;

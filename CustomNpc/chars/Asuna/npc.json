@@ -14,6 +14,9 @@
 			},
 			{
 				"trait": "CNPC_MUT_AsunaIdle"
+			},
+			{
+				"trait": "CNPC_MUT_CnpcFlag"
 			}
 		]
 	},
@@ -36,7 +39,7 @@
 			"type": "effect_on_conditions",
 			"description": "生成一个Asuna",
 			"effect_on_conditions": [
-				"CNPC_NPC_Asuna_Spawner"
+				"CNPC_EOC_Asuna_Spawner"
 			]
 		},
 		"weight": 1,
@@ -45,7 +48,8 @@
 	},
 	{
 		"type": "effect_on_condition",
-		"id": "CNPC_NPC_Asuna_Spawner",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_Asuna_Spawner",
 		"effect": [
 			{
 				"u_spawn_npc": "CNPC_NPC_Asuna",

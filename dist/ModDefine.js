@@ -20,7 +20,7 @@ function genAmmoID(id) {
 exports.genAmmoID = genAmmoID;
 /**生成适用于此mod的 EOC ID */
 function genEOCID(id) {
-    return `${exports.MOD_PREFIX}_NPC_${id}`;
+    return `${exports.MOD_PREFIX}_EOC_${id}`;
 }
 exports.genEOCID = genEOCID;
 /**生成适用于此mod的 物品组ID */

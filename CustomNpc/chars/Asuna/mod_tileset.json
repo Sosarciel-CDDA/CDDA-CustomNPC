@@ -823,6 +823,1880 @@
 						"animated": true
 					}
 				]
+			},
+			{
+				"file": "AsunaMove.png",
+				"//": "range 208 to 271",
+				"sprite_width": 128,
+				"sprite_height": 160,
+				"sprite_offset_x": 0,
+				"sprite_offset_y": -8,
+				"pixelscale": 0.25,
+				"tiles": [
+					{
+						"id": "overlay_worn_CNPC_ARMOR_AsunaMove",
+						"fg": [
+							{
+								"weight": 1,
+								"sprite": 208
+							},
+							{
+								"weight": 1,
+								"sprite": 209
+							},
+							{
+								"weight": 1,
+								"sprite": 210
+							},
+							{
+								"weight": 1,
+								"sprite": 211
+							},
+							{
+								"weight": 1,
+								"sprite": 212
+							},
+							{
+								"weight": 1,
+								"sprite": 213
+							},
+							{
+								"weight": 1,
+								"sprite": 214
+							},
+							{
+								"weight": 1,
+								"sprite": 215
+							},
+							{
+								"weight": 1,
+								"sprite": 216
+							},
+							{
+								"weight": 1,
+								"sprite": 217
+							},
+							{
+								"weight": 1,
+								"sprite": 218
+							},
+							{
+								"weight": 1,
+								"sprite": 219
+							},
+							{
+								"weight": 1,
+								"sprite": 220
+							},
+							{
+								"weight": 1,
+								"sprite": 221
+							},
+							{
+								"weight": 1,
+								"sprite": 222
+							},
+							{
+								"weight": 1,
+								"sprite": 223
+							},
+							{
+								"weight": 1,
+								"sprite": 224
+							},
+							{
+								"weight": 1,
+								"sprite": 225
+							},
+							{
+								"weight": 1,
+								"sprite": 226
+							},
+							{
+								"weight": 1,
+								"sprite": 227
+							},
+							{
+								"weight": 1,
+								"sprite": 228
+							},
+							{
+								"weight": 1,
+								"sprite": 229
+							},
+							{
+								"weight": 1,
+								"sprite": 230
+							},
+							{
+								"weight": 1,
+								"sprite": 231
+							},
+							{
+								"weight": 1,
+								"sprite": 232
+							},
+							{
+								"weight": 1,
+								"sprite": 233
+							},
+							{
+								"weight": 1,
+								"sprite": 234
+							},
+							{
+								"weight": 1,
+								"sprite": 235
+							},
+							{
+								"weight": 1,
+								"sprite": 236
+							},
+							{
+								"weight": 1,
+								"sprite": 237
+							},
+							{
+								"weight": 1,
+								"sprite": 238
+							},
+							{
+								"weight": 1,
+								"sprite": 239
+							},
+							{
+								"weight": 1,
+								"sprite": 240
+							},
+							{
+								"weight": 1,
+								"sprite": 241
+							},
+							{
+								"weight": 1,
+								"sprite": 242
+							},
+							{
+								"weight": 1,
+								"sprite": 243
+							},
+							{
+								"weight": 1,
+								"sprite": 244
+							},
+							{
+								"weight": 1,
+								"sprite": 245
+							},
+							{
+								"weight": 1,
+								"sprite": 246
+							},
+							{
+								"weight": 1,
+								"sprite": 247
+							},
+							{
+								"weight": 1,
+								"sprite": 248
+							},
+							{
+								"weight": 1,
+								"sprite": 249
+							},
+							{
+								"weight": 1,
+								"sprite": 250
+							},
+							{
+								"weight": 1,
+								"sprite": 251
+							},
+							{
+								"weight": 1,
+								"sprite": 252
+							},
+							{
+								"weight": 1,
+								"sprite": 253
+							},
+							{
+								"weight": 1,
+								"sprite": 254
+							},
+							{
+								"weight": 1,
+								"sprite": 255
+							},
+							{
+								"weight": 1,
+								"sprite": 256
+							},
+							{
+								"weight": 1,
+								"sprite": 257
+							},
+							{
+								"weight": 1,
+								"sprite": 258
+							},
+							{
+								"weight": 1,
+								"sprite": 259
+							},
+							{
+								"weight": 1,
+								"sprite": 260
+							},
+							{
+								"weight": 1,
+								"sprite": 261
+							},
+							{
+								"weight": 1,
+								"sprite": 262
+							},
+							{
+								"weight": 1,
+								"sprite": 263
+							},
+							{
+								"weight": 1,
+								"sprite": 264
+							},
+							{
+								"weight": 1,
+								"sprite": 265
+							},
+							{
+								"weight": 1,
+								"sprite": 266
+							},
+							{
+								"weight": 1,
+								"sprite": 267
+							}
+						],
+						"animated": true
+					}
+				]
+			},
+			{
+				"file": "AsunaAttack.png",
+				"//": "range 272 to 671",
+				"sprite_width": 128,
+				"sprite_height": 160,
+				"sprite_offset_x": 0,
+				"sprite_offset_y": -8,
+				"pixelscale": 0.25,
+				"tiles": [
+					{
+						"id": "overlay_worn_CNPC_ARMOR_AsunaAttack",
+						"fg": [
+							{
+								"weight": 1,
+								"sprite": 272
+							},
+							{
+								"weight": 1,
+								"sprite": 273
+							},
+							{
+								"weight": 1,
+								"sprite": 274
+							},
+							{
+								"weight": 1,
+								"sprite": 275
+							},
+							{
+								"weight": 1,
+								"sprite": 276
+							},
+							{
+								"weight": 1,
+								"sprite": 277
+							},
+							{
+								"weight": 1,
+								"sprite": 278
+							},
+							{
+								"weight": 1,
+								"sprite": 279
+							},
+							{
+								"weight": 1,
+								"sprite": 280
+							},
+							{
+								"weight": 1,
+								"sprite": 281
+							},
+							{
+								"weight": 1,
+								"sprite": 282
+							},
+							{
+								"weight": 1,
+								"sprite": 283
+							},
+							{
+								"weight": 1,
+								"sprite": 284
+							},
+							{
+								"weight": 1,
+								"sprite": 285
+							},
+							{
+								"weight": 1,
+								"sprite": 286
+							},
+							{
+								"weight": 1,
+								"sprite": 287
+							},
+							{
+								"weight": 1,
+								"sprite": 288
+							},
+							{
+								"weight": 1,
+								"sprite": 289
+							},
+							{
+								"weight": 1,
+								"sprite": 290
+							},
+							{
+								"weight": 1,
+								"sprite": 291
+							},
+							{
+								"weight": 1,
+								"sprite": 292
+							},
+							{
+								"weight": 1,
+								"sprite": 293
+							},
+							{
+								"weight": 1,
+								"sprite": 294
+							},
+							{
+								"weight": 1,
+								"sprite": 295
+							},
+							{
+								"weight": 1,
+								"sprite": 296
+							},
+							{
+								"weight": 1,
+								"sprite": 297
+							},
+							{
+								"weight": 1,
+								"sprite": 298
+							},
+							{
+								"weight": 1,
+								"sprite": 299
+							},
+							{
+								"weight": 1,
+								"sprite": 300
+							},
+							{
+								"weight": 1,
+								"sprite": 301
+							},
+							{
+								"weight": 1,
+								"sprite": 302
+							},
+							{
+								"weight": 1,
+								"sprite": 303
+							},
+							{
+								"weight": 1,
+								"sprite": 304
+							},
+							{
+								"weight": 1,
+								"sprite": 305
+							},
+							{
+								"weight": 1,
+								"sprite": 306
+							},
+							{
+								"weight": 1,
+								"sprite": 307
+							},
+							{
+								"weight": 1,
+								"sprite": 308
+							},
+							{
+								"weight": 1,
+								"sprite": 309
+							},
+							{
+								"weight": 1,
+								"sprite": 310
+							},
+							{
+								"weight": 1,
+								"sprite": 311
+							},
+							{
+								"weight": 1,
+								"sprite": 312
+							},
+							{
+								"weight": 1,
+								"sprite": 313
+							},
+							{
+								"weight": 1,
+								"sprite": 314
+							},
+							{
+								"weight": 1,
+								"sprite": 315
+							},
+							{
+								"weight": 1,
+								"sprite": 316
+							},
+							{
+								"weight": 1,
+								"sprite": 317
+							},
+							{
+								"weight": 1,
+								"sprite": 318
+							},
+							{
+								"weight": 1,
+								"sprite": 319
+							},
+							{
+								"weight": 1,
+								"sprite": 320
+							},
+							{
+								"weight": 1,
+								"sprite": 321
+							},
+							{
+								"weight": 1,
+								"sprite": 322
+							},
+							{
+								"weight": 1,
+								"sprite": 323
+							},
+							{
+								"weight": 1,
+								"sprite": 324
+							},
+							{
+								"weight": 1,
+								"sprite": 325
+							},
+							{
+								"weight": 1,
+								"sprite": 326
+							},
+							{
+								"weight": 1,
+								"sprite": 327
+							},
+							{
+								"weight": 1,
+								"sprite": 328
+							},
+							{
+								"weight": 1,
+								"sprite": 329
+							},
+							{
+								"weight": 1,
+								"sprite": 330
+							},
+							{
+								"weight": 1,
+								"sprite": 331
+							},
+							{
+								"weight": 1,
+								"sprite": 332
+							},
+							{
+								"weight": 1,
+								"sprite": 333
+							},
+							{
+								"weight": 1,
+								"sprite": 334
+							},
+							{
+								"weight": 1,
+								"sprite": 335
+							},
+							{
+								"weight": 1,
+								"sprite": 336
+							},
+							{
+								"weight": 1,
+								"sprite": 337
+							},
+							{
+								"weight": 1,
+								"sprite": 338
+							},
+							{
+								"weight": 1,
+								"sprite": 339
+							},
+							{
+								"weight": 1,
+								"sprite": 340
+							},
+							{
+								"weight": 1,
+								"sprite": 341
+							},
+							{
+								"weight": 1,
+								"sprite": 342
+							},
+							{
+								"weight": 1,
+								"sprite": 343
+							},
+							{
+								"weight": 1,
+								"sprite": 344
+							},
+							{
+								"weight": 1,
+								"sprite": 345
+							},
+							{
+								"weight": 1,
+								"sprite": 346
+							},
+							{
+								"weight": 1,
+								"sprite": 347
+							},
+							{
+								"weight": 1,
+								"sprite": 348
+							},
+							{
+								"weight": 1,
+								"sprite": 349
+							},
+							{
+								"weight": 1,
+								"sprite": 350
+							},
+							{
+								"weight": 1,
+								"sprite": 351
+							},
+							{
+								"weight": 1,
+								"sprite": 352
+							},
+							{
+								"weight": 1,
+								"sprite": 353
+							},
+							{
+								"weight": 1,
+								"sprite": 354
+							},
+							{
+								"weight": 1,
+								"sprite": 355
+							},
+							{
+								"weight": 1,
+								"sprite": 356
+							},
+							{
+								"weight": 1,
+								"sprite": 357
+							},
+							{
+								"weight": 1,
+								"sprite": 358
+							},
+							{
+								"weight": 1,
+								"sprite": 359
+							},
+							{
+								"weight": 1,
+								"sprite": 360
+							},
+							{
+								"weight": 1,
+								"sprite": 361
+							},
+							{
+								"weight": 1,
+								"sprite": 362
+							},
+							{
+								"weight": 1,
+								"sprite": 363
+							},
+							{
+								"weight": 1,
+								"sprite": 364
+							},
+							{
+								"weight": 1,
+								"sprite": 365
+							},
+							{
+								"weight": 1,
+								"sprite": 366
+							},
+							{
+								"weight": 1,
+								"sprite": 367
+							},
+							{
+								"weight": 1,
+								"sprite": 368
+							},
+							{
+								"weight": 1,
+								"sprite": 369
+							},
+							{
+								"weight": 1,
+								"sprite": 370
+							},
+							{
+								"weight": 1,
+								"sprite": 371
+							},
+							{
+								"weight": 1,
+								"sprite": 372
+							},
+							{
+								"weight": 1,
+								"sprite": 373
+							},
+							{
+								"weight": 1,
+								"sprite": 374
+							},
+							{
+								"weight": 1,
+								"sprite": 375
+							},
+							{
+								"weight": 1,
+								"sprite": 376
+							},
+							{
+								"weight": 1,
+								"sprite": 377
+							},
+							{
+								"weight": 1,
+								"sprite": 378
+							},
+							{
+								"weight": 1,
+								"sprite": 379
+							},
+							{
+								"weight": 1,
+								"sprite": 380
+							},
+							{
+								"weight": 1,
+								"sprite": 381
+							},
+							{
+								"weight": 1,
+								"sprite": 382
+							},
+							{
+								"weight": 1,
+								"sprite": 383
+							},
+							{
+								"weight": 1,
+								"sprite": 384
+							},
+							{
+								"weight": 1,
+								"sprite": 385
+							},
+							{
+								"weight": 1,
+								"sprite": 386
+							},
+							{
+								"weight": 1,
+								"sprite": 387
+							},
+							{
+								"weight": 1,
+								"sprite": 388
+							},
+							{
+								"weight": 1,
+								"sprite": 389
+							},
+							{
+								"weight": 1,
+								"sprite": 390
+							},
+							{
+								"weight": 1,
+								"sprite": 391
+							},
+							{
+								"weight": 1,
+								"sprite": 392
+							},
+							{
+								"weight": 1,
+								"sprite": 393
+							},
+							{
+								"weight": 1,
+								"sprite": 394
+							},
+							{
+								"weight": 1,
+								"sprite": 395
+							},
+							{
+								"weight": 1,
+								"sprite": 396
+							},
+							{
+								"weight": 1,
+								"sprite": 397
+							},
+							{
+								"weight": 1,
+								"sprite": 398
+							},
+							{
+								"weight": 1,
+								"sprite": 399
+							},
+							{
+								"weight": 1,
+								"sprite": 400
+							},
+							{
+								"weight": 1,
+								"sprite": 401
+							},
+							{
+								"weight": 1,
+								"sprite": 402
+							},
+							{
+								"weight": 1,
+								"sprite": 403
+							},
+							{
+								"weight": 1,
+								"sprite": 404
+							},
+							{
+								"weight": 1,
+								"sprite": 405
+							},
+							{
+								"weight": 1,
+								"sprite": 406
+							},
+							{
+								"weight": 1,
+								"sprite": 407
+							},
+							{
+								"weight": 1,
+								"sprite": 408
+							},
+							{
+								"weight": 1,
+								"sprite": 409
+							},
+							{
+								"weight": 1,
+								"sprite": 410
+							},
+							{
+								"weight": 1,
+								"sprite": 411
+							},
+							{
+								"weight": 1,
+								"sprite": 412
+							},
+							{
+								"weight": 1,
+								"sprite": 413
+							},
+							{
+								"weight": 1,
+								"sprite": 414
+							},
+							{
+								"weight": 1,
+								"sprite": 415
+							},
+							{
+								"weight": 1,
+								"sprite": 416
+							},
+							{
+								"weight": 1,
+								"sprite": 417
+							},
+							{
+								"weight": 1,
+								"sprite": 418
+							},
+							{
+								"weight": 1,
+								"sprite": 419
+							},
+							{
+								"weight": 1,
+								"sprite": 420
+							},
+							{
+								"weight": 1,
+								"sprite": 421
+							},
+							{
+								"weight": 1,
+								"sprite": 422
+							},
+							{
+								"weight": 1,
+								"sprite": 423
+							},
+							{
+								"weight": 1,
+								"sprite": 424
+							},
+							{
+								"weight": 1,
+								"sprite": 425
+							},
+							{
+								"weight": 1,
+								"sprite": 426
+							},
+							{
+								"weight": 1,
+								"sprite": 427
+							},
+							{
+								"weight": 1,
+								"sprite": 428
+							},
+							{
+								"weight": 1,
+								"sprite": 429
+							},
+							{
+								"weight": 1,
+								"sprite": 430
+							},
+							{
+								"weight": 1,
+								"sprite": 431
+							},
+							{
+								"weight": 1,
+								"sprite": 432
+							},
+							{
+								"weight": 1,
+								"sprite": 433
+							},
+							{
+								"weight": 1,
+								"sprite": 434
+							},
+							{
+								"weight": 1,
+								"sprite": 435
+							},
+							{
+								"weight": 1,
+								"sprite": 436
+							},
+							{
+								"weight": 1,
+								"sprite": 437
+							},
+							{
+								"weight": 1,
+								"sprite": 438
+							},
+							{
+								"weight": 1,
+								"sprite": 439
+							},
+							{
+								"weight": 1,
+								"sprite": 440
+							},
+							{
+								"weight": 1,
+								"sprite": 441
+							},
+							{
+								"weight": 1,
+								"sprite": 442
+							},
+							{
+								"weight": 1,
+								"sprite": 443
+							},
+							{
+								"weight": 1,
+								"sprite": 444
+							},
+							{
+								"weight": 1,
+								"sprite": 445
+							},
+							{
+								"weight": 1,
+								"sprite": 446
+							},
+							{
+								"weight": 1,
+								"sprite": 447
+							},
+							{
+								"weight": 1,
+								"sprite": 448
+							},
+							{
+								"weight": 1,
+								"sprite": 449
+							},
+							{
+								"weight": 1,
+								"sprite": 450
+							},
+							{
+								"weight": 1,
+								"sprite": 451
+							},
+							{
+								"weight": 1,
+								"sprite": 452
+							},
+							{
+								"weight": 1,
+								"sprite": 453
+							},
+							{
+								"weight": 1,
+								"sprite": 454
+							},
+							{
+								"weight": 1,
+								"sprite": 455
+							},
+							{
+								"weight": 1,
+								"sprite": 456
+							},
+							{
+								"weight": 1,
+								"sprite": 457
+							},
+							{
+								"weight": 1,
+								"sprite": 458
+							},
+							{
+								"weight": 1,
+								"sprite": 459
+							},
+							{
+								"weight": 1,
+								"sprite": 460
+							},
+							{
+								"weight": 1,
+								"sprite": 461
+							},
+							{
+								"weight": 1,
+								"sprite": 462
+							},
+							{
+								"weight": 1,
+								"sprite": 463
+							},
+							{
+								"weight": 1,
+								"sprite": 464
+							},
+							{
+								"weight": 1,
+								"sprite": 465
+							},
+							{
+								"weight": 1,
+								"sprite": 466
+							},
+							{
+								"weight": 1,
+								"sprite": 467
+							},
+							{
+								"weight": 1,
+								"sprite": 468
+							},
+							{
+								"weight": 1,
+								"sprite": 469
+							},
+							{
+								"weight": 1,
+								"sprite": 470
+							},
+							{
+								"weight": 1,
+								"sprite": 471
+							},
+							{
+								"weight": 1,
+								"sprite": 472
+							},
+							{
+								"weight": 1,
+								"sprite": 473
+							},
+							{
+								"weight": 1,
+								"sprite": 474
+							},
+							{
+								"weight": 1,
+								"sprite": 475
+							},
+							{
+								"weight": 1,
+								"sprite": 476
+							},
+							{
+								"weight": 1,
+								"sprite": 477
+							},
+							{
+								"weight": 1,
+								"sprite": 478
+							},
+							{
+								"weight": 1,
+								"sprite": 479
+							},
+							{
+								"weight": 1,
+								"sprite": 480
+							},
+							{
+								"weight": 1,
+								"sprite": 481
+							},
+							{
+								"weight": 1,
+								"sprite": 482
+							},
+							{
+								"weight": 1,
+								"sprite": 483
+							},
+							{
+								"weight": 1,
+								"sprite": 484
+							},
+							{
+								"weight": 1,
+								"sprite": 485
+							},
+							{
+								"weight": 1,
+								"sprite": 486
+							},
+							{
+								"weight": 1,
+								"sprite": 487
+							},
+							{
+								"weight": 1,
+								"sprite": 488
+							},
+							{
+								"weight": 1,
+								"sprite": 489
+							},
+							{
+								"weight": 1,
+								"sprite": 490
+							},
+							{
+								"weight": 1,
+								"sprite": 491
+							},
+							{
+								"weight": 1,
+								"sprite": 492
+							},
+							{
+								"weight": 1,
+								"sprite": 493
+							},
+							{
+								"weight": 1,
+								"sprite": 494
+							},
+							{
+								"weight": 1,
+								"sprite": 495
+							},
+							{
+								"weight": 1,
+								"sprite": 496
+							},
+							{
+								"weight": 1,
+								"sprite": 497
+							},
+							{
+								"weight": 1,
+								"sprite": 498
+							},
+							{
+								"weight": 1,
+								"sprite": 499
+							},
+							{
+								"weight": 1,
+								"sprite": 500
+							},
+							{
+								"weight": 1,
+								"sprite": 501
+							},
+							{
+								"weight": 1,
+								"sprite": 502
+							},
+							{
+								"weight": 1,
+								"sprite": 503
+							},
+							{
+								"weight": 1,
+								"sprite": 504
+							},
+							{
+								"weight": 1,
+								"sprite": 505
+							},
+							{
+								"weight": 1,
+								"sprite": 506
+							},
+							{
+								"weight": 1,
+								"sprite": 507
+							},
+							{
+								"weight": 1,
+								"sprite": 508
+							},
+							{
+								"weight": 1,
+								"sprite": 509
+							},
+							{
+								"weight": 1,
+								"sprite": 510
+							},
+							{
+								"weight": 1,
+								"sprite": 511
+							},
+							{
+								"weight": 1,
+								"sprite": 512
+							},
+							{
+								"weight": 1,
+								"sprite": 513
+							},
+							{
+								"weight": 1,
+								"sprite": 514
+							},
+							{
+								"weight": 1,
+								"sprite": 515
+							},
+							{
+								"weight": 1,
+								"sprite": 516
+							},
+							{
+								"weight": 1,
+								"sprite": 517
+							},
+							{
+								"weight": 1,
+								"sprite": 518
+							},
+							{
+								"weight": 1,
+								"sprite": 519
+							},
+							{
+								"weight": 1,
+								"sprite": 520
+							},
+							{
+								"weight": 1,
+								"sprite": 521
+							},
+							{
+								"weight": 1,
+								"sprite": 522
+							},
+							{
+								"weight": 1,
+								"sprite": 523
+							},
+							{
+								"weight": 1,
+								"sprite": 524
+							},
+							{
+								"weight": 1,
+								"sprite": 525
+							},
+							{
+								"weight": 1,
+								"sprite": 526
+							},
+							{
+								"weight": 1,
+								"sprite": 527
+							},
+							{
+								"weight": 1,
+								"sprite": 528
+							},
+							{
+								"weight": 1,
+								"sprite": 529
+							},
+							{
+								"weight": 1,
+								"sprite": 530
+							},
+							{
+								"weight": 1,
+								"sprite": 531
+							},
+							{
+								"weight": 1,
+								"sprite": 532
+							},
+							{
+								"weight": 1,
+								"sprite": 533
+							},
+							{
+								"weight": 1,
+								"sprite": 534
+							},
+							{
+								"weight": 1,
+								"sprite": 535
+							},
+							{
+								"weight": 1,
+								"sprite": 536
+							},
+							{
+								"weight": 1,
+								"sprite": 537
+							},
+							{
+								"weight": 1,
+								"sprite": 538
+							},
+							{
+								"weight": 1,
+								"sprite": 539
+							},
+							{
+								"weight": 1,
+								"sprite": 540
+							},
+							{
+								"weight": 1,
+								"sprite": 541
+							},
+							{
+								"weight": 1,
+								"sprite": 542
+							},
+							{
+								"weight": 1,
+								"sprite": 543
+							},
+							{
+								"weight": 1,
+								"sprite": 544
+							},
+							{
+								"weight": 1,
+								"sprite": 545
+							},
+							{
+								"weight": 1,
+								"sprite": 546
+							},
+							{
+								"weight": 1,
+								"sprite": 547
+							},
+							{
+								"weight": 1,
+								"sprite": 548
+							},
+							{
+								"weight": 1,
+								"sprite": 549
+							},
+							{
+								"weight": 1,
+								"sprite": 550
+							},
+							{
+								"weight": 1,
+								"sprite": 551
+							},
+							{
+								"weight": 1,
+								"sprite": 552
+							},
+							{
+								"weight": 1,
+								"sprite": 553
+							},
+							{
+								"weight": 1,
+								"sprite": 554
+							},
+							{
+								"weight": 1,
+								"sprite": 555
+							},
+							{
+								"weight": 1,
+								"sprite": 556
+							},
+							{
+								"weight": 1,
+								"sprite": 557
+							},
+							{
+								"weight": 1,
+								"sprite": 558
+							},
+							{
+								"weight": 1,
+								"sprite": 559
+							},
+							{
+								"weight": 1,
+								"sprite": 560
+							},
+							{
+								"weight": 1,
+								"sprite": 561
+							},
+							{
+								"weight": 1,
+								"sprite": 562
+							},
+							{
+								"weight": 1,
+								"sprite": 563
+							},
+							{
+								"weight": 1,
+								"sprite": 564
+							},
+							{
+								"weight": 1,
+								"sprite": 565
+							},
+							{
+								"weight": 1,
+								"sprite": 566
+							},
+							{
+								"weight": 1,
+								"sprite": 567
+							},
+							{
+								"weight": 1,
+								"sprite": 568
+							},
+							{
+								"weight": 1,
+								"sprite": 569
+							},
+							{
+								"weight": 1,
+								"sprite": 570
+							},
+							{
+								"weight": 1,
+								"sprite": 571
+							},
+							{
+								"weight": 1,
+								"sprite": 572
+							},
+							{
+								"weight": 1,
+								"sprite": 573
+							},
+							{
+								"weight": 1,
+								"sprite": 574
+							},
+							{
+								"weight": 1,
+								"sprite": 575
+							},
+							{
+								"weight": 1,
+								"sprite": 576
+							},
+							{
+								"weight": 1,
+								"sprite": 577
+							},
+							{
+								"weight": 1,
+								"sprite": 578
+							},
+							{
+								"weight": 1,
+								"sprite": 579
+							},
+							{
+								"weight": 1,
+								"sprite": 580
+							},
+							{
+								"weight": 1,
+								"sprite": 581
+							},
+							{
+								"weight": 1,
+								"sprite": 582
+							},
+							{
+								"weight": 1,
+								"sprite": 583
+							},
+							{
+								"weight": 1,
+								"sprite": 584
+							},
+							{
+								"weight": 1,
+								"sprite": 585
+							},
+							{
+								"weight": 1,
+								"sprite": 586
+							},
+							{
+								"weight": 1,
+								"sprite": 587
+							},
+							{
+								"weight": 1,
+								"sprite": 588
+							},
+							{
+								"weight": 1,
+								"sprite": 589
+							},
+							{
+								"weight": 1,
+								"sprite": 590
+							},
+							{
+								"weight": 1,
+								"sprite": 591
+							},
+							{
+								"weight": 1,
+								"sprite": 592
+							},
+							{
+								"weight": 1,
+								"sprite": 593
+							},
+							{
+								"weight": 1,
+								"sprite": 594
+							},
+							{
+								"weight": 1,
+								"sprite": 595
+							},
+							{
+								"weight": 1,
+								"sprite": 596
+							},
+							{
+								"weight": 1,
+								"sprite": 597
+							},
+							{
+								"weight": 1,
+								"sprite": 598
+							},
+							{
+								"weight": 1,
+								"sprite": 599
+							},
+							{
+								"weight": 1,
+								"sprite": 600
+							},
+							{
+								"weight": 1,
+								"sprite": 601
+							},
+							{
+								"weight": 1,
+								"sprite": 602
+							},
+							{
+								"weight": 1,
+								"sprite": 603
+							},
+							{
+								"weight": 1,
+								"sprite": 604
+							},
+							{
+								"weight": 1,
+								"sprite": 605
+							},
+							{
+								"weight": 1,
+								"sprite": 606
+							},
+							{
+								"weight": 1,
+								"sprite": 607
+							},
+							{
+								"weight": 1,
+								"sprite": 608
+							},
+							{
+								"weight": 1,
+								"sprite": 609
+							},
+							{
+								"weight": 1,
+								"sprite": 610
+							},
+							{
+								"weight": 1,
+								"sprite": 611
+							},
+							{
+								"weight": 1,
+								"sprite": 612
+							},
+							{
+								"weight": 1,
+								"sprite": 613
+							},
+							{
+								"weight": 1,
+								"sprite": 614
+							},
+							{
+								"weight": 1,
+								"sprite": 615
+							},
+							{
+								"weight": 1,
+								"sprite": 616
+							},
+							{
+								"weight": 1,
+								"sprite": 617
+							},
+							{
+								"weight": 1,
+								"sprite": 618
+							},
+							{
+								"weight": 1,
+								"sprite": 619
+							},
+							{
+								"weight": 1,
+								"sprite": 620
+							},
+							{
+								"weight": 1,
+								"sprite": 621
+							},
+							{
+								"weight": 1,
+								"sprite": 622
+							},
+							{
+								"weight": 1,
+								"sprite": 623
+							},
+							{
+								"weight": 1,
+								"sprite": 624
+							},
+							{
+								"weight": 1,
+								"sprite": 625
+							},
+							{
+								"weight": 1,
+								"sprite": 626
+							},
+							{
+								"weight": 1,
+								"sprite": 627
+							},
+							{
+								"weight": 1,
+								"sprite": 628
+							},
+							{
+								"weight": 1,
+								"sprite": 629
+							},
+							{
+								"weight": 1,
+								"sprite": 630
+							},
+							{
+								"weight": 1,
+								"sprite": 631
+							},
+							{
+								"weight": 1,
+								"sprite": 632
+							},
+							{
+								"weight": 1,
+								"sprite": 633
+							},
+							{
+								"weight": 1,
+								"sprite": 634
+							},
+							{
+								"weight": 1,
+								"sprite": 635
+							},
+							{
+								"weight": 1,
+								"sprite": 636
+							},
+							{
+								"weight": 1,
+								"sprite": 637
+							},
+							{
+								"weight": 1,
+								"sprite": 638
+							},
+							{
+								"weight": 1,
+								"sprite": 639
+							},
+							{
+								"weight": 1,
+								"sprite": 640
+							},
+							{
+								"weight": 1,
+								"sprite": 641
+							},
+							{
+								"weight": 1,
+								"sprite": 642
+							},
+							{
+								"weight": 1,
+								"sprite": 643
+							},
+							{
+								"weight": 1,
+								"sprite": 644
+							},
+							{
+								"weight": 1,
+								"sprite": 645
+							},
+							{
+								"weight": 1,
+								"sprite": 646
+							},
+							{
+								"weight": 1,
+								"sprite": 647
+							},
+							{
+								"weight": 1,
+								"sprite": 648
+							},
+							{
+								"weight": 1,
+								"sprite": 649
+							},
+							{
+								"weight": 1,
+								"sprite": 650
+							},
+							{
+								"weight": 1,
+								"sprite": 651
+							},
+							{
+								"weight": 1,
+								"sprite": 652
+							},
+							{
+								"weight": 1,
+								"sprite": 653
+							},
+							{
+								"weight": 1,
+								"sprite": 654
+							},
+							{
+								"weight": 1,
+								"sprite": 655
+							},
+							{
+								"weight": 1,
+								"sprite": 656
+							},
+							{
+								"weight": 1,
+								"sprite": 657
+							},
+							{
+								"weight": 1,
+								"sprite": 658
+							},
+							{
+								"weight": 1,
+								"sprite": 659
+							},
+							{
+								"weight": 1,
+								"sprite": 660
+							},
+							{
+								"weight": 1,
+								"sprite": 661
+							},
+							{
+								"weight": 1,
+								"sprite": 662
+							},
+							{
+								"weight": 1,
+								"sprite": 663
+							},
+							{
+								"weight": 1,
+								"sprite": 664
+							},
+							{
+								"weight": 1,
+								"sprite": 665
+							},
+							{
+								"weight": 1,
+								"sprite": 666
+							},
+							{
+								"weight": 1,
+								"sprite": 667
+							},
+							{
+								"weight": 1,
+								"sprite": 668
+							},
+							{
+								"weight": 1,
+								"sprite": 669
+							},
+							{
+								"weight": 1,
+								"sprite": 670
+							},
+							{
+								"weight": 1,
+								"sprite": 671
+							}
+						],
+						"animated": true
+					}
+				]
 			}
 		]
 	}

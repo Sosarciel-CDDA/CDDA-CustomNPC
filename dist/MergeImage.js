@@ -9,6 +9,9 @@ async function mergeImage(dm, charName) {
     const { baseData, outData } = dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
+    //检查是否有Idle动作
+    if (info.Idle == null)
+        throw `${charName} 必须要有Idle动画`;
     const tmpInfo = [{
             "width": 32,
             "height": 32,
@@ -23,10 +26,9 @@ async function mergeImage(dm, charName) {
     for (const mtnName in info) {
         const animType = mtnName;
         const mtnInfo = info[animType];
+        //添加有效动画
+        baseData.vaildAnim.push(animType);
         const animData = baseData.animData[animType];
-        //检查是否有Idle动作
-        if (mtnInfo == undefined && animType == "Idle")
-            throw `${charName} 必须要有Idle动画`;
         if (mtnInfo == undefined)
             continue;
         const mtnPath = path.join(imagePath, mtnName);

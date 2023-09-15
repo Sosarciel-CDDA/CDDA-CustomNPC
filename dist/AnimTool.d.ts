@@ -1,6 +1,6 @@
 import { DataManager } from "./DataManager";
 /**可用的动画类型列表 */
-export declare const AnimTypeList: readonly ["Idle"];
+export declare const AnimTypeList: readonly ["Idle", "Move", "Attack"];
 /**动画类型 */
 export type AnimType = typeof AnimTypeList[number];
 /**生成某角色的动作id */
