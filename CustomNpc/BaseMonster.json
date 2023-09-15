@@ -1,7 +1,7 @@
 [
 	{
 		"type": "MONSTER",
-		"id": "CNPC_MON_Target",
+		"id": "undefined_MON_Target",
 		"name": "法术标靶",
 		"description": "用于法术瞄准索敌的标靶",
 		"speed": 500,

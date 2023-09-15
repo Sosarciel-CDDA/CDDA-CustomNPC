@@ -1,8 +1,8 @@
-import { UtilFT } from "@zwa73/utils";
-import { Armor, genArmorID } from "CddaJsonFormat";
-import { Mutation, genMutationID } from "./CddaJsonFormat/Mutattion";
-import { outCharFile } from "./DataManager";
-import { ItemGroup, genItemGroupID } from "./CddaJsonFormat/ItemGroup";
+import * as path from 'path';
+import { Armor } from "CddaJsonFormat";
+import { Mutation } from "./CddaJsonFormat/Mutattion";
+import { ItemGroup } from "./CddaJsonFormat/ItemGroup";
+import { DataManager } from "./DataManager";
 
 
 
@@ -22,20 +22,21 @@ export function formatAnimName(charName:string,animType:AnimType){
 /**创建动画辅助工具
  * @param charName 角色名
  */
-export async function createAnimTool(charName:string){
+export async function createAnimTool(dm:DataManager,charName:string){
+    const {baseData,outData} = dm.getCharData(charName);
     for(const animType of AnimTypeList){
-        const animName = formatAnimName(charName,animType);
+        const animData = baseData.animData[animType];
         const animMut:Mutation={
             type:"mutation",
-            id:genMutationID(animName),
+            id:animData.mutID,
             name:`${charName}的${animType}动画变异`,
             description:`${charName}的${animType}动画变异`,
-            integrated_armor:[genArmorID(animName)],
+            integrated_armor:[animData.armorID],
             points:0,
         }
         const animArmor:Armor={
             type:"ARMOR",
-            id:genArmorID(animName),
+            id:animData.armorID,
             name:`${charName}的${animType}动画变异`,
             description:`${charName}的${animType}动画变异`,
             category:"clothing",
@@ -46,10 +47,10 @@ export async function createAnimTool(charName:string){
         }
         const animArmorGroup:ItemGroup={
             type:"item_group",
-            id:genItemGroupID(animName),
+            id:animData.itemGroupID,
             subtype:"collection",
-            items:[genArmorID(animName)]
+            items:[animData.armorID]
         }
-        await outCharFile(charName,'anim_tool.json',[animMut,animArmor,animArmorGroup]);
+        outData[path.join("anim",animType)] = [animMut,animArmor,animArmorGroup];
     }
 }

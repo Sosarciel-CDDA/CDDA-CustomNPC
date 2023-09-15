@@ -20,3 +20,4 @@ __exportStar(require("./HitEvent"), exports);
 __exportStar(require("./BaseSpell"), exports);
 __exportStar(require("./BaseNPC"), exports);
 __exportStar(require("./BaseTrait"), exports);
+__exportStar(require("./BaseItemGroup"), exports);

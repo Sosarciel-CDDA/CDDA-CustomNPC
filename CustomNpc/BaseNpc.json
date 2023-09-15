@@ -1,7 +1,7 @@
 [
 	{
 		"type": "npc_class",
-		"id": "CNPC_NPCLASS_BaseNpcClass",
+		"id": "undefined_NPCLASS_BaseNpcClass",
 		"name": "BaseNpcClass",
 		"job_description": "基础NPC职业",
 		"common": false,
@@ -9,13 +9,12 @@
 			{
 				"trait": ""
 			}
-		],
-		"weapon_override": "testgroup"
+		]
 	},
 	{
 		"type": "npc",
-		"id": "CNPC_NPC_BaseNpc",
-		"class": "CNPC_NPCLASS_BaseNpcClass",
+		"id": "undefined_NPC_BaseNpc",
+		"class": "undefined_NPCLASS_BaseNpcClass",
 		"attitude": 0,
 		"mission": 0,
 		"faction": "your_followers",

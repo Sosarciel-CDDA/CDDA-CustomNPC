@@ -94,30 +94,30 @@ NO_STERILE							该物品不是无菌的。仅适用于 CBM。
 NPC_ACTIVATENPC 					可以激活该物品作为替代攻击。目前是在激活后立即扔掉它来完成的。由 暗示BOMB。
 NPC_ALT_ATTACK						不应该直接设置。NPC_ACTIVATE由和隐含NPC_THROWN。
 NPC_SAFE							如果你给NPC，无论对你的信任程度如何，他们都会消耗掉这个物品
-NPC_THROWNNPC 将抛出此物品（无需先激活它）作为替代攻击。
-NPC_THROW_NOWNPC 会尝试扔掉该物品，最好是扔给敌人。意味着TRADER_AVOID和NPC_THROWN。
-OLD_CURRENCY在大灾变之前，纸币和硬币曾经是法定货币，但仍然可以被一些自动化系统接受。
-PALS_LARGE该物品可以连接到 MOLLE 肩带上，并且会消耗 3 个插槽
-PALS_MEDIUM该物品可以连接到 MOLLE 肩带上，并且会消耗 2 个插槽
-PALS_SMALL该物品可以连接到 MOLLE 肩带上，并且会消耗 1 个插槽
-PAPER_SHAPED该产品呈薄纸状，可存放在皮革日记本中
-PERFECT_LOCKPICK该物品是一个完美的开锁器。只需 5 秒就可以开锁，而且永远不会失败，但使用它只能获得少量的开锁经验值。该物品的LOCKPICK品质至少为 1。
-PLANTABLE_SEED该物品是种子，您可以种植它
-PRESERVE_SPAWN_OMT该项目将在项目 var 中存储它生成的 OMT spawn_location_omt。
-PSEUDO在内部用于标记工艺库存中提到的但实际上不是物品的物品。它们可以用作工具，但不能用作组件。意味着TRADER_AVOID。
-RABBIT食物，只有RABBIT阈值突变的玩家才能吃；看INEDIBLE
-RADIOACTIVE具有放射性（可与 一起使用LEAK_*）。
-RADIO_INVOKE_PROC该物品可以接收信号，使其引爆
-RAD_DETECT该物品是辐射徽章，可以根据玩家周围的辐射水平打印其颜色变化。硬编码
-RAIN_PROTECT使用时可防晒、防雨。
-RAT食物，只有RAT阈值突变的玩家才能吃；看INEDIBLE
-REBREATHER_CART这是一个循环呼吸器盒，用作各种循环呼吸器面罩的弹匣
-REBREATHER如果您佩戴此物品，您的氧气含量不会低于 12（默认值约为 50）
-REDUCED_BASHINGGunmod 旗帜；使物品的猛击伤害降低 50%。
-REDUCED_WEIGHTGunmod 旗帜；使物品的基本重量减少 25%。
-REQUIRES_TINDER要求该物品试图在其上起火的瓷砖上存在火种。
-ROBOFAC_ROBOT_MEDIUM该物品是中型 Hub 01 无人机，您可以将其存放在无人机技术线束的特定插槽中
-ROBOFAC_ROBOT_SMALL该物品是小型 Hub 01 无人机，您可以将其存放在无人机技术线束的特定插槽中
+NPC_THROWNNPC 						将抛出此物品（无需先激活它）作为替代攻击。
+NPC_THROW_NOWNPC 					会尝试扔掉该物品，最好是扔给敌人。意味着TRADER_AVOID和NPC_THROWN。
+OLD_CURRENCY						在大灾变之前，纸币和硬币曾经是法定货币，但仍然可以被一些自动化系统接受。
+PALS_LARGE							该物品可以连接到 MOLLE 肩带上，并且会消耗 3 个插槽
+PALS_MEDIUM							该物品可以连接到 MOLLE 肩带上，并且会消耗 2 个插槽
+PALS_SMALL							该物品可以连接到 MOLLE 肩带上，并且会消耗 1 个插槽
+PAPER_SHAPED				该产品呈薄纸状，可存放在皮革日记本中
+PERFECT_LOCKPICK			该物品是一个完美的开锁器。只需 5 秒就可以开锁，而且永远不会失败，但使用它只能获得少量的开锁经验值。该物品的LOCKPICK品质至少为 1。
+PLANTABLE_SEED				该物品是种子，您可以种植它
+PRESERVE_SPAWN_OMT			该项目将在项目 var 中存储它生成的 OMT spawn_location_omt。
+PSEUDO						在内部用于标记工艺库存中提到的但实际上不是物品的物品。它们可以用作工具，但不能用作组件。意味着TRADER_AVOID。
+RABBIT						食物，只有RABBIT阈值突变的玩家才能吃；看INEDIBLE
+RADIOACTIVE					具有放射性（可与 一起使用LEAK_*）。
+RADIO_INVOKE_PROC			该物品可以接收信号，使其引爆
+RAD_DETECT					该物品是辐射徽章，可以根据玩家周围的辐射水平打印其颜色变化。硬编码
+RAIN_PROTECT				使用时可防晒、防雨。
+RAT							食物，只有RAT阈值突变的玩家才能吃；看INEDIBLE
+REBREATHER_CART				这是一个循环呼吸器盒，用作各种循环呼吸器面罩的弹匣
+REBREATHER					如果您佩戴此物品，您的氧气含量不会低于 12（默认值约为 50）
+REDUCED_BASHING				Gunmod 旗帜；使物品的猛击伤害降低 50%。
+REDUCED_WEIGHT				Gunmod 旗帜；使物品的基本重量减少 25%。
+REQUIRES_TINDER				要求该物品试图在其上起火的瓷砖上存在火种。
+ROBOFAC_ROBOT_MEDIUM		该物品是中型 Hub 01 无人机，您可以将其存放在无人机技术线束的特定插槽中
+ROBOFAC_ROBOT_SMALL			该物品是小型 Hub 01 无人机，您可以将其存放在无人机技术线束的特定插槽中
 SCIENCE_CARD_MAINTENANCE_BLUE
 SCIENCE_CARD_MAINTENANCE_BLUE
 SCIENCE_CARD_MAINTENANCE_GREEN
@@ -131,37 +131,37 @@ SCIENCE_CARD_SECURITY_BLACK
 SCIENCE_CARD_SECURITY_MAGENTA
 SCIENCE_CARD_SECURITY_YELLOW
 SCIENCE_CARD_TRANSPORT_1
-SCIENCE_CARD_VISITOR这个和上面都是用来打开TCL的相关门的
-SHEATH_BOW该产品可装入弓形吊带中
-SHEATH_SPEAR该物品可以连接到矛带上
-SINGLE_USE该项目在使用后将被删除。按费用计数的项目不需要此操作，因为它们会在费用用完时被删除。
-SLEEP_AID_CONTAINER该产品内部装有助眠剂，有助于睡眠。（例如，这是一个枕套）。
-SLEEP_AID该项目有助于睡眠。
-SLEEP_IGNORE该项目不显示为睡前警告。
-SLOW_WIELD挥舞时会受到额外的时间惩罚。对于近战武器和枪支，这会被相关技能所抵消。与 堆叠NEEDS_UNFOLD。
-SOFT覆盖项目检查以柔软、不僵硬且舒适；HARD与旗帜相反
-SOLARPACK_ON该产品开启太阳能背包，在阳光下可以为不同的东西充电
-SPAWN_ACTIVE该项目始终处于活动状态，无需手动激活
-SPLINT此物品是夹板，戴在身体破损部位时，会慢慢修复
-STRICT_HUMANITARIANISM标记，如果食物是用亚人肉烹制的，则自动应用于食物，并允许在名称中进行不同的食物相互作用
-TACK物品可以用作安装座的大头钉。
-TANGLE当该物品被投掷并击中目标时，有机会将其缠住并使其无法动弹。
-TARDIS带有此标志的容器项目会绕过对口袋数据的内部检查，因此内部可能比外部更大，并且可以容纳不适合其尺寸的项目。
-TIE_UP物品可以用来束缚生物。
-TINDER该物品可用作火种，用带有REQUIRES_TINDER标记的引火物来点燃火。
-TOBACCO该物品是点燃的雪茄或香烟，佩戴时会产生吸烟效果
-TOURNIQUET该物品是止血带，它可以暂时降低出血强度并增加您的有效压缩极限
-TOW_CABLE该产品是牵引电缆，可以牵引车辆
-TRADER_AVOIDNPC 不会从该物品开始。将此用于活动物品（例如手电筒（打开））、危险物品（例如活动炸弹）、假物品或不寻常物品（例如独特的任务物品）。
-TRADER_KEEP_EQUIPPEDNPC 仅在当前未佩戴或挥舞该物品时才会交易该物品。
-TRADER_KEEPNPC 在任何情况下都不会交易该物品。
-TWO_WAY_RADIO该项目是双向无线电，并相应地工作
-UNBREAKABLE_MELEE用作近战武器时永远不会受到损坏。
-UNBREAKABLE该物品无论是作为盔甲穿着还是用作近战武器时都不会被直接损坏。
-UNRECOVERABLE		无法从拆卸中恢复。
-USE_POWER_WHEN_HIT	当你被击中时，该护甲会消耗能量，等于所造成的伤害（能量消耗发生在护甲缓解之前）
-WATER_BREAK_ACTIVE	如果处于活动状态，物品可能会被弄湿并在水中破裂。
-WATER_BREAK			物品在水中破损。
-WATER_DISSOLVE		物品溶解在水中。
-ZERO_WEIGHT			通常重量为零的物品会产生错误。使用此标志来指示零权重是故意的并抑制该错误。
+SCIENCE_CARD_VISITOR		这个和上面都是用来打开TCL的相关门的
+SHEATH_BOW					该产品可装入弓形吊带中
+SHEATH_SPEAR				该物品可以连接到矛带上
+SINGLE_USE					该项目在使用后将被删除。按费用计数的项目不需要此操作，因为它们会在费用用完时被删除。
+SLEEP_AID_CONTAINER			该产品内部装有助眠剂，有助于睡眠。（例如，这是一个枕套）。
+SLEEP_AID					该项目有助于睡眠。
+SLEEP_IGNORE				该项目不显示为睡前警告。
+SLOW_WIELD					挥舞时会受到额外的时间惩罚。对于近战武器和枪支，这会被相关技能所抵消。与 堆叠NEEDS_UNFOLD。
+SOFT						覆盖项目检查以柔软、不僵硬且舒适；HARD与旗帜相反
+SOLARPACK_ON				该产品开启太阳能背包，在阳光下可以为不同的东西充电
+SPAWN_ACTIVE				该项目始终处于活动状态，无需手动激活
+SPLINT						此物品是夹板，戴在身体破损部位时，会慢慢修复
+STRICT_HUMANITARIANISM		标记，如果食物是用亚人肉烹制的，则自动应用于食物，并允许在名称中进行不同的食物相互作用
+TACK						物品可以用作安装座的大头钉。
+TANGLE						当该物品被投掷并击中目标时，有机会将其缠住并使其无法动弹。
+TARDIS						带有此标志的容器项目会绕过对口袋数据的内部检查，因此内部可能比外部更大，并且可以容纳不适合其尺寸的项目。
+TIE_UP						物品可以用来束缚生物。
+TINDER						该物品可用作火种，用带有REQUIRES_TINDER标记的引火物来点燃火。
+TOBACCO						该物品是点燃的雪茄或香烟，佩戴时会产生吸烟效果
+TOURNIQUET					该物品是止血带，它可以暂时降低出血强度并增加您的有效压缩极限
+TOW_CABLE					该产品是牵引电缆，可以牵引车辆
+TRADER_AVOIDNPC				不会从该物品开始。将此用于活动物品（例如手电筒（打开））、危险物品（例如活动炸弹）、假物品或不寻常物品（例如独特的任务物品）。
+TRADER_KEEP_EQUIPPED		NPC 仅在当前未佩戴或挥舞该物品时才会交易该物品。
+TRADER_KEEP					NPC	在任何情况下都不会交易该物品。
+TWO_WAY_RADIO				该项目是双向无线电，并相应地工作
+UNBREAKABLE_MELEE			用作近战武器时永远不会受到损坏。
+UNBREAKABLE					该物品无论是作为盔甲穿着还是用作近战武器时都不会被直接损坏。
+UNRECOVERABLE				无法从拆卸中恢复。
+USE_POWER_WHEN_HIT			当你被击中时，该护甲会消耗能量，等于所造成的伤害（能量消耗发生在护甲缓解之前）
+WATER_BREAK_ACTIVE			如果处于活动状态，物品可能会被弄湿并在水中破裂。
+WATER_BREAK					物品在水中破损。
+WATER_DISSOLVE				物品溶解在水中。
+ZERO_WEIGHT					通常重量为零的物品会产生错误。使用此标志来指示零权重是故意的并抑制该错误。
  */ 

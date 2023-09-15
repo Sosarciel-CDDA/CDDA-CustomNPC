@@ -1,14 +1,10 @@
-import { CHAR_PATH, DATA_PATH, OUT_PATH, getCharPath, getOutCharPath } from "./DataManager";
+import { DataManager } from "./DataManager";
 import * as path from "path";
 import * as fs from "fs";
-import { JArray, UtilFT, UtilFunc } from "@zwa73/utils";
-import { AnimType, formatAnimName } from "./AnimTool";
-import { genArmorID } from "CddaJsonFormat";
+import { UtilFT, UtilFunc } from "@zwa73/utils";
+import { AnimType } from "./AnimTool";
 
-/**获取 角色图片目录 */
-export function getCharImagePath(charName:string){
-    return path.join(getCharPath(charName),'image');
-}
+
 
 /**动作图片信息 */
 type ImageInfo = Partial<Record<AnimType,{
@@ -26,8 +22,9 @@ type ImageInfo = Partial<Record<AnimType,{
 }>>;
 
 /**合并并创建序列帧 */
-export async function mergeImage(charName:string){
-    const imagePath = getCharImagePath(charName);
+export async function mergeImage(dm:DataManager,charName:string){
+    const {baseData,outData} = dm.getCharData(charName);
+    const imagePath = dm.getCharImagePath(charName);
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
 
     const tmpInfo:any[] = [{
@@ -44,13 +41,14 @@ export async function mergeImage(charName:string){
     for(const mtnName in info){
         const animType = mtnName as AnimType;
         const mtnInfo = info[animType];
+        const animData = baseData.animData[animType];
 
         //检查是否有Idle动作
-        if(mtnInfo==undefined && mtnName=="Idle") throw `${charName} 必须要有Idle动画`;
+        if(mtnInfo==undefined && animType=="Idle") throw `${charName} 必须要有Idle动画`;
         if(mtnInfo==undefined) continue;
 
         const mtnPath = path.join(imagePath,mtnName);
-        const animName = formatAnimName(charName,animType);
+        const animName = animData.animName;
 
 
         //创建缓存文件夹
@@ -75,7 +73,7 @@ export async function mergeImage(charName:string){
             .map(fileName=>({weight:(interval||10),sprite:path.parse(fileName).name}));
         //写入动画数据
         await UtilFT.writeJSONFile(path.join(tmpMthPath,animName),{
-            id:`overlay_worn_${genArmorID(animName)}`,
+            id:`overlay_worn_${animData.armorID}`,
             fg:animages,
             animated: true,
         });
@@ -100,18 +98,17 @@ export async function mergeImage(charName:string){
     //写入 mod贴图设置 到角色文件夹
     const tilesetNew = ((await UtilFT.loadJSONFile(path.join(mergePath,'tile_config.json')))["tiles-new"] as any[])
         .filter(item => item.file!="fallback.png");
-    await UtilFT.ensurePathExists(getOutCharPath(charName),true);
-    await UtilFT.writeJSONFile(path.join(getOutCharPath(charName), "mod_tileset.json"), [{
+    outData["mod_tileset"] = [{
 		type: "mod_tileset",
 		compatibility: ["MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE", "UNDEAD_PEOPLE_BASE"],
 		"tiles-new": tilesetNew,
-	}]);
+	}];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName=> path.parse(fileName).ext=='.png');
     for(let pngName of pngs){
         const pngPath = path.join(mergePath,pngName);
-        const outPngPath = path.join(OUT_PATH,pngName);
+        const outPngPath = path.join(dm.outPath,pngName);
         await fs.promises.copyFile(pngPath,outPngPath);
     }
 }

@@ -1,7 +1,7 @@
 [
 	{
 		"type": "SPELL",
-		"id": "CNPC_SPELL_SummonTarget",
+		"id": "undefined_SPELL_SummonTarget",
 		"name": "召唤标靶",
 		"description": "召唤标靶怪物",
 		"flags": [
@@ -19,14 +19,14 @@
 		"min_aoe": 1,
 		"max_aoe": 1,
 		"effect": "summon",
-		"effect_str": "CNPC_MON_Target",
+		"effect_str": "undefined_MON_Target",
 		"min_duration": 1,
 		"max_duration": 1,
 		"shape": "blast"
 	},
 	{
 		"type": "SPELL",
-		"id": "CNPC_SPELL_InitCurrHP",
+		"id": "undefined_SPELL_InitCurrHP",
 		"name": "初始化当前生命值",
 		"description": "初始化当前生命值变量",
 		"flags": [
@@ -46,7 +46,7 @@
 	},
 	{
 		"type": "SPELL",
-		"id": "CNPC_SPELL_CheckCurrHP",
+		"id": "undefined_SPELL_CheckCurrHP",
 		"name": "检测当前生命值",
 		"description": "检测当前生命值是否有变动",
 		"flags": [
@@ -65,7 +65,7 @@
 		"shape": "blast"
 	},
 	{
-		"id": "CNPC_SPELL_TestConeSpell_DMG",
+		"id": "undefined_SPELL_TestConeSpell_DMG",
 		"type": "SPELL",
 		"name": "测试用锥形法术 伤害部分",
 		"description": "测试用锥形法术 伤害部分",
@@ -83,7 +83,7 @@
 		"damage_type": "heat"
 	},
 	{
-		"id": "CNPC_SPELL_TestConeSpell",
+		"id": "undefined_SPELL_TestConeSpell",
 		"type": "SPELL",
 		"name": "测试用锥形法术",
 		"description": "测试用锥形法术",
@@ -107,16 +107,16 @@
 		"base_casting_time": 100,
 		"extra_effects": [
 			{
-				"id": "CNPC_SPELL_TestConeSpell_DMG"
+				"id": "undefined_SPELL_TestConeSpell_DMG"
 			}
 		],
 		"targeted_monster_ids": [
-			"CNPC_MON_Target"
+			"undefined_MON_Target"
 		]
 	},
 	{
 		"type": "SPELL",
-		"id": "CNPC_SPELL_SpawnBaseNpc",
+		"id": "undefined_SPELL_SpawnBaseNpc",
 		"name": "生成测试NPC",
 		"description": "生成测试NPC",
 		"flags": [

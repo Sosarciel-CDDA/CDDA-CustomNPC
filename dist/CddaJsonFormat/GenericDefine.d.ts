@@ -6,10 +6,22 @@ export type Volume = number | `${number} ${"L" | "ml"}`;
 export declare const ColorList: readonly ["blue", "white", "brown", "dark_gray"];
 /**可用的颜色 */
 export type Color = typeof ColorList[number];
-/**肢体组 */
-declare const PartSet: readonly ["head", "leg_l", "leg_r", "foot_l", "foot_r", "arm_l", "arm_r", "hand_l", "hand_r", "torso"];
+/**必要的肢体组 */
+declare const VitalBPList: readonly ["torso", "head"];
+/**必要的肢体 */
+type VitalBP = typeof VitalBPList[number];
+/**四肢组 */
+declare const LimbBPList: readonly ["leg_l", "leg_r", "arm_l", "arm_r"];
+/**四肢 */
+type LimbBP = typeof LimbBPList[number];
+/**子肢体组 */
+declare const SubBPList: readonly ["foot_l", "foot_r", "hand_l", "hand_r"];
+/**子肢体 */
+type SubBP = typeof SubBPList[number];
+/**组肢体 */
+export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
 /**肢体 */
-export type BodyPart = typeof PartSet[number];
+export type BodyPart = VitalBP | LimbBP | SubBP;
 /**npc阵营 列表 */
 export declare const DefineNpcFactionList: readonly ["your_followers", "no_faction"];
 /**npc阵营 */

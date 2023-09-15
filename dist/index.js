@@ -17,20 +17,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = exports.buildChar = void 0;
 const DataManager_1 = require("./DataManager");
 const MergeImage_1 = require("./MergeImage");
-const AnimTool_1 = require("./AnimTool");
 const CharClass_1 = require("./CharClass");
-const StaticData_1 = require("./StaticData");
-async function buildChar(charName) {
-    const charPath = (0, DataManager_1.getCharPath)(charName);
-    await (0, MergeImage_1.mergeImage)(charName);
-    await (0, AnimTool_1.createAnimTool)(charName);
-    await (0, CharClass_1.createCharClass)(charName);
+const AnimTool_1 = require("./AnimTool");
+async function buildChar(dm, charName) {
+    await (0, MergeImage_1.mergeImage)(dm, charName);
+    await (0, AnimTool_1.createAnimTool)(dm, charName);
+    await (0, CharClass_1.createCharClass)(dm, charName);
 }
 exports.buildChar = buildChar;
 async function main() {
-    await (0, StaticData_1.outStaticData)();
-    for (let charName of DataManager_1.CHAR_LIST)
-        buildChar(charName);
+    const dm = new DataManager_1.DataManager();
+    const plist = [];
+    for (let charName of dm.charList)
+        plist.push(buildChar(dm, charName));
+    await Promise.all(plist);
+    dm.saveAllData();
 }
 exports.main = main;
 main();

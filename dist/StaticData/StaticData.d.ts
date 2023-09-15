@@ -1,7 +1,4 @@
-import { JToken } from '@zwa73/utils';
-/**静态数据的目录 */
-export declare const StaticDataPath: string;
+import { JObject, JToken } from '@zwa73/utils';
+export declare const StaticDataMap: JObject;
 /**保存静态数据 */
 export declare function saveStaticData(name: string, data: JToken): Promise<void>;
-/**输出静态数据 */
-export declare function outStaticData(): Promise<void>;
