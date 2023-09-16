@@ -1,10 +1,12 @@
 import { JArray, JObject } from "@zwa73/utils";
 import { Time } from "./GenericDefine";
+/**EOC ID格式 */
+export type EocID = `${string}_EOC_${string}`;
 /**EOC */
-export type EOC = {
+export type Eoc = {
     type: "effect_on_condition";
     /**唯一ID */
-    id: string;
+    id: EocID;
     /**eoc类型 */
     eoc_type: EocType;
     /**效果 */

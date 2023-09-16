@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGenericID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -13,6 +13,11 @@ function genGenericID(id) {
     return `${exports.MOD_PREFIX}_GENERIC_${id}`;
 }
 exports.genGenericID = genGenericID;
+/**生成适用于此mod的 枪械 ID */
+function genGunID(id) {
+    return `${exports.MOD_PREFIX}_GUN_${id}`;
+}
+exports.genGunID = genGunID;
 /**生成适用于此mod的 子弹 ID */
 function genAmmoID(id) {
     return `${exports.MOD_PREFIX}_AMMO_${id}`;

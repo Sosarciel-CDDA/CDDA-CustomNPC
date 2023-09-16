@@ -1,9 +1,13 @@
+import { AmmiunitionTypeID } from "../AmmiunitionType";
 import { RangeDamage } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
+/**Ammo ID格式 */
+export type AmmoID = `${string}_AMMO_${string}`;
 export type Ammo = {
+    id: AmmoID;
     type: "AMMO";
     /**弹药类型 使用材质id */
-    ammo_type: string;
+    ammo_type: AmmiunitionTypeID;
     /**远程伤害 */
     damage?: RangeDamage;
     /**将武器的伤害乘以数量 (覆盖 damage ) */

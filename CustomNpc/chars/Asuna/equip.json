@@ -65,7 +65,7 @@
 	},
 	{
 		"type": "GUN",
-		"id": "CNPC_GENERIC_AsunaWeapon",
+		"id": "CNPC_GUN_AsunaWeapon",
 		"name": "Asuna的武器",
 		"description": "Asuna的武器",
 		"ammo": [
@@ -155,7 +155,7 @@
 		"id": "CNPC_ITEMGROUP_AsunaWeapon",
 		"subtype": "collection",
 		"items": [
-			"CNPC_GENERIC_AsunaWeapon"
+			"CNPC_GUN_AsunaWeapon"
 		]
 	},
 	{
@@ -182,12 +182,12 @@
 		"id": "CNPC_EOC_GiveWeapon",
 		"condition": {
 			"not": {
-				"u_has_item": "CNPC_GENERIC_AsunaWeapon"
+				"u_has_item": "CNPC_GUN_AsunaWeapon"
 			}
 		},
 		"effect": [
 			{
-				"u_spawn_item": "CNPC_GENERIC_AsunaWeapon"
+				"u_spawn_item": "CNPC_GUN_AsunaWeapon"
 			}
 		]
 	},

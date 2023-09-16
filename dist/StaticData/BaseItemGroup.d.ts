@@ -3,7 +3,7 @@ import { ItemGroup } from "../CddaJsonFormat";
 export declare const EmptyGroup: ItemGroup;
 export declare const BaseItemGroup: ({
     type: "item_group";
-    id: string;
+    id: `${string}_ITEMGROUP_${string}`;
     subtype?: "collection" | "distribution" | undefined;
 } & {
     items?: (string | [string, number])[] | undefined;

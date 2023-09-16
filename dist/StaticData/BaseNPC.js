@@ -9,9 +9,7 @@ const BaseNpcClass = {
     name: "BaseNpcClass",
     job_description: "基础NPC职业",
     common: false,
-    traits: [
-        { "trait": "" }
-    ]
+    traits: []
 };
 const BaseNpcInstance = {
     type: "npc",

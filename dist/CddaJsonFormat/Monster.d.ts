@@ -1,6 +1,8 @@
 import { Color, DefineMonFaction, Volume, Weight } from "./GenericDefine";
+/**Monster ID格式 */
+export type MonsterID = `${string}_MON_${string}`;
 export type Monster = {
-    id: string;
+    id: MonsterID;
     type: "MONSTER";
     name: string;
     description: string;

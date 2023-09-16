@@ -70,7 +70,7 @@ class DataManager {
                 animData: animData,
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
-                baseWeaponID: (0, ModDefine_1.genGenericID)(`${charName}Weapon`),
+                baseWeaponID: (0, ModDefine_1.genGunID)(`${charName}Weapon`),
                 baseAmmoID: (0, ModDefine_1.genAmmoID)(charName),
                 baseAmmoTypeID: (0, ModDefine_1.genAmmiTypeID)(charName + "Ammo"),
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
