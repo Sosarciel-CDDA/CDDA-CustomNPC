@@ -52,7 +52,7 @@
     "id": "CustomNPC_if2",
     "type": "effect_on_condition",
     "effect": [
-      {"math":["u_notIdleOrMove","=","4"]},
+      {"math":["u_notIdle","=","10"]},
       {"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}},
       {"math":["has_target","=","0"]},
       {"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},"targeted":true},
@@ -76,25 +76,47 @@
     ]
   },
   {
-    "id": "CNPC_EOC_Update",
+    "id": "CustomNPC_if3",
+    "type": "effect_on_condition",
+    "effect": [
+      {"math":["u_notIdle","=","4"]},
+      {"run_eocs":"CNPC_EOC_CharMove"}
+    ],
+    "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
+  },
+  {
+    "id": "CNPC_EOC_MoveEvent",
+    "type": "effect_on_condition",
+    "effect": [
+      {"run_eocs":"CustomNPC_if3"}
+    ],
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves"
+  },
+  {
+    "id": "CNPC_EOC_PlayerUpdate",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_UpdateInitCurrHP"},
-      {"run_eocs":"update_stat"},
-      {"run_eocs":"CNPC_EOC_PlayerUpdate"}
+      {"run_eocs":"update_stat"}
     ],
     "recurrence": 1
   },
   {
-    "id": "CustomNPC_if4",
+    "id": "CustomNPC_if5",
     "type": "effect_on_condition",
     "effect": [
-      {"math":["u_onMove","=","0"]}
+      {"math":["u_notIdle","=","4"]}
     ],
     "false_effect": [
-      {"math":["u_onMove","=","1"]}
+      {"math":["u_notIdle","=","u_notIdle-1"]}
     ],
-    "condition": {"compare_string":[{"global_val":"char_preloc"},{"mutator":"loc_relative_u","target":"(0,1,0)"}]}
+    "condition": {
+      "compare_string":[
+        {"u_val":"var","var_name":"u_char_currloc"},
+        {"u_val":"var","var_name":"u_char_preloc"}
+      ]
+    }
   },
   {
     "id": "CustomNPC_if6",
@@ -102,31 +124,27 @@
     "effect": [
       {"run_eocs":"CNPC_EOC_CharMove"}
     ],
-    "false_effect": [
-      {"run_eocs":"CNPC_EOC_CharIdle"}
-    ],
-    "condition": {"math":["u_onMove",">=","1"]}
+    "condition": {"math":["u_notIdle",">","0"]}
   },
   {
-    "id": "CustomNPC_if5",
+    "id": "CustomNPC_if7",
     "type": "effect_on_condition",
     "effect": [
-      {"math":["u_notIdleOrMove","=","0"]},
-      {"run_eocs":"CustomNPC_if6"}
+      {"math":["u_notIdle","=","0"]},
+      {"run_eocs":"CNPC_EOC_CharIdle"}
     ],
-    "condition": {"math":["u_notIdleOrMove","<=","0"]}
+    "condition": {"math":["u_notIdle","<=","0"]}
   },
   {
-    "id": "CustomNPC_if3",
+    "id": "CustomNPC_if4",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_CharUpdate"},
-      {"set_string_var":{"u_val":"u_char_preloc"},"target_var":{"global_val":"char_preloc"}},
-      {"set_string_var":{"u_val":"u_char_preloc"},"target_var":{"global_val":"char_preloc"}},
-      {"run_eocs":"CustomNPC_if4"},
-      {"set_string_var":{"mutator":"loc_relative_u","target":"(0,1,0)"},"target_var":{"u_val":"u_char_preloc"}},
+      {"set_string_var":{"mutator":"loc_relative_u","target":"(0,1,0)"},"target_var":{"u_val":"var","var_name":"u_char_currloc"}},
       {"run_eocs":"CustomNPC_if5"},
-      {"math":["u_notIdleOrMove","=","u_notIdleOrMove-1"]}
+      {"set_string_var":{"mutator":"loc_relative_u","target":"(0,1,0)"},"target_var":{"u_val":"var","var_name":"u_char_preloc"}},
+      {"run_eocs":"CustomNPC_if6"},
+      {"run_eocs":"CustomNPC_if7"}
     ],
     "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
   },
@@ -134,7 +152,7 @@
     "id": "CNPC_EOC_GlobalUpdate",
     "type": "effect_on_condition",
     "effect": [
-      {"run_eocs":"CustomNPC_if3"}
+      {"run_eocs":"CustomNPC_if4"}
     ],
     "recurrence": 1,
     "global": true,
