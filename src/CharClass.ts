@@ -1,4 +1,4 @@
-import { Armor, BodyPartList, EOC, Generic, Mutation, NpcClass, NpcInstance } from "./CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, Generic, Mutation, NpcClass, NpcInstance } from "./CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
 
@@ -55,7 +55,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         symbol: "O"
     }
     /**生成器EOC */
-    const charSpawnerEoc: EOC = {
+    const charSpawnerEoc: Eoc = {
 		type: "effect_on_condition",
         eoc_type:"ACTIVATION",
 		id: genEOCID(spawnerId),

@@ -21,7 +21,7 @@ async function createAnimTool(dm, charName) {
             id: animData.mutID,
             name: `${charName}的${animType}动画变异`,
             description: `${charName}的${animType}动画变异`,
-            integrated_armor: [animData.armorID],
+            //integrated_armor:[animData.armorID],
             points: 0,
         };
         const animArmor = {

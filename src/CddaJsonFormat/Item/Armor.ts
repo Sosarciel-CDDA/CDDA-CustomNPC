@@ -1,8 +1,12 @@
 import { BodyPart, GenericBase, GenericFlag, PocketData } from "CddaJsonFormat"
 
 
+/**Armor ID格式 */
+export type ArmorID = `${string}_ARMOR_${string}`;
+
 /**一件护甲 */
 export type Armor = {
+	id:ArmorID;
 	type: "ARMOR";
 	/**衣物还是盔甲 */
 	category: "armor" | "clothing";

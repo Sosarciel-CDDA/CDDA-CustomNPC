@@ -1,10 +1,14 @@
+import { AnyItemID } from "./Item/Generic";
 
 
 
+
+/**ItemGroup ID格式 */
+export type ItemGroupID = `${string}_ITEMGROUP_${string}`;
 
 export type ItemGroup = {
     type: "item_group",
-    id: string,
+    id: ItemGroupID,
     /**是可选的。它可以是 collection 或 distribution。
      * 如果未指定，则默认为old，这表示该项目组使用旧格式（本质上是分布）。
      * collection为每个entries均独立概率
@@ -16,8 +20,8 @@ export type ItemGroup = {
     {groups?:ItemGroupEntrieQuick[];})
 /**一个物品Entry */
 type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|ItemGroupEntrieDist|ItemGroupEntrieColl)&ItemGroupEntrieOpt;
-type ItemGroupEntrieItem = {item:string};
-type ItemGroupEntrieGroup = {group:string};
+type ItemGroupEntrieItem = {item:AnyItemID};
+type ItemGroupEntrieGroup = {group:ItemGroupID};
 type ItemGroupEntrieDist = {distribution:ItemGroupEntrie[]};
 type ItemGroupEntrieColl = {collection:ItemGroupEntrie[]};
 /**物品Entry的可选项 */
@@ -54,7 +58,7 @@ type ItemGroupEntrieOpt = Partial<{
     /**如果为 true，则物品生成时容器将被密封。默认为true */
     sealed: boolean;
     /**该项目的有效 itype 变体 ID。 */
-    variant: string;
+    variant: AnyItemID;
     artifact: Object;
     event: ItemGroutEvent;
 }>;

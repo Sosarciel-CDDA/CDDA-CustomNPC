@@ -4,9 +4,6 @@
 		"id": "CNPC_MUT_AsunaAttack",
 		"name": "Asuna的Attack动画变异",
 		"description": "Asuna的Attack动画变异",
-		"integrated_armor": [
-			"CNPC_ARMOR_AsunaAttack"
-		],
 		"points": 0
 	},
 	{

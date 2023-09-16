@@ -1,13 +1,22 @@
+import { AmmiunitionTypeID } from "../AmmiunitionType";
+import { EocID } from "../EOC";
+import { FlagID } from "../Flag";
 import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
+import { NpcClassID } from "../NpcClass";
+import { AmmoID } from "./Ammo";
+import { ArmorID } from "./Armor";
+import { GunID } from "./Gun";
 
 
 
 
-
+/**Generic ID格式 */
+export type GenericID = `${string}_GENERIC_${string}`;
 
 /**通用物品 */
 export type Generic = {
 	type: "GENERIC";
+	id:GenericID;
 	flags?: GenericFlag[];
 }&GenericBase;
 
@@ -64,7 +73,7 @@ export type GenericBase = {
 	/**材质 */
 	material?: ItemMaterial[];
 	/**材质 可用哪些材料修复 */
-	repairs_with?: string[];
+	repairs_with?: AmmiunitionTypeID[];
 	/**属于什么类型的武器 */
 	weapon_category?: string[];
 	/**作为近战武器的伤害 */
@@ -107,9 +116,9 @@ export type RelicData = {
 /**弹夹 */
 export type Magazines = [
 	/**弹药类型 */
-	string,
+	AmmiunitionTypeID,
 	/**具体弹药 默认为首个 */
-	[string,...string[]]
+	[AmmoID,...AmmoID[]]
 ]
 
 /**命中数据 */
@@ -128,7 +137,7 @@ export type UseAction = {
 	/**在地图上放置一个NPC */
 	type: "place_npc";
 	/**npc职业ID */
-	npc_class_id: string;
+	npc_class_id: NpcClassID;
 	/**生成时播报的消息 */
 	summon_msg?: string;
 	/**将 npc 随机放置在玩家周围，如果 false：让玩家决定将其放置在哪里（默认值：false） */
@@ -143,7 +152,7 @@ export type UseAction = {
 	/**说明 */
 	description: string;
 	/**eoc列表 */
-	effect_on_conditions: string[];
+	effect_on_conditions: EocID[];
 } | {
 	/**产生爆炸 */
 	type: "explosion";
@@ -180,7 +189,7 @@ export const GenericFlagList = [
 	"NO_RELOAD"			, //无法重载
 ] as const;
 /**通用物品的flag */
-export type GenericFlag = typeof GenericFlagList[number];
+export type GenericFlag = typeof GenericFlagList[number]|FlagID;
 
 /**物品的材质 字符串时为材质类型 */
 export type ItemMaterial = string|{
@@ -190,6 +199,8 @@ export type ItemMaterial = string|{
 	portion?:number;
 }
 
+
+export type AnyItemID = GenericID|AmmoID|ArmorID|GunID;
 
 
 

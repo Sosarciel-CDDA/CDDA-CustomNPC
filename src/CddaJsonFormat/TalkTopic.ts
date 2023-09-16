@@ -2,13 +2,14 @@ import { JArray, JObject, JToken } from "@zwa73/utils";
 
 
 
-
+/**TalkTopic ID格式 */
+export type TalkTopicID = `${string}_TALK_${string}`|DefineTopic;
 
 
 /**对话选项 */
 export type TalkTopic = {
 	type: "talk_topic";
-	id: string|string[];
+	id: TalkTopicID|TalkTopicID[];
     /**NPC说的话 */
 	dynamic_line?: string|JObject|JArray;
     /**玩家的可选回复 */
@@ -24,7 +25,7 @@ export type Resp = {
 	/**玩家的文本回复 */
 	text: string;
     /**转移到哪个对话 */
-	topic: string | DefineTopic;
+	topic: TalkTopicID;
     /**产生的效果 */
 	effect?: TalkEffect;
 }|RespLong;

@@ -1,11 +1,14 @@
 import { BodyPart } from "./GenericDefine";
+import { ArmorID } from "./Item";
 
 
+/**Mutation ID格式 */
+export type MutationID = `${string}_MUT_${string}`;
 
 /**变异 */
 export type Mutation = {
 	type: "mutation";
-	id: string;
+	id: MutationID;
 	/**名称 */
 	name: string;
 	/**描述 */
@@ -19,11 +22,11 @@ export type Mutation = {
 	/**位置类型 */
 	types?: string[];
 	/**需要前置变异 */
-	prereqs?: string[];
+	prereqs?: MutationID[];
 	/**可进阶为变异 */
-	leads_to?: string[];
+	leads_to?: MutationID[];
 	/**内置护甲 */
-	integrated_armor?: string[];
+	integrated_armor?: ArmorID[];
 	/**可否净化 */
 	purifiable?: boolean;
 	/**潮湿保护 */

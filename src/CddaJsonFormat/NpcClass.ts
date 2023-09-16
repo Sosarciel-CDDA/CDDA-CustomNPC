@@ -1,10 +1,16 @@
+import { ItemGroupID } from "./ItemGroup";
+import { MutationID } from "./Mutattion";
 
 
 
+
+
+/**NpcClass ID格式 */
+export type NpcClassID = `${string}_NPCLASS_${string}`;
 
 export type NpcClass = {
     type: "npc_class",
-    id: string,
+    id: NpcClassID,
     name: string ,
     job_description: string,
     /**false意味着这个NPC职业不会随机生成。
@@ -31,11 +37,11 @@ export type NpcClass = {
         }
     }],
     /**npc穿戴的物品组 */
-    worn_override?: string;
+    worn_override?: ItemGroupID;
     /**npc携带的物品组 */
-    carry_override?: string;
+    carry_override?: ItemGroupID;
     /**npc拿起的物品组 */
-    weapon_override?: string;
+    weapon_override?: ItemGroupID;
     /**仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。 */
     shopkeeper_item_group?: ShopItemGroup,
     /**用于定义此店主的物料消耗费率。默认设置是在补货前消耗所有商品 */
@@ -64,4 +70,4 @@ type ShopItemGroup = [
 type ShopPriceRules = [
     { "item": "scrap", "price": 10000 },
 ]
-type Traits = ({ "group": string }|{ "trait": string })[];
+type Traits = ({ "group": string }|{ "trait": MutationID })[];

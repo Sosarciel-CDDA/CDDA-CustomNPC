@@ -77,6 +77,7 @@ function createCharEquip(dm, charName) {
         melee_damage: {
             cut: 20
         },
+        modes: [["MELEE", "近战", 6], ["DEFAULT", "默认", 2], ["AUTO", "全自动", 4]]
     };
     /**基础弹药类型 */
     const baseAmmoType = {

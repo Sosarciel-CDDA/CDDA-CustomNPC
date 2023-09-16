@@ -1,3 +1,6 @@
+import { FlagID } from "./Flag";
+import { AmmoID, AnyItemID } from "./Item";
+
 /**重量 */
 export type Weight = number|`${number} ${"kg"|"g"}`;
 /**体积 */
@@ -107,18 +110,18 @@ export type PocketData = {
     /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。 */
 	ammo_restriction?: {
         /**子弹类型 : 容纳数量 */
-        [key:string]: number
+        [key:AmmoID]: number
     };
     /**只有当物品具有与这些标志之一匹配的标志时，才能将其放入此口袋中。 */
-	flag_restriction?: string[];
+	flag_restriction?: FlagID[];
     /**只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。 */
-	item_restriction?: string[];
+	item_restriction?: AnyItemID[];
     /**有主要由该材料制成的物品才能进入。 */
 	material_restriction?: string[];
 	/**如果口袋有 sealed_data，则在物品生成时它将被密封。 口袋的密封版本将覆盖相同数据类型的未密封版本  */
 	sealed_data?: Partial<PocketData>;
     /**如果口袋继承了标志，则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。 */
-	inherits_flags?: true;
+	inherits_flags?: boolean;
 };
 
 

@@ -1,4 +1,4 @@
-import { AmmiunitionType, Ammo, Armor, BodyPartList, EOC, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { AmmiunitionType, Ammo, Armor, BodyPartList, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID } from "./ModDefine";
 
@@ -66,7 +66,7 @@ export function createCharEquip(dm:DataManager,charName:string){
         looks_like:TransparentItem,
         flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
             "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP",
-            (baseData.baseWeaponFlagID as any)],
+            baseData.baseWeaponFlagID],
         countdown_interval: 1,
         range:30,
         ranged_damage:{
@@ -77,6 +77,7 @@ export function createCharEquip(dm:DataManager,charName:string){
         melee_damage:{
             cut:20
         },
+        modes:[["MELEE","近战",6],["DEFAULT","默认",2],["AUTO","全自动",4]]
     }
     /**基础弹药类型 */
     const baseAmmoType:AmmiunitionType={
@@ -110,7 +111,7 @@ export function createCharEquip(dm:DataManager,charName:string){
         id:baseData.baseWeaponFlagID,
     }
     /**丢掉其他武器 */
-    const dropOtherWeapon:EOC={
+    const dropOtherWeapon:Eoc={
         type:"effect_on_condition",
         id:genEOCID("DropOtherWeapon"),
         condition:{and:[
@@ -123,7 +124,7 @@ export function createCharEquip(dm:DataManager,charName:string){
         eoc_type:"ACTIVATION",
     }
     /**如果没武器则给予 */
-    const giveWeapon:EOC={
+    const giveWeapon:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
         id:genEOCID("GiveWeapon"),

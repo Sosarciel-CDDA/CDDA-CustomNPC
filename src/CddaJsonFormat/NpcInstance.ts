@@ -1,20 +1,27 @@
+import { EocID } from "./EOC";
 import { DefineNpcFaction } from "./GenericDefine";
+import { NpcClassID } from "./NpcClass";
+
+
+
+/**NpcInstance ID格式 */
+export type NpcInstanceID = `${string}_NPC_${string}`;
 
 
 export type NpcInstance = {
     type: "npc";
-    id: string;
+    id: NpcInstanceID;
     /**独特名称 */
     name_unique?:string;
     /**名称后缀 */
     name_suffix?: string;
     /**职业 */
-    class: string,
+    class: NpcClassID,
     attitude: number,
     mission: number,
     chat: string,
     faction?: DefineNpcFaction,
-    death_eocs?: string[],
+    death_eocs?: EocID[],
     age?: number,
     height?: number,
     str?: number,

@@ -4,9 +4,6 @@
 		"id": "CNPC_MUT_AsunaIdle",
 		"name": "Asuna的Idle动画变异",
 		"description": "Asuna的Idle动画变异",
-		"integrated_armor": [
-			"CNPC_ARMOR_AsunaIdle"
-		],
 		"points": 0
 	},
 	{

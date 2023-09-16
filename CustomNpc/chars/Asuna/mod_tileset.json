@@ -17,7 +17,7 @@
 				"pixelscale": 0.25,
 				"tiles": [
 					{
-						"id": "overlay_worn_CNPC_ARMOR_AsunaIdle",
+						"id": "overlay_mutation_CNPC_MUT_AsunaIdle",
 						"fg": [
 							{
 								"weight": 1,
@@ -834,7 +834,7 @@
 				"pixelscale": 0.25,
 				"tiles": [
 					{
-						"id": "overlay_worn_CNPC_ARMOR_AsunaMove",
+						"id": "overlay_mutation_CNPC_MUT_AsunaMove",
 						"fg": [
 							{
 								"weight": 1,
@@ -1091,7 +1091,7 @@
 				"pixelscale": 0.25,
 				"tiles": [
 					{
-						"id": "overlay_worn_CNPC_ARMOR_AsunaAttack",
+						"id": "overlay_mutation_CNPC_MUT_AsunaAttack",
 						"fg": [
 							{
 								"weight": 1,

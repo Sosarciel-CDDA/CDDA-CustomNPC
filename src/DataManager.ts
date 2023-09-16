@@ -3,8 +3,15 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { EOC } from './CddaJsonFormat/EOC';
+import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGenericID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
+import { Eoc } from './CddaJsonFormat/EOC';
+import { MutationID } from './CddaJsonFormat/Mutattion';
+import { ItemGroupID } from './CddaJsonFormat/ItemGroup';
+import { NpcClassID } from './CddaJsonFormat/NpcClass';
+import { NpcInstanceID } from './CddaJsonFormat/NpcInstance';
+import { FlagID } from './CddaJsonFormat/Flag';
+import { AmmiunitionTypeID } from './CddaJsonFormat/AmmiunitionType';
+import { AmmoID, ArmorID, GunID } from './CddaJsonFormat/Item';
 
 
 /**角色事件列表 */
@@ -25,12 +32,12 @@ export type DataTable={
         /**输出数据 */
         outData:Record<string,JArray>;
         /**输出的角色Eoc事件 */
-        charEventEocs:Record<CharEventType,EOC>;
+        charEventEocs:Record<CharEventType,Eoc>;
     }>;
     /**输出的静态数据表 */
     staticTable:Record<string,JObject>;
     /**输出的Eoc事件 */
-    eventEocs:Record<GlobalEventType,EOC>;
+    eventEocs:Record<GlobalEventType,Eoc>;
 }
 export class DataManager{
     /**资源目录 */
@@ -46,7 +53,7 @@ export class DataManager{
         charTable:{},
         staticTable:{},
         eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
-            const subEoc:EOC={
+            const subEoc:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
                 id:genEOCID(item),
@@ -55,7 +62,7 @@ export class DataManager{
             return {
                 ...acc,
                 [item]:subEoc
-        }},{} as Record<GlobalEventType,EOC>)
+        }},{} as Record<GlobalEventType,Eoc>)
     }
     constructor(outPath?:string,dataPath?:string){
         this.dataTable.staticTable = Object.assign({},
@@ -96,7 +103,7 @@ export class DataManager{
                 animData            : animData,
                 vaildAnim           : [],
                 baseArmorID         : genArmorID(charName),
-                baseWeaponID        : genGenericID(`${charName}Weapon`),
+                baseWeaponID        : genGunID(`${charName}Weapon`),
                 baseAmmoID          : genAmmoID(charName),
                 baseAmmoTypeID      : genAmmiTypeID(charName+"Ammo"),
                 baseWeaponGroupID   : genItemGroupID(`${charName}Weapon`),
@@ -104,7 +111,7 @@ export class DataManager{
             }
 
             const charEventEocs = CharEvemtTypeList.reduce((acc,item)=>{
-                const subEoc:EOC={
+                const subEoc:Eoc={
                     type:"effect_on_condition",
                     eoc_type:"ACTIVATION",
                     id:genEOCID(`${item}_${charName}`),
@@ -114,19 +121,19 @@ export class DataManager{
                 return {
                     ...acc,
                     [item]:subEoc
-            }},{} as Record<CharEventType,EOC>)
+            }},{} as Record<CharEventType,Eoc>)
             this.dataTable.charTable[charName] = {baseData,outData:{},charEventEocs}
         }
         return this.dataTable.charTable[charName];
     }
     /**添加事件 */
-    addEvent(etype:GlobalEventType,...events:EOC[]){
+    addEvent(etype:GlobalEventType,...events:Eoc[]){
         this.dataTable.eventEocs[etype].effect?.push(
             ...events.map(eoc=>({"run_eocs":eoc.id}))
         );
     }
     /**添加角色事件 */
-    addCharEvent(charName:string,etype:CharEventType,...events:EOC[]){
+    addCharEvent(charName:string,etype:CharEventType,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(
             ...events.map(eoc=>({"run_eocs":eoc.id}))
         );
@@ -179,7 +186,7 @@ export class DataManager{
             }
             //导出角色EOC
             const charEvent = charData.charEventEocs;
-            const charEventEocs:EOC[]=[];
+            const charEventEocs:Eoc[]=[];
             for(const etype in charEvent){
                 const et = etype as CharEventType;
                 const ce = charEvent[et];
@@ -190,7 +197,7 @@ export class DataManager{
         }
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;
-        const eventEocs:EOC[]=[];
+        const eventEocs:Eoc[]=[];
         for(const etype in globalEvent)
             eventEocs.push(globalEvent[etype as GlobalEventType]);
         this.saveToFile('event_eocs',eventEocs);
@@ -203,27 +210,27 @@ export type CharData=Readonly<{
     /**角色名 */
     charName    : string;
     /**基础变异ID */
-    baseMutID   : string;
+    baseMutID   : MutationID;
     /**职业ID */
-    classID     : string;
+    classID     : NpcClassID;
     /**实例ID */
-    instanceID  : string;
+    instanceID  : NpcInstanceID;
     /**动画数据 */
     animData    : Record<AnimType,AnimData>;
     /**有效的动作 */
     vaildAnim: AnimType[];
     /**基础装备ID */
-    baseArmorID : string;
+    baseArmorID : ArmorID;
     /**基础武器ID */
-    baseWeaponID: string;
+    baseWeaponID: GunID;
     /**基础弹药ID */
-    baseAmmoID: string;
+    baseAmmoID: AmmoID;
     /**基础弹药类型ID */
-    baseAmmoTypeID: string;
+    baseAmmoTypeID: AmmiunitionTypeID;
     /**基础武器物品组ID */
-    baseWeaponGroupID: string;
+    baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
-    baseWeaponFlagID: string;
+    baseWeaponFlagID: FlagID;
 }>;
 
 /**动画数据 */
@@ -233,10 +240,10 @@ export type AnimData = Readonly<{
     /**动画名 */
     animName:string;
     /**动画变异ID */
-    mutID:string;
+    mutID:MutationID;
     /**动画装备ID */
-    armorID:string;
+    armorID:ArmorID;
     /**动画装备物品组ID */
-    itemGroupID:string;
+    itemGroupID:ItemGroupID;
 }>;
 

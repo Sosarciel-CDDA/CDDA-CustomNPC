@@ -53,7 +53,8 @@ async function mergeImage(dm, charName) {
             .map(fileName => ({ weight: (interval || 10), sprite: path.parse(fileName).name }));
         //写入动画数据
         await utils_1.UtilFT.writeJSONFile(path.join(tmpMthPath, animName), {
-            id: `overlay_worn_${animData.armorID}`,
+            //id:`overlay_worn_${animData.armorID}`,
+            id: `overlay_mutation_${animData.mutID}`,
             fg: animages,
             animated: true,
         });
