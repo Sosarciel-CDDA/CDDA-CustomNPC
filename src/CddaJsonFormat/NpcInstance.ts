@@ -7,7 +7,7 @@ import { NpcClassID } from "./NpcClass";
 /**NpcInstance ID格式 */
 export type NpcInstanceID = `${string}_NPC_${string}`;
 
-
+/**Npc实例 */
 export type NpcInstance = {
     type: "npc";
     id: NpcInstanceID;
