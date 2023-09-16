@@ -8,7 +8,10 @@ const StaticData_1 = require("./StaticData");
 const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
 /**角色事件列表 */
-exports.CharEvemtTypeList = ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+exports.CharEvemtTypeList = [
+    "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
+    "CharCauseMeleeHit", "CharCauseRangeHit"
+];
 /**全局事件列表 */
 exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList];
 class DataManager {

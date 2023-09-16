@@ -1,6 +1,7 @@
 
 
 function print_global_val(varName){
+	eoc_type("ACTIVATION")
 	eobj( { u_message: "全局变量 "+varName+" 当前的值为 : <global_val:"+varName+">" })
 	//eobj( { u_message: {global_val:varName}})
 }
@@ -26,7 +27,7 @@ function CNPC_EOC_UpdateInitCurrHP(){
 	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 }
 
-//检测现有血量并触发get_hit
+//检测现有血量并触发take_damage
 function CNPC_EOC_CheckCurrHP(){
 	eoc_type("ACTIVATION")
 	mag1 = u_currhp;
@@ -38,23 +39,43 @@ function CNPC_EOC_CheckCurrHP(){
 	u_currhp = u_hp();
 }
 
-//尝试攻击触发的eoc
-function CNPC_EOC_HitEocs(){
+//尝试近战攻击触发的Eoc
+function CNPC_EOC_MeleeHitEvent(){
 	eoc_type("ACTIVATION")
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
-		//设置不在待机
-		u_notIdleOrMove=4;
-		//释放检测血量法术判断是否击中目标
-		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
-		has_target=0; //重置flag
-		//施放测试法术
-		eobj({
-			"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
-			"targeted":true
-		})
+		CNPC_EOC_HitEvent()
+
 		//运行动态生成的事件eoc
-		CNPC_EOC_CharCauseHit()
+		CNPC_EOC_CharCauseMeleeHit()
 	}
+}
+//尝试远程攻击触发的Eoc
+function CNPC_EOC_RangeHitEvent(){
+	eoc_type("ACTIVATION")
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		CNPC_EOC_HitEvent()
+
+		//运行动态生成的事件eoc
+		CNPC_EOC_CharCauseRangeHit()
+	}
+}
+
+//尝试攻击触发的eoc
+function CNPC_EOC_HitEvent(){
+	eoc_type("ACTIVATION")
+
+	//设置不在待机
+	u_notIdleOrMove=4;
+	//释放检测血量法术判断是否击中目标
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
+	has_target=0; //重置flag
+	//施放测试法术
+	eobj({
+		"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
+		"targeted":true
+	})
+	//运行动态生成的事件eoc
+	CNPC_EOC_CharCauseHit()
 }
 
 //生成基础npc
@@ -69,7 +90,7 @@ function CNPC_EOC_SpawnBaseNpc(){
 }
 
 //主循环函数 玩家
-function CNPC_EOC_Update(){
+function CNPC_EOC_PlayerUpdateEvent(){
 	recurrence(1);
 	CNPC_EOC_UpdateInitCurrHP();
 	update_stat();
@@ -78,7 +99,7 @@ function CNPC_EOC_Update(){
 }
 
 //主循环函数 全局
-function CNPC_EOC_GlobalUpdate(){
+function CNPC_EOC_GlobalUpdateEvent(){
 	recurrence(1);
 	global(true);
 	run_for_npcs(true);
@@ -87,10 +108,6 @@ function CNPC_EOC_GlobalUpdate(){
 		CNPC_EOC_CharUpdate();
 
 		//检测移动
-		eobj({
-			"set_string_var": { "u_val": "u_char_preloc" },
-			"target_var": { "global_val": "char_preloc" }
-		})
 		eobj({
 			"set_string_var": { "u_val": "u_char_preloc" },
 			"target_var": { "global_val": "char_preloc" }
@@ -112,6 +129,7 @@ function CNPC_EOC_GlobalUpdate(){
 			"target_var": { "u_val": "u_char_preloc" }
 		})
 
+		//如果不在做其他短时动作
 		if(u_notIdleOrMove<=0){
 			u_notIdleOrMove=0;
 			//触发移动事件

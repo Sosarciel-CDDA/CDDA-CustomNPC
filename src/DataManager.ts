@@ -15,7 +15,10 @@ import { AmmoID, ArmorID, GunID } from './CddaJsonFormat/Item';
 
 
 /**角色事件列表 */
-export const CharEvemtTypeList = ["CharIdle","CharMove","CharCauseHit","CharUpdate"] as const;
+export const CharEvemtTypeList = [
+    "CharIdle","CharMove","CharCauseHit","CharUpdate",
+    "CharCauseMeleeHit","CharCauseRangeHit"
+] as const;
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
 /**全局事件列表 */

@@ -9,11 +9,11 @@ import { FlagID } from './CddaJsonFormat/Flag';
 import { AmmiunitionTypeID } from './CddaJsonFormat/AmmiunitionType';
 import { AmmoID, ArmorID, GunID } from './CddaJsonFormat/Item';
 /**角色事件列表 */
-export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**主资源表 */
@@ -87,7 +87,7 @@ export declare class DataManager {
         /**输出数据 */
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 */
-        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate", Eoc>;
+        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit", Eoc>;
     };
     /**添加事件 */
     addEvent(etype: GlobalEventType, ...events: Eoc[]): void;

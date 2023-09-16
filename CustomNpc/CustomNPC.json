@@ -52,19 +52,45 @@
     "id": "CustomNPC_if2",
     "type": "effect_on_condition",
     "effect": [
+      {"run_eocs":"CNPC_EOC_HitEvent"},
+      {"run_eocs":"CNPC_EOC_CharCauseMeleeHit"}
+    ],
+    "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
+  },
+  {
+    "id": "CNPC_EOC_MeleeHitEvent",
+    "type": "effect_on_condition",
+    "effect": [
+      {"run_eocs":"CustomNPC_if2"}
+    ],
+    "eoc_type": "ACTIVATION"
+  },
+  {
+    "id": "CustomNPC_if3",
+    "type": "effect_on_condition",
+    "effect": [
+      {"run_eocs":"CNPC_EOC_HitEvent"},
+      {"run_eocs":"CNPC_EOC_CharCauseRangeHit"}
+    ],
+    "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
+  },
+  {
+    "id": "CNPC_EOC_RangeHitEvent",
+    "type": "effect_on_condition",
+    "effect": [
+      {"run_eocs":"CustomNPC_if3"}
+    ],
+    "eoc_type": "ACTIVATION"
+  },
+  {
+    "id": "CNPC_EOC_HitEvent",
+    "type": "effect_on_condition",
+    "effect": [
       {"math":["u_notIdleOrMove","=","4"]},
       {"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}},
       {"math":["has_target","=","0"]},
       {"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},"targeted":true},
       {"run_eocs":"CNPC_EOC_CharCauseHit"}
-    ],
-    "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
-  },
-  {
-    "id": "CNPC_EOC_HitEocs",
-    "type": "effect_on_condition",
-    "effect": [
-      {"run_eocs":"CustomNPC_if2"}
     ],
     "eoc_type": "ACTIVATION"
   },
@@ -86,7 +112,7 @@
     "recurrence": 1
   },
   {
-    "id": "CustomNPC_if4",
+    "id": "CustomNPC_if5",
     "type": "effect_on_condition",
     "effect": [
       {"math":["u_onMove","=","0"]}
@@ -97,7 +123,7 @@
     "condition": {"compare_string":[{"global_val":"char_preloc"},{"mutator":"loc_relative_u","target":"(0,1,0)"}]}
   },
   {
-    "id": "CustomNPC_if6",
+    "id": "CustomNPC_if7",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_CharMove"}
@@ -108,24 +134,23 @@
     "condition": {"math":["u_onMove",">=","1"]}
   },
   {
-    "id": "CustomNPC_if5",
+    "id": "CustomNPC_if6",
     "type": "effect_on_condition",
     "effect": [
       {"math":["u_notIdleOrMove","=","0"]},
-      {"run_eocs":"CustomNPC_if6"}
+      {"run_eocs":"CustomNPC_if7"}
     ],
     "condition": {"math":["u_notIdleOrMove","<=","0"]}
   },
   {
-    "id": "CustomNPC_if3",
+    "id": "CustomNPC_if4",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_CharUpdate"},
       {"set_string_var":{"u_val":"u_char_preloc"},"target_var":{"global_val":"char_preloc"}},
-      {"set_string_var":{"u_val":"u_char_preloc"},"target_var":{"global_val":"char_preloc"}},
-      {"run_eocs":"CustomNPC_if4"},
-      {"set_string_var":{"mutator":"loc_relative_u","target":"(0,1,0)"},"target_var":{"u_val":"u_char_preloc"}},
       {"run_eocs":"CustomNPC_if5"},
+      {"set_string_var":{"mutator":"loc_relative_u","target":"(0,1,0)"},"target_var":{"u_val":"u_char_preloc"}},
+      {"run_eocs":"CustomNPC_if6"},
       {"math":["u_notIdleOrMove","=","u_notIdleOrMove-1"]}
     ],
     "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
@@ -134,7 +159,7 @@
     "id": "CNPC_EOC_GlobalUpdate",
     "type": "effect_on_condition",
     "effect": [
-      {"run_eocs":"CustomNPC_if3"}
+      {"run_eocs":"CustomNPC_if4"}
     ],
     "recurrence": 1,
     "global": true,

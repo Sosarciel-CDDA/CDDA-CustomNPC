@@ -53,5 +53,23 @@
 		"condition": {
 			"u_has_trait": "CNPC_MUT_Asuna"
 		}
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharCauseMeleeHit_Asuna",
+		"effect": [],
+		"condition": {
+			"u_has_trait": "CNPC_MUT_Asuna"
+		}
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_CharCauseRangeHit_Asuna",
+		"effect": [],
+		"condition": {
+			"u_has_trait": "CNPC_MUT_Asuna"
+		}
 	}
 ]
