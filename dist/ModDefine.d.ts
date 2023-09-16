@@ -22,3 +22,5 @@ export declare function genSpellID(id: string): string;
 export declare function genMonsterID(id: string): string;
 /**生成适用于此mod的 材质类型 ID */
 export declare function genAmmiTypeID(id: string): string;
+/**生成适用于此mod的 FLAG ID */
+export declare function genFlagID(id: string): string;

@@ -80,8 +80,7 @@ export type VaildMod = [
 
 /**枪械可用的flag 列表 */
 export const GunFlagList = [
-    "NO_RELOAD"     ,//这个武器㞏装载
-    "NO_UNLOAD"     ,//这个武器无法卸载
+    "NO_UNLOAD"     ,//这个武器无法卸载弹药
     "NEEDS_NO_LUBE" ,//不需要润滑油
     "NEVER_JAMS"    ,//不会故障
     "NON_FOULING"   ,//枪不会变脏或被黑火药污染。

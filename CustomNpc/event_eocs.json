@@ -2,10 +2,16 @@
 	{
 		"type": "effect_on_condition",
 		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_PlayerUpdate",
+		"effect": []
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
 		"id": "CNPC_EOC_CharIdle",
 		"effect": [
 			{
-				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Idle"
+				"run_eocs": "CNPC_EOC_CharIdle_Asuna"
 			}
 		]
 	},
@@ -15,7 +21,7 @@
 		"id": "CNPC_EOC_CharMove",
 		"effect": [
 			{
-				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Move"
+				"run_eocs": "CNPC_EOC_CharMove_Asuna"
 			}
 		]
 	},
@@ -25,7 +31,7 @@
 		"id": "CNPC_EOC_CharCauseHit",
 		"effect": [
 			{
-				"run_eocs": "CNPC_EOC_ChangeAnimEoc_Attack"
+				"run_eocs": "CNPC_EOC_CharCauseHit_Asuna"
 			}
 		]
 	},
@@ -33,6 +39,10 @@
 		"type": "effect_on_condition",
 		"eoc_type": "ACTIVATION",
 		"id": "CNPC_EOC_CharUpdate",
-		"effect": []
+		"effect": [
+			{
+				"run_eocs": "CNPC_EOC_CharUpdate_Asuna"
+			}
+		]
 	}
 ]

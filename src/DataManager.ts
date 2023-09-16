@@ -3,15 +3,18 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
+import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
 import { EOC } from './CddaJsonFormat/EOC';
 
 
-/**事件列表 */
-export const EvemtTypeList = ["CharIdle","CharMove","CharCauseHit","CharUpdate"] as const;
-/**事件类型 */
-export type EventType = typeof EvemtTypeList[number];
-
+/**角色事件列表 */
+export const CharEvemtTypeList = ["CharIdle","CharMove","CharCauseHit","CharUpdate"] as const;
+/**角色事件类型 */
+export type CharEventType = typeof CharEvemtTypeList[number];
+/**全局事件列表 */
+export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList] as const;
+/**全局事件 */
+export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
 /**主资源表 */
 export type DataTable={
@@ -21,11 +24,13 @@ export type DataTable={
         baseData:CharData;
         /**输出数据 */
         outData:Record<string,JArray>;
+        /**输出的角色Eoc事件 */
+        charEventEocs:Record<CharEventType,EOC>;
     }>;
     /**输出的静态数据表 */
     staticTable:Record<string,JObject>;
     /**输出的Eoc事件 */
-    eventEocs:Record<EventType,EOC>;
+    eventEocs:Record<GlobalEventType,EOC>;
 }
 export class DataManager{
     /**资源目录 */
@@ -40,7 +45,7 @@ export class DataManager{
     private dataTable:DataTable={
         charTable:{},
         staticTable:{},
-        eventEocs:EvemtTypeList.reduce((acc,item)=>{
+        eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
             const subEoc:EOC={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
@@ -50,7 +55,7 @@ export class DataManager{
             return {
                 ...acc,
                 [item]:subEoc
-        }},{} as Record<EventType,EOC>)
+        }},{} as Record<GlobalEventType,EOC>)
     }
     constructor(outPath?:string,dataPath?:string){
         this.dataTable.staticTable = Object.assign({},
@@ -95,14 +100,34 @@ export class DataManager{
                 baseAmmoID          : genAmmoID(charName),
                 baseAmmoTypeID      : genAmmiTypeID(charName+"Ammo"),
                 baseWeaponGroupID   : genItemGroupID(`${charName}Weapon`),
+                baseWeaponFlagID    : genFlagID(`${charName}Weapon`),
             }
-            this.dataTable.charTable[charName] = {baseData,outData:{}}
+
+            const charEventEocs = CharEvemtTypeList.reduce((acc,item)=>{
+                const subEoc:EOC={
+                    type:"effect_on_condition",
+                    eoc_type:"ACTIVATION",
+                    id:genEOCID(`${item}_${charName}`),
+                    effect:[],
+                    condition:{u_has_trait:baseData.baseMutID}
+                }
+                return {
+                    ...acc,
+                    [item]:subEoc
+            }},{} as Record<CharEventType,EOC>)
+            this.dataTable.charTable[charName] = {baseData,outData:{},charEventEocs}
         }
         return this.dataTable.charTable[charName];
     }
     /**添加事件 */
-    addEvent(etype:EventType,...events:EOC[]){
+    addEvent(etype:GlobalEventType,...events:EOC[]){
         this.dataTable.eventEocs[etype].effect?.push(
+            ...events.map(eoc=>({"run_eocs":eoc.id}))
+        );
+    }
+    /**添加角色事件 */
+    addCharEvent(charName:string,etype:CharEventType,...events:EOC[]){
+        this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(
             ...events.map(eoc=>({"run_eocs":eoc.id}))
         );
     }
@@ -143,20 +168,32 @@ export class DataManager{
             //await
             this.saveToFile(key,obj);
         }
-        //导出事件EOC
-        const eventEocs:EOC[]=[];
-        for(const etype in this.dataTable.eventEocs)
-            eventEocs.push(this.dataTable.eventEocs[etype as EventType]);
-        this.saveToFile('event_eocs',eventEocs);
         //导出角色数据
         for(let charName in this.dataTable.charTable){
-            const charOutData = this.dataTable.charTable[charName].outData;
+            const charData = this.dataTable.charTable[charName];
+            const charOutData = charData.outData;
             for(let key in charOutData){
                 let obj = charOutData[key];
                 //await
                 this.saveToCharFile(charName,key,obj);
             }
+            //导出角色EOC
+            const charEvent = charData.charEventEocs;
+            const charEventEocs:EOC[]=[];
+            for(const etype in charEvent){
+                const et = etype as CharEventType;
+                const ce = charEvent[et];
+                charEventEocs.push(ce);
+                this.addEvent(et,ce);
+            }
+            this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
         }
+        //导出全局EOC
+        const globalEvent = this.dataTable.eventEocs;
+        const eventEocs:EOC[]=[];
+        for(const etype in globalEvent)
+            eventEocs.push(globalEvent[etype as GlobalEventType]);
+        this.saveToFile('event_eocs',eventEocs);
     }
 }
 
@@ -185,6 +222,8 @@ export type CharData=Readonly<{
     baseAmmoTypeID: string;
     /**基础武器物品组ID */
     baseWeaponGroupID: string;
+    /**基础武器Flag ID */
+    baseWeaponFlagID: string;
 }>;
 
 /**动画数据 */

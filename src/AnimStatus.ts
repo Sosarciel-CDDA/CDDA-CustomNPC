@@ -1,6 +1,6 @@
 import { JArray } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { CharData, DataManager, EventType } from "./DataManager";
+import { CharData, DataManager, CharEventType } from "./DataManager";
 import * as path from 'path';
 import { EOC } from "./CddaJsonFormat/EOC";
 import { genEOCID } from "./ModDefine";
@@ -48,7 +48,7 @@ export function changeAnimEoc(baseData:CharData,animType:AnimType){
 export function createAnimStatus(dm:DataManager,charName:string){
     const {baseData,outData} = dm.getCharData(charName);
     const eocList:EOC[] = [];
-    const animEventMap:Record<AnimType,EventType|undefined>={
+    const animEventMap:Record<AnimType,CharEventType|undefined>={
         Move:"CharMove",
         Attack:"CharCauseHit",
         Idle:"CharIdle",
@@ -61,7 +61,7 @@ export function createAnimStatus(dm:DataManager,charName:string){
             eocList.push(...eocs);
             const eventName = animEventMap[animType];
             if(eventName!=null && eocs!=null)
-                dm.addEvent(eventName,eocs[0]);
+                dm.addCharEvent(charName,eventName,eocs[0]);
         }
     }
     outData['anim_status'] = eocList;

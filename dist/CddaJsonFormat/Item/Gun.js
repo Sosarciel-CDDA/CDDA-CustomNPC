@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GunFlagList = void 0;
 /**枪械可用的flag 列表 */
 exports.GunFlagList = [
-    "NO_RELOAD",
     "NO_UNLOAD",
     "NEEDS_NO_LUBE",
     "NEVER_JAMS",

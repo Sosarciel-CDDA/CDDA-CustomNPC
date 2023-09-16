@@ -100,7 +100,8 @@
 			"NEVER_JAMS",
 			"NON_FOULING",
 			"NEEDS_NO_LUBE",
-			"TRADER_KEEP"
+			"TRADER_KEEP",
+			"CNPC_FLAG_AsunaWeapon"
 		],
 		"countdown_interval": 1,
 		"range": 30,
@@ -139,5 +140,42 @@
 		"items": [
 			"CNPC_GENERIC_AsunaWeapon"
 		]
+	},
+	{
+		"type": "effect_on_condition",
+		"id": "CNPC_EOC_DropOtherWeapon",
+		"condition": {
+			"and": [
+				"u_can_drop_weapon",
+				{
+					"not": {
+						"u_has_wielded_with_flag": "CNPC_FLAG_AsunaWeapon"
+					}
+				}
+			]
+		},
+		"effect": [
+			"drop_weapon"
+		],
+		"eoc_type": "ACTIVATION"
+	},
+	{
+		"type": "effect_on_condition",
+		"eoc_type": "ACTIVATION",
+		"id": "CNPC_EOC_GiveWeapon",
+		"condition": {
+			"not": {
+				"u_has_item": "CNPC_GENERIC_AsunaWeapon"
+			}
+		},
+		"effect": [
+			{
+				"u_spawn_item": "CNPC_GENERIC_AsunaWeapon"
+			}
+		]
+	},
+	{
+		"type": "json_flag",
+		"id": "CNPC_FLAG_AsunaWeapon"
 	}
 ]

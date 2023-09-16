@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const CddaJsonFormat_1 = require("./CddaJsonFormat");
+const ModDefine_1 = require("./ModDefine");
 function createCharEquip(dm, charName) {
     const { baseData, outData } = dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
@@ -64,7 +65,8 @@ function createCharEquip(dm, charName) {
         symbol: "O",
         looks_like: TransparentItem,
         flags: ["ZERO_WEIGHT", "ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
-            "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_KEEP"],
+            "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_KEEP",
+            baseData.baseWeaponFlagID],
         countdown_interval: 1,
         range: 30,
         ranged_damage: {
@@ -102,6 +104,35 @@ function createCharEquip(dm, charName) {
         subtype: "collection",
         items: [baseData.baseWeaponID],
     };
-    outData['equip'] = [baseMut, baseArmor, baseWeapon, baseAmmoType, baseAmmo, baseItemGroup];
+    /**基础武器的识别flag */
+    const baseWeaponFlag = {
+        type: "json_flag",
+        id: baseData.baseWeaponFlagID,
+    };
+    /**丢掉其他武器 */
+    const dropOtherWeapon = {
+        type: "effect_on_condition",
+        id: (0, ModDefine_1.genEOCID)("DropOtherWeapon"),
+        condition: { and: [
+                "u_can_drop_weapon",
+                { not: { u_has_wielded_with_flag: baseData.baseWeaponFlagID } }
+            ] },
+        effect: [
+            "drop_weapon"
+        ],
+        eoc_type: "ACTIVATION",
+    };
+    /**如果没武器则给予 */
+    const giveWeapon = {
+        type: "effect_on_condition",
+        eoc_type: "ACTIVATION",
+        id: (0, ModDefine_1.genEOCID)("GiveWeapon"),
+        condition: { not: { u_has_item: baseData.baseWeaponID } },
+        effect: [
+            { u_spawn_item: baseData.baseWeaponID }
+        ]
+    };
+    dm.addCharEvent(charName, "CharUpdate", dropOtherWeapon, giveWeapon);
+    outData['equip'] = [baseMut, baseArmor, baseWeapon, baseAmmoType, baseAmmo, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
 }
 exports.createCharEquip = createCharEquip;

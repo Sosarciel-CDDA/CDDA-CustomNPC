@@ -69,10 +69,12 @@ function CNPC_EOC_SpawnBaseNpc(){
 }
 
 //主循环函数 玩家
-function CNPC_EOC_PlayerUpdate(){
+function CNPC_EOC_Update(){
 	recurrence(1);
 	CNPC_EOC_UpdateInitCurrHP();
 	update_stat();
+	//运行动态生成的事件eoc
+	CNPC_EOC_PlayerUpdate();
 }
 
 //主循环函数 全局

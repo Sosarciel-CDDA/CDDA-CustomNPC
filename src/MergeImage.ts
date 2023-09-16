@@ -76,6 +76,7 @@ export async function mergeImage(dm:DataManager,charName:string){
         //写入动画数据
         await UtilFT.writeJSONFile(path.join(tmpMthPath,animName),{
             id:`overlay_worn_${animData.armorID}`,
+            //id:`overlay_mutation_${animData.mutID}`,
             fg:animages,
             animated: true,
         });

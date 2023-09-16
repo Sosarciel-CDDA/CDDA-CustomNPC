@@ -14,6 +14,7 @@ export type ItemGroup = {
 } | {
     groups?: ItemGroupEntrieQuick[];
 });
+/**一个物品Entry */
 type ItemGroupEntrie = (ItemGroupEntrieItem | ItemGroupEntrieGroup | ItemGroupEntrieDist | ItemGroupEntrieColl) & ItemGroupEntrieOpt;
 type ItemGroupEntrieItem = {
     item: string;
@@ -27,6 +28,7 @@ type ItemGroupEntrieDist = {
 type ItemGroupEntrieColl = {
     collection: ItemGroupEntrie[];
 };
+/**物品Entry的可选项 */
 type ItemGroupEntrieOpt = Partial<{
     /**概率 */
     prob: number;
@@ -64,6 +66,7 @@ type ItemGroupEntrieOpt = Partial<{
     artifact: Object;
     event: ItemGroutEvent;
 }>;
+/**可用的生成时间点 */
 type ItemGroutEvent = "none" | "new_year" | "easter" | "independence_day" | "halloween" | "thanksgiving" | "christmas";
 /** 物品id 或者 [物品id,概率]*/
 type ItemGroupEntrieQuick = string | [string, number];

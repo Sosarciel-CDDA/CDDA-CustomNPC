@@ -7,3 +7,4 @@ export * from './Mutattion';
 export * from './GenericDefine';
 export * from './Monster';
 export * from './AmmiunitionType';
+export * from './Flag';

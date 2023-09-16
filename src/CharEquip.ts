@@ -1,5 +1,6 @@
-import { AmmiunitionType, Ammo, Armor, BodyPartList, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { AmmiunitionType, Ammo, Armor, BodyPartList, EOC, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
+import { genEOCID } from "./ModDefine";
 
 
 export function createCharEquip(dm:DataManager,charName:string){
@@ -64,7 +65,8 @@ export function createCharEquip(dm:DataManager,charName:string){
         symbol:"O",
         looks_like:TransparentItem,
         flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
-            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP"],
+            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP",
+            (baseData.baseWeaponFlagID as any)],
         countdown_interval: 1,
         range:30,
         ranged_damage:{
@@ -102,5 +104,34 @@ export function createCharEquip(dm:DataManager,charName:string){
         subtype:"collection",
         items:[baseData.baseWeaponID],
     }
-    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseAmmoType,baseAmmo,baseItemGroup];
+    /**基础武器的识别flag */
+    const baseWeaponFlag:Flag={
+        type:"json_flag",
+        id:baseData.baseWeaponFlagID,
+    }
+    /**丢掉其他武器 */
+    const dropOtherWeapon:EOC={
+        type:"effect_on_condition",
+        id:genEOCID("DropOtherWeapon"),
+        condition:{and:[
+            "u_can_drop_weapon",
+            {not:{u_has_wielded_with_flag: baseData.baseWeaponFlagID}}
+        ]},
+        effect:[
+            "drop_weapon"
+        ],
+        eoc_type:"ACTIVATION",
+    }
+    /**如果没武器则给予 */
+    const giveWeapon:EOC={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID("GiveWeapon"),
+        condition:{not:{ u_has_item: baseData.baseWeaponID }},
+        effect:[
+            {u_spawn_item:baseData.baseWeaponID}
+        ]
+    }
+    dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
+    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseAmmoType,baseAmmo,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
 }

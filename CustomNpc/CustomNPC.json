@@ -76,11 +76,12 @@
     ]
   },
   {
-    "id": "CNPC_EOC_PlayerUpdate",
+    "id": "CNPC_EOC_Update",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_UpdateInitCurrHP"},
-      {"run_eocs":"update_stat"}
+      {"run_eocs":"update_stat"},
+      {"run_eocs":"CNPC_EOC_PlayerUpdate"}
     ],
     "recurrence": 1
   },

@@ -45,3 +45,7 @@ export function genMonsterID(id:string){
 export function genAmmiTypeID(id:string){
     return `${MOD_PREFIX}_AMMITYPE_${id}`;
 }
+/**生成适用于此mod的 FLAG ID */
+export function genFlagID(id:string){
+    return `${MOD_PREFIX}_FLAG_${id}`;
+}

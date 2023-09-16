@@ -76,7 +76,7 @@ export type VaildMod = [
     number
 ];
 /**枪械可用的flag 列表 */
-export declare const GunFlagList: readonly ["NO_RELOAD", "NO_UNLOAD", "NEEDS_NO_LUBE", "NEVER_JAMS", "NON_FOULING"];
+export declare const GunFlagList: readonly ["NO_UNLOAD", "NEEDS_NO_LUBE", "NEVER_JAMS", "NON_FOULING"];
 /**枪械可用的flag */
 export type GunFlag = typeof GunFlagList[number] | GenericFlag;
 /**

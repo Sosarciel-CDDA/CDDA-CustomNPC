@@ -1,14 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataManager = exports.EvemtTypeList = void 0;
+exports.DataManager = exports.GlobalEvemtTypeList = exports.CharEvemtTypeList = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
 const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
-/**事件列表 */
-exports.EvemtTypeList = ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+/**角色事件列表 */
+exports.CharEvemtTypeList = ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+/**全局事件列表 */
+exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList];
 class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
@@ -22,7 +24,7 @@ class DataManager {
     dataTable = {
         charTable: {},
         staticTable: {},
-        eventEocs: exports.EvemtTypeList.reduce((acc, item) => {
+        eventEocs: exports.GlobalEvemtTypeList.reduce((acc, item) => {
             const subEoc = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
@@ -72,14 +74,32 @@ class DataManager {
                 baseAmmoID: (0, ModDefine_1.genAmmoID)(charName),
                 baseAmmoTypeID: (0, ModDefine_1.genAmmiTypeID)(charName + "Ammo"),
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
+                baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}Weapon`),
             };
-            this.dataTable.charTable[charName] = { baseData, outData: {} };
+            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, item) => {
+                const subEoc = {
+                    type: "effect_on_condition",
+                    eoc_type: "ACTIVATION",
+                    id: (0, ModDefine_1.genEOCID)(`${item}_${charName}`),
+                    effect: [],
+                    condition: { u_has_trait: baseData.baseMutID }
+                };
+                return {
+                    ...acc,
+                    [item]: subEoc
+                };
+            }, {});
+            this.dataTable.charTable[charName] = { baseData, outData: {}, charEventEocs };
         }
         return this.dataTable.charTable[charName];
     }
     /**添加事件 */
     addEvent(etype, ...events) {
         this.dataTable.eventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
+    }
+    /**添加角色事件 */
+    addCharEvent(charName, etype, ...events) {
+        this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -115,20 +135,32 @@ class DataManager {
             //await
             this.saveToFile(key, obj);
         }
-        //导出事件EOC
-        const eventEocs = [];
-        for (const etype in this.dataTable.eventEocs)
-            eventEocs.push(this.dataTable.eventEocs[etype]);
-        this.saveToFile('event_eocs', eventEocs);
         //导出角色数据
         for (let charName in this.dataTable.charTable) {
-            const charOutData = this.dataTable.charTable[charName].outData;
+            const charData = this.dataTable.charTable[charName];
+            const charOutData = charData.outData;
             for (let key in charOutData) {
                 let obj = charOutData[key];
                 //await
                 this.saveToCharFile(charName, key, obj);
             }
+            //导出角色EOC
+            const charEvent = charData.charEventEocs;
+            const charEventEocs = [];
+            for (const etype in charEvent) {
+                const et = etype;
+                const ce = charEvent[et];
+                charEventEocs.push(ce);
+                this.addEvent(et, ce);
+            }
+            this.saveToCharFile(charName, 'char_event_eocs', charEventEocs);
         }
+        //导出全局EOC
+        const globalEvent = this.dataTable.eventEocs;
+        const eventEocs = [];
+        for (const etype in globalEvent)
+            eventEocs.push(globalEvent[etype]);
+        this.saveToFile('event_eocs', eventEocs);
     }
 }
 exports.DataManager = DataManager;

@@ -1,10 +1,14 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
 import { EOC } from './CddaJsonFormat/EOC';
-/**事件列表 */
-export declare const EvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
-/**事件类型 */
-export type EventType = typeof EvemtTypeList[number];
+/**角色事件列表 */
+export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+/**角色事件类型 */
+export type CharEventType = typeof CharEvemtTypeList[number];
+/**全局事件列表 */
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate"];
+/**全局事件 */
+export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
@@ -13,11 +17,13 @@ export type DataTable = {
         baseData: CharData;
         /**输出数据 */
         outData: Record<string, JArray>;
+        /**输出的角色Eoc事件 */
+        charEventEocs: Record<CharEventType, EOC>;
     }>;
     /**输出的静态数据表 */
     staticTable: Record<string, JObject>;
     /**输出的Eoc事件 */
-    eventEocs: Record<EventType, EOC>;
+    eventEocs: Record<GlobalEventType, EOC>;
 };
 export declare class DataManager {
     /**资源目录 */
@@ -68,12 +74,18 @@ export declare class DataManager {
             baseAmmoTypeID: string;
             /**基础武器物品组ID */
             baseWeaponGroupID: string;
+            /**基础武器Flag ID */
+            baseWeaponFlagID: string;
         }>;
         /**输出数据 */
         outData: Record<string, JArray>;
+        /**输出的角色Eoc事件 */
+        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate", EOC>;
     };
     /**添加事件 */
-    addEvent(etype: EventType, ...events: EOC[]): void;
+    addEvent(etype: GlobalEventType, ...events: EOC[]): void;
+    /**添加角色事件 */
+    addCharEvent(charName: string, etype: CharEventType, ...events: EOC[]): void;
     /**获取 角色目录 */
     getCharPath(charName: string): string;
     /**获取 角色图片目录 */
@@ -111,6 +123,8 @@ export type CharData = Readonly<{
     baseAmmoTypeID: string;
     /**基础武器物品组ID */
     baseWeaponGroupID: string;
+    /**基础武器Flag ID */
+    baseWeaponFlagID: string;
 }>;
 /**动画数据 */
 export type AnimData = Readonly<{
