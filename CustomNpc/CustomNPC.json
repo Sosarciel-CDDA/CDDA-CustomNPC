@@ -102,7 +102,7 @@
     ]
   },
   {
-    "id": "CNPC_EOC_Update",
+    "id": "CNPC_EOC_PlayerUpdateEvent",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CNPC_EOC_UpdateInitCurrHP"},
@@ -156,7 +156,7 @@
     "condition": {"u_has_trait":"CNPC_MUT_CnpcFlag"}
   },
   {
-    "id": "CNPC_EOC_GlobalUpdate",
+    "id": "CNPC_EOC_GlobalUpdateEvent",
     "type": "effect_on_condition",
     "effect": [
       {"run_eocs":"CustomNPC_if4"}

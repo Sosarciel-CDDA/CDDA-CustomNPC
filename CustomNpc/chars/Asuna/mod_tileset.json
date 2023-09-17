@@ -8,7 +8,7 @@
 		],
 		"tiles-new": [
 			{
-				"file": "AsunaIdle.png",
+				"file": "chars\\Asuna\\anim\\AsunaIdle.png",
 				"//": "range 1 to 207",
 				"sprite_width": 128,
 				"sprite_height": 160,
@@ -825,7 +825,7 @@
 				]
 			},
 			{
-				"file": "AsunaMove.png",
+				"file": "chars\\Asuna\\anim\\AsunaMove.png",
 				"//": "range 208 to 271",
 				"sprite_width": 128,
 				"sprite_height": 160,
@@ -1082,7 +1082,7 @@
 				]
 			},
 			{
-				"file": "AsunaAttack.png",
+				"file": "chars\\Asuna\\anim\\AsunaAttack.png",
 				"//": "range 272 to 671",
 				"sprite_width": 128,
 				"sprite_height": 160,

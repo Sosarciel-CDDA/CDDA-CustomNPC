@@ -142,7 +142,8 @@ function CNPC_EOC_GlobalUpdateEvent(){
 			}
 		}
 		u_notIdleOrMove=u_notIdleOrMove-1;
-	}
+	}else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
+		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" })
 }
 
 

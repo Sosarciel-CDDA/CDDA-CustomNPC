@@ -4,7 +4,7 @@ import { createCharClass } from "./CharClass";
 import { createAnimTool } from "./AnimTool";
 import { createCharEquip } from "./CharEquip";
 import { createAnimStatus } from "./AnimStatus";
-import { UtilFT } from "@zwa73/utils";
+import { UtilFT, UtilFunc } from "@zwa73/utils";
 
 
 
@@ -19,14 +19,15 @@ export async function buildChar(dm:DataManager,charName:string){
 
 
 
-
 export async function main(){
-    const dm = new DataManager();
+    const dm = await DataManager.create();
     const plist:Promise<void>[] = []
     for(let charName of dm.charList)
         plist.push(buildChar(dm,charName));
     await Promise.all(plist);
-    dm.saveAllData();
+    await dm.saveAllData();
+    const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ./eocscript --output ${dm.outPath}`)
+    console.log(stdout);
 }
 
 

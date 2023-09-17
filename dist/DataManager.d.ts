@@ -1,4 +1,4 @@
-import { JArray, JObject, JToken } from '@zwa73/utils';
+import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
 import { Eoc } from './CddaJsonFormat/EOC';
 import { MutationID } from './CddaJsonFormat/Mutattion';
@@ -28,9 +28,21 @@ export type DataTable = {
         charEventEocs: Record<CharEventType, Eoc>;
     }>;
     /**输出的静态数据表 */
-    staticTable: Record<string, JObject>;
+    staticTable: Record<string, JArray>;
     /**输出的Eoc事件 */
     eventEocs: Record<GlobalEventType, Eoc>;
+};
+/**build配置 */
+export type BuildSetting = {
+    /**游戏目录 */
+    game_path: string;
+    /**游戏贴图包目录名 */
+    target_gfx: string;
+};
+/**游戏数据 */
+export type GameData = {
+    /**贴图包ID */
+    gfx_name: string;
 };
 export declare class DataManager {
     /**资源目录 */
@@ -41,9 +53,22 @@ export declare class DataManager {
     charPath: string;
     /**角色列表 */
     charList: string[];
+    /**build设置 */
+    buildSetting: BuildSetting;
+    /**游戏数据 */
+    gameData: GameData;
     /**主资源表 */
     private dataTable;
-    constructor(outPath?: string, dataPath?: string);
+    /**
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    private constructor();
+    /**静态构造函数
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    static create(dataPath?: string, outPath?: string): Promise<DataManager>;
     /**获取角色表 如无则初始化 */
     getCharData(charName: string): {
         /**角色基础数据 */

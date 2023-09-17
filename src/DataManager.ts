@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGenericID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
+import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
 import { Eoc } from './CddaJsonFormat/EOC';
 import { MutationID } from './CddaJsonFormat/Mutattion';
 import { ItemGroupID } from './CddaJsonFormat/ItemGroup';
@@ -38,19 +38,38 @@ export type DataTable={
         charEventEocs:Record<CharEventType,Eoc>;
     }>;
     /**输出的静态数据表 */
-    staticTable:Record<string,JObject>;
+    staticTable:Record<string,JArray>;
     /**输出的Eoc事件 */
     eventEocs:Record<GlobalEventType,Eoc>;
 }
+
+/**build配置 */
+export type BuildSetting={
+    /**游戏目录 */
+    game_path:string;
+    /**游戏贴图包目录名 */
+    target_gfx:string;
+}
+
+/**游戏数据 */
+export type GameData={
+    /**贴图包ID */
+    gfx_name:string;
+}
+
 export class DataManager{
     /**资源目录 */
     dataPath = path.join(process.cwd(),'data');
     /**输出目录 */
-    outPath = path.join(process.cwd(),'CustomNPC');
+    outPath:string;// = path.join(process.cwd(),'CustomNPC');
     /**角色目录 */
     charPath:string;
     /**角色列表 */
     charList:string[];
+    /**build设置 */
+    buildSetting:BuildSetting = null as any;
+    /**游戏数据 */
+    gameData:GameData = null as any;
     /**主资源表 */
     private dataTable:DataTable={
         charTable:{},
@@ -67,11 +86,17 @@ export class DataManager{
                 [item]:subEoc
         }},{} as Record<GlobalEventType,Eoc>)
     }
-    constructor(outPath?:string,dataPath?:string){
+    /**
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    private constructor(dataPath?:string,outPath?:string){
+        //合并静态数据
         this.dataTable.staticTable = Object.assign({},
             this.dataTable.staticTable,StaticDataMap);
 
-        this.outPath  = outPath||this.outPath;
+        //初始化资源io路径
+        this.outPath  = outPath as any;
         this.dataPath = dataPath||this.dataPath;
 
         this.charPath = path.join(this.dataPath,'chars');
@@ -81,6 +106,56 @@ export class DataManager{
             if(fs.statSync(filePath).isDirectory())
                 return true;
         });
+    }
+    /**静态构造函数
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    static async create(dataPath?:string,outPath?:string):Promise<DataManager>{
+        let dm = new DataManager(dataPath,outPath);
+        //读取build设置
+        dm.buildSetting = (await UtilFT.loadJSONFile(path.join(dm.dataPath,'build_setting')))as BuildSetting;
+        const bs = dm.buildSetting;
+        dm.outPath = dm.outPath || path.join(bs.game_path,'data','mods','CustomNPC');
+
+        //处理贴图包
+        const gfxPath = path.join(bs.game_path,'gfx',bs.target_gfx);
+        const gfxTilesetTxtPath = path.join(gfxPath,'tileset.txt');
+        const text = (await fs.promises.readFile(gfxTilesetTxtPath,"utf-8"));
+        const match = text.match(/NAME: (.*?)$/m);
+        if(match==null) throw "未找到目标贴图包NAME path:"+gfxTilesetTxtPath;
+        dm.gameData={
+            gfx_name:match[1],
+        }
+        //读取贴图包设置备份 无则创建
+        let tileConfig:Record<string,any>;
+        if((await UtilFT.pathExists(path.join(gfxPath,'tile_config_backup.json'))))
+            tileConfig = await UtilFT.loadJSONFile(path.join(gfxPath,'tile_config_backup'));
+        else{
+            tileConfig = await UtilFT.loadJSONFile(path.join(gfxPath,'tile_config'));
+            await UtilFT.writeJSONFile(path.join(gfxPath,'tile_config_backup'),tileConfig);
+        }
+        //寻找npc素体 并将ID改为变异素体
+        let findMale = false;
+        let findFemale = false;
+        const fileObjList = tileConfig["tiles-new"] as any[];
+        for(const fileObj of fileObjList){
+            const tilesList = (fileObj.tiles as any[])
+            for(const tilesObj of tilesList){
+                if(tilesObj.id=="npc_female"){
+                    tilesObj.id = `overlay_female_mutation_${genMutationID("BaseBody")}`
+                    findFemale=true;
+                }else if (tilesObj.id=="npc_male"){
+                    tilesObj.id = `overlay_male_mutation_${genMutationID("BaseBody")}`
+                    findMale=true;
+                }
+                if(findMale&&findFemale) break;
+            }
+            if(findMale&&findFemale) break;
+        }
+        if(!(findMale&&findFemale)) console.log("未找到贴图包素体");
+        await UtilFT.writeJSONFile(path.join(gfxPath,'tile_config'),tileConfig);
+        return dm;
     }
 
     /**获取角色表 如无则初始化 */

@@ -18,11 +18,15 @@ class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
     /**输出目录 */
-    outPath = path.join(process.cwd(), 'CustomNPC');
+    outPath; // = path.join(process.cwd(),'CustomNPC');
     /**角色目录 */
     charPath;
     /**角色列表 */
     charList;
+    /**build设置 */
+    buildSetting = null;
+    /**游戏数据 */
+    gameData = null;
     /**主资源表 */
     dataTable = {
         charTable: {},
@@ -40,9 +44,15 @@ class DataManager {
             };
         }, {})
     };
-    constructor(outPath, dataPath) {
+    /**
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    constructor(dataPath, outPath) {
+        //合并静态数据
         this.dataTable.staticTable = Object.assign({}, this.dataTable.staticTable, StaticData_1.StaticDataMap);
-        this.outPath = outPath || this.outPath;
+        //初始化资源io路径
+        this.outPath = outPath;
         this.dataPath = dataPath || this.dataPath;
         this.charPath = path.join(this.dataPath, 'chars');
         this.charList = fs.readdirSync(this.charPath).filter(fileName => {
@@ -50,6 +60,60 @@ class DataManager {
             if (fs.statSync(filePath).isDirectory())
                 return true;
         });
+    }
+    /**静态构造函数
+     * @param dataPath 输入数据路径
+     * @param outPath  输出数据路径
+     */
+    static async create(dataPath, outPath) {
+        let dm = new DataManager(dataPath, outPath);
+        //读取build设置
+        dm.buildSetting = (await utils_1.UtilFT.loadJSONFile(path.join(dm.dataPath, 'build_setting')));
+        const bs = dm.buildSetting;
+        dm.outPath = dm.outPath || path.join(bs.game_path, 'data', 'mods', 'CustomNPC');
+        //处理贴图包
+        const gfxPath = path.join(bs.game_path, 'gfx', bs.target_gfx);
+        const gfxTilesetTxtPath = path.join(gfxPath, 'tileset.txt');
+        const text = (await fs.promises.readFile(gfxTilesetTxtPath, "utf-8"));
+        const match = text.match(/NAME: (.*?)$/m);
+        if (match == null)
+            throw "未找到目标贴图包NAME path:" + gfxTilesetTxtPath;
+        dm.gameData = {
+            gfx_name: match[1],
+        };
+        //读取贴图包设置备份 无则创建
+        let tileConfig;
+        if ((await utils_1.UtilFT.pathExists(path.join(gfxPath, 'tile_config_backup.json'))))
+            tileConfig = await utils_1.UtilFT.loadJSONFile(path.join(gfxPath, 'tile_config_backup'));
+        else {
+            tileConfig = await utils_1.UtilFT.loadJSONFile(path.join(gfxPath, 'tile_config'));
+            await utils_1.UtilFT.writeJSONFile(path.join(gfxPath, 'tile_config_backup'), tileConfig);
+        }
+        //寻找npc素体 并将ID改为变异素体
+        let findMale = false;
+        let findFemale = false;
+        const fileObjList = tileConfig["tiles-new"];
+        for (const fileObj of fileObjList) {
+            const tilesList = fileObj.tiles;
+            for (const tilesObj of tilesList) {
+                if (tilesObj.id == "npc_female") {
+                    tilesObj.id = `overlay_female_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
+                    findFemale = true;
+                }
+                else if (tilesObj.id == "npc_male") {
+                    tilesObj.id = `overlay_male_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
+                    findMale = true;
+                }
+                if (findMale && findFemale)
+                    break;
+            }
+            if (findMale && findFemale)
+                break;
+        }
+        if (!(findMale && findFemale))
+            console.log("未找到贴图包素体");
+        await utils_1.UtilFT.writeJSONFile(path.join(gfxPath, 'tile_config'), tileConfig);
+        return dm;
     }
     /**获取角色表 如无则初始化 */
     getCharData(charName) {

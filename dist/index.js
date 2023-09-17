@@ -32,12 +32,14 @@ async function buildChar(dm, charName) {
 }
 exports.buildChar = buildChar;
 async function main() {
-    const dm = new DataManager_1.DataManager();
+    const dm = await DataManager_1.DataManager.create();
     const plist = [];
     for (let charName of dm.charList)
         plist.push(buildChar(dm, charName));
     await Promise.all(plist);
-    dm.saveAllData();
+    await dm.saveAllData();
+    const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ./eocscript --output ${dm.outPath}`);
+    console.log(stdout);
 }
 exports.main = main;
 main();

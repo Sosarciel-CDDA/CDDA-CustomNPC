@@ -3,6 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
+import { OverlayOrdering } from "./CddaJsonFormat/OverlayOrdering";
 
 
 
@@ -29,11 +30,17 @@ export async function mergeImage(dm:DataManager,charName:string){
     //检查是否有Idle动作
     if(info.Idle==null) throw `${charName} 必须要有Idle动画`;
 
+    //提供给打包脚本的info
     const tmpInfo:any[] = [{
         "width": 32,            // default sprite size
         "height": 32,
         "pixelscale": 1         //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
     }];
+    //显示层级
+    const ordering:OverlayOrdering={
+        type: "overlay_order",
+        overlay_ordering: []
+    };
     //处理动作
     const tmpPath = path.join(imagePath,'tmp');
     //删除缓存
@@ -86,6 +93,11 @@ export async function mergeImage(dm:DataManager,charName:string){
                 ...rest
             }
         });
+        //添加显示层级
+        ordering.overlay_ordering.push({
+            id : [animData.mutID],
+            order : 9999
+        })
     }
     //创建info
     await UtilFT.writeJSONFile(path.join(rawPath,'tile_info.json'),tmpInfo);
@@ -99,19 +111,25 @@ export async function mergeImage(dm:DataManager,charName:string){
     await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
 
     //写入 mod贴图设置 到角色文件夹
+    const charAnimPath = path.join(dm.getOutCharPath(charName),'anim');
+    await UtilFT.ensurePathExists(charAnimPath,true);
     const tilesetNew = ((await UtilFT.loadJSONFile(path.join(mergePath,'tile_config.json')))["tiles-new"] as any[])
         .filter(item => item.file!="fallback.png");
     outData["mod_tileset"] = [{
 		type: "mod_tileset",
-		compatibility: ["MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE", "UNDEAD_PEOPLE_BASE"],
-		"tiles-new": tilesetNew,
+		compatibility: [dm.gameData.gfx_name],
+		"tiles-new": tilesetNew.map(item=>{
+            item.file = path.join('chars',charName,'anim',item.file)
+            return item;
+        }),
 	}];
+    outData['overlay_ordering'] = [ordering];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName=> path.parse(fileName).ext=='.png');
     for(let pngName of pngs){
         const pngPath = path.join(mergePath,pngName);
-        const outPngPath = path.join(dm.outPath,pngName);
+        const outPngPath = path.join(charAnimPath,pngName);
         await fs.promises.copyFile(pngPath,outPngPath);
     }
 }

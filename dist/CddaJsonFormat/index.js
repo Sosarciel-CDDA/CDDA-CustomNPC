@@ -24,3 +24,4 @@ __exportStar(require("./GenericDefine"), exports);
 __exportStar(require("./Monster"), exports);
 __exportStar(require("./AmmiunitionType"), exports);
 __exportStar(require("./Flag"), exports);
+__exportStar(require("./OverlayOrdering"), exports);

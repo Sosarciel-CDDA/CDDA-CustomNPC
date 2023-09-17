@@ -92,6 +92,14 @@ export type GenericBase = {
     countdown_action?: UseAction;
     /**附魔数据 */
     relic_data?: RelicData;
+    /**最小力量需求 */
+    min_strength?: number;
+    /**最小敏捷需求 */
+    min_dexterity?: number;
+    /**最小智力需求 */
+    min_intelligence?: number;
+    /**最小感知需求 */
+    min_perception?: number;
 };
 export type RelicData = {
     /**自动充能 */

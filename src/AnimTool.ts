@@ -37,8 +37,8 @@ export async function createAnimTool(dm:DataManager,charName:string){
         const animArmor:Armor={
             type:"ARMOR",
             id:animData.armorID,
-            name:`${charName}的${animType}动画变异`,
-            description:`${charName}的${animType}动画变异`,
+            name:`${charName}的${animType}动画变异装备`,
+            description:`${charName}的${animType}动画变异装备`,
             category:"clothing",
             weight: 0,
             volume: 0,

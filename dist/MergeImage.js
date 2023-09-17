@@ -12,11 +12,17 @@ async function mergeImage(dm, charName) {
     //检查是否有Idle动作
     if (info.Idle == null)
         throw `${charName} 必须要有Idle动画`;
+    //提供给打包脚本的info
     const tmpInfo = [{
             "width": 32,
             "height": 32,
             "pixelscale": 1 //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
         }];
+    //显示层级
+    const ordering = {
+        type: "overlay_order",
+        overlay_ordering: []
+    };
     //处理动作
     const tmpPath = path.join(imagePath, 'tmp');
     //删除缓存
@@ -64,6 +70,11 @@ async function mergeImage(dm, charName) {
                 ...rest
             }
         });
+        //添加显示层级
+        ordering.overlay_ordering.push({
+            id: [animData.mutID],
+            order: 9999
+        });
     }
     //创建info
     await utils_1.UtilFT.writeJSONFile(path.join(rawPath, 'tile_info.json'), tmpInfo);
@@ -76,19 +87,25 @@ async function mergeImage(dm, charName) {
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
     await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
     //写入 mod贴图设置 到角色文件夹
+    const charAnimPath = path.join(dm.getOutCharPath(charName), 'anim');
+    await utils_1.UtilFT.ensurePathExists(charAnimPath, true);
     const tilesetNew = (await utils_1.UtilFT.loadJSONFile(path.join(mergePath, 'tile_config.json')))["tiles-new"]
         .filter(item => item.file != "fallback.png");
     outData["mod_tileset"] = [{
             type: "mod_tileset",
-            compatibility: ["MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE", "UNDEAD_PEOPLE_BASE"],
-            "tiles-new": tilesetNew,
+            compatibility: [dm.gameData.gfx_name],
+            "tiles-new": tilesetNew.map(item => {
+                item.file = path.join('chars', charName, 'anim', item.file);
+                return item;
+            }),
         }];
+    outData['overlay_ordering'] = [ordering];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName => path.parse(fileName).ext == '.png');
     for (let pngName of pngs) {
         const pngPath = path.join(mergePath, pngName);
-        const outPngPath = path.join(dm.outPath, pngName);
+        const outPngPath = path.join(charAnimPath, pngName);
         await fs.promises.copyFile(pngPath, outPngPath);
     }
 }
