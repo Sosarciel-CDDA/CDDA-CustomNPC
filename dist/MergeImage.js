@@ -6,7 +6,7 @@ const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 /**合并并创建序列帧 */
 async function mergeImage(dm, charName) {
-    const { baseData, outData } = dm.getCharData(charName);
+    const { baseData, outData } = await dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
     //检查是否有Idle动作

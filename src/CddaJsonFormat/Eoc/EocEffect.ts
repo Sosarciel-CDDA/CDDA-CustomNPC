@@ -2,6 +2,7 @@ import { AnyItemID } from "../Item";
 import { MutationID } from "../Mutattion";
 import { NpcInstanceID } from "../NpcInstance";
 import { EocID } from "./Eoc";
+import { NumObj, StrObj } from "./VariableObject";
 
 
 
@@ -25,6 +26,7 @@ export type EocEffectList = [
     SpawnNpc                                    ,//生成npc
     {u_spawn_item:AnyItemID}                    ,//生成物品
     "follow_only"                               ,//让npc跟随玩家
+    SoundEffect                                 ,//播放声音
 ];
 /**生成Npc */
 type SpawnNpc = {
@@ -36,4 +38,15 @@ type SpawnNpc = {
     min_radius?: number,
     /**最大半径 */
     max_radius?: number,
+}
+/**播放声音 */
+type SoundEffect = {
+    /**音效ID */
+    id          : StrObj;
+    /**变体ID */
+    sound_effect?:StrObj;
+    /**如果为true则视为在玩家地下 ? */
+    outdoor_event?: boolean;
+    /**音量 */
+    volume:NumObj;
 }

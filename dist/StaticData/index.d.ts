@@ -5,3 +5,4 @@ export * from "./BaseSpell";
 export * from "./BaseNPC";
 export * from "./BaseTrait";
 export * from "./BaseItemGroup";
+export * from "./BaseEnch";

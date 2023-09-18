@@ -13,7 +13,7 @@ exports.formatAnimName = formatAnimName;
  * @param charName 角色名
  */
 async function createAnimTool(dm, charName) {
-    const { baseData, outData } = dm.getCharData(charName);
+    const { baseData, outData } = await dm.getCharData(charName);
     for (const animType of baseData.vaildAnim) {
         const animData = baseData.animData[animType];
         const animMut = {

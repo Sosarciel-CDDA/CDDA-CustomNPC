@@ -14,8 +14,8 @@ export type NpcInstance = {
     name_suffix?: string;
     /**职业 */
     class: NpcClassID;
-    attitude: number;
-    mission: number;
+    attitude: NpcAttitude;
+    mission: NpcMission;
     chat: TalkTopicID;
     faction?: DefineNpcFaction;
     death_eocs?: EocID[];
@@ -32,3 +32,11 @@ export type NpcInstance = {
         altruism?: number;
     };
 };
+/**NPC态度 列表 */
+export declare const NpcAttitudeList: readonly [0, 1, 3, 7, 10, 11];
+/**NPC态度 */
+export type NpcAttitude = typeof NpcAttitudeList[number];
+/**Npc行为 列表 */
+export declare const NpcMissionList: readonly [0, 3, 7];
+/**Npc行为 */
+export type NpcMission = typeof NpcMissionList[number];

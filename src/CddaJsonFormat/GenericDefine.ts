@@ -192,3 +192,24 @@ export type ShrapnelData = {
 export type Phase = "solid"|"gas"|"liquid"|"plasma"|"null";
 
 
+/**属性 列表 */
+export const StatusList = [
+    'strength'      ,
+    'dexterity'     ,
+    'intelligence'  ,
+    'perception'    ,
+] as const;
+/**属性 */
+export type Status = typeof StatusList[number];
+
+/**属性简写 列表 */
+export const StatusSimpleList = [
+    'str'    ,
+    'dex'    ,
+    'int'    ,
+    'per'    ,
+] as const;
+/**属性简写 */
+export type StatusSimple = typeof StatusSimpleList[number];
+
+

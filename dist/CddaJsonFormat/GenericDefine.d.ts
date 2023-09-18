@@ -143,4 +143,12 @@ export type ShrapnelData = {
 } | number;
 /**物理状态 */
 export type Phase = "solid" | "gas" | "liquid" | "plasma" | "null";
+/**属性 列表 */
+export declare const StatusList: readonly ["strength", "dexterity", "intelligence", "perception"];
+/**属性 */
+export type Status = typeof StatusList[number];
+/**属性简写 列表 */
+export declare const StatusSimpleList: readonly ["str", "dex", "int", "per"];
+/**属性简写 */
+export type StatusSimple = typeof StatusSimpleList[number];
 export {};

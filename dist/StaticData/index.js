@@ -21,3 +21,4 @@ __exportStar(require("./BaseSpell"), exports);
 __exportStar(require("./BaseNPC"), exports);
 __exportStar(require("./BaseTrait"), exports);
 __exportStar(require("./BaseItemGroup"), exports);
+__exportStar(require("./BaseEnch"), exports);

@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const CddaJsonFormat_1 = require("./CddaJsonFormat");
 const ModDefine_1 = require("./ModDefine");
-function createCharEquip(dm, charName) {
-    const { baseData, outData } = dm.getCharData(charName);
+async function createCharEquip(dm, charName) {
+    const { baseData, outData } = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     /**基础变异 */
     const baseMut = {
@@ -40,15 +40,7 @@ function createCharEquip(dm, charName) {
                 volume_multiplier: 0,
             }],
         relic_data: {
-            passive_effects: [{
-                    has: "WORN",
-                    condition: "ALWAYS",
-                    values: [...CddaJsonFormat_1.EnchGenericValTypeList, ...CddaJsonFormat_1.EnchArmorValTypeList].map(modType => ({
-                        value: modType,
-                        add: { math: [`u_add_${modType}`] },
-                        multiply: { math: [`u_mul_${modType}`] },
-                    }))
-                }]
+            passive_effects: [{ id: (0, ModDefine_1.genEnchantmentID)('StatusMap') }]
         }
     };
     /**基础武器 */

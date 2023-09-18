@@ -3,8 +3,8 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID } from 'CddaJsonFormat';
+import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID } from 'CddaJsonFormat';
 
 
 
@@ -20,6 +20,11 @@ export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList] as cons
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
+/**角色设定 */
+export type CharConfig = {
+    status:Partial<Record<StatusSimple,number>>
+}
+
 /**主资源表 */
 export type DataTable={
     /**输出的角色数据表 */
@@ -30,6 +35,8 @@ export type DataTable={
         outData:Record<string,JArray>;
         /**输出的角色Eoc事件 */
         charEventEocs:Record<CharEventType,Eoc>;
+        /**角色设定 */
+        charConfig:CharConfig;
     }>;
     /**输出的静态数据表 */
     staticTable:Record<string,JArray>;
@@ -155,7 +162,7 @@ export class DataManager{
     }
 
     /**获取角色表 如无则初始化 */
-    getCharData(charName:string){
+    async getCharData(charName:string){
         //初始化基础数据
         if(this.dataTable.charTable[charName] == null){
             const animData = AnimTypeList.map(animType=>({
@@ -196,7 +203,15 @@ export class DataManager{
                     ...acc,
                     [item]:subEoc
             }},{} as Record<CharEventType,Eoc>)
-            this.dataTable.charTable[charName] = {baseData,outData:{},charEventEocs}
+
+            const charConfig:CharConfig = await UtilFT.loadJSONFile(path.join(this.getCharPath(charName),'config')) as any;
+
+            this.dataTable.charTable[charName] = {
+                baseData,
+                charEventEocs,
+                charConfig,
+                outData:{},
+            }
         }
         return this.dataTable.charTable[charName];
     }
@@ -243,7 +258,6 @@ export class DataManager{
         //await
         fs.promises.cp(staticDataPath,this.outPath,{ recursive: true });
 
-
         //导出js静态数据
         const staticData = this.dataTable.staticTable;
         for(let key in staticData){
@@ -272,8 +286,13 @@ export class DataManager{
                 this.addEvent(et,ce);
             }
             this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
-        }
 
+            //复制角色静态数据
+            const charStaticDataPath = path.join(this.getCharPath(charName),"StaticData");
+            await UtilFT.ensurePathExists(charStaticDataPath,true);
+            //await
+            fs.promises.cp(charStaticDataPath,this.getCharPath(charName),{ recursive: true });
+        }
 
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;

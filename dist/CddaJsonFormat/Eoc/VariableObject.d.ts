@@ -9,6 +9,24 @@ export type NumOperateList = [
     number,
     {
         math: [string];
+    },
+    {
+        rng: [NumObj, NumObj];
+    },
+    {
+        one_in: NumObj;
+    },
+    {
+        dice: [NumObj, NumObj];
+    },
+    {
+        sum: NumObj[];
+    },
+    {
+        mul: NumObj[];
+    },
+    {
+        constant: number;
     }
 ];
 /**Eoc条件对象 */

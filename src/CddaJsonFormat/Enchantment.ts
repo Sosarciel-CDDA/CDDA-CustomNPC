@@ -52,6 +52,7 @@ export type Enchantment = {
 };
 /**内联匿名附魔 */
 export type InlineEnchantment = Omit<Enchantment,"type"|"id">;
+
 /**装备附魔启用条件 */
 export type EnchConHas = (
     /**拿在手上时 */

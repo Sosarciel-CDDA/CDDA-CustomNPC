@@ -10,7 +10,7 @@ import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefi
  * @param charName 角色名
  */
 export async function createCharClass(dm:DataManager,charName:string){
-    const {baseData,outData} = dm.getCharData(charName);
+    const {baseData,outData} = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass:NpcClass={
         type:"npc_class",

@@ -6,4 +6,4 @@ export declare function removeOtherAnimEoc(baseData: CharData, animType: AnimTyp
 /**切换动作EOC */
 export declare function changeAnimEoc(baseData: CharData, animType: AnimType): Eoc[];
 /**创建动画状态机 */
-export declare function createAnimStatus(dm: DataManager, charName: string): void;
+export declare function createAnimStatus(dm: DataManager, charName: string): Promise<void>;

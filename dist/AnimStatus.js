@@ -43,8 +43,8 @@ function changeAnimEoc(baseData, animType) {
 }
 exports.changeAnimEoc = changeAnimEoc;
 /**创建动画状态机 */
-function createAnimStatus(dm, charName) {
-    const { baseData, outData } = dm.getCharData(charName);
+async function createAnimStatus(dm, charName) {
+    const { baseData, outData } = await dm.getCharData(charName);
     const eocList = [];
     const animEventMap = {
         Move: "CharMove",

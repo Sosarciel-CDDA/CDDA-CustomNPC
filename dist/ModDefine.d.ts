@@ -1,9 +1,11 @@
 import { AmmiunitionTypeID } from "./CddaJsonFormat/AmmiunitionType";
-import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID } from "./CddaJsonFormat";
+import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "./CddaJsonFormat";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
 export declare function genArmorID(id: string): ArmorID;
+/**生成适用于此mod的附魔 ID */
+export declare function genEnchantmentID(id: string): EnchantmentID;
 /**生成适用于此mod的 通用物品 ID */
 export declare function genGenericID(id: string): GenericID;
 /**生成适用于此mod的 枪械 ID */

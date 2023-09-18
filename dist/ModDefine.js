@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -8,6 +8,11 @@ function genArmorID(id) {
     return `${exports.MOD_PREFIX}_ARMOR_${id}`;
 }
 exports.genArmorID = genArmorID;
+/**生成适用于此mod的附魔 ID */
+function genEnchantmentID(id) {
+    return `${exports.MOD_PREFIX}_ENCH_${id}`;
+}
+exports.genEnchantmentID = genEnchantmentID;
 /**生成适用于此mod的 通用物品 ID */
 function genGenericID(id) {
     return `${exports.MOD_PREFIX}_GENERIC_${id}`;

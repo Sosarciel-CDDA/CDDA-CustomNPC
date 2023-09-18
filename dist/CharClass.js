@@ -6,7 +6,7 @@ const ModDefine_1 = require("./ModDefine");
  * @param charName 角色名
  */
 async function createCharClass(dm, charName) {
-    const { baseData, outData } = dm.getCharData(charName);
+    const { baseData, outData } = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass = {
         type: "npc_class",

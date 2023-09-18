@@ -13,3 +13,4 @@ export * from './Emit';
 export * from './Field';
 export * from './Enchantment';
 export * from './Spell';
+export * from './SoundEffect';

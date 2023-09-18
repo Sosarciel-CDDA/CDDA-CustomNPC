@@ -88,6 +88,11 @@ function CNPC_EOC_SpawnBaseNpc(){
 		"max_radius": 1,
 		"spawn_message": "生成了一个基础NPC"
 	})
+	eobj({
+		"id": "asuna",
+		"sound_effect": "skill",
+		"volume": 100,
+	})
 }
 
 //主循环函数 玩家

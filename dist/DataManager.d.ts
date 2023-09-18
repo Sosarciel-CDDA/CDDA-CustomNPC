@@ -1,6 +1,6 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, AmmiunitionTypeID, AmmoID, ArmorID, GunID } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, AmmiunitionTypeID, AmmoID, ArmorID, GunID, StatusSimple } from './CddaJsonFormat';
 /**角色事件列表 */
 export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**角色事件类型 */
@@ -9,6 +9,10 @@ export type CharEventType = typeof CharEvemtTypeList[number];
 export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
+/**角色设定 */
+export type CharConfig = {
+    status: Partial<Record<StatusSimple, number>>;
+};
 /**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
@@ -19,6 +23,8 @@ export type DataTable = {
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 */
         charEventEocs: Record<CharEventType, Eoc>;
+        /**角色设定 */
+        charConfig: CharConfig;
     }>;
     /**输出的静态数据表 */
     staticTable: Record<string, JArray>;
@@ -63,7 +69,7 @@ export declare class DataManager {
      */
     static create(dataPath?: string, outPath?: string): Promise<DataManager>;
     /**获取角色表 如无则初始化 */
-    getCharData(charName: string): {
+    getCharData(charName: string): Promise<{
         /**角色基础数据 */
         baseData: Readonly<{
             /**角色名 */
@@ -106,7 +112,9 @@ export declare class DataManager {
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 */
         charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit", Eoc>;
-    };
+        /**角色设定 */
+        charConfig: CharConfig;
+    }>;
     /**添加事件 */
     addEvent(etype: GlobalEventType, ...events: Eoc[]): void;
     /**添加角色事件 */

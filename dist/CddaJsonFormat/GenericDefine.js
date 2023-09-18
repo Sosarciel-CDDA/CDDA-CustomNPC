@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DamageTypeList = exports.DefineMonFactionList = exports.DefineNpcFactionList = exports.BodyPartList = exports.ColorList = void 0;
+exports.StatusSimpleList = exports.StatusList = exports.DamageTypeList = exports.DefineMonFactionList = exports.DefineNpcFactionList = exports.BodyPartList = exports.ColorList = void 0;
 /**可用的颜色列表 */
 exports.ColorList = ["blue", "white", "brown", "dark_gray"];
 /**必要的肢体组 */
@@ -44,4 +44,18 @@ exports.DamageTypeList = [
     "cold",
     "pure",
     "bio"
+];
+/**属性 列表 */
+exports.StatusList = [
+    'strength',
+    'dexterity',
+    'intelligence',
+    'perception',
+];
+/**属性简写 列表 */
+exports.StatusSimpleList = [
+    'str',
+    'dex',
+    'int',
+    'per',
 ];

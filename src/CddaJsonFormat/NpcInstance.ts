@@ -18,8 +18,8 @@ export type NpcInstance = {
     name_suffix?: string;
     /**职业 */
     class: NpcClassID,
-    attitude: number,
-    mission: number,
+    attitude: NpcAttitude,
+    mission: NpcMission,
     chat: TalkTopicID,
     faction?: DefineNpcFaction,
     death_eocs?: EocID[],
@@ -37,5 +37,23 @@ export type NpcInstance = {
     }
 }
 
+/**NPC态度 列表 */
+export const NpcAttitudeList = [
+    0   ,// null，NPC可以做自己的事情
+    1   ,// 说话，NPC会尝试接近玩家并与他们交谈
+    3   ,// 跟随，NPC是玩家的好友，可以被指挥
+    7   ,// 防御，NPC 留在原地防御自己
+    10  ,// 杀死，NPC 试图杀死玩家
+    11  ,// 逃离，NPC逃离玩家
+] as const;
+/**NPC态度 */
+export type NpcAttitude = typeof NpcAttitudeList[number];
 
-
+/**Npc行为 列表 */
+export const NpcMissionList = [
+    0 ,// null，NPC可以做自己的事情
+    3 ,// 店主，NPC 停留在一处，但会尝试与玩家进行交易
+    7 ,// 守卫，NPC 留在原地
+] as const;
+/**Npc行为 */
+export type NpcMission = typeof NpcMissionList[number];

@@ -118,7 +118,7 @@ class DataManager {
         return dm;
     }
     /**获取角色表 如无则初始化 */
-    getCharData(charName) {
+    async getCharData(charName) {
         //初始化基础数据
         if (this.dataTable.charTable[charName] == null) {
             const animData = AnimTool_1.AnimTypeList.map(animType => ({
@@ -158,7 +158,13 @@ class DataManager {
                     [item]: subEoc
                 };
             }, {});
-            this.dataTable.charTable[charName] = { baseData, outData: {}, charEventEocs };
+            const charConfig = await utils_1.UtilFT.loadJSONFile(path.join(this.getCharPath(charName), 'config'));
+            this.dataTable.charTable[charName] = {
+                baseData,
+                charEventEocs,
+                charConfig,
+                outData: {},
+            };
         }
         return this.dataTable.charTable[charName];
     }
@@ -223,6 +229,11 @@ class DataManager {
                 this.addEvent(et, ce);
             }
             this.saveToCharFile(charName, 'char_event_eocs', charEventEocs);
+            //复制角色静态数据
+            const charStaticDataPath = path.join(this.getCharPath(charName), "StaticData");
+            await utils_1.UtilFT.ensurePathExists(charStaticDataPath, true);
+            //await
+            fs.promises.cp(charStaticDataPath, this.getCharPath(charName), { recursive: true });
         }
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;

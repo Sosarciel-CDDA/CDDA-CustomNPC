@@ -45,8 +45,8 @@ export function changeAnimEoc(baseData:CharData,animType:AnimType){
 }
 
 /**创建动画状态机 */
-export function createAnimStatus(dm:DataManager,charName:string){
-    const {baseData,outData} = dm.getCharData(charName);
+export async function createAnimStatus(dm:DataManager,charName:string){
+    const {baseData,outData} = await dm.getCharData(charName);
     const eocList:Eoc[] = [];
     const animEventMap:Record<AnimType,CharEventType|undefined>={
         Move:"CharMove",

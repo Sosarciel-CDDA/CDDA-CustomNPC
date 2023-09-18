@@ -24,7 +24,7 @@ type ImageInfo = Partial<Record<AnimType,{
 
 /**合并并创建序列帧 */
 export async function mergeImage(dm:DataManager,charName:string){
-    const {baseData,outData} = dm.getCharData(charName);
+    const {baseData,outData} = await dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
     //检查是否有Idle动作

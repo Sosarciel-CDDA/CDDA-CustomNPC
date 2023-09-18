@@ -1,10 +1,10 @@
-import { AmmiunitionType, Ammo, Armor, BodyPartList, EnchArmorValTypeList, EnchGenericValTypeList, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { AmmiunitionType, Ammo, Armor, BodyPartList, EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
-import { genEOCID } from "./ModDefine";
+import { genEOCID, genEnchantmentID } from "./ModDefine";
 
 
-export function createCharEquip(dm:DataManager,charName:string){
-    const {baseData,outData} = dm.getCharData(charName);
+export async function createCharEquip(dm:DataManager,charName:string){
+    const {baseData,outData} = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     /**基础变异 */
     const baseMut:Mutation = {
@@ -40,17 +40,10 @@ export function createCharEquip(dm:DataManager,charName:string){
             volume_multiplier: 0,
         }],
         relic_data :{
-            passive_effects:[{
-                has:"WORN",
-                condition:"ALWAYS",
-                values:[...EnchGenericValTypeList,...EnchArmorValTypeList].map(modType=>({
-                    value   :modType,
-                    add     :{math:[`u_add_${modType}`]},
-                    multiply:{math:[`u_mul_${modType}`]},
-                }))
-            }]
+            passive_effects:[{id:genEnchantmentID('StatusMap')}]
         }
     }
+
     /**基础武器 */
     const baseWeapon:Gun={
         type:"GUN",
