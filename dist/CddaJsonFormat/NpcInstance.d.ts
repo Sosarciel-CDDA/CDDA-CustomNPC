@@ -1,8 +1,9 @@
-import { EocID } from "./EOC";
-import { DefineNpcFaction } from "./GenericDefine";
+import { EocID } from "./Eoc";
+import { CddaID, DefineNpcFaction } from "./GenericDefine";
 import { NpcClassID } from "./NpcClass";
+import { TalkTopicID } from "./TalkTopic";
 /**NpcInstance ID格式 */
-export type NpcInstanceID = `${string}_NPC_${string}`;
+export type NpcInstanceID = CddaID<"NPC">;
 /**Npc实例 */
 export type NpcInstance = {
     type: "npc";
@@ -15,7 +16,7 @@ export type NpcInstance = {
     class: NpcClassID;
     attitude: number;
     mission: number;
-    chat: string;
+    chat: TalkTopicID;
     faction?: DefineNpcFaction;
     death_eocs?: EocID[];
     age?: number;

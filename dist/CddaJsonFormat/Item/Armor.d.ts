@@ -1,4 +1,4 @@
-import { BodyPart, GenericBase, GenericFlag } from "..";
+import { BodyPartID, GenericBase, GenericFlag } from "..";
 /**Armor ID格式 */
 export type ArmorID = `${string}_ARMOR_${string}`;
 /**一件护甲 */
@@ -21,9 +21,9 @@ export type ArmorData = {
         thickness: 1;
     }];
     /**覆盖 主肢体id */
-    covers?: BodyPart[];
+    covers?: BodyPartID[];
     /**特殊覆盖 子肢体id */
-    specifically_covers?: BodyPart[];
+    specifically_covers?: BodyPartID[];
     /**覆盖率 */
     coverage?: number;
     /**累赘度 [每件累赘度, 多件累赘度惩罚]  重复穿着3件时 [0]*3+[1] */

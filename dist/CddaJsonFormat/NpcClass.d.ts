@@ -1,7 +1,8 @@
+import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutattion";
 /**NpcClass ID格式 */
-export type NpcClassID = `${string}_NPCLASS_${string}`;
+export type NpcClassID = CddaID<"NPCLASS">;
 export type NpcClass = {
     type: "npc_class";
     id: NpcClassID;

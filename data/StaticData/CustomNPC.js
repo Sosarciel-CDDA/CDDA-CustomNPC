@@ -6,37 +6,38 @@ function print_global_val(varName){
 	//eobj( { u_message: {global_val:varName}})
 }
 
-function update_stat(){
+function CNPC_EOC_UpdateStat(){
 	eoc_type("ACTIVATION")
 	//recurrence("1 s");
 	//print_global_val(mag3);
 	//print_global_val(mag1);
 	//print_global_val(mag2);
+	u_teStr = u_val('strength');
+	u_teDex = u_val('dexterity');
+	u_teCon = u_val('strength');
+	u_teMag = u_val('intelligence');
+	u_teWil = u_val('perception');
+	u_teCun = u_val('perception');
 }
 
 
 //初始化现有血量
 function CNPC_EOC_InitCurrHP(){
 	eoc_type("ACTIVATION")
-	if(u_currhp==0)
-		u_currhp = u_hp();
-}
-//刷新现有血量
-function CNPC_EOC_UpdateInitCurrHP(){
-	eoc_type("ACTIVATION")
-	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+	if(u_currHp==0)
+		u_currHp = u_hp();
 }
 
 //检测现有血量并触发take_damage
 function CNPC_EOC_CheckCurrHP(){
 	eoc_type("ACTIVATION")
-	mag1 = u_currhp;
+	mag1 = u_currHp;
 	mag2 = u_hp();
-	if(and(u_currhp > u_hp(),has_target==0)){
+	if(and(u_currHp > u_hp(),has_target==0)){
 		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonTarget" } })
 		has_target=1;
 	}
-	u_currhp = u_hp();
+	u_currHp = u_hp();
 }
 
 //尝试近战攻击触发的Eoc
@@ -92,8 +93,13 @@ function CNPC_EOC_SpawnBaseNpc(){
 //主循环函数 玩家
 function CNPC_EOC_PlayerUpdateEvent(){
 	recurrence(1);
-	CNPC_EOC_UpdateInitCurrHP();
-	update_stat();
+
+	//刷新怪物血量
+	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+	//CNPC_EOC_UpdateStat();
+	//print_global_val(mag3);
+	//print_global_val(mag1);
+	//print_global_val(mag2);
 	//运行动态生成的事件eoc
 	CNPC_EOC_PlayerUpdate();
 }
@@ -104,6 +110,8 @@ function CNPC_EOC_GlobalUpdateEvent(){
 	global(true);
 	run_for_npcs(true);
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//刷新属性
+		CNPC_EOC_UpdateStat();
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharUpdate();
 

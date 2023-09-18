@@ -1,7 +1,7 @@
-import { BodyPart } from "./GenericDefine";
+import { BodyPartID, CddaID } from "./GenericDefine";
 import { ArmorID } from "./Item";
 /**Mutation ID格式 */
-export type MutationID = `${string}_MUT_${string}`;
+export type MutationID = CddaID<"MUT">;
 /**变异 */
 export type Mutation = {
     type: "mutation";
@@ -43,9 +43,9 @@ export type Mutation = {
     /**潮湿保护 */
     wet_protection?: BPWetProte[];
     /**受此突变限制的身体部位列表 */
-    restricts_gear?: BodyPart[];
+    restricts_gear?: BodyPartID[];
     /**突变时将删除任何刚性装甲的身体部位列表 任何综合装甲物品都直接考虑 */
-    remove_rigid?: BodyPart[];
+    remove_rigid?: BodyPartID[];
     /**如果有“restricts_gear”列表，则设置该位置是否仍然允许由软材料制成的物品
      * 只有其中一种类型需要是软的才能被视为软 默认值:false
      */
@@ -56,7 +56,7 @@ export type Mutation = {
 /**肢体的潮湿保护 */
 export type BPWetProte = {
     /**肢体 */
-    part: BodyPart;
+    part: BodyPartID;
     /**忽略潮湿点数 */
     ignored: number;
 };

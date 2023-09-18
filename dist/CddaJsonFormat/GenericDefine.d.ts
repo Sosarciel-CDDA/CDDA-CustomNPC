@@ -19,19 +19,23 @@ export type Color = typeof ColorList[number];
 /**必要的肢体组 */
 declare const VitalBPList: readonly ["torso", "head"];
 /**必要的肢体 */
-type VitalBP = typeof VitalBPList[number];
+export type VitalBP = typeof VitalBPList[number];
 /**四肢组 */
 declare const LimbBPList: readonly ["leg_l", "leg_r", "arm_l", "arm_r"];
 /**四肢 */
-type LimbBP = typeof LimbBPList[number];
+export type LimbBP = typeof LimbBPList[number];
 /**子肢体组 */
 declare const SubBPList: readonly ["foot_l", "foot_r", "hand_l", "hand_r"];
 /**子肢体 */
-type SubBP = typeof SubBPList[number];
+export type SubBP = typeof SubBPList[number];
+/**自定义的肢体 */
+export type CustBP = CddaID<"BP">;
+/**自定义的ID */
+export type CddaID<T extends string> = `${`${string}_` | ''}${T}_${string}`;
 /**组肢体 */
 export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
 /**肢体 */
-export type BodyPart = VitalBP | LimbBP | SubBP;
+export type BodyPartID = typeof BodyPartList[number] | CustBP;
 /**npc阵营 列表 */
 export declare const DefineNpcFactionList: readonly ["your_followers", "no_faction"];
 /**npc阵营 */
@@ -107,8 +111,10 @@ export type RangeDamage = {
 };
 /**近战武器伤害 伤害类型 : 伤害值 不能为负数* */
 export type MeleeDamage = Partial<Record<DamageType, number>>;
+/**伤害类型 列表 */
+export declare const DamageTypeList: readonly ["stab", "bash", "cut", "bullet", "acid", "elec", "heat", "cold", "pure", "bio"];
 /**伤害类型 */
-export type DamageType = "stab" | "bash" | "cut" | "bullet";
+export type DamageType = typeof DamageTypeList[number];
 /**爆炸 */
 export type Explosion = {
     /**TNT 当量炸药的克数为单位测量爆炸威力，影响伤害和射程 */
@@ -136,5 +142,5 @@ export type ShrapnelData = {
     drop?: string;
 } | number;
 /**物理状态 */
-export type Phase = "solid";
+export type Phase = "solid" | "gas" | "liquid" | "plasma" | "null";
 export {};

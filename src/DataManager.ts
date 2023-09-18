@@ -1,17 +1,11 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { JArray, JObject, JToken, UtilFT } from '@zwa73/utils';
+import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc } from './CddaJsonFormat/EOC';
-import { MutationID } from './CddaJsonFormat/Mutattion';
-import { ItemGroupID } from './CddaJsonFormat/ItemGroup';
-import { NpcClassID } from './CddaJsonFormat/NpcClass';
-import { NpcInstanceID } from './CddaJsonFormat/NpcInstance';
-import { FlagID } from './CddaJsonFormat/Flag';
-import { AmmiunitionTypeID } from './CddaJsonFormat/AmmiunitionType';
-import { AmmoID, ArmorID, GunID } from './CddaJsonFormat/Item';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID } from 'CddaJsonFormat';
+
 
 
 /**角色事件列表 */
@@ -121,8 +115,10 @@ export class DataManager{
         //处理贴图包
         const gfxPath = path.join(bs.game_path,'gfx',bs.target_gfx);
         const gfxTilesetTxtPath = path.join(gfxPath,'tileset.txt');
-        const text = (await fs.promises.readFile(gfxTilesetTxtPath,"utf-8"));
-        const match = text.match(/NAME: (.*?)$/m);
+        if(!(await UtilFT.pathExists(gfxTilesetTxtPath)))
+            throw "未找到目标贴图包自述文件 path:"+gfxTilesetTxtPath;
+        const match = (await fs.promises.readFile(gfxTilesetTxtPath,"utf-8"))
+                        .match(/NAME: (.*?)$/m);
         if(match==null) throw "未找到目标贴图包NAME path:"+gfxTilesetTxtPath;
         dm.gameData={
             gfx_name:match[1],
@@ -246,6 +242,8 @@ export class DataManager{
         UtilFT.ensurePathExists(staticDataPath,true);
         //await
         fs.promises.cp(staticDataPath,this.outPath,{ recursive: true });
+
+
         //导出js静态数据
         const staticData = this.dataTable.staticTable;
         for(let key in staticData){
@@ -253,6 +251,8 @@ export class DataManager{
             //await
             this.saveToFile(key,obj);
         }
+
+
         //导出角色数据
         for(let charName in this.dataTable.charTable){
             const charData = this.dataTable.charTable[charName];
@@ -273,12 +273,19 @@ export class DataManager{
             }
             this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
         }
+
+
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;
         const eventEocs:Eoc[]=[];
         for(const etype in globalEvent)
             eventEocs.push(globalEvent[etype as GlobalEventType]);
         this.saveToFile('event_eocs',eventEocs);
+
+
+        //编译所有eocscript
+        const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`)
+        console.log(stdout);
     }
 }
 

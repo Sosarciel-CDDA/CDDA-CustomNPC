@@ -1,8 +1,9 @@
+import { CddaID } from "./GenericDefine";
 
 
 
 /**材质ID格式 */
-export type AmmiunitionTypeID = `${string}_AMMITYPE_${string}`;
+export type AmmiunitionTypeID = CddaID<"AMMITYPE">;
 /**材质类型 */
 export type AmmiunitionType = {
 	type: "ammunition_type";

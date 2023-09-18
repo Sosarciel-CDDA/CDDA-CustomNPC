@@ -12,7 +12,7 @@ export type Eoc = {
     /**效果 */
     effect?: JArray;
     /**启用条件 */
-    condition?: JObject;
+    condition?: EocCondition;
     /**循环间隔 */
     recurrence?: Time;
     /**是否可在NPC上运行 */
@@ -24,3 +24,5 @@ export type Eoc = {
 export declare const EocTypeList: readonly ["EVENT", "ACTIVATION", "RECURRING", "OM_MOVE"];
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];
+/**Eoc条件对象 */
+export type EocCondition = JObject;

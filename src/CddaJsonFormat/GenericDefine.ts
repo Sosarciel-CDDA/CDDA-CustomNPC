@@ -25,7 +25,7 @@ const VitalBPList = [
     "head"  ,
 ] as const;
 /**必要的肢体 */
-type VitalBP = typeof VitalBPList[number];
+export type VitalBP = typeof VitalBPList[number];
 
 /**四肢组 */
 const LimbBPList = [
@@ -33,7 +33,7 @@ const LimbBPList = [
     "arm_l" , "arm_r" ,
 ] as const;
 /**四肢 */
-type LimbBP = typeof LimbBPList[number];
+export type LimbBP = typeof LimbBPList[number];
 
 /**子肢体组 */
 const SubBPList = [
@@ -41,12 +41,19 @@ const SubBPList = [
     "hand_l", "hand_r",
 ] as const;
 /**子肢体 */
-type SubBP = typeof SubBPList[number];
+export type SubBP = typeof SubBPList[number];
+
+/**自定义的肢体 */
+export type CustBP = CddaID<"BP">;
+
+/**自定义的ID */
+export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`;
+
 
 /**组肢体 */
 export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
 /**肢体 */
-export type BodyPart = VitalBP|LimbBP|SubBP;
+export type BodyPartID = typeof BodyPartList[number]|CustBP;
 
 
 /**npc阵营 列表 */
@@ -135,9 +142,23 @@ export type RangeDamage = {
     armor_penetration: number;
 }
 /**近战武器伤害 伤害类型 : 伤害值 不能为负数* */
-export type MeleeDamage = Partial<Record<DamageType,number>>
+export type MeleeDamage = Partial<Record<DamageType,number>>;
+
+/**伤害类型 列表 */
+export const DamageTypeList = [
+    "stab"  ,
+    "bash"  ,
+    "cut"   ,
+    "bullet",
+    "acid"  ,
+    "elec"  ,
+    "heat"  ,
+    "cold"  ,
+    "pure"  ,
+    "bio"
+] as const;
 /**伤害类型 */
-export type DamageType = "stab"|"bash"|"cut"|"bullet";
+export type DamageType = typeof DamageTypeList[number];
 
 
 /**爆炸 */
@@ -165,9 +186,9 @@ export type ShrapnelData = {
     recovery?: number;
     /**在着陆点掉落哪个物品。 */
     drop?: string;
-}|number
+}|number;
 
 /**物理状态 */
-export type Phase = "solid";
+export type Phase = "solid"|"gas"|"liquid"|"plasma"|"null";
 
 

@@ -1,12 +1,5 @@
 import { AmmiunitionTypeID } from "./CddaJsonFormat/AmmiunitionType";
-import { EocID } from "./CddaJsonFormat/EOC";
-import { FlagID } from "./CddaJsonFormat/Flag";
-import { AmmoID, ArmorID, GenericID, GunID } from "./CddaJsonFormat/Item";
-import { ItemGroupID } from "./CddaJsonFormat/ItemGroup";
-import { MonsterID } from "./CddaJsonFormat/Monster";
-import { MutationID } from "./CddaJsonFormat/Mutattion";
-import { NpcClassID } from "./CddaJsonFormat/NpcClass";
-import { NpcInstanceID } from "./CddaJsonFormat/NpcInstance";
+import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID } from "./CddaJsonFormat";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */

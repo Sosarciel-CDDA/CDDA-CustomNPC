@@ -38,7 +38,18 @@ function createCharEquip(dm, charName) {
                 max_item_length: "1 km",
                 weight_multiplier: 0,
                 volume_multiplier: 0,
-            }]
+            }],
+        relic_data: {
+            passive_effects: [{
+                    has: "WORN",
+                    condition: "ALWAYS",
+                    values: [...CddaJsonFormat_1.EnchGenericValTypeList, ...CddaJsonFormat_1.EnchArmorValTypeList].map(modType => ({
+                        value: modType,
+                        add: { math: [`u_add_${modType}`] },
+                        multiply: { math: [`u_mul_${modType}`] },
+                    }))
+                }]
+        }
     };
     /**基础武器 */
     const baseWeapon = {
@@ -133,7 +144,8 @@ function createCharEquip(dm, charName) {
             { u_spawn_item: baseData.baseWeaponID }
         ]
     };
-    dm.addCharEvent(charName, "CharUpdate", dropOtherWeapon, giveWeapon);
+    //dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
+    dm.addCharEvent(charName, "CharUpdate", giveWeapon);
     outData['equip'] = [baseMut, baseArmor, baseWeapon, baseAmmoType, baseAmmo, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
 }
 exports.createCharEquip = createCharEquip;

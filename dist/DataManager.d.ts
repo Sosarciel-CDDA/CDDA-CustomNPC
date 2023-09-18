@@ -1,13 +1,6 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc } from './CddaJsonFormat/EOC';
-import { MutationID } from './CddaJsonFormat/Mutattion';
-import { ItemGroupID } from './CddaJsonFormat/ItemGroup';
-import { NpcClassID } from './CddaJsonFormat/NpcClass';
-import { NpcInstanceID } from './CddaJsonFormat/NpcInstance';
-import { FlagID } from './CddaJsonFormat/Flag';
-import { AmmiunitionTypeID } from './CddaJsonFormat/AmmiunitionType';
-import { AmmoID, ArmorID, GunID } from './CddaJsonFormat/Item';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, AmmiunitionTypeID, AmmoID, ArmorID, GunID } from './CddaJsonFormat';
 /**角色事件列表 */
 export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**角色事件类型 */
@@ -76,11 +69,11 @@ export declare class DataManager {
             /**角色名 */
             charName: string;
             /**基础变异ID */
-            baseMutID: `${string}_MUT_${string}`;
+            baseMutID: MutationID;
             /**职业ID */
-            classID: `${string}_NPCLASS_${string}`;
+            classID: NpcClassID;
             /**实例ID */
-            instanceID: `${string}_NPC_${string}`;
+            instanceID: NpcInstanceID;
             /**动画数据 */
             animData: Record<"Idle" | "Move" | "Attack", Readonly<{
                 /**动画类型 */
@@ -88,11 +81,11 @@ export declare class DataManager {
                 /**动画名 */
                 animName: string;
                 /**动画变异ID */
-                mutID: `${string}_MUT_${string}`;
+                mutID: MutationID;
                 /**动画装备ID */
                 armorID: `${string}_ARMOR_${string}`;
                 /**动画装备物品组ID */
-                itemGroupID: `${string}_ITEMGROUP_${string}`;
+                itemGroupID: ItemGroupID;
             }>>;
             /**有效的动作 */
             vaildAnim: ("Idle" | "Move" | "Attack")[];
@@ -103,11 +96,11 @@ export declare class DataManager {
             /**基础弹药ID */
             baseAmmoID: `${string}_AMMO_${string}`;
             /**基础弹药类型ID */
-            baseAmmoTypeID: `${string}_AMMITYPE_${string}`;
+            baseAmmoTypeID: AmmiunitionTypeID;
             /**基础武器物品组ID */
-            baseWeaponGroupID: `${string}_ITEMGROUP_${string}`;
+            baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
-            baseWeaponFlagID: `${string}_FLAG_${string}`;
+            baseWeaponFlagID: FlagID;
         }>;
         /**输出数据 */
         outData: Record<string, JArray>;

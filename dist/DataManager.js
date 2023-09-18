@@ -74,8 +74,10 @@ class DataManager {
         //处理贴图包
         const gfxPath = path.join(bs.game_path, 'gfx', bs.target_gfx);
         const gfxTilesetTxtPath = path.join(gfxPath, 'tileset.txt');
-        const text = (await fs.promises.readFile(gfxTilesetTxtPath, "utf-8"));
-        const match = text.match(/NAME: (.*?)$/m);
+        if (!(await utils_1.UtilFT.pathExists(gfxTilesetTxtPath)))
+            throw "未找到目标贴图包自述文件 path:" + gfxTilesetTxtPath;
+        const match = (await fs.promises.readFile(gfxTilesetTxtPath, "utf-8"))
+            .match(/NAME: (.*?)$/m);
         if (match == null)
             throw "未找到目标贴图包NAME path:" + gfxTilesetTxtPath;
         dm.gameData = {
@@ -228,6 +230,9 @@ class DataManager {
         for (const etype in globalEvent)
             eventEocs.push(globalEvent[etype]);
         this.saveToFile('event_eocs', eventEocs);
+        //编译所有eocscript
+        const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`);
+        console.log(stdout);
     }
 }
 exports.DataManager = DataManager;

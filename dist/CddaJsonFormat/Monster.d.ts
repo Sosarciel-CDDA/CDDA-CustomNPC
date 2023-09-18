@@ -1,6 +1,6 @@
-import { Color, DefineMonFaction, Volume, Weight } from "./GenericDefine";
+import { CddaID, Color, DefineMonFaction, Volume, Weight } from "./GenericDefine";
 /**Monster ID格式 */
-export type MonsterID = `${string}_MON_${string}`;
+export type MonsterID = CddaID<"MON">;
 export type Monster = {
     id: MonsterID;
     type: "MONSTER";

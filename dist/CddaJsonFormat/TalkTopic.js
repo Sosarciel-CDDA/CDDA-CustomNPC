@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TalkEffectList = exports.DefineTopicList = exports.RespTraitTypeList = void 0;
+exports.DefineTopicList = exports.RespTraitTypeList = void 0;
 /**可用的社交技能 列表 */
 exports.RespTraitTypeList = ["NONE", "LIE", "PERSUADE", "INTIMIDATE", "CONDITION"];
 /**预定义的对话 列表 */
-exports.DefineTopicList = ["TALK_DONE"];
-/**对话效果 列表 */
-exports.TalkEffectList = ["follow_only"];
+exports.DefineTopicList = [
+    "TALK_DONE", //结束对话
+];
 /**
 assign_guard	让NPC变成守卫。如果结盟并且在一个营地，他们将被分配到该营地。
 stop_guard	解除 NPC 的警卫职责（另请参阅assign_guard）。友好的 NPC 将恢复跟随。

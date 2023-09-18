@@ -1,6 +1,8 @@
 import { JArray, JObject } from "@zwa73/utils";
+import { CddaID } from "./GenericDefine";
+import { EocEffect } from "./Eoc";
 /**TalkTopic ID格式 */
-export type TalkTopicID = `${string}_TALK_${string}` | DefineTopic;
+export type TalkTopicID = CddaID<"TALK"> | DefineTopic;
 /**对话选项 */
 export type TalkTopic = {
     type: "talk_topic";
@@ -11,7 +13,7 @@ export type TalkTopic = {
     responses: Resp[];
     /**是否覆盖同id的响应选项 默认false */
     replace_built_in_responses?: boolean;
-    speaker_effect?: JObject | JArray;
+    speaker_effect?: EocEffect | EocEffect[];
 };
 /**玩家的回复 */
 export type Resp = {
@@ -20,7 +22,7 @@ export type Resp = {
     /**转移到哪个对话 */
     topic: TalkTopicID;
     /**产生的效果 */
-    effect?: TalkEffect;
+    effect?: EocEffect;
 } | RespLong;
 /**玩家的回复 完整写法 */
 export type RespLong = {
@@ -36,9 +38,9 @@ export type RespLong = {
     /**技能鉴定 成功的效果 */
     success: {
         /**转移到哪个对话 */
-        topic: string | DefineTopic;
+        topic: TalkTopicID;
         /**产生的效果 */
-        effect?: TalkEffect;
+        effect?: EocEffect;
         /**态度调整 */
         opinion?: {
             trust?: number;
@@ -60,10 +62,6 @@ export type RespTraitType = typeof RespTraitTypeList[number];
 export declare const DefineTopicList: readonly ["TALK_DONE"];
 /**预定义的对话 */
 export type DefineTopic = typeof DefineTopicList[number];
-/**对话效果 列表 */
-export declare const TalkEffectList: readonly ["follow_only"];
-/**对话效果 */
-export type TalkEffect = typeof TalkEffectList[number];
 /**
 assign_guard	让NPC变成守卫。如果结盟并且在一个营地，他们将被分配到该营地。
 stop_guard	解除 NPC 的警卫职责（另请参阅assign_guard）。友好的 NPC 将恢复跟随。

@@ -1,10 +1,11 @@
-import { JArray, JObject } from "@zwa73/utils";
-import { Time } from "./GenericDefine";
+import { CddaID, Time } from "../GenericDefine";
+import { BoolObj } from "./VariableObject";
+import { EocEffect } from "./EocEffect";
 
 
 
 /**EOC ID格式 */
-export type EocID = `${string}_EOC_${string}`;
+export type EocID = CddaID<"EOC">;
 /**EOC */
 export type Eoc = {
 	type: "effect_on_condition";
@@ -13,9 +14,9 @@ export type Eoc = {
 	/**eoc类型 */
 	eoc_type: EocType,
 	/**效果 */
-	effect?: JArray;
+	effect?: EocEffect[];
 	/**启用条件 */
-	condition?: JObject;
+	condition?: BoolObj;
 	/**循环间隔 */
 	recurrence?: Time;
 	/**是否可在NPC上运行 */
@@ -32,3 +33,4 @@ export const EocTypeList = [
 ] as const;
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];
+

@@ -1,4 +1,4 @@
-import { AmmiunitionType, Ammo, Armor, BodyPartList, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { AmmiunitionType, Ammo, Armor, BodyPartList, EnchArmorValTypeList, EnchGenericValTypeList, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID } from "./ModDefine";
 
@@ -38,7 +38,18 @@ export function createCharEquip(dm:DataManager,charName:string){
             max_item_length: "1 km",
             weight_multiplier: 0,
             volume_multiplier: 0,
-        }]
+        }],
+        relic_data :{
+            passive_effects:[{
+                has:"WORN",
+                condition:"ALWAYS",
+                values:[...EnchGenericValTypeList,...EnchArmorValTypeList].map(modType=>({
+                    value   :modType,
+                    add     :{math:[`u_add_${modType}`]},
+                    multiply:{math:[`u_mul_${modType}`]},
+                }))
+            }]
+        }
     }
     /**基础武器 */
     const baseWeapon:Gun={
@@ -133,6 +144,7 @@ export function createCharEquip(dm:DataManager,charName:string){
             {u_spawn_item:baseData.baseWeaponID}
         ]
     }
-    dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
+    //dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
+    dm.addCharEvent(charName,"CharUpdate",giveWeapon);
     outData['equip'] = [baseMut,baseArmor,baseWeapon,baseAmmoType,baseAmmo,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
 }

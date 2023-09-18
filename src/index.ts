@@ -26,8 +26,6 @@ export async function main(){
         plist.push(buildChar(dm,charName));
     await Promise.all(plist);
     await dm.saveAllData();
-    const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ./eocscript --output ${dm.outPath}`)
-    console.log(stdout);
 }
 
 

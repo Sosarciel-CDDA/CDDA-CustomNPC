@@ -38,8 +38,6 @@ async function main() {
         plist.push(buildChar(dm, charName));
     await Promise.all(plist);
     await dm.saveAllData();
-    const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ./eocscript --output ${dm.outPath}`);
-    console.log(stdout);
 }
 exports.main = main;
 main();

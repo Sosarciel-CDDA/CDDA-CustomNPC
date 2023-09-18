@@ -1,4 +1,4 @@
-import { Armor, BodyPartList, Eoc, Generic, Mutation, NpcClass, NpcInstance } from "./CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, Generic, Mutation, NpcClass, NpcInstance } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
 

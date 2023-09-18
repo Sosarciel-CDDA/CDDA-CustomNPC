@@ -1,5 +1,6 @@
 import { AmmiunitionTypeID } from "../AmmiunitionType";
-import { EocID } from "../EOC";
+import { EocID } from "../Eoc";
+import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
 import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { NpcClassID } from "../NpcClass";
@@ -110,10 +111,11 @@ export type RelicData = {
         /**每次回复的间隔 */
         time: Time;
     };
-    /**被动效果 */
-    passive_effects?: {
-        id: string;
-    }[];
+    /**被动附魔效果 */
+    passive_effects?: ({
+        /**引用附魔 */
+        id: EnchantmentID;
+    } | InlineEnchantment)[];
 };
 /**弹夹 */
 export type Magazines = [
