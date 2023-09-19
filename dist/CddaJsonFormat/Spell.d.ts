@@ -116,7 +116,7 @@ export type Spell = {
     learn_spells?: Record<SpellID, NumObj>;
 };
 /**法术有效目标 列表 */
-export declare const SpellTargetList: readonly ["hostile", "ground", "self", "ally"];
+export declare const SpellTargetList: readonly ["hostile", "ground", "self", "ally", "none"];
 /**法术有效目标 */
 export type SpellTarget = typeof SpellTargetList[number];
 /**法术效果 列表 */

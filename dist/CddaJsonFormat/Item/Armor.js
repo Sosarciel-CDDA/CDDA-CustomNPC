@@ -3,7 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArmorFlagList = exports.ArmorLayerList = void 0;
 /**装甲图层显示优先级 从低到高 AURA显示在最外层 */
 exports.ArmorLayerList = ["PERSONAL", "SKINTIGHT", "NORMAL", "WAIST", "OUTER", "BELTED", "AURA"];
-exports.ArmorFlagList = ["INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER"];
+exports.ArmorFlagList = [
+    "INTEGRATED",
+    "ALLOWS_NATURAL_ATTACKS",
+    "BLOCK_WHILE_WORN",
+    "OUTER",
+    "PARTIAL_DEAF", //降低音量到安全
+];
 /**
 ABLATIVE_CHAINMAIL_ARMS             物品可以与链甲盔甲一起佩戴，而不会受到负担惩罚；特别可以放入带有此标志限制的盔甲口袋中
 ABLATIVE_CHAINMAIL_ELBOWS           物品可以与链甲盔甲一起佩戴，而不会受到负担惩罚；特别可以放入带有此标志限制的盔甲口袋中

@@ -1,5 +1,5 @@
 import { AmmiunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, Skill } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
 /**GUN ID格式 */
 export type GunID = `${string}_GUN_${string}`;
@@ -7,7 +7,7 @@ export type Gun = {
     id: GunID;
     type: "GUN";
     /**用于射击的技能 */
-    skill: string;
+    skill: Skill;
     /**接受重新加载的弹药类型 */
     ammo: AmmiunitionTypeID[];
     /**发射时的远程伤害 */

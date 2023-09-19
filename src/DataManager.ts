@@ -4,7 +4,7 @@ import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID } from 'CddaJsonFormat';
 
 
 
@@ -22,7 +22,8 @@ export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
 /**角色设定 */
 export type CharConfig = {
-    status:Partial<Record<StatusSimple,number>>
+    status:Record<StatusSimple,number>
+    weapon:Gun|Generic;
 }
 
 /**主资源表 */
@@ -176,6 +177,8 @@ export class DataManager{
                 return acc;
             }, {} as Record<AnimType,AnimData>);
 
+            const charConfig:CharConfig = await UtilFT.loadJSONFile(path.join(this.getCharPath(charName),'config')) as any;
+            console.log(charConfig);
             const baseData:CharData = {
                 charName            : charName,
                 baseMutID           : genMutationID(charName),
@@ -184,9 +187,7 @@ export class DataManager{
                 animData            : animData,
                 vaildAnim           : [],
                 baseArmorID         : genArmorID(charName),
-                baseWeaponID        : genGunID(`${charName}Weapon`),
-                baseAmmoID          : genAmmoID(charName),
-                baseAmmoTypeID      : genAmmiTypeID(charName+"Ammo"),
+                baseWeaponID        : charConfig.weapon.id,
                 baseWeaponGroupID   : genItemGroupID(`${charName}Weapon`),
                 baseWeaponFlagID    : genFlagID(`${charName}Weapon`),
             }
@@ -203,8 +204,6 @@ export class DataManager{
                     ...acc,
                     [item]:subEoc
             }},{} as Record<CharEventType,Eoc>)
-
-            const charConfig:CharConfig = await UtilFT.loadJSONFile(path.join(this.getCharPath(charName),'config')) as any;
 
             this.dataTable.charTable[charName] = {
                 baseData,
@@ -321,16 +320,12 @@ export type CharData=Readonly<{
     instanceID  : NpcInstanceID;
     /**动画数据 */
     animData    : Record<AnimType,AnimData>;
-    /**有效的动作 */
+    /**有效的动作动画 */
     vaildAnim: AnimType[];
     /**基础装备ID */
     baseArmorID : ArmorID;
     /**基础武器ID */
-    baseWeaponID: GunID;
-    /**基础弹药ID */
-    baseAmmoID: AmmoID;
-    /**基础弹药类型ID */
-    baseAmmoTypeID: AmmiunitionTypeID;
+    baseWeaponID: GunID|GenericID;
     /**基础武器物品组ID */
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */

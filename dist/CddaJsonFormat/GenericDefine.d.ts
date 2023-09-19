@@ -47,7 +47,7 @@ export type DefineMonFaction = typeof DefineMonFactionList[number];
 /**容器 */
 export type PocketData = {
     /**容器或弹夹 */
-    pocket_type: "CONTAINER" | "MAGAZINE";
+    pocket_type: "CONTAINER" | "MAGAZINE" | "MAGAZINE_WELL";
     /**此口袋可以容纳的最大体积，所有包含的物品的总和 */
     max_contains_volume?: Volume;
     /**此口袋可以容纳的最大重量，所有容器物品的总重量 */
@@ -151,4 +151,8 @@ export type Status = typeof StatusList[number];
 export declare const StatusSimpleList: readonly ["str", "dex", "int", "per"];
 /**属性简写 */
 export type StatusSimple = typeof StatusSimpleList[number];
+/**技能 列表 */
+export declare const SkillList: string[];
+/**技能 */
+export type Skill = typeof SkillList[number];
 export {};

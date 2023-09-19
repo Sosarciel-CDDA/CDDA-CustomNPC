@@ -1,6 +1,6 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, AmmiunitionTypeID, AmmoID, ArmorID, GunID, StatusSimple } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, Gun, Generic, GenericID } from './CddaJsonFormat';
 /**角色事件列表 */
 export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
 /**角色事件类型 */
@@ -11,7 +11,8 @@ export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", 
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**角色设定 */
 export type CharConfig = {
-    status: Partial<Record<StatusSimple, number>>;
+    status: Record<StatusSimple, number>;
+    weapon: Gun | Generic;
 };
 /**主资源表 */
 export type DataTable = {
@@ -93,16 +94,12 @@ export declare class DataManager {
                 /**动画装备物品组ID */
                 itemGroupID: ItemGroupID;
             }>>;
-            /**有效的动作 */
+            /**有效的动作动画 */
             vaildAnim: ("Idle" | "Move" | "Attack")[];
             /**基础装备ID */
             baseArmorID: `${string}_ARMOR_${string}`;
             /**基础武器ID */
-            baseWeaponID: `${string}_GUN_${string}`;
-            /**基础弹药ID */
-            baseAmmoID: `${string}_AMMO_${string}`;
-            /**基础弹药类型ID */
-            baseAmmoTypeID: AmmiunitionTypeID;
+            baseWeaponID: `${string}_GENERIC_${string}` | `${string}_GUN_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
@@ -144,16 +141,12 @@ export type CharData = Readonly<{
     instanceID: NpcInstanceID;
     /**动画数据 */
     animData: Record<AnimType, AnimData>;
-    /**有效的动作 */
+    /**有效的动作动画 */
     vaildAnim: AnimType[];
     /**基础装备ID */
     baseArmorID: ArmorID;
     /**基础武器ID */
-    baseWeaponID: GunID;
-    /**基础弹药ID */
-    baseAmmoID: AmmoID;
-    /**基础弹药类型ID */
-    baseAmmoTypeID: AmmiunitionTypeID;
+    baseWeaponID: GunID | GenericID;
     /**基础武器物品组ID */
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */

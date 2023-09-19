@@ -131,6 +131,8 @@ class DataManager {
                 acc[curr.animType] = curr;
                 return acc;
             }, {});
+            const charConfig = await utils_1.UtilFT.loadJSONFile(path.join(this.getCharPath(charName), 'config'));
+            console.log(charConfig);
             const baseData = {
                 charName: charName,
                 baseMutID: (0, ModDefine_1.genMutationID)(charName),
@@ -139,9 +141,7 @@ class DataManager {
                 animData: animData,
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
-                baseWeaponID: (0, ModDefine_1.genGunID)(`${charName}Weapon`),
-                baseAmmoID: (0, ModDefine_1.genAmmoID)(charName),
-                baseAmmoTypeID: (0, ModDefine_1.genAmmiTypeID)(charName + "Ammo"),
+                baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}Weapon`),
             };
@@ -158,7 +158,6 @@ class DataManager {
                     [item]: subEoc
                 };
             }, {});
-            const charConfig = await utils_1.UtilFT.loadJSONFile(path.join(this.getCharPath(charName), 'config'));
             this.dataTable.charTable[charName] = {
                 baseData,
                 charEventEocs,

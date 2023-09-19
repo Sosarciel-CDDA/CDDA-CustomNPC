@@ -2,7 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpellSoundTypeList = exports.SpellEnergySourceList = exports.SpellFlagList = exports.SpellShapeList = exports.SpellEffectList = exports.SpellTargetList = void 0;
 /**法术有效目标 列表 */
-exports.SpellTargetList = ["hostile", "ground", "self", "ally"];
+exports.SpellTargetList = [
+    "hostile",
+    "ground",
+    "self",
+    "ally",
+    "none", //无
+];
 /**法术效果 列表 */
 exports.SpellEffectList = [
     "area_pull",

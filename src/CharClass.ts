@@ -10,7 +10,7 @@ import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefi
  * @param charName 角色名
  */
 export async function createCharClass(dm:DataManager,charName:string){
-    const {baseData,outData} = await dm.getCharData(charName);
+    const {baseData,outData,charConfig} = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass:NpcClass={
         type:"npc_class",
@@ -34,8 +34,12 @@ export async function createCharClass(dm:DataManager,charName:string){
         class:baseData.classID,
         faction:"your_followers",
         chat: "TALK_DONE",
-        attitude:0,
-        mission:0,
+        attitude:3,
+        mission :0,
+        str: charConfig.status.str,
+        dex: charConfig.status.dex,
+        int: charConfig.status.int,
+        per: charConfig.status.per,
     }
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;

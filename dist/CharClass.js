@@ -6,7 +6,7 @@ const ModDefine_1 = require("./ModDefine");
  * @param charName 角色名
  */
 async function createCharClass(dm, charName) {
-    const { baseData, outData } = await dm.getCharData(charName);
+    const { baseData, outData, charConfig } = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass = {
         type: "npc_class",
@@ -31,8 +31,12 @@ async function createCharClass(dm, charName) {
         class: baseData.classID,
         faction: "your_followers",
         chat: "TALK_DONE",
-        attitude: 0,
+        attitude: 3,
         mission: 0,
+        str: charConfig.status.str,
+        dex: charConfig.status.dex,
+        int: charConfig.status.int,
+        per: charConfig.status.per,
     };
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;

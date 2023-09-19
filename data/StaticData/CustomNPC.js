@@ -48,6 +48,8 @@ function CNPC_EOC_MeleeHitEvent(){
 
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseMeleeHit()
+
+		has_target=0; //重置flag
 	}
 }
 //尝试远程攻击触发的Eoc
@@ -58,6 +60,8 @@ function CNPC_EOC_RangeHitEvent(){
 
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseRangeHit()
+
+		has_target=0; //重置flag
 	}
 }
 
@@ -69,12 +73,13 @@ function CNPC_EOC_HitEvent(){
 	u_notIdleOrMove=4;
 	//释放检测血量法术判断是否击中目标
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP"}})
-	has_target=0; //重置flag
-	//施放测试法术
-	eobj({
-		"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
-		"targeted":true
-	})
+
+	//尝试向标靶施放测试法术
+	//eobj({
+	//	"u_cast_spell":{"id":"CNPC_SPELL_TestConeSpell"},
+	//	"targeted":true
+	//})
+
 	//运行动态生成的事件eoc
 	CNPC_EOC_CharCauseHit()
 }

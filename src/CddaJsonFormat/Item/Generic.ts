@@ -199,6 +199,8 @@ export const GenericFlagList = [
 	"TARDIS"			, //跳过容器大小检查
 	"TRADER_KEEP"		, //商人不会售卖这个物品
 	"NO_RELOAD"			, //无法重载
+	"UNBREAKABLE"		, //不会损坏
+	"DURABLE_MELEE"		, //坚固的近战武器
 ] as const;
 /**通用物品的flag */
 export type GenericFlag = typeof GenericFlagList[number]|FlagID;

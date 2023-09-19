@@ -123,7 +123,13 @@ export type Spell = {
 };
 
 /**法术有效目标 列表 */
-export const SpellTargetList = ["hostile", "ground", "self", "ally"] as const;
+export const SpellTargetList = [
+    "hostile",//敌人
+    "ground" ,//地面
+    "self"   ,//自己
+    "ally"   ,//任何
+    "none"   ,//无
+] as const;
 /**法术有效目标 */
 export type SpellTarget = typeof SpellTargetList[number];
 

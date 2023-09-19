@@ -39,7 +39,13 @@ export const ArmorLayerList = ["PERSONAL","SKINTIGHT","NORMAL","WAIST","OUTER","
 /**装甲图层 */
 export type ArmorLayer = typeof ArmorLayerList[number];
 
-export const ArmorFlagList = ["INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER"] as const;
+export const ArmorFlagList = [
+	"INTEGRATED"			,//该物品代表了由突变或仿生学授予的你的一部分。它总是适合，不能被卸下（除了失去来源），并且不会在死亡时掉落，但在功能、负担、层冲突等方面表现得像普通盔甲。
+	"ALLOWS_NATURAL_ATTACKS",//允许变异肢体的攻击
+	"BLOCK_WHILE_WORN"		,//允许使用磨损的盔甲或盾牌来阻挡攻击。
+	"OUTER"					,//涛在外面
+	"PARTIAL_DEAF"			,//降低音量到安全
+] as const;
 export type ArmorFlag = typeof ArmorFlagList[number]|ArmorLayer|GenericFlag;
 
 

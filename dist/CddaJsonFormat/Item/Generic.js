@@ -8,7 +8,9 @@ exports.GenericFlagList = [
     "ZERO_WEIGHT",
     "TARDIS",
     "TRADER_KEEP",
-    "NO_RELOAD", //无法重载
+    "NO_RELOAD",
+    "UNBREAKABLE",
+    "DURABLE_MELEE", //坚固的近战武器
 ];
 /**
 ACT_IN_FIRE							如果掉落在带有火的瓷砖上，该物品将被激活

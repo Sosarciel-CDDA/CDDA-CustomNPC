@@ -4,7 +4,7 @@ import { genEOCID, genEnchantmentID } from "./ModDefine";
 
 
 export async function createCharEquip(dm:DataManager,charName:string){
-    const {baseData,outData} = await dm.getCharData(charName);
+    const {baseData,outData,charConfig} = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     /**基础变异 */
     const baseMut:Mutation = {
@@ -40,68 +40,23 @@ export async function createCharEquip(dm:DataManager,charName:string){
             volume_multiplier: 0,
         }],
         relic_data :{
-            passive_effects:[{id:genEnchantmentID('StatusMap')}]
+            passive_effects:[
+                {id:genEnchantmentID('StatusMap')       },
+                {id:genEnchantmentID('PerRangeDamage')  },
+            ]
         }
     }
-
     /**基础武器 */
-    const baseWeapon:Gun={
-        type:"GUN",
-        id:baseData.baseWeaponID,
-        name:`${charName}的武器`,
-        description:`${charName}的武器`,
-        ammo:[baseData.baseAmmoTypeID],
-        relic_data: {
-            charge_info: {
-                recharge_type: "periodic",
-                time: 1,
-                regenerate_ammo: true
-            }
-        },
-        ammo_to_fire:0,
-        pocket_data: [{
-            pocket_type: "MAGAZINE",
-            ammo_restriction: { [baseData.baseAmmoTypeID]: 10 }
-        }],
-        skill:"rifle",
-        weight:0,
-        volume:0,
-        symbol:"O",
-        looks_like:TransparentItem,
-        flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
-            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP",
-            baseData.baseWeaponFlagID],
-        countdown_interval: 1,
-        range:30,
-        ranged_damage:{
-            damage_type:"bullet",
-            amount:50,
-            armor_penetration:10,
-        },
-        melee_damage:{
-            cut:20
-        },
-        modes:[["MELEE","近战",6],["DEFAULT","默认",2],["AUTO","全自动",4]]
-    }
-    /**基础弹药类型 */
-    const baseAmmoType:AmmiunitionType={
-        type:"ammunition_type",
-        name:`${charName}的子弹类型`,
-        id:baseData.baseAmmoTypeID,
-        default:baseData.baseAmmoID,
-    }
-    /**基础武器所用的弹药 */
-    const baseAmmo:Ammo={
-        type:"AMMO",
-        ammo_type:baseData.baseAmmoTypeID,
-        id:baseData.baseAmmoID,
-        name:`${charName}的子弹`,
-        description:`${charName}的子弹`,
-        weight:0,
-        volume:0,
-        symbol:"O",
-        flags:["ZERO_WEIGHT"],
-    }
+    const baseWeapon = charConfig.weapon;
+    baseWeapon.looks_like = baseWeapon.looks_like||TransparentItem;
+    baseWeapon.flags = baseWeapon.flags||[];
+    baseWeapon.flags?.push(
+        baseData.baseWeaponFlagID,//绝色武器标识
+        "ACTIVATE_ON_PLACE"      ,//自动销毁
+        "TRADER_KEEP"            ,//不会出售
+    );
+    baseWeapon.countdown_interval= 1; //自动销毁
+
     /**基础武器物品组 */
     const baseItemGroup:ItemGroup={
         type:"item_group",
@@ -137,7 +92,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
             {u_spawn_item:baseData.baseWeaponID}
         ]
     }
-    //dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
-    dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseAmmoType,baseAmmo,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
+    dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
+    //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
+    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
 }

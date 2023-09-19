@@ -1,0 +1,61 @@
+{
+    "status":{
+        "str":10,
+        "dex":12,
+        "per":12,
+        "int":10
+    },
+    "weapon":{
+		"type": "GUN",
+		"id": "CNPC_GUN_AsunaWeapon",
+		"name": "Asuna的枪与匕首",
+		"description": "Asuna的枪与匕首",
+		"ammo": ["50"],
+		"relic_data": {
+			"charge_info": {
+				"recharge_type": "periodic",
+				"time": 10,
+				"regenerate_ammo": true
+			}
+		},
+		"pocket_data": [{
+			"pocket_type": "MAGAZINE",
+			"ammo_restriction": {
+				"50": 10
+			}
+		}],
+		"skill": "pistol",
+		"weight": "1700 g",
+        "volume": "617 ml",
+        "longest_side": "30 cm",
+		"symbol": ";",
+		"flags": [
+			"NO_RELOAD",
+			"NO_UNLOAD",
+			"NEVER_JAMS",
+			"NON_FOULING",
+			"NEEDS_NO_LUBE",
+            "DURABLE_MELEE"
+		],
+        "weapon_category": [
+            "KNIVES"
+        ],
+		"range": 20,
+        "material": [ "steel", "plastic" ],
+        "to_hit": {
+            "grip": "weapon",
+            "length": "hand",
+            "surface": "point",
+            "balance": "good"
+        },
+        "techniques": [
+            "RAPID"
+        ],
+		"melee_damage": { "cut": 25,"bash": 6 },
+		"modes": [
+			["MELEE"  ,"近战"  ,1 ],
+			["DEFAULT","默认"  ,1 ],
+			["AUTO"   ,"全自动",1 ]
+		]
+	}
+}

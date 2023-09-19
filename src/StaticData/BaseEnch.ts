@@ -16,7 +16,18 @@ export const StatusMap:Enchantment={
         multiply:{math:[`u_mul_${modType}`]},
     }))
 }
+/**感知枪械伤害附魔 */
+export const PerRangeDamage:Enchantment={
+    id:genEnchantmentID("PerRangeDamage"),
+    type:"enchantment",
+    has:"WORN",
+    condition:"ALWAYS",
+    values:[{
+        value:"RANGED_DAMAGE",
+        add:{math:["u_val('perception')*sqrt(u_val('perception'))"]}
+    }]
+}
 
-export const BaseEnch = [StatusMap];
+export const BaseEnch = [StatusMap,PerRangeDamage];
 
 saveStaticData('BaseEnch',BaseEnch);
