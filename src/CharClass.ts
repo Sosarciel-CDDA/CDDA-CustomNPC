@@ -36,10 +36,10 @@ export async function createCharClass(dm:DataManager,charName:string){
         chat: "TALK_DONE",
         attitude:3,
         mission :0,
-        str: charConfig.status.str,
-        dex: charConfig.status.dex,
-        int: charConfig.status.int,
-        per: charConfig.status.per,
+        str: charConfig.base_status.str,
+        dex: charConfig.base_status.dex,
+        int: charConfig.base_status.int,
+        per: charConfig.base_status.per,
     }
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;

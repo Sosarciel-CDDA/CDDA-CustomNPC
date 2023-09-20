@@ -6,7 +6,6 @@ import { TalkTopicID } from "./TalkTopic";
 
 
 /**NpcInstance ID格式
- * @TJS-type string
  */
 export type NpcInstanceID = CddaID<"NPC">;
 

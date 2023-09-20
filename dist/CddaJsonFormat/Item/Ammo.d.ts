@@ -2,7 +2,6 @@ import { AmmiunitionTypeID } from "../AmmiunitionType";
 import { RangeDamage } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
 /**Ammo ID格式
- * @TJS-type string
  */
 export type AmmoID = `${string}_AMMO_${string}`;
 export type Ammo = {

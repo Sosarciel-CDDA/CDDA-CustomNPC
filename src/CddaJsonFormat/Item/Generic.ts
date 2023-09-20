@@ -12,7 +12,6 @@ import { GunID } from "./Gun";
 
 
 /**Generic ID格式
- * @TJS-type string
  */
 export type GenericID = `${string}_GENERIC_${string}`;
 
@@ -204,8 +203,10 @@ export const GenericFlagList = [
 	"UNBREAKABLE"		, //不会损坏
 	"DURABLE_MELEE"		, //坚固的近战武器
 ] as const;
+/**预定义的通用物品的flag */
+export type DefineGenericFlag = typeof GenericFlagList[number];
 /**通用物品的flag */
-export type GenericFlag = typeof GenericFlagList[number]|FlagID;
+export type GenericFlag = DefineGenericFlag|FlagID;
 
 /**物品的材质 字符串时为材质类型 */
 export type ItemMaterial = string|{

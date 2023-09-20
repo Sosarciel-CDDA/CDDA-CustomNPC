@@ -1,6 +1,5 @@
 import { CddaID, Color, DefineMonFaction, Volume, Weight } from "./GenericDefine";
 /**Monster ID格式
- * @TJS-type string
  */
 export type MonsterID = CddaID<"MON">;
 export type Monster = {

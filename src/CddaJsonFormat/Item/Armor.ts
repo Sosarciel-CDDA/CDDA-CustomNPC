@@ -3,7 +3,6 @@ import { GenericBase, GenericFlag } from "./Generic"
 
 
 /**Armor ID格式
- * @TJS-type string
  */
 export type ArmorID = `${string}_ARMOR_${string}`;
 

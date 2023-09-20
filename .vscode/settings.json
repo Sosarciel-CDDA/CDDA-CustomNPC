@@ -1,7 +1,7 @@
 {
     "json.schemas": [
         {
-            "fileMatch": ["/config.json"],
+            "fileMatch": ["data/chars/*/config.json"],
             "url": "./schema/CharConfig.schema.json"
         }
     ]

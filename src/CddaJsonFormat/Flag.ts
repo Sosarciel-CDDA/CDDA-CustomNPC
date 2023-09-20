@@ -5,7 +5,6 @@ import { CddaID } from "./GenericDefine";
 
 
 /**Flag ID格式
- * @TJS-type string
  */
 export type FlagID = CddaID<"FLAG">;
 

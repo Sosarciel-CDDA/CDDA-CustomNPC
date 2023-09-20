@@ -5,7 +5,6 @@ import { MutationID } from "./Mutattion";
 import { EffectID } from "./Effect";
 import { BoolObj, NumObj } from "./Eoc";
 /**附魔ID
- * @TJS-type string
  */
 export type EnchantmentID = CddaID<"ENCH">;
 /**附魔 */

@@ -22,7 +22,7 @@ export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
 /**角色设定 */
 export type CharConfig = {
-    status:Record<StatusSimple,number>
+    base_status:Record<StatusSimple,number>
     weapon:Gun|Generic;
 }
 

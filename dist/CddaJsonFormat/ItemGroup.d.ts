@@ -1,7 +1,6 @@
 import { CddaID } from "./GenericDefine";
 import { AnyItemID } from "./Item/Generic";
 /**ItemGroup ID格式
- * @TJS-type string
  */
 export type ItemGroupID = CddaID<"ITEMGROUP">;
 export type ItemGroup = {

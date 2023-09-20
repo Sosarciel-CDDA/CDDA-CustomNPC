@@ -4,7 +4,6 @@ import { FieldID } from "./Field";
 import { BodyPartID, CddaID } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 /**法术ID
- * @TJS-type string
  */
 export type SpellID = CddaID<"SPELL">;
 /**法术 */

@@ -4,7 +4,6 @@ import { GenericBase, GenericFlag } from "./Generic";
 
 
 /**GUN ID格式
- * @TJS-type string
  */
 export type GunID = `${string}_GUN_${string}`;
 

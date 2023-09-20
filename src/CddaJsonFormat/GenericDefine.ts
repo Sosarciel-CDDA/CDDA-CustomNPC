@@ -44,15 +44,16 @@ const SubBPList = [
 export type SubBP = typeof SubBPList[number];
 
 /**自定义的肢体
- * @TJS-type string
  */
 export type CustBP = CddaID<"BP">;
 
 /**自定义的ID
  * @TJS-type string
  */
-export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`;
+export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`|SchemaString;
 
+/**用于辅助解析的类型 */
+export type SchemaString = `${string}SchemaString`;
 
 /**组肢体 */
 export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
@@ -122,10 +123,7 @@ export type PocketData = {
      * 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。
      * {AmmoID 子弹类型 : 容纳数量}[]
      */
-	ammo_restriction?: {
-        /** 子弹类型 : 容纳数量 */
-        [key:string]: number
-    };
+	ammo_restriction?: Record<AmmoID,number>;
     /**只有当物品具有与这些标志之一匹配的标志时，才能将其放入此口袋中。 */
 	flag_restriction?: FlagID[];
     /**只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。 */
@@ -223,6 +221,6 @@ export type StatusSimple = typeof StatusSimpleList[number];
 export const SkillList = [
     "pistol",
     "rifle" ,
-]
+] as const;
 /**技能 */
 export type Skill = typeof SkillList[number];

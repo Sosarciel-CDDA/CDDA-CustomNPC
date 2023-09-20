@@ -8,7 +8,6 @@ import { AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { GunID } from "./Gun";
 /**Generic ID格式
- * @TJS-type string
  */
 export type GenericID = `${string}_GENERIC_${string}`;
 /**通用物品 */
@@ -187,8 +186,10 @@ export type UseAction = {
 };
 /**通用物品的flag列表 */
 export declare const GenericFlagList: readonly ["ACTIVATE_ON_PLACE", "SINGLE_USE", "ZERO_WEIGHT", "TARDIS", "TRADER_KEEP", "NO_RELOAD", "UNBREAKABLE", "DURABLE_MELEE"];
+/**预定义的通用物品的flag */
+export type DefineGenericFlag = typeof GenericFlagList[number];
 /**通用物品的flag */
-export type GenericFlag = typeof GenericFlagList[number] | FlagID;
+export type GenericFlag = DefineGenericFlag | FlagID;
 /**物品的材质 字符串时为材质类型 */
 export type ItemMaterial = string | {
     /**材质类型 */

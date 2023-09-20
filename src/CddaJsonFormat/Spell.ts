@@ -8,7 +8,6 @@ import { AnyItemID } from "./Item";
 
 
 /**法术ID
- * @TJS-type string
  */
 export type SpellID = CddaID<"SPELL">;
 

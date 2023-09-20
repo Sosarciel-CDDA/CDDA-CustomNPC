@@ -30,8 +30,13 @@ const schema = TJS.generateSchema(program, "*", settings);
 
 UtilFT.writeJSONFile(path.join(process.cwd(),"schemas"),schema as any);
 */
-const schema = utils_1.UtilFT.loadJSONFileSync(path.join(process.cwd(), "schema", "schemas"));
+const schemasPath = path.join(process.cwd(), "schema", "schemas.json");
+let schema = utils_1.UtilFT.loadJSONFileSync(schemasPath);
+//替换SchemaString标识符
+schema = JSON.parse(JSON.stringify(schema).replace(/\^\.\*SchemaString\$/g, '^.*$'));
+utils_1.UtilFT.writeJSONFile(schemasPath, schema);
 const definitions = schema["definitions"];
+//展开定义
 for (const typeName in definitions) {
     const schema = definitions[typeName];
     if (schema.type != "object")

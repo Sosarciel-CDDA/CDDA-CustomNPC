@@ -3,7 +3,6 @@ import { CddaID, DefineNpcFaction } from "./GenericDefine";
 import { NpcClassID } from "./NpcClass";
 import { TalkTopicID } from "./TalkTopic";
 /**NpcInstance ID格式
- * @TJS-type string
  */
 export type NpcInstanceID = CddaID<"NPC">;
 /**Npc实例 */

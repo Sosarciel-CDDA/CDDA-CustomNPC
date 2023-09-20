@@ -2,7 +2,7 @@ import * as TJS from "typescript-json-schema";
 import * as ts from "typescript";
 import * as path from 'path';
 import { resolve } from "path";
-import { JObject, UtilFT } from "@zwa73/utils";
+import { JObject, UtilFT, UtilFunc, stringifyJToken } from "@zwa73/utils";
 /**
 // optionally pass argument to schema generator
 const settings: TJS.PartialArgs = {
@@ -31,10 +31,14 @@ const schema = TJS.generateSchema(program, "*", settings);
 
 UtilFT.writeJSONFile(path.join(process.cwd(),"schemas"),schema as any);
 */
+const schemasPath = path.join(process.cwd(),"schema","schemas.json");
+let schema = UtilFT.loadJSONFileSync(schemasPath) as any;
+//替换SchemaString标识符
+schema = JSON.parse(JSON.stringify(schema).replace(/\^\.\*SchemaString\$/g,'^.*$'));
+UtilFT.writeJSONFile(schemasPath,schema);
 
-const schema = UtilFT.loadJSONFileSync(path.join(process.cwd(),"schema","schemas")) as any;
 const definitions = schema["definitions"] as Record<string,JObject>;
-
+//展开定义
 for(const typeName in definitions){
     const schema = definitions[typeName];
     if(schema.type != "object") continue;

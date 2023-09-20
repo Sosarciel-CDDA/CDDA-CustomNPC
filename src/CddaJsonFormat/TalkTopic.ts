@@ -5,7 +5,6 @@ import { Eoc, EocEffect } from "./Eoc";
 
 
 /**TalkTopic ID格式
- * @TJS-type string
  */
 export type TalkTopicID = CddaID<"TALK">|DefineTopic;
 
