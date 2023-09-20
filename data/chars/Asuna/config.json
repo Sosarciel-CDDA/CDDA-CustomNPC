@@ -1,5 +1,5 @@
 {
-    "status":{
+    "base_status":{
         "str":10,
         "dex":12,
         "per":12,
@@ -10,7 +10,7 @@
 		"id": "CNPC_GUN_AsunaWeapon",
 		"name": "Asuna的枪与匕首",
 		"description": "Asuna的枪与匕首",
-		"ammo": ["50"],
+		"ammo": ["500"],
 		"relic_data": {
 			"charge_info": {
 				"recharge_type": "periodic",
@@ -21,7 +21,7 @@
 		"pocket_data": [{
 			"pocket_type": "MAGAZINE",
 			"ammo_restriction": {
-				"50": 10
+				"500": 10
 			}
 		}],
 		"skill": "pistol",
@@ -53,9 +53,9 @@
         ],
 		"melee_damage": { "cut": 25,"bash": 6 },
 		"modes": [
-			["MELEE"  ,"近战"  ,1 ],
-			["DEFAULT","默认"  ,1 ],
-			["AUTO"   ,"全自动",1 ]
+			["MELEE"  ,"auto", 1 ],
+			["DEFAULT","auto", 1 ],
+			["AUTO"   ,"auto", 1 ]
 		]
 	}
 }

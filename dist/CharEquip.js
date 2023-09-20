@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
-const CddaJsonFormat_1 = require("./CddaJsonFormat");
 const ModDefine_1 = require("./ModDefine");
 async function createCharEquip(dm, charName) {
     const { baseData, outData, charConfig } = await dm.getCharData(charName);
@@ -13,8 +12,6 @@ async function createCharEquip(dm, charName) {
         name: `${charName}的基础变异`,
         description: `${charName}的基础变异`,
         points: 0,
-        restricts_gear: [...CddaJsonFormat_1.BodyPartList],
-        remove_rigid: [...CddaJsonFormat_1.BodyPartList],
         integrated_armor: [baseData.baseArmorID]
     };
     /**基础装备 */
@@ -42,7 +39,7 @@ async function createCharEquip(dm, charName) {
         relic_data: {
             passive_effects: [
                 { id: (0, ModDefine_1.genEnchantmentID)('StatusMap') },
-                { id: (0, ModDefine_1.genEnchantmentID)('PerRangeDamage') },
+                { id: (0, ModDefine_1.genEnchantmentID)('StatMod') },
             ]
         }
     };

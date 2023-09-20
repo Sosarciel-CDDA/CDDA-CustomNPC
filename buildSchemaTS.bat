@@ -1,0 +1,2 @@
+node "./dist/Schema"
+pause

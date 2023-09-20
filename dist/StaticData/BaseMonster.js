@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseMonster = exports.TARGET_MON_ID = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const ModDefine_1 = require("@src/ModDefine");
 /**标靶怪物ID */
 exports.TARGET_MON_ID = (0, ModDefine_1.genMonsterID)("Target");
 /**标靶 */

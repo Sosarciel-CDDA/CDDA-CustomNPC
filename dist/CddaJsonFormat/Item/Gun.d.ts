@@ -1,8 +1,11 @@
 import { AmmiunitionTypeID } from "../AmmiunitionType";
 import { RangeDamage, Energy, Volume, Skill } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
-/**GUN ID格式 */
+/**GUN ID格式
+ * @TJS-type string
+ */
 export type GunID = `${string}_GUN_${string}`;
+/**枪械 */
 export type Gun = {
     id: GunID;
     type: "GUN";
@@ -66,12 +69,37 @@ export type Gun = {
 /**开火模式 */
 export type FireMode = [
     /**基础模式 */
-    "DEFAULT" | "AUTO" | "MELEE",
+    FireModeName,
     /**模式名称 semi-auto auto */
-    string,
+    FireModeDisplayName,
     /**射击次数 */
-    number
+    number,
+    /**额外flag */
+    (FireModeFlag | FireModeFlag[])?
 ];
+/**开火模式名 */
+export type FireModeName = [
+    "DEFAULT",
+    "AUTO",
+    "MELEE",
+    "BRUSH",
+    "MULTI"
+][number];
+/** 开火模式显示名 */
+export type FireModeDisplayName = [
+    "semi-auto",
+    "revolver",
+    "single",
+    "auto",
+    "double",
+    "multi",
+    `${number} rd.`
+][number];
+export type FireModeFlag = [
+    "NPC_AVOID",
+    "MELEE",
+    "SIMULTANEOUS"
+][number];
 /**有效枪械组件 */
 export type VaildMod = [
     /**组件类型/位置 "brass catcher" "grip" */

@@ -1,7 +1,9 @@
 import { JArray, JObject } from "@zwa73/utils";
 import { CddaID } from "./GenericDefine";
 import { EocEffect } from "./Eoc";
-/**TalkTopic ID格式 */
+/**TalkTopic ID格式
+ * @TJS-type string
+ */
 export type TalkTopicID = CddaID<"TALK"> | DefineTopic;
 /**对话选项 */
 export type TalkTopic = {

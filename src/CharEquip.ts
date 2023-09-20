@@ -13,8 +13,6 @@ export async function createCharEquip(dm:DataManager,charName:string){
         name            : `${charName}的基础变异`,
         description     : `${charName}的基础变异`,
         points          : 0,
-        restricts_gear  : [...BodyPartList],
-        remove_rigid    : [...BodyPartList],
         integrated_armor: [baseData.baseArmorID]
     }
     /**基础装备 */
@@ -42,7 +40,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         relic_data :{
             passive_effects:[
                 {id:genEnchantmentID('StatusMap')       },
-                {id:genEnchantmentID('PerRangeDamage')  },
+                {id:genEnchantmentID('StatMod')         },
             ]
         }
     }

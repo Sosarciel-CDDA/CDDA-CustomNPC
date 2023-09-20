@@ -1,4 +1,4 @@
-import { AmmiunitionTypeID } from "./CddaJsonFormat/AmmiunitionType";
+import { AmmiunitionTypeID } from "CddaJsonFormat";
 import { EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
 
 

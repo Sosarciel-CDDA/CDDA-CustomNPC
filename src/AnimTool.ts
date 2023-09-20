@@ -1,7 +1,5 @@
 import * as path from 'path';
-import { Armor } from "CddaJsonFormat";
-import { Mutation } from "./CddaJsonFormat/Mutattion";
-import { ItemGroup } from "./CddaJsonFormat/ItemGroup";
+import { Armor, BodyPartList, Mutation, ItemGroup } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 
 
@@ -32,6 +30,8 @@ export async function createAnimTool(dm:DataManager,charName:string){
             name:`${charName}的${animType}动画变异`,
             description:`${charName}的${animType}动画变异`,
             //integrated_armor:[animData.armorID],
+            restricts_gear  : [...BodyPartList],
+            remove_rigid    : [...BodyPartList],
             points:0,
         }
         const animArmor:Armor={

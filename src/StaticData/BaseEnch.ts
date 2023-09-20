@@ -16,15 +16,19 @@ export const StatusMap:Enchantment={
         multiply:{math:[`u_mul_${modType}`]},
     }))
 }
-/**感知枪械伤害附魔 */
+/**属性增强附魔 */
 export const PerRangeDamage:Enchantment={
-    id:genEnchantmentID("PerRangeDamage"),
+    id:genEnchantmentID("StatMod"),
     type:"enchantment",
     has:"WORN",
     condition:"ALWAYS",
     values:[{
         value:"RANGED_DAMAGE",
-        add:{math:["u_val('perception')*sqrt(u_val('perception'))"]}
+        add:{math:["u_val('perception')"]},
+        multiply:{math:["(log(u_val('perception'))*log(u_val('perception')))-1"]}
+    },{
+        value:"MELEE_DAMAGE",
+        multiply:{math:["(log(u_val('strength'))*log(u_val('strength')))-1"]}
     }]
 }
 

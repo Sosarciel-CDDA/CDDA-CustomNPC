@@ -4,12 +4,14 @@
   "description": "快速定义cdda的随从npc",
   "main": "index.js",
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+	  "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json"
   },
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {
-    "@zwa73/utils": "^1.0.38",
-    "typescript": "^5.2.2"
+    "@zwa73/utils": "^1.0.41",
+    "typescript": "^5.2.2",
+    "typescript-json-schema": "^0.61.0"
   }
 }

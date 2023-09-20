@@ -1,5 +1,7 @@
 import { CddaID } from "./GenericDefine";
-/**材质ID格式 */
+/**材质ID格式
+ * @TJS-type string
+ */
 export type AmmiunitionTypeID = CddaID<"AMMITYPE">;
 /**材质类型 */
 export type AmmiunitionType = {

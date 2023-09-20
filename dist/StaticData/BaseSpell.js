@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseSpell = exports.ControlSpellFlags = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
-const ModDefine_1 = require("../ModDefine");
+const ModDefine_1 = require("@src/ModDefine");
 /**用于必定成功的控制法术的flags */
 exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [

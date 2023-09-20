@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseTrait = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlag = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const ModDefine_1 = require("@src/ModDefine");
 exports.CnpcFlag = {
     type: "mutation",
     id: (0, ModDefine_1.genMutationID)("CnpcFlag"),

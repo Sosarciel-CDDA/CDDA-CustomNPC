@@ -1,5 +1,5 @@
 import { FlagID } from "./Flag";
-import { AmmoID, AnyItemID } from "./Item";
+import { AnyItemID } from "./Item";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -28,9 +28,13 @@ export type LimbBP = typeof LimbBPList[number];
 declare const SubBPList: readonly ["foot_l", "foot_r", "hand_l", "hand_r"];
 /**子肢体 */
 export type SubBP = typeof SubBPList[number];
-/**自定义的肢体 */
+/**自定义的肢体
+ * @TJS-type string
+ */
 export type CustBP = CddaID<"BP">;
-/**自定义的ID */
+/**自定义的ID
+ * @TJS-type string
+ */
 export type CddaID<T extends string> = `${`${string}_` | ''}${T}_${string}`;
 /**组肢体 */
 export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
@@ -84,10 +88,13 @@ export type PocketData = {
     open_container?: boolean;
     /**默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。 */
     fire_protection?: boolean;
-    /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。 */
+    /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。
+     * 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。
+     * {AmmoID 子弹类型 : 容纳数量}[]
+     */
     ammo_restriction?: {
-        /**子弹类型 : 容纳数量 */
-        [key: AmmoID]: number;
+        /** 子弹类型 : 容纳数量 */
+        [key: string]: number;
     };
     /**只有当物品具有与这些标志之一匹配的标志时，才能将其放入此口袋中。 */
     flag_restriction?: FlagID[];

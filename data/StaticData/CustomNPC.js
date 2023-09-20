@@ -31,8 +31,6 @@ function CNPC_EOC_InitCurrHP(){
 //检测现有血量并触发take_damage
 function CNPC_EOC_CheckCurrHP(){
 	eoc_type("ACTIVATION")
-	mag1 = u_currHp;
-	mag2 = u_hp();
 	if(and(u_currHp > u_hp(),has_target==0)){
 		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonTarget" } })
 		has_target=1;

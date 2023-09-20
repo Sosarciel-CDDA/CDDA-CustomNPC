@@ -3,10 +3,12 @@ import { RangeDamage, Energy, Volume, Skill } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
 
 
-/**GUN ID格式 */
+/**GUN ID格式
+ * @TJS-type string
+ */
 export type GunID = `${string}_GUN_${string}`;
 
-
+/**枪械 */
 export type Gun = {
     id:GunID;
 	type: "GUN";
@@ -68,15 +70,47 @@ export type Gun = {
     flags?: GunFlag[];
 } & GenericBase;
 
+
+
 /**开火模式 */
 export type FireMode = [
     /**基础模式 */
-    "DEFAULT"|"AUTO"|"MELEE",
+    FireModeName,
     /**模式名称 semi-auto auto */
-    string,
+    FireModeDisplayName,
     /**射击次数 */
-    number
+    number,
+    /**额外flag */
+    (FireModeFlag|FireModeFlag[])?
 ]
+
+/**开火模式名 */
+export type FireModeName = [
+    "DEFAULT"   , // 默认模式
+    "AUTO"      , // 全自动模式
+    "MELEE"     , // 近战模式
+    "BRUSH"     , // 无意义 用于额外标识
+    "MULTI"     , // 无意义 用于额外标识
+][number];
+
+/** 开火模式显示名 */
+export type FireModeDisplayName =[
+    "semi-auto"     , // 半自动 对于发射一发子弹并在发射后立即弹出弹壳的枪支
+    "revolver"      , // 左轮   用于在玩家重新装弹时发射单发子弹并弹出弹壳的轮式枪
+    "single"        , // 单发   对于其他任何东西，包括单发或断动枪
+    "auto"          , // 全自动 用于全自动武器
+    "double"        , // 散射   用于霰弹枪或其他可以同时从多个枪管发射的武器
+    "multi"         , // 并射   用于同时从两个以上枪管发射的武器 如多管火箭筒
+    `${number} rd.` , // n连发 仅适用于具有附加连发模式的枪支，不应用于代替auto
+][number];
+
+/*开火模式额外flag */
+export type FireModeFlag = [
+    "NPC_AVOID"     ,//禁止 NPC 使用
+    "MELEE"         ,//近战攻击的第三个参数指定到达距离
+    "SIMULTANEOUS"  ,//多发子弹同时发射，最后施加后坐力
+][number];
+
 /**有效枪械组件 */
 export type VaildMod = [
     /**组件类型/位置 "brass catcher" "grip" */

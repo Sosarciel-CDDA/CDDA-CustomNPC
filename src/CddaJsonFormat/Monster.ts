@@ -2,7 +2,9 @@ import { CddaID, Color, DefineMonFaction, DefineNpcFaction, Volume, Weight } fro
 
 
 
-/**Monster ID格式 */
+/**Monster ID格式
+ * @TJS-type string
+ */
 export type MonsterID = CddaID<"MON">;
 
 export type Monster = {

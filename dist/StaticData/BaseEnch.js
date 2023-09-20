@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseEnch = exports.PerRangeDamage = exports.StatusMap = void 0;
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
-const ModDefine_1 = require("../ModDefine");
+const CddaJsonFormat_1 = require("CddaJsonFormat");
+const ModDefine_1 = require("@src/ModDefine");
 const StaticData_1 = require("./StaticData");
 /**属性映射附魔 */
 exports.StatusMap = {
@@ -16,15 +16,19 @@ exports.StatusMap = {
         multiply: { math: [`u_mul_${modType}`] },
     }))
 };
-/**感知枪械伤害附魔 */
+/**属性增强附魔 */
 exports.PerRangeDamage = {
-    id: (0, ModDefine_1.genEnchantmentID)("PerRangeDamage"),
+    id: (0, ModDefine_1.genEnchantmentID)("StatMod"),
     type: "enchantment",
     has: "WORN",
     condition: "ALWAYS",
     values: [{
             value: "RANGED_DAMAGE",
-            add: { math: ["u_val('perception')*sqrt(u_val('perception'))"] }
+            add: { math: ["u_val('perception')"] },
+            multiply: { math: ["(log(u_val('perception'))*log(u_val('perception')))-1"] }
+        }, {
+            value: "MELEE_DAMAGE",
+            multiply: { math: ["(log(u_val('strength'))*log(u_val('strength')))-1"] }
         }]
 };
 exports.BaseEnch = [exports.StatusMap, exports.PerRangeDamage];

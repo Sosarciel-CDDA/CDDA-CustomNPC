@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseNpc = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const ModDefine_1 = require("@src/ModDefine");
 const BaseNpcClass = {
     type: 'npc_class',
     id: (0, ModDefine_1.genNpcClassID)("BaseNpcClass"),

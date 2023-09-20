@@ -1,6 +1,8 @@
 import { BodyPartID, CddaID } from "./GenericDefine";
 import { ArmorID } from "./Item";
-/**Mutation ID格式 */
+/**Mutation ID格式
+ * @TJS-type string
+ */
 export type MutationID = CddaID<"MUT">;
 /**变异 */
 export type Mutation = {

@@ -11,7 +11,9 @@ import { GunID } from "./Gun";
 
 
 
-/**Generic ID格式 */
+/**Generic ID格式
+ * @TJS-type string
+ */
 export type GenericID = `${string}_GENERIC_${string}`;
 
 /**通用物品 */

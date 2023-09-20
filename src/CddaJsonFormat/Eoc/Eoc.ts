@@ -4,7 +4,9 @@ import { EocEffect } from "./EocEffect";
 
 
 
-/**EOC ID格式 */
+/**EOC ID格式
+ * @TJS-type string
+ */
 export type EocID = CddaID<"EOC">;
 /**EOC */
 export type Eoc = {

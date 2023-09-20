@@ -7,7 +7,9 @@ import { NpcClassID } from "../NpcClass";
 import { AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { GunID } from "./Gun";
-/**Generic ID格式 */
+/**Generic ID格式
+ * @TJS-type string
+ */
 export type GenericID = `${string}_GENERIC_${string}`;
 /**通用物品 */
 export type Generic = {

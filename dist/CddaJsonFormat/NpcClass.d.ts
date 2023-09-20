@@ -2,7 +2,9 @@ import { NumObj } from "./Eoc";
 import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutattion";
-/**NpcClass ID格式 */
+/**NpcClass ID格式
+ * @TJS-type string
+ */
 export type NpcClassID = CddaID<"NPCLASS">;
 export type NpcClass = {
     type: "npc_class";
