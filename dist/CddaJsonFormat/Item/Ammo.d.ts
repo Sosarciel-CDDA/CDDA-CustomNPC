@@ -1,9 +1,11 @@
 import { AmmiunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage } from "../GenericDefine";
+import { CddaID, RangeDamage } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
+export declare const DefineAmmoIDList: readonly ["50", "500"];
+export type DefineAmmoID = typeof DefineAmmoIDList[number];
 /**Ammo ID格式
  */
-export type AmmoID = `${string}_AMMO_${string}`;
+export type AmmoID = CddaID<"AMMO"> | DefineAmmoID;
 export type Ammo = {
     id: AmmoID;
     type: "AMMO";
@@ -46,7 +48,11 @@ export type Ammo = {
      */
     loudness?: number;
     /**弹药的特殊效果 */
-    effects?: string[];
+    effects?: AmmoEffect[];
     /**弹药的flag */
     flags?: GenericFlag[];
 } & GenericBase;
+/**子弹额外效果 列表 */
+export declare const AmmoEffectList: string[];
+/**子弹额外效果 */
+export type AmmoEffect = typeof AmmoEffectList[number];

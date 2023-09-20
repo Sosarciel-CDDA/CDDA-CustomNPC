@@ -91,9 +91,9 @@ export type PocketData = {
     fire_protection?: boolean;
     /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。
      * 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。
-     * {AmmoID 子弹类型 : 容纳数量}[]
+     * Record<(AmmoID)子弹类型 : (number)容纳数量}>
      */
-    ammo_restriction?: Record<AmmoID, number>;
+    ammo_restriction?: Partial<Record<AmmoID, number>>;
     /**只有当物品具有与这些标志之一匹配的标志时，才能将其放入此口袋中。 */
     flag_restriction?: FlagID[];
     /**只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。 */

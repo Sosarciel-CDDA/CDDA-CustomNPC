@@ -1,10 +1,10 @@
-import { BodyPartID } from "../GenericDefine"
+import { BodyPartID, CddaID } from "../GenericDefine"
 import { GenericBase, GenericFlag } from "./Generic"
 
 
 /**Armor ID格式
  */
-export type ArmorID = `${string}_ARMOR_${string}`;
+export type ArmorID = CddaID<"ARMOR">;
 
 /**一件护甲 */
 export type Armor = {

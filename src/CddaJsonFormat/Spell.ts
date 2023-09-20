@@ -118,9 +118,9 @@ export type Spell = {
     /**声音变体ID */
 	sound_variant?: string;
     /**当列表内所有法术到达指定等级时学会此法术
-     * 法术ID : 需求等级
+     * Record<(SpellID)法术ID : (NumObj)需求等级>
      */
-	learn_spells?: Record<SpellID,NumObj>;
+	learn_spells?: Partial<Record<SpellID,NumObj>>;
 };
 
 /**法术有效目标 列表 */

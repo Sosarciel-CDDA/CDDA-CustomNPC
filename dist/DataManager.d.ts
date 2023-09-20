@@ -90,16 +90,16 @@ export declare class DataManager {
                 /**动画变异ID */
                 mutID: MutationID;
                 /**动画装备ID */
-                armorID: `${string}_ARMOR_${string}`;
+                armorID: ArmorID;
                 /**动画装备物品组ID */
                 itemGroupID: ItemGroupID;
             }>>;
             /**有效的动作动画 */
             vaildAnim: ("Idle" | "Move" | "Attack")[];
             /**基础装备ID */
-            baseArmorID: `${string}_ARMOR_${string}`;
+            baseArmorID: ArmorID;
             /**基础武器ID */
-            baseWeaponID: `${string}_GENERIC_${string}` | `${string}_GUN_${string}`;
+            baseWeaponID: `${string}SchemaString` | `GUN_${string}` | `${string}_GUN_${string}` | `GENERIC_${string}` | `${string}_GENERIC_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */

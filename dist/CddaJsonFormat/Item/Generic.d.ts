@@ -2,14 +2,14 @@ import { AmmiunitionTypeID } from "../AmmiunitionType";
 import { EocID } from "../Eoc";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
-import { Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
+import { CddaID, Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { NpcClassID } from "../NpcClass";
 import { AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { GunID } from "./Gun";
 /**Generic ID格式
  */
-export type GenericID = `${string}_GENERIC_${string}`;
+export type GenericID = CddaID<"GENERIC">;
 /**通用物品 */
 export type Generic = {
     type: "GENERIC";

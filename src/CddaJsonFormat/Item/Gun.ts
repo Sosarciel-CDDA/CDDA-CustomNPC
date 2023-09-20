@@ -1,11 +1,12 @@
 import { AmmiunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume, Skill } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, Skill, CddaID } from "../GenericDefine";
+import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
 
 
 /**GUN ID格式
  */
-export type GunID = `${string}_GUN_${string}`;
+export type GunID = CddaID<"GUN">;
 
 /**枪械 */
 export type Gun = {
@@ -67,7 +68,11 @@ export type Gun = {
 	loudness?: number;
     /**枪械的flag */
     flags?: GunFlag[];
+    /**子弹附加效果 */
+    ammo_effects?: AmmoEffect[],
 } & GenericBase;
+
+
 
 
 
