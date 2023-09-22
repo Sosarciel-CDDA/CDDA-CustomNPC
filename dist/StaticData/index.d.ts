@@ -6,3 +6,4 @@ export * from "./BaseNPC";
 export * from "./BaseTrait";
 export * from "./BaseItemGroup";
 export * from "./BaseEnch";
+export * from "./BaseEffect";

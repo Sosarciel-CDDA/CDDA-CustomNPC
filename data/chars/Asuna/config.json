@@ -31,11 +31,7 @@
 		"symbol": ";",
 		"flags": [
 			"NO_RELOAD",
-			"NO_UNLOAD",
-			"NEVER_JAMS",
-			"NON_FOULING",
-			"NEEDS_NO_LUBE",
-            "DURABLE_MELEE"
+			"NO_UNLOAD"
 		],
         "weapon_category": [
             "KNIVES"
@@ -57,5 +53,26 @@
 			["DEFAULT","auto", 1 ],
 			["AUTO"   ,"auto", 1 ]
 		]
-	}
+	},
+	"skill": [{
+		"hook": "CharCauseRangeHit",
+		"spell": {
+			"id":"CNPC_SPELL_AsunaShot",
+			"type": "SPELL",
+			"name": "Asuna的线形射击技能",
+			"description": "Asuna的线形射击技能",
+			"min_damage":{
+				"math": ["(100+u_val('perception'))*(log(u_val('perception'))*log(u_val('perception')))"]
+			},
+			"max_damage":999999,
+			"damage_type": "bullet",
+			"min_range":30,
+			"min_aoe":1,
+			"shape": "cone",
+			"valid_targets": ["hostile","ground"],
+			"effect": "attack",
+			"base_energy_cost":10,
+			"energy_source": "MANA"
+		}
+	}]
 }

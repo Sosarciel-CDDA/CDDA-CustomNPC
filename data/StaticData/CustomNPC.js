@@ -31,9 +31,9 @@ function CNPC_EOC_InitCurrHP(){
 //检测现有血量并触发take_damage
 function CNPC_EOC_CheckCurrHP(){
 	eoc_type("ACTIVATION")
-	if(and(u_currHp > u_hp(),has_target==0)){
-		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonTarget" } })
-		has_target=1;
+	if(and(u_currHp > u_hp(),hasTarget!=1)){
+		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+		hasTarget=1;
 	}
 	u_currHp = u_hp();
 }
@@ -47,7 +47,8 @@ function CNPC_EOC_MeleeHitEvent(){
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseMeleeHit()
 
-		has_target=0; //重置flag
+		hasTarget=0; //重置flag
+		eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 	}
 }
 //尝试远程攻击触发的Eoc
@@ -59,7 +60,8 @@ function CNPC_EOC_RangeHitEvent(){
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseRangeHit()
 
-		has_target=0; //重置flag
+		hasTarget=0; //重置flag
+		eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 	}
 }
 
@@ -118,6 +120,15 @@ function CNPC_EOC_GlobalUpdateEvent(){
 	global(true);
 	run_for_npcs(true);
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+
+		if(u_isInit!=1){
+			//添加用于防止逃跑的勇气效果
+			eobj({ "u_add_effect": "CNPC_EFFECT_Courage", "duration": "PERMANENT" })
+			//运行动态生成的事件eoc
+			CNPC_EOC_CharInit();
+			u_isInit=1;
+		}
+
 		//刷新属性
 		CNPC_EOC_UpdateStat();
 		//运行动态生成的事件eoc

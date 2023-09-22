@@ -1,5 +1,6 @@
-import { AmmiunitionTypeID } from "CddaJsonFormat";
-import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
+import { AmmunitionTypeID, SpellID } from "./CddaJsonFormat";
+import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "./CddaJsonFormat";
+import { EffectID } from "./CddaJsonFormat/Effect";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -14,6 +15,8 @@ export declare function genGunID(id: string): GunID;
 export declare function genAmmoID(id: string): AmmoID;
 /**生成适用于此mod的 EOC ID */
 export declare function genEOCID(id: string): EocID;
+/**生成适用于此mod的 Effect ID */
+export declare function genEffectID(id: string): EffectID;
 /**生成适用于此mod的 物品组ID */
 export declare function genItemGroupID(id: string): ItemGroupID;
 /**生成适用于此mod的 变异ID */
@@ -23,10 +26,10 @@ export declare function genNpcClassID(id: string): NpcClassID;
 /**生成适用于此mod的 NPCID */
 export declare function genNpcInstanceID(id: string): NpcInstanceID;
 /**生成适用于此mod的 法术ID */
-export declare function genSpellID(id: string): string;
+export declare function genSpellID(id: string): SpellID;
 /**生成适用于此mod的 怪物ID */
 export declare function genMonsterID(id: string): MonsterID;
 /**生成适用于此mod的 材质类型 ID */
-export declare function genAmmiTypeID(id: string): AmmiunitionTypeID;
+export declare function genAmmiTypeID(id: string): AmmunitionTypeID;
 /**生成适用于此mod的 FLAG ID */
 export declare function genFlagID(id: string): FlagID;

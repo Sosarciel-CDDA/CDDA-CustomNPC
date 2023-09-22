@@ -41,7 +41,7 @@ const definitions = schema["definitions"] as Record<string,JObject>;
 //展开定义
 for(const typeName in definitions){
     const schema = definitions[typeName];
-    if(schema.type != "object") continue;
+    if(schema.type != "object" && typeName!="AnyCddaJsonList") continue;
     UtilFT.writeJSONFile(path.join(process.cwd(),"schema",`${typeName}.schema.json`),{
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$ref": `schemas.json#/definitions/${typeName}`

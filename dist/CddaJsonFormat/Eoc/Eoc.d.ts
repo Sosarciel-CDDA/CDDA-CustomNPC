@@ -27,3 +27,5 @@ export type Eoc = {
 export declare const EocTypeList: readonly ["EVENT", "ACTIVATION", "RECURRING", "OM_MOVE"];
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];
+/**内联EOC */
+export type InlineEoc = Omit<Eoc, "type">;

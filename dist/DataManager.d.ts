@@ -1,18 +1,29 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, Gun, Generic, GenericID } from 'CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType } from './CddaJsonFormat';
+import { CharSkill } from './CharSkill';
 /**角色事件列表 */
-export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
+export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit"];
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
-/**角色设定 */
+/**变量属性 */
+export type EnchStat = EnchGenericValType | EnchArmorValType;
+/**动态读取的角色设定 */
 export type CharConfig = {
+    /**基础属性 */
     base_status: Record<StatusSimple, number>;
+    /**附魔属性 */
+    ench_status?: Partial<Record<EnchStat, number>>;
+    /**每级提升的附魔属性 */
+    lvl_ench_status?: Partial<Record<EnchStat, number>>;
+    /**固定的武器 */
     weapon: Gun | Generic;
+    /**技能 */
+    skill?: CharSkill[];
 };
 /**主资源表 */
 export type DataTable = {
@@ -98,8 +109,10 @@ export declare class DataManager {
             vaildAnim: ("Idle" | "Move" | "Attack")[];
             /**基础装备ID */
             baseArmorID: ArmorID;
+            /**基础装备附魔ID */
+            baseEnchID: EnchantmentID;
             /**基础武器ID */
-            baseWeaponID: `${string}SchemaString` | `GUN_${string}` | `${string}_GUN_${string}` | `GENERIC_${string}` | `${string}_GENERIC_${string}`;
+            baseWeaponID: `${string}SchemaString` | `GENERIC_${string}` | `${string}_GENERIC_${string}` | `GUN_${string}` | `${string}_GUN_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
@@ -108,7 +121,7 @@ export declare class DataManager {
         /**输出数据 */
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 */
-        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit", Eoc>;
+        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit", Eoc>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;
@@ -145,6 +158,8 @@ export type CharData = Readonly<{
     vaildAnim: AnimType[];
     /**基础装备ID */
     baseArmorID: ArmorID;
+    /**基础装备附魔ID */
+    baseEnchID: EnchantmentID;
     /**基础武器ID */
     baseWeaponID: GunID | GenericID;
     /**基础武器物品组ID */

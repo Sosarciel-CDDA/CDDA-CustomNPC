@@ -22,3 +22,4 @@ __exportStar(require("./BaseNPC"), exports);
 __exportStar(require("./BaseTrait"), exports);
 __exportStar(require("./BaseItemGroup"), exports);
 __exportStar(require("./BaseEnch"), exports);
+__exportStar(require("./BaseEffect"), exports);

@@ -1,12 +1,12 @@
-import { AmmiunitionTypeID } from "../AmmiunitionType";
+import { AmmunitionTypeID } from "../AmmiunitionType";
 import { EocID } from "../Eoc";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
 import { CddaID, Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { NpcClassID } from "../NpcClass";
-import { AmmoID } from "./Ammo";
+import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
-import { GunID } from "./Gun";
+import { Gun, GunID } from "./Gun";
 
 
 
@@ -75,7 +75,7 @@ export type GenericBase = {
 	/**材质 */
 	material?: ItemMaterial[];
 	/**材质 可用哪些材料修复 */
-	repairs_with?: AmmiunitionTypeID[];
+	repairs_with?: AmmunitionTypeID[];
 	/**属于什么类型的武器 */
 	weapon_category?: string[];
 	/**作为近战武器的伤害 */
@@ -129,7 +129,7 @@ export type RelicData = {
 /**弹夹 */
 export type Magazines = [
 	/**弹药类型 */
-	AmmiunitionTypeID,
+	AmmunitionTypeID,
 	/**具体弹药 默认为首个 */
 	[AmmoID,...AmmoID[]]
 ]
@@ -218,7 +218,7 @@ export type ItemMaterial = string|{
 
 
 export type AnyItemID = GenericID|AmmoID|ArmorID|GunID;
-
+export type AnyItem = Generic|Ammo|Gun;
 
 
 /**

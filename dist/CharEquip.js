@@ -14,6 +14,29 @@ async function createCharEquip(dm, charName) {
         points: 0,
         integrated_armor: [baseData.baseArmorID]
     };
+    /**构造附魔属性 */
+    const enchStatMap = {};
+    for (const str in charConfig.ench_status) {
+        const stat = str;
+        enchStatMap[stat] = enchStatMap[stat] || {};
+        enchStatMap[stat].base = charConfig.ench_status[stat];
+    }
+    for (const str in charConfig.lvl_ench_status) {
+        const stat = str;
+        enchStatMap[stat] = enchStatMap[stat] || {};
+        enchStatMap[stat].lvl = charConfig.lvl_ench_status[stat];
+    }
+    /**基础附魔 */
+    const baseEnch = {
+        id: baseData.baseEnchID,
+        type: "enchantment",
+        has: "WORN",
+        condition: "ALWAYS",
+        values: Object.entries(enchStatMap).map(entry => ({
+            value: entry[0],
+            add: { math: [`${entry[1].base || 0}+(u_cnpcLvl*${entry[1].lvl || 0})`] },
+        }))
+    };
     /**基础装备 */
     const baseArmor = {
         type: "ARMOR",
@@ -24,7 +47,14 @@ async function createCharEquip(dm, charName) {
         weight: 0,
         volume: 0,
         symbol: "O",
-        flags: ["PERSONAL", "UNBREAKABLE", "INTEGRATED", "ZERO_WEIGHT", "TARDIS"],
+        flags: [
+            "PERSONAL",
+            "UNBREAKABLE",
+            "INTEGRATED",
+            "ZERO_WEIGHT",
+            "TARDIS",
+            "PARTIAL_DEAF", //降低音量到安全水平
+        ],
         pocket_data: [{
                 rigid: true,
                 pocket_type: "CONTAINER",
@@ -40,6 +70,7 @@ async function createCharEquip(dm, charName) {
             passive_effects: [
                 { id: (0, ModDefine_1.genEnchantmentID)('StatusMap') },
                 { id: (0, ModDefine_1.genEnchantmentID)('StatMod') },
+                { id: baseData.baseEnchID },
             ]
         }
     };
@@ -47,9 +78,15 @@ async function createCharEquip(dm, charName) {
     const baseWeapon = charConfig.weapon;
     baseWeapon.looks_like = baseWeapon.looks_like || TransparentItem;
     baseWeapon.flags = baseWeapon.flags || [];
-    baseWeapon.flags?.push(baseData.baseWeaponFlagID, //绝色武器标识
+    baseWeapon.flags?.push(baseData.baseWeaponFlagID, //角色武器标识
     "ACTIVATE_ON_PLACE", //自动销毁
-    "TRADER_KEEP");
+    "TRADER_KEEP", //不会出售
+    "UNBREAKABLE");
+    if (baseWeapon.type == "GUN") {
+        baseWeapon.flags?.push("NEEDS_NO_LUBE", //不需要润滑油
+        "NEVER_JAMS", //不会故障
+        "NON_FOULING");
+    }
     baseWeapon.countdown_interval = 1; //自动销毁
     /**基础武器物品组 */
     const baseItemGroup = {
@@ -88,6 +125,6 @@ async function createCharEquip(dm, charName) {
     };
     dm.addCharEvent(charName, "CharUpdate", dropOtherWeapon, giveWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
+    outData['equip'] = [baseMut, baseArmor, baseEnch, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
 }
 exports.createCharEquip = createCharEquip;

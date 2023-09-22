@@ -44,14 +44,17 @@ export type OR<T1 extends string> = `${string}JustString`;
  */
 type TestFlag = CddaID<`Flag`>;
 
+
+
+
 /**自定义的ID
- * @TJS-type 12311
  */
-type absed = string;
+type AnyString = String&string|"1111111"|"nnnnnn"
+
 
 /**测试2
  */
-type TestFlag2 = OR<absed>|DefineGenericFlag;
+type TestFlag2 = OR<AnyString>|DefineGenericFlag;
 
 /**通用物品的flag列表 */
 export const GenericFlagList = [
@@ -66,3 +69,10 @@ export const GenericFlagList = [
 ] as const;
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
+
+
+
+
+
+
+

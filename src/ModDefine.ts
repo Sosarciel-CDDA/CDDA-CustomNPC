@@ -1,5 +1,6 @@
-import { AmmiunitionTypeID } from "CddaJsonFormat";
+import { AmmunitionTypeID, SpellID } from "CddaJsonFormat";
 import { EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
+import { EffectID } from "./CddaJsonFormat/Effect";
 
 
 /**mod物品前缀 */
@@ -29,9 +30,13 @@ export function genAmmoID(id:string):AmmoID{
 export function genEOCID(id: string):EocID{
 	return `${MOD_PREFIX}_EOC_${id}`;
 }
+/**生成适用于此mod的 Effect ID */
+export function genEffectID(id: string):EffectID{
+	return `${MOD_PREFIX}_EFFECT_${id}`;
+}
 /**生成适用于此mod的 物品组ID */
 export function genItemGroupID(id:string):ItemGroupID{
-    return `${MOD_PREFIX}_ITEMGROUP_${id}`;
+    return `${MOD_PREFIX}_ITEMGP_${id}`;
 }
 /**生成适用于此mod的 变异ID */
 export function genMutationID(id: string):MutationID{
@@ -39,14 +44,14 @@ export function genMutationID(id: string):MutationID{
 }
 /**生成适用于此mod的 NPC职业ID */
 export function genNpcClassID(id:string):NpcClassID{
-    return `${MOD_PREFIX}_NPCLASS_${id}`;
+    return `${MOD_PREFIX}_NPCCLS_${id}`;
 }
 /**生成适用于此mod的 NPCID */
 export function genNpcInstanceID(id:string):NpcInstanceID{
     return `${MOD_PREFIX}_NPC_${id}`;
 }
 /**生成适用于此mod的 法术ID */
-export function genSpellID(id:string){
+export function genSpellID(id:string):SpellID{
     return `${MOD_PREFIX}_SPELL_${id}`;
 }
 /**生成适用于此mod的 怪物ID */
@@ -54,8 +59,8 @@ export function genMonsterID(id:string):MonsterID{
     return `${MOD_PREFIX}_MON_${id}`;
 }
 /**生成适用于此mod的 材质类型 ID */
-export function genAmmiTypeID(id:string):AmmiunitionTypeID{
-    return `${MOD_PREFIX}_AMMITYPE_${id}`;
+export function genAmmiTypeID(id:string):AmmunitionTypeID{
+    return `${MOD_PREFIX}_AMMUT_${id}`;
 }
 /**生成适用于此mod的 FLAG ID */
 export function genFlagID(id:string):FlagID{

@@ -1,8 +1,9 @@
 import { FakeSpell } from "./Enchantment";
 import { NumObj } from "./Eoc";
 import { FieldID } from "./Field";
-import { BodyPartID, CddaID } from "./GenericDefine";
+import { BodyPartID, CddaID, DamageType } from "./GenericDefine";
 import { AnyItemID } from "./Item";
+import { MonsterID } from "./Monster";
 /**法术ID
  */
 export type SpellID = CddaID<"SPELL">;
@@ -12,7 +13,10 @@ export type Spell = {
     type: "SPELL";
     name: string;
     description: string;
+    /**有效的目标类型 */
     valid_targets: SpellTarget[];
+    /**如果法术可以对生物释放 有效的怪物ID */
+    targeted_monster_ids?: MonsterID[];
     /**法术效果类型 */
     effect: SpellEffect;
     /**法术效果子类型 取决于主类型 */
@@ -24,7 +28,7 @@ export type Spell = {
     /**受影响的身体部位 */
     affected_body_parts?: BodyPartID[];
     /**法术flag */
-    flags: SpellFlag[];
+    flags?: SpellFlag[];
     /**属于哪个职业的法术 */
     spell_class?: string;
     /**初始施法时间 */
@@ -42,7 +46,7 @@ export type Spell = {
     /**法术使用的能量池 默认魔力 */
     energy_source?: SpellEnergySource;
     /**施法材料ID */
-    components: AnyItemID[];
+    components?: AnyItemID[];
     /**法术难度 */
     difficulty?: NumObj;
     /**法术最大等级 */
@@ -53,12 +57,16 @@ export type Spell = {
     max_accuracy?: NumObj;
     /**每级的法术准确度调整 */
     accuracy_increment?: NumObj;
-    /**初始法术伤害 */
+    /**初始法术伤害 必须填写 max_damage 才能造成伤害 */
     min_damage?: NumObj;
-    /**极限法术伤害 */
+    /**极限法术伤害 必须填写 max_damage 才能造成伤害 */
     max_damage?: NumObj;
     /**每级的法术伤害调整 */
     damage_increment?: NumObj;
+    /**法术的伤害类型
+     * 伤害法术必须定义伤害类型
+     */
+    damage_type?: DamageType;
     /**初始法术aoe范围 */
     min_aoe?: NumObj;
     /**极限法术aoe范围 */
@@ -125,7 +133,7 @@ export declare const SpellEffectList: readonly ["area_pull", "area_push", "attac
 /**法术效果 */
 export type SpellEffect = typeof SpellEffectList[number];
 /**法术范围形状 列表*/
-export declare const SpellShapeList: string[];
+export declare const SpellShapeList: readonly ["blast", "cone", "line"];
 /**法术范围形状 */
 export type SpellShape = typeof SpellShapeList[number];
 /**法术Flag 列表*/
@@ -133,7 +141,7 @@ export declare const SpellFlagList: readonly ["CONCENTRATE", "EXTRA_EFFECTS_FIRS
 /**法术Flag */
 export type SpellFlag = typeof SpellFlagList[number];
 /**法术能量池 列表 */
-export declare const SpellEnergySourceList: string[];
+export declare const SpellEnergySourceList: readonly ["MANA", "BIONIC", "HP", "STAMINA", "NONE"];
 /**法术能量池 */
 export type SpellEnergySource = typeof SpellEnergySourceList[number];
 /**法术声音类型 列表 */

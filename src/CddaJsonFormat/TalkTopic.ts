@@ -33,6 +33,9 @@ export type Resp = {
 	effect?: EocEffect;
 }|RespLong;
 
+
+
+
 /**玩家的回复 完整写法 */
 export type RespLong ={
     /**玩家的文本回复 */

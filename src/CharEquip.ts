@@ -1,5 +1,5 @@
-import { AmmiunitionType, Ammo, Armor, BodyPartList, EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
-import { DataManager } from "./DataManager";
+import { AmmunitionType, Ammo, Armor, BodyPartList, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { DataManager, EnchStat } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
 
 
@@ -15,6 +15,32 @@ export async function createCharEquip(dm:DataManager,charName:string){
         points          : 0,
         integrated_armor: [baseData.baseArmorID]
     }
+
+    /**构造附魔属性 */
+    const enchStatMap:Partial<
+        Record<EnchStat,
+        {base?:number,lvl?:number}>> = {};
+    for(const str in charConfig.ench_status){
+        const stat = str as EnchStat;
+        enchStatMap[stat] = enchStatMap[stat]||{};
+        enchStatMap[stat]!.base=charConfig.ench_status[stat];
+    }
+    for(const str in charConfig.lvl_ench_status){
+        const stat = str as EnchStat;
+        enchStatMap[stat] = enchStatMap[stat]||{};
+        enchStatMap[stat]!.lvl=charConfig.lvl_ench_status[stat];
+    }
+    /**基础附魔 */
+    const baseEnch:Enchantment={
+        id:baseData.baseEnchID,
+        type:"enchantment",
+        has:"WORN",
+        condition:"ALWAYS",
+        values:Object.entries(enchStatMap).map(entry=>({
+            value   :entry[0] as EnchStat,
+            add     :{math:[`${entry[1].base||0}+(u_cnpcLvl*${entry[1].lvl||0})`]},
+        }))
+    }
     /**基础装备 */
     const baseArmor:Armor={
         type        : "ARMOR",
@@ -25,7 +51,14 @@ export async function createCharEquip(dm:DataManager,charName:string){
         weight      : 0,
         volume      : 0,
         symbol      : "O",
-        flags       : ["PERSONAL","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT","TARDIS"],
+        flags       : [
+            "PERSONAL"      ,//个人层
+            "UNBREAKABLE"   ,//不会损坏
+            "INTEGRATED"    ,//自体护甲
+            "ZERO_WEIGHT"   ,//无重量体积
+            "TARDIS"        ,//不会出售
+            "PARTIAL_DEAF"  ,//降低音量到安全水平
+        ],
         pocket_data : [{
             rigid: true,
             pocket_type: "CONTAINER",
@@ -41,6 +74,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
             passive_effects:[
                 {id:genEnchantmentID('StatusMap')       },
                 {id:genEnchantmentID('StatMod')         },
+                {id:baseData.baseEnchID                 },
             ]
         }
     }
@@ -49,10 +83,18 @@ export async function createCharEquip(dm:DataManager,charName:string){
     baseWeapon.looks_like = baseWeapon.looks_like||TransparentItem;
     baseWeapon.flags = baseWeapon.flags||[];
     baseWeapon.flags?.push(
-        baseData.baseWeaponFlagID,//绝色武器标识
+        baseData.baseWeaponFlagID,//角色武器标识
         "ACTIVATE_ON_PLACE"      ,//自动销毁
         "TRADER_KEEP"            ,//不会出售
+        "UNBREAKABLE"            ,//不会损坏
     );
+    if(baseWeapon.type=="GUN"){
+        baseWeapon.flags?.push(
+            "NEEDS_NO_LUBE" ,//不需要润滑油
+            "NEVER_JAMS"    ,//不会故障
+            "NON_FOULING"   ,//枪不会变脏或被黑火药污染。
+        )
+    }
     baseWeapon.countdown_interval= 1; //自动销毁
 
     /**基础武器物品组 */
@@ -92,5 +134,5 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
     dm.addCharEvent(charName,"CharUpdate",dropOtherWeapon,giveWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
+    outData['equip'] = [baseMut,baseArmor,baseEnch,baseWeapon,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
 }

@@ -4,7 +4,7 @@ import { genMonsterID } from "@src/ModDefine";
 
 
 /**标靶怪物ID */
-export const TARGET_MON_ID = genMonsterID("Target");
+export const TARGET_MON_ID = genMonsterID("SpellTarget");
 /**标靶 */
 const Target:Monster = {
     type: "MONSTER",

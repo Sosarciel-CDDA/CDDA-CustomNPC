@@ -1,16 +1,14 @@
-import { AmmiunitionTypeID } from "../AmmiunitionType";
+import { AmmunitionTypeID } from "../AmmiunitionType";
 import { CddaID, RangeDamage } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
-export declare const DefineAmmoIDList: readonly ["50", "500"];
-export type DefineAmmoID = typeof DefineAmmoIDList[number];
 /**Ammo ID格式
  */
-export type AmmoID = CddaID<"AMMO"> | DefineAmmoID;
+export type AmmoID = CddaID<"AMMO">;
 export type Ammo = {
     id: AmmoID;
     type: "AMMO";
     /**弹药类型 使用材质id */
-    ammo_type: AmmiunitionTypeID;
+    ammo_type: AmmunitionTypeID;
     /**远程伤害 */
     damage?: RangeDamage;
     /**将武器的伤害乘以数量 (覆盖 damage ) */

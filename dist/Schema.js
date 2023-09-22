@@ -39,7 +39,7 @@ const definitions = schema["definitions"];
 //展开定义
 for (const typeName in definitions) {
     const schema = definitions[typeName];
-    if (schema.type != "object")
+    if (schema.type != "object" && typeName != "AnyCddaJsonList")
         continue;
     utils_1.UtilFT.writeJSONFile(path.join(process.cwd(), "schema", `${typeName}.schema.json`), {
         "$schema": "http://json-schema.org/draft-07/schema#",

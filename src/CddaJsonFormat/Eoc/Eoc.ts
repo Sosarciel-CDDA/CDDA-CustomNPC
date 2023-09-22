@@ -36,3 +36,5 @@ export const EocTypeList = [
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];
 
+/**内联EOC */
+export type InlineEoc = Omit<Eoc,"type">;

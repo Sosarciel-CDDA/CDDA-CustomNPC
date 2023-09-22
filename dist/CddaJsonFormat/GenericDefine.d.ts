@@ -1,5 +1,14 @@
-import { FlagID } from "./Flag";
-import { AmmoID, AnyItemID } from "./Item";
+import { AmmunitionType } from "./AmmiunitionType";
+import { Enchantment } from "./Enchantment";
+import { Eoc } from "./Eoc";
+import { Flag, FlagID } from "./Flag";
+import { AmmoID, AnyItem, AnyItemID } from "./Item";
+import { ItemGroup } from "./ItemGroup";
+import { Monster } from "./Monster";
+import { NpcClass } from "./NpcClass";
+import { NpcInstance } from "./NpcInstance";
+import { OverlayOrdering } from "./OverlayOrdering";
+import { SoundEffect } from "./SoundEffect";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -10,8 +19,8 @@ export type Length = number | `${number} ${"mm" | "cm" | "m" | "km"}`;
 export type Energy = number | `${number} ${"mJ" | "kJ"}`;
 /**价格 */
 export type Price = number | `${number} ${"USD" | "cent" | "kUSD"}`;
-/**时间 */
-export type Time = number | `${number} ${"s" | "m" | "h" | "d"}`;
+/**时间 PERMANENT 为永久 */
+export type Time = number | `${number} ${"s" | "m" | "h" | "d"}` | "PERMANENT";
 /**可用的颜色列表 */
 export declare const ColorList: readonly ["blue", "white", "brown", "dark_gray"];
 /**可用的颜色 */
@@ -35,7 +44,9 @@ export type CustBP = CddaID<"BP">;
  * @TJS-type string
  */
 export type CddaID<T extends string> = `${`${string}_` | ''}${T}_${string}` | SchemaString;
-/**用于辅助解析的类型 */
+/**用于辅助解析只能补全的类型
+ * 输出后替换为 ^.*$ 的 string 匹配
+ */
 export type SchemaString = `${string}SchemaString`;
 /**组肢体 */
 export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
@@ -160,4 +171,8 @@ export type StatusSimple = typeof StatusSimpleList[number];
 export declare const SkillList: readonly ["pistol", "rifle"];
 /**技能 */
 export type Skill = typeof SkillList[number];
+/**任何Cdda的Json */
+export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect;
+/**任何Cdda的Json 组成的数组*/
+export type AnyCddaJsonList = AnyCddaJson[];
 export {};

@@ -9,7 +9,7 @@ import { MutationID } from "./Mutattion";
 
 /**NpcClass ID格式
  */
-export type NpcClassID = CddaID<"NPCLASS">;
+export type NpcClassID = CddaID<"NPCCLS">;
 
 export type NpcClass = {
     type: "npc_class",

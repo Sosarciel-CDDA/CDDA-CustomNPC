@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAnimTool = exports.formatAnimName = exports.AnimTypeList = void 0;
 const path = require("path");
-const CddaJsonFormat_1 = require("CddaJsonFormat");
+const CddaJsonFormat_1 = require("./CddaJsonFormat");
 /**可用的动画类型列表 */
 exports.AnimTypeList = ["Idle", "Move", "Attack"];
 /**生成某角色的动作id */

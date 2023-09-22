@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEffectID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -33,9 +33,14 @@ function genEOCID(id) {
     return `${exports.MOD_PREFIX}_EOC_${id}`;
 }
 exports.genEOCID = genEOCID;
+/**生成适用于此mod的 Effect ID */
+function genEffectID(id) {
+    return `${exports.MOD_PREFIX}_EFFECT_${id}`;
+}
+exports.genEffectID = genEffectID;
 /**生成适用于此mod的 物品组ID */
 function genItemGroupID(id) {
-    return `${exports.MOD_PREFIX}_ITEMGROUP_${id}`;
+    return `${exports.MOD_PREFIX}_ITEMGP_${id}`;
 }
 exports.genItemGroupID = genItemGroupID;
 /**生成适用于此mod的 变异ID */
@@ -45,7 +50,7 @@ function genMutationID(id) {
 exports.genMutationID = genMutationID;
 /**生成适用于此mod的 NPC职业ID */
 function genNpcClassID(id) {
-    return `${exports.MOD_PREFIX}_NPCLASS_${id}`;
+    return `${exports.MOD_PREFIX}_NPCCLS_${id}`;
 }
 exports.genNpcClassID = genNpcClassID;
 /**生成适用于此mod的 NPCID */
@@ -65,7 +70,7 @@ function genMonsterID(id) {
 exports.genMonsterID = genMonsterID;
 /**生成适用于此mod的 材质类型 ID */
 function genAmmiTypeID(id) {
-    return `${exports.MOD_PREFIX}_AMMITYPE_${id}`;
+    return `${exports.MOD_PREFIX}_AMMUT_${id}`;
 }
 exports.genAmmiTypeID = genAmmiTypeID;
 /**生成适用于此mod的 FLAG ID */

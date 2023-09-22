@@ -10,7 +10,7 @@ const ModDefine_1 = require("./ModDefine");
 /**角色事件列表 */
 exports.CharEvemtTypeList = [
     "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
-    "CharCauseMeleeHit", "CharCauseRangeHit"
+    "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
 ];
 /**全局事件列表 */
 exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList];
@@ -141,6 +141,7 @@ class DataManager {
                 animData: animData,
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
+                baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
                 baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}Weapon`),

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseEnch = exports.PerRangeDamage = exports.StatusMap = void 0;
-const CddaJsonFormat_1 = require("CddaJsonFormat");
-const ModDefine_1 = require("@src/ModDefine");
+const CddaJsonFormat_1 = require("../CddaJsonFormat");
+const ModDefine_1 = require("../ModDefine");
 const StaticData_1 = require("./StaticData");
 /**属性映射附魔 */
 exports.StatusMap = {

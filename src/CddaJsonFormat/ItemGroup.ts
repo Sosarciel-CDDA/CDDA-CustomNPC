@@ -6,7 +6,7 @@ import { AnyItemID } from "./Item/Generic";
 
 /**ItemGroup ID格式
  */
-export type ItemGroupID = CddaID<"ITEMGROUP">;
+export type ItemGroupID = CddaID<"ITEMGP">;
 
 export type ItemGroup = {
     type: "item_group",

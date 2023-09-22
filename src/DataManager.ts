@@ -4,14 +4,15 @@ import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmiunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell } from 'CddaJsonFormat';
+import { CharSkill } from './CharSkill';
 
 
 
 /**角色事件列表 */
 export const CharEvemtTypeList = [
     "CharIdle","CharMove","CharCauseHit","CharUpdate",
-    "CharCauseMeleeHit","CharCauseRangeHit"
+    "CharCauseMeleeHit","CharCauseRangeHit","CharInit",
 ] as const;
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
@@ -20,11 +21,24 @@ export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList] as cons
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
-/**角色设定 */
+
+/**变量属性 */
+export type EnchStat = EnchGenericValType|EnchArmorValType;
+
+/**动态读取的角色设定 */
 export type CharConfig = {
-    base_status:Record<StatusSimple,number>
+    /**基础属性 */
+    base_status:Record<StatusSimple,number>;
+    /**附魔属性 */
+    ench_status?:Partial<Record<EnchStat,number>>;
+    /**每级提升的附魔属性 */
+    lvl_ench_status?:Partial<Record<EnchStat,number>>;
+    /**固定的武器 */
     weapon:Gun|Generic;
+    /**技能 */
+    skill?:CharSkill[];
 }
+
 
 /**主资源表 */
 export type DataTable={
@@ -187,6 +201,7 @@ export class DataManager{
                 animData            : animData,
                 vaildAnim           : [],
                 baseArmorID         : genArmorID(charName),
+                baseEnchID          : genEnchantmentID(charName),
                 baseWeaponID        : charConfig.weapon.id,
                 baseWeaponGroupID   : genItemGroupID(`${charName}Weapon`),
                 baseWeaponFlagID    : genFlagID(`${charName}Weapon`),
@@ -324,6 +339,8 @@ export type CharData=Readonly<{
     vaildAnim: AnimType[];
     /**基础装备ID */
     baseArmorID : ArmorID;
+    /**基础装备附魔ID */
+    baseEnchID : EnchantmentID;
     /**基础武器ID */
     baseWeaponID: GunID|GenericID;
     /**基础武器物品组ID */
