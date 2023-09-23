@@ -15,9 +15,14 @@ export type Enchantment = {
     has?: EnchConHas;
     /**启用条件 */
     condition: EnchCon;
-    /**击中时触发的法术 */
+    /**抚摸拥有者近战击中敌人时触发的法术
+     * 该法术以该生物的位置为中心，除非"hit_self": true
+     * 那么它以你的位置为中心。
+     */
     hit_you_effect?: FakeSpell[];
-    /**抚摸拥有者击中时触发的法术 */
+    /**附魔拥有者击中时触发的法术
+     * 该咒语以您的位置为中心。
+     */
     hit_me_effect?: FakeSpell[];
     /**附魔的数值增幅 */
     values?: EnchModVal[];
@@ -53,6 +58,8 @@ export type Enchantment = {
 };
 /**内联匿名附魔 */
 export type InlineEnchantment = Omit<Enchantment, "type" | "id">;
+/**作为参数传入的附魔 */
+export type ParamsEnchantment = InlineEnchantment | EnchantmentID;
 /**装备附魔启用条件 */
 export type EnchConHas = (
 /**拿在手上时 */

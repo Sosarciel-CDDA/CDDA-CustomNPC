@@ -19,7 +19,10 @@ export type Spell = {
     targeted_monster_ids?: MonsterID[];
     /**法术效果类型 */
     effect: SpellEffect;
-    /**法术效果子类型 取决于主类型 */
+    /**法术效果子类型
+     * 主类型为 attack 时向目标添加效果
+     * 其他情况下取决于主类型
+     */
     effect_str?: string;
     /**法术范围形状 */
     shape: SpellShape;

@@ -1,0 +1,21 @@
+[
+    {
+        "type": "effect_type",
+        "id":"CNPC_EFF_Snipe",
+        "name": ["精准狙击"],
+        "desc": ["精准狙击"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "WEAPON_DISPERSION",
+                "multiply":-1
+            },{
+                "value": "PERCEPTION",
+                "multiply": 0.15
+            },{
+                "value": "RANGE",
+                "multiply": 1
+            }]
+        }]
+    }
+]

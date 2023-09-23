@@ -5,6 +5,8 @@ import { genSpellID } from "@src/ModDefine";
 import { Spell } from "..";
 
 
+/**n格以内算作进入战斗 */
+export const BATTLE_RANGE = 20;
 
 /**用于必定成功的控制法术的flags */
 export const ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"] as const;
@@ -38,7 +40,7 @@ export const BaseSpell:Spell[] = [
 		min_damage: 100,
 		max_damage: 100,
 		damage_type:"pure",
-		min_aoe: 20,
+		min_aoe: BATTLE_RANGE,
 		targeted_monster_ids: [TARGET_MON_ID],
 	},
 	{
@@ -48,8 +50,8 @@ export const BaseSpell:Spell[] = [
 		description: "初始化当前生命值变量",
 		flags: [...ControlSpellFlags],
 		valid_targets: ["hostile"],
-		min_aoe: 20,
-		max_aoe: 20,
+		min_aoe: BATTLE_RANGE,
+		max_aoe: BATTLE_RANGE,
 		effect: "effect_on_condition",
 		effect_str: "CNPC_EOC_InitCurrHP",
 		shape: "blast",
@@ -61,8 +63,8 @@ export const BaseSpell:Spell[] = [
 		description: "检测当前生命值是否有变动",
 		flags: [...ControlSpellFlags],
 		valid_targets: ["hostile"],
-		min_aoe: 20,
-		max_aoe: 20,
+		min_aoe: BATTLE_RANGE,
+		max_aoe: BATTLE_RANGE,
 		effect: "effect_on_condition",
 		effect_str: "CNPC_EOC_CheckCurrHP",
 		shape: "blast",
@@ -78,7 +80,7 @@ export const BaseSpell:Spell[] = [
 		min_damage: 100,
 		max_damage: 100,
 		min_aoe: 90,
-		min_range: 20,
+		min_range: BATTLE_RANGE,
 		base_casting_time: 100,
 		damage_type: "heat",
 	},
@@ -94,7 +96,7 @@ export const BaseSpell:Spell[] = [
 		min_damage: 1,
 		max_damage: 1,
 		min_aoe: 90,
-		min_range: 20,
+		min_range: BATTLE_RANGE,
 		base_casting_time: 100,
 		extra_effects: [{ id: genSpellID("TestConeSpell_DMG") }],
 		targeted_monster_ids: [TARGET_MON_ID],

@@ -1,6 +1,6 @@
 import { JArray } from "@zwa73/utils";
 import { ControlSpellFlags, genEOCID } from ".";
-import { BoolObj, Eoc } from "./CddaJsonFormat/Eoc";
+import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellID } from "./CddaJsonFormat/Spell";
 import { CharEventType, DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
@@ -16,8 +16,12 @@ export type CharSkill = {
     weight?     :number,
     /**概率 有1/chance的几率使用这个技能 默认1 */
     chance?     :number,
+    /**冷却时间 单位为每次CharUpdate 默认0*/
+    cooldown?   :number,
     /**法术效果 */
     spell       :Spell,
+    /**技能音效 */
+    audio?      :string[],
 };
 
 
@@ -27,7 +31,23 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const skillDataList:JArray = [];
     //遍历技能
     for(const skill of skills){
-        const {condition,hook,spell,chance} = skill;
+        const {condition,hook,spell,chance,cooldown,audio} = skill;
+        //生成冷却变量名
+        const cdValName = `u_${spell.id}_Cooldown`;
+        //计算基础条件
+        const baseCond:BoolObj[] = [];
+        if(condition)
+            baseCond.push(condition);
+        if(cooldown)
+            baseCond.push({math:[cdValName,"<=","0"]});
+
+        //计算成功效果
+        const TEffect:EocEffect[]=[];
+        if(cooldown)
+            TEffect.push({math:[cdValName,"=",`${cooldown||0}`]});
+        if(audio)
+            TEffect.push(...audio.map(audioName=>({sound_effect:audioName,id:charName,volume:100})));
+
 
         //如果需要选择目标 创建索敌辅助法术
         let selTargetSpell:Spell|null=null;
@@ -74,14 +94,16 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     true_eocs:{
                         id:genEOCID(`${spell.id}TrueEoc`),
                         effect:[
-                            {math:["u_val('mana')","-=",costMathStr]}
+                            {math:["u_val('mana')","-=",costMathStr]},
+                            ...TEffect
                         ],
                         eoc_type:"ACTIVATION",
                     }
                 }
             ],
-            condition:condition ? {and:[{math:["u_val('mana')",">=",costMathStr]},condition]}
-                                : {math:["u_val('mana')",">=",costMathStr]},
+            condition:baseCond.length>0
+                        ? {and:[{math:["u_val('mana')",">=",costMathStr]},...baseCond]}
+                        : {math:["u_val('mana')",">=",costMathStr]},
         }
 
         //加入触发
@@ -89,6 +111,21 @@ export async function createCharSkill(dm:DataManager,charName:string){
         skillDataList.push(castEoc,spell);
         if(selTargetSpell!=null)
             skillDataList.push(selTargetSpell);
+
+        //冷却事件
+        if(cooldown!=null){
+            const CDEoc:Eoc={
+                type:"effect_on_condition",
+                id:genEOCID(`${spell.id}_Cooldown`),
+                effect:[
+                    {math:[cdValName,"-=","1"]}
+                ],
+                condition:{math:[cdValName,">=","0"]},
+                eoc_type:"ACTIVATION",
+            }
+            dm.addCharEvent(charName,"CharUpdate",CDEoc);
+            skillDataList.push(CDEoc);
+        }
     }
     outData['skill'] = skillDataList;
 }

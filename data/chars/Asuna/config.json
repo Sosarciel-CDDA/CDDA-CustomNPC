@@ -56,13 +56,15 @@
 	},
 	"skill": [{
 		"hook": "CharCauseRangeHit",
+		"cooldown":10,
+		"audio":["EvaporateFuture","EvaporateFutureSF","Hit"],
 		"spell": {
-			"id":"CNPC_SPELL_AsunaShot",
+			"id":"CNPC_SPELL_EvaporateFuture",
 			"type": "SPELL",
-			"name": "Asuna的线形射击技能",
-			"description": "Asuna的线形射击技能",
+			"name": "蒸发未来",
+			"description": "蒸发未来",
 			"min_damage":{
-				"math": ["(100+u_val('perception'))*(log(u_val('perception'))*log(u_val('perception')))"]
+				"math": ["CalcDamage(100, u_val('perception'))*3.6"]
 			},
 			"max_damage":999999,
 			"damage_type": "bullet",
@@ -71,7 +73,25 @@
 			"shape": "cone",
 			"valid_targets": ["hostile","ground"],
 			"effect": "attack",
-			"base_energy_cost":10,
+			"base_energy_cost":320,
+			"energy_source": "MANA"
+		}
+	},{
+		"hook": "CharBattleUpdate",
+		"cooldown":10,
+		"audio":["Snipe","SnipeSF"],
+		"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}},
+		"spell": {
+			"type": "SPELL",
+			"id":"CNPC_SPELL_Snipe",
+			"name": "精准狙击",
+			"description": "感知*1.15 射击范围*2 分散度*0",
+			"effect": "attack",
+			"valid_targets": ["self"],
+			"effect_str": "CNPC_EFF_Snipe",
+			"shape": "blast",
+			"min_duration": 18000,
+			"base_energy_cost":160,
 			"energy_source": "MANA"
 		}
 	}]

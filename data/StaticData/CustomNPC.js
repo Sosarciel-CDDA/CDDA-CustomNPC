@@ -123,7 +123,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 
 		if(u_isInit!=1){
 			//添加用于防止逃跑的勇气效果
-			eobj({ "u_add_effect": "CNPC_EFFECT_Courage", "duration": "PERMANENT" })
+			eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
 			//运行动态生成的事件eoc
 			CNPC_EOC_CharInit();
 			u_isInit=1;
@@ -133,6 +133,14 @@ function CNPC_EOC_GlobalUpdateEvent(){
 		CNPC_EOC_UpdateStat();
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharUpdate();
+
+		//附近有怪物 u_search_radius 无效
+		if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
+			//触发战斗中
+			//运行动态生成的事件eoc
+			CNPC_EOC_CharBattleUpdate();
+		}
+
 
 		//检测移动
 		eobj({

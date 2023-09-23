@@ -1,4 +1,4 @@
-import { EnchantmentID, InlineEnchantment } from "./Enchantment";
+import { EnchantmentID, InlineEnchantment, ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
 import { BodyPartID, CddaID, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";
@@ -15,7 +15,7 @@ export type DefineEffectID = typeof DefineEffectIDList[number];
 
 /**效果ID
  */
-export type EffectID = CddaID<"EFFECT">|DefineEffectID;
+export type EffectID = CddaID<"EFF">|DefineEffectID;
 
 /**效果 */
 export type Effect = {
@@ -161,6 +161,10 @@ export type Effect = {
     base_mods?: EffectMod;
     /**效果的诶个强度等级的额外调整 */
     scaling_mods?: EffectMod;
+    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
+     * 按效果强度应用不同成员
+     */
+    enchantments?:ParamsEnchantment[];
 };
 /**效果评价 列表 */
 export const EffectRatList = [
@@ -361,8 +365,6 @@ export const EffectModTypeList = [
 "dodge_mod"     ,//有效闪避几率
 "hit_mod"       ,//有效的近战技能
 "bash_mod"		,//额外的 bash 奖励/惩罚
-
-"enchantments"  ,//此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
 ] as const;
 
 
@@ -372,7 +374,4 @@ export const EffectModTypeList = [
 export type EffectModType = typeof EffectModTypeList[number];
 
 /**效果的调整值格式 */
-export type EffectMod = Partial<Record<EffectModType,number>>&{
-    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义 */
-    enchantments?:EnchantmentID|InlineEnchantment;
-}
+export type EffectMod = Partial<Record<EffectModType,number>>;

@@ -131,6 +131,5 @@ exports.EffectModTypeList = [
     "healing_torso",
     "dodge_mod",
     "hit_mod",
-    "bash_mod",
-    "enchantments", //此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
+    "bash_mod", //额外的 bash 奖励/惩罚
 ];

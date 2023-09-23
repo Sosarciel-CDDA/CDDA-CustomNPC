@@ -1,4 +1,4 @@
-import { EnchantmentID, InlineEnchantment } from "./Enchantment";
+import { ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
 import { BodyPartID, CddaID, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";
@@ -9,7 +9,7 @@ export declare const DefineEffectIDList: readonly ["npc_run_away"];
 export type DefineEffectID = typeof DefineEffectIDList[number];
 /**效果ID
  */
-export type EffectID = CddaID<"EFFECT"> | DefineEffectID;
+export type EffectID = CddaID<"EFF"> | DefineEffectID;
 /**效果 */
 export type Effect = {
     type: "effect_type";
@@ -154,6 +154,10 @@ export type Effect = {
     base_mods?: EffectMod;
     /**效果的诶个强度等级的额外调整 */
     scaling_mods?: EffectMod;
+    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
+     * 按效果强度应用不同成员
+     */
+    enchantments?: ParamsEnchantment[];
 };
 /**效果评价 列表 */
 export declare const EffectRatList: readonly ["good", "neutral", "bad", "mixed"];
@@ -214,13 +218,10 @@ export type EffectLimbMod = {
  * chance_bot 如果不存在，则触发机会为 1/X_chance
  * 如果确实存在，那么机会是 X_chance/X_chance_bot
  */
-export declare const EffectModTypeList: readonly ["str_mod", "dex_mod", "per_mod", "int_mod", "speed_mod", "pain_amount", "pain_min", "pain_max", "pain_max_val", "pain_chance", "pain_chance_bot", "pain_tick", "hurt_amount", "hurt_min", "hurt_max", "hurt_chance", "hurt_chance_bot", "hurt_tick", "sleep_amount", "sleep_min", "sleep_max", "sleep_chance", "sleep_chance_bot", "sleep_tick", "pkill_amount", "pkill_min", "pkill_max", "pkill_max_val", "pkill_chance", "pkill_chance_bot", "pkill_tick", "stim_amount", "stim_min", "stim_max", "stim_min_val", "stim_max_val", "stim_chance", "stim_chance_bot", "stim_tick", "health_amount", "health_min", "health_max", "health_min_val", "health_max_val", "health_chance", "health_chance_bot", "health_tick", "h_mod_amount", "h_mod_min", "h_mod_max", "h_mod_min_val", "h_mod_max_val", "h_mod_chance", "h_mod_chance_bot", "h_mod_tick", "rad_amount", "rad_min", "rad_max", "rad_max_val", "rad_chance", "rad_chance_bot", "rad_tick", "hunger_amount", "hunger_min", "hunger_max", "hunger_min_val", "hunger_max_val", "hunger_chance", "hunger_chance_bot", "hunger_tick", "thirst_amount", "thirst_min", "thirst_max", "thirst_min_val", "thirst_max_val", "thirst_chance", "thirst_chance_bot", "thirst_tick", "perspiration_amount", "perspiration_min", "perspiration_max", "perspiration_min_val", "perspiration_max_val", "perspiration_chance", "perspiration_chance_bot", "perspiration_tick", "fatigue_amount", "fatigue_min", "fatigue_max", "fatigue_min_val", "fatigue_max_val", "fatigue_chance", "fatigue_chance_bot", "fatigue_tick", "stamina_amount", "stamina_min", "stamina_max", "stamina_min_val", "stamina_max_val", "stamina_chance", "stamina_chance_bot", "stamina_tick", "cough_chance", "cough_chance_bot", "cough_tick", "vomit_chance", "vomit_chance_bot", "vomit_tick", "healing_rate", "healing_head", "healing_torso", "dodge_mod", "hit_mod", "bash_mod", "enchantments"];
+export declare const EffectModTypeList: readonly ["str_mod", "dex_mod", "per_mod", "int_mod", "speed_mod", "pain_amount", "pain_min", "pain_max", "pain_max_val", "pain_chance", "pain_chance_bot", "pain_tick", "hurt_amount", "hurt_min", "hurt_max", "hurt_chance", "hurt_chance_bot", "hurt_tick", "sleep_amount", "sleep_min", "sleep_max", "sleep_chance", "sleep_chance_bot", "sleep_tick", "pkill_amount", "pkill_min", "pkill_max", "pkill_max_val", "pkill_chance", "pkill_chance_bot", "pkill_tick", "stim_amount", "stim_min", "stim_max", "stim_min_val", "stim_max_val", "stim_chance", "stim_chance_bot", "stim_tick", "health_amount", "health_min", "health_max", "health_min_val", "health_max_val", "health_chance", "health_chance_bot", "health_tick", "h_mod_amount", "h_mod_min", "h_mod_max", "h_mod_min_val", "h_mod_max_val", "h_mod_chance", "h_mod_chance_bot", "h_mod_tick", "rad_amount", "rad_min", "rad_max", "rad_max_val", "rad_chance", "rad_chance_bot", "rad_tick", "hunger_amount", "hunger_min", "hunger_max", "hunger_min_val", "hunger_max_val", "hunger_chance", "hunger_chance_bot", "hunger_tick", "thirst_amount", "thirst_min", "thirst_max", "thirst_min_val", "thirst_max_val", "thirst_chance", "thirst_chance_bot", "thirst_tick", "perspiration_amount", "perspiration_min", "perspiration_max", "perspiration_min_val", "perspiration_max_val", "perspiration_chance", "perspiration_chance_bot", "perspiration_tick", "fatigue_amount", "fatigue_min", "fatigue_max", "fatigue_min_val", "fatigue_max_val", "fatigue_chance", "fatigue_chance_bot", "fatigue_tick", "stamina_amount", "stamina_min", "stamina_max", "stamina_min_val", "stamina_max_val", "stamina_chance", "stamina_chance_bot", "stamina_tick", "cough_chance", "cough_chance_bot", "cough_tick", "vomit_chance", "vomit_chance_bot", "vomit_tick", "healing_rate", "healing_head", "healing_torso", "dodge_mod", "hit_mod", "bash_mod"];
 /**效果调整类型
  * "enchantments" 不为数字类型
  */
 export type EffectModType = typeof EffectModTypeList[number];
 /**效果的调整值格式 */
-export type EffectMod = Partial<Record<EffectModType, number>> & {
-    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义 */
-    enchantments?: EnchantmentID | InlineEnchantment;
-};
+export type EffectMod = Partial<Record<EffectModType, number>>;

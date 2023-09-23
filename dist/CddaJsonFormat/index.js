@@ -30,3 +30,4 @@ __exportStar(require("./Field"), exports);
 __exportStar(require("./Enchantment"), exports);
 __exportStar(require("./Spell"), exports);
 __exportStar(require("./SoundEffect"), exports);
+__exportStar(require("./MathFuncion"), exports);

@@ -35,7 +35,7 @@ function genEOCID(id) {
 exports.genEOCID = genEOCID;
 /**生成适用于此mod的 Effect ID */
 function genEffectID(id) {
-    return `${exports.MOD_PREFIX}_EFFECT_${id}`;
+    return `${exports.MOD_PREFIX}_EFF_${id}`;
 }
 exports.genEffectID = genEffectID;
 /**生成适用于此mod的 物品组ID */

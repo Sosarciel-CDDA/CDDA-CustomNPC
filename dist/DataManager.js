@@ -11,6 +11,7 @@ const ModDefine_1 = require("./ModDefine");
 exports.CharEvemtTypeList = [
     "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
     "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
+    "CharBattleUpdate",
 ];
 /**全局事件列表 */
 exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList];
@@ -71,8 +72,16 @@ class DataManager {
         dm.buildSetting = (await utils_1.UtilFT.loadJSONFile(path.join(dm.dataPath, 'build_setting')));
         const bs = dm.buildSetting;
         dm.outPath = dm.outPath || path.join(bs.game_path, 'data', 'mods', 'CustomNPC');
+        await dm.processGfxpack();
+        await dm.processSoundpack();
+        return dm;
+    }
+    /**初始化 处理贴图包 */
+    async processGfxpack() {
+        const bs = this.buildSetting;
+        const dm = this;
         //处理贴图包
-        const gfxPath = path.join(bs.game_path, 'gfx', bs.target_gfx);
+        const gfxPath = path.join(bs.game_path, 'gfx', bs.target_gfxpack);
         const gfxTilesetTxtPath = path.join(gfxPath, 'tileset.txt');
         if (!(await utils_1.UtilFT.pathExists(gfxTilesetTxtPath)))
             throw "未找到目标贴图包自述文件 path:" + gfxTilesetTxtPath;
@@ -115,7 +124,55 @@ class DataManager {
         if (!(findMale && findFemale))
             console.log("未找到贴图包素体");
         await utils_1.UtilFT.writeJSONFile(path.join(gfxPath, 'tile_config'), tileConfig);
-        return dm;
+    }
+    /**初始化 处理音效包 */
+    async processSoundpack() {
+        const bs = this.buildSetting;
+        const dm = this;
+        //删除旧的音效资源
+        const soundPath = path.join(bs.game_path, 'data', 'sound', bs.target_soundpack, 'cnpc');
+        await fs.promises.rm(soundPath, { recursive: true, force: true });
+        //遍历角色
+        for (const charName of dm.charList) {
+            //确认角色输出文件夹
+            const charOutAudioFolder = path.join(soundPath, charName);
+            await utils_1.UtilFT.ensurePathExists(charOutAudioFolder, true);
+            //遍历并找出所有音效文件夹
+            const charAudioFolderPath = path.join(dm.getCharPath(charName), 'audio');
+            const charAudioList = (await fs.promises.readdir(charAudioFolderPath))
+                .filter(fileName => fs.statSync(path.join(charAudioFolderPath, fileName)).isDirectory());
+            //复制音效文件夹到输出
+            for (const audioFolderName of charAudioList) {
+                const charAudioPath = path.join(charAudioFolderPath, audioFolderName);
+                const outAudioPath = path.join(charOutAudioFolder, audioFolderName);
+                await fs.promises.cp(charAudioPath, outAudioPath, { recursive: true });
+                //找到所有子音效
+                const subAudio = (await fs.promises.readdir(charAudioPath))
+                    .filter(fileName => [".ogg", ".wav"].includes(path.parse(fileName).ext));
+                //创建音效配置 音效id为角色名 变体id为文件夹名 内容为子文件
+                const se = {
+                    type: "sound_effect",
+                    id: charName,
+                    variant: audioFolderName,
+                    volume: 100,
+                    files: [...subAudio.map(fileName => path.join('cnpc', charName, audioFolderName, fileName))]
+                };
+                //根据预留武器音效字段更改ID
+                const defineList = [
+                    "fire_gun",
+                    "fire_gun_distant",
+                    "reload",
+                    "melee_hit_flesh",
+                    "melee_hit_metal",
+                    "melee_hit",
+                ];
+                if (defineList.includes(audioFolderName)) {
+                    se.id = audioFolderName;
+                    se.variant = (await dm.getCharData(charName)).baseData.baseWeaponID;
+                }
+                await utils_1.UtilFT.writeJSONFile(path.join(charOutAudioFolder, audioFolderName), [se]);
+            }
+        }
     }
     /**获取角色表 如无则初始化 */
     async getCharData(charName) {
@@ -233,7 +290,7 @@ class DataManager {
             const charStaticDataPath = path.join(this.getCharPath(charName), "StaticData");
             await utils_1.UtilFT.ensurePathExists(charStaticDataPath, true);
             //await
-            fs.promises.cp(charStaticDataPath, this.getCharPath(charName), { recursive: true });
+            fs.promises.cp(charStaticDataPath, this.getOutCharPath(charName), { recursive: true });
         }
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;

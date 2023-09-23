@@ -1,9 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.ControlSpellFlags = void 0;
+exports.BaseSpell = exports.ControlSpellFlags = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
+/**n格以内算作进入战斗 */
+exports.BATTLE_RANGE = 20;
 /**用于必定成功的控制法术的flags */
 exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [
@@ -36,7 +38,7 @@ exports.BaseSpell = [
         min_damage: 100,
         max_damage: 100,
         damage_type: "pure",
-        min_aoe: 20,
+        min_aoe: exports.BATTLE_RANGE,
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
     {
@@ -46,8 +48,8 @@ exports.BaseSpell = [
         description: "初始化当前生命值变量",
         flags: [...exports.ControlSpellFlags],
         valid_targets: ["hostile"],
-        min_aoe: 20,
-        max_aoe: 20,
+        min_aoe: exports.BATTLE_RANGE,
+        max_aoe: exports.BATTLE_RANGE,
         effect: "effect_on_condition",
         effect_str: "CNPC_EOC_InitCurrHP",
         shape: "blast",
@@ -59,8 +61,8 @@ exports.BaseSpell = [
         description: "检测当前生命值是否有变动",
         flags: [...exports.ControlSpellFlags],
         valid_targets: ["hostile"],
-        min_aoe: 20,
-        max_aoe: 20,
+        min_aoe: exports.BATTLE_RANGE,
+        max_aoe: exports.BATTLE_RANGE,
         effect: "effect_on_condition",
         effect_str: "CNPC_EOC_CheckCurrHP",
         shape: "blast",
@@ -76,7 +78,7 @@ exports.BaseSpell = [
         min_damage: 100,
         max_damage: 100,
         min_aoe: 90,
-        min_range: 20,
+        min_range: exports.BATTLE_RANGE,
         base_casting_time: 100,
         damage_type: "heat",
     },
@@ -92,7 +94,7 @@ exports.BaseSpell = [
         min_damage: 1,
         max_damage: 1,
         min_aoe: 90,
-        min_range: 20,
+        min_range: exports.BATTLE_RANGE,
         base_casting_time: 100,
         extra_effects: [{ id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG") }],
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],

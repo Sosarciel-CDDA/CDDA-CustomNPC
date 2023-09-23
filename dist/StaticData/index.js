@@ -23,3 +23,4 @@ __exportStar(require("./BaseTrait"), exports);
 __exportStar(require("./BaseItemGroup"), exports);
 __exportStar(require("./BaseEnch"), exports);
 __exportStar(require("./BaseEffect"), exports);
+__exportStar(require("./BaseMathFunction"), exports);

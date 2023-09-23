@@ -32,7 +32,7 @@ export function genEOCID(id: string):EocID{
 }
 /**生成适用于此mod的 Effect ID */
 export function genEffectID(id: string):EffectID{
-	return `${MOD_PREFIX}_EFFECT_${id}`;
+	return `${MOD_PREFIX}_EFF_${id}`;
 }
 /**生成适用于此mod的 物品组ID */
 export function genItemGroupID(id:string):ItemGroupID{

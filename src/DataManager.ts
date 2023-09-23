@@ -4,7 +4,7 @@ import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID } from 'CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 
 
@@ -13,6 +13,7 @@ import { CharSkill } from './CharSkill';
 export const CharEvemtTypeList = [
     "CharIdle","CharMove","CharCauseHit","CharUpdate",
     "CharCauseMeleeHit","CharCauseRangeHit","CharInit",
+    "CharBattleUpdate",
 ] as const;
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
@@ -64,7 +65,9 @@ export type BuildSetting={
     /**游戏目录 */
     game_path:string;
     /**游戏贴图包目录名 */
-    target_gfx:string;
+    target_gfxpack:string;
+    /**游戏音效包目录名 */
+    target_soundpack:string;
 }
 
 /**游戏数据 */
@@ -134,8 +137,17 @@ export class DataManager{
         const bs = dm.buildSetting;
         dm.outPath = dm.outPath || path.join(bs.game_path,'data','mods','CustomNPC');
 
+        await dm.processGfxpack();
+        await dm.processSoundpack();
+        return dm;
+    }
+
+    /**初始化 处理贴图包 */
+    async processGfxpack(){
+        const bs = this.buildSetting;
+        const dm = this;
         //处理贴图包
-        const gfxPath = path.join(bs.game_path,'gfx',bs.target_gfx);
+        const gfxPath = path.join(bs.game_path,'gfx',bs.target_gfxpack);
         const gfxTilesetTxtPath = path.join(gfxPath,'tileset.txt');
         if(!(await UtilFT.pathExists(gfxTilesetTxtPath)))
             throw "未找到目标贴图包自述文件 path:"+gfxTilesetTxtPath;
@@ -173,7 +185,61 @@ export class DataManager{
         }
         if(!(findMale&&findFemale)) console.log("未找到贴图包素体");
         await UtilFT.writeJSONFile(path.join(gfxPath,'tile_config'),tileConfig);
-        return dm;
+    }
+
+    /**初始化 处理音效包 */
+    async processSoundpack(){
+        const bs = this.buildSetting;
+        const dm = this;
+        //删除旧的音效资源
+        const soundPath = path.join(bs.game_path,'data','sound',bs.target_soundpack,'cnpc');
+        await fs.promises.rm(soundPath, { recursive: true, force: true });
+
+        //遍历角色
+        for(const charName of dm.charList){
+            //确认角色输出文件夹
+            const charOutAudioFolder = path.join(soundPath,charName);
+            await UtilFT.ensurePathExists(charOutAudioFolder,true);
+
+            //遍历并找出所有音效文件夹
+            const charAudioFolderPath = path.join(dm.getCharPath(charName),'audio');
+            const charAudioList = (await fs.promises.readdir(charAudioFolderPath))
+                .filter(fileName=> fs.statSync(path.join(charAudioFolderPath,fileName)).isDirectory());
+
+            //复制音效文件夹到输出
+            for(const audioFolderName of charAudioList){
+                const charAudioPath = path.join(charAudioFolderPath,audioFolderName);
+                const outAudioPath = path.join(charOutAudioFolder,audioFolderName);
+                await fs.promises.cp(charAudioPath,outAudioPath,{recursive:true});
+                //找到所有子音效
+                const subAudio = (await fs.promises.readdir(charAudioPath))
+                    .filter(fileName=> [".ogg",".wav"].includes(path.parse(fileName).ext));
+
+                //创建音效配置 音效id为角色名 变体id为文件夹名 内容为子文件
+                const se:SoundEffect={
+                        type: "sound_effect",
+                        id: charName as SoundEffectID,
+                        variant: audioFolderName as SoundEffectVariantID,
+                        volume: 100,
+                        files: [ ...subAudio.map( fileName =>
+                                path.join('cnpc',charName,audioFolderName,fileName)) ]
+                }
+                //根据预留武器音效字段更改ID
+                const defineList = [
+                    "fire_gun"          ,
+                    "fire_gun_distant"  ,
+                    "reload"            ,
+                    "melee_hit_flesh"   ,
+                    "melee_hit_metal"   ,
+                    "melee_hit"         ,
+                ] as const;
+                if(defineList.includes(audioFolderName as any)){
+                    se.id = audioFolderName as SoundEffectID;
+                    se.variant = (await dm.getCharData(charName)).baseData.baseWeaponID as SoundEffectVariantID;
+                }
+                await UtilFT.writeJSONFile(path.join(charOutAudioFolder,audioFolderName),[se]);
+            }
+        }
     }
 
     /**获取角色表 如无则初始化 */
@@ -305,7 +371,7 @@ export class DataManager{
             const charStaticDataPath = path.join(this.getCharPath(charName),"StaticData");
             await UtilFT.ensurePathExists(charStaticDataPath,true);
             //await
-            fs.promises.cp(charStaticDataPath,this.getCharPath(charName),{ recursive: true });
+            fs.promises.cp(charStaticDataPath,this.getOutCharPath(charName),{ recursive: true });
         }
 
         //导出全局EOC

@@ -1,6 +1,8 @@
 import { MutationID } from "../Mutattion";
 import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
+import { EffectID } from "../Effect";
+import { BodyPartID } from "../GenericDefine";
 
 
 
@@ -36,13 +38,41 @@ export type BoolOperateList = [
     BoolOperaNot                                        ,//非
     BoolOperaOr                                         ,//或
     BoolOperaAnd                                        ,//与
-    {u_has_trait:MutationID}                            ,//有某个变异
-    "u_can_drop_weapon"                                 ,//可以丢弃手中的物品
-    {u_has_wielded_with_flag:FlagID}                    ,//手中的物品有某个flag
-    {u_has_item:AnyItemID}                              ,//携带/穿戴/持握/背包里有某个物品
-    {math:[string,"=="|"!="|">="|"<="|">"|"<",string]}  ,//
     BoolOperaCompStr                                    ,//比较两个字符串
-]
+    "u_can_drop_weapon"                                 ,//可以丢弃手中的物品
+    {math:[string,"=="|"!="|">="|"<="|">"|"<",string]}  ,//
+    HasWieldFlag                                        ,//手中的物品有某个flag
+    HasItem                                             ,//携带/穿戴/持握/背包里有某个物品
+    HasTrait                                            ,//有某个变异
+    HasEffect                                           ,//有某个效果
+];
+/**有某个效果 */
+export type HasEffect = {
+    /**有某个效果
+     * 武术static_buffs可以通过形式来检查mabuff:buff_id
+     */
+    u_has_effect:EffectID|StrObj;
+    /**要求的效果强度 */
+    intensity?: NumObj;
+    /**检查哪个肢体 */
+    bodypart?: BodyPartID;
+};
+/**携带/穿戴/持握/背包里有某个物品 */
+export type HasItem  = {
+    /**携带/穿戴/持握/背包里有某个物品 */
+    u_has_item:AnyItemID|StrObj;
+};
+/**有某个变异 */
+export type HasTrait = {
+    /**有某个变异 */
+    u_has_trait:MutationID|StrObj;
+};
+/**手中的物品有某个flag */
+export type HasWieldFlag = {
+    /**手中的物品有某个flag */
+    u_has_wielded_with_flag:FlagID|StrObj;
+};
+
 export type BoolOperaNot     = {not:BoolObj};
 export type BoolOperaOr      = {or:BoolObj[]};
 export type BoolOperaAnd     = {and:BoolObj[]};

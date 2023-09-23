@@ -3,11 +3,11 @@ import { AnimType } from './AnimTool';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType } from './CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 /**角色事件列表 */
-export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit"];
+export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharBattleUpdate"];
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharBattleUpdate"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**变量属性 */
@@ -48,7 +48,9 @@ export type BuildSetting = {
     /**游戏目录 */
     game_path: string;
     /**游戏贴图包目录名 */
-    target_gfx: string;
+    target_gfxpack: string;
+    /**游戏音效包目录名 */
+    target_soundpack: string;
 };
 /**游戏数据 */
 export type GameData = {
@@ -80,6 +82,10 @@ export declare class DataManager {
      * @param outPath  输出数据路径
      */
     static create(dataPath?: string, outPath?: string): Promise<DataManager>;
+    /**初始化 处理贴图包 */
+    processGfxpack(): Promise<void>;
+    /**初始化 处理音效包 */
+    processSoundpack(): Promise<void>;
     /**获取角色表 如无则初始化 */
     getCharData(charName: string): Promise<{
         /**角色基础数据 */
@@ -121,7 +127,7 @@ export declare class DataManager {
         /**输出数据 */
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 */
-        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit", Eoc>;
+        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit" | "CharBattleUpdate", Eoc>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;

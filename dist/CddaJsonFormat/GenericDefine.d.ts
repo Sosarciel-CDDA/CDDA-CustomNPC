@@ -1,14 +1,17 @@
 import { AmmunitionType } from "./AmmiunitionType";
+import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
 import { Eoc } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
 import { AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
+import { MathFunction } from "./MathFuncion";
 import { Monster } from "./Monster";
 import { NpcClass } from "./NpcClass";
 import { NpcInstance } from "./NpcInstance";
 import { OverlayOrdering } from "./OverlayOrdering";
 import { SoundEffect } from "./SoundEffect";
+import { Spell } from "./Spell";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -172,7 +175,7 @@ export declare const SkillList: readonly ["pistol", "rifle"];
 /**技能 */
 export type Skill = typeof SkillList[number];
 /**任何Cdda的Json */
-export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect;
+export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];
 export {};
