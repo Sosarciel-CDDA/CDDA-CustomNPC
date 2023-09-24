@@ -3,6 +3,7 @@ import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";
 import { BodyPartID } from "../GenericDefine";
+import { TalkerVar } from "./Eoc";
 /**数字对象 */
 export type NumObj = NumOperateList[number];
 /**Eoc数字对象操作符 */
@@ -12,29 +13,35 @@ export type NumOperateList = [
     {
         math: [string];
     },
-    NumOperaRng,
-    NumOperaOneIn,
-    NumOperaDice,
-    NumOperaSum,
-    NumOperaMul,
     {
         constant: number;
     }
 ];
+/**npc属性技能专用的数字对象 */
+export type NpcNumObj = NpcNumOperateList[number];
+/**npc属性技能专用的数字对象操作符 */
+export type NpcNumOperateList = [
+    number,
+    NumOperaRng,
+    NumOperaOneIn,
+    NumOperaDice,
+    NumOperaSum,
+    NumOperaMul
+];
 export type NumOperaRng = {
-    rng: [NumObj, NumObj];
+    rng: [NpcNumObj, NpcNumObj];
 };
 export type NumOperaOneIn = {
-    one_in: NumObj;
+    one_in: NpcNumObj;
 };
 export type NumOperaDice = {
-    dice: [NumObj, NumObj];
+    dice: [NpcNumObj, NpcNumObj];
 };
 export type NumOperaSum = {
-    sum: NumObj[];
+    sum: NpcNumObj[];
 };
 export type NumOperaMul = {
-    mul: NumObj[];
+    mul: NpcNumObj[];
 };
 /**Eoc条件对象 */
 export type BoolObj = BoolOperateList[number];
@@ -51,33 +58,39 @@ export type BoolOperateList = [
     HasWieldFlag,
     HasItem,
     HasTrait,
-    HasEffect
+    HasEffect,
+    OneInChance
 ];
 /**有某个效果 */
-export type HasEffect = {
+export type HasEffect = TalkerVar<{
     /**有某个效果
      * 武术static_buffs可以通过形式来检查mabuff:buff_id
      */
-    u_has_effect: EffectID | StrObj;
+    has_effect: EffectID | StrObj;
     /**要求的效果强度 */
     intensity?: NumObj;
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
-};
+}, "has_effect">;
 /**携带/穿戴/持握/背包里有某个物品 */
-export type HasItem = {
+export type HasItem = TalkerVar<{
     /**携带/穿戴/持握/背包里有某个物品 */
-    u_has_item: AnyItemID | StrObj;
-};
+    has_item: AnyItemID | StrObj;
+}, "has_item">;
 /**有某个变异 */
-export type HasTrait = {
+export type HasTrait = TalkerVar<{
     /**有某个变异 */
-    u_has_trait: MutationID | StrObj;
-};
+    has_trait: MutationID | StrObj;
+}, "has_trait">;
 /**手中的物品有某个flag */
-export type HasWieldFlag = {
+export type HasWieldFlag = TalkerVar<{
     /**手中的物品有某个flag */
-    u_has_wielded_with_flag: FlagID | StrObj;
+    has_wielded_with_flag: FlagID | StrObj;
+}, "has_wielded_with_flag">;
+/**1/n的概率返回true */
+export type OneInChance = {
+    /**1/n的概率返回true */
+    one_in_chance: NumObj;
 };
 export type BoolOperaNot = {
     not: BoolObj;

@@ -1,6 +1,7 @@
 import { CddaID, Time } from "../GenericDefine";
 import { BoolObj } from "./VariableObject";
 import { EocEffect } from "./EocEffect";
+import { JObject } from "@zwa73/utils";
 
 
 
@@ -38,3 +39,10 @@ export type EocType = typeof EocTypeList[number];
 
 /**内联EOC */
 export type InlineEoc = Omit<Eoc,"type">;
+
+
+
+/**创建U与NPC的变体 */
+export type TalkerVar<B extends JObject,K extends string> =
+    (Omit<B,K>&{[P in `npc_${K}`]:B[K]}&{[P in `u_${K}`]?:never})|
+    (Omit<B,K>&{[P in `u_${K}`]:B[K]}&{[P in `npc_${K}`]?:never});

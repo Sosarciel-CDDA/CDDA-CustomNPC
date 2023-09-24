@@ -18,7 +18,7 @@ export const CalcDamage:MathFunction={
 export const DamageMul:MathFunction={
     type:"jmath_function",
     id:"DamageMul" as MathFunctionID,
-    num_args: 0,
+    num_args: 1,
     return:"Log10( _0 ) * Log10( _0 )",
 }
 /**log10

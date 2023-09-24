@@ -56,8 +56,12 @@
 	},
 	"skill": [{
 		"hook": "CharCauseRangeHit",
-		"cooldown":10,
-		"audio":["EvaporateFuture","EvaporateFutureSF","Hit"],
+		"cooldown":30,
+		"one_in_chance": 2,
+		"audio":[
+			{"id":"EvaporateFuture", "one_in_chance":2},
+			"EvaporateFutureSF","Hit"
+		],
 		"spell": {
 			"id":"CNPC_SPELL_EvaporateFuture",
 			"type": "SPELL",
@@ -78,7 +82,7 @@
 		}
 	},{
 		"hook": "CharBattleUpdate",
-		"cooldown":10,
+		"cooldown":30,
 		"audio":["Snipe","SnipeSF"],
 		"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}},
 		"spell": {

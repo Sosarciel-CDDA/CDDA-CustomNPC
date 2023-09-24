@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataManager = exports.GlobalEvemtTypeList = exports.CharEvemtTypeList = void 0;
+exports.DataManager = exports.GlobalEvemtTypeList = exports.ReverseCharEvemtTypeList = exports.CharEvemtTypeList = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
@@ -11,10 +11,17 @@ const ModDefine_1 = require("./ModDefine");
 exports.CharEvemtTypeList = [
     "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
     "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
+    "CharGetDamage", "CharGetRangeDamage", "CharGetMeleeDamage",
     "CharBattleUpdate",
 ];
+/**反转的角色事件列表
+ * 对应同名GetDamage
+ */
+exports.ReverseCharEvemtTypeList = [
+    "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage",
+];
 /**全局事件列表 */
-exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList];
+exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList, ...exports.ReverseCharEvemtTypeList];
 class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
@@ -164,7 +171,7 @@ class DataManager {
                     "reload",
                     "melee_hit_flesh",
                     "melee_hit_metal",
-                    "melee_hit",
+                    "melee_hit", //近战攻击
                 ];
                 if (defineList.includes(audioFolderName)) {
                     se.id = audioFolderName;
@@ -203,35 +210,61 @@ class DataManager {
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}Weapon`),
             };
-            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, item) => {
+            //角色事件eoc主体
+            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => {
                 const subEoc = {
                     type: "effect_on_condition",
                     eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)(`${item}_${charName}`),
+                    id: (0, ModDefine_1.genEOCID)(`${etype}_${charName}`),
                     effect: [],
                     condition: { u_has_trait: baseData.baseMutID }
                 };
                 return {
                     ...acc,
-                    [item]: subEoc
+                    [etype]: subEoc
+                };
+            }, {});
+            //角色反转事件eoc主体
+            const reverseCharEventEocs = exports.ReverseCharEvemtTypeList.reduce((acc, etype) => {
+                const subEoc = {
+                    type: "effect_on_condition",
+                    eoc_type: "ACTIVATION",
+                    id: (0, ModDefine_1.genEOCID)(`${etype}_${charName}`),
+                    effect: [],
+                    condition: { npc_has_trait: baseData.baseMutID }
+                };
+                return {
+                    ...acc,
+                    [etype]: subEoc
                 };
             }, {});
             this.dataTable.charTable[charName] = {
                 baseData,
                 charEventEocs,
+                reverseCharEventEocs,
                 charConfig,
                 outData: {},
             };
         }
         return this.dataTable.charTable[charName];
     }
-    /**添加事件 */
+    /**添加 eoc的ID引用到 全局事件
+     * u为主角 npc为未定义
+     */
     addEvent(etype, ...events) {
         this.dataTable.eventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
     }
-    /**添加角色事件 */
+    /**添加 eoc的ID引用到 角色事件
+     * u为角色 npc为未定义
+     */
     addCharEvent(charName, etype, ...events) {
         this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
+    }
+    /**添加 eoc的ID引用到 反转角色事件
+     * u为目标 npc为角色
+     */
+    addReverseCharEvent(charName, etype, ...events) {
+        this.dataTable.charTable[charName].reverseCharEventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -277,13 +310,13 @@ class DataManager {
                 this.saveToCharFile(charName, key, obj);
             }
             //导出角色EOC
-            const charEvent = charData.charEventEocs;
+            const charEventMap = Object.assign({}, charData.charEventEocs, charData.reverseCharEventEocs);
             const charEventEocs = [];
-            for (const etype in charEvent) {
-                const et = etype;
-                const ce = charEvent[et];
-                charEventEocs.push(ce);
-                this.addEvent(et, ce);
+            for (const etypeStr in charEventMap) {
+                const etype = etypeStr;
+                const charEvent = charEventMap[etype];
+                charEventEocs.push(charEvent);
+                this.addEvent(etype, charEvent);
             }
             this.saveToCharFile(charName, 'char_event_eocs', charEventEocs);
             //复制角色静态数据

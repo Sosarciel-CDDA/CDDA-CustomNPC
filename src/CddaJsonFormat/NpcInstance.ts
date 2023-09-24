@@ -18,22 +18,38 @@ export type NpcInstance = {
     /**名称后缀 */
     name_suffix?: string;
     /**职业 */
-    class: NpcClassID,
-    attitude: NpcAttitude,
-    mission: NpcMission,
-    chat: TalkTopicID,
-    faction?: DefineNpcFaction,
-    death_eocs?: EocID[],
-    age?: number,
-    height?: number,
-    str?: number,
-    dex?: number,
-    int?: number,
-    per?: number,
+    class: NpcClassID;
+    /**初始态度 */
+    attitude: NpcAttitude;
+    /**初始行为 */
+    mission: NpcMission;
+    /**初始的聊天 talktopic */
+    chat: TalkTopicID;
+    /**阵营 */
+    faction?: DefineNpcFaction;
+    /**死亡触发的eoc */
+    death_eocs?: EocID[];
+    /**年龄 */
+    age?: number;
+    /**身高 */
+    height?: number;
+    /**npc的力量 */
+    str?: number;
+    /**npc的敏捷 */
+    dex?: number;
+    /**npc的智力 */
+    int?: number;
+    /**npc的感知 */
+    per?: number;
+    /**npc的性格 */
     personality?: {
+        /**攻击性 */
         aggression?  : number;
+        /**勇气 */
         bravery?     : number;
+        /**收集癖 */
         collector?   : number;
+        /**乐于助人 */
         altruism?    : number;
     }
 }

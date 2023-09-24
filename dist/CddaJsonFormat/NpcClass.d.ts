@@ -1,4 +1,4 @@
-import { NumObj } from "./Eoc";
+import { NpcNumObj } from "./Eoc";
 import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutattion";
@@ -19,10 +19,10 @@ export type NpcClass = {
      * 如果未指定，则默认为 。true
      */
     sells_belongings?: boolean;
-    bonus_str?: NumObj;
-    bonus_dex?: NumObj;
-    bonus_int?: NumObj;
-    bonus_per?: NumObj;
+    bonus_str?: NpcNumObj;
+    bonus_dex?: NpcNumObj;
+    bonus_int?: NpcNumObj;
+    bonus_per?: NpcNumObj;
     skills?: [
         {
             "skill": "ALL";

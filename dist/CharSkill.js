@@ -9,7 +9,7 @@ async function createCharSkill(dm, charName) {
     const skillDataList = [];
     //遍历技能
     for (const skill of skills) {
-        const { condition, hook, spell, chance, cooldown, audio } = skill;
+        const { condition, hook, spell, one_in_chance, cooldown, audio } = skill;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
@@ -22,30 +22,50 @@ async function createCharSkill(dm, charName) {
         const TEffect = [];
         if (cooldown)
             TEffect.push({ math: [cdValName, "=", `${cooldown || 0}`] });
-        if (audio)
-            TEffect.push(...audio.map(audioName => ({ sound_effect: audioName, id: charName, volume: 100 })));
+        if (audio) {
+            TEffect.push(...audio.map(audioObj => {
+                if (typeof audioObj == "string")
+                    return ({ sound_effect: audioObj, id: charName, volume: 100 });
+                const effect = {
+                    run_eocs: {
+                        id: (0, _1.genEOCID)(audioObj.id + "_Chance"),
+                        eoc_type: "ACTIVATION",
+                        condition: { one_in_chance: audioObj.one_in_chance || 1 },
+                        effect: [
+                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume || 100 }
+                        ],
+                    }
+                };
+                return effect;
+            }));
+        }
+        //是敌对目标法术
+        const isHostileTarget = spell.valid_targets.includes("hostile");
+        //是Aoe法术
+        const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
+            (spell.aoe_increment != null && spell.aoe_increment != 0);
         //如果需要选择目标 创建索敌辅助法术
         let selTargetSpell = null;
-        if (spell.valid_targets.includes("hostile") ||
-            spell.valid_targets.includes("ground") ||
-            spell.valid_targets.includes("ally")) {
+        if (isHostileTarget) {
             const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape } = spell;
-            selTargetSpell = {
-                id: (spell.id + "_SelTarget"),
-                type: "SPELL",
-                name: spell.name + "_索敌",
-                description: `${spell.name}的辅助索敌法术`,
-                effect: "attack",
-                flags: ["WONDER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", ..._1.ControlSpellFlags],
-                min_damage: 1,
-                max_damage: 1,
-                valid_targets: ["hostile"],
-                targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
-                min_aoe, max_aoe, aoe_increment,
-                min_range, max_range, range_increment,
-                shape, max_level,
-                extra_effects: [{ id: spell.id }],
-            };
+            if (isAoe) { //如果是AOE则将法术标靶设为目标
+                selTargetSpell = {
+                    id: (spell.id + "_SelTarget"),
+                    type: "SPELL",
+                    name: spell.name + "_索敌",
+                    description: `${spell.name}的辅助索敌法术`,
+                    effect: "attack",
+                    flags: ["WONDER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", ..._1.ControlSpellFlags],
+                    min_damage: 1,
+                    max_damage: 1,
+                    valid_targets: ["hostile"],
+                    targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
+                    min_aoe, max_aoe, aoe_increment,
+                    min_range, max_range, range_increment,
+                    shape, max_level,
+                    extra_effects: [{ id: spell.id }],
+                };
+            }
         }
         //法术消耗字符串
         const costMathStr = `min(${spell.base_energy_cost || 0}+${spell.energy_increment || 0}*` +
@@ -59,7 +79,7 @@ async function createCharSkill(dm, charName) {
                 {
                     u_cast_spell: {
                         id: selTargetSpell?.id || spell.id,
-                        once_in: chance,
+                        once_in: one_in_chance,
                     },
                     targeted: selTargetSpell ? true : false,
                     true_eocs: {

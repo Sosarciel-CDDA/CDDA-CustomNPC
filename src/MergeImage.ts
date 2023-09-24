@@ -13,14 +13,18 @@ type ImageInfo = Partial<Record<AnimType,{
 	sprite_width: number;
     /**图片高度 */
 	sprite_height: number;
+    /**图片偏移 X */
 	sprite_offset_x?: number;
+    /**图片偏移 Y */
 	sprite_offset_y?: number;
+    /**图片缩放比例 */
 	pixelscale?: number;
     /**帧动画间隔 */
     interval?:number;
     /**帧动画文件名的格式正则 顺序数字应位于捕获组1 如 Idle_(.*)\.png  默认为 Idle(.*)\.png*/
     format_regex?:string;
 }>>;
+
 
 /**合并并创建序列帧 */
 export async function mergeImage(dm:DataManager,charName:string){

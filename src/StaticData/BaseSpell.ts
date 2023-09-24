@@ -7,6 +7,8 @@ import { Spell } from "..";
 
 /**n格以内算作进入战斗 */
 export const BATTLE_RANGE = 20;
+/**n格以内酸作进入近战 */
+export const MELEE_RANGE = 3;
 
 /**用于必定成功的控制法术的flags */
 export const ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"] as const;
@@ -58,15 +60,28 @@ export const BaseSpell:Spell[] = [
 	},
 	{
 		type: "SPELL",
-		id: genSpellID("CheckCurrHP"),
-		name: "检测当前生命值",
-		description: "检测当前生命值是否有变动",
+		id: genSpellID("CheckCurrHP_Range"),
+		name: "检测当前生命值_远程",
+		description: "检测战斗范围内的敌人当前生命值是否有变动",
 		flags: [...ControlSpellFlags],
 		valid_targets: ["hostile"],
 		min_aoe: BATTLE_RANGE,
 		max_aoe: BATTLE_RANGE,
 		effect: "effect_on_condition",
-		effect_str: "CNPC_EOC_CheckCurrHP",
+		effect_str: "CNPC_EOC_CheckCurrHP_Range",
+		shape: "blast",
+	},
+	{
+		type: "SPELL",
+		id: genSpellID("CheckCurrHP_Melee"),
+		name: "检测当前生命值_近战",
+		description: "检测近战范围内的敌人当前生命值是否有变动",
+		flags: [...ControlSpellFlags],
+		valid_targets: ["hostile"],
+		min_aoe: MELEE_RANGE,
+		max_aoe: MELEE_RANGE,
+		effect: "effect_on_condition",
+		effect_str: "CNPC_EOC_CheckCurrHP_Melee",
 		shape: "blast",
 	},
 	{

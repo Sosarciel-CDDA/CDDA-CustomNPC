@@ -13,12 +13,25 @@ import { CharSkill } from './CharSkill';
 export const CharEvemtTypeList = [
     "CharIdle","CharMove","CharCauseHit","CharUpdate",
     "CharCauseMeleeHit","CharCauseRangeHit","CharInit",
+    "CharGetDamage","CharGetRangeDamage","CharGetMeleeDamage",
     "CharBattleUpdate",
 ] as const;
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
+
+/**反转的角色事件列表
+ * 对应同名GetDamage
+ */
+export const ReverseCharEvemtTypeList = [
+    "CharCauseDamage","CharCauseMeleeDamage","CharCauseRangeDamage",
+] as const;
+/**反转的角色事件类型
+ * 对应同名GetDamage
+ */
+export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
+
 /**全局事件列表 */
-export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList] as const;
+export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList,...ReverseCharEvemtTypeList] as const;
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
@@ -49,8 +62,10 @@ export type DataTable={
         baseData:CharData;
         /**输出数据 */
         outData:Record<string,JArray>;
-        /**输出的角色Eoc事件 */
+        /**输出的角色Eoc事件 u为角色 npc为未定义 */
         charEventEocs:Record<CharEventType,Eoc>;
+        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色 */
+        reverseCharEventEocs:Record<ReverseCharEventType,Eoc>;
         /**角色设定 */
         charConfig:CharConfig;
     }>;
@@ -226,12 +241,12 @@ export class DataManager{
                 }
                 //根据预留武器音效字段更改ID
                 const defineList = [
-                    "fire_gun"          ,
-                    "fire_gun_distant"  ,
-                    "reload"            ,
-                    "melee_hit_flesh"   ,
-                    "melee_hit_metal"   ,
-                    "melee_hit"         ,
+                    "fire_gun"          ,//枪械射击
+                    "fire_gun_distant"  ,//枪械射击 远距
+                    "reload"            ,//枪械装弹
+                    "melee_hit_flesh"   ,//近战攻击肉质
+                    "melee_hit_metal"   ,//近战攻击金属质
+                    "melee_hit"         ,//近战攻击
                 ] as const;
                 if(defineList.includes(audioFolderName as any)){
                     se.id = audioFolderName as SoundEffectID;
@@ -273,37 +288,65 @@ export class DataManager{
                 baseWeaponFlagID    : genFlagID(`${charName}Weapon`),
             }
 
-            const charEventEocs = CharEvemtTypeList.reduce((acc,item)=>{
+            //角色事件eoc主体
+            const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>{
                 const subEoc:Eoc={
                     type:"effect_on_condition",
                     eoc_type:"ACTIVATION",
-                    id:genEOCID(`${item}_${charName}`),
+                    id:genEOCID(`${etype}_${charName}`),
                     effect:[],
                     condition:{u_has_trait:baseData.baseMutID}
                 }
                 return {
                     ...acc,
-                    [item]:subEoc
+                    [etype]:subEoc
             }},{} as Record<CharEventType,Eoc>)
+
+            //角色反转事件eoc主体
+            const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>{
+                const subEoc:Eoc={
+                    type:"effect_on_condition",
+                    eoc_type:"ACTIVATION",
+                    id:genEOCID(`${etype}_${charName}`),
+                    effect:[],
+                    condition:{npc_has_trait:baseData.baseMutID}
+                }
+                return {
+                    ...acc,
+                    [etype]:subEoc
+            }},{} as Record<ReverseCharEventType,Eoc>)
 
             this.dataTable.charTable[charName] = {
                 baseData,
                 charEventEocs,
+                reverseCharEventEocs,
                 charConfig,
                 outData:{},
             }
         }
         return this.dataTable.charTable[charName];
     }
-    /**添加事件 */
+    /**添加 eoc的ID引用到 全局事件
+     * u为主角 npc为未定义
+     */
     addEvent(etype:GlobalEventType,...events:Eoc[]){
         this.dataTable.eventEocs[etype].effect?.push(
             ...events.map(eoc=>({"run_eocs":eoc.id}))
         );
     }
-    /**添加角色事件 */
+    /**添加 eoc的ID引用到 角色事件
+     * u为角色 npc为未定义
+     */
     addCharEvent(charName:string,etype:CharEventType,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(
+            ...events.map(eoc=>({"run_eocs":eoc.id}))
+        );
+    }
+    /**添加 eoc的ID引用到 反转角色事件
+     * u为目标 npc为角色
+     */
+    addReverseCharEvent(charName:string,etype:ReverseCharEventType,...events:Eoc[]){
+        this.dataTable.charTable[charName].reverseCharEventEocs[etype].effect?.push(
             ...events.map(eoc=>({"run_eocs":eoc.id}))
         );
     }
@@ -357,13 +400,13 @@ export class DataManager{
                 this.saveToCharFile(charName,key,obj);
             }
             //导出角色EOC
-            const charEvent = charData.charEventEocs;
+            const charEventMap = Object.assign({},charData.charEventEocs,charData.reverseCharEventEocs);
             const charEventEocs:Eoc[]=[];
-            for(const etype in charEvent){
-                const et = etype as CharEventType;
-                const ce = charEvent[et];
-                charEventEocs.push(ce);
-                this.addEvent(et,ce);
+            for(const etypeStr in charEventMap){
+                const etype = etypeStr as (CharEventType|ReverseCharEventType);
+                const charEvent = charEventMap[etype];
+                charEventEocs.push(charEvent);
+                this.addEvent(etype,charEvent);
             }
             this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
 

@@ -139,7 +139,7 @@ export const SpellTargetList = [
     "hostile",//敌人
     "ground" ,//地面
     "self"   ,//自己
-    "ally"   ,//任何
+    "ally"   ,//盟友
     "none"   ,//无
 ] as const;
 /**法术有效目标 */

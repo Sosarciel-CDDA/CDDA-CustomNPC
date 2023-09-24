@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.ControlSpellFlags = exports.BATTLE_RANGE = void 0;
+exports.BaseSpell = exports.ControlSpellFlags = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
 /**n格以内算作进入战斗 */
 exports.BATTLE_RANGE = 20;
+/**n格以内酸作进入近战 */
+exports.MELEE_RANGE = 3;
 /**用于必定成功的控制法术的flags */
 exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [
@@ -56,15 +58,28 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("CheckCurrHP"),
-        name: "检测当前生命值",
-        description: "检测当前生命值是否有变动",
+        id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Range"),
+        name: "检测当前生命值_远程",
+        description: "检测战斗范围内的敌人当前生命值是否有变动",
         flags: [...exports.ControlSpellFlags],
         valid_targets: ["hostile"],
         min_aoe: exports.BATTLE_RANGE,
         max_aoe: exports.BATTLE_RANGE,
         effect: "effect_on_condition",
-        effect_str: "CNPC_EOC_CheckCurrHP",
+        effect_str: "CNPC_EOC_CheckCurrHP_Range",
+        shape: "blast",
+    },
+    {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Melee"),
+        name: "检测当前生命值_近战",
+        description: "检测近战范围内的敌人当前生命值是否有变动",
+        flags: [...exports.ControlSpellFlags],
+        valid_targets: ["hostile"],
+        min_aoe: exports.MELEE_RANGE,
+        max_aoe: exports.MELEE_RANGE,
+        effect: "effect_on_condition",
+        effect_str: "CNPC_EOC_CheckCurrHP_Melee",
         shape: "blast",
     },
     {

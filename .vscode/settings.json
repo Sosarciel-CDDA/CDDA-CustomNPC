@@ -5,6 +5,10 @@
             "url": "./schema/CharConfig.schema.json"
         },
         {
+            "fileMatch": ["data/chars/*/image/info.json"],
+            "url": "./schema/ImageInfo.schema.json"
+        },
+        {
             "fileMatch": [
                 "data/chars/*/StaticData/*.json",
                 "data/StaticData/*.json"

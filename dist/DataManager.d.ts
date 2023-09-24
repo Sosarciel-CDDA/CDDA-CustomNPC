@@ -3,11 +3,19 @@ import { AnimType } from './AnimTool';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType } from './CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 /**角色事件列表 */
-export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharBattleUpdate"];
+export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharGetDamage", "CharGetRangeDamage", "CharGetMeleeDamage", "CharBattleUpdate"];
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
+/**反转的角色事件列表
+ * 对应同名GetDamage
+ */
+export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
+/**反转的角色事件类型
+ * 对应同名GetDamage
+ */
+export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharBattleUpdate"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharGetDamage", "CharGetRangeDamage", "CharGetMeleeDamage", "CharBattleUpdate", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**变量属性 */
@@ -33,8 +41,10 @@ export type DataTable = {
         baseData: CharData;
         /**输出数据 */
         outData: Record<string, JArray>;
-        /**输出的角色Eoc事件 */
+        /**输出的角色Eoc事件 u为角色 npc为未定义 */
         charEventEocs: Record<CharEventType, Eoc>;
+        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色 */
+        reverseCharEventEocs: Record<ReverseCharEventType, Eoc>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;
@@ -118,7 +128,7 @@ export declare class DataManager {
             /**基础装备附魔ID */
             baseEnchID: EnchantmentID;
             /**基础武器ID */
-            baseWeaponID: `${string}SchemaString` | `GENERIC_${string}` | `${string}_GENERIC_${string}` | `GUN_${string}` | `${string}_GUN_${string}`;
+            baseWeaponID: `${string}SchemaString` | `GUN_${string}` | `${string}_GUN_${string}` | `GENERIC_${string}` | `${string}_GENERIC_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
@@ -126,15 +136,25 @@ export declare class DataManager {
         }>;
         /**输出数据 */
         outData: Record<string, JArray>;
-        /**输出的角色Eoc事件 */
-        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit" | "CharBattleUpdate", Eoc>;
+        /**输出的角色Eoc事件 u为角色 npc为未定义 */
+        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit" | "CharGetDamage" | "CharGetRangeDamage" | "CharGetMeleeDamage" | "CharBattleUpdate", Eoc>;
+        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色 */
+        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage", Eoc>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;
-    /**添加事件 */
+    /**添加 eoc的ID引用到 全局事件
+     * u为主角 npc为未定义
+     */
     addEvent(etype: GlobalEventType, ...events: Eoc[]): void;
-    /**添加角色事件 */
+    /**添加 eoc的ID引用到 角色事件
+     * u为角色 npc为未定义
+     */
     addCharEvent(charName: string, etype: CharEventType, ...events: Eoc[]): void;
+    /**添加 eoc的ID引用到 反转角色事件
+     * u为目标 npc为角色
+     */
+    addReverseCharEvent(charName: string, etype: ReverseCharEventType, ...events: Eoc[]): void;
     /**获取 角色目录 */
     getCharPath(charName: string): string;
     /**获取 角色图片目录 */

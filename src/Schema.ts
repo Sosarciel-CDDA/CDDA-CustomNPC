@@ -37,11 +37,16 @@ let schema = UtilFT.loadJSONFileSync(schemasPath) as any;
 schema = JSON.parse(JSON.stringify(schema).replace(/\^\.\*SchemaString\$/g,'^.*$'));
 UtilFT.writeJSONFile(schemasPath,schema);
 
+
+/**忽略可用性检测的类型 */
+const witoutType = ["AnyCddaJsonList","ImageInfoArr"];
+
 const definitions = schema["definitions"] as Record<string,JObject>;
 //展开定义
 for(const typeName in definitions){
     const schema = definitions[typeName];
-    if(schema.type != "object" && typeName!="AnyCddaJsonList") continue;
+    //展开所有object与忽略检测的类型
+    if(schema.type != "object" && !witoutType.includes(typeName)) continue;
     UtilFT.writeJSONFile(path.join(process.cwd(),"schema",`${typeName}.schema.json`),{
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$ref": `schemas.json#/definitions/${typeName}`
