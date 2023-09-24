@@ -1,6 +1,6 @@
 import { JArray } from "@zwa73/utils";
 import { ControlSpellFlags, genEOCID } from ".";
-import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
+import { BoolObj, Eoc, EocEffect, NumObj } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellID } from "./CddaJsonFormat/Spell";
 import { CharEventType, DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
@@ -16,10 +16,8 @@ export type CharSkill = {
     weight?         :number,
     /**概率 有1/chance的几率使用这个技能 默认1 */
     one_in_chance?  :number,
-    /**冷却时间 单位为每次CharUpdate 默认0 */
+    /**冷却时间 单位为每次CharUpdate 默认0*/
     cooldown?       :number,
-    /**共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1 */
-    common_cooldown?:number,
     /**法术效果 */
     spell           :Spell,
     /**技能音效 */
@@ -38,27 +36,32 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const {baseData,outData,charConfig} = await dm.getCharData(charName);
     const skills = (charConfig.skill||[]).sort((a,b)=>(b.weight||0)-(a.weight||0));
     const skillDataList:JArray = [];
-
-    //全局冷却
-    const gcdValName = `u_CoCooldown`;
-    //全局冷却事件
-    const GCDEoc:Eoc={
-        type:"effect_on_condition",
-        id:genEOCID(`${charName}_u_CoCooldown`),
-        effect:[
-            {math:[gcdValName,"-=","1"]}
-        ],
-        condition:{math:[gcdValName,">=","0"]},
-        eoc_type:"ACTIVATION",
-    }
-    dm.addCharEvent(charName,"CharUpdate",GCDEoc);
-    skillDataList.push(GCDEoc);
-
     //遍历技能
     for(const skill of skills){
-        const {condition,hook,spell,one_in_chance,cooldown,audio,common_cooldown} = skill;
+        const {condition,hook,spell,one_in_chance,cooldown,audio} = skill;
+
+        //是敌对目标法术
+        const isHostileTarget = spell.valid_targets.includes("hostile");
+        //是Aoe法术
+        const isAoe = (spell.min_aoe!=null && spell.min_aoe!=0) ||
+            (spell.aoe_increment!=null && spell.aoe_increment!=0);
+        //判断技能主体是否翻转
+        const reverseTalker = (isHostileTarget && !isAoe);//敌对目标且非AOE
+        //生成相对的AlphaTalker
+        const Alpha = reverseTalker? "npc":"u";
+        const Beta = reverseTalker? "u":"npc";
+
+        //修正伤害字段
+        const min_damage_tmp = spell.min_damage;
+        const damage_increment_tmp = spell.damage_increment;
+        if(reverseTalker){
+            spell.min_damage = 0;
+            spell.max_damage = 999999;
+            spell.damage_increment = 1;
+        }
+
         //生成冷却变量名
-        const cdValName = `u_${spell.id}_Cooldown`;
+        const cdValName = `${Alpha}_${spell.id}_Cooldown`;
         //计算基础条件
         const baseCond:BoolObj[] = [];
         if(condition)
@@ -77,7 +80,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
                 const effect:EocEffect = {
                     run_eocs:{
-                        id:genEOCID(`${charName}_${audioObj.id}_Chance`),
+                        id:genEOCID(audioObj.id+"_Chance"),
                         eoc_type:"ACTIVATION",
                         condition:{one_in_chance:audioObj.one_in_chance||1},
                         effect:[
@@ -88,11 +91,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 return effect;
             }));
         }
-        //是敌对目标法术
-        const isHostileTarget = spell.valid_targets.includes("hostile");
-        //是Aoe法术
-        const isAoe = (spell.min_aoe!=null && spell.min_aoe!=0) ||
-            (spell.aoe_increment!=null && spell.aoe_increment!=0);
+
         //如果需要选择目标 创建索敌辅助法术
         let selTargetSpell:Spell|null=null;
         if(isHostileTarget && isAoe){
@@ -119,35 +118,40 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
         //法术消耗字符串
         const costMathStr = `min(${spell.base_energy_cost||0}+${spell.energy_increment||0}*`+
-            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost||999999})`;
+            `${Alpha}_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost||999999})`;
 
+        //如果需要翻转则预先计算伤害
+        const dmgtmp:EocEffect[] = reverseTalker? [{math:[`dmgtmp`,`=`,``]}]:[];
         //创建施法EOC
         const castEoc:Eoc={
             type:"effect_on_condition",
-            id:genEOCID(`${charName}_Cast${spell.id}`),
+            id:genEOCID(`Cast${spell.id}`),
             eoc_type:"ACTIVATION",
             effect:[
+                ...dmgtmp,
                 {
                     u_cast_spell:{
                         id:selTargetSpell?.id||spell.id,
                         once_in:one_in_chance,
+                        hit_self:reverseTalker? true:undefined, //如果是翻转事件则需命中自身
+                        min_level:reverseTalker                 //如果需要翻转则等级为伤害
+                            ? {math:[`dmgtmp`]}
+                            : {math:[`${Alpha}_val('spell_level', 'spell: ${spell.id}')`]}
                     },
                     targeted: selTargetSpell? true:false,
                     true_eocs:{
-                        id:genEOCID(`${charName}_${spell.id}TrueEoc`),
+                        id:genEOCID(`${spell.id}TrueEoc`),
                         effect:[
-                            {math:["u_val('mana')","-=",costMathStr]},
-                            {math:[gcdValName,"=",`${common_cooldown||1}`]},
+                            {math:[`${Alpha}_val('mana')`,"-=",costMathStr]},
                             ...TEffect
                         ],
                         eoc_type:"ACTIVATION",
                     }
                 }
             ],
-            condition:{and:[
-                {math:["u_val('mana')",">=",costMathStr]},
-                {math:[gcdValName,"<=","0"]},
-                ...baseCond]},
+            condition:baseCond.length>0
+                        ? {and:[{math:[`${Alpha}_val('mana')`,">=",costMathStr]},...baseCond]}
+                        : {math:[`${Alpha}_val('mana')`,">=",costMathStr]},
         }
 
         //加入触发
@@ -160,7 +164,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         if(cooldown!=null){
             const CDEoc:Eoc={
                 type:"effect_on_condition",
-                id:genEOCID(`${charName}_${spell.id}_Cooldown`),
+                id:genEOCID(`${spell.id}_Cooldown`),
                 effect:[
                     {math:[cdValName,"-=","1"]}
                 ],
@@ -171,6 +175,5 @@ export async function createCharSkill(dm:DataManager,charName:string){
             skillDataList.push(CDEoc);
         }
     }
-
     outData['skill'] = skillDataList;
 }

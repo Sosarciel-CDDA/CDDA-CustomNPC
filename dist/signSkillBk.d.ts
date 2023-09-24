@@ -11,10 +11,8 @@ export type CharSkill = {
     weight?: number;
     /**概率 有1/chance的几率使用这个技能 默认1 */
     one_in_chance?: number;
-    /**冷却时间 单位为每次CharUpdate 默认0 */
+    /**冷却时间 单位为每次CharUpdate 默认0*/
     cooldown?: number;
-    /**共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1 */
-    common_cooldown?: number;
     /**法术效果 */
     spell: Spell;
     /**技能音效 */

@@ -128,7 +128,7 @@ export declare class DataManager {
             /**基础装备附魔ID */
             baseEnchID: EnchantmentID;
             /**基础武器ID */
-            baseWeaponID: `${string}SchemaString` | `GUN_${string}` | `${string}_GUN_${string}` | `GENERIC_${string}` | `${string}_GENERIC_${string}`;
+            baseWeaponID: `${string}SchemaString` | `GENERIC_${string}` | `${string}_GENERIC_${string}` | `GUN_${string}` | `${string}_GUN_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
