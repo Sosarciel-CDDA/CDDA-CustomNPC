@@ -30,6 +30,12 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
+//npc死亡事件
+function CNPC_EOC_NPCDeath(){
+	eoc_type("NPC_DEATH");
+	CNPC_EOC_CharDeath();
+}
+
 //检测现有血量并触发take_damage
 function CNPC_EOC_CheckCurrHP_Melee(){
 	eoc_type("ACTIVATION")
@@ -39,8 +45,8 @@ function CNPC_EOC_CheckCurrHP_Melee(){
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseDamage();
 		CNPC_EOC_CharCauseMeleeDamage();
-		CNPC_EOC_CharGetDamage();
-		CNPC_EOC_CharGetMeleeDamage();
+		CNPC_EOC_CharTakeDamage();
+		CNPC_EOC_CharTakeMeleeDamage();
 	}
 	u_currHp = u_hp();
 }
@@ -52,8 +58,8 @@ function CNPC_EOC_CheckCurrHP_Range(){
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseDamage();
 		CNPC_EOC_CharCauseRangeDamage();
-		CNPC_EOC_CharGetDamage();
-		CNPC_EOC_CharGetRangeDamage();
+		CNPC_EOC_CharTakeDamage();
+		CNPC_EOC_CharTakeRangeDamage();
 	}
 	u_currHp = u_hp();
 }

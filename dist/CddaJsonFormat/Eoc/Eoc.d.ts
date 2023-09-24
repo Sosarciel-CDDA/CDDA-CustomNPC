@@ -25,7 +25,7 @@ export type Eoc = {
     run_for_npcs?: boolean;
 };
 /**EOC类型 列表 */
-export declare const EocTypeList: readonly ["EVENT", "ACTIVATION", "RECURRING", "OM_MOVE"];
+export declare const EocTypeList: readonly ["EVENT", "ACTIVATION", "RECURRING", "OM_MOVE", "SCENARIO_SPECIFIC", "AVATAR_DEATH", "NPC_DEATH", "PREVENT_DEATH"];
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];
 /**内联EOC */

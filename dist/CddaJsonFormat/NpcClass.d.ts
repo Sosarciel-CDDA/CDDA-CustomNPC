@@ -2,6 +2,7 @@ import { NpcNumObj } from "./Eoc";
 import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutattion";
+import { SkillID } from "./Skill";
 /**NpcClass ID格式
  */
 export type NpcClassID = CddaID<"NPCCLS">;
@@ -19,35 +20,16 @@ export type NpcClass = {
      * 如果未指定，则默认为 。true
      */
     sells_belongings?: boolean;
+    /**初始力量 */
     bonus_str?: NpcNumObj;
+    /**初始敏捷 */
     bonus_dex?: NpcNumObj;
+    /**初始智力 */
     bonus_int?: NpcNumObj;
+    /**初始感知 */
     bonus_per?: NpcNumObj;
-    skills?: [
-        {
-            "skill": "ALL";
-            "level": {
-                "mul": [
-                    {
-                        "one_in": 3;
-                    },
-                    {
-                        "sum": [
-                            {
-                                "dice": [2, 2];
-                            },
-                            {
-                                "constant": -2;
-                            },
-                            {
-                                "one_in": 4;
-                            }
-                        ];
-                    }
-                ];
-            };
-        }
-    ];
+    /**初始技能 */
+    skills?: NPCClassBaseSkill[];
     /**npc穿戴的物品组 */
     worn_override?: ItemGroupID;
     /**npc携带的物品组 */
@@ -64,6 +46,7 @@ export type NpcClass = {
     shopkeeper_blacklist?: string;
     /**默认值为 6 天 */
     restock_interval?: `${string} days`;
+    /**基础变异 */
     traits?: Traits;
 };
 type ShopItemGroup = [
@@ -105,4 +88,19 @@ type Traits = ({
 } | {
     "trait": MutationID;
 })[];
+/**npc职业的基础技能 */
+export type NPCClassBaseSkill = {
+    /**目标技能 ALL为全部 */
+    skill: "ALL" | SkillID;
+    /**技能等级 */
+    level: NpcNumObj;
+};
 export {};
+/** NpcNumObj样例
+"mul": [
+        { "one_in": 3 },
+        { "sum": [ { "dice": [ 2, 2 ] },
+        { "constant": -2 },
+        { "one_in": 4 } ] }
+    ]
+ */ 

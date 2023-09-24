@@ -2,6 +2,7 @@ import { NpcNumObj, NumObj } from "./Eoc";
 import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutattion";
+import { SkillID } from "./Skill";
 
 
 
@@ -12,34 +13,29 @@ import { MutationID } from "./Mutattion";
 export type NpcClassID = CddaID<"NPCCLS">;
 
 export type NpcClass = {
-    type: "npc_class",
-    id: NpcClassID,
-    name: string ,
-    job_description: string,
+    type: "npc_class";
+    id: NpcClassID;
+    name: string ;
+    job_description: string;
     /**false意味着这个NPC职业不会随机生成。
      * 如果未指定，则默认为 。true
      */
-    common?: boolean,
+    common?: boolean;
     /**false意味着该NPC的磨损或持有的物品将被严格排除在其店主名单之外;
      * 否则，他们会很乐意出售裤子之类的东西。
      * 如果未指定，则默认为 。true
      */
-    sells_belongings?: boolean,
-    bonus_str?: NpcNumObj,
-    bonus_dex?: NpcNumObj,
-    bonus_int?: NpcNumObj,
-    bonus_per?: NpcNumObj,
-    skills?: [{
-        "skill": "ALL",
-        "level": {
-            "mul": [
-                { "one_in": 3 },
-                { "sum": [ { "dice": [ 2, 2 ] },
-                { "constant": -2 },
-                { "one_in": 4 } ] }
-            ]
-        }
-    }],
+    sells_belongings?: boolean;
+    /**初始力量 */
+    bonus_str?: NpcNumObj;
+    /**初始敏捷 */
+    bonus_dex?: NpcNumObj;
+    /**初始智力 */
+    bonus_int?: NpcNumObj;
+    /**初始感知 */
+    bonus_per?: NpcNumObj;
+    /**初始技能 */
+    skills?: NPCClassBaseSkill[];
     /**npc穿戴的物品组 */
     worn_override?: ItemGroupID;
     /**npc携带的物品组 */
@@ -53,10 +49,11 @@ export type NpcClass = {
     /**使用与派系价格规则相同的格式定义个人价格规则（请参阅 FACTIONS.md）。这些优先于派系规则 */
     shopkeeper_price_rules?: ShopPriceRules,
     /**可选为此店主定义黑名单 */
-    shopkeeper_blacklist?: string,
+    shopkeeper_blacklist?: string;
     /**默认值为 6 天 */
-    restock_interval?: `${string} days`,
-    traits?: Traits
+    restock_interval?: `${string} days`;
+    /**基础变异 */
+    traits?: Traits;
 }
 
 
@@ -75,3 +72,20 @@ type ShopPriceRules = [
     { "item": "scrap", "price": 10000 },
 ]
 type Traits = ({ "group": string }|{ "trait": MutationID })[];
+
+/**npc职业的基础技能 */
+export type NPCClassBaseSkill = {
+    /**目标技能 ALL为全部 */
+    skill: "ALL"|SkillID,
+    /**技能等级 */
+    level: NpcNumObj;
+}
+
+/** NpcNumObj样例
+"mul": [
+        { "one_in": 3 },
+        { "sum": [ { "dice": [ 2, 2 ] },
+        { "constant": -2 },
+        { "one_in": 4 } ] }
+    ]
+ */

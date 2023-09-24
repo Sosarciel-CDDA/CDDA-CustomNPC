@@ -7,6 +7,7 @@ import { NpcClassID } from "../NpcClass";
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
+import { WeaponTypeID } from "../WeaponCategory";
 /**Generic ID格式
  */
 export type GenericID = CddaID<"GENERIC">;
@@ -71,7 +72,7 @@ export type GenericBase = {
     /**材质 可用哪些材料修复 */
     repairs_with?: AmmunitionTypeID[];
     /**属于什么类型的武器 */
-    weapon_category?: string[];
+    weapon_category?: WeaponTypeID[];
     /**作为近战武器的伤害 */
     melee_damage?: MeleeDamage;
     /**使用效果 */

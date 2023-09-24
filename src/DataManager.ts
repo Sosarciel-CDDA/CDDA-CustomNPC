@@ -4,8 +4,9 @@ import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID, EocID } from 'CddaJsonFormat';
 import { CharSkill } from './CharSkill';
+import { SkillID } from './CddaJsonFormat/Skill';
 
 
 
@@ -13,7 +14,7 @@ import { CharSkill } from './CharSkill';
 export const CharEvemtTypeList = [
     "CharIdle","CharMove","CharCauseHit","CharUpdate",
     "CharCauseMeleeHit","CharCauseRangeHit","CharInit",
-    "CharGetDamage","CharGetRangeDamage","CharGetMeleeDamage",
+    "CharTakeDamage","CharTakeRangeDamage","CharTakeMeleeDamage",
     "CharBattleUpdate",
 ] as const;
 /**角色事件类型 */
@@ -43,6 +44,8 @@ export type EnchStat = EnchGenericValType|EnchArmorValType;
 export type CharConfig = {
     /**基础属性 */
     base_status:Record<StatusSimple,number>;
+    /**基础技能 */
+    base_skill?:Partial<Record<SkillID|"ALL",number>>;
     /**附魔属性 */
     ench_status?:Partial<Record<EnchStat,number>>;
     /**每级提升的附魔属性 */
@@ -62,9 +65,13 @@ export type DataTable={
         baseData:CharData;
         /**输出数据 */
         outData:Record<string,JArray>;
-        /**输出的角色Eoc事件 u为角色 npc为未定义 */
+        /**输出的角色Eoc事件 u为角色 npc为未定义
+         * id为 `${charName}_${etype}`
+         */
         charEventEocs:Record<CharEventType,Eoc>;
-        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色 */
+        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
+         * id为 `${charName}_${etype}`
+         */
         reverseCharEventEocs:Record<ReverseCharEventType,Eoc>;
         /**角色设定 */
         charConfig:CharConfig;
@@ -284,8 +291,9 @@ export class DataManager{
                 baseArmorID         : genArmorID(charName),
                 baseEnchID          : genEnchantmentID(charName),
                 baseWeaponID        : charConfig.weapon.id,
-                baseWeaponGroupID   : genItemGroupID(`${charName}Weapon`),
-                baseWeaponFlagID    : genFlagID(`${charName}Weapon`),
+                baseWeaponGroupID   : genItemGroupID(`${charName}_WeaponGroup`),
+                baseWeaponFlagID    : genFlagID(`${charName}_WeaponFlag`),
+                deathEocID          : genEOCID(`${charName}_DeathProcess`),
             }
 
             //角色事件eoc主体
@@ -293,7 +301,7 @@ export class DataManager{
                 const subEoc:Eoc={
                     type:"effect_on_condition",
                     eoc_type:"ACTIVATION",
-                    id:genEOCID(`${etype}_${charName}`),
+                    id:genEOCID(`${charName}_${etype}`),
                     effect:[],
                     condition:{u_has_trait:baseData.baseMutID}
                 }
@@ -307,7 +315,7 @@ export class DataManager{
                 const subEoc:Eoc={
                     type:"effect_on_condition",
                     eoc_type:"ACTIVATION",
-                    id:genEOCID(`${etype}_${charName}`),
+                    id:genEOCID(`${charName}_${etype}`),
                     effect:[],
                     condition:{npc_has_trait:baseData.baseMutID}
                 }
@@ -456,6 +464,8 @@ export type CharData=Readonly<{
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
     baseWeaponFlagID: FlagID;
+    /**死亡事件eoc ID */
+    deathEocID: EocID;
 }>;
 
 /**动画数据 */

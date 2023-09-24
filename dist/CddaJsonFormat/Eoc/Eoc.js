@@ -7,4 +7,8 @@ exports.EocTypeList = [
     "ACTIVATION",
     "RECURRING",
     "OM_MOVE",
+    "SCENARIO_SPECIFIC",
+    "AVATAR_DEATH",
+    "NPC_DEATH",
+    "PREVENT_DEATH", //主角死亡
 ];

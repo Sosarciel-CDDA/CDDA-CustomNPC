@@ -11,7 +11,7 @@ const ModDefine_1 = require("./ModDefine");
 exports.CharEvemtTypeList = [
     "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
     "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
-    "CharGetDamage", "CharGetRangeDamage", "CharGetMeleeDamage",
+    "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage",
     "CharBattleUpdate",
 ];
 /**反转的角色事件列表
@@ -207,15 +207,16 @@ class DataManager {
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
                 baseWeaponID: charConfig.weapon.id,
-                baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}Weapon`),
-                baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}Weapon`),
+                baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
+                baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
+                deathEocID: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
             };
             //角色事件eoc主体
             const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => {
                 const subEoc = {
                     type: "effect_on_condition",
                     eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)(`${etype}_${charName}`),
+                    id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                     effect: [],
                     condition: { u_has_trait: baseData.baseMutID }
                 };
@@ -229,7 +230,7 @@ class DataManager {
                 const subEoc = {
                     type: "effect_on_condition",
                     eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)(`${etype}_${charName}`),
+                    id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                     effect: [],
                     condition: { npc_has_trait: baseData.baseMutID }
                 };

@@ -231,13 +231,6 @@ export const StatusSimpleList = [
 /**属性简写 */
 export type StatusSimple = typeof StatusSimpleList[number];
 
-/**技能 列表 */
-export const SkillList = [
-    "pistol",
-    "rifle" ,
-] as const;
-/**技能 */
-export type Skill = typeof SkillList[number];
 
 /**任何Cdda的Json */
 export type AnyCddaJson =AnyItem|Eoc|

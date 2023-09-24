@@ -1,6 +1,7 @@
-import { Armor, BodyPartList, Eoc, Generic, Mutation, NpcClass, NpcInstance } from "CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, Generic, Mutation, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
+import { SkillID } from "./CddaJsonFormat/Skill";
 
 
 
@@ -21,6 +22,15 @@ export async function createCharClass(dm:DataManager,charName:string){
         worn_override:genItemGroupID("EmptyGroup"),
         weapon_override:baseData.baseWeaponGroupID,
         carry_override:genItemGroupID("EmptyGroup"),
+        skills:Object.entries(charConfig.base_skill||[]).reduce((acc,item)=>{
+            if(item[1]==null) return acc;
+            const skillid = item[0] as SkillID|"ALL";
+            const skill:NPCClassBaseSkill={
+                skill: skillid,
+                level: {constant:item[1]}
+            }
+            return [...acc,skill];
+        },[] as NPCClassBaseSkill[]),
         traits:[
             { "trait": baseData.baseMutID },
             { "trait": baseData.animData.Idle.mutID },
@@ -40,6 +50,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         dex: charConfig.base_status.dex,
         int: charConfig.base_status.int,
         per: charConfig.base_status.per,
+        death_eocs:[baseData.deathEocID]
     }
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
@@ -71,7 +82,21 @@ export async function createCharClass(dm:DataManager,charName:string){
 				min_radius: 1,
 				max_radius: 1,
 			},
+            {math:[`${charName}_IsAlive`,"=","1"]},
 		],
+        condition:{math:[`${charName}_IsAlive`,"<=","0"]}
 	};
-    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc];
+
+    /**死亡事件 */
+    const charDeathEoc:Eoc = {
+        type: "effect_on_condition",
+        eoc_type:"NPC_DEATH",
+        id:baseData.deathEocID,
+        effect:[
+            {math:[`${charName}_IsAlive`,"=","0"]},
+            {u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true},
+            {u_teleport:{global_val:"tmp_loc"},force:true},
+        ]
+    }
+    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc];
 }

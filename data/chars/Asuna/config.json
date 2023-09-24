@@ -5,6 +5,9 @@
         "per":12,
         "int":10
     },
+	"base_skill": {
+		"ALL": 4
+	},
     "weapon":{
 		"type": "GUN",
 		"id": "CNPC_GUN_AsunaWeapon",
@@ -40,8 +43,8 @@
         "material": [ "steel", "plastic" ],
         "to_hit": {
             "grip": "weapon",
-            "length": "hand",
-            "surface": "point",
+            "length": "short",
+            "surface": "line",
             "balance": "good"
         },
         "techniques": [
@@ -80,7 +83,61 @@
 			"base_energy_cost":320,
 			"energy_source": "MANA"
 		}
-	},{
+	},
+	{
+		"hook": "CharCauseMeleeHit",
+		"cooldown":30,
+		"one_in_chance": 2,
+		"audio":[
+			{"id":"BladeStrike", "one_in_chance":2},
+			"BladeStrikeSF","Hit"
+		],
+		"spell": {
+			"id":"CNPC_SPELL_BladeStrike",
+			"type": "SPELL",
+			"name": "刀锋打击",
+			"description": "刀锋打击",
+			"min_damage":{
+				"math": ["CalcDamage(31, u_val('strength'))*3.6"]
+			},
+			"max_damage":999999,
+			"damage_type": "cut",
+			"min_range":3,
+			"min_aoe":45,
+			"shape": "cone",
+			"valid_targets": ["hostile","ground"],
+			"effect": "attack",
+			"base_energy_cost":640,
+			"energy_source": "MANA"
+		}
+	},
+	{
+		"hook": "CharCauseMeleeHit",
+		"cooldown":10,
+		"audio":[
+			{"id":"BladeofTrauma", "one_in_chance":2},
+			"BladeofTraumaSF","Hit"
+		],
+		"spell": {
+			"id":"CNPC_SPELL_BladeofTrauma",
+			"type": "SPELL",
+			"name": "创伤之刃",
+			"description": "创伤之刃",
+			"min_damage":{
+				"math": ["CalcDamage(31, u_val('strength'))*1.8"]
+			},
+			"max_damage":999999,
+			"damage_type": "cut",
+			"min_range":3,
+			"min_aoe":45,
+			"shape": "cone",
+			"valid_targets": ["hostile","ground"],
+			"effect": "attack",
+			"base_energy_cost":160,
+			"energy_source": "MANA"
+		}
+	},
+	{
 		"hook": "CharBattleUpdate",
 		"cooldown":30,
 		"audio":["Snipe","SnipeSF"],

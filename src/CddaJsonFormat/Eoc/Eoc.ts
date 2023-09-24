@@ -29,10 +29,14 @@ export type Eoc = {
 };
 /**EOC类型 列表 */
 export const EocTypeList = [
-	"EVENT",
-	"ACTIVATION",
-	"RECURRING",
-	"OM_MOVE",
+	"EVENT"				,//事件
+	"ACTIVATION"		,//被动触发
+	"RECURRING"			,//循环触发
+	"OM_MOVE"			,//主角移动
+	"SCENARIO_SPECIFIC" ,//场景启动时自动调用一次
+	"AVATAR_DEATH"		,//主角死亡
+	"NPC_DEATH"			,//NPC死亡
+	"PREVENT_DEATH"		,//主角死亡
 ] as const;
 /**EOC类型 */
 export type EocType = typeof EocTypeList[number];

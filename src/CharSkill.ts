@@ -44,7 +44,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
     //全局冷却事件
     const GCDEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_u_CoCooldown`),
+        id:genEOCID(`${charName}_CoCooldown`),
         effect:[
             {math:[gcdValName,"-=","1"]}
         ],
@@ -53,6 +53,20 @@ export async function createCharSkill(dm:DataManager,charName:string){
     }
     dm.addCharEvent(charName,"CharUpdate",GCDEoc);
     skillDataList.push(GCDEoc);
+
+    //魔力回复
+    const MREoc:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_ManaRegen`),
+        effect:[
+            {math:["u_val('mana')","+=","10"]}
+        ],
+        condition:{math:["u_val('mana')","<","u_val('mana_max')"]},
+        eoc_type:"ACTIVATION",
+    }
+    dm.addCharEvent(charName,"CharUpdate",MREoc);
+    skillDataList.push(MREoc);
+
 
     //遍历技能
     for(const skill of skills){

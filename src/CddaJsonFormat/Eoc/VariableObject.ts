@@ -16,19 +16,19 @@ export type NumOperateList = [
     GenericObjOperateList[number]       ,//
     number                              ,//
     {math:[string]}                     ,//
-    {constant: number}                  ,//常量
 ]
 /**npc属性技能专用的数字对象 */
 export type NpcNumObj = NpcNumOperateList[number];
 /**npc属性技能专用的数字对象操作符 */
 export type NpcNumOperateList = [
-    number                              ,//
     NumOperaRng                         ,// >=[0] ~ <=[1] 之间的随机数
     NumOperaOneIn                       ,//表示在 [0] 次尝试中出现 1 次的随机确定机会为 1，否则为 0。
     NumOperaDice                        ,//表示通过将 [0] 个随机确定的数字与 1 到 [1] 之间的值相加而生成的随机确定的数字
     NumOperaSum                         ,//所有数字加
     NumOperaMul                         ,//所有数字乘
-]
+    {constant: number}                  ,//常量
+];
+
 export type NumOperaRng     = {rng: [ NpcNumObj, NpcNumObj ] };
 export type NumOperaOneIn   = {one_in: NpcNumObj };
 export type NumOperaDice    = {dice: [ NpcNumObj, NpcNumObj ] };
@@ -103,7 +103,7 @@ export type BoolOperaCompStr = {compare_string: [AnyObj,AnyObj]};
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */
 export type StrOperateList = [
-    GenericObjOperateList[number]       ,//
+    GenericObj                          ,//
     string                              ,
 ]
 
@@ -115,9 +115,14 @@ export type AnyObjOperateList = [
     StrObj                  ,//
     NumObj                  ,//
 ]
+
 /**通用Obj操作符 */
 export type GenericObjOperateList = [
     { global_val: string  } ,//全局变量
     { u_val: string }       ,//自身变量
-]
+];
+/**通用Obj操作符 */
+export type GenericObj = GenericObjOperateList[number];
 
+/**位置Obj */
+export type LocObj = GenericObj;

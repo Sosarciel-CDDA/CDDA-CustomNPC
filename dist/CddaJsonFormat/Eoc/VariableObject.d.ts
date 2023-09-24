@@ -12,21 +12,20 @@ export type NumOperateList = [
     number,
     {
         math: [string];
-    },
-    {
-        constant: number;
     }
 ];
 /**npc属性技能专用的数字对象 */
 export type NpcNumObj = NpcNumOperateList[number];
 /**npc属性技能专用的数字对象操作符 */
 export type NpcNumOperateList = [
-    number,
     NumOperaRng,
     NumOperaOneIn,
     NumOperaDice,
     NumOperaSum,
-    NumOperaMul
+    NumOperaMul,
+    {
+        constant: number;
+    }
 ];
 export type NumOperaRng = {
     rng: [NpcNumObj, NpcNumObj];
@@ -108,7 +107,7 @@ export type BoolOperaCompStr = {
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */
 export type StrOperateList = [
-    GenericObjOperateList[number],
+    GenericObj,
     string
 ];
 /**任何Obj */
@@ -128,3 +127,7 @@ export type GenericObjOperateList = [
         u_val: string;
     }
 ];
+/**通用Obj操作符 */
+export type GenericObj = GenericObjOperateList[number];
+/**位置Obj */
+export type LocObj = GenericObj;

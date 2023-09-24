@@ -170,10 +170,6 @@ export type Status = typeof StatusList[number];
 export declare const StatusSimpleList: readonly ["str", "dex", "int", "per"];
 /**属性简写 */
 export type StatusSimple = typeof StatusSimpleList[number];
-/**技能 列表 */
-export declare const SkillList: readonly ["pistol", "rifle"];
-/**技能 */
-export type Skill = typeof SkillList[number];
 /**任何Cdda的Json */
 export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction;
 /**任何Cdda的Json 组成的数组*/
