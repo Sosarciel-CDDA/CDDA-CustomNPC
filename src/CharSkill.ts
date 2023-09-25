@@ -51,7 +51,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         condition:{math:[gcdValName,">=","0"]},
         eoc_type:"ACTIVATION",
     }
-    dm.addCharEvent(charName,"CharUpdate",GCDEoc);
+    dm.addCharEvent(charName,"CharUpdate",0,GCDEoc);
     skillDataList.push(GCDEoc);
 
     //魔力回复
@@ -64,7 +64,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         condition:{math:["u_val('mana')","<","u_val('mana_max')"]},
         eoc_type:"ACTIVATION",
     }
-    dm.addCharEvent(charName,"CharUpdate",MREoc);
+    dm.addCharEvent(charName,"CharUpdate",0,MREoc);
     skillDataList.push(MREoc);
 
 
@@ -165,7 +165,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         }
 
         //加入触发
-        dm.addCharEvent(charName,hook,castEoc);
+        dm.addCharEvent(charName,hook,0,castEoc);
         skillDataList.push(castEoc,spell);
         if(selTargetSpell!=null)
             skillDataList.push(selTargetSpell);
@@ -181,7 +181,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 condition:{math:[cdValName,">=","0"]},
                 eoc_type:"ACTIVATION",
             }
-            dm.addCharEvent(charName,"CharUpdate",CDEoc);
+            dm.addCharEvent(charName,"CharUpdate",0,CDEoc);
             skillDataList.push(CDEoc);
         }
     }

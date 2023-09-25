@@ -30,10 +30,16 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
-//npc死亡事件
+//npc受伤事件
 function CNPC_EOC_NPCDeath(){
-	eoc_type("NPC_DEATH");
-	CNPC_EOC_CharDeath();
+	eoc_type("EVENT");
+	required_event("character_takes_damage");
+
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//关键肢体生命值不足则判断为死亡
+		if(or(u_hp('head')<=0,u_hp('torso')<=0))
+			CNPC_EOC_CharDeath();
+	}
 }
 
 //检测现有血量并触发take_damage
@@ -136,6 +142,9 @@ function CNPC_EOC_SpawnBaseNpc(){
 function CNPC_EOC_PlayerUpdateEvent(){
 	recurrence(1);
 
+	//记录坐标
+	eobj({"u_location_variable":{"global_val":"avater_loc"}});
+
 	//刷新怪物血量
 	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 	//CNPC_EOC_UpdateStat();
@@ -182,7 +191,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 		if(eobj({
 			"compare_string": [
 				{ "global_val": "char_preloc" },
-				{ "mutator": "loc_relative_u", "target": "(0,1,0)" }
+				{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
 			]
 		})){
 			//设置在待机
@@ -192,10 +201,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 			u_onMove=1;
 		}
 		//更新 loc字符串
-		eobj({
-			"set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
-			"target_var": { "u_val": "u_char_preloc" }
-		})
+		eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
 
 		//如果不在做其他短时动作
 		if(u_notIdleOrMove<=0){

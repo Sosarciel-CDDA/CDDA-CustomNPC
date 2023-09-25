@@ -16,6 +16,7 @@ export type EocEffectList = [
         u_lose_trait: MutationID;
     },
     RunEoc,
+    RunEocWith,
     {
         u_add_trait: MutationID;
     },
@@ -29,6 +30,7 @@ export type EocEffectList = [
         u_spawn_item: AnyItemID;
     },
     "follow_only",
+    "leave",
     SoundEffect,
     CastSpell,
     Teleport,
@@ -37,6 +39,14 @@ export type EocEffectList = [
 /**运行Eoc */
 type RunEoc = {
     run_eocs: ParamsEoc;
+};
+/**运行Eoc 并提供参数 */
+type RunEocWith = {
+    run_eoc_with: ParamsEoc;
+    /**提供的上下文参数表 变量名:值 */
+    variables?: Record<string, string>;
+    /**将loc所在位置的单位作为beta talker */
+    beta_loc?: LocObj;
 };
 /**生成Npc */
 type SpawnNpc = TalkerVar<{

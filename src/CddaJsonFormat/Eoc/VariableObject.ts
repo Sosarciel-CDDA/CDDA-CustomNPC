@@ -105,6 +105,7 @@ export type StrObj = StrOperateList[number];
 export type StrOperateList = [
     GenericObj                          ,//
     string                              ,
+    LocObj                              ,//
 ]
 
 /**任何Obj */

@@ -1,0 +1,23 @@
+//通过比较 loc字符串 检测移动
+eobj({
+	"set_string_var": { "u_val": "u_char_preloc" },
+	"target_var": { "global_val": "char_preloc" }
+})
+if(eobj({
+	"compare_string": [
+		{ "global_val": "char_preloc" },
+		{ "mutator": "loc_relative_u", "target": "(0,1,0)" }
+	]
+})){
+	//设置在待机
+	u_onMove=0;
+} else{
+	//设置在移动
+	u_onMove=1;
+}
+//更新 loc字符串
+eobj({
+	"set_string_var": { "mutator": "loc_relative_u", "target": "(0,1,0)" },
+	"target_var": { "u_val": "u_char_preloc" }
+})
+

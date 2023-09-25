@@ -12,7 +12,7 @@ exports.CharEvemtTypeList = [
     "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
     "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
     "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage",
-    "CharBattleUpdate",
+    "CharBattleUpdate", "CharDeath",
 ];
 /**反转的角色事件列表
  * 对应同名GetDamage
@@ -39,18 +39,7 @@ class DataManager {
     dataTable = {
         charTable: {},
         staticTable: {},
-        eventEocs: exports.GlobalEvemtTypeList.reduce((acc, item) => {
-            const subEoc = {
-                type: "effect_on_condition",
-                eoc_type: "ACTIVATION",
-                id: (0, ModDefine_1.genEOCID)(item),
-                effect: [],
-            };
-            return {
-                ...acc,
-                [item]: subEoc
-            };
-        }, {})
+        eventEocs: exports.GlobalEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
     /**
      * @param dataPath 输入数据路径
@@ -209,36 +198,11 @@ class DataManager {
                 baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
-                deathEocID: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
             };
             //角色事件eoc主体
-            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => {
-                const subEoc = {
-                    type: "effect_on_condition",
-                    eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
-                    effect: [],
-                    condition: { u_has_trait: baseData.baseMutID }
-                };
-                return {
-                    ...acc,
-                    [etype]: subEoc
-                };
-            }, {});
+            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             //角色反转事件eoc主体
-            const reverseCharEventEocs = exports.ReverseCharEvemtTypeList.reduce((acc, etype) => {
-                const subEoc = {
-                    type: "effect_on_condition",
-                    eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
-                    effect: [],
-                    condition: { npc_has_trait: baseData.baseMutID }
-                };
-                return {
-                    ...acc,
-                    [etype]: subEoc
-                };
-            }, {});
+            const reverseCharEventEocs = exports.ReverseCharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 baseData,
                 charEventEocs,
@@ -252,20 +216,20 @@ class DataManager {
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
-    addEvent(etype, ...events) {
-        this.dataTable.eventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
+    addEvent(etype, weight, ...events) {
+        this.dataTable.eventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
     }
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */
-    addCharEvent(charName, etype, ...events) {
-        this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
+    addCharEvent(charName, etype, weight, ...events) {
+        this.dataTable.charTable[charName].charEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
     }
     /**添加 eoc的ID引用到 反转角色事件
      * u为目标 npc为角色
      */
-    addReverseCharEvent(charName, etype, ...events) {
-        this.dataTable.charTable[charName].reverseCharEventEocs[etype].effect?.push(...events.map(eoc => ({ "run_eocs": eoc.id })));
+    addReverseCharEvent(charName, etype, weight, ...events) {
+        this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -315,9 +279,22 @@ class DataManager {
             const charEventEocs = [];
             for (const etypeStr in charEventMap) {
                 const etype = etypeStr;
-                const charEvent = charEventMap[etype];
-                charEventEocs.push(charEvent);
-                this.addEvent(etype, charEvent);
+                //降序排序事件
+                const charEvent = charEventMap[etype].sort((a, b) => b.weight - a.weight);
+                //至少有一个角色事件才会创建
+                if (charEvent.length > 0) {
+                    //创建角色触发Eoc
+                    const eventEoc = {
+                        type: "effect_on_condition",
+                        eoc_type: "ACTIVATION",
+                        id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
+                        effect: [...charEvent.map(event => event.effect)],
+                        condition: { u_has_trait: charData.baseData.baseMutID }
+                    };
+                    charEventEocs.push(eventEoc);
+                    //将角色触发eoc注册入全局eoc
+                    this.addEvent(etype, 0, eventEoc);
+                }
             }
             this.saveToCharFile(charName, 'char_event_eocs', charEventEocs);
             //复制角色静态数据
@@ -329,8 +306,18 @@ class DataManager {
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;
         const eventEocs = [];
-        for (const etype in globalEvent)
-            eventEocs.push(globalEvent[etype]);
+        for (const etype in globalEvent) {
+            //降序排序事件
+            const globalEvents = globalEvent[etype].sort((a, b) => b.weight - a.weight);
+            //创建全局触发Eoc
+            const globalEoc = {
+                type: "effect_on_condition",
+                eoc_type: "ACTIVATION",
+                id: (0, ModDefine_1.genEOCID)(etype),
+                effect: [...globalEvents.map(event => event.effect)],
+            };
+            eventEocs.push(globalEoc);
+        }
         this.saveToFile('event_eocs', eventEocs);
         //编译所有eocscript
         const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`);

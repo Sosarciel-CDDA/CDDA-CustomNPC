@@ -123,7 +123,7 @@ async function createCharEquip(dm, charName) {
             { u_spawn_item: baseData.baseWeaponID }
         ]
     };
-    dm.addCharEvent(charName, "CharUpdate", dropOtherWeapon, giveWeapon);
+    dm.addCharEvent(charName, "CharUpdate", 0, dropOtherWeapon, giveWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
     outData['equip'] = [baseMut, baseArmor, baseEnch, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
 }

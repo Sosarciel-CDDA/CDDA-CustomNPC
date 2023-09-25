@@ -23,12 +23,14 @@ export type EocEffectList = [
     {math:[string,"="|"+="|"-="|"*="|"/=",string]}  ,//
     {u_lose_trait:MutationID}                       ,//失去某个变异
     RunEoc                                          ,//运行Eoc
+    RunEocWith                                      ,//
     {u_add_trait:MutationID}                        ,//获得某个变异
     {u_consume_item: AnyItemID,count: number }      ,//使用/扣除 count 个物品
     "drop_weapon"                                   ,//丢下手持物品 仅限npc
     SpawnNpc                                        ,//生成npc
     {u_spawn_item:AnyItemID}                        ,//生成物品
     "follow_only"                                   ,//让npc跟随玩家
+    "leave"                                         ,//让npc停止跟随玩家并离开追随者阵营
     SoundEffect                                     ,//播放声音
     CastSpell                                       ,//施法
     Teleport                                        ,//传送
@@ -36,6 +38,16 @@ export type EocEffectList = [
 ];
 /**运行Eoc */
 type RunEoc = {run_eocs:ParamsEoc};
+
+/**运行Eoc 并提供参数 */
+type RunEocWith = {
+    run_eoc_with:ParamsEoc;
+    /**提供的上下文参数表 变量名:值 */
+    variables? : Record<string,string>;
+    /**将loc所在位置的单位作为beta talker */
+    beta_loc? : LocObj;
+};
+
 /**生成Npc */
 type SpawnNpc = TalkerVar<{
     /**Npc实例ID */

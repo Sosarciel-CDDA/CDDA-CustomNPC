@@ -47,7 +47,6 @@ async function createCharClass(dm, charName) {
         dex: charConfig.base_status.dex,
         int: charConfig.base_status.int,
         per: charConfig.base_status.per,
-        death_eocs: [baseData.deathEocID]
     };
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
@@ -86,14 +85,22 @@ async function createCharClass(dm, charName) {
     /**死亡事件 */
     const charDeathEoc = {
         type: "effect_on_condition",
-        eoc_type: "NPC_DEATH",
-        id: baseData.deathEocID,
+        eoc_type: "ACTIVATION",
+        id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
         effect: [
-            { math: [`${charName}_IsAlive`, "=", "0"] },
-            { u_location_variable: { global_val: "tmp_loc" }, z_adjust: -10, z_override: true },
-            { u_teleport: { global_val: "tmp_loc" }, force: true },
+            { run_eoc_with: {
+                    id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess_Sub`),
+                    eoc_type: "ACTIVATION",
+                    effect: [
+                        { math: [`${charName}_IsAlive`, "=", "0"] },
+                        { u_location_variable: { global_val: "tmp_loc" }, z_adjust: -10, z_override: true },
+                        { u_teleport: { global_val: "tmp_loc" }, force: true },
+                        { npc_teleport: { global_val: "avater_loc" }, force: true },
+                    ]
+                }, beta_loc: { global_val: "avater_loc" } }
         ]
     };
+    dm.addCharEvent(charName, "CharDeath", -1000, charDeathEoc);
     outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charDeathEoc];
 }
 exports.createCharClass = createCharClass;

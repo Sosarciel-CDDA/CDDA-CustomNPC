@@ -56,3 +56,47 @@
         symbol:"O",
         flags:["ZERO_WEIGHT"],
     }
+
+
+
+
+
+
+//角色事件eoc主体
+const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_${etype}`),
+        effect:[],
+        condition:{u_has_trait:baseData.baseMutID}
+    }
+    return {
+        ...acc,
+        [etype]:subEoc
+}},{} as Record<CharEventType,Eoc>)
+//角色反转事件eoc主体
+const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_${etype}`),
+        effect:[],
+        condition:{npc_has_trait:baseData.baseMutID}
+    }
+    return {
+        ...acc,
+        [etype]:subEoc
+}},{} as Record<ReverseCharEventType,Eoc>)
+
+eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(item),
+        effect:[],
+    }
+    return {
+        ...acc,
+        [item]:subEoc
+}},{} as Record<GlobalEventType,Eoc>)

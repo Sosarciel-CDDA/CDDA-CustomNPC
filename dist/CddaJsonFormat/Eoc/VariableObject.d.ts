@@ -108,7 +108,8 @@ export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */
 export type StrOperateList = [
     GenericObj,
-    string
+    string,
+    LocObj
 ];
 /**任何Obj */
 export type AnyObj = AnyObjOperateList[number];

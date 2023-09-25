@@ -4,7 +4,7 @@ import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmiTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID, EocID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID, EocID, EocEffect } from 'CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 import { SkillID } from './CddaJsonFormat/Skill';
 
@@ -15,7 +15,7 @@ export const CharEvemtTypeList = [
     "CharIdle","CharMove","CharCauseHit","CharUpdate",
     "CharCauseMeleeHit","CharCauseRangeHit","CharInit",
     "CharTakeDamage","CharTakeRangeDamage","CharTakeMeleeDamage",
-    "CharBattleUpdate",
+    "CharBattleUpdate","CharDeath",
 ] as const;
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
@@ -36,6 +36,14 @@ export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList,...Rever
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 
+
+/**事件效果 */
+export type EventEffect = {
+    /**eoc效果 */
+    effect:EocEffect;
+    /**排序权重 */
+    weight:number;
+}
 
 /**变量属性 */
 export type EnchStat = EnchGenericValType|EnchArmorValType;
@@ -68,18 +76,18 @@ export type DataTable={
         /**输出的角色Eoc事件 u为角色 npc为未定义
          * id为 `${charName}_${etype}`
          */
-        charEventEocs:Record<CharEventType,Eoc>;
+        charEventEocs:Record<CharEventType,EventEffect[]>;
         /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
          * id为 `${charName}_${etype}`
          */
-        reverseCharEventEocs:Record<ReverseCharEventType,Eoc>;
+        reverseCharEventEocs:Record<ReverseCharEventType,EventEffect[]>;
         /**角色设定 */
         charConfig:CharConfig;
     }>;
     /**输出的静态数据表 */
     staticTable:Record<string,JArray>;
     /**输出的Eoc事件 */
-    eventEocs:Record<GlobalEventType,Eoc>;
+    eventEocs:Record<GlobalEventType,EventEffect[]>;
 }
 
 /**build配置 */
@@ -115,17 +123,8 @@ export class DataManager{
     private dataTable:DataTable={
         charTable:{},
         staticTable:{},
-        eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
-            const subEoc:Eoc={
-                type:"effect_on_condition",
-                eoc_type:"ACTIVATION",
-                id:genEOCID(item),
-                effect:[],
-            }
-            return {
-                ...acc,
-                [item]:subEoc
-        }},{} as Record<GlobalEventType,Eoc>)
+        eventEocs:GlobalEvemtTypeList.reduce((acc,etype)=>
+            ({...acc,[etype]:[]}),{} as Record<GlobalEventType,EventEffect[]>)
     }
     /**
      * @param dataPath 输入数据路径
@@ -293,36 +292,15 @@ export class DataManager{
                 baseWeaponID        : charConfig.weapon.id,
                 baseWeaponGroupID   : genItemGroupID(`${charName}_WeaponGroup`),
                 baseWeaponFlagID    : genFlagID(`${charName}_WeaponFlag`),
-                deathEocID          : genEOCID(`${charName}_DeathProcess`),
             }
 
             //角色事件eoc主体
-            const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>{
-                const subEoc:Eoc={
-                    type:"effect_on_condition",
-                    eoc_type:"ACTIVATION",
-                    id:genEOCID(`${charName}_${etype}`),
-                    effect:[],
-                    condition:{u_has_trait:baseData.baseMutID}
-                }
-                return {
-                    ...acc,
-                    [etype]:subEoc
-            }},{} as Record<CharEventType,Eoc>)
+            const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CharEventType,EventEffect[]>)
 
             //角色反转事件eoc主体
-            const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>{
-                const subEoc:Eoc={
-                    type:"effect_on_condition",
-                    eoc_type:"ACTIVATION",
-                    id:genEOCID(`${charName}_${etype}`),
-                    effect:[],
-                    condition:{npc_has_trait:baseData.baseMutID}
-                }
-                return {
-                    ...acc,
-                    [etype]:subEoc
-            }},{} as Record<ReverseCharEventType,Eoc>)
+            const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<ReverseCharEventType,EventEffect[]>)
 
             this.dataTable.charTable[charName] = {
                 baseData,
@@ -337,25 +315,25 @@ export class DataManager{
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
-    addEvent(etype:GlobalEventType,...events:Eoc[]){
-        this.dataTable.eventEocs[etype].effect?.push(
-            ...events.map(eoc=>({"run_eocs":eoc.id}))
+    addEvent(etype:GlobalEventType,weight:number,...events:Eoc[]){
+        this.dataTable.eventEocs[etype].push(
+            ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */
-    addCharEvent(charName:string,etype:CharEventType,...events:Eoc[]){
-        this.dataTable.charTable[charName].charEventEocs[etype].effect?.push(
-            ...events.map(eoc=>({"run_eocs":eoc.id}))
+    addCharEvent(charName:string,etype:CharEventType,weight:number,...events:Eoc[]){
+        this.dataTable.charTable[charName].charEventEocs[etype].push(
+            ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
     /**添加 eoc的ID引用到 反转角色事件
      * u为目标 npc为角色
      */
-    addReverseCharEvent(charName:string,etype:ReverseCharEventType,...events:Eoc[]){
-        this.dataTable.charTable[charName].reverseCharEventEocs[etype].effect?.push(
-            ...events.map(eoc=>({"run_eocs":eoc.id}))
+    addReverseCharEvent(charName:string,etype:ReverseCharEventType,weight:number,...events:Eoc[]){
+        this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(
+            ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
 
@@ -412,9 +390,22 @@ export class DataManager{
             const charEventEocs:Eoc[]=[];
             for(const etypeStr in charEventMap){
                 const etype = etypeStr as (CharEventType|ReverseCharEventType);
-                const charEvent = charEventMap[etype];
-                charEventEocs.push(charEvent);
-                this.addEvent(etype,charEvent);
+                //降序排序事件
+                const charEvent = charEventMap[etype].sort((a,b)=>b.weight-a.weight);
+                //至少有一个角色事件才会创建
+                if(charEvent.length>0){
+                    //创建角色触发Eoc
+                    const eventEoc:Eoc = {
+                        type:"effect_on_condition",
+                        eoc_type:"ACTIVATION",
+                        id:genEOCID(`${charName}_${etype}`),
+                        effect:[...charEvent.map(event=>event.effect)],
+                        condition:{u_has_trait:charData.baseData.baseMutID}
+                    }
+                    charEventEocs.push(eventEoc);
+                    //将角色触发eoc注册入全局eoc
+                    this.addEvent(etype,0,eventEoc);
+                }
             }
             this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
 
@@ -428,8 +419,18 @@ export class DataManager{
         //导出全局EOC
         const globalEvent = this.dataTable.eventEocs;
         const eventEocs:Eoc[]=[];
-        for(const etype in globalEvent)
-            eventEocs.push(globalEvent[etype as GlobalEventType]);
+        for(const etype in globalEvent){
+            //降序排序事件
+            const globalEvents = globalEvent[etype as GlobalEventType].sort((a,b)=>b.weight-a.weight);
+            //创建全局触发Eoc
+            const globalEoc:Eoc={
+                type:"effect_on_condition",
+                eoc_type:"ACTIVATION",
+                id:genEOCID(etype),
+                effect:[...globalEvents.map(event=>event.effect)],
+            }
+            eventEocs.push(globalEoc);
+        }
         this.saveToFile('event_eocs',eventEocs);
 
 
@@ -464,8 +465,6 @@ export type CharData=Readonly<{
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
     baseWeaponFlagID: FlagID;
-    /**死亡事件eoc ID */
-    deathEocID: EocID;
 }>;
 
 /**动画数据 */

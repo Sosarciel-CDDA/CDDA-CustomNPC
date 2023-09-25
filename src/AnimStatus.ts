@@ -61,7 +61,7 @@ export async function createAnimStatus(dm:DataManager,charName:string){
             eocList.push(...eocs);
             const eventName = animEventMap[animType];
             if(eventName!=null && eocs!=null)
-                dm.addCharEvent(charName,eventName,eocs[0]);
+                dm.addCharEvent(charName,eventName,0,eocs[0]);
         }
     }
     outData['anim_status'] = eocList;
