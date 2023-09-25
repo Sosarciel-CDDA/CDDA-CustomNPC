@@ -30,8 +30,8 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
-//npc受伤事件
-function CNPC_EOC_NPCDeath(){
+//受伤事件
+function CNPC_EOC_TakesDamage(){
 	eoc_type("EVENT");
 	required_event("character_takes_damage");
 
@@ -40,6 +40,14 @@ function CNPC_EOC_NPCDeath(){
 		if(or(u_hp('head')<=0,u_hp('torso')<=0))
 			CNPC_EOC_CharDeath();
 	}
+}
+//NPC死亡事件
+function CNPC_EOC_NPC_DEATH(){
+	eoc_type("NPC_DEATH");
+	//if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+	//	//触发动态生成的 角色死亡 事件
+	//	CNPC_EOC_CharDeath();
+	//}
 }
 
 //检测现有血量并触发take_damage

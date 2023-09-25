@@ -47,6 +47,7 @@ async function createCharClass(dm, charName) {
         dex: charConfig.base_status.dex,
         int: charConfig.base_status.int,
         per: charConfig.base_status.per,
+        death_eocs: ["CNPC_EOC_NPC_DEATH"],
     };
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
