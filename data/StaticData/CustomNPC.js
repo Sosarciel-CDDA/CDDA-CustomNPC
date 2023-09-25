@@ -151,7 +151,7 @@ function CNPC_EOC_PlayerUpdateEvent(){
 	recurrence(1);
 
 	//记录坐标
-	eobj({"u_location_variable":{"global_val":"avater_loc"}});
+	eobj({"u_location_variable":{"global_val":"avatar_loc"}});
 
 	//刷新怪物血量
 	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })

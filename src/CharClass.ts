@@ -100,9 +100,9 @@ export async function createCharClass(dm:DataManager,charName:string){
                     {math:[`${charName}_IsAlive`,"=","0"]},
                     {u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true},
                     {u_teleport:{global_val:"tmp_loc"},force:true},
-                    {npc_teleport:{global_val:"avater_loc"},force:true},
+                    {npc_teleport:{global_val:"avatar_loc"},force:true},
                 ]
-            },beta_loc:{global_val:"avater_loc"}}
+            },beta_loc:{global_val:"avatar_loc"}}
         ]
     }
     dm.addCharEvent(charName,"CharDeath",-1000,charDeathEoc);
