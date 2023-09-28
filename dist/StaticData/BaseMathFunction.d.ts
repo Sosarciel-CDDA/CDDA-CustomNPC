@@ -9,6 +9,11 @@ export declare const CalcDamage: MathFunction;
  */
 export declare const DamageMul: MathFunction;
 /**log10
+ * function( number )
  */
 export declare const Log10: MathFunction;
+/**经验公式
+ * function( 等级 )
+ */
+export declare const LvlExp: MathFunction;
 export declare const BaseMathFunction: MathFunction[];

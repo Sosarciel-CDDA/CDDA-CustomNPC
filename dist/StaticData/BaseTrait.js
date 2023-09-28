@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseTrait = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlag = void 0;
+exports.BaseTrait = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlagMut = exports.CNPC_FLAG = void 0;
 const StaticData_1 = require("./StaticData");
 const ModDefine_1 = require("../ModDefine");
-exports.CnpcFlag = {
+/**标记此npc是cnpc的npc */
+exports.CNPC_FLAG = (0, ModDefine_1.genMutationID)("CnpcFlag");
+exports.CnpcFlagMut = {
     type: "mutation",
-    id: (0, ModDefine_1.genMutationID)("CnpcFlag"),
+    id: exports.CNPC_FLAG,
     name: "自定义NPC标识符",
     description: "表示此角色是自定义NPC的NPC,会启用EOC",
     purifiable: false,
@@ -30,5 +32,5 @@ exports.BaseBodyOrdering = {
         { id: [(0, ModDefine_1.genMutationID)("BaseBody")], order: 0 }
     ]
 };
-exports.BaseTrait = [exports.CnpcFlag, exports.CnpcBaseBody, exports.BaseBodyOrdering];
+exports.BaseTrait = [exports.CnpcFlagMut, exports.CnpcBaseBody, exports.BaseBodyOrdering];
 (0, StaticData_1.saveStaticData)('BaseTrait', exports.BaseTrait);

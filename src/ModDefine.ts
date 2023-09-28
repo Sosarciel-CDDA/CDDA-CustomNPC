@@ -1,6 +1,7 @@
 import { AmmunitionTypeID, SpellID } from "CddaJsonFormat";
 import { EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
 import { EffectID } from "./CddaJsonFormat/Effect";
+import { TalkTopicID } from "./CddaJsonFormat/TalkTopic";
 
 
 /**mod物品前缀 */
@@ -59,10 +60,14 @@ export function genMonsterID(id:string):MonsterID{
     return `${MOD_PREFIX}_MON_${id}`;
 }
 /**生成适用于此mod的 材质类型 ID */
-export function genAmmiTypeID(id:string):AmmunitionTypeID{
+export function genAmmuTypeID(id:string):AmmunitionTypeID{
     return `${MOD_PREFIX}_AMMUT_${id}`;
 }
 /**生成适用于此mod的 FLAG ID */
 export function genFlagID(id:string):FlagID{
     return `${MOD_PREFIX}_FLAG_${id}`;
+}
+/**生成适用于此mod的 TalkTopic ID */
+export function genTalkTopicID(id:string):TalkTopicID{
+    return `${MOD_PREFIX}_TALKTC_${id}`;
 }

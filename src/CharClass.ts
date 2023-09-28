@@ -11,16 +11,16 @@ import { SkillID } from "./CddaJsonFormat/Skill";
  * @param charName 角色名
  */
 export async function createCharClass(dm:DataManager,charName:string){
-    const {baseData,outData,charConfig} = await dm.getCharData(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass:NpcClass={
         type:"npc_class",
-        id:baseData.classID,
+        id:defineData.classID,
         name:charName,
         job_description:`${charName}专用的职业`,
         common: false,
         worn_override:genItemGroupID("EmptyGroup"),
-        weapon_override:baseData.baseWeaponGroupID,
+        weapon_override:defineData.baseWeaponGroupID,
         carry_override:genItemGroupID("EmptyGroup"),
         skills:Object.entries(charConfig.base_skill||[]).reduce((acc,item)=>{
             if(item[1]==null) return acc;
@@ -32,16 +32,16 @@ export async function createCharClass(dm:DataManager,charName:string){
             return [...acc,skill];
         },[] as NPCClassBaseSkill[]),
         traits:[
-            { "trait": baseData.baseMutID },
-            { "trait": baseData.animData.Idle.mutID },
+            { "trait": defineData.baseMutID },
+            { "trait": defineData.animData.Idle.mutID },
             { "trait": genMutationID("CnpcFlag") }]
     }
     /**NPC实例 */
     const charInstance:NpcInstance={
         type:"npc",
-        id:baseData.instanceID,
+        id:defineData.instanceID,
         name_unique:charName,
-        class:baseData.classID,
+        class:defineData.classID,
         faction:"your_followers",
         chat: "TALK_DONE",
         attitude:3,
@@ -77,7 +77,7 @@ export async function createCharClass(dm:DataManager,charName:string){
 		effect: [
 			//{ u_consume_item: genGenericID(spawnerId), count: 1 },
 			{
-                u_spawn_npc: baseData.instanceID,
+                u_spawn_npc: defineData.instanceID,
 				real_count: 1,
 				min_radius: 1,
 				max_radius: 1,

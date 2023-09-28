@@ -3,6 +3,8 @@ import { AnyItemID } from "./Item/Generic";
 /**ItemGroup ID格式
  */
 export type ItemGroupID = CddaID<"ITEMGP">;
+/**ItemGroup
+ */
 export type ItemGroup = {
     type: "item_group";
     id: ItemGroupID;
@@ -12,13 +14,17 @@ export type ItemGroup = {
      * distribution 分布 为加权轮盘随机
      */
     subtype?: "collection" | "distribution";
-} & ({
+    /**详细写法 */
     entries?: ItemGroupEntrie[];
-} | {
+    /**快速物品列表 */
     items?: ItemGroupEntrieQuick[];
-} | {
+    /**快速物品列表 */
     groups?: ItemGroupEntrieQuick[];
-});
+    /**从某个物品组复制 */
+    "copy-from"?: ItemGroupID;
+    /**扩展元素 */
+    extend?: Pick<ItemGroup, "entries" | "items" | "groups">;
+};
 /**一项Entry */
 type ItemGroupEntrie = (ItemGroupEntrieItem | ItemGroupEntrieGroup | ItemGroupEntrieDist | ItemGroupEntrieColl) & ItemGroupEntrieOpt;
 /**物品Entry */
@@ -46,7 +52,9 @@ type ItemGroupEntrieOpt = Partial<{
     damage: number | number[];
     "damage-min": number;
     "damage-max": number;
-    /**使项目重复生成，每次创建一个新项目。 */
+    /**使项目重复生成，每次创建一个新项目。
+     * [1, 10] 为1~10个
+     */
     count: number | number[];
     "count-min": number;
     "count-max": number;
@@ -74,13 +82,15 @@ type ItemGroupEntrieOpt = Partial<{
     sealed: boolean;
     /**该项目的有效 itype 变体 ID。 */
     variant: AnyItemID;
-    artifact: Object;
+    artifact: {};
     event: ItemGroutEvent;
 }>;
 /**可用的生成时间点 */
 type ItemGroutEvent = "none" | "new_year" | "easter" | "independence_day" | "halloween" | "thanksgiving" | "christmas";
 /** 物品/物品组快速定义 取决于键
- * 物品id 或者 [物品id,概率]
+ * 物品id 或者 [物品id,概率(100为100%)]
  */
-type ItemGroupEntrieQuick = string | [string, number];
+export type ItemGroupEntrieQuick = string | [string, number];
+/**内联物品组 */
+export type InlineItemGroup = Omit<ItemGroup, "id" | "type">;
 export {};

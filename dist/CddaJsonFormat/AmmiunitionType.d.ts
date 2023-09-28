@@ -1,16 +1,17 @@
 import { CddaID } from "./GenericDefine";
+import { AnyItemID } from "./Item";
 export declare const DefineAmmoTypeIDList: readonly ["50", "500"];
 export type DefineAmmoTypeID = typeof DefineAmmoTypeIDList[number];
-/**材质ID格式
+/**弹药ID格式
  */
 export type AmmunitionTypeID = CddaID<"AMMUT"> | DefineAmmoTypeID;
-/**材质类型 */
+/**弹药类型 */
 export type AmmunitionType = {
     type: "ammunition_type";
     /**唯一ID */
     id: AmmunitionTypeID;
-    /**材质名称 */
+    /**弹药名称 */
     name: string;
-    /**材质的默认物品ID */
-    default: string;
+    /**弹药的默认物品ID */
+    default: AnyItemID;
 };

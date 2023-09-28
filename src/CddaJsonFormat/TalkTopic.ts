@@ -1,88 +1,253 @@
 import { JArray, JObject } from "@zwa73/utils";
 import { CddaID } from "./GenericDefine";
-import { Eoc, EocEffect } from "./Eoc";
+import { BoolObj, BoolOperateList, Eoc, EocEffect, NoParamCond } from "./Eoc";
+import { SkillID } from "./Skill";
+import { AnyItemID, ItemCategotyID } from "./Item";
 
 
 
 /**TalkTopic ID格式
  */
-export type TalkTopicID = CddaID<"TALK">|DefineTopic;
+export type TalkTopicID = DefineTopic|CddaID<"TALKTC">;
+
+
 
 
 /**对话选项 */
 export type TalkTopic = {
 	type: "talk_topic";
+	/**此对话的id 或是在哪些对话上扩展选项 */
 	id: TalkTopicID|TalkTopicID[];
-    /**NPC说的话 */
-	dynamic_line?: string|JObject|JArray;
+    /**NPC说的话 独立对话必须有 */
+	dynamic_line?: DynamicLine;
+	/**生成多个回复 */
+	repeat_responses?:{
+		/**根据所有存在背包里的 对应ID物品 生成对话
+		 * 选择的物品id将存于 topic_item 上下文变量中
+		 */
+		for_item?:AnyItemID[];
+		/**根据所有存在背包里的 对应类型物品 生成对话
+		 * 选择的物品id将存于 topic_item 上下文变量中
+		 */
+		for_category?:ItemCategotyID[];
+		/**如果为true则检查npc背包 */
+		is_npc?:boolean;
+		/**是一个可选的布尔值，如果为真
+		 * 包含项目的 容器 将生成与项目本身不同的响应
+		 */
+		include_containers?:boolean;
+		/**模板回复 利用 <topic_item> 来显示选中物品 */
+		response:Resp;
+	}
     /**玩家的可选回复 */
 	responses: Resp[];
     /**是否覆盖同id的响应选项 默认false */
 	replace_built_in_responses?: boolean;
-    speaker_effect?:EocEffect|EocEffect[],
+	/**在输出 dynamic_line 之后 玩家回复之前的效果 */
+    speaker_effect?:SpeakerEffect|SpeakerEffect[],
 };
 
 
-/**玩家的回复 */
-export type Resp = {
-	/**玩家的文本回复 */
+/**玩家的回复
+ * 等同于无条件技能鉴定成功
+ * 转到 success topic
+*/
+export type Resp = (RespShot|RespLong)&RespBase;
+
+/**回复的基本字段 */
+type RespBase = {
+	/**玩家的文本回复/选项显示文本
+	 * 目前，您可以添加 & 作为对话中的第一个字符，
+	 * 这会删除输出文本周围的引号，表示显示文本的描述性性质，
+	 * 使用 \" 转义双引号来指示实际对话的开始。
+ 	 */
 	text: string;
+	/**对某个条件进行判断 并给出不同的文本
+	 * 代替 text 字段
+	 */
+	truefalsetext?: {
+		/**条件 */
+		condition: BoolObj;
+		/**条件为真时的text */
+		true: string;
+		/**条件为假时的text */
+		false: string;
+	};
+	/**是一个选项回复 默认false
+	 * 仅显示第一个带有"switch": true、和有效条件的响应
+	 * 如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽
+	 */
+	switch?: boolean;
+	/**是选项回复的默认回复 默认false
+	 * 如果所有选项回复的条件都不被满足
+	 * 则此回复会被显示
+	 */
+	default?: boolean;
+	/**显示此回复的条件 */
+	condition?:BoolObj;
+	/**回复的条件不满足时任然显示选项 但采用此字段而非text
+	 * 玩家的文本回复/选项显示文本
+	 */
+	failure_explanation?: string;
+	/**回复的条件不满足时 选择此选项将跳转到的对话 */
+	failure_topic?: TalkTopicID,
+}
+
+/**无需技能鉴定的快速写法 */
+type RespShot={
     /**转移到哪个对话 */
 	topic: TalkTopicID;
     /**产生的效果 */
 	effect?: EocEffect;
-}|RespLong;
+}
 
-
-
-
-/**玩家的回复 完整写法 */
-export type RespLong ={
-    /**玩家的文本回复 */
-	text: string;
-    /**基于哪种社交技能 */
+/**玩家的回复 技能鉴定完整写法 */
+type RespLong ={
+    /**对社交技能进行技能鉴定 */
     trait: {
         /**基于哪种社交技能 */
 		type: RespTraitType;
-        /**难度 */
+		/**如果 type 为 CONDITION 则使用条件代替鉴定难度 */
+		condition?:BoolObj;
+		/**如果 type 为 SKILL_CHECK 则使用技能鉴定 */
+		skill_required?: SkillID;
+        /**难度 类型不为 NONE 或 CONDITION时需要设置难度*/
 		difficulty?: number;
+		/**根据npc的性格或态度进行成功率调整
+		 * 结果越高成功率越高
+		 */
+		mod:[TraitMod,number][]
 	};
     /**技能鉴定 成功的效果 */
-	success: {
-        /**转移到哪个对话 */
-		topic: TalkTopicID;
-        /**产生的效果 */
-		effect?: EocEffect;
-        /**态度调整 */
-		opinion?: {
-			trust?: number;
-			fear?: number;
-			value?: number;
-			anger?: number;
-			owed?: number;
-			favors?: number;
-		};
-	};
+	success: RespEffect;
     /**技能鉴定 失败的效果 */
-	failure?: RespLong["success"]
+	failure?: RespEffect;
+};
+
+/**玩家回复产生的效果 */
+export type RespEffect = {
+	/**转移到哪个对话 */
+	topic: TalkTopicID;
+	/**产生的效果 */
+	effect?: EocEffect;
+	/**态度调整 */
+	opinion?: {
+		/**信任 */
+		trust?: number;
+		/**恐惧 */
+		fear?: number;
+		/**重视 */
+		value?: number;
+		/**愤怒 */
+		anger?: number;
+		/**赊欠 */
+		owed?: number;
+		/**已售 */
+		favors?: number;
+	};
 };
 /**可用的社交技能 列表 */
-export const RespTraitTypeList = [ "NONE", "LIE", "PERSUADE", "INTIMIDATE", "CONDITION"] as const;
+export const RespTraitTypeList = [
+	"NONE"			,//无
+	"LIE"			,//说谎
+	"PERSUADE"		,//说服
+	"INTIMIDATE"	,//恐吓
+	"CONDITION"		,//条件
+	"SKILL_CHECK"	,//技能
+] as const;
 /**可用的社交技能 */
 export type RespTraitType = typeof RespTraitTypeList[number];
 
 /**预定义的对话 列表 */
 export const DefineTopicList = [
-	"TALK_DONE",//结束对话
+	"TALK_DONE"					,// 结束对话
+	"TALK_NONE"					,// 进入之前谈到的话题。
+	"TALK_FRIEND"				,// 与 追随者 NPC 交谈							NPC含有字段 talk_friend 时显示
+	"TALK_RADIO"				,// 使用双向无线电与 追随者 NPC 交谈			NPC含有字段 talk_radio 时显示
+	"TALK_LEADER"				,// 与拥有 5=NPCATT_LEAD 的 NPC 交谈			NPC含有字段 talk_leader 时显示
+	"TALK_STOLE_ITEM"			,// 与拥有 18=NPCATT_RECOVER_GOODS 的 NPC 交谈	NPC含有字段 talk_stole_item 时显示
+	"TALK_WAKE_UP"				,// 与熟睡的 NPC 交谈		NPC含有字段 talk_wake_up 时显示
+	"TALK_FRIEND_GUARD"			,// 派系营地守卫			NPC含有字段 talk_friend_guard 时显示
+	"TALK_MUG"					,// 参见“成功与失败”部分	NPC含有字段 talk_mug 时显示
+	"TALK_STRANGER_AGGRESSIVE"	,// 参见“成功与失败”部分	NPC含有字段 talk_stranger_aggressive 时显示
+	"TALK_STRANGER_SCARED"		,// 参见“成功与失败”部分	NPC含有字段 talk_stranger_scared 时显示
+	"TALK_STRANGER_WARY"		,// 参见“成功与失败”部分	NPC含有字段 talk_stranger_wary 时显示
+	"TALK_STRANGER_FRIENDLY"	,// 参见“成功与失败”部分	NPC含有字段 talk_stranger_friendly 时显示
+	"TALK_STRANGER_NEUTRAL"		,// 参见“成功与失败”部分	NPC含有字段 talk_stranger_neutral 时显示
 ] as const;
 /**预定义的对话 */
 export type DefineTopic = typeof DefineTopicList[number];
 
 
+/**动态回复构造器
+ * 如果是数组 则为随机选择其中一条回复
+ */
+export type DynamicLine = DynmaicLineOpera[number][]|DynmaicLineOpera[number];
+
+/**动态回复构造器操作符 */
+export type DynmaicLineOpera = [
+	string				,
+	NpcSexResp			,//根据Npc性别产生不同对话
+	AvatarSexResp		,//根据玩家性别产生不同对话
+	Concatenate			,//拼接回复
+	EocCond				,//Eoc条件
+]
+
+/**根据Npc性别产生不同对话 */
+type NpcSexResp = {
+	/**如果npc是女性 */
+    npc_female: DynamicLine;
+	/**如果npc是男性 */
+    npc_male: DynamicLine;
+}
+/**根据玩家性别产生不同对话 */
+type AvatarSexResp = {
+	/**如果npc是女性 */
+    u_female: DynamicLine;
+	/**如果npc是男性 */
+    u_male: DynamicLine;
+}
+/**多条链接 */
+type Concatenate = DynamicLine[];
 
 
+/**任意EocBool条件 */
+type EocCond = TransEocCond&{
+	/**条件为真时的选项 */
+	yes:DynamicLine;
+	/**条件为假时的选项 */
+	no:DynamicLine;
+}
+/**将BoolObj转换为适用于TalkTopic的条件 */
+type TransEocCond = Exclude<BoolObj,NoParamCond>|
+	Partial<Record<NoParamCond,boolean>>;
 
 
+/**说话者效果 */
+export type SpeakerEffect = {
+	/**唯一ID 确保只会运行一次 */
+    sentinel?: string;
+	/**条件 */
+    condition?: BoolObj;
+	/**效果 */
+    effect: EocEffect[]|EocEffect;
+}
+
+/**技能鉴定时可用的调整类型 列表 */
+export const TraitModList = [
+	"ANGER"			,//愤怒
+	"FEAR"			,//恐惧
+	"TRUST"			,//信任
+	"VALUE"			,//重视
+	"AGGRESSION"	,//攻击性
+	"ALTRUISM"		,//乐于助人
+	"BRAVERY"		,//勇气
+	"COLLECTOR"		,//收集癖
+	"POS_FEAR"		,//恐惧 低于0时视为0
+	"TOTAL"			,//所有调整值乘此倍率
+] as const;
+/**技能鉴定时可用的调整类型 */
+export type TraitMod = typeof TraitModList[number];
 
 
 /**

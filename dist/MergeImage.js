@@ -6,7 +6,7 @@ const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 /**合并并创建序列帧 */
 async function mergeImage(dm, charName) {
-    const { baseData, outData } = await dm.getCharData(charName);
+    const { defineData, outData } = await dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
     //检查是否有Idle动作
@@ -33,8 +33,8 @@ async function mergeImage(dm, charName) {
         const animType = mtnName;
         const mtnInfo = info[animType];
         //添加有效动画
-        baseData.vaildAnim.push(animType);
-        const animData = baseData.animData[animType];
+        defineData.vaildAnim.push(animType);
+        const animData = defineData.animData[animType];
         if (mtnInfo == undefined)
             continue;
         const mtnPath = path.join(imagePath, mtnName);

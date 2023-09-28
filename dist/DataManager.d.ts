@@ -1,22 +1,24 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, EocEffect } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, EocEffect, AnyCddaJson } from './CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 import { SkillID } from './CddaJsonFormat/Skill';
+import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
 /**角色事件列表 */
 export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath"];
 /**角色事件类型 */
 export type CharEventType = typeof CharEvemtTypeList[number];
-/**反转的角色事件列表
- * 对应同名GetDamage
+/**反转Talker的角色事件列表
+ * 对应同名CauseDamage
+ * npc为角色
  */
-export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
-/**反转的角色事件类型
- * 对应同名GetDamage
+export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage", "CharUseSoulDust"];
+/**反转Talker的角色事件类型
+ * 对应同名CauseDamage
  */
 export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage", "CharUseSoulDust"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**事件效果 */
@@ -43,12 +45,43 @@ export type CharConfig = {
     /**技能 */
     skill?: CharSkill[];
 };
+/**角色基础数据 */
+export type CharDefineData = Readonly<{
+    /**角色名 */
+    charName: string;
+    /**基础变异ID 角色必定会拥有此变异 可以作为角色判断依据 */
+    baseMutID: MutationID;
+    /**职业ID */
+    classID: NpcClassID;
+    /**实例ID */
+    instanceID: NpcInstanceID;
+    /**动画数据 */
+    animData: Record<AnimType, AnimData>;
+    /**有效的动作动画 */
+    vaildAnim: AnimType[];
+    /**基础装备ID */
+    baseArmorID: ArmorID;
+    /**基础装备附魔ID */
+    baseEnchID: EnchantmentID;
+    /**基础武器ID */
+    baseWeaponID: GunID | GenericID;
+    /**基础武器物品组ID */
+    baseWeaponGroupID: ItemGroupID;
+    /**基础武器Flag ID */
+    baseWeaponFlagID: FlagID;
+    /**等级变量ID */
+    levelVarID: string;
+    /**经验变量ID */
+    expVarID: string;
+    /**主对话ID */
+    talkTopicID: TalkTopicID;
+}>;
 /**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
     charTable: Record<string, {
-        /**角色基础数据 */
-        baseData: CharData;
+        /**角色基础定义数据 */
+        defineData: CharDefineData;
         /**输出数据 */
         outData: Record<string, JArray>;
         /**输出的角色Eoc事件 u为角色 npc为未定义
@@ -79,7 +112,9 @@ export type BuildSetting = {
 /**游戏数据 */
 export type GameData = {
     /**贴图包ID */
-    gfx_name: string;
+    gfx_name?: string;
+    /**JSON */
+    game_json?: CddaJson;
 };
 export declare class DataManager {
     /**资源目录 */
@@ -110,13 +145,15 @@ export declare class DataManager {
     processGfxpack(): Promise<void>;
     /**初始化 处理音效包 */
     processSoundpack(): Promise<void>;
+    /**载入所有json */
+    processJson(): Promise<void>;
     /**获取角色表 如无则初始化 */
     getCharData(charName: string): Promise<{
-        /**角色基础数据 */
-        baseData: Readonly<{
+        /**角色基础定义数据 */
+        defineData: Readonly<{
             /**角色名 */
             charName: string;
-            /**基础变异ID */
+            /**基础变异ID 角色必定会拥有此变异 可以作为角色判断依据 */
             baseMutID: MutationID;
             /**职业ID */
             classID: NpcClassID;
@@ -142,11 +179,17 @@ export declare class DataManager {
             /**基础装备附魔ID */
             baseEnchID: EnchantmentID;
             /**基础武器ID */
-            baseWeaponID: `${string}SchemaString` | `GUN_${string}` | `${string}_GUN_${string}` | `GENERIC_${string}` | `${string}_GENERIC_${string}`;
+            baseWeaponID: `${string}SchemaString` | `GENERIC_${string}` | `${string}_GENERIC_${string}` | `GUN_${string}` | `${string}_GUN_${string}`;
             /**基础武器物品组ID */
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
             baseWeaponFlagID: FlagID;
+            /**等级变量ID */
+            levelVarID: string;
+            /**经验变量ID */
+            expVarID: string;
+            /**主对话ID */
+            talkTopicID: TalkTopicID;
         }>;
         /**输出数据 */
         outData: Record<string, JArray>;
@@ -157,7 +200,7 @@ export declare class DataManager {
         /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
          * id为 `${charName}_${etype}`
          */
-        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage", EventEffect[]>;
+        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage" | "CharUseSoulDust", EventEffect[]>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;
@@ -186,31 +229,15 @@ export declare class DataManager {
     /**输出数据 */
     saveAllData(): Promise<void>;
 }
-/**角色基础数据 */
-export type CharData = Readonly<{
-    /**角色名 */
-    charName: string;
-    /**基础变异ID */
-    baseMutID: MutationID;
-    /**职业ID */
-    classID: NpcClassID;
-    /**实例ID */
-    instanceID: NpcInstanceID;
-    /**动画数据 */
-    animData: Record<AnimType, AnimData>;
-    /**有效的动作动画 */
-    vaildAnim: AnimType[];
-    /**基础装备ID */
-    baseArmorID: ArmorID;
-    /**基础装备附魔ID */
-    baseEnchID: EnchantmentID;
-    /**基础武器ID */
-    baseWeaponID: GunID | GenericID;
-    /**基础武器物品组ID */
-    baseWeaponGroupID: ItemGroupID;
-    /**基础武器Flag ID */
-    baseWeaponFlagID: FlagID;
-}>;
+/**所有json的表 */
+export declare class CddaJson {
+    private readonly _table;
+    private readonly _jsonList;
+    private constructor();
+    static create(game_path: string): Promise<CddaJson>;
+    getJson(type: string, id: string): AnyCddaJson | undefined;
+    jsonList(): readonly AnyCddaJson[];
+}
 /**动画数据 */
 export type AnimData = Readonly<{
     /**动画类型 */

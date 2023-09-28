@@ -1,6 +1,6 @@
 import { JArray } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { CharData, DataManager, CharEventType } from "./DataManager";
+import { CharDefineData, DataManager, CharEventType } from "./DataManager";
 import * as path from 'path';
 import { Eoc } from "CddaJsonFormat";
 import { genEOCID } from "./ModDefine";
@@ -12,7 +12,7 @@ function hasAnim(outData:Record<string,JArray>,animType:AnimType){
 }
 
 /**移除其他动作变异 */
-export function removeOtherAnimEoc(baseData:CharData,animType:AnimType){
+export function removeOtherAnimEoc(baseData:CharDefineData,animType:AnimType){
     const otherAnim = baseData.vaildAnim.filter(item=> item!=animType);
     if(otherAnim.length<=0) return null;
     const eoc:Eoc={
@@ -28,7 +28,7 @@ export function removeOtherAnimEoc(baseData:CharData,animType:AnimType){
     return eoc;
 }
 /**切换动作EOC */
-export function changeAnimEoc(baseData:CharData,animType:AnimType){
+export function changeAnimEoc(baseData:CharDefineData,animType:AnimType){
     const removeEoc = removeOtherAnimEoc(baseData,animType);
     if(removeEoc==null) return [];
     const eoc:Eoc={
@@ -46,7 +46,7 @@ export function changeAnimEoc(baseData:CharData,animType:AnimType){
 
 /**创建动画状态机 */
 export async function createAnimStatus(dm:DataManager,charName:string){
-    const {baseData,outData} = await dm.getCharData(charName);
+    const {defineData,outData} = await dm.getCharData(charName);
     const eocList:Eoc[] = [];
     const animEventMap:Record<AnimType,CharEventType|undefined>={
         Move:"CharMove",
@@ -57,7 +57,7 @@ export async function createAnimStatus(dm:DataManager,charName:string){
     for(const mtnName in animEventMap){
         const animType = mtnName as AnimType;
         if(hasAnim(outData,animType)){
-            let eocs = changeAnimEoc(baseData,animType);
+            let eocs = changeAnimEoc(defineData,animType);
             eocList.push(...eocs);
             const eventName = animEventMap[animType];
             if(eventName!=null && eocs!=null)

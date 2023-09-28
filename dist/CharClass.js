@@ -6,16 +6,16 @@ const ModDefine_1 = require("./ModDefine");
  * @param charName 角色名
  */
 async function createCharClass(dm, charName) {
-    const { baseData, outData, charConfig } = await dm.getCharData(charName);
+    const { defineData, outData, charConfig } = await dm.getCharData(charName);
     /**NPC职业 */
     const charClass = {
         type: "npc_class",
-        id: baseData.classID,
+        id: defineData.classID,
         name: charName,
         job_description: `${charName}专用的职业`,
         common: false,
         worn_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
-        weapon_override: baseData.baseWeaponGroupID,
+        weapon_override: defineData.baseWeaponGroupID,
         carry_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
         skills: Object.entries(charConfig.base_skill || []).reduce((acc, item) => {
             if (item[1] == null)
@@ -28,17 +28,17 @@ async function createCharClass(dm, charName) {
             return [...acc, skill];
         }, []),
         traits: [
-            { "trait": baseData.baseMutID },
-            { "trait": baseData.animData.Idle.mutID },
+            { "trait": defineData.baseMutID },
+            { "trait": defineData.animData.Idle.mutID },
             { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") }
         ]
     };
     /**NPC实例 */
     const charInstance = {
         type: "npc",
-        id: baseData.instanceID,
+        id: defineData.instanceID,
         name_unique: charName,
-        class: baseData.classID,
+        class: defineData.classID,
         faction: "your_followers",
         chat: "TALK_DONE",
         attitude: 3,
@@ -74,7 +74,7 @@ async function createCharClass(dm, charName) {
         effect: [
             //{ u_consume_item: genGenericID(spawnerId), count: 1 },
             {
-                u_spawn_npc: baseData.instanceID,
+                u_spawn_npc: defineData.instanceID,
                 real_count: 1,
                 min_radius: 1,
                 max_radius: 1,
@@ -96,9 +96,9 @@ async function createCharClass(dm, charName) {
                         { math: [`${charName}_IsAlive`, "=", "0"] },
                         { u_location_variable: { global_val: "tmp_loc" }, z_adjust: -10, z_override: true },
                         { u_teleport: { global_val: "tmp_loc" }, force: true },
-                        { npc_teleport: { global_val: "avater_loc" }, force: true },
+                        { npc_teleport: { global_val: "avatar_loc" }, force: true },
                     ]
-                }, beta_loc: { global_val: "avater_loc" } }
+                }, beta_loc: { global_val: "avatar_loc" } }
         ]
     };
     dm.addCharEvent(charName, "CharDeath", -1000, charDeathEoc);

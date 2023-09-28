@@ -9,7 +9,8 @@ import { GenericBase, GenericFlag } from "./Generic";
  */
 export type GunID = CddaID<"GUN">;
 
-/**枪械 */
+/**枪械
+ */
 export type Gun = {
     id:GunID;
 	type: "GUN";

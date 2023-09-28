@@ -6,6 +6,7 @@ import { createCharEquip } from "./CharEquip";
 import { createAnimStatus } from "./AnimStatus";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { createCharSkill } from "./CharSkill";
+import { createCharTalkTopic } from "./CharTalkTopic";
 
 
 
@@ -17,6 +18,7 @@ export async function buildChar(dm:DataManager,charName:string){
     await createCharEquip(dm,charName);
     await createAnimStatus(dm,charName);
     await createCharSkill(dm,charName);
+    await createCharTalkTopic(dm,charName);
 }
 
 

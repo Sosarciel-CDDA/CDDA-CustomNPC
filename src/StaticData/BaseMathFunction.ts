@@ -22,6 +22,7 @@ export const DamageMul:MathFunction={
     return:"Log10( _0 ) * Log10( _0 )",
 }
 /**log10
+ * function( number )
  */
 export const Log10:MathFunction={
     type:"jmath_function",
@@ -29,6 +30,15 @@ export const Log10:MathFunction={
     num_args: 1,
     return:"log(_0)/log(10)",
 }
+/**经验公式
+ * function( 等级 )
+ */
+export const LvlExp:MathFunction={
+    type:"jmath_function",
+    id:"LvlExp" as MathFunctionID,
+    num_args: 1,
+    return:"100 + (_0 * _0 * 100)",
+}
 
-export const BaseMathFunction = [CalcDamage,DamageMul,Log10];
+export const BaseMathFunction = [CalcDamage,DamageMul,Log10,LvlExp];
 saveStaticData("BaseMathFunction",BaseMathFunction);

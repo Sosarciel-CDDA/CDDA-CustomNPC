@@ -1,4 +1,5 @@
 import { BodyPartID, CddaID } from "../GenericDefine";
+import { MaterialID } from "../Material";
 import { GenericBase, GenericFlag } from "./Generic";
 /**Armor ID格式
  */
@@ -17,11 +18,15 @@ export type Armor = {
     armor?: ArmorData[];
 } & GenericBase;
 export type ArmorData = {
-    material?: [{
-        type: "leather";
-        covered_by_mat: 100;
-        thickness: 1;
-    }];
+    /**材质 */
+    material?: {
+        /**材质 */
+        type: MaterialID;
+        /**材质覆盖率 0~100*/
+        covered_by_mat: number;
+        /**厚度 基础1*/
+        thickness: number;
+    }[];
     /**覆盖 主肢体id */
     covers?: BodyPartID[];
     /**特殊覆盖 子肢体id */

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GenericFlagList = void 0;
+exports.DefineItemCategoryList = exports.GenericFlagList = void 0;
 /**通用物品的flag列表 */
 exports.GenericFlagList = [
     "ACTIVATE_ON_PLACE",
@@ -11,6 +11,43 @@ exports.GenericFlagList = [
     "NO_RELOAD",
     "UNBREAKABLE",
     "DURABLE_MELEE", //坚固的近战武器
+];
+/**预定义的物品类别 列表 */
+exports.DefineItemCategoryList = [
+    "guns",
+    "magazines",
+    "ammo",
+    "weapons",
+    "tools",
+    "clothing",
+    "food",
+    "drugs",
+    "manuals",
+    "books",
+    "maps",
+    "mods",
+    "mutagen",
+    "bionics",
+    "currency",
+    "veh_parts",
+    "other",
+    "fuel",
+    "seeds",
+    "ma_manuals",
+    "traps",
+    "chems",
+    "spare_parts",
+    "container",
+    "artifacts",
+    "keys",
+    "corpses",
+    "tool_magazine",
+    "armor",
+    "exosuit",
+    "ITEMS_WORN",
+    "INTEGRATED",
+    "BIONIC_FUEL_SOURCE",
+    "WEAPON_HELD", //
 ];
 /**
 ACT_IN_FIRE							如果掉落在带有火的瓷砖上，该物品将被激活

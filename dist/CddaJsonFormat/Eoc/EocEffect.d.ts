@@ -34,10 +34,12 @@ export type EocEffectList = [
     SoundEffect,
     CastSpell,
     Teleport,
-    LocalVar
+    LocalVar,
+    Message
 ];
 /**运行Eoc */
 type RunEoc = {
+    /**运行Eoc */
     run_eocs: ParamsEoc;
 };
 /**运行Eoc 并提供参数 */
@@ -65,7 +67,7 @@ type SoundEffect = {
     id: StrObj | SoundEffectID;
     /**变体ID */
     sound_effect?: StrObj | SoundEffectVariantID;
-    /**如果为true则视为在玩家地下 ? */
+    /**如果为true则如果玩家在 地下/地下室 时难以听到 */
     outdoor_event?: boolean;
     /**音量 */
     volume: NumObj;
@@ -136,6 +138,34 @@ type LocalVar = TalkerVar<{
     /**在搜索目标周围的最大半径 */
     target_max_radius?: NumObj;
 }, "location_variable">;
+/**发送消息 */
+type Message = TalkerVar<{
+    message: string;
+    /**默认中立；消息如何在日志中显示（通常是指颜色）；
+     * 可以是良好（绿色）、中性（白色）、不良（红色）、
+     * 混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、
+     * 爆头（紫色）、临界（黄色），放牧（蓝色）
+     */
+    type?: 'good' | 'neutral' | 'bad' | 'mixed' | 'warning' | 'info' | 'debug' | 'headshot' | 'critical' | 'grazing';
+    /**如果为true 那么只会在用户没有聋时显示 */
+    sound?: boolean;
+    /**如果为true 且 sound为真 玩家在 地下/地下室 时难以听到 */
+    outdoor_only?: boolean;
+    /**如果为 true，则效果会显示来自的随机片段u_message */
+    snippet?: boolean;
+    /**如果为 true，并且snippet为 true，它将连接讲话者和片段，
+     * 并且如果该讲话者使用的话，将始终提供相同的片段；要求片段设置 id
+     */
+    same_snippet?: boolean;
+    /**如果为真，该消息将生成一个弹出窗口u_message */
+    popup?: boolean;
+    /**如果为 true，并且popup为 true，则弹出窗口将中断任何发送消息的活动 */
+    popup_w_interrupt_query?: boolean;
+    /**默认为“中性”；distraction_type，用于中断，用于分心管理器
+     * 完整列表存在 inactivity_type.cpp
+     */
+    interrupt_type?: boolean;
+}, "message">;
 /**参数Eoc */
 export type ParamsEoc = (EocID | StrObj | InlineEoc) | (EocID | StrObj | InlineEoc)[];
 /**分配任务目标 assign_mission_target

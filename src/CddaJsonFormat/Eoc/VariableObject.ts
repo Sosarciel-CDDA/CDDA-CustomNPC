@@ -46,14 +46,23 @@ export type BoolOperateList = [
     BoolOperaOr                                         ,//或
     BoolOperaAnd                                        ,//与
     BoolOperaCompStr                                    ,//比较两个字符串
-    "u_can_drop_weapon"                                 ,//可以丢弃手中的物品
     {math:[string,"=="|"!="|">="|"<="|">"|"<",string]}  ,//
     HasWieldFlag                                        ,//手中的物品有某个flag
     HasItem                                             ,//携带/穿戴/持握/背包里有某个物品
     HasTrait                                            ,//有某个变异
     HasEffect                                           ,//有某个效果
     OneInChance                                         ,//1/n的概率返回true
+    NoParamCond                                         ,//无参条件
 ];
+/**无参条件 */
+export type NoParamCond = [
+    "u_female"              ,// alpha 是女性
+    "u_male"                ,// alpha 是男性
+    "npc_female"            ,// beta 是女性
+    "npc_male"              ,// beta 是男性
+    "u_can_drop_weapon"     ,// 可以丢弃手中的物品
+][number];
+
 /**有某个效果 */
 export type HasEffect = TalkerVar<{
     /**有某个效果
@@ -120,7 +129,10 @@ export type AnyObjOperateList = [
 /**通用Obj操作符 */
 export type GenericObjOperateList = [
     { global_val: string  } ,//全局变量
-    { u_val: string }       ,//自身变量
+    { u_val: string }       ,//alpha talker的变量
+    { npc_val: string }     ,//beta talker的变量
+    { context_val: string } ,//上下文变量 存于对话中的变量
+    { var_val : string }    ,//获得某个个上下文变量的值 然后以值作为 全局/角色变量名 获得全局/角色值
 ];
 /**通用Obj操作符 */
 export type GenericObj = GenericObjOperateList[number];

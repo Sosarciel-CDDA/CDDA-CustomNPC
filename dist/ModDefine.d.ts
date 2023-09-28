@@ -1,6 +1,7 @@
 import { AmmunitionTypeID, SpellID } from "./CddaJsonFormat";
 import { EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "./CddaJsonFormat";
 import { EffectID } from "./CddaJsonFormat/Effect";
+import { TalkTopicID } from "./CddaJsonFormat/TalkTopic";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -30,6 +31,8 @@ export declare function genSpellID(id: string): SpellID;
 /**生成适用于此mod的 怪物ID */
 export declare function genMonsterID(id: string): MonsterID;
 /**生成适用于此mod的 材质类型 ID */
-export declare function genAmmiTypeID(id: string): AmmunitionTypeID;
+export declare function genAmmuTypeID(id: string): AmmunitionTypeID;
 /**生成适用于此mod的 FLAG ID */
 export declare function genFlagID(id: string): FlagID;
+/**生成适用于此mod的 TalkTopic ID */
+export declare function genTalkTopicID(id: string): TalkTopicID;

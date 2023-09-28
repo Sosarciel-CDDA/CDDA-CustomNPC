@@ -50,7 +50,6 @@ export type BoolOperateList = [
     BoolOperaOr,
     BoolOperaAnd,
     BoolOperaCompStr,
-    "u_can_drop_weapon",
     {
         math: [string, "==" | "!=" | ">=" | "<=" | ">" | "<", string];
     },
@@ -58,8 +57,17 @@ export type BoolOperateList = [
     HasItem,
     HasTrait,
     HasEffect,
-    OneInChance
+    OneInChance,
+    NoParamCond
 ];
+/**无参条件 */
+export type NoParamCond = [
+    "u_female",
+    "u_male",
+    "npc_female",
+    "npc_male",
+    "u_can_drop_weapon"
+][number];
 /**有某个效果 */
 export type HasEffect = TalkerVar<{
     /**有某个效果
@@ -126,6 +134,15 @@ export type GenericObjOperateList = [
     },
     {
         u_val: string;
+    },
+    {
+        npc_val: string;
+    },
+    {
+        context_val: string;
+    },
+    {
+        var_val: string;
     }
 ];
 /**通用Obj操作符 */

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataManager = exports.GlobalEvemtTypeList = exports.ReverseCharEvemtTypeList = exports.CharEvemtTypeList = void 0;
+exports.CddaJson = exports.DataManager = exports.GlobalEvemtTypeList = exports.ReverseCharEvemtTypeList = exports.CharEvemtTypeList = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
@@ -14,11 +14,15 @@ exports.CharEvemtTypeList = [
     "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage",
     "CharBattleUpdate", "CharDeath",
 ];
-/**反转的角色事件列表
- * 对应同名GetDamage
+/**反转Talker的角色事件列表
+ * 对应同名CauseDamage
+ * npc为角色
  */
 exports.ReverseCharEvemtTypeList = [
-    "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage",
+    "CharCauseDamage",
+    "CharCauseMeleeDamage",
+    "CharCauseRangeDamage",
+    "CharUseSoulDust", //u为玩家
 ];
 /**全局事件列表 */
 exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList, ...exports.ReverseCharEvemtTypeList];
@@ -34,7 +38,7 @@ class DataManager {
     /**build设置 */
     buildSetting = null;
     /**游戏数据 */
-    gameData = null;
+    gameData = {};
     /**主资源表 */
     dataTable = {
         charTable: {},
@@ -70,6 +74,7 @@ class DataManager {
         dm.outPath = dm.outPath || path.join(bs.game_path, 'data', 'mods', 'CustomNPC');
         await dm.processGfxpack();
         await dm.processSoundpack();
+        await dm.processJson();
         return dm;
     }
     /**初始化 处理贴图包 */
@@ -85,9 +90,8 @@ class DataManager {
             .match(/NAME: (.*?)$/m);
         if (match == null)
             throw "未找到目标贴图包NAME path:" + gfxTilesetTxtPath;
-        dm.gameData = {
-            gfx_name: match[1],
-        };
+        //写入贴图名
+        dm.gameData.gfx_name = match[1];
         //读取贴图包设置备份 无则创建
         let tileConfig;
         if ((await utils_1.UtilFT.pathExists(path.join(gfxPath, 'tile_config_backup.json'))))
@@ -164,11 +168,54 @@ class DataManager {
                 ];
                 if (defineList.includes(audioFolderName)) {
                     se.id = audioFolderName;
-                    se.variant = (await dm.getCharData(charName)).baseData.baseWeaponID;
+                    se.variant = (await dm.getCharData(charName)).defineData.baseWeaponID;
                 }
                 await utils_1.UtilFT.writeJSONFile(path.join(charOutAudioFolder, audioFolderName), [se]);
             }
         }
+    }
+    /**载入所有json */
+    async processJson() {
+        const bs = this.buildSetting;
+        const dm = this;
+        const cddajson = await CddaJson.create(bs.game_path);
+        dm.gameData.game_json = cddajson;
+        //创建掉落物品组
+        const allDropGroups = [];
+        cddajson.jsonList().filter(item => item.type == "MONSTER")
+            .forEach(item => {
+            const monster = item;
+            const dropGroup = monster.death_drops;
+            if (typeof dropGroup == "string") {
+                //计算威胁度
+                const diff = monster.diff || 0;
+                if (diff <= 0)
+                    return;
+                const item = StaticData_1.SOUL_DUST_ID;
+                //最小威胁单位
+                const MinDiff = 9;
+                const fullCount = Math.floor(diff / MinDiff);
+                const extProb = Math.floor(diff % MinDiff * 10);
+                const dropArr = new Array(fullCount).fill([item, 90]);
+                dropArr.push([item, extProb]);
+                //获取子类型
+                const sourceIG = cddajson.getJson("item_group", dropGroup);
+                if (sourceIG == null)
+                    return;
+                //添加掉落组
+                allDropGroups.push({
+                    type: "item_group",
+                    id: dropGroup,
+                    subtype: sourceIG.subtype != null
+                        ? sourceIG.subtype
+                        : "distribution",
+                    "copy-from": dropGroup,
+                    extend: { items: dropArr }
+                });
+            }
+        });
+        //写入掉落物品组
+        dm.dataTable.staticTable['all_drops'] = allDropGroups;
     }
     /**获取角色表 如无则初始化 */
     async getCharData(charName) {
@@ -186,7 +233,7 @@ class DataManager {
             }, {});
             const charConfig = await utils_1.UtilFT.loadJSONFile(path.join(this.getCharPath(charName), 'config'));
             console.log(charConfig);
-            const baseData = {
+            const defineData = {
                 charName: charName,
                 baseMutID: (0, ModDefine_1.genMutationID)(charName),
                 classID: (0, ModDefine_1.genNpcClassID)(charName),
@@ -198,13 +245,16 @@ class DataManager {
                 baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
+                levelVarID: `${charName}_level`,
+                expVarID: `${charName}_exp`,
+                talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
             };
             //角色事件eoc主体
             const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             //角色反转事件eoc主体
             const reverseCharEventEocs = exports.ReverseCharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
-                baseData,
+                defineData,
                 charEventEocs,
                 reverseCharEventEocs,
                 charConfig,
@@ -289,7 +339,9 @@ class DataManager {
                         eoc_type: "ACTIVATION",
                         id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                         effect: [...charEvent.map(event => event.effect)],
-                        condition: { u_has_trait: charData.baseData.baseMutID }
+                        condition: exports.CharEvemtTypeList.includes(etype)
+                            ? { u_has_trait: charData.defineData.baseMutID }
+                            : { npc_has_trait: charData.defineData.baseMutID }
                     };
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc
@@ -325,3 +377,45 @@ class DataManager {
     }
 }
 exports.DataManager = DataManager;
+/**所有json的表 */
+class CddaJson {
+    _table;
+    _jsonList;
+    constructor(table, jsonList) {
+        this._table = table;
+        this._jsonList = jsonList;
+    }
+    static async create(game_path) {
+        //主表
+        const table = {};
+        //加载所有json
+        const plist = [];
+        const jsonFilePathList = Object.values(utils_1.UtilFT.fileSearch(game_path, /\.json$/.source));
+        jsonFilePathList.filter(filePath => !filePath.includes("CNPC"))
+            .forEach(filePath => plist.push(utils_1.UtilFT.loadJSONFile(filePath)));
+        const rawJsonList = await Promise.all(plist);
+        //筛选有效json
+        function processJson(json) {
+            if (typeof json == "object" &&
+                "type" in json &&
+                "id" in json &&
+                typeof json.id == "string")
+                table[`${json.type}_${json.id}`] = json;
+        }
+        rawJsonList.forEach(item => {
+            if (Array.isArray(item))
+                item.forEach(subitem => processJson(subitem));
+            else
+                processJson(item);
+        });
+        const cddajson = new CddaJson(table, Object.values(table));
+        return cddajson;
+    }
+    getJson(type, id) {
+        return this._table[`${type}_${id}`];
+    }
+    jsonList() {
+        return this._jsonList;
+    }
+}
+exports.CddaJson = CddaJson;

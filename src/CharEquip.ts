@@ -4,16 +4,16 @@ import { genEOCID, genEnchantmentID } from "./ModDefine";
 
 
 export async function createCharEquip(dm:DataManager,charName:string){
-    const {baseData,outData,charConfig} = await dm.getCharData(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     /**基础变异 */
     const baseMut:Mutation = {
         type            : "mutation",
-        id              : baseData.baseMutID,
+        id              : defineData.baseMutID,
         name            : `${charName}的基础变异`,
         description     : `${charName}的基础变异`,
         points          : 0,
-        integrated_armor: [baseData.baseArmorID]
+        integrated_armor: [defineData.baseArmorID]
     }
 
     /**构造附魔属性 */
@@ -32,19 +32,19 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
     /**基础附魔 */
     const baseEnch:Enchantment={
-        id:baseData.baseEnchID,
+        id:defineData.baseEnchID,
         type:"enchantment",
         has:"WORN",
         condition:"ALWAYS",
         values:Object.entries(enchStatMap).map(entry=>({
             value   :entry[0] as EnchStat,
-            add     :{math:[`${entry[1].base||0}+(u_cnpcLvl*${entry[1].lvl||0})`]},
+            add     :{math:[`${entry[1].base||0}+(${defineData.levelVarID}*${entry[1].lvl||0})`]},
         }))
     }
     /**基础装备 */
     const baseArmor:Armor={
         type        : "ARMOR",
-        id          : baseData.baseArmorID,
+        id          : defineData.baseArmorID,
         name        : `${charName}的基础装备`,
         description : `${charName}的基础装备`,
         category    : "clothing",
@@ -74,7 +74,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
             passive_effects:[
                 {id:genEnchantmentID('StatusMap')       },
                 {id:genEnchantmentID('StatMod')         },
-                {id:baseData.baseEnchID                 },
+                {id:defineData.baseEnchID                 },
             ]
         }
     }
@@ -83,7 +83,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
     baseWeapon.looks_like = baseWeapon.looks_like||TransparentItem;
     baseWeapon.flags = baseWeapon.flags||[];
     baseWeapon.flags?.push(
-        baseData.baseWeaponFlagID,//角色武器标识
+        defineData.baseWeaponFlagID,//角色武器标识
         "ACTIVATE_ON_PLACE"      ,//自动销毁
         "TRADER_KEEP"            ,//不会出售
         "UNBREAKABLE"            ,//不会损坏
@@ -100,14 +100,14 @@ export async function createCharEquip(dm:DataManager,charName:string){
     /**基础武器物品组 */
     const baseItemGroup:ItemGroup={
         type:"item_group",
-        id:baseData.baseWeaponGroupID,
+        id:defineData.baseWeaponGroupID,
         subtype:"collection",
-        items:[baseData.baseWeaponID],
+        items:[defineData.baseWeaponID],
     }
     /**基础武器的识别flag */
     const baseWeaponFlag:Flag={
         type:"json_flag",
-        id:baseData.baseWeaponFlagID,
+        id:defineData.baseWeaponFlagID,
     }
     /**丢掉其他武器 */
     const dropOtherWeapon:Eoc={
@@ -115,7 +115,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         id:genEOCID("DropOtherWeapon"),
         condition:{and:[
             "u_can_drop_weapon",
-            {not:{u_has_wielded_with_flag: baseData.baseWeaponFlagID}}
+            {not:{u_has_wielded_with_flag: defineData.baseWeaponFlagID}}
         ]},
         effect:[
             "drop_weapon"
@@ -127,9 +127,9 @@ export async function createCharEquip(dm:DataManager,charName:string){
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
         id:genEOCID("GiveWeapon"),
-        condition:{not:{ u_has_item: baseData.baseWeaponID }},
+        condition:{not:{ u_has_item: defineData.baseWeaponID }},
         effect:[
-            {u_spawn_item:baseData.baseWeaponID}
+            {u_spawn_item:defineData.baseWeaponID}
         ]
     }
     dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon,giveWeapon);

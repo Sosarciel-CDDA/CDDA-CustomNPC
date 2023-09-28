@@ -1,5 +1,5 @@
 import { JArray } from "@zwa73/utils";
-import { ControlSpellFlags, genEOCID } from ".";
+import { CON_SPELL_FLAG, genEOCID } from ".";
 import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellID } from "./CddaJsonFormat/Spell";
 import { CharEventType, DataManager } from "./DataManager";
@@ -35,7 +35,7 @@ export type CharSkill = {
 
 
 export async function createCharSkill(dm:DataManager,charName:string){
-    const {baseData,outData,charConfig} = await dm.getCharData(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const skills = (charConfig.skill||[]).sort((a,b)=>(b.weight||0)-(a.weight||0));
     const skillDataList:JArray = [];
 
@@ -119,7 +119,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 name:spell.name+"_索敌",
                 description:`${spell.name}的辅助索敌法术`,
                 effect:"attack",
-                flags:["WONDER","RANDOM_TARGET","NO_EXPLOSION_SFX",...ControlSpellFlags],
+                flags:["WONDER","RANDOM_TARGET","NO_EXPLOSION_SFX",...CON_SPELL_FLAG],
                 min_damage: 1,
                 max_damage: 1,
                 valid_targets:["hostile"],
@@ -145,6 +145,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     u_cast_spell:{
                         id:selTargetSpell?.id||spell.id,
                         once_in:one_in_chance,
+                        //min_level:{global_val:defineData.levelVarID},
                     },
                     targeted: selTargetSpell? true:false,
                     true_eocs:{

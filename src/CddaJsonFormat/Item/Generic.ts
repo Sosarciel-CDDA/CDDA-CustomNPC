@@ -1,13 +1,13 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
-import { EocID } from "../Eoc";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
 import { CddaID, Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
-import { NpcClassID } from "../NpcClass";
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
 import { WeaponTypeID } from "../WeaponCategory";
+import { UseAction } from "./UseAction";
+import { MaterialID } from "../Material";
 
 
 
@@ -28,7 +28,16 @@ export type GenericBase = {
 	/**物品唯一ID */
 	id: string;
 	/**物品显示名 */
-	name: string;
+	name: string|{
+		/**单数名 */
+		str?:string;
+		/**复数名 */
+		str_pl?:string;
+		/**单复数共用名 */
+		str_sp?:string;
+		/**翻译上下文 */
+		ctxt?:string;
+	};
 	/**复制某个物品的数据 */
 	"copy-from"?: string;
 	/**该项目应在哪个容器（如果有）中生成 */
@@ -147,51 +156,7 @@ export type ToHit ={
 	balance: "clumsy"|"uneven"|"neutral"|"good";
 } | number;
 
-export type UseAction = {
-	/**在地图上放置一个NPC */
-	type: "place_npc";
-	/**npc职业ID */
-	npc_class_id: NpcClassID;
-	/**生成时播报的消息 */
-	summon_msg?: string;
-	/**将 npc 随机放置在玩家周围，如果 false：让玩家决定将其放置在哪里（默认值：false） */
-	place_randomly?: boolean;
-	/**该动作需要多少移动点 */
-	moves?: number;
-	/**随机 NPC 放置的最大半径。 */
-	radius?: number;
-} | {
-	/**执行某个ECO */
-	type: "effect_on_conditions";
-	/**说明 */
-	description: string;
-	/**eoc列表 */
-	effect_on_conditions: EocID[];
-} | {
-	/**产生爆炸 */
-	type: "explosion";
-	explosion: Explosion;
-	/**绘制爆炸半径的大小 */
-	draw_explosion_radius?: number;
-	/**绘制爆炸时使用的颜色。 */
-	draw_explosion_color?: Color;
-	/**是否做闪光弹效果 */
-	do_flashbang?: boolean;
-	/**玩家是否免疫闪光弹效果 */
-	flashbang_player_immune?: boolean;
-	/**产生的地形效果的传播半径 */
-	fields_radius?: number;
-	/**产生的地形效果 */
-	fields_type?: string;
-	/**产生的地形效果的最小强度 */
-	fields_min_intensity?: number;
-	/**产生的地形效果的最大强度 */
-	fields_max_intensity?: number;
-	/**爆炸产生的 EMP 爆炸半径 */
-	emp_blast_radius?: number;
-	/**爆炸产生的扰频器爆炸半径 */
-	scrambler_blast_radius?: number;
-};
+
 
 /**通用物品的flag列表 */
 export const GenericFlagList = [
@@ -210,16 +175,59 @@ export type DefineGenericFlag = typeof GenericFlagList[number];
 export type GenericFlag = DefineGenericFlag|FlagID;
 
 /**物品的材质 字符串时为材质类型 */
-export type ItemMaterial = string|{
+export type ItemMaterial = MaterialID|{
 	/**材质类型 */
-	type:string;
+	type:MaterialID;
 	/**材质占比 */
 	portion?:number;
 }
 
-
+/**任何物品ID */
 export type AnyItemID = GenericID|AmmoID|ArmorID|GunID;
+/**任何物品 */
 export type AnyItem = Generic|Ammo|Gun;
+
+/**预定义的物品类别 列表 */
+export const DefineItemCategoryList =[
+	"guns"					,//
+	"magazines"				,//
+	"ammo"					,//
+	"weapons"				,//
+	"tools"					,//
+	"clothing"				,//
+	"food"					,//
+	"drugs"					,//
+	"manuals"				,//
+	"books"					,//
+	"maps"					,//
+	"mods"					,//
+	"mutagen"				,//
+	"bionics"				,//
+	"currency"				,//
+	"veh_parts"				,//
+	"other"					,//
+	"fuel"					,//
+	"seeds"					,//
+	"ma_manuals"			,//
+	"traps"					,//
+	"chems"					,//
+	"spare_parts"			,//
+	"container"				,//
+	"artifacts"				,//
+	"keys"					,//
+	"corpses"				,//
+	"tool_magazine"			,//
+	"armor"					,//
+	"exosuit"				,//
+	"ITEMS_WORN"			,//
+	"INTEGRATED"			,//
+	"BIONIC_FUEL_SOURCE"	,//
+	"WEAPON_HELD"			,//
+] as const;
+/**预定义的物品类别 */
+export type DefineItemCategory = typeof DefineItemCategoryList[number];
+/**物品类别 */
+export type ItemCategotyID = DefineItemCategory;
 
 
 /**

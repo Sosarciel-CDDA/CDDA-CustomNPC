@@ -14,9 +14,9 @@ exports.formatAnimName = formatAnimName;
  * @param charName 角色名
  */
 async function createAnimTool(dm, charName) {
-    const { baseData, outData } = await dm.getCharData(charName);
-    for (const animType of baseData.vaildAnim) {
-        const animData = baseData.animData[animType];
+    const { defineData, outData } = await dm.getCharData(charName);
+    for (const animType of defineData.vaildAnim) {
+        const animData = defineData.animData[animType];
         const animMut = {
             type: "mutation",
             id: animData.mutID,

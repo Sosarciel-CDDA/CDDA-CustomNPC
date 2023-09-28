@@ -4,7 +4,7 @@ exports.createCharSkill = void 0;
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
 async function createCharSkill(dm, charName) {
-    const { baseData, outData, charConfig } = await dm.getCharData(charName);
+    const { defineData, outData, charConfig } = await dm.getCharData(charName);
     const skills = (charConfig.skill || []).sort((a, b) => (b.weight || 0) - (a.weight || 0));
     const skillDataList = [];
     //全局冷却
@@ -80,7 +80,7 @@ async function createCharSkill(dm, charName) {
                 name: spell.name + "_索敌",
                 description: `${spell.name}的辅助索敌法术`,
                 effect: "attack",
-                flags: ["WONDER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", ..._1.ControlSpellFlags],
+                flags: ["WONDER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", ..._1.CON_SPELL_FLAG],
                 min_damage: 1,
                 max_damage: 1,
                 valid_targets: ["hostile"],
@@ -104,6 +104,7 @@ async function createCharSkill(dm, charName) {
                     u_cast_spell: {
                         id: selTargetSpell?.id || spell.id,
                         once_in: one_in_chance,
+                        //min_level:{global_val:defineData.levelVarID},
                     },
                     targeted: selTargetSpell ? true : false,
                     true_eocs: {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.ControlSpellFlags = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
+exports.BaseSpell = exports.CON_SPELL_FLAG = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
@@ -9,14 +9,14 @@ exports.BATTLE_RANGE = 20;
 /**n格以内酸作进入近战 */
 exports.MELEE_RANGE = 3;
 /**用于必定成功的控制法术的flags */
-exports.ControlSpellFlags = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
+exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"];
 exports.BaseSpell = [
     {
         type: "SPELL",
         id: (0, ModDefine_1.genSpellID)("SummonSpellTarget"),
         name: "召唤法术标靶",
         description: "召唤法术标靶怪物",
-        flags: ["HOSTILE_SUMMON", ...exports.ControlSpellFlags],
+        flags: ["HOSTILE_SUMMON", ...exports.CON_SPELL_FLAG],
         valid_targets: ["ground"],
         min_damage: 1,
         max_damage: 1,
@@ -36,7 +36,7 @@ exports.BaseSpell = [
         effect: "attack",
         shape: "blast",
         valid_targets: ["hostile"],
-        flags: [...exports.ControlSpellFlags, "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NON_MAGICAL"],
+        flags: [...exports.CON_SPELL_FLAG, "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NON_MAGICAL"],
         min_damage: 100,
         max_damage: 100,
         damage_type: "pure",
@@ -48,7 +48,7 @@ exports.BaseSpell = [
         id: (0, ModDefine_1.genSpellID)("InitCurrHP"),
         name: "初始化当前生命值",
         description: "初始化当前生命值变量",
-        flags: [...exports.ControlSpellFlags],
+        flags: [...exports.CON_SPELL_FLAG],
         valid_targets: ["hostile"],
         min_aoe: exports.BATTLE_RANGE,
         max_aoe: exports.BATTLE_RANGE,
@@ -61,7 +61,7 @@ exports.BaseSpell = [
         id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Range"),
         name: "检测当前生命值_远程",
         description: "检测战斗范围内的敌人当前生命值是否有变动",
-        flags: [...exports.ControlSpellFlags],
+        flags: [...exports.CON_SPELL_FLAG],
         valid_targets: ["hostile"],
         min_aoe: exports.BATTLE_RANGE,
         max_aoe: exports.BATTLE_RANGE,
@@ -74,7 +74,7 @@ exports.BaseSpell = [
         id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Melee"),
         name: "检测当前生命值_近战",
         description: "检测近战范围内的敌人当前生命值是否有变动",
-        flags: [...exports.ControlSpellFlags],
+        flags: [...exports.CON_SPELL_FLAG],
         valid_targets: ["hostile"],
         min_aoe: exports.MELEE_RANGE,
         max_aoe: exports.MELEE_RANGE,
@@ -105,7 +105,7 @@ exports.BaseSpell = [
         effect: "attack",
         shape: "cone",
         valid_targets: ["hostile"],
-        flags: ["WONDER", "RANDOM_TARGET", ...exports.ControlSpellFlags],
+        flags: ["WONDER", "RANDOM_TARGET", ...exports.CON_SPELL_FLAG],
         min_damage: 1,
         max_damage: 1,
         min_aoe: 90,
@@ -119,7 +119,7 @@ exports.BaseSpell = [
         id: (0, ModDefine_1.genSpellID)("SpawnBaseNpc"),
         name: "生成测试NPC",
         description: "生成测试NPC",
-        flags: [...exports.ControlSpellFlags],
+        flags: [...exports.CON_SPELL_FLAG],
         valid_targets: ["self"],
         effect: "effect_on_condition",
         effect_str: "CNPC_EOC_SpawnBaseNpc",

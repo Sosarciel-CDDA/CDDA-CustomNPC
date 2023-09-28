@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genFlagID = exports.genAmmiTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEffectID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genTalkTopicID = exports.genFlagID = exports.genAmmuTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEffectID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -69,12 +69,17 @@ function genMonsterID(id) {
 }
 exports.genMonsterID = genMonsterID;
 /**生成适用于此mod的 材质类型 ID */
-function genAmmiTypeID(id) {
+function genAmmuTypeID(id) {
     return `${exports.MOD_PREFIX}_AMMUT_${id}`;
 }
-exports.genAmmiTypeID = genAmmiTypeID;
+exports.genAmmuTypeID = genAmmuTypeID;
 /**生成适用于此mod的 FLAG ID */
 function genFlagID(id) {
     return `${exports.MOD_PREFIX}_FLAG_${id}`;
 }
 exports.genFlagID = genFlagID;
+/**生成适用于此mod的 TalkTopic ID */
+function genTalkTopicID(id) {
+    return `${exports.MOD_PREFIX}_TALKTC_${id}`;
+}
+exports.genTalkTopicID = genTalkTopicID;

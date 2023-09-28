@@ -8,6 +8,7 @@ function print_global_val(varName){
 
 function CNPC_EOC_UpdateStat(){
 	eoc_type("ACTIVATION")
+	//print_global_val(Asuna_level);
 	//recurrence("1 s");
 	//print_global_val(mag3);
 	//print_global_val(mag1);
@@ -30,6 +31,28 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
+//消耗灵魂之尘
+function CNPC_EOC_UseSoulDust(){
+	eoc_type("ACTIVATION");
+	useSoulDustCount = num_input('使用数量', 1);
+	if(eobj({
+		"u_has_items": {
+			"item": "CNPC_GENERIC_SoulDust",
+			"count": {"math":["useSoulDustCount"]}
+		}
+	})){
+		//触发角色使用灵魂之尘事件
+		CNPC_EOC_CharUseSoulDust();
+
+		//消耗灵魂之尘
+		eobj({
+			"u_consume_item":"CNPC_GENERIC_SoulDust",
+			"count": {"math":["useSoulDustCount"]},
+		})
+	}else eobj( { "u_message": "物品数量不足" });
+}
+
+
 //受伤事件
 function CNPC_EOC_TakesDamage(){
 	eoc_type("EVENT");
@@ -41,6 +64,13 @@ function CNPC_EOC_TakesDamage(){
 			CNPC_EOC_CharDeath();
 	}
 }
+
+//杀怪事件
+function CNPC_EOC_KillMonster(){
+	eoc_type("EVENT");
+	required_event("character_kills_monster")
+}
+
 //NPC死亡事件
 function CNPC_EOC_NPC_DEATH(){
 	eoc_type("NPC_DEATH");
@@ -146,9 +176,19 @@ function CNPC_EOC_SpawnBaseNpc(){
 	})
 }
 
+//玩家移动
+function CNPC_EOC_PlayerMoveEvent(){
+	eoc_type("OM_MOVE")
+
+	//记录坐标
+	eobj({"u_location_variable":{"global_val":"avatar_loc"}});
+}
+
 //主循环函数 玩家
 function CNPC_EOC_PlayerUpdateEvent(){
 	recurrence(1);
+	//刷新属性
+	CNPC_EOC_UpdateStat();
 
 	//记录坐标
 	eobj({"u_location_variable":{"global_val":"avatar_loc"}});

@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node test",
-	  "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks"
+    "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks"
   },
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {
-    "@zwa73/utils": "^1.0.41",
+    "@zwa73/utils": "^1.0.42",
     "typescript": "^5.2.2",
     "typescript-json-schema": "^0.61.0"
   }

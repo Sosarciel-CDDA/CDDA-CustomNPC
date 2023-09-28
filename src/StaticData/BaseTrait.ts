@@ -2,10 +2,12 @@ import { Mutation, OverlayOrdering } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
 import { genMutationID } from "@src/ModDefine";
 
+/**标记此npc是cnpc的npc */
+export const CNPC_FLAG = genMutationID("CnpcFlag");
 
-export const CnpcFlag:Mutation={
+export const CnpcFlagMut:Mutation={
     type:"mutation",
-    id:genMutationID("CnpcFlag"),
+    id:CNPC_FLAG,
     name:"自定义NPC标识符",
     description:"表示此角色是自定义NPC的NPC,会启用EOC",
     purifiable:false,
@@ -31,5 +33,5 @@ export const BaseBodyOrdering:OverlayOrdering={
     ]
 }
 
-export const BaseTrait=[CnpcFlag,CnpcBaseBody,BaseBodyOrdering];
+export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering];
 saveStaticData('BaseTrait',BaseTrait);

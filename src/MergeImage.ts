@@ -28,7 +28,7 @@ type ImageInfo = Partial<Record<AnimType,{
 
 /**合并并创建序列帧 */
 export async function mergeImage(dm:DataManager,charName:string){
-    const {baseData,outData} = await dm.getCharData(charName);
+    const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = dm.getCharImagePath(charName);
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
     //检查是否有Idle动作
@@ -55,8 +55,8 @@ export async function mergeImage(dm:DataManager,charName:string){
         const animType = mtnName as AnimType;
         const mtnInfo = info[animType];
         //添加有效动画
-        baseData.vaildAnim.push(animType);
-        const animData = baseData.animData[animType];
+        defineData.vaildAnim.push(animType);
+        const animData = defineData.animData[animType];
 
         if(mtnInfo==undefined) continue;
 

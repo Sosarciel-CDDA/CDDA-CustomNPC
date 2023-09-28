@@ -1,11 +1,44 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefineTopicList = exports.RespTraitTypeList = void 0;
+exports.TraitModList = exports.DefineTopicList = exports.RespTraitTypeList = void 0;
 /**可用的社交技能 列表 */
-exports.RespTraitTypeList = ["NONE", "LIE", "PERSUADE", "INTIMIDATE", "CONDITION"];
+exports.RespTraitTypeList = [
+    "NONE",
+    "LIE",
+    "PERSUADE",
+    "INTIMIDATE",
+    "CONDITION",
+    "SKILL_CHECK", //技能
+];
 /**预定义的对话 列表 */
 exports.DefineTopicList = [
-    "TALK_DONE", //结束对话
+    "TALK_DONE",
+    "TALK_NONE",
+    "TALK_FRIEND",
+    "TALK_RADIO",
+    "TALK_LEADER",
+    "TALK_STOLE_ITEM",
+    "TALK_WAKE_UP",
+    "TALK_FRIEND_GUARD",
+    "TALK_MUG",
+    "TALK_STRANGER_AGGRESSIVE",
+    "TALK_STRANGER_SCARED",
+    "TALK_STRANGER_WARY",
+    "TALK_STRANGER_FRIENDLY",
+    "TALK_STRANGER_NEUTRAL", // 参见“成功与失败”部分	NPC含有字段 talk_stranger_neutral 时显示
+];
+/**技能鉴定时可用的调整类型 列表 */
+exports.TraitModList = [
+    "ANGER",
+    "FEAR",
+    "TRUST",
+    "VALUE",
+    "AGGRESSION",
+    "ALTRUISM",
+    "BRAVERY",
+    "COLLECTOR",
+    "POS_FEAR",
+    "TOTAL", //所有调整值乘此倍率
 ];
 /**
 assign_guard	让NPC变成守卫。如果结盟并且在一个营地，他们将被分配到该营地。
