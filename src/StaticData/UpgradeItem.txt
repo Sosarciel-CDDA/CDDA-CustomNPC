@@ -1,0 +1,90 @@
+import { AmmunitionType, Eoc, Generic, Spell } from "CddaJsonFormat";
+import { genAmmuTypeID, genEOCID, genGenericID, genSpellID } from "@src/ModDefine";
+import { saveStaticData } from "./StaticData";
+import { BATTLE_RANGE, CON_SPELL_FLAG } from "./BaseSpell";
+
+
+/**经验物品ID */
+export const SOUL_DUST_ID = genGenericID("SoulDust");
+
+/**使用灵魂之尘的eocid */
+const UseSoulDustEocID = genEOCID("UseSoulDust");
+/**使用灵魂之尘的法术id */
+const UseSoulDustSpellID = genSpellID("UseSoulDust");
+
+/**升级法术 */
+const UseSoulDust:Spell={
+    type:"SPELL",
+    name:"使用灵魂之尘",
+    description:"使用灵魂之尘触发的法术",
+    effect:"effect_on_condition",
+    effect_str:UseSoulDustEocID,
+    valid_targets:["ally"],
+    min_range:BATTLE_RANGE,
+    shape:"blast",
+    id:UseSoulDustSpellID,
+    flags:[...CON_SPELL_FLAG],
+}
+
+/**经验物品 */
+const SoulDust:Generic={
+    type:"GENERIC",
+    id:SOUL_DUST_ID,
+    name:{str_sp:"灵魂之尘"},
+    description:"用于给角色提升经验",
+    volume:0,
+    weight:0,
+    symbol:"O",
+    flags:["ZERO_WEIGHT","UNBREAKABLE"],
+    looks_like: "crystallized_mana"
+}
+
+/**升级道具 */
+export const UpgradeItem = [SoulDust,UseSoulDust];
+saveStaticData("UpgradeItem",UpgradeItem);
+
+
+
+
+
+
+
+
+//创建掉落物品组
+        const allDropGroups:ItemGroup[] = [];
+        cddajson.jsonList().filter(item=>item.type=="MONSTER")
+            .forEach(item=>{
+                const monster = item as Monster;
+                const dropGroup = monster.death_drops;
+                if(typeof dropGroup =="string"){
+                    //计算威胁度
+                    const diff = monster.diff||0;
+                    if(diff<=0) return;
+
+                    const item = SOUL_DUST_ID;
+
+                    //最小威胁单位
+                    const MinDiff = 9;
+                    const fullCount = Math.floor(diff/MinDiff);
+                    const extProb =  Math.floor(diff%MinDiff*10);
+
+                    const dropArr:ItemGroupEntrieQuick[]=new Array(fullCount).fill([item,90]);
+                    dropArr.push([item,extProb]);
+                    //获取子类型
+                    const sourceIG = cddajson.getJson("item_group",dropGroup) as ItemGroup;
+                    if(sourceIG==null) return;
+                    //添加掉落组
+                    allDropGroups.push({
+                        type:"item_group",
+                        id:dropGroup,
+                        subtype:sourceIG.subtype!=null
+                            ? sourceIG.subtype
+                            : "distribution",
+                        "copy-from":dropGroup,
+                        extend:{items:dropArr}
+                    })
+                }
+            })
+
+        //写入掉落物品组
+        dm.dataTable.staticTable['all_drops'] = allDropGroups;

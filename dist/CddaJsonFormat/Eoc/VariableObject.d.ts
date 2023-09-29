@@ -55,6 +55,7 @@ export type BoolOperateList = [
     },
     HasWieldFlag,
     HasItem,
+    HasItems,
     HasTrait,
     HasEffect,
     OneInChance,
@@ -84,6 +85,16 @@ export type HasItem = TalkerVar<{
     /**携带/穿戴/持握/背包里有某个物品 */
     has_item: AnyItemID | StrObj;
 }, "has_item">;
+/**包里有N个某物品 */
+export type HasItems = TalkerVar<{
+    /**包里有N个某物品 */
+    has_items: {
+        /**目标物品 */
+        item: AnyItemID | StrObj;
+        /**要求数量 */
+        count: NumObj;
+    };
+}, "has_items">;
 /**有某个变异 */
 export type HasTrait = TalkerVar<{
     /**有某个变异 */

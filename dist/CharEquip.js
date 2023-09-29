@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const ModDefine_1 = require("./ModDefine");
+const CharTalkTopic_1 = require("./CharTalkTopic");
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
@@ -16,16 +17,8 @@ async function createCharEquip(dm, charName) {
     };
     /**构造附魔属性 */
     const enchStatMap = {};
-    for (const str in charConfig.ench_status) {
-        const stat = str;
-        enchStatMap[stat] = enchStatMap[stat] || {};
-        enchStatMap[stat].base = charConfig.ench_status[stat];
-    }
-    for (const str in charConfig.lvl_ench_status) {
-        const stat = str;
-        enchStatMap[stat] = enchStatMap[stat] || {};
-        enchStatMap[stat].lvl = charConfig.lvl_ench_status[stat];
-    }
+    for (const str in charConfig.ench_status)
+        enchStatMap[str] = charConfig.ench_status[str];
     /**基础附魔 */
     const baseEnch = {
         id: defineData.baseEnchID,
@@ -34,9 +27,37 @@ async function createCharEquip(dm, charName) {
         condition: "ALWAYS",
         values: Object.entries(enchStatMap).map(entry => ({
             value: entry[0],
-            add: { math: [`${entry[1].base || 0}+(${defineData.levelVarID}*${entry[1].lvl || 0})`] },
+            add: { math: [`${entry[1]}`] },
         }))
     };
+    //字段附魔
+    const enchList = [baseEnch];
+    for (const upgObj of charConfig.upgrade || []) {
+        const fieldID = (0, CharTalkTopic_1.getFieldVarID)(charName, upgObj.field);
+        const enchStatMap = {};
+        for (const str in upgObj.ench_status) {
+            const stat = str;
+            enchStatMap[stat] = enchStatMap[stat] || {};
+            enchStatMap[stat].base = upgObj.ench_status[stat];
+        }
+        for (const str in upgObj.lvl_ench_status) {
+            const stat = str;
+            enchStatMap[stat] = enchStatMap[stat] || {};
+            enchStatMap[stat].lvl = upgObj.lvl_ench_status[stat];
+        }
+        /**字段附魔 */
+        const baseEnch = {
+            id: (0, ModDefine_1.genEnchantmentID)(fieldID),
+            type: "enchantment",
+            has: "WORN",
+            condition: "ALWAYS",
+            values: Object.entries(enchStatMap).map(entry => ({
+                value: entry[0],
+                add: { math: [`(max(1,${fieldID})*${entry[1].base || 0})+(${fieldID}*${entry[1].lvl || 0})`] },
+            }))
+        };
+        enchList.push(baseEnch);
+    }
     /**基础装备 */
     const baseArmor = {
         type: "ARMOR",
@@ -70,7 +91,7 @@ async function createCharEquip(dm, charName) {
             passive_effects: [
                 { id: (0, ModDefine_1.genEnchantmentID)('StatusMap') },
                 { id: (0, ModDefine_1.genEnchantmentID)('StatMod') },
-                { id: defineData.baseEnchID },
+                ...enchList.map(ench => ({ id: ench.id }))
             ]
         }
     };
@@ -125,6 +146,6 @@ async function createCharEquip(dm, charName) {
     };
     dm.addCharEvent(charName, "CharUpdate", 0, dropOtherWeapon, giveWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseEnch, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag];
+    outData['equip'] = [baseMut, baseArmor, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag, ...enchList];
 }
 exports.createCharEquip = createCharEquip;

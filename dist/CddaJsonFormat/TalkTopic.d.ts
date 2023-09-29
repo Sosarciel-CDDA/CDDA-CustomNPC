@@ -50,7 +50,7 @@ type RespBase = {
      * 这会删除输出文本周围的引号，表示显示文本的描述性性质，
      * 使用 \" 转义双引号来指示实际对话的开始。
      */
-    text: string;
+    text?: string;
     /**对某个条件进行判断 并给出不同的文本
      * 代替 text 字段
      */
@@ -74,7 +74,7 @@ type RespBase = {
     default?: boolean;
     /**显示此回复的条件 */
     condition?: BoolObj;
-    /**回复的条件不满足时任然显示选项 但采用此字段而非text
+    /**回复的条件不满足时仍然显示选项 但采用此字段而非text
      * 玩家的文本回复/选项显示文本
      */
     failure_explanation?: string;

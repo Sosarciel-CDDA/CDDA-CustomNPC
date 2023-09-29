@@ -21,8 +21,7 @@ exports.CharEvemtTypeList = [
 exports.ReverseCharEvemtTypeList = [
     "CharCauseDamage",
     "CharCauseMeleeDamage",
-    "CharCauseRangeDamage",
-    "CharUseSoulDust", //u为玩家
+    "CharCauseRangeDamage", //u为受害者
 ];
 /**全局事件列表 */
 exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList, ...exports.ReverseCharEvemtTypeList];
@@ -74,7 +73,7 @@ class DataManager {
         dm.outPath = dm.outPath || path.join(bs.game_path, 'data', 'mods', 'CustomNPC');
         await dm.processGfxpack();
         await dm.processSoundpack();
-        await dm.processJson();
+        //await dm.processJson();
         return dm;
     }
     /**初始化 处理贴图包 */
@@ -180,42 +179,6 @@ class DataManager {
         const dm = this;
         const cddajson = await CddaJson.create(bs.game_path);
         dm.gameData.game_json = cddajson;
-        //创建掉落物品组
-        const allDropGroups = [];
-        cddajson.jsonList().filter(item => item.type == "MONSTER")
-            .forEach(item => {
-            const monster = item;
-            const dropGroup = monster.death_drops;
-            if (typeof dropGroup == "string") {
-                //计算威胁度
-                const diff = monster.diff || 0;
-                if (diff <= 0)
-                    return;
-                const item = StaticData_1.SOUL_DUST_ID;
-                //最小威胁单位
-                const MinDiff = 9;
-                const fullCount = Math.floor(diff / MinDiff);
-                const extProb = Math.floor(diff % MinDiff * 10);
-                const dropArr = new Array(fullCount).fill([item, 90]);
-                dropArr.push([item, extProb]);
-                //获取子类型
-                const sourceIG = cddajson.getJson("item_group", dropGroup);
-                if (sourceIG == null)
-                    return;
-                //添加掉落组
-                allDropGroups.push({
-                    type: "item_group",
-                    id: dropGroup,
-                    subtype: sourceIG.subtype != null
-                        ? sourceIG.subtype
-                        : "distribution",
-                    "copy-from": dropGroup,
-                    extend: { items: dropArr }
-                });
-            }
-        });
-        //写入掉落物品组
-        dm.dataTable.staticTable['all_drops'] = allDropGroups;
     }
     /**获取角色表 如无则初始化 */
     async getCharData(charName) {
@@ -245,7 +208,6 @@ class DataManager {
                 baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
-                levelVarID: `${charName}_level`,
                 expVarID: `${charName}_exp`,
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
             };

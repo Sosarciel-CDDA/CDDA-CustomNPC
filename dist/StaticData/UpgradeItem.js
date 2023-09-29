@@ -33,6 +33,7 @@ const SoulDust = {
     weight: 0,
     symbol: "O",
     flags: ["ZERO_WEIGHT", "UNBREAKABLE"],
+    looks_like: "crystallized_mana"
 };
 /**升级道具 */
 exports.UpgradeItem = [SoulDust, UseSoulDust];

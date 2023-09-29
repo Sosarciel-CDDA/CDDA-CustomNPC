@@ -1,10 +1,10 @@
 import * as path from 'path';
 import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
-import { SOUL_DUST_ID, StaticDataMap } from './StaticData';
+import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genAmmuTypeID, genAmmoID, genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genGunID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID, EocID, EocEffect, AnyCddaJsonList, Monster, ItemGroup, ItemGroupEntrieQuick, AnyCddaJson } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID,AmmunitionTypeID,AmmoID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, BoolObj, Spell, SoundEffect, SoundEffectVariantID, SoundEffectID, EocID, EocEffect, AnyCddaJsonList, Monster, ItemGroup, ItemGroupEntrieQuick, AnyCddaJson, AnyItemID } from 'CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 import { SkillID } from './CddaJsonFormat/Skill';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
@@ -29,7 +29,6 @@ export const ReverseCharEvemtTypeList = [
     "CharCauseDamage"       ,//u为受害者
     "CharCauseMeleeDamage"  ,//u为受害者
     "CharCauseRangeDamage"  ,//u为受害者
-    "CharUseSoulDust"       ,//u为玩家
 ] as const;
 /**反转Talker的角色事件类型
  * 对应同名CauseDamage
@@ -61,12 +60,34 @@ export type CharConfig = {
     base_skill?:Partial<Record<SkillID|"ALL",number>>;
     /**附魔属性 */
     ench_status?:Partial<Record<EnchStat,number>>;
-    /**每级提升的附魔属性 */
-    lvl_ench_status?:Partial<Record<EnchStat,number>>;
     /**固定的武器 */
     weapon:Gun|Generic;
     /**技能 */
     skill?:CharSkill[];
+    /**强化项 */
+    upgrade?:CharUpgrade[];
+}
+
+/**角色强化项 */
+export type CharUpgrade = {
+    /**强化项ID
+     * 作为全局变量`${charName}_${fieled}`
+     */
+    field:string;
+    /**最大强化等级
+     * 若 require_resource 设置的长度不足以达到最大等级
+     * 则以最后一组材料填充剩余部分
+     */
+    max_lvl?:number;
+    /**所需要消耗的资源
+     * [[[一级的物品ID,数量],[一级的另一个物品ID,数量]]
+     * [[二级的物品ID,数量],[二级的另一个物品ID,数量]]]
+     */
+    require_resource:([AnyItemID,number]|AnyItemID)[][];
+    /**每个强化等级提升的附魔属性 */
+    lvl_ench_status?:Partial<Record<EnchStat,number>>;
+    /**只要拥有此字段就会添加的附魔属性 */
+    ench_status?:Partial<Record<EnchStat,number>>;
 }
 
 
@@ -94,8 +115,6 @@ export type CharDefineData=Readonly<{
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
     baseWeaponFlagID: FlagID;
-    /**等级变量ID */
-    levelVarID      :string;
     /**经验变量ID */
     expVarID      :string;
     /**主对话ID */
@@ -199,7 +218,7 @@ export class DataManager{
 
         await dm.processGfxpack();
         await dm.processSoundpack();
-        await dm.processJson();
+        //await dm.processJson();
         return dm;
     }
 
@@ -309,45 +328,6 @@ export class DataManager{
 
         const cddajson = await CddaJson.create(bs.game_path);
         dm.gameData.game_json = cddajson;
-
-        //创建掉落物品组
-        const allDropGroups:ItemGroup[] = [];
-        cddajson.jsonList().filter(item=>item.type=="MONSTER")
-            .forEach(item=>{
-                const monster = item as Monster;
-                const dropGroup = monster.death_drops;
-                if(typeof dropGroup =="string"){
-                    //计算威胁度
-                    const diff = monster.diff||0;
-                    if(diff<=0) return;
-
-                    const item = SOUL_DUST_ID;
-
-                    //最小威胁单位
-                    const MinDiff = 9;
-                    const fullCount = Math.floor(diff/MinDiff);
-                    const extProb =  Math.floor(diff%MinDiff*10);
-
-                    const dropArr:ItemGroupEntrieQuick[]=new Array(fullCount).fill([item,90]);
-                    dropArr.push([item,extProb]);
-                    //获取子类型
-                    const sourceIG = cddajson.getJson("item_group",dropGroup) as ItemGroup;
-                    if(sourceIG==null) return;
-                    //添加掉落组
-                    allDropGroups.push({
-                        type:"item_group",
-                        id:dropGroup,
-                        subtype:sourceIG.subtype!=null
-                            ? sourceIG.subtype
-                            : "distribution",
-                        "copy-from":dropGroup,
-                        extend:{items:dropArr}
-                    })
-                }
-            })
-
-        //写入掉落物品组
-        dm.dataTable.staticTable['all_drops'] = allDropGroups;
     }
 
     /**获取角色表 如无则初始化 */
@@ -379,7 +359,6 @@ export class DataManager{
                 baseWeaponID        : charConfig.weapon.id,
                 baseWeaponGroupID   : genItemGroupID(`${charName}_WeaponGroup`),
                 baseWeaponFlagID    : genFlagID(`${charName}_WeaponFlag`),
-                levelVarID          : `${charName}_level`,
                 expVarID          : `${charName}_exp`,
                 talkTopicID         : genTalkTopicID(charName),
             }

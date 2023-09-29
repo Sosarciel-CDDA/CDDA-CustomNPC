@@ -49,6 +49,7 @@ export type BoolOperateList = [
     {math:[string,"=="|"!="|">="|"<="|">"|"<",string]}  ,//
     HasWieldFlag                                        ,//手中的物品有某个flag
     HasItem                                             ,//携带/穿戴/持握/背包里有某个物品
+    HasItems                                            ,//携带/穿戴/持握/背包里有N个某物品
     HasTrait                                            ,//有某个变异
     HasEffect                                           ,//有某个效果
     OneInChance                                         ,//1/n的概率返回true
@@ -79,7 +80,18 @@ export type HasEffect = TalkerVar<{
 export type HasItem  = TalkerVar<{
     /**携带/穿戴/持握/背包里有某个物品 */
     has_item:AnyItemID|StrObj;
-},"has_item">;;
+},"has_item">;
+
+/**包里有N个某物品 */
+export type HasItems = TalkerVar<{
+    /**包里有N个某物品 */
+    has_items:{
+        /**目标物品 */
+        item:AnyItemID|StrObj;
+        /**要求数量 */
+        count:NumObj;
+    };
+},"has_items">;
 
 /**有某个变异 */
 export type HasTrait = TalkerVar<{
@@ -98,6 +110,10 @@ export type OneInChance = {
     /**1/n的概率返回true */
     one_in_chance: NumObj
 }
+
+
+
+
 
 export type BoolOperaNot     = {not:BoolObj};
 export type BoolOperaOr      = {or:BoolObj[]};

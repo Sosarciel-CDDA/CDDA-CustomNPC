@@ -26,5 +26,7 @@ export type CharSkill = {
         /**音量 1-128 默认100 */
         volume?: number;
     })[];
+    /**要求强化字段 [字段,强化等级] */
+    require_field?: [string, number];
 };
 export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;

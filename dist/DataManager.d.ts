@@ -1,6 +1,6 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, EocEffect, AnyCddaJson } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, EocEffect, AnyCddaJson, AnyItemID } from './CddaJsonFormat';
 import { CharSkill } from './CharSkill';
 import { SkillID } from './CddaJsonFormat/Skill';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
@@ -12,13 +12,13 @@ export type CharEventType = typeof CharEvemtTypeList[number];
  * 对应同名CauseDamage
  * npc为角色
  */
-export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage", "CharUseSoulDust"];
+export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
 /**反转Talker的角色事件类型
  * 对应同名CauseDamage
  */
 export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage", "CharUseSoulDust"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**事件效果 */
@@ -38,12 +38,33 @@ export type CharConfig = {
     base_skill?: Partial<Record<SkillID | "ALL", number>>;
     /**附魔属性 */
     ench_status?: Partial<Record<EnchStat, number>>;
-    /**每级提升的附魔属性 */
-    lvl_ench_status?: Partial<Record<EnchStat, number>>;
     /**固定的武器 */
     weapon: Gun | Generic;
     /**技能 */
     skill?: CharSkill[];
+    /**强化项 */
+    upgrade?: CharUpgrade[];
+};
+/**角色强化项 */
+export type CharUpgrade = {
+    /**强化项ID
+     * 作为全局变量`${charName}_Upg_${fieled}`
+     */
+    field: string;
+    /**最大强化等级
+     * 若 require_resource 设置的长度不足以达到最大等级
+     * 则以最后一组材料填充剩余部分
+     */
+    max_lvl?: number;
+    /**所需要消耗的资源
+     * [[[一级的物品ID,数量],[一级的另一个物品ID,数量]]
+     * [[二级的物品ID,数量],[二级的另一个物品ID,数量]]]
+     */
+    require_resource: ([AnyItemID, number] | AnyItemID)[][];
+    /**每个强化等级提升的附魔属性 */
+    lvl_ench_status?: Partial<Record<EnchStat, number>>;
+    /**只要拥有此字段就会添加的附魔属性 */
+    ench_status?: Partial<Record<EnchStat, number>>;
 };
 /**角色基础数据 */
 export type CharDefineData = Readonly<{
@@ -69,8 +90,6 @@ export type CharDefineData = Readonly<{
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
     baseWeaponFlagID: FlagID;
-    /**等级变量ID */
-    levelVarID: string;
     /**经验变量ID */
     expVarID: string;
     /**主对话ID */
@@ -184,8 +203,6 @@ export declare class DataManager {
             baseWeaponGroupID: ItemGroupID;
             /**基础武器Flag ID */
             baseWeaponFlagID: FlagID;
-            /**等级变量ID */
-            levelVarID: string;
             /**经验变量ID */
             expVarID: string;
             /**主对话ID */
@@ -200,7 +217,7 @@ export declare class DataManager {
         /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
          * id为 `${charName}_${etype}`
          */
-        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage" | "CharUseSoulDust", EventEffect[]>;
+        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage", EventEffect[]>;
         /**角色设定 */
         charConfig: CharConfig;
     }>;

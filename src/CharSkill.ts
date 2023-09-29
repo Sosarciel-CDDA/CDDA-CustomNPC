@@ -18,7 +18,9 @@ export type CharSkill = {
     one_in_chance?  :number,
     /**冷却时间 单位为每次CharUpdate 默认0 */
     cooldown?       :number,
-    /**共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1 */
+    /**共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1
+     * 一个高权重0共同冷却的技能意味着可以同时触发
+     */
     common_cooldown?:number,
     /**法术效果 */
     spell           :Spell,
@@ -31,6 +33,8 @@ export type CharSkill = {
         /**音量 1-128 默认100 */
         volume?:number,
     })[],
+    /**要求强化字段 [字段,强化等级] */
+    require_field?:[string,number];
 };
 
 
@@ -70,7 +74,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
     //遍历技能
     for(const skill of skills){
-        const {condition,hook,spell,one_in_chance,cooldown,audio,common_cooldown} = skill;
+        const {condition,hook,spell,one_in_chance,cooldown,audio,common_cooldown,require_field} = skill;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
@@ -79,6 +83,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
             baseCond.push(condition);
         if(cooldown)
             baseCond.push({math:[cdValName,"<=","0"]});
+        if(require_field)
+            baseCond.push({math:[require_field[0],">=",require_field[1]+""]});
 
         //计算成功效果
         const TEffect:EocEffect[]=[];

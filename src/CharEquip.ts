@@ -1,6 +1,7 @@
 import { AmmunitionType, Ammo, Armor, BodyPartList, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
 import { DataManager, EnchStat } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
+import { getFieldVarID } from "./CharTalkTopic";
 
 
 export async function createCharEquip(dm:DataManager,charName:string){
@@ -17,19 +18,9 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
 
     /**构造附魔属性 */
-    const enchStatMap:Partial<
-        Record<EnchStat,
-        {base?:number,lvl?:number}>> = {};
-    for(const str in charConfig.ench_status){
-        const stat = str as EnchStat;
-        enchStatMap[stat] = enchStatMap[stat]||{};
-        enchStatMap[stat]!.base=charConfig.ench_status[stat];
-    }
-    for(const str in charConfig.lvl_ench_status){
-        const stat = str as EnchStat;
-        enchStatMap[stat] = enchStatMap[stat]||{};
-        enchStatMap[stat]!.lvl=charConfig.lvl_ench_status[stat];
-    }
+    const enchStatMap:Partial<Record<EnchStat,number>> = {};
+    for(const str in charConfig.ench_status)
+        enchStatMap[str as EnchStat]=charConfig.ench_status[str as EnchStat];
     /**基础附魔 */
     const baseEnch:Enchantment={
         id:defineData.baseEnchID,
@@ -38,8 +29,38 @@ export async function createCharEquip(dm:DataManager,charName:string){
         condition:"ALWAYS",
         values:Object.entries(enchStatMap).map(entry=>({
             value   :entry[0] as EnchStat,
-            add     :{math:[`${entry[1].base||0}+(${defineData.levelVarID}*${entry[1].lvl||0})`]},
+            add     :{math:[`${entry[1]}`]},
         }))
+    }
+    //字段附魔
+    const enchList:Enchantment[] = [baseEnch];
+    for(const upgObj of charConfig.upgrade||[]){
+        const fieldID = getFieldVarID(charName,upgObj.field);
+        const enchStatMap:Partial<
+            Record<EnchStat,
+            {base?:number,lvl?:number}>> = {};
+        for(const str in upgObj.ench_status){
+            const stat = str as EnchStat;
+            enchStatMap[stat] = enchStatMap[stat]||{};
+            enchStatMap[stat]!.base=upgObj.ench_status[stat];
+        }
+        for(const str in upgObj.lvl_ench_status){
+            const stat = str as EnchStat;
+            enchStatMap[stat] = enchStatMap[stat]||{};
+            enchStatMap[stat]!.lvl=upgObj.lvl_ench_status[stat];
+        }
+        /**字段附魔 */
+        const baseEnch:Enchantment={
+            id:genEnchantmentID(fieldID),
+            type:"enchantment",
+            has:"WORN",
+            condition:"ALWAYS",
+            values:Object.entries(enchStatMap).map(entry=>({
+                value   :entry[0] as EnchStat,
+                add     :{math:[`(max(1,${fieldID})*${entry[1].base||0})+(${fieldID}*${entry[1].lvl||0})`]},
+            }))
+        }
+        enchList.push(baseEnch);
     }
     /**基础装备 */
     const baseArmor:Armor={
@@ -74,7 +95,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
             passive_effects:[
                 {id:genEnchantmentID('StatusMap')       },
                 {id:genEnchantmentID('StatMod')         },
-                {id:defineData.baseEnchID                 },
+                ...enchList.map(ench=>({id:ench.id}))
             ]
         }
     }
@@ -134,5 +155,5 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
     dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon,giveWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,baseEnch,baseWeapon,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag];
+    outData['equip'] = [baseMut,baseArmor,baseWeapon,baseItemGroup,dropOtherWeapon,giveWeapon,baseWeaponFlag,...enchList];
 }

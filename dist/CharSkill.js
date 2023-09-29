@@ -35,7 +35,7 @@ async function createCharSkill(dm, charName) {
     skillDataList.push(MREoc);
     //遍历技能
     for (const skill of skills) {
-        const { condition, hook, spell, one_in_chance, cooldown, audio, common_cooldown } = skill;
+        const { condition, hook, spell, one_in_chance, cooldown, audio, common_cooldown, require_field } = skill;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
@@ -44,6 +44,8 @@ async function createCharSkill(dm, charName) {
             baseCond.push(condition);
         if (cooldown)
             baseCond.push({ math: [cdValName, "<=", "0"] });
+        if (require_field)
+            baseCond.push({ math: [require_field[0], ">=", require_field[1] + ""] });
         //计算成功效果
         const TEffect = [];
         if (cooldown)

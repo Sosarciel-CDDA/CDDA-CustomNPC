@@ -1331,18 +1331,18 @@
 			"description": "Ammo ID格式"
 		},
 		"AmmunitionType": {
-			"description": "材质类型",
+			"description": "弹药类型",
 			"properties": {
 				"default": {
 					"$ref": "#/definitions/AnyItemID",
-					"description": "材质的默认物品ID"
+					"description": "弹药的默认物品ID"
 				},
 				"id": {
 					"$ref": "#/definitions/AmmunitionTypeID",
 					"description": "唯一ID"
 				},
 				"name": {
-					"description": "材质名称",
+					"description": "弹药名称",
 					"type": "string"
 				},
 				"type": {
@@ -1380,7 +1380,7 @@
 					"type": "string"
 				}
 			],
-			"description": "材质ID格式"
+			"description": "弹药ID格式"
 		},
 		"AnimData": {
 			"properties": {
@@ -3804,6 +3804,32 @@
 								{
 									"allOf": [
 										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
 											"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 										},
 										{
@@ -4212,7 +4238,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -4445,6 +4471,32 @@
 										]
 									},
 									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
 										"enum": [
 											"drop_weapon",
 											"follow_only",
@@ -4513,6 +4565,73 @@
 					"type": "object"
 				},
 				{
+					"description": "ItemGroup",
+					"properties": {
+						"copy-from": {
+							"anyOf": [
+								{
+									"pattern": "^.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^ITEMGP_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_ITEMGP_.*$",
+									"type": "string"
+								}
+							],
+							"description": "从某个物品组复制"
+						},
+						"entries": {
+							"description": "详细写法",
+							"items": {
+								"$ref": "#/definitions/ItemGroupEntrie"
+							},
+							"type": "array"
+						},
+						"extend": {
+							"$ref": "#/definitions/Pick<ItemGroup,\"entries\"|\"groups\"|\"items\">",
+							"description": "扩展元素"
+						},
+						"groups": {
+							"description": "快速物品列表",
+							"items": {
+								"$ref": "#/definitions/ItemGroupEntrieQuick"
+							},
+							"type": "array"
+						},
+						"id": {
+							"$ref": "#/definitions/ItemGroupID"
+						},
+						"items": {
+							"description": "快速物品列表",
+							"items": {
+								"$ref": "#/definitions/ItemGroupEntrieQuick"
+							},
+							"type": "array"
+						},
+						"subtype": {
+							"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+							"enum": [
+								"collection",
+								"distribution"
+							],
+							"type": "string"
+						},
+						"type": {
+							"const": "item_group",
+							"type": "string"
+						}
+					},
+					"required": [
+						"id",
+						"type"
+					],
+					"type": "object"
+				},
+				{
 					"description": "怪物",
 					"properties": {
 						"aggression": {
@@ -4537,7 +4656,7 @@
 							],
 							"type": "string"
 						},
-						"death_drop": {
+						"death_drops": {
 							"anyOf": [
 								{
 									"pattern": "^.*$",
@@ -4550,6 +4669,10 @@
 								{
 									"pattern": "^.*_ITEMGP_.*$",
 									"type": "string"
+								},
+								{
+									"$ref": "#/definitions/InlineItemGroup",
+									"description": "内联物品组"
 								}
 							],
 							"description": "死亡掉落物品组"
@@ -7923,18 +8046,18 @@
 					"description": "通用物品"
 				},
 				{
-					"description": "材质类型",
+					"description": "弹药类型",
 					"properties": {
 						"default": {
 							"$ref": "#/definitions/AnyItemID",
-							"description": "材质的默认物品ID"
+							"description": "弹药的默认物品ID"
 						},
 						"id": {
 							"$ref": "#/definitions/AmmunitionTypeID",
 							"description": "唯一ID"
 						},
 						"name": {
-							"description": "材质名称",
+							"description": "弹药名称",
 							"type": "string"
 						},
 						"type": {
@@ -8014,123 +8137,6 @@
 						"type"
 					],
 					"type": "object"
-				},
-				{
-					"allOf": [
-						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"entries": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrie"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
-						}
-					]
-				},
-				{
-					"allOf": [
-						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"items": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrieQuick"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
-						}
-					]
-				},
-				{
-					"allOf": [
-						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"groups": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrieQuick"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
-						}
-					]
 				}
 			],
 			"description": "任何Cdda的Json"
@@ -8367,6 +8373,32 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_has_item?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
 						}
 					]
 				},
@@ -8618,6 +8650,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
 								}
 							]
 						},
@@ -8923,40 +8981,16 @@
 			"type": "array"
 		},
 		"AnyString": {
-			"anyOf": [
+			"allOf": [
 				{
-					"allOf": [
-						{
-							"additionalProperties": false,
-							"patternProperties": {
-								"^[0-9]+$": {
-									"type": "string"
-								}
-							},
-							"properties": {
-								"length": {
-									"type": "number"
-								}
-							},
-							"required": [
-								"length"
-							],
-							"type": "object"
-						},
-						{
-							"type": "string"
-						}
-					]
+					"properties": {},
+					"type": "object"
 				},
 				{
-					"enum": [
-						"1111111",
-						"nnnnnn"
-					],
 					"type": "string"
 				}
 			],
-			"description": "自定义的ID"
+			"description": "不影响智能补全的任意字符串\n(string&Object)\n(string&String)"
 		},
 		"Armor": {
 			"allOf": [
@@ -10594,6 +10628,32 @@
 				{
 					"allOf": [
 						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
 							"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 						},
 						{
@@ -10843,6 +10903,32 @@
 									},
 									{
 										"$ref": "#/definitions/{npc_has_item?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items?:undefined;}"
 									}
 								]
 							},
@@ -11186,6 +11272,32 @@
 								{
 									"allOf": [
 										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
 											"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 										},
 										{
@@ -11507,6 +11619,32 @@
 								{
 									"allOf": [
 										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
 											"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 										},
 										{
@@ -11762,6 +11900,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
 								}
 							]
 						},
@@ -12030,6 +12194,32 @@
 							{
 								"allOf": [
 									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
 										"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 									},
 									{
@@ -12243,6 +12433,9 @@
 					"$ref": "#/definitions/HasItem"
 				},
 				{
+					"$ref": "#/definitions/HasItems"
+				},
+				{
 					"$ref": "#/definitions/HasTrait"
 				},
 				{
@@ -12349,8 +12542,8 @@
 					"type": "string"
 				}
 			],
-			"maxItems": 11,
-			"minItems": 11,
+			"maxItems": 12,
+			"minItems": 12,
 			"type": "array"
 		},
 		"BuildSetting": {
@@ -12411,6 +12604,25 @@
 			"description": "自定义的ID",
 			"type": "string"
 		},
+		"CddaJson": {
+			"description": "所有json的表",
+			"properties": {
+				"_jsonList": {
+					"items": {
+						"$ref": "#/definitions/AnyCddaJson"
+					},
+					"type": "array"
+				},
+				"_table": {
+					"$ref": "#/definitions/Record<string,AnyCddaJson>"
+				}
+			},
+			"required": [
+				"_jsonList",
+				"_table"
+			],
+			"type": "object"
+		},
 		"CharConfig": {
 			"description": "动态读取的角色设定",
 			"properties": {
@@ -12425,10 +12637,6 @@
 				"ench_status": {
 					"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
 					"description": "附魔属性"
-				},
-				"lvl_ench_status": {
-					"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
-					"description": "每级提升的附魔属性"
 				},
 				"skill": {
 					"description": "技能",
@@ -12565,6 +12773,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_has_item?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+											},
+											{
+												"$ref": "#/definitions/{u_has_items?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+											},
+											{
+												"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_has_items?:undefined;}"
 											}
 										]
 									},
@@ -12734,6 +12968,20 @@
 							"one_in_chance": {
 								"description": "概率 有1/chance的几率使用这个技能 默认1",
 								"type": "number"
+							},
+							"require_field": {
+								"description": "要求强化字段 [字段,强化等级]",
+								"items": [
+									{
+										"type": "string"
+									},
+									{
+										"type": "number"
+									}
+								],
+								"maxItems": 2,
+								"minItems": 2,
+								"type": "array"
 							},
 							"spell": {
 								"description": "法术效果",
@@ -15978,6 +16226,96 @@
 					},
 					"type": "array"
 				},
+				"upgrade": {
+					"description": "强化项",
+					"items": {
+						"description": "角色强化项",
+						"properties": {
+							"ench_status": {
+								"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
+								"description": "只要拥有此字段就会添加的附魔属性"
+							},
+							"field": {
+								"description": "强化项ID\n作为全局变量`${charName}_Upg_${fieled}`",
+								"type": "string"
+							},
+							"lvl_ench_status": {
+								"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
+								"description": "每个强化等级提升的附魔属性"
+							},
+							"max_lvl": {
+								"description": "最大强化等级\n若 require_resource 设置的长度不足以达到最大等级\n则以最后一组材料填充剩余部分",
+								"type": "number"
+							},
+							"require_resource": {
+								"description": "所需要消耗的资源\n[[[一级的物品ID,数量],[一级的另一个物品ID,数量]]\n[[二级的物品ID,数量],[二级的另一个物品ID,数量]]]",
+								"items": {
+									"items": {
+										"anyOf": [
+											{
+												"pattern": "^.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^ARMOR_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^.*_ARMOR_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^GENERIC_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^.*_GENERIC_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^AMMO_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^.*_AMMO_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^GUN_.*$",
+												"type": "string"
+											},
+											{
+												"pattern": "^.*_GUN_.*$",
+												"type": "string"
+											},
+											{
+												"items": [
+													{
+														"$ref": "#/definitions/AnyItemID"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"maxItems": 2,
+												"minItems": 2,
+												"type": "array"
+											}
+										]
+									},
+									"type": "array"
+								},
+								"type": "array"
+							}
+						},
+						"required": [
+							"field",
+							"require_resource"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"weapon": {
 					"anyOf": [
 						{
@@ -16065,10 +16403,6 @@
 					"$ref": "#/definitions/NpcInstanceID",
 					"description": "实例ID"
 				},
-				"levelVarID": {
-					"description": "等级变量ID",
-					"type": "string"
-				},
 				"talkTopicID": {
 					"$ref": "#/definitions/TalkTopicID",
 					"description": "主对话ID"
@@ -16098,7 +16432,6 @@
 				"classID",
 				"expVarID",
 				"instanceID",
-				"levelVarID",
 				"talkTopicID",
 				"vaildAnim"
 			],
@@ -16255,6 +16588,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
 								}
 							]
 						},
@@ -16424,6 +16783,20 @@
 				"one_in_chance": {
 					"description": "概率 有1/chance的几率使用这个技能 默认1",
 					"type": "number"
+				},
+				"require_field": {
+					"description": "要求强化字段 [字段,强化等级]",
+					"items": [
+						{
+							"type": "string"
+						},
+						{
+							"type": "number"
+						}
+					],
+					"maxItems": 2,
+					"minItems": 2,
+					"type": "array"
 				},
 				"spell": {
 					"description": "法术效果",
@@ -19666,6 +20039,92 @@
 			],
 			"type": "object"
 		},
+		"CharUpgrade": {
+			"description": "角色强化项",
+			"properties": {
+				"ench_status": {
+					"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
+					"description": "只要拥有此字段就会添加的附魔属性"
+				},
+				"field": {
+					"description": "强化项ID\n作为全局变量`${charName}_Upg_${fieled}`",
+					"type": "string"
+				},
+				"lvl_ench_status": {
+					"$ref": "#/definitions/Partial<Record<EnchStat,number>>",
+					"description": "每个强化等级提升的附魔属性"
+				},
+				"max_lvl": {
+					"description": "最大强化等级\n若 require_resource 设置的长度不足以达到最大等级\n则以最后一组材料填充剩余部分",
+					"type": "number"
+				},
+				"require_resource": {
+					"description": "所需要消耗的资源\n[[[一级的物品ID,数量],[一级的另一个物品ID,数量]]\n[[二级的物品ID,数量],[二级的另一个物品ID,数量]]]",
+					"items": {
+						"items": {
+							"anyOf": [
+								{
+									"pattern": "^.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^ARMOR_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_ARMOR_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^GENERIC_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_GENERIC_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^AMMO_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_AMMO_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^GUN_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_GUN_.*$",
+									"type": "string"
+								},
+								{
+									"items": [
+										{
+											"$ref": "#/definitions/AnyItemID"
+										},
+										{
+											"type": "number"
+										}
+									],
+									"maxItems": 2,
+									"minItems": 2,
+									"type": "array"
+								}
+							]
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"field",
+				"require_resource"
+			],
+			"type": "object"
+		},
 		"Color": {
 			"enum": [
 				"blue",
@@ -19759,11 +20218,11 @@
 					"description": "主资源表",
 					"properties": {
 						"charTable": {
-							"$ref": "#/definitions/Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;levelVarID:string;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\",EventEffect[]>;charConfig:CharConfig;}>",
+							"$ref": "#/definitions/Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\",EventEffect[]>;charConfig:CharConfig;}>",
 							"description": "输出的角色数据表"
 						},
 						"eventEocs": {
-							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\"|\"PlayerUpdate\",EventEffect[]>",
+							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 							"description": "输出的Eoc事件"
 						},
 						"staticTable": {
@@ -19781,14 +20240,15 @@
 				"gameData": {
 					"description": "游戏数据",
 					"properties": {
+						"game_json": {
+							"$ref": "#/definitions/CddaJson",
+							"description": "JSON"
+						},
 						"gfx_name": {
 							"description": "贴图包ID",
 							"type": "string"
 						}
 					},
-					"required": [
-						"gfx_name"
-					],
 					"type": "object"
 				},
 				"outPath": {
@@ -19811,11 +20271,11 @@
 			"description": "主资源表",
 			"properties": {
 				"charTable": {
-					"$ref": "#/definitions/Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;levelVarID:string;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\",EventEffect[]>;charConfig:CharConfig;}>",
+					"$ref": "#/definitions/Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\",EventEffect[]>;charConfig:CharConfig;}>",
 					"description": "输出的角色数据表"
 				},
 				"eventEocs": {
-					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\"|\"PlayerUpdate\",EventEffect[]>",
+					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 					"description": "输出的Eoc事件"
 				},
 				"staticTable": {
@@ -20243,6 +20703,66 @@
 									},
 									{
 										"$ref": "#/definitions/{npc_has_item?:undefined;}"
+									},
+									{
+										"properties": {
+											"no": {
+												"$ref": "#/definitions/DynamicLine",
+												"description": "条件为假时的选项"
+											},
+											"yes": {
+												"$ref": "#/definitions/DynamicLine",
+												"description": "条件为真时的选项"
+											}
+										},
+										"required": [
+											"no",
+											"yes"
+										],
+										"type": "object"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items?:undefined;}"
+									},
+									{
+										"properties": {
+											"no": {
+												"$ref": "#/definitions/DynamicLine",
+												"description": "条件为假时的选项"
+											},
+											"yes": {
+												"$ref": "#/definitions/DynamicLine",
+												"description": "条件为真时的选项"
+											}
+										},
+										"required": [
+											"no",
+											"yes"
+										],
+										"type": "object"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+									},
+									{
+										"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+									},
+									{
+										"$ref": "#/definitions/{npc_has_items?:undefined;}"
 									},
 									{
 										"properties": {
@@ -20803,6 +21323,66 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_has_item?:undefined;}"
+						},
+						{
+							"properties": {
+								"no": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为假时的选项"
+								},
+								"yes": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为真时的选项"
+								}
+							},
+							"required": [
+								"no",
+								"yes"
+							],
+							"type": "object"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						},
+						{
+							"properties": {
+								"no": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为假时的选项"
+								},
+								"yes": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为真时的选项"
+								}
+							},
+							"required": [
+								"no",
+								"yes"
+							],
+							"type": "object"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
 						},
 						{
 							"properties": {
@@ -21975,6 +22555,32 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_has_item?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
 						}
 					]
 				},
@@ -23867,6 +24473,32 @@
 						{
 							"allOf": [
 								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
 									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 								},
 								{
@@ -24275,7 +24907,7 @@
 										"description": "音效ID"
 									},
 									"outdoor_event": {
-										"description": "如果为true则视为在玩家地下 ?",
+										"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 										"type": "boolean"
 									},
 									"sound_effect": {
@@ -24504,6 +25136,32 @@
 									},
 									{
 										"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+									},
+									{
+										"$ref": "#/definitions/{npc_message:string;}"
+									},
+									{
+										"$ref": "#/definitions/{u_message?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+									},
+									{
+										"$ref": "#/definitions/{u_message:string;}"
+									},
+									{
+										"$ref": "#/definitions/{npc_message?:undefined;}"
 									}
 								]
 							},
@@ -24826,6 +25484,66 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_has_item?:undefined;}"
+						},
+						{
+							"properties": {
+								"no": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为假时的选项"
+								},
+								"yes": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为真时的选项"
+								}
+							},
+							"required": [
+								"no",
+								"yes"
+							],
+							"type": "object"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						},
+						{
+							"properties": {
+								"no": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为假时的选项"
+								},
+								"yes": {
+									"$ref": "#/definitions/DynamicLine",
+									"description": "条件为真时的选项"
+								}
+							},
+							"required": [
+								"no",
+								"yes"
+							],
+							"type": "object"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
 						},
 						{
 							"properties": {
@@ -25358,7 +26076,7 @@
 							"description": "音效ID"
 						},
 						"outdoor_event": {
-							"description": "如果为true则视为在玩家地下 ?",
+							"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 							"type": "boolean"
 						},
 						"sound_effect": {
@@ -25587,6 +26305,32 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_message:string;}"
+						},
+						{
+							"$ref": "#/definitions/{u_message?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+						},
+						{
+							"$ref": "#/definitions/{u_message:string;}"
+						},
+						{
+							"$ref": "#/definitions/{npc_message?:undefined;}"
 						}
 					]
 				},
@@ -25844,7 +26588,7 @@
 							"description": "音效ID"
 						},
 						"outdoor_event": {
-							"description": "如果为true则视为在玩家地下 ?",
+							"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 							"type": "boolean"
 						},
 						"sound_effect": {
@@ -26006,10 +26750,13 @@
 				},
 				{
 					"$ref": "#/definitions/LocalVar"
+				},
+				{
+					"$ref": "#/definitions/Message"
 				}
 			],
-			"maxItems": 15,
-			"minItems": 15,
+			"maxItems": 16,
+			"minItems": 16,
 			"type": "array"
 		},
 		"EocID": {
@@ -26287,7 +27034,7 @@
 									"description": "音效ID"
 								},
 								"outdoor_event": {
-									"description": "如果为true则视为在玩家地下 ?",
+									"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 									"type": "boolean"
 								},
 								"sound_effect": {
@@ -26516,6 +27263,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{u_message?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{u_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{npc_message?:undefined;}"
 								}
 							]
 						},
@@ -27068,40 +27841,18 @@
 			],
 			"type": "object"
 		},
-		"Function": {
-			"properties": {
-				"arguments": {},
-				"caller": {
-					"$ref": "#/definitions/Function"
-				},
-				"length": {
-					"type": "number"
-				},
-				"name": {
-					"type": "string"
-				},
-				"prototype": {}
-			},
-			"required": [
-				"arguments",
-				"caller",
-				"length",
-				"name",
-				"prototype"
-			],
-			"type": "object"
-		},
 		"GameData": {
 			"description": "游戏数据",
 			"properties": {
+				"game_json": {
+					"$ref": "#/definitions/CddaJson",
+					"description": "JSON"
+				},
 				"gfx_name": {
 					"description": "贴图包ID",
 					"type": "string"
 				}
 			},
-			"required": [
-				"gfx_name"
-			],
 			"type": "object"
 		},
 		"Generic": {
@@ -29675,7 +30426,6 @@
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
 				"CharUpdate",
-				"CharUseSoulDust",
 				"PlayerUpdate"
 			],
 			"type": "string"
@@ -31218,6 +31968,37 @@
 			],
 			"description": "携带/穿戴/持握/背包里有某个物品"
 		},
+		"HasItems": {
+			"anyOf": [
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
+						}
+					]
+				}
+			],
+			"description": "包里有N个某物品"
+		},
 		"HasTrait": {
 			"anyOf": [
 				{
@@ -32621,6 +33402,32 @@
 						{
 							"allOf": [
 								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
 									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 								},
 								{
@@ -33029,7 +33836,7 @@
 										"description": "音效ID"
 									},
 									"outdoor_event": {
-										"description": "如果为true则视为在玩家地下 ?",
+										"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 										"type": "boolean"
 									},
 									"sound_effect": {
@@ -33262,6 +34069,32 @@
 								]
 							},
 							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+									},
+									{
+										"$ref": "#/definitions/{npc_message:string;}"
+									},
+									{
+										"$ref": "#/definitions/{u_message?:undefined;}"
+									}
+								]
+							},
+							{
+								"allOf": [
+									{
+										"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+									},
+									{
+										"$ref": "#/definitions/{u_message:string;}"
+									},
+									{
+										"$ref": "#/definitions/{npc_message?:undefined;}"
+									}
+								]
+							},
+							{
 								"enum": [
 									"drop_weapon",
 									"follow_only",
@@ -33324,6 +34157,62 @@
 			],
 			"type": "object"
 		},
+		"InlineItemGroup": {
+			"description": "内联物品组",
+			"properties": {
+				"copy-from": {
+					"anyOf": [
+						{
+							"pattern": "^.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^ITEMGP_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_ITEMGP_.*$",
+							"type": "string"
+						}
+					],
+					"description": "从某个物品组复制"
+				},
+				"entries": {
+					"description": "详细写法",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrie"
+					},
+					"type": "array"
+				},
+				"extend": {
+					"$ref": "#/definitions/Pick<ItemGroup,\"entries\"|\"groups\"|\"items\">",
+					"description": "扩展元素"
+				},
+				"groups": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				},
+				"items": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				},
+				"subtype": {
+					"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+					"enum": [
+						"collection",
+						"distribution"
+					],
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
 		"ItemCategotyID": {
 			"enum": [
 				"BIONIC_FUEL_SOURCE",
@@ -33364,125 +34253,71 @@
 			"type": "string"
 		},
 		"ItemGroup": {
-			"anyOf": [
-				{
-					"allOf": [
+			"description": "ItemGroup",
+			"properties": {
+				"copy-from": {
+					"anyOf": [
 						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
+							"pattern": "^.*$",
+							"type": "string"
 						},
 						{
-							"properties": {
-								"entries": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrie"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
+							"pattern": "^ITEMGP_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_ITEMGP_.*$",
+							"type": "string"
 						}
-					]
+					],
+					"description": "从某个物品组复制"
 				},
-				{
-					"allOf": [
-						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"items": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrieQuick"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
-						}
-					]
+				"entries": {
+					"description": "详细写法",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrie"
+					},
+					"type": "array"
 				},
-				{
-					"allOf": [
-						{
-							"properties": {
-								"id": {
-									"$ref": "#/definitions/ItemGroupID"
-								},
-								"subtype": {
-									"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
-									"enum": [
-										"collection",
-										"distribution"
-									],
-									"type": "string"
-								},
-								"type": {
-									"const": "item_group",
-									"type": "string"
-								}
-							},
-							"required": [
-								"id",
-								"type"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"groups": {
-									"items": {
-										"$ref": "#/definitions/ItemGroupEntrieQuick"
-									},
-									"type": "array"
-								}
-							},
-							"type": "object"
-						}
-					]
+				"extend": {
+					"$ref": "#/definitions/Pick<ItemGroup,\"entries\"|\"groups\"|\"items\">",
+					"description": "扩展元素"
+				},
+				"groups": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				},
+				"id": {
+					"$ref": "#/definitions/ItemGroupID"
+				},
+				"items": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				},
+				"subtype": {
+					"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+					"enum": [
+						"collection",
+						"distribution"
+					],
+					"type": "string"
+				},
+				"type": {
+					"const": "item_group",
+					"type": "string"
 				}
-			]
+			},
+			"required": [
+				"id",
+				"type"
+			],
+			"type": "object"
 		},
 		"ItemGroupEntrie": {
 			"anyOf": [
@@ -33502,7 +34337,7 @@
 							"type": "object"
 						},
 						{
-							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>"
+							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>"
 						}
 					]
 				},
@@ -33522,7 +34357,7 @@
 							"type": "object"
 						},
 						{
-							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>"
+							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>"
 						}
 					]
 				},
@@ -33544,7 +34379,7 @@
 							"type": "object"
 						},
 						{
-							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>"
+							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>"
 						}
 					]
 				},
@@ -33566,7 +34401,7 @@
 							"type": "object"
 						},
 						{
-							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>"
+							"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>"
 						}
 					]
 				}
@@ -33630,7 +34465,7 @@
 			"type": "object"
 		},
 		"ItemGroupEntrieOpt": {
-			"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>",
+			"$ref": "#/definitions/Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>",
 			"description": "物品Entry的可选项"
 		},
 		"ItemGroupEntrieQuick": {
@@ -33652,7 +34487,7 @@
 					"type": "string"
 				}
 			],
-			"description": "物品/物品组快速定义 取决于键\n物品id 或者 [物品id,概率]"
+			"description": "物品/物品组快速定义 取决于键\n物品id 或者 [物品id,概率(100为100%)]"
 		},
 		"ItemGroupID": {
 			"anyOf": [
@@ -33897,7 +34732,7 @@
 								"type": "number"
 							}
 						],
-						"description": "如果非零且低于物品体积，则按 volume_per_turn / 回合 燃烧体积\n同时决定应用燃烧数据数组中的哪个成员数据"
+						"description": "如果非零且低于物品体积，则按 volume_per_turn / 回合 燃烧体积"
 					}
 				},
 				"required": [
@@ -33950,7 +34785,7 @@
 										"type": "number"
 									}
 								],
-								"description": "如果非零且低于物品体积，则按 volume_per_turn / 回合 燃烧体积\n同时决定应用燃烧数据数组中的哪个成员数据"
+								"description": "如果非零且低于物品体积，则按 volume_per_turn / 回合 燃烧体积"
 							}
 						},
 						"required": [
@@ -34185,6 +35020,37 @@
 			"$ref": "#/definitions/Partial<Record<\"cut\"|\"stab\"|\"bash\"|\"bullet\"|\"acid\"|\"elec\"|\"heat\"|\"cold\"|\"pure\"|\"bio\",number>>",
 			"description": "近战武器伤害 伤害类型 : 伤害值 不能为负数*"
 		},
+		"Message": {
+			"anyOf": [
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_message:string;}"
+						},
+						{
+							"$ref": "#/definitions/{u_message?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+						},
+						{
+							"$ref": "#/definitions/{u_message:string;}"
+						},
+						{
+							"$ref": "#/definitions/{npc_message?:undefined;}"
+						}
+					]
+				}
+			],
+			"description": "发送消息"
+		},
 		"MissionTarget": {
 			"description": "分配任务目标 assign_mission_target\nMISSIONS_JSON.md",
 			"type": "null"
@@ -34214,7 +35080,7 @@
 					],
 					"type": "string"
 				},
-				"death_drop": {
+				"death_drops": {
 					"anyOf": [
 						{
 							"pattern": "^.*$",
@@ -34227,6 +35093,10 @@
 						{
 							"pattern": "^.*_ITEMGP_.*$",
 							"type": "string"
+						},
+						{
+							"$ref": "#/definitions/InlineItemGroup",
+							"description": "内联物品组"
 						}
 					],
 					"description": "死亡掉落物品组"
@@ -35849,17 +36719,6 @@
 			"pattern": "^.*JustString$",
 			"type": "string"
 		},
-		"Object": {
-			"properties": {
-				"constructor": {
-					"$ref": "#/definitions/Function"
-				}
-			},
-			"required": [
-				"constructor"
-			],
-			"type": "object"
-		},
 		"Omit<B,K>": {
 			"type": "object"
 		},
@@ -36263,6 +37122,9 @@
 			"type": "object"
 		},
 		"Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">": {
+			"type": "object"
+		},
+		"Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">": {
 			"type": "object"
 		},
 		"Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">": {
@@ -37229,6 +38091,55 @@
 						}
 					],
 					"description": "搜索的目标区域 空字符串为任意"
+				}
+			},
+			"type": "object"
+		},
+		"Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">": {
+			"properties": {
+				"interrupt_type": {
+					"description": "默认为“中性”；distraction_type，用于中断，用于分心管理器\n完整列表存在 inactivity_type.cpp",
+					"type": "boolean"
+				},
+				"outdoor_only": {
+					"description": "如果为true 且 sound为真 玩家在 地下/地下室 时难以听到",
+					"type": "boolean"
+				},
+				"popup": {
+					"description": "如果为真，该消息将生成一个弹出窗口u_message",
+					"type": "boolean"
+				},
+				"popup_w_interrupt_query": {
+					"description": "如果为 true，并且popup为 true，则弹出窗口将中断任何发送消息的活动",
+					"type": "boolean"
+				},
+				"same_snippet": {
+					"description": "如果为 true，并且snippet为 true，它将连接讲话者和片段，\n并且如果该讲话者使用的话，将始终提供相同的片段；要求片段设置 id",
+					"type": "boolean"
+				},
+				"snippet": {
+					"description": "如果为 true，则效果会显示来自的随机片段u_message",
+					"type": "boolean"
+				},
+				"sound": {
+					"description": "如果为true 那么只会在用户没有聋时显示",
+					"type": "boolean"
+				},
+				"type": {
+					"description": "默认中立；消息如何在日志中显示（通常是指颜色）；\n可以是良好（绿色）、中性（白色）、不良（红色）、\n混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、\n爆头（紫色）、临界（黄色），放牧（蓝色）",
+					"enum": [
+						"bad",
+						"critical",
+						"debug",
+						"good",
+						"grazing",
+						"headshot",
+						"info",
+						"mixed",
+						"neutral",
+						"warning"
+					],
+					"type": "string"
 				}
 			},
 			"type": "object"
@@ -38620,7 +39531,7 @@
 		"Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>": {
 			"type": "object"
 		},
-		"Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:Object;event:ItemGroutEvent;}>": {
+		"Partial<{prob:number;damage:number|number[];\"damage-min\":number;\"damage-max\":number;count:number|number[];\"count-min\":number;\"count-max\":number;charges:number|number[];\"charges-min\":number;\"charges-max\":number;\"contents-item\":string|string[];\"contents-group\":string|string[];\"ammo-item\":string;\"ammo-group\":string;\"container-group\":string;\"entry-wrapper\":string;sealed:boolean;variant:AnyItemID;artifact:{};event:ItemGroutEvent;}>": {
 			"properties": {
 				"ammo-group": {
 					"type": "string"
@@ -38629,7 +39540,8 @@
 					"type": "string"
 				},
 				"artifact": {
-					"$ref": "#/definitions/Object"
+					"properties": {},
+					"type": "object"
 				},
 				"charges": {
 					"anyOf": [
@@ -38694,7 +39606,7 @@
 							"type": "number"
 						}
 					],
-					"description": "使项目重复生成，每次创建一个新项目。"
+					"description": "使项目重复生成，每次创建一个新项目。\n[1, 10] 为1~10个"
 				},
 				"count-max": {
 					"type": "number"
@@ -38799,6 +39711,32 @@
 				"solid"
 			],
 			"type": "string"
+		},
+		"Pick<ItemGroup,\"entries\"|\"groups\"|\"items\">": {
+			"properties": {
+				"entries": {
+					"description": "详细写法",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrie"
+					},
+					"type": "array"
+				},
+				"groups": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				},
+				"items": {
+					"description": "快速物品列表",
+					"items": {
+						"$ref": "#/definitions/ItemGroupEntrieQuick"
+					},
+					"type": "array"
+				}
+			},
+			"type": "object"
 		},
 		"PocketData": {
 			"description": "容器",
@@ -39046,7 +39984,7 @@
 			],
 			"type": "object"
 		},
-		"Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\"|\"PlayerUpdate\",EventEffect[]>": {
+		"Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>": {
 			"properties": {
 				"CharBattleUpdate": {
 					"items": {
@@ -39306,7 +40244,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -39535,6 +40473,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -39820,7 +40784,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -40049,6 +41013,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -40334,7 +41324,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -40563,6 +41553,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -40848,7 +41864,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -41077,6 +42093,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -41362,7 +42404,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -41591,6 +42633,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -41876,7 +42944,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -42105,6 +43173,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -42390,7 +43484,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -42619,6 +43713,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -42904,7 +44024,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -43133,6 +44253,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -43418,7 +44564,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -43647,6 +44793,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -43932,7 +45104,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -44161,6 +45333,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -44446,7 +45644,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -44675,6 +45873,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -44960,7 +46184,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -45189,6 +46413,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -45474,7 +46724,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -45703,6 +46953,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -45988,7 +47264,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -46217,6 +47493,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -46502,7 +47804,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -46735,516 +48037,28 @@
 										]
 									},
 									{
-										"enum": [
-											"drop_weapon",
-											"follow_only",
-											"leave"
-										],
-										"type": "string"
-									}
-								],
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CharUseSoulDust": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"anyOf": [
-									{
-										"properties": {
-											"math": {
-												"items": [
-													{
-														"type": "string"
-													},
-													{
-														"enum": [
-															"*=",
-															"+=",
-															"-=",
-															"/=",
-															"="
-														],
-														"type": "string"
-													},
-													{
-														"type": "string"
-													}
-												],
-												"maxItems": 3,
-												"minItems": 3,
-												"type": "array"
-											}
-										},
-										"required": [
-											"math"
-										],
-										"type": "object"
-									},
-									{
-										"properties": {
-											"u_lose_trait": {
-												"$ref": "#/definitions/MutationID"
-											}
-										},
-										"required": [
-											"u_lose_trait"
-										],
-										"type": "object"
-									},
-									{
-										"$ref": "#/definitions/RunEoc",
-										"description": "运行Eoc"
-									},
-									{
-										"description": "运行Eoc 并提供参数",
-										"properties": {
-											"beta_loc": {
-												"anyOf": [
-													{
-														"properties": {
-															"global_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"global_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"u_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"u_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"npc_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"npc_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"context_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"context_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"var_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"var_val"
-														],
-														"type": "object"
-													}
-												],
-												"description": "将loc所在位置的单位作为beta talker"
-											},
-											"run_eoc_with": {
-												"$ref": "#/definitions/ParamsEoc"
-											},
-											"variables": {
-												"$ref": "#/definitions/Record<string,string>",
-												"description": "提供的上下文参数表 变量名:值"
-											}
-										},
-										"required": [
-											"run_eoc_with"
-										],
-										"type": "object"
-									},
-									{
-										"properties": {
-											"u_add_trait": {
-												"$ref": "#/definitions/MutationID"
-											}
-										},
-										"required": [
-											"u_add_trait"
-										],
-										"type": "object"
-									},
-									{
-										"properties": {
-											"count": {
-												"type": "number"
-											},
-											"u_consume_item": {
-												"$ref": "#/definitions/AnyItemID"
-											}
-										},
-										"required": [
-											"count",
-											"u_consume_item"
-										],
-										"type": "object"
-									},
-									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
 											},
 											{
-												"$ref": "#/definitions/{npc_spawn_npc:NpcInstanceID;}"
+												"$ref": "#/definitions/{npc_message:string;}"
 											},
 											{
-												"$ref": "#/definitions/{u_spawn_npc?:undefined;}"
+												"$ref": "#/definitions/{u_message?:undefined;}"
 											}
 										]
 									},
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
 											},
 											{
-												"$ref": "#/definitions/{u_spawn_npc:NpcInstanceID;}"
+												"$ref": "#/definitions/{u_message:string;}"
 											},
 											{
-												"$ref": "#/definitions/{npc_spawn_npc?:undefined;}"
-											}
-										]
-									},
-									{
-										"properties": {
-											"u_spawn_item": {
-												"$ref": "#/definitions/AnyItemID"
-											}
-										},
-										"required": [
-											"u_spawn_item"
-										],
-										"type": "object"
-									},
-									{
-										"description": "播放声音",
-										"properties": {
-											"id": {
-												"anyOf": [
-													{
-														"properties": {
-															"global_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"global_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"u_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"u_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"npc_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"npc_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"context_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"context_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"var_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"var_val"
-														],
-														"type": "object"
-													},
-													{
-														"type": "string"
-													}
-												],
-												"description": "音效ID"
-											},
-											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
-												"type": "boolean"
-											},
-											"sound_effect": {
-												"anyOf": [
-													{
-														"properties": {
-															"global_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"global_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"u_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"u_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"npc_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"npc_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"context_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"context_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"var_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"var_val"
-														],
-														"type": "object"
-													},
-													{
-														"type": "string"
-													}
-												],
-												"description": "变体ID"
-											},
-											"volume": {
-												"anyOf": [
-													{
-														"properties": {
-															"global_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"global_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"u_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"u_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"npc_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"npc_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"context_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"context_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"var_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"var_val"
-														],
-														"type": "object"
-													},
-													{
-														"properties": {
-															"math": {
-																"items": [
-																	{
-																		"type": "string"
-																	}
-																],
-																"maxItems": 1,
-																"minItems": 1,
-																"type": "array"
-															}
-														},
-														"required": [
-															"math"
-														],
-														"type": "object"
-													},
-													{
-														"type": "number"
-													}
-												],
-												"description": "音量"
-											}
-										},
-										"required": [
-											"id",
-											"volume"
-										],
-										"type": "object"
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
-											},
-											{
-												"$ref": "#/definitions/{u_cast_spell?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
-											},
-											{
-												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
-											},
-											{
-												"$ref": "#/definitions/{npc_cast_spell?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_teleport?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
-											},
-											{
-												"$ref": "#/definitions/{u_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_teleport?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;},\"location_variable\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_location_variable?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}|undefined;},\"location_variable\">"
-											},
-											{
-												"$ref": "#/definitions/{u_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -47530,7 +48344,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -47763,6 +48577,32 @@
 										]
 									},
 									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
 										"enum": [
 											"drop_weapon",
 											"follow_only",
@@ -47803,7 +48643,6 @@
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
 				"CharUpdate",
-				"CharUseSoulDust",
 				"PlayerUpdate"
 			],
 			"type": "object"
@@ -47984,13 +48823,16 @@
 			],
 			"type": "object"
 		},
+		"Record<string,AnyCddaJson>": {
+			"type": "object"
+		},
 		"Record<string,JArray>": {
 			"type": "object"
 		},
 		"Record<string,string>": {
 			"type": "object"
 		},
-		"Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;levelVarID:string;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"CharUseSoulDust\",EventEffect[]>;charConfig:CharConfig;}>": {
+		"Record<string,{defineData:Readonly<{charName:string;baseMutID:MutationID;classID:NpcClassID;instanceID:NpcInstanceID;animData:Record<\"Idle\"|\"Move\"|\"Attack\",Readonly<{animType:\"Idle\"|\"Move\"|\"Attack\";animName:string;mutID:MutationID;armorID:ArmorID;itemGroupID:ItemGroupID;}>>;vaildAnim:(\"Idle\"|\"Move\"|\"Attack\")[];baseArmorID:ArmorID;baseEnchID:EnchantmentID;baseWeaponID:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|`GUN_${string}`|`${string}_GUN_${string}`;baseWeaponGroupID:ItemGroupID;baseWeaponFlagID:FlagID;expVarID:string;talkTopicID:TalkTopicID;}>;outData:Record<string,JArray>;charEventEocs:Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>;reverseCharEventEocs:Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\",EventEffect[]>;charConfig:CharConfig;}>": {
 			"type": "object"
 		},
 		"RelicData": {
@@ -48313,7 +49155,7 @@
 													"description": "音效ID"
 												},
 												"outdoor_event": {
-													"description": "如果为true则视为在玩家地下 ?",
+													"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 													"type": "boolean"
 												},
 												"sound_effect": {
@@ -48546,6 +49388,32 @@
 											]
 										},
 										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_message:string;}"
+												},
+												{
+													"$ref": "#/definitions/{u_message?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+												},
+												{
+													"$ref": "#/definitions/{u_message:string;}"
+												},
+												{
+													"$ref": "#/definitions/{npc_message?:undefined;}"
+												}
+											]
+										},
+										{
 											"enum": [
 												"drop_weapon",
 												"follow_only",
@@ -48664,6 +49532,32 @@
 												},
 												{
 													"$ref": "#/definitions/{npc_has_item?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items?:undefined;}"
 												}
 											]
 										},
@@ -48827,7 +49721,7 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时任然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
 									"type": "string"
 								},
 								"failure_topic": {
@@ -48972,6 +49866,32 @@
 														},
 														{
 															"$ref": "#/definitions/{npc_has_item?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items?:undefined;}"
 														}
 													]
 												},
@@ -49147,9 +50067,6 @@
 									"type": "object"
 								}
 							},
-							"required": [
-								"text"
-							],
 							"type": "object"
 						}
 					]
@@ -49416,7 +50333,7 @@
 															"description": "音效ID"
 														},
 														"outdoor_event": {
-															"description": "如果为true则视为在玩家地下 ?",
+															"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 															"type": "boolean"
 														},
 														"sound_effect": {
@@ -49645,6 +50562,32 @@
 														},
 														{
 															"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_message:string;}"
+														},
+														{
+															"$ref": "#/definitions/{u_message?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+														},
+														{
+															"$ref": "#/definitions/{u_message:string;}"
+														},
+														{
+															"$ref": "#/definitions/{npc_message?:undefined;}"
 														}
 													]
 												},
@@ -49956,7 +50899,7 @@
 															"description": "音效ID"
 														},
 														"outdoor_event": {
-															"description": "如果为true则视为在玩家地下 ?",
+															"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 															"type": "boolean"
 														},
 														"sound_effect": {
@@ -50189,6 +51132,32 @@
 													]
 												},
 												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_message:string;}"
+														},
+														{
+															"$ref": "#/definitions/{u_message?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+														},
+														{
+															"$ref": "#/definitions/{u_message:string;}"
+														},
+														{
+															"$ref": "#/definitions/{npc_message?:undefined;}"
+														}
+													]
+												},
+												{
 													"enum": [
 														"drop_weapon",
 														"follow_only",
@@ -50337,6 +51306,32 @@
 														},
 														{
 															"$ref": "#/definitions/{npc_has_item?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items?:undefined;}"
 														}
 													]
 												},
@@ -50699,6 +51694,32 @@
 										{
 											"allOf": [
 												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
 													"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 												},
 												{
@@ -50856,7 +51877,7 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时任然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
 									"type": "string"
 								},
 								"failure_topic": {
@@ -51001,6 +52022,32 @@
 														},
 														{
 															"$ref": "#/definitions/{npc_has_item?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items?:undefined;}"
 														}
 													]
 												},
@@ -51176,9 +52223,6 @@
 									"type": "object"
 								}
 							},
-							"required": [
-								"text"
-							],
 							"type": "object"
 						}
 					]
@@ -51284,6 +52328,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
 								}
 							]
 						},
@@ -51447,7 +52517,7 @@
 					"type": "boolean"
 				},
 				"failure_explanation": {
-					"description": "回复的条件不满足时任然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
 					"type": "string"
 				},
 				"failure_topic": {
@@ -51592,6 +52662,32 @@
 										},
 										{
 											"$ref": "#/definitions/{npc_has_item?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items?:undefined;}"
 										}
 									]
 								},
@@ -51767,9 +52863,6 @@
 					"type": "object"
 				}
 			},
-			"required": [
-				"text"
-			],
 			"type": "object"
 		},
 		"RespEffect": {
@@ -52029,7 +53122,7 @@
 									"description": "音效ID"
 								},
 								"outdoor_event": {
-									"description": "如果为true则视为在玩家地下 ?",
+									"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 									"type": "boolean"
 								},
 								"sound_effect": {
@@ -52258,6 +53351,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{u_message?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{u_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{npc_message?:undefined;}"
 								}
 							]
 						},
@@ -52572,7 +53691,7 @@
 											"description": "音效ID"
 										},
 										"outdoor_event": {
-											"description": "如果为true则视为在玩家地下 ?",
+											"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 											"type": "boolean"
 										},
 										"sound_effect": {
@@ -52801,6 +53920,32 @@
 										},
 										{
 											"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_message:string;}"
+										},
+										{
+											"$ref": "#/definitions/{u_message?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+										},
+										{
+											"$ref": "#/definitions/{u_message:string;}"
+										},
+										{
+											"$ref": "#/definitions/{npc_message?:undefined;}"
 										}
 									]
 								},
@@ -53112,7 +54257,7 @@
 											"description": "音效ID"
 										},
 										"outdoor_event": {
-											"description": "如果为true则视为在玩家地下 ?",
+											"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 											"type": "boolean"
 										},
 										"sound_effect": {
@@ -53345,6 +54490,32 @@
 									]
 								},
 								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_message:string;}"
+										},
+										{
+											"$ref": "#/definitions/{u_message?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+										},
+										{
+											"$ref": "#/definitions/{u_message:string;}"
+										},
+										{
+											"$ref": "#/definitions/{npc_message?:undefined;}"
+										}
+									]
+								},
+								{
 									"enum": [
 										"drop_weapon",
 										"follow_only",
@@ -53493,6 +54664,32 @@
 										},
 										{
 											"$ref": "#/definitions/{npc_has_item?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items?:undefined;}"
+										}
+									]
+								},
+								{
+									"allOf": [
+										{
+											"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+										},
+										{
+											"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+										},
+										{
+											"$ref": "#/definitions/{npc_has_items?:undefined;}"
 										}
 									]
 								},
@@ -54008,7 +55205,7 @@
 									"description": "音效ID"
 								},
 								"outdoor_event": {
-									"description": "如果为true则视为在玩家地下 ?",
+									"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 									"type": "boolean"
 								},
 								"sound_effect": {
@@ -54241,6 +55438,32 @@
 							]
 						},
 						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{u_message?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{u_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{npc_message?:undefined;}"
+								}
+							]
+						},
+						{
 							"enum": [
 								"drop_weapon",
 								"follow_only",
@@ -54277,8 +55500,7 @@
 			"enum": [
 				"CharCauseDamage",
 				"CharCauseMeleeDamage",
-				"CharCauseRangeDamage",
-				"CharUseSoulDust"
+				"CharCauseRangeDamage"
 			],
 			"type": "string"
 		},
@@ -54825,6 +56047,32 @@
 						{
 							"allOf": [
 								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
 									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 								},
 								{
@@ -55231,7 +56479,7 @@
 									"description": "音效ID"
 								},
 								"outdoor_event": {
-									"description": "如果为true则视为在玩家地下 ?",
+									"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 									"type": "boolean"
 								},
 								"sound_effect": {
@@ -55460,6 +56708,32 @@
 								},
 								{
 									"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{u_message?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+								},
+								{
+									"$ref": "#/definitions/{u_message:string;}"
+								},
+								{
+									"$ref": "#/definitions/{npc_message?:undefined;}"
 								}
 							]
 						},
@@ -55718,7 +56992,7 @@
 												"description": "音效ID"
 											},
 											"outdoor_event": {
-												"description": "如果为true则视为在玩家地下 ?",
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 												"type": "boolean"
 											},
 											"sound_effect": {
@@ -55947,6 +57221,32 @@
 											},
 											{
 												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
 											}
 										]
 									},
@@ -59884,6 +61184,66 @@
 									{
 										"allOf": [
 											{
+												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+											},
+											{
+												"$ref": "#/definitions/{u_has_items?:undefined;}"
+											},
+											{
+												"properties": {
+													"no": {
+														"$ref": "#/definitions/DynamicLine",
+														"description": "条件为假时的选项"
+													},
+													"yes": {
+														"$ref": "#/definitions/DynamicLine",
+														"description": "条件为真时的选项"
+													}
+												},
+												"required": [
+													"no",
+													"yes"
+												],
+												"type": "object"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+											},
+											{
+												"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_has_items?:undefined;}"
+											},
+											{
+												"properties": {
+													"no": {
+														"$ref": "#/definitions/DynamicLine",
+														"description": "条件为假时的选项"
+													},
+													"yes": {
+														"$ref": "#/definitions/DynamicLine",
+														"description": "条件为真时的选项"
+													}
+												},
+												"required": [
+													"no",
+													"yes"
+												],
+												"type": "object"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
 												"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 											},
 											{
@@ -60444,6 +61804,66 @@
 						{
 							"allOf": [
 								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								},
+								{
+									"properties": {
+										"no": {
+											"$ref": "#/definitions/DynamicLine",
+											"description": "条件为假时的选项"
+										},
+										"yes": {
+											"$ref": "#/definitions/DynamicLine",
+											"description": "条件为真时的选项"
+										}
+									},
+									"required": [
+										"no",
+										"yes"
+									],
+									"type": "object"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
+								},
+								{
+									"properties": {
+										"no": {
+											"$ref": "#/definitions/DynamicLine",
+											"description": "条件为假时的选项"
+										},
+										"yes": {
+											"$ref": "#/definitions/DynamicLine",
+											"description": "条件为真时的选项"
+										}
+									},
+									"required": [
+										"no",
+										"yes"
+									],
+									"type": "object"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
 									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 								},
 								{
@@ -60932,6 +62352,32 @@
 										{
 											"allOf": [
 												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
 													"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
 												},
 												{
@@ -61338,7 +62784,7 @@
 													"description": "音效ID"
 												},
 												"outdoor_event": {
-													"description": "如果为true则视为在玩家地下 ?",
+													"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 													"type": "boolean"
 												},
 												"sound_effect": {
@@ -61567,6 +63013,32 @@
 												},
 												{
 													"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_message:string;}"
+												},
+												{
+													"$ref": "#/definitions/{u_message?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+												},
+												{
+													"$ref": "#/definitions/{u_message:string;}"
+												},
+												{
+													"$ref": "#/definitions/{npc_message?:undefined;}"
 												}
 											]
 										},
@@ -61825,7 +63297,7 @@
 																"description": "音效ID"
 															},
 															"outdoor_event": {
-																"description": "如果为true则视为在玩家地下 ?",
+																"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 																"type": "boolean"
 															},
 															"sound_effect": {
@@ -62058,6 +63530,32 @@
 														]
 													},
 													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_message:string;}"
+															},
+															{
+																"$ref": "#/definitions/{u_message?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+															},
+															{
+																"$ref": "#/definitions/{u_message:string;}"
+															},
+															{
+																"$ref": "#/definitions/{npc_message?:undefined;}"
+															}
+														]
+													},
+													{
 														"enum": [
 															"drop_weapon",
 															"follow_only",
@@ -62189,6 +63687,32 @@
 													},
 													{
 														"$ref": "#/definitions/{npc_has_item?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_items?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_items?:undefined;}"
 													}
 												]
 											},
@@ -62601,7 +64125,7 @@
 														"description": "音效ID"
 													},
 													"outdoor_event": {
-														"description": "如果为true则视为在玩家地下 ?",
+														"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 														"type": "boolean"
 													},
 													"sound_effect": {
@@ -62830,6 +64354,32 @@
 													},
 													{
 														"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_message:string;}"
+													},
+													{
+														"$ref": "#/definitions/{u_message?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+													},
+													{
+														"$ref": "#/definitions/{u_message:string;}"
+													},
+													{
+														"$ref": "#/definitions/{npc_message?:undefined;}"
 													}
 												]
 											},
@@ -63088,7 +64638,7 @@
 																	"description": "音效ID"
 																},
 																"outdoor_event": {
-																	"description": "如果为true则视为在玩家地下 ?",
+																	"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
 																	"type": "boolean"
 																},
 																"sound_effect": {
@@ -63317,6 +64867,32 @@
 																},
 																{
 																	"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_message:string;}"
+																},
+																{
+																	"$ref": "#/definitions/{u_message?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_message:string;}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_message?:undefined;}"
 																}
 															]
 														},
@@ -63728,6 +65304,32 @@
 						},
 						{
 							"$ref": "#/definitions/{npc_has_item?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items?:undefined;}"
+						}
+					]
+				},
+				{
+					"allOf": [
+						{
+							"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};},\"has_items\">"
+						},
+						{
+							"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}"
+						},
+						{
+							"$ref": "#/definitions/{npc_has_items?:undefined;}"
 						}
 					]
 				},
@@ -64906,6 +66508,170 @@
 		"{npc_has_item?:undefined;}": {
 			"type": "object"
 		},
+		"{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}": {
+			"properties": {
+				"npc_has_items": {
+					"properties": {
+						"count": {
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"math": {
+											"items": [
+												{
+													"type": "string"
+												}
+											],
+											"maxItems": 1,
+											"minItems": 1,
+											"type": "array"
+										}
+									},
+									"required": [
+										"math"
+									],
+									"type": "object"
+								},
+								{
+									"type": "number"
+								}
+							],
+							"description": "要求数量"
+						},
+						"item": {
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"description": "目标物品"
+						}
+					},
+					"required": [
+						"count",
+						"item"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"npc_has_items"
+			],
+			"type": "object"
+		},
+		"{npc_has_items?:undefined;}": {
+			"type": "object"
+		},
 		"{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}": {
 			"properties": {
 				"npc_has_trait": {
@@ -65120,6 +66886,20 @@
 			"type": "object"
 		},
 		"{npc_location_variable?:undefined;}": {
+			"type": "object"
+		},
+		"{npc_message:string;}": {
+			"properties": {
+				"npc_message": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"npc_message"
+			],
+			"type": "object"
+		},
+		"{npc_message?:undefined;}": {
 			"type": "object"
 		},
 		"{npc_spawn_npc:NpcInstanceID;}": {
@@ -65631,6 +67411,170 @@
 		"{u_has_item?:undefined;}": {
 			"type": "object"
 		},
+		"{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];};};}": {
+			"properties": {
+				"u_has_items": {
+					"properties": {
+						"count": {
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"math": {
+											"items": [
+												{
+													"type": "string"
+												}
+											],
+											"maxItems": 1,
+											"minItems": 1,
+											"type": "array"
+										}
+									},
+									"required": [
+										"math"
+									],
+									"type": "object"
+								},
+								{
+									"type": "number"
+								}
+							],
+							"description": "要求数量"
+						},
+						"item": {
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"type": "string"
+								}
+							],
+							"description": "目标物品"
+						}
+					},
+					"required": [
+						"count",
+						"item"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"u_has_items"
+			],
+			"type": "object"
+		},
+		"{u_has_items?:undefined;}": {
+			"type": "object"
+		},
 		"{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}": {
 			"properties": {
 				"u_has_trait": {
@@ -65845,6 +67789,20 @@
 			"type": "object"
 		},
 		"{u_location_variable?:undefined;}": {
+			"type": "object"
+		},
+		"{u_message:string;}": {
+			"properties": {
+				"u_message": {
+					"type": "string"
+				}
+			},
+			"required": [
+				"u_message"
+			],
+			"type": "object"
+		},
+		"{u_message?:undefined;}": {
 			"type": "object"
 		},
 		"{u_spawn_npc:NpcInstanceID;}": {

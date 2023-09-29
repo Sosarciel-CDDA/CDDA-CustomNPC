@@ -31,27 +31,6 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
-//消耗灵魂之尘
-function CNPC_EOC_UseSoulDust(){
-	eoc_type("ACTIVATION");
-	useSoulDustCount = num_input('使用数量', 1);
-	if(eobj({
-		"u_has_items": {
-			"item": "CNPC_GENERIC_SoulDust",
-			"count": {"math":["useSoulDustCount"]}
-		}
-	})){
-		//触发角色使用灵魂之尘事件
-		CNPC_EOC_CharUseSoulDust();
-
-		//消耗灵魂之尘
-		eobj({
-			"u_consume_item":"CNPC_GENERIC_SoulDust",
-			"count": {"math":["useSoulDustCount"]},
-		})
-	}else eobj( { "u_message": "物品数量不足" });
-}
-
 
 //受伤事件
 function CNPC_EOC_TakesDamage(){
@@ -112,6 +91,8 @@ function CNPC_EOC_CheckCurrHP_Range(){
 function CNPC_EOC_MeleeHitEvent(){
 	eoc_type("ACTIVATION")
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//初始化怪物血量
+		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Melee"}})
 
@@ -129,6 +110,8 @@ function CNPC_EOC_MeleeHitEvent(){
 function CNPC_EOC_RangeHitEvent(){
 	eoc_type("ACTIVATION")
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//初始化怪物血量
+		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Range"}})
 
@@ -193,8 +176,8 @@ function CNPC_EOC_PlayerUpdateEvent(){
 	//记录坐标
 	eobj({"u_location_variable":{"global_val":"avatar_loc"}});
 
-	//刷新怪物血量
-	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+	//每轮刷新怪物血量
+	//eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 	//CNPC_EOC_UpdateStat();
 	//print_global_val(mag3);
 	//print_global_val(mag1);
