@@ -33,7 +33,11 @@ export async function createCharClass(dm:DataManager,charName:string){
         },[] as NPCClassBaseSkill[]),
         traits:[
             { "trait": defineData.baseMutID },
-            { "trait": defineData.animData.Idle.mutID },
+            (
+                defineData.vaildAnim.length>=1
+                ? { "trait": defineData.animData.Idle.mutID }
+                : { "trait": genMutationID("NoAnim") }
+            ),
             { "trait": genMutationID("CnpcFlag") }]
     }
     /**NPC实例 */
@@ -46,11 +50,11 @@ export async function createCharClass(dm:DataManager,charName:string){
         chat: "TALK_DONE",
         attitude:3,
         mission :0,
-        str: charConfig.base_status.str,
-        dex: charConfig.base_status.dex,
-        int: charConfig.base_status.int,
-        per: charConfig.base_status.per,
-        death_eocs:["CNPC_EOC_NPC_DEATH"],
+        str: charConfig.base_status?.str || 10,
+        dex: charConfig.base_status?.dex || 10,
+        int: charConfig.base_status?.int || 10,
+        per: charConfig.base_status?.per || 10,
+        death_eocs:["CNPC_EOC_NPC_DEATH"], //设置事件字段
     }
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
@@ -98,6 +102,7 @@ export async function createCharClass(dm:DataManager,charName:string){
                 eoc_type:"ACTIVATION",
                 effect:[
                     {math:[`${charName}_IsAlive`,"=","0"]},
+                    {u_add_effect:"incorporeal",duration:"PERMANENT",force:true},
                     {u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true},
                     {u_teleport:{global_val:"tmp_loc"},force:true},
                     {npc_teleport:{global_val:"avatar_loc"},force:true},

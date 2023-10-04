@@ -9,10 +9,18 @@ const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
 /**角色事件列表 */
 exports.CharEvemtTypeList = [
-    "CharIdle", "CharMove", "CharCauseHit", "CharUpdate",
-    "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit",
-    "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage",
-    "CharBattleUpdate", "CharDeath",
+    "CharIdle",
+    "CharMove",
+    "CharCauseHit",
+    "CharUpdate",
+    "CharCauseMeleeHit",
+    "CharCauseRangeHit",
+    "CharInit",
+    "CharTakeDamage",
+    "CharTakeRangeDamage",
+    "CharTakeMeleeDamage",
+    "CharBattleUpdate",
+    "CharDeath", //角色 死亡
 ];
 /**反转Talker的角色事件列表
  * 对应同名CauseDamage
@@ -93,36 +101,79 @@ class DataManager {
         dm.gameData.gfx_name = match[1];
         //读取贴图包设置备份 无则创建
         let tileConfig;
-        if ((await utils_1.UtilFT.pathExists(path.join(gfxPath, 'tile_config_backup.json'))))
-            tileConfig = await utils_1.UtilFT.loadJSONFile(path.join(gfxPath, 'tile_config_backup'));
-        else {
-            tileConfig = await utils_1.UtilFT.loadJSONFile(path.join(gfxPath, 'tile_config'));
-            await utils_1.UtilFT.writeJSONFile(path.join(gfxPath, 'tile_config_backup'), tileConfig);
-        }
+        if ((await utils_1.UtilFT.pathExists(path.join(gfxPath, 'tile_config.json'))))
+            tileConfig = await utils_1.UtilFT.loadJSONFile(path.join(gfxPath, 'tile_config.json'));
+        else
+            throw ("未找到贴图包 tile_config.json");
+        //记录默认数据
+        const defSet = tileConfig.tile_info[0];
+        defSet.sprite_width = defSet.width;
+        defSet.sprite_height = defSet.height;
+        delete defSet.width;
+        delete defSet.height;
+        delete tileConfig.tile_info;
         //寻找npc素体 并将ID改为变异素体
         let findMale = false;
         let findFemale = false;
+        //let count = 0;
         const fileObjList = tileConfig["tiles-new"];
         for (const fileObj of fileObjList) {
             const tilesList = fileObj.tiles;
-            for (const tilesObj of tilesList) {
+            //载入默认数据
+            for (const key in defSet) {
+                if (fileObj[key] == null)
+                    fileObj[key] = defSet[key];
+            }
+            //删除ascii
+            if (fileObj.ascii)
+                fileObj.ascii = [];
+            //替换目录名
+            if (fileObj.file)
+                fileObj.file = path.join('..', '..', '..', 'gfx', bs.target_gfxpack, fileObj.file);
+            //替换tiles
+            fileObj.tiles = tilesList.filter(tilesObj => {
                 if (tilesObj.id == "npc_female") {
                     tilesObj.id = `overlay_female_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
                     findFemale = true;
+                    return true;
                 }
                 else if (tilesObj.id == "npc_male") {
                     tilesObj.id = `overlay_male_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
                     findMale = true;
+                    return true;
                 }
-                if (findMale && findFemale)
-                    break;
-            }
-            if (findMale && findFemale)
-                break;
+                return false;
+            });
+            //count++;
+            //if(findMale&&findFemale) break;
         }
+        //删除多余部分
+        //tileConfig["tiles-new"] = (tileConfig["tiles-new"] as any[]).slice(0,count);
         if (!(findMale && findFemale))
             console.log("未找到贴图包素体");
-        await utils_1.UtilFT.writeJSONFile(path.join(gfxPath, 'tile_config'), tileConfig);
+        //设置基本属性
+        tileConfig.compatibility = [dm.gameData.gfx_name];
+        tileConfig.type = "mod_tileset";
+        //写入mod文件夹
+        await dm.saveToFile("modgfx_tileset.json", [tileConfig]);
+        //写入基础贴图配置
+        await dm.saveToFile("mod_tileset.json", [{
+                type: "mod_tileset",
+                compatibility: [dm.gameData.gfx_name],
+                "tiles-new": [{
+                        file: "32xTransparent.png",
+                        sprite_width: 32,
+                        sprite_height: 32,
+                        sprite_offset_x: 0,
+                        sprite_offset_y: 0,
+                        pixelscale: 1,
+                        tiles: [
+                            { id: "npc_female", fg: 0, bg: 0 },
+                            { id: "npc_male", fg: 0, bg: 0 },
+                            { id: "CNPC_GENERIC_TransparentItem", fg: 0, bg: 0 },
+                        ]
+                    }],
+            }]);
     }
     /**初始化 处理音效包 */
     async processSoundpack() {

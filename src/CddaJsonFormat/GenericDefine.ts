@@ -73,7 +73,8 @@ export type SchemaString = `${string}SchemaString`;
 export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number]|CustBP;
-
+/**目标肢体参数 whole body为全身 */
+export type BodyPartParam = BodyPartID|"RANDOM"|"whole body";
 
 /**npc阵营 列表 */
 export const DefineNpcFactionList = [

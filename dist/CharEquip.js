@@ -86,6 +86,7 @@ async function createCharEquip(dm, charName) {
                 max_item_length: "1 km",
                 weight_multiplier: 0,
                 volume_multiplier: 0,
+                item_restriction: [charConfig.weapon.id]
             }],
         relic_data: {
             passive_effects: [

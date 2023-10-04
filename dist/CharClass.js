@@ -47,7 +47,7 @@ async function createCharClass(dm, charName) {
         dex: charConfig.base_status.dex,
         int: charConfig.base_status.int,
         per: charConfig.base_status.per,
-        death_eocs: ["CNPC_EOC_NPC_DEATH"],
+        death_eocs: ["CNPC_EOC_NPC_DEATH"], //设置事件字段
     };
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
@@ -94,6 +94,7 @@ async function createCharClass(dm, charName) {
                     eoc_type: "ACTIVATION",
                     effect: [
                         { math: [`${charName}_IsAlive`, "=", "0"] },
+                        { u_add_effect: "incorporeal", duration: "PERMANENT", force: true },
                         { u_location_variable: { global_val: "tmp_loc" }, z_adjust: -10, z_override: true },
                         { u_teleport: { global_val: "tmp_loc" }, force: true },
                         { npc_teleport: { global_val: "avatar_loc" }, force: true },

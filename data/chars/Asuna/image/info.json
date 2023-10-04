@@ -4,7 +4,7 @@
         "sprite_height": 160,
         "sprite_offset_x": 0,
         "sprite_offset_y": -8,
-        "pixelscale": 0.26,
+        "pixelscale": 0.25,
         "interval":1,
         "format_regex": "Idle_(.*)\\.png"
     },
@@ -22,7 +22,7 @@
         "sprite_height": 160,
         "sprite_offset_x": 0,
         "sprite_offset_y": -8,
-        "pixelscale": 0.25,
+        "pixelscale": 0.26,
         "interval":1,
         "format_regex": "Attack_(.*)\\.png"
     }

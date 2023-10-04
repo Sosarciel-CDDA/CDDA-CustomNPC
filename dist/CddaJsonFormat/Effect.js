@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EffectModTypeList = exports.EffectRatList = exports.DefineEffectIDList = void 0;
 /**预定义的EffectID 列表 */
 exports.DefineEffectIDList = [
-    "npc_run_away", //npc的AI标签,让NPC开始逃跑
+    "npc_run_away",
+    "incorporeal", //无形体 让所有穿戴物品掉落
 ];
 /**效果评价 列表 */
 exports.EffectRatList = [

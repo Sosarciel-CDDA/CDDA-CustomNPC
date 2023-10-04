@@ -53,6 +53,8 @@ function CNPC_EOC_KillMonster(){
 //NPC死亡事件
 function CNPC_EOC_NPC_DEATH(){
 	eoc_type("NPC_DEATH");
+	//NPC_DEATH调用 run_eoc_with beta 无法正确设置
+	//固不使用
 	//if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 	//	//触发动态生成的 角色死亡 事件
 	//	CNPC_EOC_CharDeath();
@@ -247,6 +249,9 @@ function CNPC_EOC_GlobalUpdateEvent(){
 			}
 		}
 		u_notIdleOrMove=u_notIdleOrMove-1;
+
+		if(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }))
+			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
 	}
 	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果不是cnpc单位则添加替代素体

@@ -10,7 +10,7 @@ export function getFieldVarID(charName:string,field:string){
     return `${charName}_${field}`;
 }
 
-
+/**创建对话选项 */
 export async function createCharTalkTopic(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
@@ -30,6 +30,7 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
     /**升级项列表 */
     const upgRespList:Resp[] = [];
     const upgEocList:Eoc[] = [];
+    const mutEocList:Eoc[] = [];
     //遍历升级项
     for(const upgObj of charConfig.upgrade||[]){
         const fieldID = getFieldVarID(charName,upgObj.field);
@@ -87,6 +88,30 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
             }
             upgRespList.push(charUpResp);
         }
+
+        //遍历强化变异表
+        for(const mutOpt of upgObj.mutation||[]){
+            const mut = typeof mutOpt=="string"
+                ? [mutOpt,1] as const
+                : mutOpt;
+
+            //创建变异EOC
+            const mutEoc:Eoc = {
+                type:"effect_on_condition",
+                id:genEOCID(`${fieldID}_${mut[0]}_${mut[1]}`),
+                eoc_type:"ACTIVATION",
+                effect:[
+                    {u_add_trait:mut[0]}
+                ],
+                condition:{and:[
+                    {not:{u_has_trait:mut[0]}},
+                    {math:[fieldID,">=",mut[1]+""]}
+                ]}
+            }
+
+            dm.addCharEvent(charName,"CharUpdate",0,mutEoc);
+            mutEocList.push(mutEoc);
+        }
     }
 
 
@@ -102,5 +127,5 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
             topic:"TALK_NONE"
         }]
     }
-    outData['talk_topic'] = [extTalkTopic,mainTalkTopic,...upgEocList];
+    outData['talk_topic'] = [extTalkTopic,mainTalkTopic,...upgEocList,...mutEocList];
 }

@@ -33,5 +33,18 @@ export const BaseBodyOrdering:OverlayOrdering={
     ]
 }
 
-export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering];
+/**无动画变异ID */
+export const NO_ANIM = genMutationID("NoAnim");
+const NoAnim:Mutation={
+    type:"mutation",
+    id:NO_ANIM,
+    name:"无动画标识符",
+    description:"表示此角色没有动画",
+    purifiable:false,
+    valid:false,
+    player_display:false,
+    points:0,
+}
+
+export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering,NoAnim];
 saveStaticData('BaseTrait',BaseTrait);

@@ -4,7 +4,7 @@ exports.createCharTalkTopic = exports.getFieldVarID = void 0;
 const _1 = require(".");
 /**获取强化字段的变量ID */
 function getFieldVarID(charName, field) {
-    return `${charName}_Upg_${field}`;
+    return `${charName}_${field}`;
 }
 exports.getFieldVarID = getFieldVarID;
 async function createCharTalkTopic(dm, charName) {
@@ -22,6 +22,7 @@ async function createCharTalkTopic(dm, charName) {
     /**升级项列表 */
     const upgRespList = [];
     const upgEocList = [];
+    const mutEocList = [];
     //遍历升级项
     for (const upgObj of charConfig.upgrade || []) {
         const fieldID = getFieldVarID(charName, upgObj.field);
@@ -77,6 +78,27 @@ async function createCharTalkTopic(dm, charName) {
             };
             upgRespList.push(charUpResp);
         }
+        //遍历强化变异表
+        for (const mutOpt of upgObj.mutation || []) {
+            const mut = typeof mutOpt == "string"
+                ? [mutOpt, 1]
+                : mutOpt;
+            //创建变异EOC
+            const mutEoc = {
+                type: "effect_on_condition",
+                id: (0, _1.genEOCID)(`${fieldID}_${mut[0]}_${mut[1]}`),
+                eoc_type: "ACTIVATION",
+                effect: [
+                    { u_add_trait: mut[0] }
+                ],
+                condition: { and: [
+                        { not: { u_has_trait: mut[0] } },
+                        { math: [fieldID, ">=", mut[1] + ""] }
+                    ] }
+            };
+            dm.addCharEvent(charName, "CharUpdate", 0, mutEoc);
+            mutEocList.push(mutEoc);
+        }
     }
     /**主对话 */
     const mainTalkTopic = {
@@ -85,10 +107,10 @@ async function createCharTalkTopic(dm, charName) {
         dynamic_line: "...",
         responses: [...upgRespList, {
                 condition: { npc_has_trait: defineData.baseMutID },
-                text: "[继续]走吧。",
-                topic: "TALK_DONE"
+                text: "[返回]算了。",
+                topic: "TALK_NONE"
             }]
     };
-    outData['talk_topic'] = [extTalkTopic, mainTalkTopic, ...upgEocList];
+    outData['talk_topic'] = [extTalkTopic, mainTalkTopic, ...upgEocList, ...mutEocList];
 }
 exports.createCharTalkTopic = createCharTalkTopic;

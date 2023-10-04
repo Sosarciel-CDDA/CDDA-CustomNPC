@@ -48,10 +48,10 @@ export type CharConfig = {
 /**角色强化项 */
 export type CharUpgrade = {
     /**强化项ID
-     * 作为全局变量`${charName}_Upg_${fieled}`
+     * 作为全局变量`${charName}_${fieled}`
      */
     field: string;
-    /**最大强化等级
+    /**最大强化等级 未设置则为require_resource长度
      * 若 require_resource 设置的长度不足以达到最大等级
      * 则以最后一组材料填充剩余部分
      */
@@ -65,6 +65,10 @@ export type CharUpgrade = {
     lvl_ench_status?: Partial<Record<EnchStat, number>>;
     /**只要拥有此字段就会添加的附魔属性 */
     ench_status?: Partial<Record<EnchStat, number>>;
+    /**到达特定强化等级时将会获得的变异
+     * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]
+     */
+    mutation?: ([MutationID, number] | MutationID)[];
 };
 /**角色基础数据 */
 export type CharDefineData = Readonly<{

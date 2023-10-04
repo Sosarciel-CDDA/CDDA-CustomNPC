@@ -55,6 +55,8 @@ export type SchemaString = `${string}SchemaString`;
 export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number] | CustBP;
+/**目标肢体参数 whole body为全身 */
+export type BodyPartParam = BodyPartID | "RANDOM" | "whole body";
 /**npc阵营 列表 */
 export declare const DefineNpcFactionList: readonly ["your_followers", "no_faction"];
 /**npc阵营 */

@@ -29,10 +29,10 @@ type ImageInfo = Partial<Record<AnimType,{
 /**合并并创建序列帧 */
 export async function mergeImage(dm:DataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
-    const imagePath = dm.getCharImagePath(charName);
+    const imagePath = path.join(dm.getCharPath(charName),"image");
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
     //检查是否有Idle动作
-    if(info.Idle==null) throw `${charName} 必须要有Idle动画`;
+    if(info.Idle==null && Object.values(info).length>=1) throw `${charName} 必须要有Idle动画`;
 
     //提供给打包脚本的info
     const tmpInfo:any[] = [{

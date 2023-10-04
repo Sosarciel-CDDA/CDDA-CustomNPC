@@ -5,7 +5,9 @@ import { MutationID } from "../Mutattion";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { Eoc, EocID, InlineEoc, TalkerVar } from "./Eoc";
-import { GenericObj, GenericObjOperateList, LocObj, NumObj, StrObj } from "./VariableObject";
+import { BoolObj, GenericObj, GenericObjOperateList, LocObj, NumObj, StrObj } from "./VariableObject";
+import { EffectID } from "../Effect";
+import { BodyPartID, BodyPartParam, Time } from "../GenericDefine";
 
 
 
@@ -36,6 +38,7 @@ export type EocEffectList = [
     Teleport                                        ,//传送
     LocalVar                                        ,//获取坐标
     Message                                         ,//发送消息
+    AddEffect                                       ,//添加效果
 ];
 /**运行Eoc */
 type RunEoc = {
@@ -172,6 +175,18 @@ type Message = TalkerVar<{
     interrupt_type?: boolean;
 },"message">;
 
+/**添加效果 */
+type AddEffect = TalkerVar<{
+    add_effect: EffectID;
+    /**添加的时间 默认 0 */
+    duration?: Time;
+    /**默认为 whole body 全身 */
+    target_part?:BodyPartParam;
+    /**效果强度 默认 0 */
+    intensity?:NumObj;
+    /**是否强制添加忽略豁免 默认 false */
+    force?:boolean;
+},"add_effect">;
 /**参数Eoc */
 export type ParamsEoc = (EocID|StrObj|InlineEoc)|(EocID|StrObj|InlineEoc)[];
 

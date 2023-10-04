@@ -2,8 +2,9 @@ import { JArray } from "@zwa73/utils";
 import { CON_SPELL_FLAG, genEOCID } from ".";
 import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellID } from "./CddaJsonFormat/Spell";
-import { CharEventType, DataManager } from "./DataManager";
+import { DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
+import { CharEventType } from "./Event";
 
 
 /**角色技能 */
@@ -12,6 +13,12 @@ export type CharSkill = {
     condition?      :BoolObj,
     /**时机 */
     hook            :CharEventType,
+    /**瞄准方式
+     * random 为 原版随机
+     * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能
+     * 默认为根据施法目标自动选择
+     */
+    target?         :"random"|"spell_target";
     /**权重 优先尝试触发高权重的spell 默认0 */
     weight?         :number,
     /**概率 有1/chance的几率使用这个技能 默认1 */
@@ -37,7 +44,7 @@ export type CharSkill = {
     require_field?:[string,number];
 };
 
-
+/**处理角色技能 */
 export async function createCharSkill(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const skills = (charConfig.skill||[]).sort((a,b)=>(b.weight||0)-(a.weight||0));
@@ -52,11 +59,13 @@ export async function createCharSkill(dm:DataManager,charName:string){
         effect:[
             {math:[gcdValName,"-=","1"]}
         ],
-        condition:{math:[gcdValName,">=","0"]},
+        condition:{math:[gcdValName,">","0"]},
         eoc_type:"ACTIVATION",
     }
     dm.addCharEvent(charName,"CharUpdate",0,GCDEoc);
     skillDataList.push(GCDEoc);
+
+
 
     //魔力回复
     const MREoc:Eoc={
@@ -72,9 +81,10 @@ export async function createCharSkill(dm:DataManager,charName:string){
     skillDataList.push(MREoc);
 
 
+
     //遍历技能
     for(const skill of skills){
-        const {condition,hook,spell,one_in_chance,cooldown,audio,common_cooldown,require_field} = skill;
+        const {condition,hook,spell,one_in_chance,cooldown,audio,common_cooldown,require_field,target} = skill;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
@@ -108,14 +118,24 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 return effect;
             }));
         }
+
+
+        //瞄准方式
         //是敌对目标法术
         const isHostileTarget = spell.valid_targets.includes("hostile");
         //是Aoe法术
         const isAoe = (spell.min_aoe!=null && spell.min_aoe!=0) ||
             (spell.aoe_increment!=null && spell.aoe_increment!=0);
+        //判断瞄准方式
+        const selectTarget = target||
+            (isHostileTarget && isAoe)
+            ? "spell_target"
+            : "random";
+
+
         //如果需要选择目标 创建索敌辅助法术
         let selTargetSpell:Spell|null=null;
-        if(isHostileTarget && isAoe){
+        if(selectTarget == "spell_target"){
             const {min_aoe,max_aoe,aoe_increment,
                 min_range,max_range,range_increment,
                 max_level,shape} = spell;
@@ -138,7 +158,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         }
 
         //法术消耗字符串
-        const costMathStr = `min(${spell.base_energy_cost||0}+${spell.energy_increment||0}*`+
+        const spellCost = `min(${spell.base_energy_cost||0}+${spell.energy_increment||0}*`+
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost||999999})`;
 
         //创建施法EOC
@@ -151,13 +171,12 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     u_cast_spell:{
                         id:selTargetSpell?.id||spell.id,
                         once_in:one_in_chance,
-                        //min_level:{global_val:defineData.levelVarID},
                     },
                     targeted: selTargetSpell? true:false,
                     true_eocs:{
                         id:genEOCID(`${charName}_${spell.id}TrueEoc`),
                         effect:[
-                            {math:["u_val('mana')","-=",costMathStr]},
+                            {math:["u_val('mana')","-=",spellCost]},
                             {math:[gcdValName,"=",`${common_cooldown||1}`]},
                             ...TEffect
                         ],
@@ -166,7 +185,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 }
             ],
             condition:{and:[
-                {math:["u_val('mana')",">=",costMathStr]},
+                {math:["u_val('mana')",">=",spellCost]},
                 {math:[gcdValName,"<=","0"]},
                 ...baseCond]},
         }
@@ -185,7 +204,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 effect:[
                     {math:[cdValName,"-=","1"]}
                 ],
-                condition:{math:[cdValName,">=","0"]},
+                condition:{math:[cdValName,">","0"]},
                 eoc_type:"ACTIVATION",
             }
             dm.addCharEvent(charName,"CharUpdate",0,CDEoc);
@@ -195,3 +214,6 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
     outData['skill'] = skillDataList;
 }
+
+
+async function 

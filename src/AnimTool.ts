@@ -33,6 +33,9 @@ export async function createAnimTool(dm:DataManager,charName:string){
             restricts_gear  : [...BodyPartList],
             remove_rigid    : [...BodyPartList],
             points:0,
+            purifiable:false,
+            valid:false,
+            player_display:false,
         }
         const animArmor:Armor={
             type:"ARMOR",
