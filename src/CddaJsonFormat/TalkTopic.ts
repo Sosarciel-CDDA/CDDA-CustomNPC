@@ -6,7 +6,7 @@ import { AnyItemID, ItemCategotyID } from "./Item";
 
 
 
-/**TalkTopic ID格式
+/**TalkTopic ID格式  
  */
 export type TalkTopicID = DefineTopic|CddaID<"TALKTC">;
 
@@ -22,18 +22,18 @@ export type TalkTopic = {
 	dynamic_line?: DynamicLine;
 	/**生成多个回复 */
 	repeat_responses?:{
-		/**根据所有存在背包里的 对应ID物品 生成对话
-		 * 选择的物品id将存于 topic_item 上下文变量中
+		/**根据所有存在背包里的 对应ID物品 生成对话  
+		 * 选择的物品id将存于 topic_item 上下文变量中  
 		 */
 		for_item?:AnyItemID[];
-		/**根据所有存在背包里的 对应类型物品 生成对话
-		 * 选择的物品id将存于 topic_item 上下文变量中
+		/**根据所有存在背包里的 对应类型物品 生成对话  
+		 * 选择的物品id将存于 topic_item 上下文变量中  
 		 */
 		for_category?:ItemCategotyID[];
 		/**如果为true则检查npc背包 */
 		is_npc?:boolean;
-		/**是一个可选的布尔值，如果为真
-		 * 包含项目的 容器 将生成与项目本身不同的响应
+		/**是一个可选的布尔值，如果为真  
+		 * 包含项目的 容器 将生成与项目本身不同的响应  
 		 */
 		include_containers?:boolean;
 		/**模板回复 利用 <topic_item> 来显示选中物品 */
@@ -48,22 +48,22 @@ export type TalkTopic = {
 };
 
 
-/**玩家的回复
- * 等同于无条件技能鉴定成功
- * 转到 success topic
+/**玩家的回复  
+ * 等同于无条件技能鉴定成功  
+ * 转到 success topic  
 */
 export type Resp = (RespShot|RespLong)&RespBase;
 
 /**回复的基本字段 */
 type RespBase = {
 	/**玩家的文本回复/选项显示文本
-	 * 目前，您可以添加 & 作为对话中的第一个字符，
-	 * 这会删除输出文本周围的引号，表示显示文本的描述性性质，
-	 * 使用 \" 转义双引号来指示实际对话的开始。
+	 * 目前，您可以添加 & 作为对话中的第一个字符，  
+	 * 这会删除输出文本周围的引号，表示显示文本的描述性性质，  
+	 * 使用 \" 转义双引号来指示实际对话的开始。  
  	 */
 	text?: string;
-	/**对某个条件进行判断 并给出不同的文本
-	 * 代替 text 字段
+	/**对某个条件进行判断 并给出不同的文本  
+	 * 代替 text 字段  
 	 */
 	truefalsetext?: {
 		/**条件 */
@@ -73,19 +73,19 @@ type RespBase = {
 		/**条件为假时的text */
 		false: string;
 	};
-	/**是一个选项回复 默认false
-	 * 仅显示第一个带有"switch": true、和有效条件的响应
-	 * 如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽
+	/**是一个选项回复 默认false  
+	 * 仅显示第一个带有"switch": true、和有效条件的响应  
+	 * 如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽  
 	 */
 	switch?: boolean;
-	/**是选项回复的默认回复 默认false
-	 * 如果所有选项回复的条件都不被满足
-	 * 则此回复会被显示
+	/**是选项回复的默认回复 默认false  
+	 * 如果所有选项回复的条件都不被满足  
+	 * 则此回复会被显示  
 	 */
 	default?: boolean;
 	/**显示此回复的条件 */
 	condition?:BoolObj;
-	/**回复的条件不满足时仍然显示选项 但采用此字段而非text
+	/**回复的条件不满足时仍然显示选项 但采用此字段而非text  
 	 * 玩家的文本回复/选项显示文本
 	 */
 	failure_explanation?: string;
@@ -113,8 +113,8 @@ type RespLong ={
 		skill_required?: SkillID;
         /**难度 类型不为 NONE 或 CONDITION时需要设置难度*/
 		difficulty?: number;
-		/**根据npc的性格或态度进行成功率调整
-		 * 结果越高成功率越高
+		/**根据npc的性格或态度进行成功率调整  
+		 * 结果越高成功率越高  
 		 */
 		mod:[TraitMod,number][]
 	};
@@ -179,8 +179,8 @@ export const DefineTopicList = [
 export type DefineTopic = typeof DefineTopicList[number];
 
 
-/**动态回复构造器
- * 如果是数组 则为随机选择其中一条回复
+/**动态回复构造器  
+ * 如果是数组 则为随机选择其中一条回复  
  */
 export type DynamicLine = DynmaicLineOpera[number][]|DynmaicLineOpera[number];
 

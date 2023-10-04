@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseTrait = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlagMut = exports.CNPC_FLAG = void 0;
+exports.BaseTrait = exports.NO_ANIM = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlagMut = exports.CNPC_FLAG = void 0;
 const StaticData_1 = require("./StaticData");
 const ModDefine_1 = require("../ModDefine");
 /**标记此npc是cnpc的npc */
@@ -32,5 +32,17 @@ exports.BaseBodyOrdering = {
         { id: [(0, ModDefine_1.genMutationID)("BaseBody")], order: 0 }
     ]
 };
-exports.BaseTrait = [exports.CnpcFlagMut, exports.CnpcBaseBody, exports.BaseBodyOrdering];
+/**无动画变异ID */
+exports.NO_ANIM = (0, ModDefine_1.genMutationID)("NoAnim");
+const NoAnim = {
+    type: "mutation",
+    id: exports.NO_ANIM,
+    name: "无动画标识符",
+    description: "表示此角色没有动画",
+    purifiable: false,
+    valid: false,
+    player_display: false,
+    points: 0,
+};
+exports.BaseTrait = [exports.CnpcFlagMut, exports.CnpcBaseBody, exports.BaseBodyOrdering, NoAnim];
 (0, StaticData_1.saveStaticData)('BaseTrait', exports.BaseTrait);

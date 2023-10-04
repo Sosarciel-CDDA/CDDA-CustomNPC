@@ -15,3 +15,4 @@ export * from './Enchantment';
 export * from './Spell';
 export * from './SoundEffect';
 export * from './MathFuncion';
+export * from './Skill';

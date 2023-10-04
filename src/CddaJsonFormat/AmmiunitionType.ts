@@ -8,7 +8,7 @@ export const DefineAmmoTypeIDList = [
 ] as const;
 export type DefineAmmoTypeID = typeof DefineAmmoTypeIDList[number];
 
-/**弹药ID格式
+/**弹药ID格式  
  */
 export type AmmunitionTypeID = CddaID<"AMMUT">|DefineAmmoTypeID;
 /**弹药类型 */

@@ -7,8 +7,8 @@ import { SkillID } from "./CddaJsonFormat/Skill";
 
 
 
-/**创建角色职业和实例
- * @param charName 角色名
+/**创建角色职业和实例  
+ * @param charName 角色名  
  */
 export async function createCharClass(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);

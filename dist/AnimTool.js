@@ -26,6 +26,9 @@ async function createAnimTool(dm, charName) {
             restricts_gear: [...CddaJsonFormat_1.BodyPartList],
             remove_rigid: [...CddaJsonFormat_1.BodyPartList],
             points: 0,
+            purifiable: false,
+            valid: false,
+            player_display: false,
         };
         const animArmor = {
             type: "ARMOR",

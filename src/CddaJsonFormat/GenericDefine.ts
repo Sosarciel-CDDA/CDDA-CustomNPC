@@ -1,7 +1,7 @@
 import { AmmunitionType } from "./AmmiunitionType";
 import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
-import { Eoc } from "./Eoc";
+import { Eoc, StrObj } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
 import { AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
@@ -55,17 +55,17 @@ const SubBPList = [
 /**子肢体 */
 export type SubBP = typeof SubBPList[number];
 
-/**自定义的肢体
+/**自定义的肢体  
  */
 export type CustBP = CddaID<"BP">;
 
-/**自定义的ID
- * @TJS-type string
+/**自定义的ID  
+ * @TJS-type string  
  */
 export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`|SchemaString;
 
-/**用于辅助解析只能补全的类型
- * 输出后替换为 ^.*$ 的 string 匹配
+/**用于辅助解析只能补全的类型  
+ * 输出后替换为 ^.*$ 的 string 匹配  
  */
 export type SchemaString = `${string}SchemaString`;
 
@@ -74,7 +74,7 @@ export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number]|CustBP;
 /**目标肢体参数 whole body为全身 */
-export type BodyPartParam = BodyPartID|"RANDOM"|"whole body";
+export type BodyPartParam = BodyPartID|"RANDOM"|"whole body"| Exclude<StrObj,string>;
 
 /**npc阵营 列表 */
 export const DefineNpcFactionList = [
@@ -134,9 +134,9 @@ export type PocketData = {
 	open_container?: boolean;
     /**默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。 */
 	fire_protection?: boolean;
-    /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。
-     * 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。
-     * Record<(AmmoID)子弹类型 : (number)容纳数量}>
+    /**将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  
+     * 一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  
+     * Record<(AmmoID)子弹类型 : (number)容纳数量}>  
      */
 	ammo_restriction?: Partial<Record<AmmoID,number>>;
     /**只有当物品具有与这些标志之一匹配的标志时，才能将其放入此口袋中。 */
@@ -194,8 +194,8 @@ export type Explosion = {
     /**破片数据 */
     shrapnel?: ShrapnelData;
 }
-/**破片数据
- * 为数字时 套管总质量，其余碎片变量设置为合理的默认值。
+/**破片数据  
+ * 为数字时 套管总质量，其余碎片变量设置为合理的默认值。  
  */
 export type ShrapnelData = {
     /**套管总质量、套管/功率比决定破片速度。 */

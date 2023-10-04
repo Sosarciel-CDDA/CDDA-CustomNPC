@@ -31,3 +31,4 @@ __exportStar(require("./Enchantment"), exports);
 __exportStar(require("./Spell"), exports);
 __exportStar(require("./SoundEffect"), exports);
 __exportStar(require("./MathFuncion"), exports);
+__exportStar(require("./Skill"), exports);

@@ -7,10 +7,10 @@ const utils_1 = require("@zwa73/utils");
 /**合并并创建序列帧 */
 async function mergeImage(dm, charName) {
     const { defineData, outData } = await dm.getCharData(charName);
-    const imagePath = dm.getCharImagePath(charName);
+    const imagePath = path.join(dm.getCharPath(charName), "image");
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
     //检查是否有Idle动作
-    if (info.Idle == null)
+    if (info.Idle == null && Object.values(info).length >= 1)
         throw `${charName} 必须要有Idle动画`;
     //提供给打包脚本的info
     const tmpInfo = [{

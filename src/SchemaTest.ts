@@ -30,29 +30,29 @@ const schema = TJS.generateSchema(program, "*", settings);
 console.log(JSON.stringify(schema,null,2))
 
 
-/**自定义的ID
- * @TJS-type string
+/**自定义的ID  
+ * @TJS-type string  
  */
 export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`;
 
-/**自定义的ID
- * @TJS-type string
+/**自定义的ID  
+ * @TJS-type string  
  */
 export type OR<T1 extends string> = `${string}JustString`;
 
-/**测试1
+/**测试1  
  */
 type TestFlag = CddaID<`Flag`>;
 
 
 
 
-/**自定义的ID
+/**自定义的ID  
  */
 type AnyString = String&string|"1111111"|"nnnnnn"
 
 
-/**测试2
+/**测试2  
  */
 type TestFlag2 = OR<AnyString>|DefineGenericFlag;
 

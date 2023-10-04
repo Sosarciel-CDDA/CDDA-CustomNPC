@@ -66,8 +66,8 @@ export type NoParamCond = [
 
 /**有某个效果 */
 export type HasEffect = TalkerVar<{
-    /**有某个效果
-     * 武术static_buffs可以通过形式来检查mabuff:buff_id
+    /**有某个效果  
+     * 武术static_buffs可以通过形式来检查mabuff:buff_id  
      */
     has_effect:EffectID|StrObj;
     /**要求的效果强度 */

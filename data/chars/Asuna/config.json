@@ -68,11 +68,11 @@
 	"skill": [
 		{
 			"hook": "CharCauseRangeHit",
-			"cooldown":30,
+			"cooldown":60,
 			"one_in_chance": 2,
 			"audio":[
-			{"id":"EvaporateFuture", "one_in_chance":2},
-			"EvaporateFutureSF","Hit"
+				{"id":"EvaporateFuture", "one_in_chance":2},
+				"EvaporateFutureSF","Hit"
 			],
 			"spell": {
 				"id":"CNPC_SPELL_EvaporateFuture",
@@ -89,13 +89,13 @@
 				"shape": "cone",
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
-				"base_energy_cost":320,
 				"energy_source": "MANA"
 			}
 		},
 		{
-			"hook": "CharCauseMeleeHit",
-			"cooldown":30,
+			"hook": "CharCauseMeleeDamage",
+			"target": "reverse_hit",
+			"cooldown":60,
 			"one_in_chance": 2,
 			"audio":[
 				{"id":"BladeStrike", "one_in_chance":2},
@@ -111,21 +111,19 @@
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
-				"min_range":3,
-				"min_aoe":45,
-				"shape": "cone",
+				"shape": "blast",
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
-				"base_energy_cost":640,
 				"energy_source": "MANA"
 			}
 		},
 		{
-			"hook": "CharCauseMeleeHit",
+			"hook": "CharCauseMeleeDamage",
+			"target": "reverse_hit",
 			"cooldown":10,
 			"audio":[
-			{"id":"BladeofTrauma", "one_in_chance":2},
-			"BladeofTraumaSF","Hit"
+				{"id":"BladeofTrauma", "one_in_chance":2},
+				"BladeofTraumaSF","Hit"
 			],
 			"spell": {
 				"id":"CNPC_SPELL_BladeofTrauma",
@@ -137,12 +135,9 @@
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
-				"min_range":3,
-				"min_aoe":45,
-				"shape": "cone",
+				"shape": "blast",
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
-				"base_energy_cost":160,
 				"energy_source": "MANA"
 			}
 		},

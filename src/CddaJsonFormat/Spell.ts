@@ -8,7 +8,7 @@ import { MonsterID } from "./Monster";
 
 
 
-/**法术ID
+/**法术ID  
  */
 export type SpellID = CddaID<"SPELL">;
 
@@ -25,9 +25,9 @@ export type Spell = {
     targeted_monster_ids?:MonsterID[];
     /**法术效果类型 */
 	effect: SpellEffect;
-    /**法术效果子类型
-     * 主类型为 attack 时向目标添加效果
-     * 其他情况下取决于主类型
+    /**法术效果子类型  
+     * 主类型为 attack 时向目标添加效果  
+     * 其他情况下取决于主类型  
      */
 	effect_str?: string;
     /**法术范围形状 */
@@ -72,8 +72,8 @@ export type Spell = {
 	max_damage?: NumObj;
     /**每级的法术伤害调整 */
 	damage_increment?: NumObj;
-    /**法术的伤害类型
-     * 伤害法术必须定义伤害类型
+    /**法术的伤害类型  
+     * 伤害法术必须定义伤害类型  
      */
     damage_type?:DamageType;
     /**初始法术aoe范围 */
@@ -128,8 +128,8 @@ export type Spell = {
 	sound_id?: string;
     /**声音变体ID */
 	sound_variant?: string;
-    /**当列表内所有法术到达指定等级时学会此法术
-     * Record<(SpellID)法术ID : (NumObj)需求等级>
+    /**当列表内所有法术到达指定等级时学会此法术  
+     * Record<(SpellID)法术ID : (NumObj)需求等级>  
      */
 	learn_spells?: Partial<Record<SpellID,NumObj>>;
 };

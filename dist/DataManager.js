@@ -1,38 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CddaJson = exports.DataManager = exports.GlobalEvemtTypeList = exports.ReverseCharEvemtTypeList = exports.CharEvemtTypeList = void 0;
+exports.CddaJson = exports.DataManager = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
 const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
-/**角色事件列表 */
-exports.CharEvemtTypeList = [
-    "CharIdle",
-    "CharMove",
-    "CharCauseHit",
-    "CharUpdate",
-    "CharCauseMeleeHit",
-    "CharCauseRangeHit",
-    "CharInit",
-    "CharTakeDamage",
-    "CharTakeRangeDamage",
-    "CharTakeMeleeDamage",
-    "CharBattleUpdate",
-    "CharDeath", //角色 死亡
-];
-/**反转Talker的角色事件列表
- * 对应同名CauseDamage
- * npc为角色
- */
-exports.ReverseCharEvemtTypeList = [
-    "CharCauseDamage",
-    "CharCauseMeleeDamage",
-    "CharCauseRangeDamage", //u为受害者
-];
-/**全局事件列表 */
-exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.CharEvemtTypeList, ...exports.ReverseCharEvemtTypeList];
+const CharConfig_1 = require("./CharConfig");
+const Event_1 = require("./Event");
+/**数据管理器 */
 class DataManager {
     /**资源目录 */
     dataPath = path.join(process.cwd(), 'data');
@@ -50,8 +27,9 @@ class DataManager {
     dataTable = {
         charTable: {},
         staticTable: {},
-        eventEocs: exports.GlobalEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
+        eventEocs: Event_1.GlobalEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
+    //———————————————————— 初始化 ————————————————————//
     /**
      * @param dataPath 输入数据路径
      * @param outPath  输出数据路径
@@ -63,10 +41,17 @@ class DataManager {
         this.outPath = outPath;
         this.dataPath = dataPath || this.dataPath;
         this.charPath = path.join(this.dataPath, 'chars');
+        //创建角色列表
         this.charList = fs.readdirSync(this.charPath).filter(fileName => {
             const filePath = this.getCharPath(fileName);
-            if (fs.statSync(filePath).isDirectory())
-                return true;
+            if (!fs.statSync(filePath).isDirectory())
+                return false;
+            const configFile = path.join(filePath, "config.json");
+            if (!utils_1.UtilFT.pathExistsSync(configFile))
+                return false;
+            if (utils_1.UtilFT.loadJSONFileSync(configFile).virtual === true)
+                return false;
+            return true;
         });
     }
     /**静态构造函数
@@ -218,7 +203,7 @@ class DataManager {
                 ];
                 if (defineList.includes(audioFolderName)) {
                     se.id = audioFolderName;
-                    se.variant = (await dm.getCharData(charName)).defineData.baseWeaponID;
+                    se.variant = (await dm.getCharData(charName)).charConfig.weapon?.id;
                 }
                 await utils_1.UtilFT.writeJSONFile(path.join(charOutAudioFolder, audioFolderName), [se]);
             }
@@ -231,6 +216,7 @@ class DataManager {
         const cddajson = await CddaJson.create(bs.game_path);
         dm.gameData.game_json = cddajson;
     }
+    //———————————————————— 工具 ————————————————————//
     /**获取角色表 如无则初始化 */
     async getCharData(charName) {
         //初始化基础数据
@@ -245,7 +231,7 @@ class DataManager {
                 acc[curr.animType] = curr;
                 return acc;
             }, {});
-            const charConfig = await utils_1.UtilFT.loadJSONFile(path.join(this.getCharPath(charName), 'config'));
+            const charConfig = await (0, CharConfig_1.loadCharConfig)(this, charName);
             console.log(charConfig);
             const defineData = {
                 charName: charName,
@@ -256,16 +242,15 @@ class DataManager {
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
-                baseWeaponID: charConfig.weapon.id,
                 baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
                 expVarID: `${charName}_exp`,
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
             };
             //角色事件eoc主体
-            const charEventEocs = exports.CharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const charEventEocs = Event_1.CharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             //角色反转事件eoc主体
-            const reverseCharEventEocs = exports.ReverseCharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const reverseCharEventEocs = Event_1.ReverseCharEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
@@ -298,14 +283,11 @@ class DataManager {
     getCharPath(charName) {
         return path.join(this.charPath, charName);
     }
-    /**获取 角色图片目录 */
-    getCharImagePath(charName) {
-        return path.join(this.getCharPath(charName), 'image');
-    }
     /**获取 输出角色目录 */
     getOutCharPath(charName) {
         return path.join(this.outPath, 'chars', charName);
     }
+    //———————————————————— 输出 ————————————————————//
     /**输出数据到角色目录 */
     async saveToCharFile(charName, filePath, obj) {
         return utils_1.UtilFT.writeJSONFile(path.join(this.getOutCharPath(charName), filePath), obj);
@@ -329,7 +311,7 @@ class DataManager {
             this.saveToFile(key, obj);
         }
         //导出角色数据
-        for (let charName in this.dataTable.charTable) {
+        for (let charName of this.charList) {
             const charData = this.dataTable.charTable[charName];
             const charOutData = charData.outData;
             for (let key in charOutData) {
@@ -340,19 +322,20 @@ class DataManager {
             //导出角色EOC
             const charEventMap = Object.assign({}, charData.charEventEocs, charData.reverseCharEventEocs);
             const charEventEocs = [];
+            //遍历事件类型
             for (const etypeStr in charEventMap) {
                 const etype = etypeStr;
                 //降序排序事件
-                const charEvent = charEventMap[etype].sort((a, b) => b.weight - a.weight);
+                const charEventList = charEventMap[etype].sort((a, b) => b.weight - a.weight);
                 //至少有一个角色事件才会创建
-                if (charEvent.length > 0) {
+                if (charEventList.length > 0) {
                     //创建角色触发Eoc
                     const eventEoc = {
                         type: "effect_on_condition",
                         eoc_type: "ACTIVATION",
                         id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
-                        effect: [...charEvent.map(event => event.effect)],
-                        condition: exports.CharEvemtTypeList.includes(etype)
+                        effect: [...charEventList.map(event => event.effect)],
+                        condition: Event_1.CharEvemtTypeList.includes(etype)
                             ? { u_has_trait: charData.defineData.baseMutID }
                             : { npc_has_trait: charData.defineData.baseMutID }
                     };

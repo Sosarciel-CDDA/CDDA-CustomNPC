@@ -17,8 +17,8 @@ export function formatAnimName(charName:string,animType:AnimType){
     return `${charName}${animType}`
 }
 
-/**创建动画辅助工具
- * @param charName 角色名
+/**创建动画辅助工具  
+ * @param charName 角色名  
  */
 export async function createAnimTool(dm:DataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);

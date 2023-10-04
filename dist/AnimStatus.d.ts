@@ -5,5 +5,5 @@ import { Eoc } from "./CddaJsonFormat";
 export declare function removeOtherAnimEoc(baseData: CharDefineData, animType: AnimType): Eoc | null;
 /**切换动作EOC */
 export declare function changeAnimEoc(baseData: CharDefineData, animType: AnimType): Eoc[];
-/**创建动画状态机 */
+/**创建动画状态机事件 */
 export declare function createAnimStatus(dm: DataManager, charName: string): Promise<void>;

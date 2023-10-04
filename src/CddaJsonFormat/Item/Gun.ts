@@ -5,11 +5,11 @@ import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
 
 
-/**GUN ID格式
+/**GUN ID格式  
  */
 export type GunID = CddaID<"GUN">;
 
-/**枪械
+/**枪械  
  */
 export type Gun = {
     id:GunID;
@@ -22,9 +22,9 @@ export type Gun = {
 	ranged_damage?: RangeDamage;
     /**发射时的范围 */
 	range?: number;
-    /**枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量
-     * 当枪械模组中存在 sight_dispersion 和 aim_speed 时，瞄准系统会选择“最佳”
-     * 用于每个目标操作的瞄准器，这是在当前目标阈值下具有分散性的最快瞄准器
+    /**枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量  
+     * 当枪械模组中存在 sight_dispersion 和 aim_speed 时，瞄准系统会选择“最佳”  
+     * 用于每个目标操作的瞄准器，这是在当前目标阈值下具有分散性的最快瞄准器  
      */
 	dispersion?: number;
     /**瞄准机构产生的枪支不准确度，以角度分之一 (MOA) 为单位测量 */
@@ -39,17 +39,17 @@ export type Gun = {
 	min_cycle_recoil?: number;
     /**可以装载的最大弹药量 */
 	clip_size?: number;
-    /**除了普通弹药（如果有）之外，枪还需要一些电能。
-     * 枪内电池电量耗尽。
-     * 使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。
+    /**除了普通弹药（如果有）之外，枪还需要一些电能。  
+     * 枪内电池电量耗尽。  
+     * 使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  
      * 这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。
      */
 	energy_drain?: Energy;
     /**使用的弹药量 默认1 */
 	ammo_to_fire?: number;
-    /**这把枪的射击模式 DEFAULT,AUTO, MELEE
-     * 后面是游戏中显示的模式名称
-     * 最后是该模组的射击次数。
+    /**这把枪的射击模式 DEFAULT,AUTO, MELEE  
+     * 后面是游戏中显示的模式名称  
+     * 最后是该模组的射击次数。  
      */
 	modes?: FireMode[];
     /**重新加载的时间量，100 = 1 秒 = 1 "turn" */
@@ -62,10 +62,10 @@ export type Gun = {
 	barrel_volume?: Volume;
     /**枪械的有效位置以及该位置的插槽安装量 */
 	valid_mod_locations?: VaildMod[];
-    /**这把枪射击时产生的噪音量。
-     * 如果未定义值，则根据加载弹药的响度值进行计算。
-     * 最终响度计算为枪支响度+枪械响度+弹药响度。
-     * 如果最终响度为 0，则枪声完全静音。
+    /**这把枪射击时产生的噪音量。  
+     * 如果未定义值，则根据加载弹药的响度值进行计算。  
+     * 最终响度计算为枪支响度+枪械响度+弹药响度。  
+     * 如果最终响度为 0，则枪声完全静音。  
      **/
 	loudness?: number;
     /**枪械的flag */

@@ -3,10 +3,10 @@ import { CddaID } from "./GenericDefine"
 
 
 
-/**音效ID
+/**音效ID  
  */
 export type SoundEffectID = CddaID<"SE">;
-/**音效变体ID
+/**音效变体ID  
  */
 export type SoundEffectVariantID = CddaID<"SEV">;
 /**音效 */

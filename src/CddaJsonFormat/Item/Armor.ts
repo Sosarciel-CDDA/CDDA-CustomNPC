@@ -4,7 +4,7 @@ import { MaterialID } from "../Material";
 import { GenericBase, GenericFlag } from "./Generic"
 
 
-/**Armor ID格式
+/**Armor ID格式  
  */
 export type ArmorID = CddaID<"ARMOR">;
 

@@ -31,6 +31,17 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
+//传送法术标靶
+function CNPC_EOC_TeleportSpellTarget(){
+	eoc_type("ACTIVATION")
+	eobj({"u_teleport":{"global_val":"victim_loc"},"force":true})
+}
+//移除法术标靶 作废备份
+function CNPC_EOC_KillSpellTarget(){
+	eoc_type("ACTIVATION")
+	eobj({"u_location_variable":{"global_val":"tmp_loc"},"z_adjust":-10,"z_override":true})
+    eobj({"u_teleport":{"global_val":"tmp_loc"},"force":true})
+}
 
 //受伤事件
 function CNPC_EOC_TakesDamage(){
@@ -65,7 +76,9 @@ function CNPC_EOC_NPC_DEATH(){
 function CNPC_EOC_CheckCurrHP_Melee(){
 	eoc_type("ACTIVATION")
 	if(and(u_currHp > u_hp(),hasTarget!=1)){
+		eobj({u_location_variable:{global_val:"victim_loc"}});
 		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+		//eobj({ "u_cast_spell": { "id": "CNPC_SPELL_TeleportSpellTarget" } })
 		hasTarget=1;
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseDamage();
@@ -78,7 +91,9 @@ function CNPC_EOC_CheckCurrHP_Melee(){
 function CNPC_EOC_CheckCurrHP_Range(){
 	eoc_type("ACTIVATION")
 	if(and(u_currHp > u_hp(),hasTarget!=1)){
+		eobj({u_location_variable:{global_val:"victim_loc"}});
 		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+		//eobj({ "u_cast_spell": { "id": "CNPC_SPELL_TeleportSpellTarget" } })
 		hasTarget=1;
 		//运行动态生成的事件eoc
 		CNPC_EOC_CharCauseDamage();
@@ -93,39 +108,50 @@ function CNPC_EOC_CheckCurrHP_Range(){
 function CNPC_EOC_MeleeHitEvent(){
 	eoc_type("ACTIVATION")
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
-		//初始化怪物血量
-		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Melee"}})
-
-		//通用攻击事件
-		CNPC_EOC_HitEvent()
-
-		//运行动态生成的 造成近战攻击 事件eoc
-		CNPC_EOC_CharCauseMeleeHit()
-
-		hasTarget=0; //重置flag
-		eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
+		//将受害者作为beta运行子eoc
+		eobj({
+			"run_eoc_with":"CNPC_EOC_MeleeHitEvent_Sub",
+			"beta_loc":{"global_val":"victim_loc"}
+		})
 	}
 }
+function CNPC_EOC_MeleeHitEvent_Sub(){
+	eoc_type("ACTIVATION")
+	//通用攻击事件
+	CNPC_EOC_HitEvent()
+
+	//运行动态生成的 造成近战攻击 事件eoc
+	CNPC_EOC_CharCauseMeleeHit()
+
+	hasTarget=0; //重置flag
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
+}
+
 //尝试远程攻击触发的Eoc
 function CNPC_EOC_RangeHitEvent(){
 	eoc_type("ACTIVATION")
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
-		//初始化怪物血量
-		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Range"}})
-
-		//通用攻击事件
-		CNPC_EOC_HitEvent()
-
-		//运行动态生成的 造成远程攻击 事件eoc
-		CNPC_EOC_CharCauseRangeHit()
-
-		hasTarget=0; //重置flag
-		eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
+		//将受害者作为beta运行子eoc
+		eobj({
+			"run_eoc_with":"CNPC_EOC_RangeHitEvent_Sub",
+			"beta_loc":{"global_val":"victim_loc"}
+		})
 	}
+}
+function CNPC_EOC_RangeHitEvent_Sub(){
+	eoc_type("ACTIVATION")
+	//通用攻击事件
+	CNPC_EOC_HitEvent()
+
+	//运行动态生成的 造成远程攻击 事件eoc
+	CNPC_EOC_CharCauseRangeHit()
+
+	hasTarget=0; //重置flag
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 
 //尝试攻击触发的eoc
@@ -211,6 +237,8 @@ function CNPC_EOC_GlobalUpdateEvent(){
 		//附近有怪物 u_search_radius 无效
 		if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
 			//触发战斗中
+			//初始化怪物血量
+			eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 			//运行动态生成的事件eoc
 			CNPC_EOC_CharBattleUpdate();
 		}

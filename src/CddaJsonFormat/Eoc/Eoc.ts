@@ -5,8 +5,8 @@ import { JObject } from "@zwa73/utils";
 
 
 
-/**EOC ID格式
- * @TJS-type string
+/**EOC ID格式  
+ * @TJS-type string  
  */
 export type EocID = CddaID<"EOC">;
 /**EOC */

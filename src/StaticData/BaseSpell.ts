@@ -11,7 +11,7 @@ export const BATTLE_RANGE = 20;
 export const MELEE_RANGE = 3;
 
 /**用于必定成功的控制法术的flags */
-export const CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL"] as const;
+export const CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL","NO_EXPLOSION_SFX"] as const;
 export const BaseSpell:Spell[] = [
 	{
 		type: "SPELL",
@@ -31,6 +31,33 @@ export const BaseSpell:Spell[] = [
 		shape: "blast",
 	},
 	{
+		type: "SPELL",
+		id: genSpellID("TeleportSpellTarget"),
+		name: "传送法术标靶",
+		description: "将附近法术标靶传送到自身位置",
+		flags: [...CON_SPELL_FLAG],
+		valid_targets: ["hostile","ally"],
+		min_aoe: 1,
+		max_aoe: 1,
+		effect: "effect_on_condition",
+		effect_str: "CNPC_EOC_TeleportSpellTarget",
+		shape: "blast",
+		targeted_monster_ids: [TARGET_MON_ID],
+	},
+	{
+		id: genSpellID("KillSpellTarget_BK"),
+		type: "SPELL",
+		name: "清除法术标靶_BK",
+		description: "清除法术标靶",
+		effect: "effect_on_condition",
+		effect_str: "CNPC_EOC_KillSpellTarget",
+		shape: "blast",
+		valid_targets: ["hostile"],
+		flags: [...CON_SPELL_FLAG,"IGNORE_WALLS"],
+		min_aoe: BATTLE_RANGE,
+		targeted_monster_ids: [TARGET_MON_ID],
+	},
+	{
 		id: genSpellID("KillSpellTarget"),
 		type: "SPELL",
 		name: "清除法术标靶",
@@ -38,7 +65,7 @@ export const BaseSpell:Spell[] = [
 		effect: "attack",
 		shape: "blast",
 		valid_targets: ["hostile"],
-		flags: [...CON_SPELL_FLAG,"NO_EXPLOSION_SFX","IGNORE_WALLS","NON_MAGICAL"],
+		flags: [...CON_SPELL_FLAG,"IGNORE_WALLS","NON_MAGICAL"],
 		min_damage: 100,
 		max_damage: 100,
 		damage_type:"pure",

@@ -42,7 +42,7 @@ function changeAnimEoc(baseData, animType) {
     return [eoc, removeEoc];
 }
 exports.changeAnimEoc = changeAnimEoc;
-/**创建动画状态机 */
+/**创建动画状态机事件 */
 async function createAnimStatus(dm, charName) {
     const { defineData, outData } = await dm.getCharData(charName);
     const eocList = [];

@@ -4,7 +4,7 @@ import { MaterialID } from "./Material";
 
 
 
-/**Monster ID格式
+/**Monster ID格式  
  */
 export type MonsterID = CddaID<"MON">;
 

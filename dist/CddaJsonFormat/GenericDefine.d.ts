@@ -1,7 +1,7 @@
 import { AmmunitionType } from "./AmmiunitionType";
 import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
-import { Eoc } from "./Eoc";
+import { Eoc, StrObj } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
 import { AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
@@ -56,7 +56,7 @@ export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", 
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number] | CustBP;
 /**目标肢体参数 whole body为全身 */
-export type BodyPartParam = BodyPartID | "RANDOM" | "whole body";
+export type BodyPartParam = BodyPartID | "RANDOM" | "whole body" | Exclude<StrObj, string>;
 /**npc阵营 列表 */
 export declare const DefineNpcFactionList: readonly ["your_followers", "no_faction"];
 /**npc阵营 */

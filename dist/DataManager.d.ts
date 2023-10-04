@@ -1,76 +1,10 @@
 import { JArray, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, GunID, StatusSimple, EnchantmentID, Gun, Generic, GenericID, EnchArmorValType, EnchGenericValType, EocEffect, AnyCddaJson, AnyItemID } from './CddaJsonFormat';
-import { CharSkill } from './CharSkill';
-import { SkillID } from './CddaJsonFormat/Skill';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, AnyCddaJson } from './CddaJsonFormat';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
-/**角色事件列表 */
-export declare const CharEvemtTypeList: readonly ["CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath"];
-/**角色事件类型 */
-export type CharEventType = typeof CharEvemtTypeList[number];
-/**反转Talker的角色事件列表
- * 对应同名CauseDamage
- * npc为角色
- */
-export declare const ReverseCharEvemtTypeList: readonly ["CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
-/**反转Talker的角色事件类型
- * 对应同名CauseDamage
- */
-export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
-/**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharCauseHit", "CharUpdate", "CharCauseMeleeHit", "CharCauseRangeHit", "CharInit", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharBattleUpdate", "CharDeath", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
-/**全局事件 */
-export type GlobalEventType = typeof GlobalEvemtTypeList[number];
-/**事件效果 */
-export type EventEffect = {
-    /**eoc效果 */
-    effect: EocEffect;
-    /**排序权重 */
-    weight: number;
-};
-/**变量属性 */
-export type EnchStat = EnchGenericValType | EnchArmorValType;
-/**动态读取的角色设定 */
-export type CharConfig = {
-    /**基础属性 */
-    base_status: Record<StatusSimple, number>;
-    /**基础技能 */
-    base_skill?: Partial<Record<SkillID | "ALL", number>>;
-    /**附魔属性 */
-    ench_status?: Partial<Record<EnchStat, number>>;
-    /**固定的武器 */
-    weapon: Gun | Generic;
-    /**技能 */
-    skill?: CharSkill[];
-    /**强化项 */
-    upgrade?: CharUpgrade[];
-};
-/**角色强化项 */
-export type CharUpgrade = {
-    /**强化项ID
-     * 作为全局变量`${charName}_${fieled}`
-     */
-    field: string;
-    /**最大强化等级 未设置则为require_resource长度
-     * 若 require_resource 设置的长度不足以达到最大等级
-     * 则以最后一组材料填充剩余部分
-     */
-    max_lvl?: number;
-    /**所需要消耗的资源
-     * [[[一级的物品ID,数量],[一级的另一个物品ID,数量]]
-     * [[二级的物品ID,数量],[二级的另一个物品ID,数量]]]
-     */
-    require_resource: ([AnyItemID, number] | AnyItemID)[][];
-    /**每个强化等级提升的附魔属性 */
-    lvl_ench_status?: Partial<Record<EnchStat, number>>;
-    /**只要拥有此字段就会添加的附魔属性 */
-    ench_status?: Partial<Record<EnchStat, number>>;
-    /**到达特定强化等级时将会获得的变异
-     * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]
-     */
-    mutation?: ([MutationID, number] | MutationID)[];
-};
-/**角色基础数据 */
+import { CharConfig } from './CharConfig';
+import { CharEventType, EventEffect, GlobalEventType, ReverseCharEventType } from './Event';
+/**角色定义数据 */
 export type CharDefineData = Readonly<{
     /**角色名 */
     charName: string;
@@ -88,8 +22,6 @@ export type CharDefineData = Readonly<{
     baseArmorID: ArmorID;
     /**基础装备附魔ID */
     baseEnchID: EnchantmentID;
-    /**基础武器ID */
-    baseWeaponID: GunID | GenericID;
     /**基础武器物品组ID */
     baseWeaponGroupID: ItemGroupID;
     /**基础武器Flag ID */
@@ -99,25 +31,27 @@ export type CharDefineData = Readonly<{
     /**主对话ID */
     talkTopicID: TalkTopicID;
 }>;
+/**角色数据 */
+type CharData = {
+    /**角色基础定义数据 */
+    defineData: CharDefineData;
+    /**输出数据 */
+    outData: Record<string, JArray>;
+    /**输出的角色Eoc事件 u为角色 npc为未定义
+     * id为 `${charName}_${etype}`
+     */
+    charEventEocs: Record<CharEventType, EventEffect[]>;
+    /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
+     * id为 `${charName}_${etype}`
+     */
+    reverseCharEventEocs: Record<ReverseCharEventType, EventEffect[]>;
+    /**角色设定 */
+    charConfig: CharConfig;
+};
 /**主资源表 */
 export type DataTable = {
     /**输出的角色数据表 */
-    charTable: Record<string, {
-        /**角色基础定义数据 */
-        defineData: CharDefineData;
-        /**输出数据 */
-        outData: Record<string, JArray>;
-        /**输出的角色Eoc事件 u为角色 npc为未定义
-         * id为 `${charName}_${etype}`
-         */
-        charEventEocs: Record<CharEventType, EventEffect[]>;
-        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
-         * id为 `${charName}_${etype}`
-         */
-        reverseCharEventEocs: Record<ReverseCharEventType, EventEffect[]>;
-        /**角色设定 */
-        charConfig: CharConfig;
-    }>;
+    charTable: Record<string, CharData>;
     /**输出的静态数据表 */
     staticTable: Record<string, JArray>;
     /**输出的Eoc事件 */
@@ -139,6 +73,7 @@ export type GameData = {
     /**JSON */
     game_json?: CddaJson;
 };
+/**数据管理器 */
 export declare class DataManager {
     /**资源目录 */
     dataPath: string;
@@ -165,66 +100,13 @@ export declare class DataManager {
      */
     static create(dataPath?: string, outPath?: string): Promise<DataManager>;
     /**初始化 处理贴图包 */
-    processGfxpack(): Promise<void>;
+    private processGfxpack;
     /**初始化 处理音效包 */
-    processSoundpack(): Promise<void>;
+    private processSoundpack;
     /**载入所有json */
-    processJson(): Promise<void>;
+    private processJson;
     /**获取角色表 如无则初始化 */
-    getCharData(charName: string): Promise<{
-        /**角色基础定义数据 */
-        defineData: Readonly<{
-            /**角色名 */
-            charName: string;
-            /**基础变异ID 角色必定会拥有此变异 可以作为角色判断依据 */
-            baseMutID: MutationID;
-            /**职业ID */
-            classID: NpcClassID;
-            /**实例ID */
-            instanceID: NpcInstanceID;
-            /**动画数据 */
-            animData: Record<"Idle" | "Move" | "Attack", Readonly<{
-                /**动画类型 */
-                animType: "Idle" | "Move" | "Attack";
-                /**动画名 */
-                animName: string;
-                /**动画变异ID */
-                mutID: MutationID;
-                /**动画装备ID */
-                armorID: ArmorID;
-                /**动画装备物品组ID */
-                itemGroupID: ItemGroupID;
-            }>>;
-            /**有效的动作动画 */
-            vaildAnim: ("Idle" | "Move" | "Attack")[];
-            /**基础装备ID */
-            baseArmorID: ArmorID;
-            /**基础装备附魔ID */
-            baseEnchID: EnchantmentID;
-            /**基础武器ID */
-            baseWeaponID: `${string}SchemaString` | `GENERIC_${string}` | `${string}_GENERIC_${string}` | `GUN_${string}` | `${string}_GUN_${string}`;
-            /**基础武器物品组ID */
-            baseWeaponGroupID: ItemGroupID;
-            /**基础武器Flag ID */
-            baseWeaponFlagID: FlagID;
-            /**经验变量ID */
-            expVarID: string;
-            /**主对话ID */
-            talkTopicID: TalkTopicID;
-        }>;
-        /**输出数据 */
-        outData: Record<string, JArray>;
-        /**输出的角色Eoc事件 u为角色 npc为未定义
-         * id为 `${charName}_${etype}`
-         */
-        charEventEocs: Record<"CharIdle" | "CharMove" | "CharCauseHit" | "CharUpdate" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharInit" | "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharBattleUpdate" | "CharDeath", EventEffect[]>;
-        /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
-         * id为 `${charName}_${etype}`
-         */
-        reverseCharEventEocs: Record<"CharCauseDamage" | "CharCauseMeleeDamage" | "CharCauseRangeDamage", EventEffect[]>;
-        /**角色设定 */
-        charConfig: CharConfig;
-    }>;
+    getCharData(charName: string): Promise<CharData>;
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
@@ -239,8 +121,6 @@ export declare class DataManager {
     addReverseCharEvent(charName: string, etype: ReverseCharEventType, weight: number, ...events: Eoc[]): void;
     /**获取 角色目录 */
     getCharPath(charName: string): string;
-    /**获取 角色图片目录 */
-    getCharImagePath(charName: string): string;
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
     /**输出数据到角色目录 */
@@ -272,3 +152,4 @@ export type AnimData = Readonly<{
     /**动画装备物品组ID */
     itemGroupID: ItemGroupID;
 }>;
+export {};

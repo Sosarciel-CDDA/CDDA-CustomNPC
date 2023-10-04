@@ -5,7 +5,7 @@ import { MutationID } from "./Mutattion";
 import { EffectID } from "./Effect";
 import { BoolObj, NumObj } from "./Eoc";
 
-/**附魔ID
+/**附魔ID  
  */
 export type EnchantmentID = CddaID<"ENCH">;
 /**附魔 */
@@ -16,13 +16,13 @@ export type Enchantment = {
 	has?: EnchConHas;
     /**启用条件 */
 	condition: EnchCon;
-	/**抚摸拥有者近战击中敌人时触发的法术
-     * 该法术以该生物的位置为中心，除非"hit_self": true
-     * 那么它以你的位置为中心。
+	/**抚摸拥有者近战击中敌人时触发的法术  
+     * 该法术以该生物的位置为中心，除非"hit_self": true  
+     * 那么它以你的位置为中心。  
      */
     hit_you_effect?: FakeSpell[];
-    /**附魔拥有者击中时触发的法术
-     * 该咒语以您的位置为中心。
+    /**附魔拥有者击中时触发的法术  
+     * 该咒语以您的位置为中心。  
      */
 	hit_me_effect?: FakeSpell[];
     /**附魔的数值增幅 */
@@ -96,8 +96,8 @@ export type EnchModVal = {
 export type FakeSpell = {
     /**法术ID */
     id: SpellID;
-    /**击中附魔拥有者而非命中目标
-     * 法术效果将会影响自身 默认false
+    /**击中附魔拥有者而非命中目标  
+     * 法术效果将会影响自身 默认false  
      */
     hit_self?: boolean;
     /** 1/n 的几率触发 */

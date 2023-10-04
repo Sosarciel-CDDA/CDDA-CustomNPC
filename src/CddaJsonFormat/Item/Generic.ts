@@ -12,7 +12,7 @@ import { MaterialID } from "../Material";
 
 
 
-/**Generic ID格式
+/**Generic ID格式  
  */
 export type GenericID = CddaID<"GENERIC">;
 
@@ -56,12 +56,12 @@ export type GenericBase = {
 	weight: Weight;
 	/**体积 0体积物品需要添加 ZERO_WEIGHT标签*/
 	volume: Volume;
-	/**当物品集成到另一个物品中时添加到基础物品的体积
-	 * 例如，集成到枪支的枪械 体积会添加到基础物品上。
+	/**当物品集成到另一个物品中时添加到基础物品的体积  
+	 * 例如，集成到枪支的枪械 体积会添加到基础物品上。  
 	 * 默认值与音量相同。 */
 	integral_volume?: Volume;
-	/**当物品集成到另一个物品中时
-	 * 例如，集成到枪中的枪械 重量会添加到基础物品上。
+	/**当物品集成到另一个物品中时  
+	 * 例如，集成到枪中的枪械 重量会添加到基础物品上。  
 	 * 默认值与重量相同。 */
 	integral_weight?: Weight;
 	/**最长物品尺寸的长度。 默认为体积的立方根 */
@@ -74,8 +74,8 @@ export type GenericBase = {
 	price?: Price;
 	/**大灾变后的物品价格 */
 	price_postapoc?: Price;
-	/**控制物品在受到伤害时退化的速度。 0 = 无退化。
-	 * 默认为 1.0
+	/**控制物品在受到伤害时退化的速度。 0 = 无退化。  
+	 * 默认为 1.0  
 	 */
 	degradation_multiplier?: number;
 	/**ascii显示符号 */

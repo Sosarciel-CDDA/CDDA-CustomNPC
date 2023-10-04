@@ -7,6 +7,7 @@ function getFieldVarID(charName, field) {
     return `${charName}_${field}`;
 }
 exports.getFieldVarID = getFieldVarID;
+/**创建对话选项 */
 async function createCharTalkTopic(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //扩展对话

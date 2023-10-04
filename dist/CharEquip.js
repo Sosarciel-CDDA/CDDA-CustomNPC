@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const ModDefine_1 = require("./ModDefine");
 const CharTalkTopic_1 = require("./CharTalkTopic");
+/**创建角色装备 */
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
@@ -76,18 +77,20 @@ async function createCharEquip(dm, charName) {
             "TARDIS",
             "PARTIAL_DEAF", //降低音量到安全水平
         ],
-        pocket_data: [{
-                rigid: true,
-                pocket_type: "CONTAINER",
-                max_contains_volume: "100 L",
-                max_contains_weight: "100 kg",
-                moves: 1,
-                fire_protection: true,
-                max_item_length: "1 km",
-                weight_multiplier: 0,
-                volume_multiplier: 0,
-                item_restriction: [charConfig.weapon.id]
-            }],
+        pocket_data: (charConfig.weapon
+            ? [{
+                    rigid: true,
+                    pocket_type: "CONTAINER",
+                    max_contains_volume: "100 L",
+                    max_contains_weight: "100 kg",
+                    moves: 1,
+                    fire_protection: true,
+                    max_item_length: "1 km",
+                    weight_multiplier: 0,
+                    volume_multiplier: 0,
+                    item_restriction: [charConfig.weapon.id]
+                }]
+            : undefined),
         relic_data: {
             passive_effects: [
                 { id: (0, ModDefine_1.genEnchantmentID)('StatusMap') },
@@ -98,30 +101,45 @@ async function createCharEquip(dm, charName) {
     };
     /**基础武器 */
     const baseWeapon = charConfig.weapon;
-    baseWeapon.looks_like = baseWeapon.looks_like || TransparentItem;
-    baseWeapon.flags = baseWeapon.flags || [];
-    baseWeapon.flags?.push(defineData.baseWeaponFlagID, //角色武器标识
-    "ACTIVATE_ON_PLACE", //自动销毁
-    "TRADER_KEEP", //不会出售
-    "UNBREAKABLE");
-    if (baseWeapon.type == "GUN") {
-        baseWeapon.flags?.push("NEEDS_NO_LUBE", //不需要润滑油
-        "NEVER_JAMS", //不会故障
-        "NON_FOULING");
+    const baseWeaponData = [];
+    if (baseWeapon) {
+        baseWeapon.looks_like = baseWeapon.looks_like || TransparentItem;
+        baseWeapon.flags = baseWeapon.flags || [];
+        baseWeapon.flags?.push(defineData.baseWeaponFlagID, //角色武器标识
+        "ACTIVATE_ON_PLACE", //自动销毁
+        "TRADER_KEEP", //不会出售
+        "UNBREAKABLE");
+        if (baseWeapon.type == "GUN") {
+            baseWeapon.flags?.push("NEEDS_NO_LUBE", //不需要润滑油
+            "NEVER_JAMS", //不会故障
+            "NON_FOULING");
+        }
+        baseWeapon.countdown_interval = 1; //自动销毁
+        /**基础武器物品组 */
+        const baseItemGroup = {
+            type: "item_group",
+            id: defineData.baseWeaponGroupID,
+            subtype: "collection",
+            items: [baseWeapon.id],
+        };
+        /**基础武器的识别flag */
+        const baseWeaponFlag = {
+            type: "json_flag",
+            id: defineData.baseWeaponFlagID,
+        };
+        /**如果没武器则给予 */
+        const giveWeapon = {
+            type: "effect_on_condition",
+            eoc_type: "ACTIVATION",
+            id: (0, ModDefine_1.genEOCID)("GiveWeapon"),
+            condition: { not: { u_has_item: baseWeapon.id } },
+            effect: [
+                { u_spawn_item: baseWeapon.id }
+            ]
+        };
+        dm.addCharEvent(charName, "CharUpdate", 0, giveWeapon);
+        baseWeaponData.push(giveWeapon, baseWeaponFlag, baseItemGroup, baseWeapon);
     }
-    baseWeapon.countdown_interval = 1; //自动销毁
-    /**基础武器物品组 */
-    const baseItemGroup = {
-        type: "item_group",
-        id: defineData.baseWeaponGroupID,
-        subtype: "collection",
-        items: [defineData.baseWeaponID],
-    };
-    /**基础武器的识别flag */
-    const baseWeaponFlag = {
-        type: "json_flag",
-        id: defineData.baseWeaponFlagID,
-    };
     /**丢掉其他武器 */
     const dropOtherWeapon = {
         type: "effect_on_condition",
@@ -135,18 +153,8 @@ async function createCharEquip(dm, charName) {
         ],
         eoc_type: "ACTIVATION",
     };
-    /**如果没武器则给予 */
-    const giveWeapon = {
-        type: "effect_on_condition",
-        eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)("GiveWeapon"),
-        condition: { not: { u_has_item: defineData.baseWeaponID } },
-        effect: [
-            { u_spawn_item: defineData.baseWeaponID }
-        ]
-    };
-    dm.addCharEvent(charName, "CharUpdate", 0, dropOtherWeapon, giveWeapon);
+    dm.addCharEvent(charName, "CharUpdate", 0, dropOtherWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseWeapon, baseItemGroup, dropOtherWeapon, giveWeapon, baseWeaponFlag, ...enchList];
+    outData['equip'] = [baseMut, baseArmor, dropOtherWeapon, ...baseWeaponData, ...enchList];
 }
 exports.createCharEquip = createCharEquip;

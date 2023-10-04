@@ -36,7 +36,9 @@ export type NpcClass = {
     carry_override?: ItemGroupID;
     /**npc拿起的物品组 */
     weapon_override?: ItemGroupID;
-    /**仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。 */
+    /**仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。
+     * 所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。
+     */
     shopkeeper_item_group?: ShopItemGroup;
     /**用于定义此店主的物料消耗费率。默认设置是在补货前消耗所有商品 */
     shopkeeper_consumption_rates?: "basic_shop_rates";

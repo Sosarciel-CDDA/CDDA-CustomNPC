@@ -38,7 +38,8 @@ export type EocEffectList = [
     Teleport,
     LocalVar,
     Message,
-    AddEffect
+    AddEffect,
+    SetHP
 ];
 /**运行Eoc */
 type RunEoc = {
@@ -111,7 +112,7 @@ type LocalVar = TalkerVar<{
     /**如果使用，搜索将不是从u_或npc_位置执行，
      * 而是从 执行mission_target。
      * 它使用allocate_mission_target语法
-     * */
+     */
     target_params?: MissionTarget;
     /**将结果的x值增加 */
     x_adjust?: NumObj;
@@ -181,6 +182,24 @@ type AddEffect = TalkerVar<{
     /**是否强制添加忽略豁免 默认 false */
     force?: boolean;
 }, "add_effect">;
+/**设置生命 */
+type SetHP = TalkerVar<{
+    set_hp: NumObj;
+    /**默认为 whole body 全身
+     * 如果使用，HP调整将仅应用于该身体部位
+     */
+    target_part?: BodyPartParam;
+    /**仅增加 默认false
+     * 如果属实，HP只能增加
+     */
+    only_increase?: boolean;
+    /**只影响主要肢体 默认 false */
+    main_only?: boolean;
+    /**只影响次要肢体 默认 false */
+    minor_only?: boolean;
+    /**忽略数值 设置为满值 默认 false */
+    max?: boolean;
+}, "set_hp">;
 /**参数Eoc */
 export type ParamsEoc = (EocID | StrObj | InlineEoc) | (EocID | StrObj | InlineEoc)[];
 /**分配任务目标 assign_mission_target

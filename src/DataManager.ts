@@ -45,12 +45,12 @@ type CharData = {
     defineData:CharDefineData;
     /**输出数据 */
     outData:Record<string,JArray>;
-    /**输出的角色Eoc事件 u为角色 npc为未定义
-     * id为 `${charName}_${etype}`
+    /**输出的角色Eoc事件 u为角色 npc为未定义  
+     * id为 `${charName}_${etype}`  
      */
     charEventEocs:Record<CharEventType,EventEffect[]>;
-    /**输出的对象反转的角色Eoc事件 u为目标 npc为角色
-     * id为 `${charName}_${etype}`
+    /**输出的对象反转的角色Eoc事件 u为目标 npc为角色  
+     * id为 `${charName}_${etype}`  
      */
     reverseCharEventEocs:Record<ReverseCharEventType,EventEffect[]>;
     /**角色设定 */
@@ -111,8 +111,8 @@ export class DataManager{
 
     //———————————————————— 初始化 ————————————————————//
     /**
-     * @param dataPath 输入数据路径
-     * @param outPath  输出数据路径
+     * @param dataPath 输入数据路径  
+     * @param outPath  输出数据路径  
      */
     private constructor(dataPath?:string,outPath?:string){
         //合并静态数据
@@ -135,9 +135,9 @@ export class DataManager{
             return true;
         });
     }
-    /**静态构造函数
-     * @param dataPath 输入数据路径
-     * @param outPath  输出数据路径
+    /**静态构造函数  
+     * @param dataPath 输入数据路径  
+     * @param outPath  输出数据路径  
      */
     static async create(dataPath?:string,outPath?:string):Promise<DataManager>{
         let dm = new DataManager(dataPath,outPath);
@@ -358,24 +358,24 @@ export class DataManager{
         }
         return this.dataTable.charTable[charName];
     }
-    /**添加 eoc的ID引用到 全局事件
-     * u为主角 npc为未定义
+    /**添加 eoc的ID引用到 全局事件  
+     * u为主角 npc为未定义  
      */
     addEvent(etype:GlobalEventType,weight:number,...events:Eoc[]){
         this.dataTable.eventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
-    /**添加 eoc的ID引用到 角色事件
-     * u为角色 npc为未定义
+    /**添加 eoc的ID引用到 角色事件  
+     * u为角色 npc为未定义  
      */
     addCharEvent(charName:string,etype:CharEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
-    /**添加 eoc的ID引用到 反转角色事件
-     * u为目标 npc为角色
+    /**添加 eoc的ID引用到 反转角色事件  
+     * u为目标 npc为角色  
      */
     addReverseCharEvent(charName:string,etype:ReverseCharEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(

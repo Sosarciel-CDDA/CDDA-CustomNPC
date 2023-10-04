@@ -16,7 +16,7 @@ export const DefineEffectIDList = [
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];
 
-/**效果ID
+/**效果ID  
  */
 export type EffectID = CddaID<"EFF">|DefineEffectID;
 
@@ -26,27 +26,27 @@ export type Effect = {
 	id: EffectID;
 	/**用于后面的许多字段，默认为 1 */
 	max_intensity?: number;
-	/**将累积效果的最大强度级别。
-	 * 其他强度级别只会增加持续时间。
+	/**将累积效果的最大强度级别。  
+	 * 其他强度级别只会增加持续时间。  
 	 */
 	max_effective_intensity?: number;
-    /**如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。
-     * ["ABC","XYZ","123"]
-     * 在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。
-     * 如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，
-     * 则如果当前强度> 1，则将使用第一个条目，
-     * 后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。
-     * 如果所需的“名称”条目是空字符串（“”）或缺少“名称”，
-     * 则该效果将不会在状态屏幕中向玩家显示。
-     * 按效果强度应用不同成员
+    /**如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。  
+     * ["ABC","XYZ","123"]  
+     * 在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。  
+     * 如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，  
+     * 则如果当前强度> 1，则将使用第一个条目，  
+     * 后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。  
+     * 如果所需的“名称”条目是空字符串（“”）或缺少“名称”，  
+     * 则该效果将不会在状态屏幕中向玩家显示。  
+     * 按效果强度应用不同成员  
      */
     name?: string[];
-    /**同name
-     * 按效果强度应用不同成员
+    /**同name  
+     * 按效果强度应用不同成员  
      */
     desc?: string[];
-    /**如果“part_descs”== true，则描述前面带有“您的 X”，
-     * 其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。
+    /**如果“part_descs”== true，则描述前面带有“您的 X”，  
+     * 其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。  
      */
     part_descs?: true;
     /**效果评价 */
@@ -55,8 +55,8 @@ export type Effect = {
     apply_message?: string|[string,EffectRat][];
     /**效果结束或移除时产生的消息 */
     remove_message?: string|[string,EffectRat][];
-    /**默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果
-     * 如果为true玩家可以从怪物简介中查看到效果
+    /**默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果  
+     * 如果为true玩家可以从怪物简介中查看到效果  
      */
     show_in_info?:boolean;
     /**效果被添加时产生的log */
@@ -69,89 +69,89 @@ export type Effect = {
     resist_effects?: EffectID[];
     /**可免疫此效果的Flag */
     immune_flags?: FlagID[];
-    /**可免疫此效果的身体部位
-     * 效果直接施加于这些身体部位时将会被免疫
+    /**可免疫此效果的身体部位  
+     * 效果直接施加于这些身体部位时将会被免疫  
      */
     immune_bp_flags?: BodyPartID[];
-    /**获得此效果时会移除这些效果
-     * 这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。
+    /**获得此效果时会移除这些效果  
+     * 这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。  
      */
     removes_effects?: EffectID[];
     /**获得此效果时以下效果将会被免疫 */
     blocks_effects?: EffectID[];
     /**效果的持续时间 默认365 d */
     max_duration?: Time;
-    /**在已有效果的情况下再次添加效果时
-     * 所增加时间的修正值
-     * duration = duration + (dur_add_perc/100) * max_duration
-     * 默认 100
+    /**在已有效果的情况下再次添加效果时  
+     * 所增加时间的修正值  
+     * duration = duration + (dur_add_perc/100) * max_duration  
+     * 默认 100  
      */
     dur_add_perc?: number;
-    /**在已有效果的情况下再次添加效果时
-     * 所增加的强度
-     * 默认 0
+    /**在已有效果的情况下再次添加效果时  
+     * 所增加的强度  
+     * 默认 0  
      */
     int_add_val?: number;
-    /**每经过int_decay_tick 的时间后
-     * 效果强度将会调整此数值
-     * 默认-1
+    /**每经过int_decay_tick 的时间后  
+     * 效果强度将会调整此数值  
+     * 默认-1  
      */
     int_decay_step?: number;
-    /**效果做出自然增减的间隔 秒
-     * 默认0 即不会改变
+    /**效果做出自然增减的间隔 秒  
+     * 默认0 即不会改变  
      */
     int_decay_tick?: number;
     /**在强度为0是是否移除效果 默认false */
     int_decay_remove?: false;
-    /**覆盖其他三个强度字段，
+    /**覆盖其他三个强度字段，  
      * 并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字
-     * （因此从0到“int_dur_factor”是强度1）。
+     * （因此从0到“int_dur_factor”是强度1）。  
      */
     int_dur_factor?: number;
-    /**这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。
-     * 例如显示“弱点[142]”或简单的“弱点”文本。
-     * 默认true
+    /**这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。  
+     * 例如显示“弱点[142]”或简单的“弱点”文本。  
+     * 默认true  
      */
     show_intensity?: boolean;
-    /**豁免效果时产生的消息
-     * [消息,发送此消息的权重][]
-     * 按效果强度应用不同成员
+    /**豁免效果时产生的消息  
+     * [消息,发送此消息的权重][]  
+     * 按效果强度应用不同成员  
      */
     miss_messages?: [string,number][];
-    /**效果产生自然调整时产生的消息
-     * [消息,效果评价][]
-     * 按效果强度应用不同成员
+    /**效果产生自然调整时产生的消息  
+     * [消息,效果评价][]  
+     * 按效果强度应用不同成员  
      */
     decay_messages?: [string,EffectRat][];
-    /**这个效果是否只能应用于主肢体
-     * 默认false
+    /**这个效果是否只能应用于主肢体  
+     * 默认false  
      */
     main_parts_only?: boolean;
-    /**使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会
-     * 默认false
+    /**使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会  
+     * 默认false  
      */
     pkill_addict_reduces?: boolean;
-    /**影响疼痛效果触发的机会
-     * 默认false
+    /**影响疼痛效果触发的机会  
+     * 默认false  
      */
     pain_sizing?   : boolean;
-    /** 影响伤害效果触发的机会
-     * 默认false
+    /** 影响伤害效果触发的机会  
+     * 默认false  
      */
     hurt_sizing?   : boolean;
-    /**表示该效果引起的咳嗽会伤害玩家。
-     * 默认false
+    /**表示该效果引起的咳嗽会伤害玩家。  
+     * 默认false  
      */
     harmful_cough? : boolean;
     /**维生素调节 */
     vitamins?:EffectVitaminsMod[];
     /**每回合有 [0]/[1] 的概率杀死玩家
-     * 按效果强度应用不同成员
+     * 按效果强度应用不同成员  
      */
     chance_kill?: [number,number][];
-    /**在玩家 抵抗 此效果时
+    /**在玩家 抵抗 此效果时  
      * 每回合有 [0]/[1] 的概率杀死玩家
-     * 按效果强度应用不同成员
+     * 按效果强度应用不同成员  
      */
     chance_kill_resist?: [number,number][];
     /**因此效果而死亡时产生的消息 */
@@ -164,8 +164,8 @@ export type Effect = {
     base_mods?: EffectMod;
     /**效果的诶个强度等级的额外调整 */
     scaling_mods?: EffectMod;
-    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
-     * 按效果强度应用不同成员
+    /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义  
+     * 按效果强度应用不同成员  
      */
     enchantments?:ParamsEnchantment[];
 };
@@ -183,33 +183,33 @@ export type EffectRat = typeof EffectRatList[number];
 export type EffectVitaminsMod ={
     /**维生素ID */
     vitamin: VitaminsID;
-    /**每隔[0]~[1] tick 将会应用一次调整
-     * 按效果强度应用不同成员
+    /**每隔[0]~[1] tick 将会应用一次调整  
+     * 按效果强度应用不同成员  
      */
     rate?: [ number, number ][];
-    /**在玩家 抵抗 此效果时
-     * 每隔 [0]~[1] tick将会应用一次调整
-     * 按效果强度应用不同成员
+    /**在玩家 抵抗 此效果时  
+     * 每隔 [0]~[1] tick将会应用一次调整  
+     * 按效果强度应用不同成员  
      */
     resist_rate?: [ number, number ][];
-    /**吸收维生素时的调整值
-     * 维生素 = 维生素 + (将要获得的维生素*absorb_mult)
-     * 按效果强度应用不同成员
+    /**吸收维生素时的调整值  
+     * 维生素 = 维生素 + (将要获得的维生素*absorb_mult)  
+     * 按效果强度应用不同成员  
      */
     absorb_mult?: number[];
-    /**在玩家 抵抗 此效果时
-     * 吸收维生素时的调整值
-     * 维生素 = 维生素 + (将要获得的维生素*absorb_mult)
-     * 按效果强度应用不同成员
+    /**在玩家 抵抗 此效果时  
+     * 吸收维生素时的调整值  
+     * 维生素 = 维生素 + (将要获得的维生素*absorb_mult)  
+     * 按效果强度应用不同成员  
      */
     resist_absorb_mult?: number[];
-    /**rate的基础单位
-     * 按效果强度应用不同成员
+    /**rate的基础单位  
+     * 按效果强度应用不同成员  
      */
     tick?: Time[];
-    /**在玩家 抵抗 此效果时
-     * rate的基础单位
-     * 按效果强度应用不同成员
+    /**在玩家 抵抗 此效果时  
+     * rate的基础单位  
+     * 按效果强度应用不同成员  
      */
     resist_tick?: Time[];
 };
@@ -219,19 +219,19 @@ export type EffectLimbMod ={
     limb_score: string,
     /**乘数调整值 默认1 */
     modifier?: number,
-    /**在玩家 抵抗 此效果时
-     * 乘数调整值 默认1
+    /**在玩家 抵抗 此效果时  
+     * 乘数调整值 默认1  
      */
     resist_modifier?: number,
     /**每个强度等级添加到 modifier的值 默认0 */
     scaling?: number;
-    /**在玩家 抵抗 此效果时
-     * 每个强度等级添加到 modifier的值 默认0
+    /**在玩家 抵抗 此效果时  
+     * 每个强度等级添加到 modifier的值 默认0  
      */
     resist_scaling?: number;
 }
 
-/**效果调整类型 列表
+/**效果调整类型 列表  
  * chance_bot 如果不存在，则触发机会为 1/X_chance
  * 如果确实存在，那么机会是 X_chance/X_chance_bot
  */
@@ -371,8 +371,8 @@ export const EffectModTypeList = [
 ] as const;
 
 
-/**效果调整类型
- * "enchantments" 不为数字类型
+/**效果调整类型  
+ * "enchantments" 不为数字类型  
  */
 export type EffectModType = typeof EffectModTypeList[number];
 
