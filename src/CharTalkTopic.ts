@@ -168,10 +168,11 @@ async function createUpgResp(dm:DataManager,charName:string){
                 topic:upgtopicid
             }]
         })
+        const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
         upgRespList.push({
             truefalsetext:{
-                true:`[可以升级]${upgObj.field}`,
-                false:`<color_red>[素材不足]${upgObj.field}</color>`,
+                true:`[可以升级]${resptext}`,
+                false:`<color_red>[素材不足]${resptext}</color>`,
                 condition:{or:upgSubResCondList},
             },
             topic:subTopicId,
