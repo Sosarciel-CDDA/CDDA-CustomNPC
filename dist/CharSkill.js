@@ -5,12 +5,14 @@ const utils_1 = require("@zwa73/utils");
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
 const Event_1 = require("./Event");
+//脚本提供的判断是否成功命中目标的全局变量 字段
+const hasTargetVar = "hasTarget";
 //全局冷却字段名
 const gcdValName = `u_CoCooldown`;
 /**处理角色技能 */
 async function createCharSkill(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
-    const skills = (charConfig.skill || []).sort((a, b) => (b.weight || 0) - (a.weight || 0));
+    const skills = (charConfig.skill ?? []).sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0));
     const skillDataList = [];
     //全局冷却事件
     const GCDEoc = {
@@ -28,8 +30,8 @@ async function createCharSkill(dm, charName) {
     for (const skill of skills) {
         const { condition, spell, cooldown, common_cooldown, audio, require_field, target } = skill;
         //法术消耗字符串
-        const spellCost = `min(${spell.base_energy_cost || 0}+${spell.energy_increment || 0}*` +
-            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost || 999999})`;
+        const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
+            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
@@ -47,11 +49,11 @@ async function createCharSkill(dm, charName) {
         //计算成功效果
         const TEffect = [];
         if (common_cooldown != 0)
-            TEffect.push({ math: [gcdValName, "=", `${common_cooldown || 1}`] });
+            TEffect.push({ math: [gcdValName, "=", `${common_cooldown ?? 1}`] });
         if (spell.base_energy_cost != undefined)
             TEffect.push({ math: ["u_val('mana')", "-=", spellCost] });
         if (cooldown)
-            TEffect.push({ math: [cdValName, "=", `${cooldown || 0}`] });
+            TEffect.push({ math: [cdValName, "=", `${cooldown ?? 0}`] });
         if (audio) {
             TEffect.push(...audio.map(audioObj => {
                 if (typeof audioObj == "string")
@@ -60,9 +62,9 @@ async function createCharSkill(dm, charName) {
                     run_eocs: {
                         id: (0, _1.genEOCID)(`${charName}_${audioObj.id}_Chance`),
                         eoc_type: "ACTIVATION",
-                        condition: { one_in_chance: audioObj.one_in_chance || 1 },
+                        condition: { one_in_chance: audioObj.one_in_chance ?? 1 },
                         effect: [
-                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume || 100 }
+                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume ?? 100 }
                         ],
                     }
                 };
@@ -77,7 +79,7 @@ async function createCharSkill(dm, charName) {
             spellCost,
         };
         //处理并加入输出
-        skillDataList.push(...ProcMap[target || "auto"](dm, charName, baseSkillData));
+        skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, baseSkillData));
         //冷却事件
         if (cooldown != null) {
             const CDEoc = {
@@ -146,7 +148,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
             }
         ],
         condition: { and: [
-                { math: ["hasTarget", "==", "1"] },
+                { math: [hasTargetVar, "==", "1"] },
                 ...baseCond
             ] },
     };
@@ -279,7 +281,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
             }
         ],
         condition: { and: ["npc_is_alive",
-                { math: ["hasTarget", "==", "1"] },
+                { math: [hasTargetVar, "==", "1"] },
                 ...baseCond] },
     };
     //加入触发

@@ -2,62 +2,56 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const ModDefine_1 = require("./ModDefine");
-const CharTalkTopic_1 = require("./CharTalkTopic");
+const CharConfig_1 = require("./CharConfig");
 /**创建角色装备 */
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
-    /**基础变异 */
-    const baseMut = {
-        type: "mutation",
-        id: defineData.baseMutID,
-        name: `${charName}的基础变异`,
-        description: `${charName}的基础变异`,
-        points: 0,
-        integrated_armor: [defineData.baseArmorID]
-    };
     /**构造附魔属性 */
-    const enchStatMap = {};
-    for (const str in charConfig.ench_status)
-        enchStatMap[str] = charConfig.ench_status[str];
     /**基础附魔 */
     const baseEnch = {
         id: defineData.baseEnchID,
         type: "enchantment",
-        has: "WORN",
         condition: "ALWAYS",
-        values: Object.entries(enchStatMap).map(entry => ({
-            value: entry[0],
-            add: { math: [`${entry[1]}`] },
-        }))
+        values: (0, CharConfig_1.parseEnchStatTable)(charConfig.ench_status)
     };
     //字段附魔
     const enchList = [baseEnch];
     for (const upgObj of charConfig.upgrade || []) {
-        const fieldID = (0, CharTalkTopic_1.getFieldVarID)(charName, upgObj.field);
-        const enchStatMap = {};
-        for (const str in upgObj.ench_status) {
-            const stat = str;
-            enchStatMap[stat] = enchStatMap[stat] || {};
-            enchStatMap[stat].base = upgObj.ench_status[stat];
-        }
-        for (const str in upgObj.lvl_ench_status) {
-            const stat = str;
-            enchStatMap[stat] = enchStatMap[stat] || {};
-            enchStatMap[stat].lvl = upgObj.lvl_ench_status[stat];
-        }
-        /**字段附魔 */
-        const baseEnch = {
-            id: (0, ModDefine_1.genEnchantmentID)(fieldID),
+        const fieldID = (0, CharConfig_1.getFieldVarID)(charName, upgObj.field);
+        /**字段基础附魔 */
+        const fdBaseEnch = {
+            id: (0, ModDefine_1.genEnchantmentID)(`${fieldID}_base`),
             type: "enchantment",
-            has: "WORN",
             condition: "ALWAYS",
-            values: Object.entries(enchStatMap).map(entry => ({
-                value: entry[0],
-                add: { math: [`(max(1,${fieldID})*${entry[1].base || 0})+(${fieldID}*${entry[1].lvl || 0})`] },
-            }))
+            values: (0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status)
+                .map(item => {
+                const { value, add, multiply } = item;
+                let out = { value };
+                if (add)
+                    out.add = { math: [`min(1,${fieldID})*(${add.math[0]})`] };
+                if (multiply)
+                    out.multiply = { math: [`min(1,${fieldID})*(${multiply.math[0]})`] };
+                return out;
+            })
         };
-        enchList.push(baseEnch);
+        /**字段等级附魔 */
+        const fdLvlEnch = {
+            id: (0, ModDefine_1.genEnchantmentID)(`${fieldID}_lvl`),
+            type: "enchantment",
+            condition: "ALWAYS",
+            values: (0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status)
+                .map(item => {
+                const { value, add, multiply } = item;
+                let out = { value };
+                if (add)
+                    out.add = { math: [`${fieldID}*(${add.math[0]})`] };
+                if (multiply)
+                    out.multiply = { math: [`${fieldID}*( ${multiply.math[0]})`] };
+                return out;
+            })
+        };
+        enchList.push(fdBaseEnch, fdLvlEnch);
     }
     /**基础装备 */
     const baseArmor = {
@@ -91,13 +85,18 @@ async function createCharEquip(dm, charName) {
                     item_restriction: [charConfig.weapon.id]
                 }]
             : undefined),
-        relic_data: {
-            passive_effects: [
-                { id: (0, ModDefine_1.genEnchantmentID)('StatusMap') },
-                { id: (0, ModDefine_1.genEnchantmentID)('StatMod') },
-                ...enchList.map(ench => ({ id: ench.id }))
-            ]
-        }
+    };
+    /**基础变异 */
+    const baseMut = {
+        type: "mutation",
+        id: defineData.baseMutID,
+        name: `${charName}的基础变异`,
+        description: `${charName}的基础变异`,
+        points: 0,
+        integrated_armor: [defineData.baseArmorID],
+        enchantments: [
+            ...enchList.map(ench => ench.id)
+        ]
     };
     /**基础武器 */
     const baseWeapon = charConfig.weapon;

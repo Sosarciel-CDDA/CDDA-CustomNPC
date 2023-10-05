@@ -1,4 +1,4 @@
-import { Spell } from "..";
+import { Spell } from "../CddaJsonFormat";
 /**n格以内算作进入战斗 */
 export declare const BATTLE_RANGE = 20;
 /**n格以内酸作进入近战 */

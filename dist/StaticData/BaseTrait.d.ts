@@ -6,4 +6,6 @@ export declare const CnpcBaseBody: Mutation;
 export declare const BaseBodyOrdering: OverlayOrdering;
 /**无动画变异ID */
 export declare const NO_ANIM: import("../CddaJsonFormat").MutationID;
+/**属性增强变异 */
+export declare const STAT_MOD_MUTID: import("../CddaJsonFormat").MutationID;
 export declare const BaseTrait: (Mutation | OverlayOrdering)[];

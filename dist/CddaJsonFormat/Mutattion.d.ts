@@ -1,3 +1,4 @@
+import { ParamsEnchantment } from "./Enchantment";
 import { BodyPartID, CddaID } from "./GenericDefine";
 import { ArmorID } from "./Item";
 /**Mutation ID格式
@@ -53,6 +54,8 @@ export type Mutation = {
     allow_soft_gear?: boolean;
     /**如果为 true，则在突变时会销毁“restricts_gear”位置中的齿轮（默认值：false） */
     destroys_gear?: boolean;
+    /**变异提供的附魔ID 不需要has字段 */
+    enchantments?: ParamsEnchantment[];
 };
 /**肢体的潮湿保护 */
 export type BPWetProte = {

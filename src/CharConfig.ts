@@ -53,12 +53,13 @@ export type CharUpgrade = {
      */
     max_lvl?:number;
     /**所需要消耗的资源  
+     * 物品[等级][或][与]  
+     * 如在0升至1级时需要 10x魔力结晶与1x诱变剂 或 1x魔法水晶,1x诱变剂 如下  
      * [  
-     *   [一级的物品ID,一级的另一个物品ID]  
-     *   [二级的物品ID]  
+     * [[10x魔力结晶,1x诱变剂],[1x魔法水晶,1x诱变剂]]  
      * ]  
      */
-    require_resource:RequireResource[][];
+    require_resource:RequireResource[][][];
     /**每个强化等级提升的附魔属性 */
     lvl_ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**只要拥有此字段就会添加的附魔属性 */
@@ -66,7 +67,7 @@ export type CharUpgrade = {
     /**到达特定强化等级时将会获得的变异  
      * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]  
      */
-    mutation?:([MutationID,number]|MutationID)[];
+    mutation?:({id:MutationID,lvl:number}|MutationID)[];
 }
 
 

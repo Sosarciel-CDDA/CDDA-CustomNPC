@@ -1,4 +1,4 @@
-import { EnchantmentID, InlineEnchantment, ParamsEnchantment } from "./Enchantment";
+import { ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
 import { BodyPartID, CddaID, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";

@@ -1,6 +1,7 @@
 import { Mutation, OverlayOrdering } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
 import { genMutationID } from "@src/ModDefine";
+import { STAT_MOD_ENCHID } from "./BaseEnch";
 
 /**标记此npc是cnpc的npc */
 export const CNPC_FLAG = genMutationID("CnpcFlag");
@@ -46,5 +47,19 @@ const NoAnim:Mutation={
     points:0,
 }
 
-export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering,NoAnim];
+/**属性增强变异 */
+export const STAT_MOD_MUTID = genMutationID("StatMod");
+const StatMod:Mutation={
+    type:"mutation",
+    id:STAT_MOD_MUTID,
+    name:"属性强化",
+    description:"使力量提供额外的近战伤害倍率，感知提供远程伤害加值与倍率，敏捷提供速度倍率。",
+    purifiable:false,
+    valid:false,
+    player_display:false,
+    points:0,
+    enchantments:[STAT_MOD_ENCHID],
+}
+
+export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering,NoAnim,StatMod];
 saveStaticData('BaseTrait',BaseTrait);

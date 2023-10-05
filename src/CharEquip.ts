@@ -3,6 +3,7 @@ import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
 import { EnchStat, getFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
+import { STATUS_VAR_MAP_ENCHID } from ".";
 
 
 
@@ -12,22 +13,12 @@ import { JObject } from "@zwa73/utils";
 export async function createCharEquip(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
-    /**基础变异 */
-    const baseMut:Mutation = {
-        type            : "mutation",
-        id              : defineData.baseMutID,
-        name            : `${charName}的基础变异`,
-        description     : `${charName}的基础变异`,
-        points          : 0,
-        integrated_armor: [defineData.baseArmorID]
-    }
 
     /**构造附魔属性 */
     /**基础附魔 */
     const baseEnch:Enchantment={
         id:defineData.baseEnchID,
         type:"enchantment",
-        has:"WORN",
         condition:"ALWAYS",
         values:parseEnchStatTable(charConfig.ench_status)
     }
@@ -40,14 +31,13 @@ export async function createCharEquip(dm:DataManager,charName:string){
         const fdBaseEnch:Enchantment={
             id:genEnchantmentID(`${fieldID}_base`),
             type:"enchantment",
-            has:"WORN",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.ench_status)
                 .map(item=>{
                     const {value,add,multiply} = item;
                     let out:EnchModVal = {value};
-                    if(add) out.add = {math:[`min(1,${fieldID})*${add}`]}
-                    if(multiply) out.multiply = {math:[`min(1,${fieldID})*${multiply}`]}
+                    if(add) out.add = {math:[`min(1,${fieldID})*(${add.math[0]})`]}
+                    if(multiply) out.multiply = {math:[`min(1,${fieldID})*(${multiply.math[0]})`]}
                     return out;
                 })
         }
@@ -55,14 +45,13 @@ export async function createCharEquip(dm:DataManager,charName:string){
         const fdLvlEnch:Enchantment={
             id:genEnchantmentID(`${fieldID}_lvl`),
             type:"enchantment",
-            has:"WORN",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.lvl_ench_status)
                 .map(item=>{
                     const {value,add,multiply} = item;
                     let out:EnchModVal = {value};
-                    if(add) out.add = {math:[`${fieldID}*${add}`]}
-                    if(multiply) out.multiply = {math:[`${fieldID}*${multiply}`]}
+                    if(add) out.add = {math:[`${fieldID}*(${add.math[0]})`]}
+                    if(multiply) out.multiply = {math:[`${fieldID}*( ${multiply.math[0]})`]}
                     return out;
                 })
         }
@@ -100,14 +89,21 @@ export async function createCharEquip(dm:DataManager,charName:string){
             item_restriction:[charConfig.weapon.id]
         }]
         :undefined),
-        relic_data :{
-            passive_effects:[
-                {id:genEnchantmentID('StatusMap')       },
-                {id:genEnchantmentID('StatMod')         },
-                ...enchList.map(ench=>({id:ench.id}))
-            ]
-        }
     }
+
+    /**基础变异 */
+    const baseMut:Mutation = {
+        type            : "mutation",
+        id              : defineData.baseMutID,
+        name            : `${charName}的基础变异`,
+        description     : `${charName}的基础变异`,
+        points          : 0,
+        integrated_armor: [defineData.baseArmorID],
+        enchantments:[
+            ...enchList.map(ench=>ench.id)
+        ]
+    }
+
     /**基础武器 */
     const baseWeapon = charConfig.weapon;
     const baseWeaponData:JObject[] = [];

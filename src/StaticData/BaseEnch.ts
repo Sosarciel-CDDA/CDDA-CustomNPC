@@ -5,8 +5,9 @@ import { saveStaticData } from "./StaticData";
 
 
 /**属性映射附魔 */
-export const StatusMap:Enchantment={
-    id:genEnchantmentID("StatusMap"),
+export const STATUS_VAR_MAP_ENCHID = genEnchantmentID("StatusMap");
+export const StatusVarMap:Enchantment={
+    id:STATUS_VAR_MAP_ENCHID,
     type:"enchantment",
     has:"WORN",
     condition:"ALWAYS",
@@ -17,10 +18,10 @@ export const StatusMap:Enchantment={
     }))
 }
 /**属性增强附魔 */
-export const PerRangeDamage:Enchantment={
-    id:genEnchantmentID("StatMod"),
+export const STAT_MOD_ENCHID = genEnchantmentID("StatMod");
+export const StatMod:Enchantment={
+    id:STAT_MOD_ENCHID,
     type:"enchantment",
-    has:"WORN",
     condition:"ALWAYS",
     values:[{
         value:"RANGED_DAMAGE",
@@ -29,9 +30,12 @@ export const PerRangeDamage:Enchantment={
     },{
         value:"MELEE_DAMAGE",
         multiply:{math:["DamageMul(u_val('strength'))-1"]}
+    },{
+        value:"SPEED",
+        multiply:{math:["DamageMul(u_val('dexterity'))-1"]}
     }]
 }
 
-export const BaseEnch = [StatusMap,PerRangeDamage];
+export const BaseEnch = [StatusVarMap,StatMod];
 
 saveStaticData('BaseEnch',BaseEnch);

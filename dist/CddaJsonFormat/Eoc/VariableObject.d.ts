@@ -10,9 +10,7 @@ export type NumObj = NumOperateList[number];
 export type NumOperateList = [
     GenericObjOperateList[number],
     number,
-    {
-        math: [string];
-    }
+    NumMathExp
 ];
 /**npc属性技能专用的数字对象 */
 export type NpcNumObj = NpcNumOperateList[number];
@@ -41,6 +39,10 @@ export type NumOperaSum = {
 };
 export type NumOperaMul = {
     mul: NpcNumObj[];
+};
+/**Math数字表达式 */
+export type NumMathExp = {
+    math: [string];
 };
 /**Eoc条件对象 */
 export type BoolObj = BoolOperateList[number];

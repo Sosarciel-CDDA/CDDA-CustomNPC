@@ -219,6 +219,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 	recurrence(1);
 	global(true);
 	run_for_npcs(true);
+	//如果是CNPC的角色
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 
 		if(u_isInit!=1){
@@ -278,11 +279,15 @@ function CNPC_EOC_GlobalUpdateEvent(){
 		}
 		u_notIdleOrMove=u_notIdleOrMove-1;
 
-		if(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }))
+		if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
 			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
 	}
 	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果不是cnpc单位则添加替代素体
+
+	//添加属性增强变异
+	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
+		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
 }
 
 
