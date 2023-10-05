@@ -1,4 +1,5 @@
 {
+	"extends": ["Base"],
     "base_status":{
         "str":10,
         "dex":12,
@@ -57,14 +58,6 @@
 			["AUTO"   ,"auto", 1 ]
 		]
 	},
-	"upgrade": [
-		{
-			"field": "魔力",
-			"require_resource": [
-				[["crystallized_mana",10]]
-			]
-		}
-	],
 	"skill": [
 		{
 			"hook": "CharCauseRangeHit",

@@ -15,8 +15,9 @@ export type NumObj = NumOperateList[number];
 export type NumOperateList = [
     GenericObjOperateList[number]       ,//
     number                              ,//
-    {math:[string]}                     ,//
+    NumMathExp                          ,//
 ]
+
 /**npc属性技能专用的数字对象 */
 export type NpcNumObj = NpcNumOperateList[number];
 /**npc属性技能专用的数字对象操作符 */
@@ -34,6 +35,8 @@ export type NumOperaOneIn   = {one_in: NpcNumObj };
 export type NumOperaDice    = {dice: [ NpcNumObj, NpcNumObj ] };
 export type NumOperaSum     = {sum: NpcNumObj[] };
 export type NumOperaMul     = {mul: NpcNumObj[] };
+/**Math数字表达式 */
+export type NumMathExp = {math:[string]};
 
 
 

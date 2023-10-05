@@ -89,7 +89,7 @@
 							"$ref": "#/definitions/AmmoID"
 						},
 						"loudness": {
-							"description": "可选 可以增加或减少基础枪射击时噪音的修改器。\n如果未指定响度值，则游戏会根据弹药的射程、伤害和护甲穿透自动计算。",
+							"description": "可选 可以增加或减少基础枪射击时噪音的修改器。  \n如果未指定响度值，则游戏会根据弹药的射程、伤害和护甲穿透自动计算。",
 							"type": "number"
 						},
 						"prop_damage": {
@@ -109,11 +109,11 @@
 							"type": "number"
 						},
 						"shot_count": {
-							"description": "可选字段，指定该弹药每轮发射多个射弹，例如 shot\n 如果存在 shot_damage，则还必须指定。",
+							"description": "可选字段，指定该弹药每轮发射多个射弹，例如 shot  \n 如果存在 shot_damage，则还必须指定。",
 							"type": "number"
 						},
 						"shot_damage": {
-							"description": "可选字段，指定本轮发射的单个射弹造成的伤害。\n如果存在，还必须指定 shot_count。",
+							"description": "可选字段，指定本轮发射的单个射弹造成的伤害。  \n如果存在，还必须指定 shot_count。",
 							"properties": {
 								"amount": {
 									"description": "伤害值",
@@ -136,11 +136,11 @@
 							"type": "object"
 						},
 						"shot_spread": {
-							"description": "可选字段，指定单个射弹的额外分散度。\n 仅当 shot_count 存在时才有意义。",
+							"description": "可选字段，指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
 							"type": "number"
 						},
 						"show_stats": {
-							"description": "可选 战斗弹药的力量统计显示。\n对于缺乏伤害和道具伤害的射弹",
+							"description": "可选 战斗弹药的力量统计显示。  \n对于缺乏伤害和道具伤害的射弹",
 							"type": "boolean"
 						},
 						"stack_size": {
@@ -453,7 +453,7 @@
 							"description": "定时激活 一旦定时器的持续时间过去，就会\"countdown_action\"执行"
 						},
 						"degradation_multiplier": {
-							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。\n默认为 1.0",
+							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 							"type": "number"
 						},
 						"description": {
@@ -544,7 +544,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时添加到基础物品的体积\n例如，集成到枪支的枪械 体积会添加到基础物品上。\n默认值与音量相同。"
+							"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如，集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
 						},
 						"integral_weight": {
 							"anyOf": [
@@ -560,7 +560,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时\n例如，集成到枪中的枪械 重量会添加到基础物品上。\n默认值与重量相同。"
+							"description": "当物品集成到另一个物品中时  \n例如，集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
 						},
 						"longest_side": {
 							"anyOf": [
@@ -703,7 +703,7 @@
 									},
 									"ammo_restriction": {
 										"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 									},
 									"fire_protection": {
 										"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -1528,12 +1528,12 @@
 							"type": "string"
 						},
 						"hit_me_effect": {
-							"description": "附魔拥有者击中时触发的法术\n该咒语以您的位置为中心。",
+							"description": "附魔拥有者击中时触发的法术  \n该咒语以您的位置为中心。",
 							"items": {
 								"description": "伪法术附加信息",
 								"properties": {
 									"hit_self": {
-										"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+										"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 										"type": "boolean"
 									},
 									"id": {
@@ -1800,12 +1800,12 @@
 							"type": "array"
 						},
 						"hit_you_effect": {
-							"description": "抚摸拥有者近战击中敌人时触发的法术\n 该法术以该生物的位置为中心，除非\"hit_self\": true\n 那么它以你的位置为中心。",
+							"description": "抚摸拥有者近战击中敌人时触发的法术  \n 该法术以该生物的位置为中心，除非\"hit_self\": true  \n 那么它以你的位置为中心。",
 							"items": {
 								"description": "伪法术附加信息",
 								"properties": {
 									"hit_self": {
-										"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+										"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 										"type": "boolean"
 									},
 									"id": {
@@ -2091,7 +2091,7 @@
 													"description": "伪法术附加信息",
 													"properties": {
 														"hit_self": {
-															"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+															"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 															"type": "boolean"
 														},
 														"id": {
@@ -2668,7 +2668,7 @@
 							"type": "array"
 						},
 						"chance_kill_resist": {
-							"description": "在玩家 抵抗 此效果时\n每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
+							"description": "在玩家 抵抗 此效果时  \n每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
 							"items": {
 								"items": [
 									{
@@ -2693,7 +2693,7 @@
 							"type": "string"
 						},
 						"decay_messages": {
-							"description": "效果产生自然调整时产生的消息\n[消息,效果评价][]\n按效果强度应用不同成员",
+							"description": "效果产生自然调整时产生的消息  \n[消息,效果评价][]  \n按效果强度应用不同成员",
 							"items": {
 								"items": [
 									{
@@ -2716,36 +2716,36 @@
 							"type": "array"
 						},
 						"desc": {
-							"description": "同name\n按效果强度应用不同成员",
+							"description": "同name  \n按效果强度应用不同成员",
 							"items": {
 								"type": "string"
 							},
 							"type": "array"
 						},
 						"dur_add_perc": {
-							"description": "在已有效果的情况下再次添加效果时\n所增加时间的修正值\nduration = duration + (dur_add_perc/100) * max_duration\n默认 100",
+							"description": "在已有效果的情况下再次添加效果时  \n所增加时间的修正值  \nduration = duration + (dur_add_perc/100) * max_duration  \n默认 100",
 							"type": "number"
 						},
 						"enchantments": {
-							"description": "此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义\n按效果强度应用不同成员",
+							"description": "此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义  \n按效果强度应用不同成员",
 							"items": {
 								"$ref": "#/definitions/ParamsEnchantment"
 							},
 							"type": "array"
 						},
 						"harmful_cough": {
-							"description": "表示该效果引起的咳嗽会伤害玩家。\n默认false",
+							"description": "表示该效果引起的咳嗽会伤害玩家。  \n默认false",
 							"type": "boolean"
 						},
 						"hurt_sizing": {
-							"description": "影响伤害效果触发的机会\n默认false",
+							"description": "影响伤害效果触发的机会  \n默认false",
 							"type": "boolean"
 						},
 						"id": {
 							"$ref": "#/definitions/EffectID"
 						},
 						"immune_bp_flags": {
-							"description": "可免疫此效果的身体部位\n效果直接施加于这些身体部位时将会被免疫",
+							"description": "可免疫此效果的身体部位  \n效果直接施加于这些身体部位时将会被免疫",
 							"items": {
 								"$ref": "#/definitions/BodyPartID"
 							},
@@ -2759,7 +2759,7 @@
 							"type": "array"
 						},
 						"int_add_val": {
-							"description": "在已有效果的情况下再次添加效果时\n所增加的强度\n默认 0",
+							"description": "在已有效果的情况下再次添加效果时  \n所增加的强度  \n默认 0",
 							"type": "number"
 						},
 						"int_decay_remove": {
@@ -2768,15 +2768,15 @@
 							"type": "boolean"
 						},
 						"int_decay_step": {
-							"description": "每经过int_decay_tick 的时间后\n效果强度将会调整此数值\n默认-1",
+							"description": "每经过int_decay_tick 的时间后  \n效果强度将会调整此数值  \n默认-1",
 							"type": "number"
 						},
 						"int_decay_tick": {
-							"description": "效果做出自然增减的间隔 秒\n默认0 即不会改变",
+							"description": "效果做出自然增减的间隔 秒  \n默认0 即不会改变",
 							"type": "number"
 						},
 						"int_dur_factor": {
-							"description": "覆盖其他三个强度字段，\n并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字\n（因此从0到“int_dur_factor”是强度1）。",
+							"description": "覆盖其他三个强度字段，  \n并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字\n（因此从0到“int_dur_factor”是强度1）。",
 							"type": "number"
 						},
 						"limb_score_mods": {
@@ -2793,11 +2793,11 @@
 										"type": "number"
 									},
 									"resist_modifier": {
-										"description": "在玩家 抵抗 此效果时\n乘数调整值 默认1",
+										"description": "在玩家 抵抗 此效果时  \n乘数调整值 默认1",
 										"type": "number"
 									},
 									"resist_scaling": {
-										"description": "在玩家 抵抗 此效果时\n每个强度等级添加到 modifier的值 默认0",
+										"description": "在玩家 抵抗 此效果时  \n每个强度等级添加到 modifier的值 默认0",
 										"type": "number"
 									},
 									"scaling": {
@@ -2813,7 +2813,7 @@
 							"type": "array"
 						},
 						"main_parts_only": {
-							"description": "这个效果是否只能应用于主肢体\n默认false",
+							"description": "这个效果是否只能应用于主肢体  \n默认false",
 							"type": "boolean"
 						},
 						"max_duration": {
@@ -2845,7 +2845,7 @@
 							"description": "效果的持续时间 默认365 d"
 						},
 						"max_effective_intensity": {
-							"description": "将累积效果的最大强度级别。\n其他强度级别只会增加持续时间。",
+							"description": "将累积效果的最大强度级别。  \n其他强度级别只会增加持续时间。",
 							"type": "number"
 						},
 						"max_intensity": {
@@ -2853,7 +2853,7 @@
 							"type": "number"
 						},
 						"miss_messages": {
-							"description": "豁免效果时产生的消息\n[消息,发送此消息的权重][]\n按效果强度应用不同成员",
+							"description": "豁免效果时产生的消息  \n[消息,发送此消息的权重][]  \n按效果强度应用不同成员",
 							"items": {
 								"items": [
 									{
@@ -2870,23 +2870,23 @@
 							"type": "array"
 						},
 						"name": {
-							"description": "如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。\n[\"ABC\",\"XYZ\",\"123\"]\n在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。\n如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，\n则如果当前强度> 1，则将使用第一个条目，\n后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。\n如果所需的“名称”条目是空字符串（“”）或缺少“名称”，\n则该效果将不会在状态屏幕中向玩家显示。\n按效果强度应用不同成员",
+							"description": "如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。  \n[\"ABC\",\"XYZ\",\"123\"]  \n在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。  \n如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，  \n则如果当前强度> 1，则将使用第一个条目，  \n后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。  \n如果所需的“名称”条目是空字符串（“”）或缺少“名称”，  \n则该效果将不会在状态屏幕中向玩家显示。  \n按效果强度应用不同成员",
 							"items": {
 								"type": "string"
 							},
 							"type": "array"
 						},
 						"pain_sizing": {
-							"description": "影响疼痛效果触发的机会\n默认false",
+							"description": "影响疼痛效果触发的机会  \n默认false",
 							"type": "boolean"
 						},
 						"part_descs": {
 							"const": true,
-							"description": "如果“part_descs”== true，则描述前面带有“您的 X”，\n其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。",
+							"description": "如果“part_descs”== true，则描述前面带有“您的 X”，  \n其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。",
 							"type": "boolean"
 						},
 						"pkill_addict_reduces": {
-							"description": "使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会\n默认false",
+							"description": "使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会  \n默认false",
 							"type": "boolean"
 						},
 						"rating": {
@@ -2934,7 +2934,7 @@
 							"description": "效果结束或移除时产生的消息"
 						},
 						"removes_effects": {
-							"description": "获得此效果时会移除这些效果\n这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。",
+							"description": "获得此效果时会移除这些效果  \n这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。",
 							"items": {
 								"$ref": "#/definitions/EffectID"
 							},
@@ -2969,11 +2969,11 @@
 							"description": "效果的诶个强度等级的额外调整"
 						},
 						"show_in_info": {
-							"description": "默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果\n如果为true玩家可以从怪物简介中查看到效果",
+							"description": "默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果  \n如果为true玩家可以从怪物简介中查看到效果",
 							"type": "boolean"
 						},
 						"show_intensity": {
-							"description": "这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。\n例如显示“弱点[142]”或简单的“弱点”文本。\n默认true",
+							"description": "这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。  \n例如显示“弱点[142]”或简单的“弱点”文本。  \n默认true",
 							"type": "boolean"
 						},
 						"type": {
@@ -2986,14 +2986,14 @@
 								"description": "效果维生素修正",
 								"properties": {
 									"absorb_mult": {
-										"description": "吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+										"description": "吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 										"items": {
 											"type": "number"
 										},
 										"type": "array"
 									},
 									"rate": {
-										"description": "每隔[0]~[1] tick 将会应用一次调整\n按效果强度应用不同成员",
+										"description": "每隔[0]~[1] tick 将会应用一次调整  \n按效果强度应用不同成员",
 										"items": {
 											"items": [
 												{
@@ -3010,14 +3010,14 @@
 										"type": "array"
 									},
 									"resist_absorb_mult": {
-										"description": "在玩家 抵抗 此效果时\n吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+										"description": "在玩家 抵抗 此效果时  \n吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 										"items": {
 											"type": "number"
 										},
 										"type": "array"
 									},
 									"resist_rate": {
-										"description": "在玩家 抵抗 此效果时\n每隔 [0]~[1] tick将会应用一次调整\n按效果强度应用不同成员",
+										"description": "在玩家 抵抗 此效果时  \n每隔 [0]~[1] tick将会应用一次调整  \n按效果强度应用不同成员",
 										"items": {
 											"items": [
 												{
@@ -3034,14 +3034,14 @@
 										"type": "array"
 									},
 									"resist_tick": {
-										"description": "在玩家 抵抗 此效果时\nrate的基础单位\n按效果强度应用不同成员",
+										"description": "在玩家 抵抗 此效果时  \nrate的基础单位  \n按效果强度应用不同成员",
 										"items": {
 											"$ref": "#/definitions/Time"
 										},
 										"type": "array"
 									},
 									"tick": {
-										"description": "rate的基础单位\n按效果强度应用不同成员",
+										"description": "rate的基础单位  \n按效果强度应用不同成员",
 										"items": {
 											"$ref": "#/definitions/Time"
 										},
@@ -3210,7 +3210,7 @@
 							"description": "npc携带的物品组"
 						},
 						"common": {
-							"description": "false意味着这个NPC职业不会随机生成。\n如果未指定，则默认为 。true",
+							"description": "false意味着这个NPC职业不会随机生成。  \n如果未指定，则默认为 。true",
 							"type": "boolean"
 						},
 						"id": {
@@ -3228,7 +3228,7 @@
 							"type": "string"
 						},
 						"sells_belongings": {
-							"description": "false意味着该NPC的磨损或持有的物品将被严格排除在其店主名单之外;\n否则，他们会很乐意出售裤子之类的东西。\n如果未指定，则默认为 。true",
+							"description": "false意味着该NPC的磨损或持有的物品将被严格排除在其店主名单之外;  \n否则，他们会很乐意出售裤子之类的东西。  \n如果未指定，则默认为 。true",
 							"type": "boolean"
 						},
 						"shopkeeper_blacklist": {
@@ -3241,7 +3241,7 @@
 							"type": "string"
 						},
 						"shopkeeper_item_group": {
-							"description": "仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。",
+							"description": "仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。  \n所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。",
 							"items": [
 								{
 									"properties": {
@@ -4003,9 +4003,11 @@
 								{
 									"enum": [
 										"npc_female",
+										"npc_is_alive",
 										"npc_male",
 										"u_can_drop_weapon",
 										"u_female",
+										"u_is_alive",
 										"u_male"
 									],
 									"type": "string"
@@ -4696,7 +4698,7 @@
 							"type": "array"
 						},
 						"subtype": {
-							"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+							"description": "是可选的。它可以是 collection 或 distribution。  \n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。  \ncollection   集合 为每个entries均独立概率  \ndistribution 分布 为加权轮盘随机",
 							"enum": [
 								"collection",
 								"distribution"
@@ -5391,7 +5393,7 @@
 							"description": "每级的法术伤害调整"
 						},
 						"damage_type": {
-							"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+							"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 							"enum": [
 								"acid",
 								"bash",
@@ -5657,7 +5659,7 @@
 							"description": "法术效果类型"
 						},
 						"effect_str": {
-							"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+							"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 							"type": "string"
 						},
 						"energy_increment": {
@@ -5758,7 +5760,7 @@
 								"description": "伪法术附加信息",
 								"properties": {
 									"hit_self": {
-										"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+										"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 										"type": "boolean"
 									},
 									"id": {
@@ -6495,7 +6497,7 @@
 						},
 						"learn_spells": {
 							"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-							"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+							"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 						},
 						"max_accuracy": {
 							"anyOf": [
@@ -8163,11 +8165,11 @@
 							"$ref": "#/definitions/MathFunctionID"
 						},
 						"num_args": {
-							"description": "参数个数\n由 `_${number}` 取得参数",
+							"description": "参数个数  \n由 `_${number}` 取得参数",
 							"type": "number"
 						},
 						"return": {
-							"description": "函数返回值\n如 \"_0 * 2 + rand(_1)\"",
+							"description": "函数返回值  \n如 \"_0 * 2 + rand(_1)\"",
 							"type": "string"
 						},
 						"type": {
@@ -8230,6 +8232,27 @@
 				"$ref": "#/definitions/AnyCddaJson"
 			},
 			"type": "array"
+		},
+		"AnyCharEvenetType": {
+			"description": "任何角色事件",
+			"enum": [
+				"CharBattleUpdate",
+				"CharCauseDamage",
+				"CharCauseHit",
+				"CharCauseMeleeDamage",
+				"CharCauseMeleeHit",
+				"CharCauseRangeDamage",
+				"CharCauseRangeHit",
+				"CharDeath",
+				"CharIdle",
+				"CharInit",
+				"CharMove",
+				"CharTakeDamage",
+				"CharTakeMeleeDamage",
+				"CharTakeRangeDamage",
+				"CharUpdate"
+			],
+			"type": "string"
 		},
 		"AnyItem": {
 			"anyOf": [
@@ -8907,9 +8930,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -9499,7 +9524,7 @@
 							"description": "定时激活 一旦定时器的持续时间过去，就会\"countdown_action\"执行"
 						},
 						"degradation_multiplier": {
-							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。\n默认为 1.0",
+							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 							"type": "number"
 						},
 						"description": {
@@ -9590,7 +9615,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时添加到基础物品的体积\n例如，集成到枪支的枪械 体积会添加到基础物品上。\n默认值与音量相同。"
+							"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如，集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
 						},
 						"integral_weight": {
 							"anyOf": [
@@ -9606,7 +9631,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时\n例如，集成到枪中的枪械 重量会添加到基础物品上。\n默认值与重量相同。"
+							"description": "当物品集成到另一个物品中时  \n例如，集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
 						},
 						"longest_side": {
 							"anyOf": [
@@ -9749,7 +9774,7 @@
 									},
 									"ammo_restriction": {
 										"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 									},
 									"fire_protection": {
 										"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -11429,9 +11454,11 @@
 							{
 								"enum": [
 									"npc_female",
+									"npc_is_alive",
 									"npc_male",
 									"u_can_drop_weapon",
 									"u_female",
+									"u_is_alive",
 									"u_male"
 								],
 								"type": "string"
@@ -11475,7 +11502,7 @@
 							"type": "array"
 						},
 						"common_cooldown": {
-							"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1\n一个高权重0共同冷却的技能意味着可以同时触发",
+							"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
 							"type": "number"
 						},
 						"condition": {
@@ -11747,9 +11774,11 @@
 								{
 									"enum": [
 										"npc_female",
+										"npc_is_alive",
 										"npc_male",
 										"u_can_drop_weapon",
 										"u_female",
+										"u_is_alive",
 										"u_male"
 									],
 									"type": "string"
@@ -11762,25 +11791,8 @@
 							"type": "number"
 						},
 						"hook": {
-							"description": "时机",
-							"enum": [
-								"CharBattleUpdate",
-								"CharCauseDamage",
-								"CharCauseHit",
-								"CharCauseMeleeDamage",
-								"CharCauseMeleeHit",
-								"CharCauseRangeDamage",
-								"CharCauseRangeHit",
-								"CharDeath",
-								"CharIdle",
-								"CharInit",
-								"CharMove",
-								"CharTakeDamage",
-								"CharTakeMeleeDamage",
-								"CharTakeRangeDamage",
-								"CharUpdate"
-							],
-							"type": "string"
+							"$ref": "#/definitions/AnyCharEvenetType",
+							"description": "时机"
 						},
 						"one_in_chance": {
 							"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -12304,7 +12316,7 @@
 									"description": "每级的法术伤害调整"
 								},
 								"damage_type": {
-									"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+									"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 									"enum": [
 										"acid",
 										"bash",
@@ -12570,7 +12582,7 @@
 									"description": "法术效果类型"
 								},
 								"effect_str": {
-									"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+									"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 									"type": "string"
 								},
 								"energy_increment": {
@@ -12671,7 +12683,7 @@
 										"description": "伪法术附加信息",
 										"properties": {
 											"hit_self": {
-												"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+												"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 												"type": "boolean"
 											},
 											"id": {
@@ -13408,7 +13420,7 @@
 								},
 								"learn_spells": {
 									"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-									"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+									"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 								},
 								"max_accuracy": {
 									"anyOf": [
@@ -15031,8 +15043,11 @@
 							"type": "object"
 						},
 						"target": {
-							"description": "瞄准方式\nrandom 为 原版随机;\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;\nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 并用u_hp-=造成伤害 适用于单体技能\nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage;\n默认为根据施法目标自动选择",
+							"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
 							"enum": [
+								"auto",
+								"auto_hit",
+								"direct_hit",
 								"random",
 								"reverse_hit",
 								"spell_target"
@@ -15448,9 +15463,11 @@
 				{
 					"enum": [
 						"npc_female",
+						"npc_is_alive",
 						"npc_male",
 						"u_can_drop_weapon",
 						"u_female",
+						"u_is_alive",
 						"u_male"
 					],
 					"type": "string"
@@ -15729,9 +15746,11 @@
 							{
 								"enum": [
 									"npc_female",
+									"npc_is_alive",
 									"npc_male",
 									"u_can_drop_weapon",
 									"u_female",
+									"u_is_alive",
 									"u_male"
 								],
 								"type": "string"
@@ -16726,9 +16745,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -17014,9 +17035,11 @@
 							{
 								"enum": [
 									"npc_female",
+									"npc_is_alive",
 									"npc_male",
 									"u_can_drop_weapon",
 									"u_female",
+									"u_is_alive",
 									"u_male"
 								],
 								"type": "string"
@@ -17186,9 +17209,11 @@
 				{
 					"enum": [
 						"npc_female",
+						"npc_is_alive",
 						"npc_male",
 						"u_can_drop_weapon",
 						"u_female",
+						"u_is_alive",
 						"u_male"
 					],
 					"type": "string"
@@ -17291,7 +17316,7 @@
 					"description": "附魔属性"
 				},
 				"extends": {
-					"description": "角色名 继承自哪个角色\n数组将会拼接\n对象将会合并\n简单量将会覆盖\n多个继承冲突时 排在前的将会覆盖排在后的",
+					"description": "角色名 继承自哪个角色  \n数组将会拼接  \n对象将会合并  \n简单量将会覆盖  \n多个继承冲突时 排在前的将会覆盖排在后的",
 					"items": {
 						"type": "string"
 					},
@@ -17334,7 +17359,7 @@
 								"type": "array"
 							},
 							"common_cooldown": {
-								"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1\n一个高权重0共同冷却的技能意味着可以同时触发",
+								"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
 								"type": "number"
 							},
 							"condition": {
@@ -17606,9 +17631,11 @@
 									{
 										"enum": [
 											"npc_female",
+											"npc_is_alive",
 											"npc_male",
 											"u_can_drop_weapon",
 											"u_female",
+											"u_is_alive",
 											"u_male"
 										],
 										"type": "string"
@@ -17621,25 +17648,8 @@
 								"type": "number"
 							},
 							"hook": {
-								"description": "时机",
-								"enum": [
-									"CharBattleUpdate",
-									"CharCauseDamage",
-									"CharCauseHit",
-									"CharCauseMeleeDamage",
-									"CharCauseMeleeHit",
-									"CharCauseRangeDamage",
-									"CharCauseRangeHit",
-									"CharDeath",
-									"CharIdle",
-									"CharInit",
-									"CharMove",
-									"CharTakeDamage",
-									"CharTakeMeleeDamage",
-									"CharTakeRangeDamage",
-									"CharUpdate"
-								],
-								"type": "string"
+								"$ref": "#/definitions/AnyCharEvenetType",
+								"description": "时机"
 							},
 							"one_in_chance": {
 								"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -18163,7 +18173,7 @@
 										"description": "每级的法术伤害调整"
 									},
 									"damage_type": {
-										"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+										"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 										"enum": [
 											"acid",
 											"bash",
@@ -18429,7 +18439,7 @@
 										"description": "法术效果类型"
 									},
 									"effect_str": {
-										"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+										"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 										"type": "string"
 									},
 									"energy_increment": {
@@ -18530,7 +18540,7 @@
 											"description": "伪法术附加信息",
 											"properties": {
 												"hit_self": {
-													"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+													"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 													"type": "boolean"
 												},
 												"id": {
@@ -19267,7 +19277,7 @@
 									},
 									"learn_spells": {
 										"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-										"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+										"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 									},
 									"max_accuracy": {
 										"anyOf": [
@@ -20890,8 +20900,11 @@
 								"type": "object"
 							},
 							"target": {
-								"description": "瞄准方式\nrandom 为 原版随机;\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;\nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 并用u_hp-=造成伤害 适用于单体技能\nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage;\n默认为根据施法目标自动选择",
+								"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
 								"enum": [
+									"auto",
+									"auto_hit",
+									"direct_hit",
 									"random",
 									"reverse_hit",
 									"spell_target"
@@ -20921,7 +20934,7 @@
 								"description": "只要拥有此字段就会添加的附魔属性"
 							},
 							"field": {
-								"description": "强化项ID\n作为全局变量`${charName}_${fieled}`",
+								"description": "强化项ID  \n作为全局变量`${charName}_${fieled}`",
 								"type": "string"
 							},
 							"lvl_ench_status": {
@@ -20929,11 +20942,11 @@
 								"description": "每个强化等级提升的附魔属性"
 							},
 							"max_lvl": {
-								"description": "最大强化等级 未设置则为require_resource长度\n若 require_resource 设置的长度不足以达到最大等级\n则以最后一组材料填充剩余部分",
+								"description": "最大强化等级 未设置则为require_resource长度  \n若 require_resource 设置的长度不足以达到最大等级  \n则以最后一组材料填充剩余部分",
 								"type": "number"
 							},
 							"mutation": {
-								"description": "到达特定强化等级时将会获得的变异\n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
+								"description": "到达特定强化等级时将会获得的变异  \n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
 								"items": {
 									"anyOf": [
 										{
@@ -20966,60 +20979,28 @@
 								"type": "array"
 							},
 							"require_resource": {
-								"description": "所需要消耗的资源\n[[[一级的物品ID,数量],[一级的另一个物品ID,数量]]\n[[二级的物品ID,数量],[二级的另一个物品ID,数量]]]",
+								"description": "所需要消耗的资源  \n[  \n [一级的物品ID,一级的另一个物品ID]  \n [二级的物品ID]  \n]",
 								"items": {
 									"items": {
-										"anyOf": [
-											{
-												"pattern": "^.*$",
-												"type": "string"
+										"description": "要求的资源",
+										"properties": {
+											"count": {
+												"description": "需求数量 默认1",
+												"type": "number"
 											},
-											{
-												"pattern": "^ARMOR_.*$",
-												"type": "string"
+											"id": {
+												"$ref": "#/definitions/AnyItemID",
+												"description": "物品ID"
 											},
-											{
-												"pattern": "^.*_ARMOR_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^GENERIC_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^.*_GENERIC_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^AMMO_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^.*_AMMO_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^GUN_.*$",
-												"type": "string"
-											},
-											{
-												"pattern": "^.*_GUN_.*$",
-												"type": "string"
-											},
-											{
-												"items": [
-													{
-														"$ref": "#/definitions/AnyItemID"
-													},
-													{
-														"type": "number"
-													}
-												],
-												"maxItems": 2,
-												"minItems": 2,
-												"type": "array"
+											"not_consume": {
+												"description": "不会消耗 默认 false",
+												"type": "boolean"
 											}
-										]
+										},
+										"required": [
+											"id"
+										],
+										"type": "object"
 									},
 									"type": "array"
 								},
@@ -21073,7 +21054,7 @@
 							"description": "附魔属性"
 						},
 						"extends": {
-							"description": "角色名 继承自哪个角色\n数组将会拼接\n对象将会合并\n简单量将会覆盖\n多个继承冲突时 排在前的将会覆盖排在后的",
+							"description": "角色名 继承自哪个角色  \n数组将会拼接  \n对象将会合并  \n简单量将会覆盖  \n多个继承冲突时 排在前的将会覆盖排在后的",
 							"items": {
 								"type": "string"
 							},
@@ -21116,7 +21097,7 @@
 										"type": "array"
 									},
 									"common_cooldown": {
-										"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1\n一个高权重0共同冷却的技能意味着可以同时触发",
+										"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
 										"type": "number"
 									},
 									"condition": {
@@ -21388,9 +21369,11 @@
 											{
 												"enum": [
 													"npc_female",
+													"npc_is_alive",
 													"npc_male",
 													"u_can_drop_weapon",
 													"u_female",
+													"u_is_alive",
 													"u_male"
 												],
 												"type": "string"
@@ -21403,25 +21386,8 @@
 										"type": "number"
 									},
 									"hook": {
-										"description": "时机",
-										"enum": [
-											"CharBattleUpdate",
-											"CharCauseDamage",
-											"CharCauseHit",
-											"CharCauseMeleeDamage",
-											"CharCauseMeleeHit",
-											"CharCauseRangeDamage",
-											"CharCauseRangeHit",
-											"CharDeath",
-											"CharIdle",
-											"CharInit",
-											"CharMove",
-											"CharTakeDamage",
-											"CharTakeMeleeDamage",
-											"CharTakeRangeDamage",
-											"CharUpdate"
-										],
-										"type": "string"
+										"$ref": "#/definitions/AnyCharEvenetType",
+										"description": "时机"
 									},
 									"one_in_chance": {
 										"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -21945,7 +21911,7 @@
 												"description": "每级的法术伤害调整"
 											},
 											"damage_type": {
-												"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+												"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 												"enum": [
 													"acid",
 													"bash",
@@ -22211,7 +22177,7 @@
 												"description": "法术效果类型"
 											},
 											"effect_str": {
-												"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+												"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 												"type": "string"
 											},
 											"energy_increment": {
@@ -22312,7 +22278,7 @@
 													"description": "伪法术附加信息",
 													"properties": {
 														"hit_self": {
-															"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+															"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 															"type": "boolean"
 														},
 														"id": {
@@ -23049,7 +23015,7 @@
 											},
 											"learn_spells": {
 												"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-												"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+												"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 											},
 											"max_accuracy": {
 												"anyOf": [
@@ -24672,8 +24638,11 @@
 										"type": "object"
 									},
 									"target": {
-										"description": "瞄准方式\nrandom 为 原版随机;\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;\nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 并用u_hp-=造成伤害 适用于单体技能\nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage;\n默认为根据施法目标自动选择",
+										"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
 										"enum": [
+											"auto",
+											"auto_hit",
+											"direct_hit",
 											"random",
 											"reverse_hit",
 											"spell_target"
@@ -24703,7 +24672,7 @@
 										"description": "只要拥有此字段就会添加的附魔属性"
 									},
 									"field": {
-										"description": "强化项ID\n作为全局变量`${charName}_${fieled}`",
+										"description": "强化项ID  \n作为全局变量`${charName}_${fieled}`",
 										"type": "string"
 									},
 									"lvl_ench_status": {
@@ -24711,11 +24680,11 @@
 										"description": "每个强化等级提升的附魔属性"
 									},
 									"max_lvl": {
-										"description": "最大强化等级 未设置则为require_resource长度\n若 require_resource 设置的长度不足以达到最大等级\n则以最后一组材料填充剩余部分",
+										"description": "最大强化等级 未设置则为require_resource长度  \n若 require_resource 设置的长度不足以达到最大等级  \n则以最后一组材料填充剩余部分",
 										"type": "number"
 									},
 									"mutation": {
-										"description": "到达特定强化等级时将会获得的变异\n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
+										"description": "到达特定强化等级时将会获得的变异  \n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
 										"items": {
 											"anyOf": [
 												{
@@ -24748,60 +24717,28 @@
 										"type": "array"
 									},
 									"require_resource": {
-										"description": "所需要消耗的资源\n[[[一级的物品ID,数量],[一级的另一个物品ID,数量]]\n[[二级的物品ID,数量],[二级的另一个物品ID,数量]]]",
+										"description": "所需要消耗的资源  \n[  \n [一级的物品ID,一级的另一个物品ID]  \n [二级的物品ID]  \n]",
 										"items": {
 											"items": {
-												"anyOf": [
-													{
-														"pattern": "^.*$",
-														"type": "string"
+												"description": "要求的资源",
+												"properties": {
+													"count": {
+														"description": "需求数量 默认1",
+														"type": "number"
 													},
-													{
-														"pattern": "^ARMOR_.*$",
-														"type": "string"
+													"id": {
+														"$ref": "#/definitions/AnyItemID",
+														"description": "物品ID"
 													},
-													{
-														"pattern": "^.*_ARMOR_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^GENERIC_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^.*_GENERIC_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^AMMO_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^.*_AMMO_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^GUN_.*$",
-														"type": "string"
-													},
-													{
-														"pattern": "^.*_GUN_.*$",
-														"type": "string"
-													},
-													{
-														"items": [
-															{
-																"$ref": "#/definitions/AnyItemID"
-															},
-															{
-																"type": "number"
-															}
-														],
-														"maxItems": 2,
-														"minItems": 2,
-														"type": "array"
+													"not_consume": {
+														"description": "不会消耗 默认 false",
+														"type": "boolean"
 													}
-												]
+												},
+												"required": [
+													"id"
+												],
+												"type": "object"
 											},
 											"type": "array"
 										},
@@ -24837,8 +24774,8 @@
 					"type": "object"
 				},
 				"charEventEocs": {
-					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>",
-					"description": "输出的角色Eoc事件 u为角色 npc为未定义\nid为 `${charName}_${etype}`"
+					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>",
+					"description": "输出的角色Eoc事件 u为角色 npc为未定义  \nid为 `${charName}_${etype}`"
 				},
 				"defineData": {
 					"description": "角色基础定义数据",
@@ -24922,7 +24859,7 @@
 				},
 				"reverseCharEventEocs": {
 					"$ref": "#/definitions/Record<\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\",EventEffect[]>",
-					"description": "输出的对象反转的角色Eoc事件 u为目标 npc为角色\nid为 `${charName}_${etype}`"
+					"description": "输出的对象反转的角色Eoc事件 u为目标 npc为角色  \nid为 `${charName}_${etype}`"
 				}
 			},
 			"required": [
@@ -25061,7 +24998,7 @@
 					"type": "array"
 				},
 				"common_cooldown": {
-					"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1\n一个高权重0共同冷却的技能意味着可以同时触发",
+					"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
 					"type": "number"
 				},
 				"condition": {
@@ -25333,9 +25270,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -25348,25 +25287,8 @@
 					"type": "number"
 				},
 				"hook": {
-					"description": "时机",
-					"enum": [
-						"CharBattleUpdate",
-						"CharCauseDamage",
-						"CharCauseHit",
-						"CharCauseMeleeDamage",
-						"CharCauseMeleeHit",
-						"CharCauseRangeDamage",
-						"CharCauseRangeHit",
-						"CharDeath",
-						"CharIdle",
-						"CharInit",
-						"CharMove",
-						"CharTakeDamage",
-						"CharTakeMeleeDamage",
-						"CharTakeRangeDamage",
-						"CharUpdate"
-					],
-					"type": "string"
+					"$ref": "#/definitions/AnyCharEvenetType",
+					"description": "时机"
 				},
 				"one_in_chance": {
 					"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -25890,7 +25812,7 @@
 							"description": "每级的法术伤害调整"
 						},
 						"damage_type": {
-							"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+							"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 							"enum": [
 								"acid",
 								"bash",
@@ -26156,7 +26078,7 @@
 							"description": "法术效果类型"
 						},
 						"effect_str": {
-							"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+							"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 							"type": "string"
 						},
 						"energy_increment": {
@@ -26257,7 +26179,7 @@
 								"description": "伪法术附加信息",
 								"properties": {
 									"hit_self": {
-										"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+										"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 										"type": "boolean"
 									},
 									"id": {
@@ -26994,7 +26916,7 @@
 						},
 						"learn_spells": {
 							"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-							"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+							"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 						},
 						"max_accuracy": {
 							"anyOf": [
@@ -28617,8 +28539,11 @@
 					"type": "object"
 				},
 				"target": {
-					"description": "瞄准方式\nrandom 为 原版随机;\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;\nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 并用u_hp-=造成伤害 适用于单体技能\nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage;\n默认为根据施法目标自动选择",
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
 					"enum": [
+						"auto",
+						"auto_hit",
+						"direct_hit",
 						"random",
 						"reverse_hit",
 						"spell_target"
@@ -28644,7 +28569,7 @@
 					"description": "只要拥有此字段就会添加的附魔属性"
 				},
 				"field": {
-					"description": "强化项ID\n作为全局变量`${charName}_${fieled}`",
+					"description": "强化项ID  \n作为全局变量`${charName}_${fieled}`",
 					"type": "string"
 				},
 				"lvl_ench_status": {
@@ -28652,11 +28577,11 @@
 					"description": "每个强化等级提升的附魔属性"
 				},
 				"max_lvl": {
-					"description": "最大强化等级 未设置则为require_resource长度\n若 require_resource 设置的长度不足以达到最大等级\n则以最后一组材料填充剩余部分",
+					"description": "最大强化等级 未设置则为require_resource长度  \n若 require_resource 设置的长度不足以达到最大等级  \n则以最后一组材料填充剩余部分",
 					"type": "number"
 				},
 				"mutation": {
-					"description": "到达特定强化等级时将会获得的变异\n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
+					"description": "到达特定强化等级时将会获得的变异  \n[拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]",
 					"items": {
 						"anyOf": [
 							{
@@ -28689,60 +28614,28 @@
 					"type": "array"
 				},
 				"require_resource": {
-					"description": "所需要消耗的资源\n[[[一级的物品ID,数量],[一级的另一个物品ID,数量]]\n[[二级的物品ID,数量],[二级的另一个物品ID,数量]]]",
+					"description": "所需要消耗的资源  \n[  \n [一级的物品ID,一级的另一个物品ID]  \n [二级的物品ID]  \n]",
 					"items": {
 						"items": {
-							"anyOf": [
-								{
-									"pattern": "^.*$",
-									"type": "string"
+							"description": "要求的资源",
+							"properties": {
+								"count": {
+									"description": "需求数量 默认1",
+									"type": "number"
 								},
-								{
-									"pattern": "^ARMOR_.*$",
-									"type": "string"
+								"id": {
+									"$ref": "#/definitions/AnyItemID",
+									"description": "物品ID"
 								},
-								{
-									"pattern": "^.*_ARMOR_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^GENERIC_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^.*_GENERIC_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^AMMO_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^.*_AMMO_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^GUN_.*$",
-									"type": "string"
-								},
-								{
-									"pattern": "^.*_GUN_.*$",
-									"type": "string"
-								},
-								{
-									"items": [
-										{
-											"$ref": "#/definitions/AnyItemID"
-										},
-										{
-											"type": "number"
-										}
-									],
-									"maxItems": 2,
-									"minItems": 2,
-									"type": "array"
+								"not_consume": {
+									"description": "不会消耗 默认 false",
+									"type": "boolean"
 								}
-							]
+							},
+							"required": [
+								"id"
+							],
+							"type": "object"
 						},
 						"type": "array"
 					},
@@ -28853,7 +28746,7 @@
 							"description": "输出的角色数据表"
 						},
 						"eventEocs": {
-							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
+							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 							"description": "输出的Eoc事件"
 						},
 						"staticTable": {
@@ -28906,7 +28799,7 @@
 					"description": "输出的角色数据表"
 				},
 				"eventEocs": {
-					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
+					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 					"description": "输出的Eoc事件"
 				},
 				"staticTable": {
@@ -29650,7 +29543,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+										"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 									},
 									{
 										"properties": {
@@ -30270,7 +30163,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+							"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 						},
 						{
 							"properties": {
@@ -30295,7 +30188,7 @@
 					"type": "string"
 				}
 			],
-			"description": "动态回复构造器\n如果是数组 则为随机选择其中一条回复"
+			"description": "动态回复构造器  \n如果是数组 则为随机选择其中一条回复"
 		},
 		"DynmaicLineOpera": {
 			"description": "动态回复构造器操作符",
@@ -30406,7 +30299,7 @@
 					"type": "array"
 				},
 				"chance_kill_resist": {
-					"description": "在玩家 抵抗 此效果时\n每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
+					"description": "在玩家 抵抗 此效果时  \n每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
 					"items": {
 						"items": [
 							{
@@ -30431,7 +30324,7 @@
 					"type": "string"
 				},
 				"decay_messages": {
-					"description": "效果产生自然调整时产生的消息\n[消息,效果评价][]\n按效果强度应用不同成员",
+					"description": "效果产生自然调整时产生的消息  \n[消息,效果评价][]  \n按效果强度应用不同成员",
 					"items": {
 						"items": [
 							{
@@ -30454,36 +30347,36 @@
 					"type": "array"
 				},
 				"desc": {
-					"description": "同name\n按效果强度应用不同成员",
+					"description": "同name  \n按效果强度应用不同成员",
 					"items": {
 						"type": "string"
 					},
 					"type": "array"
 				},
 				"dur_add_perc": {
-					"description": "在已有效果的情况下再次添加效果时\n所增加时间的修正值\nduration = duration + (dur_add_perc/100) * max_duration\n默认 100",
+					"description": "在已有效果的情况下再次添加效果时  \n所增加时间的修正值  \nduration = duration + (dur_add_perc/100) * max_duration  \n默认 100",
 					"type": "number"
 				},
 				"enchantments": {
-					"description": "此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义\n按效果强度应用不同成员",
+					"description": "此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义  \n按效果强度应用不同成员",
 					"items": {
 						"$ref": "#/definitions/ParamsEnchantment"
 					},
 					"type": "array"
 				},
 				"harmful_cough": {
-					"description": "表示该效果引起的咳嗽会伤害玩家。\n默认false",
+					"description": "表示该效果引起的咳嗽会伤害玩家。  \n默认false",
 					"type": "boolean"
 				},
 				"hurt_sizing": {
-					"description": "影响伤害效果触发的机会\n默认false",
+					"description": "影响伤害效果触发的机会  \n默认false",
 					"type": "boolean"
 				},
 				"id": {
 					"$ref": "#/definitions/EffectID"
 				},
 				"immune_bp_flags": {
-					"description": "可免疫此效果的身体部位\n效果直接施加于这些身体部位时将会被免疫",
+					"description": "可免疫此效果的身体部位  \n效果直接施加于这些身体部位时将会被免疫",
 					"items": {
 						"$ref": "#/definitions/BodyPartID"
 					},
@@ -30497,7 +30390,7 @@
 					"type": "array"
 				},
 				"int_add_val": {
-					"description": "在已有效果的情况下再次添加效果时\n所增加的强度\n默认 0",
+					"description": "在已有效果的情况下再次添加效果时  \n所增加的强度  \n默认 0",
 					"type": "number"
 				},
 				"int_decay_remove": {
@@ -30506,15 +30399,15 @@
 					"type": "boolean"
 				},
 				"int_decay_step": {
-					"description": "每经过int_decay_tick 的时间后\n效果强度将会调整此数值\n默认-1",
+					"description": "每经过int_decay_tick 的时间后  \n效果强度将会调整此数值  \n默认-1",
 					"type": "number"
 				},
 				"int_decay_tick": {
-					"description": "效果做出自然增减的间隔 秒\n默认0 即不会改变",
+					"description": "效果做出自然增减的间隔 秒  \n默认0 即不会改变",
 					"type": "number"
 				},
 				"int_dur_factor": {
-					"description": "覆盖其他三个强度字段，\n并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字\n（因此从0到“int_dur_factor”是强度1）。",
+					"description": "覆盖其他三个强度字段，  \n并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字\n（因此从0到“int_dur_factor”是强度1）。",
 					"type": "number"
 				},
 				"limb_score_mods": {
@@ -30531,11 +30424,11 @@
 								"type": "number"
 							},
 							"resist_modifier": {
-								"description": "在玩家 抵抗 此效果时\n乘数调整值 默认1",
+								"description": "在玩家 抵抗 此效果时  \n乘数调整值 默认1",
 								"type": "number"
 							},
 							"resist_scaling": {
-								"description": "在玩家 抵抗 此效果时\n每个强度等级添加到 modifier的值 默认0",
+								"description": "在玩家 抵抗 此效果时  \n每个强度等级添加到 modifier的值 默认0",
 								"type": "number"
 							},
 							"scaling": {
@@ -30551,7 +30444,7 @@
 					"type": "array"
 				},
 				"main_parts_only": {
-					"description": "这个效果是否只能应用于主肢体\n默认false",
+					"description": "这个效果是否只能应用于主肢体  \n默认false",
 					"type": "boolean"
 				},
 				"max_duration": {
@@ -30583,7 +30476,7 @@
 					"description": "效果的持续时间 默认365 d"
 				},
 				"max_effective_intensity": {
-					"description": "将累积效果的最大强度级别。\n其他强度级别只会增加持续时间。",
+					"description": "将累积效果的最大强度级别。  \n其他强度级别只会增加持续时间。",
 					"type": "number"
 				},
 				"max_intensity": {
@@ -30591,7 +30484,7 @@
 					"type": "number"
 				},
 				"miss_messages": {
-					"description": "豁免效果时产生的消息\n[消息,发送此消息的权重][]\n按效果强度应用不同成员",
+					"description": "豁免效果时产生的消息  \n[消息,发送此消息的权重][]  \n按效果强度应用不同成员",
 					"items": {
 						"items": [
 							{
@@ -30608,23 +30501,23 @@
 					"type": "array"
 				},
 				"name": {
-					"description": "如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。\n[\"ABC\",\"XYZ\",\"123\"]\n在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。\n如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，\n则如果当前强度> 1，则将使用第一个条目，\n后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。\n如果所需的“名称”条目是空字符串（“”）或缺少“名称”，\n则该效果将不会在状态屏幕中向玩家显示。\n按效果强度应用不同成员",
+					"description": "如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。  \n[\"ABC\",\"XYZ\",\"123\"]  \n在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。  \n如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，  \n则如果当前强度> 1，则将使用第一个条目，  \n后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。  \n如果所需的“名称”条目是空字符串（“”）或缺少“名称”，  \n则该效果将不会在状态屏幕中向玩家显示。  \n按效果强度应用不同成员",
 					"items": {
 						"type": "string"
 					},
 					"type": "array"
 				},
 				"pain_sizing": {
-					"description": "影响疼痛效果触发的机会\n默认false",
+					"description": "影响疼痛效果触发的机会  \n默认false",
 					"type": "boolean"
 				},
 				"part_descs": {
 					"const": true,
-					"description": "如果“part_descs”== true，则描述前面带有“您的 X”，\n其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。",
+					"description": "如果“part_descs”== true，则描述前面带有“您的 X”，  \n其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。",
 					"type": "boolean"
 				},
 				"pkill_addict_reduces": {
-					"description": "使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会\n默认false",
+					"description": "使玩家对止痛药的成瘾减少了给他们带来更多 pkill 效果的机会  \n默认false",
 					"type": "boolean"
 				},
 				"rating": {
@@ -30672,7 +30565,7 @@
 					"description": "效果结束或移除时产生的消息"
 				},
 				"removes_effects": {
-					"description": "获得此效果时会移除这些效果\n这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。",
+					"description": "获得此效果时会移除这些效果  \n这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。",
 					"items": {
 						"$ref": "#/definitions/EffectID"
 					},
@@ -30707,11 +30600,11 @@
 					"description": "效果的诶个强度等级的额外调整"
 				},
 				"show_in_info": {
-					"description": "默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果\n如果为true玩家可以从怪物简介中查看到效果",
+					"description": "默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果  \n如果为true玩家可以从怪物简介中查看到效果",
 					"type": "boolean"
 				},
 				"show_intensity": {
-					"description": "这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。\n例如显示“弱点[142]”或简单的“弱点”文本。\n默认true",
+					"description": "这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。  \n例如显示“弱点[142]”或简单的“弱点”文本。  \n默认true",
 					"type": "boolean"
 				},
 				"type": {
@@ -30724,14 +30617,14 @@
 						"description": "效果维生素修正",
 						"properties": {
 							"absorb_mult": {
-								"description": "吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+								"description": "吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 								"items": {
 									"type": "number"
 								},
 								"type": "array"
 							},
 							"rate": {
-								"description": "每隔[0]~[1] tick 将会应用一次调整\n按效果强度应用不同成员",
+								"description": "每隔[0]~[1] tick 将会应用一次调整  \n按效果强度应用不同成员",
 								"items": {
 									"items": [
 										{
@@ -30748,14 +30641,14 @@
 								"type": "array"
 							},
 							"resist_absorb_mult": {
-								"description": "在玩家 抵抗 此效果时\n吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+								"description": "在玩家 抵抗 此效果时  \n吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 								"items": {
 									"type": "number"
 								},
 								"type": "array"
 							},
 							"resist_rate": {
-								"description": "在玩家 抵抗 此效果时\n每隔 [0]~[1] tick将会应用一次调整\n按效果强度应用不同成员",
+								"description": "在玩家 抵抗 此效果时  \n每隔 [0]~[1] tick将会应用一次调整  \n按效果强度应用不同成员",
 								"items": {
 									"items": [
 										{
@@ -30772,14 +30665,14 @@
 								"type": "array"
 							},
 							"resist_tick": {
-								"description": "在玩家 抵抗 此效果时\nrate的基础单位\n按效果强度应用不同成员",
+								"description": "在玩家 抵抗 此效果时  \nrate的基础单位  \n按效果强度应用不同成员",
 								"items": {
 									"$ref": "#/definitions/Time"
 								},
 								"type": "array"
 							},
 							"tick": {
-								"description": "rate的基础单位\n按效果强度应用不同成员",
+								"description": "rate的基础单位  \n按效果强度应用不同成员",
 								"items": {
 									"$ref": "#/definitions/Time"
 								},
@@ -30840,11 +30733,11 @@
 					"type": "number"
 				},
 				"resist_modifier": {
-					"description": "在玩家 抵抗 此效果时\n乘数调整值 默认1",
+					"description": "在玩家 抵抗 此效果时  \n乘数调整值 默认1",
 					"type": "number"
 				},
 				"resist_scaling": {
-					"description": "在玩家 抵抗 此效果时\n每个强度等级添加到 modifier的值 默认0",
+					"description": "在玩家 抵抗 此效果时  \n每个强度等级添加到 modifier的值 默认0",
 					"type": "number"
 				},
 				"scaling": {
@@ -30993,14 +30886,14 @@
 			"description": "效果维生素修正",
 			"properties": {
 				"absorb_mult": {
-					"description": "吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+					"description": "吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 					"items": {
 						"type": "number"
 					},
 					"type": "array"
 				},
 				"rate": {
-					"description": "每隔[0]~[1] tick 将会应用一次调整\n按效果强度应用不同成员",
+					"description": "每隔[0]~[1] tick 将会应用一次调整  \n按效果强度应用不同成员",
 					"items": {
 						"items": [
 							{
@@ -31017,14 +30910,14 @@
 					"type": "array"
 				},
 				"resist_absorb_mult": {
-					"description": "在玩家 抵抗 此效果时\n吸收维生素时的调整值\n维生素 = 维生素 + (将要获得的维生素*absorb_mult)\n按效果强度应用不同成员",
+					"description": "在玩家 抵抗 此效果时  \n吸收维生素时的调整值  \n维生素 = 维生素 + (将要获得的维生素*absorb_mult)  \n按效果强度应用不同成员",
 					"items": {
 						"type": "number"
 					},
 					"type": "array"
 				},
 				"resist_rate": {
-					"description": "在玩家 抵抗 此效果时\n每隔 [0]~[1] tick将会应用一次调整\n按效果强度应用不同成员",
+					"description": "在玩家 抵抗 此效果时  \n每隔 [0]~[1] tick将会应用一次调整  \n按效果强度应用不同成员",
 					"items": {
 						"items": [
 							{
@@ -31041,14 +30934,14 @@
 					"type": "array"
 				},
 				"resist_tick": {
-					"description": "在玩家 抵抗 此效果时\nrate的基础单位\n按效果强度应用不同成员",
+					"description": "在玩家 抵抗 此效果时  \nrate的基础单位  \n按效果强度应用不同成员",
 					"items": {
 						"$ref": "#/definitions/Time"
 					},
 					"type": "array"
 				},
 				"tick": {
-					"description": "rate的基础单位\n按效果强度应用不同成员",
+					"description": "rate的基础单位  \n按效果强度应用不同成员",
 					"items": {
 						"$ref": "#/definitions/Time"
 					},
@@ -31368,9 +31261,11 @@
 						"ALWAYS",
 						"INACTIVE",
 						"npc_female",
+						"npc_is_alive",
 						"npc_male",
 						"u_can_drop_weapon",
 						"u_female",
+						"u_is_alive",
 						"u_male"
 					],
 					"type": "string"
@@ -31898,12 +31793,12 @@
 					"type": "string"
 				},
 				"hit_me_effect": {
-					"description": "附魔拥有者击中时触发的法术\n该咒语以您的位置为中心。",
+					"description": "附魔拥有者击中时触发的法术  \n该咒语以您的位置为中心。",
 					"items": {
 						"description": "伪法术附加信息",
 						"properties": {
 							"hit_self": {
-								"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+								"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 								"type": "boolean"
 							},
 							"id": {
@@ -32170,12 +32065,12 @@
 					"type": "array"
 				},
 				"hit_you_effect": {
-					"description": "抚摸拥有者近战击中敌人时触发的法术\n 该法术以该生物的位置为中心，除非\"hit_self\": true\n 那么它以你的位置为中心。",
+					"description": "抚摸拥有者近战击中敌人时触发的法术  \n 该法术以该生物的位置为中心，除非\"hit_self\": true  \n 那么它以你的位置为中心。",
 					"items": {
 						"description": "伪法术附加信息",
 						"properties": {
 							"hit_self": {
-								"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+								"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 								"type": "boolean"
 							},
 							"id": {
@@ -32461,7 +32356,7 @@
 											"description": "伪法术附加信息",
 											"properties": {
 												"hit_self": {
-													"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+													"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 													"type": "boolean"
 												},
 												"id": {
@@ -33277,9 +33172,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -34486,7 +34383,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+							"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 						},
 						{
 							"properties": {
@@ -36174,7 +36071,7 @@
 			"description": "伪法术附加信息",
 			"properties": {
 				"hit_self": {
-					"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+					"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 					"type": "boolean"
 				},
 				"id": {
@@ -36971,7 +36868,7 @@
 							"description": "定时激活 一旦定时器的持续时间过去，就会\"countdown_action\"执行"
 						},
 						"degradation_multiplier": {
-							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。\n默认为 1.0",
+							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 							"type": "number"
 						},
 						"description": {
@@ -37062,7 +36959,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时添加到基础物品的体积\n例如，集成到枪支的枪械 体积会添加到基础物品上。\n默认值与音量相同。"
+							"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如，集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
 						},
 						"integral_weight": {
 							"anyOf": [
@@ -37078,7 +36975,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时\n例如，集成到枪中的枪械 重量会添加到基础物品上。\n默认值与重量相同。"
+							"description": "当物品集成到另一个物品中时  \n例如，集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
 						},
 						"longest_side": {
 							"anyOf": [
@@ -37221,7 +37118,7 @@
 									},
 									"ammo_restriction": {
 										"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 									},
 									"fire_protection": {
 										"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -38153,7 +38050,7 @@
 					"description": "定时激活 一旦定时器的持续时间过去，就会\"countdown_action\"执行"
 				},
 				"degradation_multiplier": {
-					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。\n默认为 1.0",
+					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 					"type": "number"
 				},
 				"description": {
@@ -38244,7 +38141,7 @@
 							"type": "number"
 						}
 					],
-					"description": "当物品集成到另一个物品中时添加到基础物品的体积\n例如，集成到枪支的枪械 体积会添加到基础物品上。\n默认值与音量相同。"
+					"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如，集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
 				},
 				"integral_weight": {
 					"anyOf": [
@@ -38260,7 +38157,7 @@
 							"type": "number"
 						}
 					],
-					"description": "当物品集成到另一个物品中时\n例如，集成到枪中的枪械 重量会添加到基础物品上。\n默认值与重量相同。"
+					"description": "当物品集成到另一个物品中时  \n例如，集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
 				},
 				"longest_side": {
 					"anyOf": [
@@ -38403,7 +38300,7 @@
 							},
 							"ammo_restriction": {
 								"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-								"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+								"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 							},
 							"fire_protection": {
 								"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -39289,7 +39186,7 @@
 							"type": "array"
 						},
 						"dispersion": {
-							"description": "枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量\n当枪械模组中存在 sight_dispersion 和 aim_speed 时，瞄准系统会选择“最佳”\n用于每个目标操作的瞄准器，这是在当前目标阈值下具有分散性的最快瞄准器",
+							"description": "枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时，瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器，这是在当前目标阈值下具有分散性的最快瞄准器",
 							"type": "number"
 						},
 						"durability": {
@@ -39310,7 +39207,7 @@
 									"type": "number"
 								}
 							],
-							"description": "除了普通弹药（如果有）之外，枪还需要一些电能。\n枪内电池电量耗尽。\n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。\n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
+							"description": "除了普通弹药（如果有）之外，枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
 						},
 						"flags": {
 							"description": "枪械的flag",
@@ -39323,7 +39220,7 @@
 							"$ref": "#/definitions/GunID"
 						},
 						"loudness": {
-							"description": "这把枪射击时产生的噪音量。\n如果未定义值，则根据加载弹药的响度值进行计算。\n最终响度计算为枪支响度+枪械响度+弹药响度。\n如果最终响度为 0，则枪声完全静音。",
+							"description": "这把枪射击时产生的噪音量。  \n如果未定义值，则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0，则枪声完全静音。",
 							"type": "number"
 						},
 						"min_cycle_recoil": {
@@ -39331,7 +39228,7 @@
 							"type": "number"
 						},
 						"modes": {
-							"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE\n后面是游戏中显示的模式名称\n最后是该模组的射击次数。",
+							"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
 							"items": {
 								"description": "开火模式",
 								"items": [
@@ -39765,7 +39662,7 @@
 							"description": "定时激活 一旦定时器的持续时间过去，就会\"countdown_action\"执行"
 						},
 						"degradation_multiplier": {
-							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。\n默认为 1.0",
+							"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 							"type": "number"
 						},
 						"description": {
@@ -39856,7 +39753,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时添加到基础物品的体积\n例如，集成到枪支的枪械 体积会添加到基础物品上。\n默认值与音量相同。"
+							"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如，集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
 						},
 						"integral_weight": {
 							"anyOf": [
@@ -39872,7 +39769,7 @@
 									"type": "number"
 								}
 							],
-							"description": "当物品集成到另一个物品中时\n例如，集成到枪中的枪械 重量会添加到基础物品上。\n默认值与重量相同。"
+							"description": "当物品集成到另一个物品中时  \n例如，集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
 						},
 						"longest_side": {
 							"anyOf": [
@@ -40015,7 +39912,7 @@
 									},
 									"ammo_restriction": {
 										"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+										"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 									},
 									"fire_protection": {
 										"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -41031,12 +40928,12 @@
 					"type": "string"
 				},
 				"hit_me_effect": {
-					"description": "附魔拥有者击中时触发的法术\n该咒语以您的位置为中心。",
+					"description": "附魔拥有者击中时触发的法术  \n该咒语以您的位置为中心。",
 					"items": {
 						"description": "伪法术附加信息",
 						"properties": {
 							"hit_self": {
-								"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+								"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 								"type": "boolean"
 							},
 							"id": {
@@ -41303,12 +41200,12 @@
 					"type": "array"
 				},
 				"hit_you_effect": {
-					"description": "抚摸拥有者近战击中敌人时触发的法术\n 该法术以该生物的位置为中心，除非\"hit_self\": true\n 那么它以你的位置为中心。",
+					"description": "抚摸拥有者近战击中敌人时触发的法术  \n 该法术以该生物的位置为中心，除非\"hit_self\": true  \n 那么它以你的位置为中心。",
 					"items": {
 						"description": "伪法术附加信息",
 						"properties": {
 							"hit_self": {
-								"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+								"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 								"type": "boolean"
 							},
 							"id": {
@@ -41591,7 +41488,7 @@
 											"description": "伪法术附加信息",
 											"properties": {
 												"hit_self": {
-													"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+													"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 													"type": "boolean"
 												},
 												"id": {
@@ -42368,9 +42265,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -43053,7 +42952,7 @@
 					"type": "array"
 				},
 				"subtype": {
-					"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+					"description": "是可选的。它可以是 collection 或 distribution。  \n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。  \ncollection   集合 为每个entries均独立概率  \ndistribution 分布 为加权轮盘随机",
 					"enum": [
 						"collection",
 						"distribution"
@@ -43062,6 +42961,17 @@
 				}
 			},
 			"type": "object"
+		},
+		"InteractiveCharEvent": {
+			"enum": [
+				"CharCauseHit",
+				"CharCauseMeleeHit",
+				"CharCauseRangeHit",
+				"CharTakeDamage",
+				"CharTakeMeleeDamage",
+				"CharTakeRangeDamage"
+			],
+			"type": "string"
 		},
 		"ItemCategotyID": {
 			"enum": [
@@ -43151,7 +43061,7 @@
 					"type": "array"
 				},
 				"subtype": {
-					"description": "是可选的。它可以是 collection 或 distribution。\n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。\ncollection   集合 为每个entries均独立概率\ndistribution 分布 为加权轮盘随机",
+					"description": "是可选的。它可以是 collection 或 distribution。  \n如果未指定，则默认为old，这表示该项目组使用旧格式 本质上是分布。  \ncollection   集合 为每个entries均独立概率  \ndistribution 分布 为加权轮盘随机",
 					"enum": [
 						"collection",
 						"distribution"
@@ -43553,11 +43463,11 @@
 			"items": {
 				"properties": {
 					"burn": {
-						"description": "决定火灾将由该材料制成的物品转化为燃料的速度。\n不影响给定提供的总燃料",
+						"description": "决定火灾将由该材料制成的物品转化为燃料的速度。  \n不影响给定提供的总燃料",
 						"type": "number"
 					},
 					"fuel": {
-						"description": "决定该材料增加火力的时间和强度。\n负值会减少火中的燃料，使火熄灭。\n如果具有液体相 ID 的物品是易燃的，则应由值 >= 200 的材料制成。",
+						"description": "决定该材料增加火力的时间和强度。  \n负值会减少火中的燃料，使火熄灭。  \n如果具有液体相 ID 的物品是易燃的，则应由值 >= 200 的材料制成。",
 						"type": "number"
 					},
 					"immune": {
@@ -43598,7 +43508,7 @@
 			"description": "材料",
 			"properties": {
 				"bash_dmg_verb": {
-					"description": "描述材料被砸坏的形容词\n\"bruised\"",
+					"description": "描述材料被砸坏的形容词  \n\"bruised\"",
 					"type": "string"
 				},
 				"burn_data": {
@@ -43606,11 +43516,11 @@
 					"items": {
 						"properties": {
 							"burn": {
-								"description": "决定火灾将由该材料制成的物品转化为燃料的速度。\n不影响给定提供的总燃料",
+								"description": "决定火灾将由该材料制成的物品转化为燃料的速度。  \n不影响给定提供的总燃料",
 								"type": "number"
 							},
 							"fuel": {
-								"description": "决定该材料增加火力的时间和强度。\n负值会减少火中的燃料，使火熄灭。\n如果具有液体相 ID 的物品是易燃的，则应由值 >= 200 的材料制成。",
+								"description": "决定该材料增加火力的时间和强度。  \n负值会减少火中的燃料，使火熄灭。  \n如果具有液体相 ID 的物品是易燃的，则应由值 >= 200 的材料制成。",
 								"type": "number"
 							},
 							"immune": {
@@ -43656,7 +43566,7 @@
 					"type": "boolean"
 				},
 				"cut_dmg_verb": {
-					"description": "描述材料被切割的形容词\n\"sliced\"",
+					"description": "描述材料被切割的形容词  \n\"sliced\"",
 					"type": "string"
 				},
 				"density": {
@@ -43664,7 +43574,7 @@
 					"type": "number"
 				},
 				"dmg_adj": {
-					"description": "描述材料损坏程度的形容词\n[\"bruised\", \"mutilated\", \"badly mutilated\", \"thoroughly mutilated\"]",
+					"description": "描述材料损坏程度的形容词  \n[\"bruised\", \"mutilated\", \"badly mutilated\", \"thoroughly mutilated\"]",
 					"items": {
 						"type": "string"
 					},
@@ -43675,7 +43585,7 @@
 					"type": "boolean"
 				},
 				"freezing_point": {
-					"description": "材料的凝固点\n该材料的凝固点 (C)。默认 0 C (32 F)。",
+					"description": "材料的凝固点  \n该材料的凝固点 (C)。默认 0 C (32 F)。",
 					"type": "number"
 				},
 				"fuel_data": {
@@ -43767,7 +43677,7 @@
 					"type": "string"
 				},
 				"vitamins": {
-					"description": "此材质含有的维生素\n[[\"calcium\", 0.1], [\"vitB\", 1], [\"iron\", 1.3]];",
+					"description": "此材质含有的维生素  \n[[\"calcium\", 0.1], [\"vitB\", 1], [\"iron\", 1.3]];",
 					"items": {
 						"items": [
 							{
@@ -43829,11 +43739,11 @@
 					"$ref": "#/definitions/MathFunctionID"
 				},
 				"num_args": {
-					"description": "参数个数\n由 `_${number}` 取得参数",
+					"description": "参数个数  \n由 `_${number}` 取得参数",
 					"type": "number"
 				},
 				"return": {
-					"description": "函数返回值\n如 \"_0 * 2 + rand(_1)\"",
+					"description": "函数返回值  \n如 \"_0 * 2 + rand(_1)\"",
 					"type": "string"
 				},
 				"type": {
@@ -43902,7 +43812,7 @@
 			"description": "发送消息"
 		},
 		"MissionTarget": {
-			"description": "分配任务目标 assign_mission_target\nMISSIONS_JSON.md",
+			"description": "分配任务目标 assign_mission_target  \nMISSIONS_JSON.md",
 			"type": "null"
 		},
 		"Monster": {
@@ -44112,7 +44022,7 @@
 			"description": "变异",
 			"properties": {
 				"allow_soft_gear": {
-					"description": "如果有“restricts_gear”列表，则设置该位置是否仍然允许由软材料制成的物品\n只有其中一种类型需要是软的才能被视为软 默认值:false",
+					"description": "如果有“restricts_gear”列表，则设置该位置是否仍然允许由软材料制成的物品  \n只有其中一种类型需要是软的才能被视为软 默认值:false",
 					"type": "boolean"
 				},
 				"cancels": {
@@ -44372,9 +44282,11 @@
 		"NoParamCond": {
 			"enum": [
 				"npc_female",
+				"npc_is_alive",
 				"npc_male",
 				"u_can_drop_weapon",
 				"u_female",
+				"u_is_alive",
 				"u_male"
 			],
 			"type": "string"
@@ -44534,7 +44446,7 @@
 					"description": "npc携带的物品组"
 				},
 				"common": {
-					"description": "false意味着这个NPC职业不会随机生成。\n如果未指定，则默认为 。true",
+					"description": "false意味着这个NPC职业不会随机生成。  \n如果未指定，则默认为 。true",
 					"type": "boolean"
 				},
 				"id": {
@@ -44552,7 +44464,7 @@
 					"type": "string"
 				},
 				"sells_belongings": {
-					"description": "false意味着该NPC的磨损或持有的物品将被严格排除在其店主名单之外;\n否则，他们会很乐意出售裤子之类的东西。\n如果未指定，则默认为 。true",
+					"description": "false意味着该NPC的磨损或持有的物品将被严格排除在其店主名单之外;  \n否则，他们会很乐意出售裤子之类的东西。  \n如果未指定，则默认为 。true",
 					"type": "boolean"
 				},
 				"shopkeeper_blacklist": {
@@ -44565,7 +44477,7 @@
 					"type": "string"
 				},
 				"shopkeeper_item_group": {
-					"description": "仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。",
+					"description": "仅当计划的 NPC 是店主，拥有每三个游戏日更换一次的循环物品库存时，才需要。  \n所有物品覆盖都将确保此类的任何 NPC 都会生成特定物品。",
 					"items": [
 						{
 							"properties": {
@@ -45918,7 +45830,7 @@
 					"description": "施法失败后运行的eoc"
 				},
 				"targeted": {
-					"description": "默认为 false；如果为 true，则允许您瞄准施放的法术，\n否则将其施放于随机位置，就像RANDOM_TARGET使用了法术标志一样\nRANDOM_TARGET法术需要此项目为true才能正常索敌",
+					"description": "默认为 false；如果为 true，则允许您瞄准施放的法术，  \n否则将其施放于随机位置，就像RANDOM_TARGET使用了法术标志一样  \nRANDOM_TARGET法术需要此项目为true才能正常索敌",
 					"type": "boolean"
 				},
 				"true_eocs": {
@@ -46710,7 +46622,7 @@
 					"description": "在搜索目标周围的最小半径"
 				},
 				"target_params": {
-					"description": "如果使用，搜索将不是从u_或npc_位置执行，\n而是从 执行mission_target。\n它使用allocate_mission_target语法",
+					"description": "如果使用，搜索将不是从u_或npc_位置执行，  \n而是从 执行mission_target。  \n它使用allocate_mission_target语法",
 					"type": "null"
 				},
 				"terrain": {
@@ -47083,7 +46995,7 @@
 					"description": "将结果的z值增加"
 				},
 				"z_override": {
-					"description": "如果为 true，则不将其累加到z级别，\n而是用绝对值覆盖它:\"z_adjust\": 3将\"z_override\": true的值z转为3\n默认为 false",
+					"description": "如果为 true，则不将其累加到z级别，  \n而是用绝对值覆盖它:\"z_adjust\": 3将\"z_override\": true的值z转为3  \n默认为 false",
 					"type": "boolean"
 				},
 				"zone": {
@@ -47155,7 +47067,7 @@
 		"Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">": {
 			"properties": {
 				"interrupt_type": {
-					"description": "默认为“中性”；distraction_type，用于中断，用于分心管理器\n完整列表存在 inactivity_type.cpp",
+					"description": "默认为“中性”；distraction_type，用于中断，用于分心管理器  \n完整列表存在 inactivity_type.cpp",
 					"type": "boolean"
 				},
 				"outdoor_only": {
@@ -47171,7 +47083,7 @@
 					"type": "boolean"
 				},
 				"same_snippet": {
-					"description": "如果为 true，并且snippet为 true，它将连接讲话者和片段，\n并且如果该讲话者使用的话，将始终提供相同的片段；要求片段设置 id",
+					"description": "如果为 true，并且snippet为 true，它将连接讲话者和片段，  \n并且如果该讲话者使用的话，将始终提供相同的片段；要求片段设置 id",
 					"type": "boolean"
 				},
 				"snippet": {
@@ -47183,7 +47095,7 @@
 					"type": "boolean"
 				},
 				"type": {
-					"description": "默认中立；消息如何在日志中显示（通常是指颜色）；\n可以是良好（绿色）、中性（白色）、不良（红色）、\n混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、\n爆头（紫色）、临界（黄色），放牧（蓝色）",
+					"description": "默认中立；消息如何在日志中显示（通常是指颜色）；  \n可以是良好（绿色）、中性（白色）、不良（红色）、  \n混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、  \n爆头（紫色）、临界（黄色），放牧（蓝色）",
 					"enum": [
 						"bad",
 						"critical",
@@ -47216,7 +47128,7 @@
 					"type": "boolean"
 				},
 				"only_increase": {
-					"description": "仅增加 默认false\n如果属实，HP只能增加",
+					"description": "仅增加 默认false  \n如果属实，HP只能增加",
 					"type": "boolean"
 				},
 				"target_part": {
@@ -47306,7 +47218,7 @@
 							"type": "string"
 						}
 					],
-					"description": "默认为 whole body 全身\n如果使用，HP调整将仅应用于该身体部位"
+					"description": "默认为 whole body 全身  \n如果使用，HP调整将仅应用于该身体部位"
 				}
 			},
 			"type": "object"
@@ -47760,7 +47672,7 @@
 				},
 				"ammo_restriction": {
 					"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-					"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+					"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 				},
 				"fire_protection": {
 					"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -48329,9 +48241,12 @@
 			},
 			"type": "object"
 		},
-		"Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>": {
+		"Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>": {
 			"properties": {
 				"npc_female": {
+					"type": "boolean"
+				},
+				"npc_is_alive": {
 					"type": "boolean"
 				},
 				"npc_male": {
@@ -48341,6 +48256,9 @@
 					"type": "boolean"
 				},
 				"u_female": {
+					"type": "boolean"
+				},
+				"u_is_alive": {
 					"type": "boolean"
 				},
 				"u_male": {
@@ -48745,7 +48663,7 @@
 							"type": "string"
 						}
 					],
-					"description": "添加为创建项目的内容。\n不检查它们是否可以放入项目中。\n这允许水，其中包含一本书，其中包含一个钢架，其中包含一具尸体。"
+					"description": "添加为创建项目的内容。  \n不检查它们是否可以放入项目中。  \n这允许水，其中包含一本书，其中包含一个钢架，其中包含一具尸体。"
 				},
 				"contents-item": {
 					"anyOf": [
@@ -48759,7 +48677,7 @@
 							"type": "string"
 						}
 					],
-					"description": "添加为创建项目的内容。\n不检查它们是否可以放入项目中。\n这允许水，其中包含一本书，其中包含一个钢架，其中包含一具尸体。"
+					"description": "添加为创建项目的内容。  \n不检查它们是否可以放入项目中。  \n这允许水，其中包含一本书，其中包含一个钢架，其中包含一具尸体。"
 				},
 				"count": {
 					"anyOf": [
@@ -48773,7 +48691,7 @@
 							"type": "number"
 						}
 					],
-					"description": "使项目重复生成，每次创建一个新项目。\n[1, 10] 为1~10个"
+					"description": "使项目重复生成，每次创建一个新项目。  \n[1, 10] 为1~10个"
 				},
 				"count-max": {
 					"type": "number"
@@ -48918,7 +48836,7 @@
 				},
 				"ammo_restriction": {
 					"$ref": "#/definitions/Partial<Record<AmmoID,number>>",
-					"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。\n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。\nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+					"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密，以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型，每种弹药类型的数量不同，并且容器只能容纳一种类型（截至目前）。 如果省略它，它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
 				},
 				"fire_protection": {
 					"description": "默认 false。 如果属实，口袋可以保护里面的物品在扔进火里时不会爆炸。",
@@ -50937,7 +50855,7 @@
 			],
 			"type": "object"
 		},
-		"Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\",EventEffect[]>": {
+		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>": {
 			"properties": {
 				"CharBattleUpdate": {
 					"items": {
@@ -58060,7 +57978,7 @@
 			],
 			"type": "object"
 		},
-		"Record<\"CharIdle\"|\"CharMove\"|\"CharCauseHit\"|\"CharUpdate\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharInit\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>": {
+		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>": {
 			"properties": {
 				"CharBattleUpdate": {
 					"items": {
@@ -67802,6 +67720,27 @@
 			},
 			"type": "object"
 		},
+		"RequireResource": {
+			"description": "要求的资源",
+			"properties": {
+				"count": {
+					"description": "需求数量 默认1",
+					"type": "number"
+				},
+				"id": {
+					"$ref": "#/definitions/AnyItemID",
+					"description": "物品ID"
+				},
+				"not_consume": {
+					"description": "不会消耗 默认 false",
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"id"
+			],
+			"type": "object"
+		},
 		"Resp": {
 			"anyOf": [
 				{
@@ -68666,9 +68605,11 @@
 										{
 											"enum": [
 												"npc_female",
+												"npc_is_alive",
 												"npc_male",
 												"u_can_drop_weapon",
 												"u_female",
+												"u_is_alive",
 												"u_male"
 											],
 											"type": "string"
@@ -68677,11 +68618,11 @@
 									"description": "显示此回复的条件"
 								},
 								"default": {
-									"description": "是选项回复的默认回复 默认false\n如果所有选项回复的条件都不被满足\n则此回复会被显示",
+									"description": "是选项回复的默认回复 默认false  \n如果所有选项回复的条件都不被满足  \n则此回复会被显示",
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
 									"type": "string"
 								},
 								"failure_topic": {
@@ -68721,15 +68662,15 @@
 									"description": "回复的条件不满足时 选择此选项将跳转到的对话"
 								},
 								"switch": {
-									"description": "是一个选项回复 默认false\n仅显示第一个带有\"switch\": true、和有效条件的响应\n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
+									"description": "是一个选项回复 默认false  \n仅显示第一个带有\"switch\": true、和有效条件的响应  \n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
 									"type": "boolean"
 								},
 								"text": {
-									"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，\n这会删除输出文本周围的引号，表示显示文本的描述性性质，\n使用 \\\" 转义双引号来指示实际对话的开始。",
+									"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，  \n这会删除输出文本周围的引号，表示显示文本的描述性性质，  \n使用 \\\" 转义双引号来指示实际对话的开始。",
 									"type": "string"
 								},
 								"truefalsetext": {
-									"description": "对某个条件进行判断 并给出不同的文本\n代替 text 字段",
+									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
 									"properties": {
 										"condition": {
 											"anyOf": [
@@ -69000,9 +68941,11 @@
 												{
 													"enum": [
 														"npc_female",
+														"npc_is_alive",
 														"npc_male",
 														"u_can_drop_weapon",
 														"u_female",
+														"u_is_alive",
 														"u_male"
 													],
 													"type": "string"
@@ -70544,9 +70487,11 @@
 												{
 													"enum": [
 														"npc_female",
+														"npc_is_alive",
 														"npc_male",
 														"u_can_drop_weapon",
 														"u_female",
+														"u_is_alive",
 														"u_male"
 													],
 													"type": "string"
@@ -70559,7 +70504,7 @@
 											"type": "number"
 										},
 										"mod": {
-											"description": "根据npc的性格或态度进行成功率调整\n结果越高成功率越高",
+											"description": "根据npc的性格或态度进行成功率调整  \n结果越高成功率越高",
 											"items": {
 												"items": [
 													{
@@ -70926,9 +70871,11 @@
 										{
 											"enum": [
 												"npc_female",
+												"npc_is_alive",
 												"npc_male",
 												"u_can_drop_weapon",
 												"u_female",
+												"u_is_alive",
 												"u_male"
 											],
 											"type": "string"
@@ -70937,11 +70884,11 @@
 									"description": "显示此回复的条件"
 								},
 								"default": {
-									"description": "是选项回复的默认回复 默认false\n如果所有选项回复的条件都不被满足\n则此回复会被显示",
+									"description": "是选项回复的默认回复 默认false  \n如果所有选项回复的条件都不被满足  \n则此回复会被显示",
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
 									"type": "string"
 								},
 								"failure_topic": {
@@ -70981,15 +70928,15 @@
 									"description": "回复的条件不满足时 选择此选项将跳转到的对话"
 								},
 								"switch": {
-									"description": "是一个选项回复 默认false\n仅显示第一个带有\"switch\": true、和有效条件的响应\n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
+									"description": "是一个选项回复 默认false  \n仅显示第一个带有\"switch\": true、和有效条件的响应  \n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
 									"type": "boolean"
 								},
 								"text": {
-									"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，\n这会删除输出文本周围的引号，表示显示文本的描述性性质，\n使用 \\\" 转义双引号来指示实际对话的开始。",
+									"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，  \n这会删除输出文本周围的引号，表示显示文本的描述性性质，  \n使用 \\\" 转义双引号来指示实际对话的开始。",
 									"type": "string"
 								},
 								"truefalsetext": {
-									"description": "对某个条件进行判断 并给出不同的文本\n代替 text 字段",
+									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
 									"properties": {
 										"condition": {
 											"anyOf": [
@@ -71260,9 +71207,11 @@
 												{
 													"enum": [
 														"npc_female",
+														"npc_is_alive",
 														"npc_male",
 														"u_can_drop_weapon",
 														"u_female",
+														"u_is_alive",
 														"u_male"
 													],
 													"type": "string"
@@ -71292,7 +71241,7 @@
 					]
 				}
 			],
-			"description": "玩家的回复\n等同于无条件技能鉴定成功\n转到 success topic"
+			"description": "玩家的回复  \n等同于无条件技能鉴定成功  \n转到 success topic"
 		},
 		"RespBase": {
 			"description": "回复的基本字段",
@@ -71566,9 +71515,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -71577,11 +71528,11 @@
 					"description": "显示此回复的条件"
 				},
 				"default": {
-					"description": "是选项回复的默认回复 默认false\n如果所有选项回复的条件都不被满足\n则此回复会被显示",
+					"description": "是选项回复的默认回复 默认false  \n如果所有选项回复的条件都不被满足  \n则此回复会被显示",
 					"type": "boolean"
 				},
 				"failure_explanation": {
-					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text\n玩家的文本回复/选项显示文本",
+					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
 					"type": "string"
 				},
 				"failure_topic": {
@@ -71621,15 +71572,15 @@
 					"description": "回复的条件不满足时 选择此选项将跳转到的对话"
 				},
 				"switch": {
-					"description": "是一个选项回复 默认false\n仅显示第一个带有\"switch\": true、和有效条件的响应\n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
+					"description": "是一个选项回复 默认false  \n仅显示第一个带有\"switch\": true、和有效条件的响应  \n如果为真 则排序与此回复之后的 switch为真的 回复会被屏蔽",
 					"type": "boolean"
 				},
 				"text": {
-					"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，\n这会删除输出文本周围的引号，表示显示文本的描述性性质，\n使用 \\\" 转义双引号来指示实际对话的开始。",
+					"description": "玩家的文本回复/选项显示文本\n目前，您可以添加 & 作为对话中的第一个字符，  \n这会删除输出文本周围的引号，表示显示文本的描述性性质，  \n使用 \\\" 转义双引号来指示实际对话的开始。",
 					"type": "string"
 				},
 				"truefalsetext": {
-					"description": "对某个条件进行判断 并给出不同的文本\n代替 text 字段",
+					"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
 					"properties": {
 						"condition": {
 							"anyOf": [
@@ -71900,9 +71851,11 @@
 								{
 									"enum": [
 										"npc_female",
+										"npc_is_alive",
 										"npc_male",
 										"u_can_drop_weapon",
 										"u_female",
+										"u_is_alive",
 										"u_male"
 									],
 									"type": "string"
@@ -74058,9 +74011,11 @@
 								{
 									"enum": [
 										"npc_female",
+										"npc_is_alive",
 										"npc_male",
 										"u_can_drop_weapon",
 										"u_female",
+										"u_is_alive",
 										"u_male"
 									],
 									"type": "string"
@@ -74073,7 +74028,7 @@
 							"type": "number"
 						},
 						"mod": {
-							"description": "根据npc的性格或态度进行成功率调整\n结果越高成功率越高",
+							"description": "根据npc的性格或态度进行成功率调整  \n结果越高成功率越高",
 							"items": {
 								"items": [
 									{
@@ -74866,7 +74821,7 @@
 			"type": "object"
 		},
 		"SchemaString": {
-			"description": "用于辅助解析只能补全的类型\n输出后替换为 ^.*$ 的 string 匹配",
+			"description": "用于辅助解析只能补全的类型  \n输出后替换为 ^.*$ 的 string 匹配",
 			"pattern": "^.*$",
 			"type": "string"
 		},
@@ -75076,7 +75031,7 @@
 					"type": "number"
 				}
 			],
-			"description": "破片数据\n为数字时 套管总质量，其余碎片变量设置为合理的默认值。"
+			"description": "破片数据  \n为数字时 套管总质量，其余碎片变量设置为合理的默认值。"
 		},
 		"SkillID": {
 			"anyOf": [
@@ -75518,9 +75473,11 @@
 						{
 							"enum": [
 								"npc_female",
+								"npc_is_alive",
 								"npc_male",
 								"u_can_drop_weapon",
 								"u_female",
+								"u_is_alive",
 								"u_male"
 							],
 							"type": "string"
@@ -77194,7 +77151,7 @@
 					"description": "每级的法术伤害调整"
 				},
 				"damage_type": {
-					"description": "法术的伤害类型\n伤害法术必须定义伤害类型",
+					"description": "法术的伤害类型  \n伤害法术必须定义伤害类型",
 					"enum": [
 						"acid",
 						"bash",
@@ -77460,7 +77417,7 @@
 					"description": "法术效果类型"
 				},
 				"effect_str": {
-					"description": "法术效果子类型\n主类型为 attack 时向目标添加效果\n其他情况下取决于主类型",
+					"description": "法术效果子类型  \n主类型为 attack 时向目标添加效果  \n其他情况下取决于主类型",
 					"type": "string"
 				},
 				"energy_increment": {
@@ -77561,7 +77518,7 @@
 						"description": "伪法术附加信息",
 						"properties": {
 							"hit_self": {
-								"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+								"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 								"type": "boolean"
 							},
 							"id": {
@@ -78298,7 +78255,7 @@
 				},
 				"learn_spells": {
 					"$ref": "#/definitions/Partial<Record<SpellID,number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|{math:[string];}>>",
-					"description": "当列表内所有法术到达指定等级时学会此法术\nRecord<(SpellID)法术ID : (NumObj)需求等级>"
+					"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 				},
 				"max_accuracy": {
 					"anyOf": [
@@ -80882,7 +80839,7 @@
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+												"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 											},
 											{
 												"properties": {
@@ -81502,7 +81459,7 @@
 						{
 							"allOf": [
 								{
-									"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+									"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 								},
 								{
 									"properties": {
@@ -81575,7 +81532,7 @@
 					"description": "生成多个回复",
 					"properties": {
 						"for_category": {
-							"description": "根据所有存在背包里的 对应类型物品 生成对话\n选择的物品id将存于 topic_item 上下文变量中",
+							"description": "根据所有存在背包里的 对应类型物品 生成对话  \n选择的物品id将存于 topic_item 上下文变量中",
 							"items": {
 								"enum": [
 									"BIONIC_FUEL_SOURCE",
@@ -81618,14 +81575,14 @@
 							"type": "array"
 						},
 						"for_item": {
-							"description": "根据所有存在背包里的 对应ID物品 生成对话\n选择的物品id将存于 topic_item 上下文变量中",
+							"description": "根据所有存在背包里的 对应ID物品 生成对话  \n选择的物品id将存于 topic_item 上下文变量中",
 							"items": {
 								"$ref": "#/definitions/AnyItemID"
 							},
 							"type": "array"
 						},
 						"include_containers": {
-							"description": "是一个可选的布尔值，如果为真\n包含项目的 容器 将生成与项目本身不同的响应",
+							"description": "是一个可选的布尔值，如果为真  \n包含项目的 容器 将生成与项目本身不同的响应",
 							"type": "boolean"
 						},
 						"is_npc": {
@@ -81927,9 +81884,11 @@
 										{
 											"enum": [
 												"npc_female",
+												"npc_is_alive",
 												"npc_male",
 												"u_can_drop_weapon",
 												"u_female",
+												"u_is_alive",
 												"u_male"
 											],
 											"type": "string"
@@ -83372,9 +83331,11 @@
 											{
 												"enum": [
 													"npc_female",
+													"npc_is_alive",
 													"npc_male",
 													"u_can_drop_weapon",
 													"u_female",
+													"u_is_alive",
 													"u_male"
 												],
 												"type": "string"
@@ -84631,6 +84592,9 @@
 		"TargetType": {
 			"description": "技能选择目标类型",
 			"enum": [
+				"auto",
+				"auto_hit",
+				"direct_hit",
 				"random",
 				"reverse_hit",
 				"spell_target"
@@ -85100,7 +85064,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\",boolean>>"
+					"$ref": "#/definitions/Partial<Record<\"u_female\"|\"u_male\"|\"npc_female\"|\"npc_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"npc_is_alive\",boolean>>"
 				}
 			],
 			"description": "将BoolObj转换为适用于TalkTopic的条件"
@@ -85727,7 +85691,7 @@
 					"description": "伪法术附加信息",
 					"properties": {
 						"hit_self": {
-							"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+							"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 							"type": "boolean"
 						},
 						"id": {
@@ -86735,7 +86699,7 @@
 					"description": "伪法术附加信息",
 					"properties": {
 						"hit_self": {
-							"description": "击中附魔拥有者而非命中目标\n法术效果将会影响自身 默认false",
+							"description": "击中附魔拥有者而非命中目标  \n法术效果将会影响自身 默认false",
 							"type": "boolean"
 						},
 						"id": {

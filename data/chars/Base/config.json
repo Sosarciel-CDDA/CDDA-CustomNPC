@@ -1,0 +1,27 @@
+{
+    "virtual": true,
+    "upgrade": [
+        {
+            "field": "魔力",
+            "max_lvl": 10,
+            "require_resource": [
+                [{"id":"crystallized_mana","count": 10}]
+            ],
+            "lvl_ench_status": {
+                "MAX_MANA": 100,
+                "REGEN_MANA": 100
+            }
+        },
+        {
+            "field": "魔力",
+            "max_lvl": 10,
+            "require_resource": [
+                [{"id":"crystallized_mana","count": 10}]
+            ],
+            "lvl_ench_status": {
+                "MAX_MANA": 100,
+                "REGEN_MANA": 100
+            }
+        }
+    ]
+}

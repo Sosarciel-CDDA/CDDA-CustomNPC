@@ -83,7 +83,7 @@ export async function mergeImage(dm:DataManager,charName:string){
                     throw `文件名错误 path:${tmpMthPath} a:${a} b:${b}`;
                 return parseInt(amatch[1])-parseInt(bmatch[1]);
             })
-            .map(fileName=>({weight:(interval||10),sprite:path.parse(fileName).name}));
+            .map(fileName=>({weight:(interval??10),sprite:path.parse(fileName).name}));
         //写入动画数据
         await UtilFT.writeJSONFile(path.join(tmpMthPath,animName),{
             //id:`overlay_worn_${animData.armorID}`,

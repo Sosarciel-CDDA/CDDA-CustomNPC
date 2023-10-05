@@ -1,14 +1,12 @@
 import { BoolObj, CNPC_FLAG, Eoc, genEOCID } from ".";
 import { Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
+import { getFieldVarID } from "./CharConfig";
 import { DataManager } from "./DataManager";
 
 
 
 
-/**获取强化字段的变量ID */
-export function getFieldVarID(charName:string,field:string){
-    return `${charName}_${field}`;
-}
+
 
 /**创建对话选项 */
 export async function createCharTalkTopic(dm:DataManager,charName:string){
@@ -32,29 +30,31 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
     const upgEocList:Eoc[] = [];
     const mutEocList:Eoc[] = [];
     //遍历升级项
-    for(const upgObj of charConfig.upgrade||[]){
+    for(const upgObj of charConfig.upgrade??[]){
         const fieldID = getFieldVarID(charName,upgObj.field);
         //遍历升级项等级
-        const maxLvl = upgObj.max_lvl||upgObj.require_resource.length;
+        const maxLvl = upgObj.max_lvl??upgObj.require_resource.length;
         for(let lvl=0;lvl<maxLvl;lvl++){
+            //确认是否为最后一个定义材料
+            const isLastRes = lvl>=upgObj.require_resource.length
             //获取当前等级材料 [ID, number][]
-            const rawresource = lvl>upgObj.require_resource.length
+            const resource = isLastRes
                 ? upgObj.require_resource[upgObj.require_resource.length-1]
                 : upgObj.require_resource[lvl];
-            const resource = rawresource.map(item=>{
-                if(!Array.isArray(item))
-                    return [item,1] as const;
-                return item;
-            })
 
-            //条件
+            //字段等级条件
+            const lvlCond:BoolObj[] = (isLastRes
+                    ? [{math:[fieldID,">=",lvl+""]},{math:[fieldID,"<",maxLvl+""]}]
+                    : [{math:[fieldID,"==",lvl+""]}])
+            //升级材料条件
             const cond:BoolObj={and:[
-                {math:[fieldID,"==",lvl+""]},
+                ...lvlCond,
                 ...resource.map(item=>({u_has_items:{
-                    item: item[0],
-                    count: item[1]
+                    item: item.id,
+                    count: item.count??1
                 }}))
             ]}
+            //升级EocId
             const upgEocId = genEOCID(`${fieldID}_UpgradeEoc`);
             /**使用材料 */
             const charUpEoc:Eoc={
@@ -62,11 +62,12 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
                 id:upgEocId,
                 eoc_type:"ACTIVATION",
                 effect:[
-                    ...resource.map(item=>({
-                        u_consume_item:item[0],
-                        count: item[1],
-                        popup:true
-                    })),
+                    ...resource.filter(item=>item.not_consume!==true)
+                        .map(item=>({
+                            u_consume_item:item.id,
+                            count: item.count??1,
+                            popup:true
+                        })),
                     {math:[fieldID,"+=","1"]},
                     {u_message:`${charName} 升级了 ${upgObj.field}`},
                 ],
@@ -75,9 +76,9 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
             upgEocList.push(charUpEoc);
 
             /**对话 */
-            const resptext = `${upgObj.field} 消耗:${resource.map(item=>`<item_name:${item[0]}>:${item[1]} `).join("")}`;
+            const resptext = `${upgObj.field} 消耗:${resource.map(item=>`<item_name:${item.id}>:${item.count??1} `).join("")}`;
             const charUpResp:Resp={
-                condition:{math:[fieldID,"==",lvl+""]},
+                condition:{and:lvlCond},
                 truefalsetext:{
                     true:`[可以升级]${resptext}`,
                     false:`<color_red>[素材不足]${resptext}</color>`,
@@ -87,10 +88,12 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
                 effect:{run_eocs:upgEocId}
             }
             upgRespList.push(charUpResp);
+
+            if(isLastRes) break;
         }
 
         //遍历强化变异表
-        for(const mutOpt of upgObj.mutation||[]){
+        for(const mutOpt of upgObj.mutation??[]){
             const mut = typeof mutOpt=="string"
                 ? [mutOpt,1] as const
                 : mutOpt;

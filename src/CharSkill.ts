@@ -61,7 +61,7 @@ const gcdValName = `u_CoCooldown`;
 /**处理角色技能 */
 export async function createCharSkill(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
-    const skills = (charConfig.skill||[]).sort((a,b)=>(b.weight||0)-(a.weight||0));
+    const skills = (charConfig.skill??[]).sort((a,b)=>(b.weight??0)-(a.weight??0));
     const skillDataList:JObject[] = [];
 
     //全局冷却事件
@@ -84,8 +84,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
 
         //法术消耗字符串
-        const spellCost = `min(${spell.base_energy_cost||0}+${spell.energy_increment||0}*`+
-            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost||999999})`;
+        const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
+            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost??999999})`;
 
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
@@ -105,11 +105,11 @@ export async function createCharSkill(dm:DataManager,charName:string){
         //计算成功效果
         const TEffect:EocEffect[]=[];
         if(common_cooldown!=0)
-            TEffect.push({math:[gcdValName,"=",`${common_cooldown||1}`]});
+            TEffect.push({math:[gcdValName,"=",`${common_cooldown??1}`]});
         if(spell.base_energy_cost!=undefined)
             TEffect.push({math:["u_val('mana')","-=",spellCost]});
         if(cooldown)
-            TEffect.push({math:[cdValName,"=",`${cooldown||0}`]});
+            TEffect.push({math:[cdValName,"=",`${cooldown??0}`]});
         if(audio){
             TEffect.push(...audio.map(audioObj=>{
                 if(typeof audioObj == "string")
@@ -119,9 +119,9 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     run_eocs:{
                         id:genEOCID(`${charName}_${audioObj.id}_Chance`),
                         eoc_type:"ACTIVATION",
-                        condition:{one_in_chance:audioObj.one_in_chance||1},
+                        condition:{one_in_chance:audioObj.one_in_chance??1},
                         effect:[
-                            {sound_effect:audioObj.id,id:charName,volume:audioObj.volume||100}
+                            {sound_effect:audioObj.id,id:charName,volume:audioObj.volume??100}
                         ],
                     }
                 };
@@ -138,7 +138,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         }
 
         //处理并加入输出
-        skillDataList.push(...ProcMap[target||"auto"](dm,charName,baseSkillData));
+        skillDataList.push(...ProcMap[target??"auto"](dm,charName,baseSkillData));
 
         //冷却事件
         if(cooldown!=null){

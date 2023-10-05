@@ -1,9 +1,12 @@
-import { AmmunitionType, Ammo, Armor, BodyPartList, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation } from "CddaJsonFormat";
+import { AmmunitionType, Ammo, Armor, BodyPartList, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
-import { getFieldVarID } from "./CharTalkTopic";
-import { EnchStat } from "./CharConfig";
+import { EnchStat, getFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
+
+
+
+
 
 /**创建角色装备 */
 export async function createCharEquip(dm:DataManager,charName:string){
@@ -20,49 +23,50 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
 
     /**构造附魔属性 */
-    const enchStatMap:Partial<Record<EnchStat,number>> = {};
-    for(const str in charConfig.ench_status)
-        enchStatMap[str as EnchStat]=charConfig.ench_status[str as EnchStat];
     /**基础附魔 */
     const baseEnch:Enchantment={
         id:defineData.baseEnchID,
         type:"enchantment",
         has:"WORN",
         condition:"ALWAYS",
-        values:Object.entries(enchStatMap).map(entry=>({
-            value   :entry[0] as EnchStat,
-            add     :{math:[`${entry[1]}`]},
-        }))
+        values:parseEnchStatTable(charConfig.ench_status)
     }
+
     //字段附魔
     const enchList:Enchantment[] = [baseEnch];
     for(const upgObj of charConfig.upgrade||[]){
         const fieldID = getFieldVarID(charName,upgObj.field);
-        const enchStatMap:Partial<
-            Record<EnchStat,
-            {base?:number,lvl?:number}>> = {};
-        for(const str in upgObj.ench_status){
-            const stat = str as EnchStat;
-            enchStatMap[stat] = enchStatMap[stat]||{};
-            enchStatMap[stat]!.base=upgObj.ench_status[stat];
-        }
-        for(const str in upgObj.lvl_ench_status){
-            const stat = str as EnchStat;
-            enchStatMap[stat] = enchStatMap[stat]||{};
-            enchStatMap[stat]!.lvl=upgObj.lvl_ench_status[stat];
-        }
-        /**字段附魔 */
-        const baseEnch:Enchantment={
-            id:genEnchantmentID(fieldID),
+        /**字段基础附魔 */
+        const fdBaseEnch:Enchantment={
+            id:genEnchantmentID(`${fieldID}_base`),
             type:"enchantment",
             has:"WORN",
             condition:"ALWAYS",
-            values:Object.entries(enchStatMap).map(entry=>({
-                value   :entry[0] as EnchStat,
-                add     :{math:[`(max(1,${fieldID})*${entry[1].base||0})+(${fieldID}*${entry[1].lvl||0})`]},
-            }))
+            values:parseEnchStatTable(upgObj.ench_status)
+                .map(item=>{
+                    const {value,add,multiply} = item;
+                    let out:EnchModVal = {value};
+                    if(add) out.add = {math:[`min(1,${fieldID})*${add}`]}
+                    if(multiply) out.multiply = {math:[`min(1,${fieldID})*${multiply}`]}
+                    return out;
+                })
         }
-        enchList.push(baseEnch);
+        /**字段等级附魔 */
+        const fdLvlEnch:Enchantment={
+            id:genEnchantmentID(`${fieldID}_lvl`),
+            type:"enchantment",
+            has:"WORN",
+            condition:"ALWAYS",
+            values:parseEnchStatTable(upgObj.lvl_ench_status)
+                .map(item=>{
+                    const {value,add,multiply} = item;
+                    let out:EnchModVal = {value};
+                    if(add) out.add = {math:[`${fieldID}*${add}`]}
+                    if(multiply) out.multiply = {math:[`${fieldID}*${multiply}`]}
+                    return out;
+                })
+        }
+        enchList.push(fdBaseEnch,fdLvlEnch);
     }
     /**基础装备 */
     const baseArmor:Armor={

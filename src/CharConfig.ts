@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { AnyItemID, EnchArmorValType, EnchGenericValType, Generic, Gun, MutationID, SkillID, StatusSimple } from "CddaJsonFormat";
+import { AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, Generic, Gun, MutationID, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
 import { DataManager } from './DataManager';
@@ -23,7 +23,7 @@ export type CharConfig = {
     /**基础技能 */
     base_skill?:Partial<Record<SkillID|"ALL",number>>;
     /**附魔属性 */
-    ench_status?:Partial<Record<EnchStat,number>>;
+    ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**固定的武器 */
     weapon?:Gun|Generic;
     /**技能 */
@@ -32,7 +32,15 @@ export type CharConfig = {
     upgrade?:CharUpgrade[];
 }
 
-
+/**要求的资源 */
+export type RequireResource = {
+    /**物品ID */
+    id:AnyItemID;
+    /**需求数量 默认1 */
+    count?:number;
+    /**不会消耗 默认 false*/
+    not_consume?:boolean;
+}
 /**角色强化项 */
 export type CharUpgrade = {
     /**强化项ID  
@@ -45,14 +53,16 @@ export type CharUpgrade = {
      */
     max_lvl?:number;
     /**所需要消耗的资源  
-     * [[[一级的物品ID,数量],[一级的另一个物品ID,数量]]  
-     * [[二级的物品ID,数量],[二级的另一个物品ID,数量]]]  
+     * [  
+     *   [一级的物品ID,一级的另一个物品ID]  
+     *   [二级的物品ID]  
+     * ]  
      */
-    require_resource:([AnyItemID,number]|AnyItemID)[][];
+    require_resource:RequireResource[][];
     /**每个强化等级提升的附魔属性 */
-    lvl_ench_status?:Partial<Record<EnchStat,number>>;
+    lvl_ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**只要拥有此字段就会添加的附魔属性 */
-    ench_status?:Partial<Record<EnchStat,number>>;
+    ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**到达特定强化等级时将会获得的变异  
      * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]  
      */
@@ -61,7 +71,56 @@ export type CharUpgrade = {
 
 
 /**变量属性 */
-export type EnchStat = EnchGenericValType|EnchArmorValType;
+export type EnchStat = `${"add"|"multiply"}_${EnchGenericValType|EnchArmorValType}`;
+/**变量属性表 */
+export type EnchStatTable = Partial<Record<EnchStat,NumObj>>;
+/**解析变量属性Obj */
+export function parseEnchStat(stat:EnchStat){
+    let match = stat.match(/(add|multiply)_(.*)/);
+    if(match==null) throw `parseEnchStat 传入了一个错误值 ${stat}`
+    return {
+        category:match[1] as "add"|"multiply",
+        field:match[2] as EnchGenericValType|EnchArmorValType
+    }
+}
+/**解析变量属性表 */
+export function parseEnchStatTable(table?:EnchStatTable):StatModVal[]{
+    if(table==null) return[];
+    let out:StatModVal[] = [];
+    for(const key in table){
+        const enchStat = key as EnchStat;
+        const value = table[enchStat]!;
+        let parseObj = parseEnchStat(enchStat);
+        const {category,field} = parseObj;
+
+        let modstr = "0";
+        if(typeof value=="number")
+            modstr = value+"";
+        else if("math" in value)
+            modstr = value.math[0];
+        else throw `附魔属性仅支持 number 或 math表达式 无效的附魔属性:${value}`
+
+        out.push({
+            value:field,
+            [category]:{math:[modstr]}
+        })
+    }
+    return out;
+}
+/**变量属性专用的增幅 */
+type StatModVal = {
+    /**附魔增幅类型 */
+    value    :EnchGenericValType|EnchArmorValType;
+    /**倍率增幅 1为+100% */
+    multiply?:NumMathExp;
+    /**加值增幅 在计算倍率前先添加 */
+    add     ?:NumMathExp;
+}
+
+/**获取强化字段的变量ID */
+export function getFieldVarID(charName:string,field:string){
+    return `${charName}_${field}`;
+}
 
 let count=0;
 /**读取某个角色的CharConfig */
