@@ -62,6 +62,8 @@ export type NoParamCond = [
     "npc_female"            ,// beta 是女性
     "npc_male"              ,// beta 是男性
     "u_can_drop_weapon"     ,// 可以丢弃手中的物品
+    "u_is_alive"            ,// alpha 还活着
+    "npc_is_alive"          ,// beta 还活着
 ][number];
 
 /**有某个效果 */

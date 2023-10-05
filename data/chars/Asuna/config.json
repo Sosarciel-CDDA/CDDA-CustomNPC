@@ -93,8 +93,7 @@
 			}
 		},
 		{
-			"hook": "CharCauseMeleeDamage",
-			"target": "reverse_hit",
+			"hook": "CharCauseMeleeHit",
 			"cooldown":60,
 			"one_in_chance": 2,
 			"audio":[
@@ -107,19 +106,19 @@
 				"name": "刀锋打击",
 				"description": "刀锋打击",
 				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*3.6"]
+					"math": ["CalcDamage(31, u_val('strength'))*300.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
+				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
 				"energy_source": "MANA"
 			}
 		},
 		{
-			"hook": "CharCauseMeleeDamage",
-			"target": "reverse_hit",
+			"hook": "CharCauseMeleeHit",
 			"cooldown":10,
 			"audio":[
 				{"id":"BladeofTrauma", "one_in_chance":2},
@@ -131,11 +130,12 @@
 				"name": "创伤之刃",
 				"description": "创伤之刃",
 				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*1.8"]
+					"math": ["CalcDamage(31, u_val('strength'))*100.8"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
+				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
 				"energy_source": "MANA"

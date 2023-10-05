@@ -7,7 +7,7 @@ import { genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, 
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID } from 'CddaJsonFormat';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
 import { CharConfig, loadCharConfig } from './CharConfig';
-import { CharEvemtTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEvemtTypeList, ReverseCharEventType } from './Event';
+import { CharEventTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEventTypeList, ReverseCharEventType } from './Event';
 
 
 
@@ -341,11 +341,11 @@ export class DataManager{
             }
 
             //角色事件eoc主体
-            const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>(
+            const charEventEocs = CharEventTypeList.reduce((acc,etype)=>(
                 {...acc,[etype]:[]}),{} as Record<CharEventType,EventEffect[]>)
 
             //角色反转事件eoc主体
-            const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>(
+            const reverseCharEventEocs = ReverseCharEventTypeList.reduce((acc,etype)=>(
                 {...acc,[etype]:[]}),{} as Record<ReverseCharEventType,EventEffect[]>)
 
             this.dataTable.charTable[charName] = {
@@ -444,7 +444,7 @@ export class DataManager{
                         eoc_type:"ACTIVATION",
                         id:genEOCID(`${charName}_${etype}`),
                         effect:[...charEventList.map(event=>event.effect)],
-                        condition:CharEvemtTypeList.includes(etype as CharEventType)
+                        condition:CharEventTypeList.includes(etype as CharEventType)
                             ? {u_has_trait:charData.defineData.baseMutID}
                             : {npc_has_trait:charData.defineData.baseMutID}
                     }

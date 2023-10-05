@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharSkill = void 0;
+const utils_1 = require("@zwa73/utils");
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
 const Event_1 = require("./Event");
@@ -75,20 +76,8 @@ async function createCharSkill(dm, charName) {
             baseCond,
             spellCost,
         };
-        //判断瞄准方式
-        //是敌对目标法术
-        const isHostileTarget = spell.valid_targets.includes("hostile");
-        //是Aoe法术
-        const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
-            (spell.aoe_increment != null && spell.aoe_increment != 0);
-        //判断瞄准方式
-        const selectTarget = target != null
-            ? target
-            : (isHostileTarget && isAoe)
-                ? "spell_target"
-                : "random";
         //处理并加入输出
-        skillDataList.push(...processMap[selectTarget](dm, charName, baseSkillData));
+        skillDataList.push(...ProcMap[target || "auto"](dm, charName, baseSkillData));
         //冷却事件
         if (cooldown != null) {
             const CDEoc = {
@@ -108,12 +97,15 @@ async function createCharSkill(dm, charName) {
 }
 exports.createCharSkill = createCharSkill;
 /**处理方式表 */
-const processMap = {
-    "random": randomProcess,
-    "spell_target": spell_targetProcess,
-    "reverse_hit": reverse_hitProcess,
+const ProcMap = {
+    "auto": autoProc,
+    "random": randomProc,
+    "spell_target": spell_targetProc,
+    "reverse_hit": reverse_hitProc,
+    "direct_hit": direct_hitProc,
+    "auto_hit": auto_hitProc,
 };
-function spell_targetProcess(dm, charName, baseSkillData) {
+function spell_targetProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect } = baseSkillData;
     const { hook, spell, one_in_chance } = skill;
     //如果需要选择目标 创建索敌辅助法术
@@ -153,15 +145,18 @@ function spell_targetProcess(dm, charName, baseSkillData) {
                 }
             }
         ],
-        condition: { and: [...baseCond] },
+        condition: { and: [
+                { math: ["hasTarget", "==", "1"] },
+                ...baseCond
+            ] },
     };
     //加入触发
-    if (Event_1.ReverseCharEvemtTypeList.includes(hook))
+    if (Event_1.ReverseCharEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [spell, castEoc, selTargetSpell];
 }
-function randomProcess(dm, charName, baseSkillData) {
+function randomProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect } = baseSkillData;
     const { hook, spell, one_in_chance } = skill;
     //创建施法EOC
@@ -186,16 +181,21 @@ function randomProcess(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.ReverseCharEvemtTypeList.includes(hook))
+    if (Event_1.ReverseCharEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [spell, castEoc];
 }
-function reverse_hitProcess(dm, charName, baseSkillData) {
+function reverse_hitProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect } = baseSkillData;
     const { hook, spell, one_in_chance } = skill;
+    //复制法术
+    const ospell = utils_1.UtilFunc.deepClone(spell);
+    spell.id = (spell.id + "_reverse");
+    spell.valid_targets.push("self");
     //解析伤害字符串
     let dmgstr = `0`;
+    let dmgvar = `${spell.id}_reverse_dmg`;
     if (spell.min_damage !== undefined) {
         if (typeof spell.min_damage == "number")
             dmgstr = spell.min_damage + "";
@@ -204,8 +204,8 @@ function reverse_hitProcess(dm, charName, baseSkillData) {
         else
             throw `翻转命中伤害只支持固定值number 或 math表达式`;
     }
-    spell.min_damage = 0;
-    spell.max_damage = 0;
+    spell.min_damage = { math: [dmgvar] };
+    spell.max_damage = 999999;
     //翻转u与n
     baseCond = JSON.parse(JSON.stringify(baseCond).replace(/(?<!\w)u_/g, 'n_'));
     TEffect = JSON.parse(JSON.stringify(TEffect).replace(/(?<!\w)u_/g, 'n_'));
@@ -213,9 +213,10 @@ function reverse_hitProcess(dm, charName, baseSkillData) {
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`Cast${spell.id}`),
+        id: (0, _1.genEOCID)(`${charName}_Cast${spell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
+            { math: [dmgvar, `=`, dmgstr] },
             {
                 u_cast_spell: {
                     id: spell.id,
@@ -223,12 +224,8 @@ function reverse_hitProcess(dm, charName, baseSkillData) {
                     hit_self: true //如果是翻转事件则需命中自身
                 },
                 true_eocs: {
-                    id: (0, _1.genEOCID)(`${spell.id}TrueEoc`),
-                    effect: [
-                        { math: [`dmgtmp`, `=`, dmgstr] },
-                        { math: [`u_hp()`, `-=`, `dmgtmp`] },
-                        ...TEffect
-                    ],
+                    id: (0, _1.genEOCID)(`${charName}_${spell.id}TrueEoc`),
+                    effect: [...TEffect],
                     eoc_type: "ACTIVATION",
                 }
             }
@@ -236,8 +233,87 @@ function reverse_hitProcess(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.CharEvemtTypeList.includes(hook))
-        throw `翻转命中 所用的事件必须为 翻转事件`;
+    if (Event_1.CharEventTypeList.includes(hook))
+        throw `翻转命中 所用的事件必须为 翻转事件: ${Event_1.ReverseCharEventTypeList}`;
     dm.addReverseCharEvent(charName, hook, 0, castEoc);
-    return [spell, castEoc];
+    return [spell, ospell, castEoc];
+}
+function direct_hitProc(dm, charName, baseSkillData) {
+    let { skill, baseCond, TEffect } = baseSkillData;
+    const { hook, spell, one_in_chance } = skill;
+    //复制法术
+    const ospell = utils_1.UtilFunc.deepClone(spell);
+    spell.id = (spell.id + "_reverse");
+    spell.valid_targets.push("self");
+    //解析伤害字符串
+    let dmgstr = `0`;
+    let dmgvar = `${spell.id}_reverse_dmg`;
+    if (spell.min_damage !== undefined) {
+        if (typeof spell.min_damage == "number")
+            dmgstr = spell.min_damage + "";
+        else if ("math" in spell.min_damage)
+            dmgstr = spell.min_damage.math[0];
+        else
+            throw `直接命中伤害只支持固定值number 或 math表达式`;
+    }
+    spell.min_damage = { math: [dmgvar] };
+    spell.max_damage = 999999;
+    //创建翻转的施法EOC
+    const castEoc = {
+        type: "effect_on_condition",
+        id: (0, _1.genEOCID)(`${charName}_Cast${spell.id}`),
+        eoc_type: "ACTIVATION",
+        effect: [
+            { math: [dmgvar, `=`, dmgstr] },
+            {
+                npc_cast_spell: {
+                    id: spell.id,
+                    once_in: one_in_chance,
+                    hit_self: true //如果是翻转事件则需命中自身
+                },
+                true_eocs: {
+                    id: (0, _1.genEOCID)(`${charName}_${spell.id}TrueEoc`),
+                    effect: [...TEffect],
+                    eoc_type: "ACTIVATION",
+                }
+            }
+        ],
+        condition: { and: ["npc_is_alive",
+                { math: ["hasTarget", "==", "1"] },
+                ...baseCond] },
+    };
+    //加入触发
+    if (!Event_1.InteractiveCharEventList.includes(hook))
+        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.InteractiveCharEventList}`;
+    dm.addCharEvent(charName, hook, 0, castEoc);
+    return [spell, ospell, castEoc];
+}
+function autoProc(dm, charName, baseSkillData) {
+    const { skill } = baseSkillData;
+    const { spell, target, hook } = skill;
+    //判断瞄准方式
+    //是敌对目标法术
+    const isHostileTarget = spell.valid_targets.includes("hostile");
+    //是Aoe法术
+    const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
+        (spell.aoe_increment != null && spell.aoe_increment != 0);
+    //aoe敌对目标法术将使用法术标靶
+    if (isHostileTarget && isAoe)
+        return ProcMap.spell_target(dm, charName, baseSkillData);
+    //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
+    if ((Event_1.ReverseCharEventTypeList.includes(hook) ||
+        Event_1.InteractiveCharEventList.includes(hook)) &&
+        isHostileTarget)
+        return ProcMap.auto_hit(dm, charName, baseSkillData);
+    //其他法术随机
+    return ProcMap.random(dm, charName, baseSkillData);
+}
+function auto_hitProc(dm, charName, baseSkillData) {
+    const { skill } = baseSkillData;
+    const { spell, target, hook } = skill;
+    if (Event_1.ReverseCharEventTypeList.includes(hook))
+        return ProcMap.reverse_hit(dm, charName, baseSkillData);
+    if (Event_1.InteractiveCharEventList.includes(hook))
+        return ProcMap.direct_hit(dm, charName, baseSkillData);
+    throw `auto_hitProc 的hook 必须为 翻转事件:${Event_1.ReverseCharEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
 }

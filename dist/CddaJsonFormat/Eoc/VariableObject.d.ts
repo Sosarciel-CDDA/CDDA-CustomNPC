@@ -67,7 +67,9 @@ export type NoParamCond = [
     "u_male",
     "npc_female",
     "npc_male",
-    "u_can_drop_weapon"
+    "u_can_drop_weapon",
+    "u_is_alive",
+    "npc_is_alive"
 ][number];
 /**有某个效果 */
 export type HasEffect = TalkerVar<{

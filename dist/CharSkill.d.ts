@@ -1,22 +1,26 @@
 import { BoolObj } from "./CddaJsonFormat/Eoc";
 import { Spell } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
-import { CharEventType, ReverseCharEventType } from "./Event";
+import { AnyCharEvenetType } from "./Event";
 /**技能选择目标类型 */
-type TargetType = "random" | "spell_target" | "reverse_hit";
+type TargetType = "auto" | "random" | "spell_target" | "reverse_hit" | "direct_hit" | "auto_hit";
 /**角色技能 */
 export type CharSkill = {
     /**释放条件 */
     condition?: BoolObj;
     /**时机 */
-    hook: CharEventType | ReverseCharEventType;
+    hook: AnyCharEvenetType;
     /**瞄准方式
+     * auto 为 根据施法目标自动选择;
      * random 为 原版随机;
      * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
-     * reverse_hit 为 翻转命中 使目标使用此法术攻击自己 并用u_hp-=造成伤害 适用于单体技能
+     * direct_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能
+     * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
+     * reverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能
      * hook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage
      * 除 reverse_hit 外无法使用翻转事件;
-     * 默认为根据施法目标自动选择 reverse_hit 不会被自动选择
+     * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
+     * 默认为auto
      */
     target?: TargetType;
     /**权重 优先尝试触发高权重的spell 默认0 */
