@@ -88,9 +88,9 @@ export type Spell = {
     max_dot?: NumObj;
     /**每级的法术持续伤害调整 */
     dot_increment?: NumObj;
-    /**初始法术持续时间 */
+    /**初始法术持续时间 单位为 1/100秒 */
     min_duration?: NumObj;
-    /**极限法术持续时间 */
+    /**极限法术持续时间 单位为 1/100秒 */
     max_duration?: NumObj;
     /**每级的法术持续时间调整 */
     duration_increment?: NumObj;

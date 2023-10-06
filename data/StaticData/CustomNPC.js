@@ -65,13 +65,31 @@ function CNPC_EOC_DeathProcess(){
 	eoc_type("ACTIVATION")
 	//触发 死亡时 事件
 	CNPC_EOC_CharDeath();
+
+	//眩晕怪物
+	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_DeathStunned" } });
+	//丢下武器
+	if(eobj("u_can_drop_weapon")){
+		eobj({u_location_variable:{global_val:"tmp_loc"}});
+		eobj({run_eoc_with:{
+				id:`CNPC_EOC_DeathAfterProcess_Sub`,
+				eoc_type:"ACTIVATION",
+				effect:["drop_weapon"]
+			},beta_loc:{"global_val":"tmp_loc"}}//把自己设为betaloc防止报错
+		)
+	}
+	//无形体
+	eobj({ "u_add_effect":"incorporeal","duration":"PERMANENT","force":true});
+	//失去AI
+	//eobj({ "u_add_effect":"npc_suspend","duration":"PERMANENT","force":true});
+	//眩晕倒地
+	eobj({ "u_add_effect":"stunned","duration":"PERMANENT","force":true});
+	eobj({ "u_add_effect":"downed" ,"duration":"PERMANENT","force":true});
+	//满血
+	eobj({ "u_set_hp": 100, "max": true });
 	eobj({ "u_add_trait": "DEBUG_NODMG" });
 	eobj({ "u_add_trait": "DEBUG_CLOAK" });
 	eobj({ "u_add_trait": "DEBUG_SPEED" });
-	eobj({ "u_set_hp": 100, "max": true });
-	eobj({ "u_add_effect":"incorporeal","duration":"PERMANENT","force":true});
-	eobj({ "u_add_effect":"npc_suspend","duration":"PERMANENT","force":true});
-	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_DeathStunned" } });
 	u_isDeath = 1;
 }
 
@@ -246,7 +264,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 		//如果已经死亡则不触发循环
 		if(u_isDeath==1){
 			//u_onDeath+=1
-			//if(u_onDeath>4){
+			//if(u_onDeath>=2){
 				//触发 死亡后 事件
 				CNPC_EOC_CharDeathAfter();
 				eobj({"run_eoc_with":"CNPC_EOC_DeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
@@ -325,14 +343,6 @@ function CNPC_EOC_GlobalUpdateEvent(){
 //死亡后处理
 function CNPC_EOC_DeathAfterProcess(){
 	eoc_type("ACTIVATION")
-	//丢下武器
-	eobj({u_location_variable:{global_val:"tmp_loc"}});
-	eobj({run_eoc_with:{
-            id:`CNPC_EOC_DeathAfterProcess_Sub`,
-            eoc_type:"ACTIVATION",
-            effect:["drop_weapon"]
-        },beta_loc:{"global_val":"tmp_loc"}}//把自己设为betaloc防止报错
-	)
 	//传送
 	eobj({u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true})
     eobj({u_teleport:{global_val:"tmp_loc"},force:true})
