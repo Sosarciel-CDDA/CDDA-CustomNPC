@@ -4,7 +4,10 @@ exports.EffectModTypeList = exports.EffectRatList = exports.DefineEffectIDList =
 /**预定义的EffectID 列表 */
 exports.DefineEffectIDList = [
     "npc_run_away",
-    "incorporeal", //无形体 让所有穿戴物品掉落
+    "npc_suspend",
+    "incorporeal",
+    "stunned",
+    "downed", //击倒
 ];
 /**效果评价 列表 */
 exports.EffectRatList = [

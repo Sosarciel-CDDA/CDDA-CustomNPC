@@ -22,6 +22,8 @@ exports.CharEventTypeList = [
     "CharInit",
     "CharBattleUpdate",
     "CharDeath",
+    "CharDeathPrev",
+    "CharDeathAfter",
     ...exports.InteractiveCharEventList
 ];
 /**反转Talker的角色事件列表

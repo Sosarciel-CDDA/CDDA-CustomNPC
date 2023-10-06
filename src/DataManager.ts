@@ -4,7 +4,7 @@ import { JArray, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj } from 'CddaJsonFormat';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
 import { CharConfig, loadCharConfig } from './CharConfig';
 import { CharEventTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEventTypeList, ReverseCharEventType } from './Event';
@@ -444,9 +444,17 @@ export class DataManager{
                         eoc_type:"ACTIVATION",
                         id:genEOCID(`${charName}_${etype}`),
                         effect:[...charEventList.map(event=>event.effect)],
-                        condition:CharEventTypeList.includes(etype as CharEventType)
-                            ? {u_has_trait:charData.defineData.baseMutID}
-                            : {npc_has_trait:charData.defineData.baseMutID}
+                        condition:CharEventTypeList.includes(etype as CharEventType)//判断是否为反转事件 并修改条件
+                            ? {and:[
+                                {u_has_trait:charData.defineData.baseMutID},
+                                ...(etype.includes("Death")
+                                ?[{math:["u_isDeath","!=","1"]}]:[])as BoolObj[]
+                            ]}
+                            : {and:[
+                                {npc_has_trait:charData.defineData.baseMutID},
+                                ...(etype.includes("Death")
+                                ?[{math:["n_isDeath","!=","1"]}]:[])as BoolObj[]
+                            ]}
                     }
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc

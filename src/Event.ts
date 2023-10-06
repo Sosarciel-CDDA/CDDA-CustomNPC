@@ -27,6 +27,8 @@ export const CharEventTypeList = [
     "CharInit"              ,//角色 被创建时
     "CharBattleUpdate"      ,//角色 进入战斗时 刷新
     "CharDeath"             ,//角色 死亡
+    "CharDeathPrev"         ,//角色 死亡前 回复生命可阻止死亡
+    "CharDeathAfter"        ,//角色 死亡后
     ...InteractiveCharEventList
 ] as const;
 /**角色事件类型 */

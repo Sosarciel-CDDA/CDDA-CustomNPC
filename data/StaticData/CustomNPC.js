@@ -31,16 +31,17 @@ function CNPC_EOC_InitCurrHP(){
 		u_currHp = u_hp();
 }
 
-//传送法术标靶
+//传送法术标靶 作废备份
 function CNPC_EOC_TeleportSpellTarget(){
 	eoc_type("ACTIVATION")
 	eobj({"u_teleport":{"global_val":"victim_loc"},"force":true})
 }
-//移除法术标靶 作废备份
+//移除法术标靶
 function CNPC_EOC_KillSpellTarget(){
 	eoc_type("ACTIVATION")
-	eobj({"u_location_variable":{"global_val":"tmp_loc"},"z_adjust":-10,"z_override":true})
-    eobj({"u_teleport":{"global_val":"tmp_loc"},"force":true})
+	eobj({math:["u_hp()","=","0"]})
+	//eobj({"u_location_variable":{"global_val":"tmp_loc"},"z_adjust":-10,"z_override":true})
+    //eobj({"u_teleport":{"global_val":"tmp_loc"},"force":true})
 }
 
 //受伤事件
@@ -49,10 +50,29 @@ function CNPC_EOC_TakesDamage(){
 	required_event("character_takes_damage");
 
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//关键肢体生命值不足触发一次死亡前
+		if(or(u_hp('head')<=0,u_hp('torso')<=0)){
+			//触发 死亡前 事件
+			CNPC_EOC_CharDeathPrev();
+		}
 		//关键肢体生命值不足则判断为死亡
 		if(or(u_hp('head')<=0,u_hp('torso')<=0))
-			CNPC_EOC_CharDeath();
+			CNPC_EOC_DeathProcess()
 	}
+}
+//死亡处理
+function CNPC_EOC_DeathProcess(){
+	eoc_type("ACTIVATION")
+	//触发 死亡时 事件
+	CNPC_EOC_CharDeath();
+	eobj({ "u_add_trait": "DEBUG_NODMG" });
+	eobj({ "u_add_trait": "DEBUG_CLOAK" });
+	eobj({ "u_add_trait": "DEBUG_SPEED" });
+	eobj({ "u_set_hp": 100, "max": true });
+	eobj({ "u_add_effect":"incorporeal","duration":"PERMANENT","force":true});
+	eobj({ "u_add_effect":"npc_suspend","duration":"PERMANENT","force":true});
+	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_DeathStunned" } });
+	u_isDeath = 1;
 }
 
 //杀怪事件
@@ -64,7 +84,7 @@ function CNPC_EOC_KillMonster(){
 //NPC死亡事件
 function CNPC_EOC_NPC_DEATH(){
 	eoc_type("NPC_DEATH");
-	//NPC_DEATH调用 run_eoc_with beta 无法正确设置
+	//NPC_DEATH调用 run_eoc_with 无法正确设置 beta talker
 	//固不使用
 	//if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 	//	//触发动态生成的 角色死亡 事件
@@ -173,6 +193,7 @@ function CNPC_EOC_HitEvent(){
 
 //生成基础npc
 function CNPC_EOC_SpawnBaseNpc(){
+	eoc_type("ACTIVATION")
 	eobj({
 		"u_spawn_npc": "CNPC_NPC_BaseNpc",
 		"real_count": 1,
@@ -222,65 +243,76 @@ function CNPC_EOC_GlobalUpdateEvent(){
 	//如果是CNPC的角色
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 
-		if(u_isInit!=1){
-			//添加用于防止逃跑的勇气效果
-			eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
-			//运行动态生成的事件eoc
-			CNPC_EOC_CharInit();
-			u_isInit=1;
-		}
-
-		//刷新属性
-		CNPC_EOC_UpdateStat();
-		//运行动态生成的事件eoc
-		CNPC_EOC_CharUpdate();
-
-		//附近有怪物 u_search_radius 无效
-		if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
-			//触发战斗中
-			//初始化怪物血量
-			eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
-			//运行动态生成的事件eoc
-			CNPC_EOC_CharBattleUpdate();
-		}
-
-
-		//通过比较 loc字符串 检测移动
-		eobj({
-			"set_string_var": { "u_val": "u_char_preloc" },
-			"target_var": { "global_val": "char_preloc" }
-		})
-		if(eobj({
-			"compare_string": [
-				{ "global_val": "char_preloc" },
-				{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
-			]
-		})){
-			//设置在待机
-			u_onMove=0;
-		} else{
-			//设置在移动
-			u_onMove=1;
-		}
-		//更新 loc字符串
-		eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
-
-		//如果不在做其他短时动作
-		if(u_notIdleOrMove<=0){
-			u_notIdleOrMove=0;
-			//触发移动事件
-			if(u_onMove>=1){
+		//如果已经死亡则不触发循环
+		if(u_isDeath==1){
+			//u_onDeath+=1
+			//if(u_onDeath>4){
+				//触发 死亡后 事件
+				CNPC_EOC_CharDeathAfter();
+				eobj({"run_eoc_with":"CNPC_EOC_DeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
+			//}
+		}else{
+			//初始化
+			if(u_isInit!=1){
+				//添加用于防止逃跑的勇气效果
+				eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
 				//运行动态生成的事件eoc
-				CNPC_EOC_CharMove();
-			}else{//触发待机
-				//运行动态生成的事件eoc
-				CNPC_EOC_CharIdle();
+				CNPC_EOC_CharInit();
+				u_isInit=1;
 			}
-		}
-		u_notIdleOrMove=u_notIdleOrMove-1;
 
-		if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
-			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
+			//刷新属性
+			CNPC_EOC_UpdateStat();
+			//运行动态生成的事件eoc
+			CNPC_EOC_CharUpdate();
+
+			//附近有怪物 u_search_radius 无效
+			if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
+				//触发战斗中
+				//初始化怪物血量
+				eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+				//运行动态生成的事件eoc
+				CNPC_EOC_CharBattleUpdate();
+			}
+
+
+			//通过比较 loc字符串 检测移动
+			eobj({
+				"set_string_var": { "u_val": "u_char_preloc" },
+				"target_var": { "global_val": "char_preloc" }
+			})
+			if(eobj({
+				"compare_string": [
+					{ "global_val": "char_preloc" },
+					{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
+				]
+			})){
+				//设置在待机
+				u_onMove=0;
+			} else{
+				//设置在移动
+				u_onMove=1;
+			}
+			//更新 loc字符串
+			eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
+
+			//如果不在做其他短时动作
+			if(u_notIdleOrMove<=0){
+				u_notIdleOrMove=0;
+				//触发移动事件
+				if(u_onMove>=1){
+					//运行动态生成的事件eoc
+					CNPC_EOC_CharMove();
+				}else{//触发待机
+					//运行动态生成的事件eoc
+					CNPC_EOC_CharIdle();
+				}
+			}
+			u_notIdleOrMove=u_notIdleOrMove-1;
+
+			if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
+				eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
+		}
 	}
 	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果不是cnpc单位则添加替代素体
@@ -288,6 +320,24 @@ function CNPC_EOC_GlobalUpdateEvent(){
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
+}
+
+//死亡后处理
+function CNPC_EOC_DeathAfterProcess(){
+	eoc_type("ACTIVATION")
+	//丢下武器
+	eobj({u_location_variable:{global_val:"tmp_loc"}});
+	eobj({run_eoc_with:{
+            id:`CNPC_EOC_DeathAfterProcess_Sub`,
+            eoc_type:"ACTIVATION",
+            effect:["drop_weapon"]
+        },beta_loc:{"global_val":"tmp_loc"}}//把自己设为betaloc防止报错
+	)
+	//传送
+	eobj({u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true})
+    eobj({u_teleport:{global_val:"tmp_loc"},force:true})
+    eobj({npc_teleport:{global_val:"avatar_loc"},force:true})
+    eobj({math:["u_hp()","=","0"]})
 }
 
 

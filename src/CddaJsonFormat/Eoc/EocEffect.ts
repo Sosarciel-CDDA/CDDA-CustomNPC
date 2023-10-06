@@ -25,6 +25,7 @@ export type EocEffectList = [
     {math:[string,"="|"+="|"-="|"*="|"/=",string]}  ,//
     {u_lose_trait:MutationID}                       ,//失去某个变异
     RunEoc                                          ,//运行Eoc
+    QueueEoc                                        ,//延迟运行Eoc
     RunEocWith                                      ,//
     {u_add_trait:MutationID}                        ,//获得某个变异
     {u_consume_item: AnyItemID,count: number }      ,//使用/扣除 count 个物品
@@ -46,7 +47,13 @@ type RunEoc = {
     /**运行Eoc */
     run_eocs:ParamsEoc
 };
-
+/**延迟队列eoc */
+type QueueEoc = {
+    /**运行Eoc 将会丢失beta talker*/
+    queue_eocs:ParamsEoc;
+    /**延迟 */
+    time_in_future:Time;
+}
 /**运行Eoc 并提供参数 */
 type RunEocWith = {
     run_eoc_with:ParamsEoc;

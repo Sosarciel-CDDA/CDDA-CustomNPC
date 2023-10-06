@@ -142,13 +142,18 @@ async function createCharEquip(dm, charName) {
     /**丢掉其他武器 */
     const dropOtherWeapon = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)("DropOtherWeapon"),
+        id: (0, ModDefine_1.genEOCID)(`${charName}_DropOtherWeapon`),
         condition: { and: [
                 "u_can_drop_weapon",
                 { not: { u_has_wielded_with_flag: defineData.baseWeaponFlagID } }
             ] },
         effect: [
-            "drop_weapon"
+            { u_location_variable: { global_val: "tmp_loc" } },
+            { run_eoc_with: {
+                    id: (0, ModDefine_1.genEOCID)(`${charName}_DropOtherWeapon_Sub`),
+                    eoc_type: "ACTIVATION",
+                    effect: ["drop_weapon"]
+                }, beta_loc: { "global_val": "tmp_loc" } } //把自己设为betaloc防止报错
         ],
         eoc_type: "ACTIVATION",
     };

@@ -18,6 +18,7 @@ export type EocEffectList = [
         u_lose_trait: MutationID;
     },
     RunEoc,
+    QueueEoc,
     RunEocWith,
     {
         u_add_trait: MutationID;
@@ -45,6 +46,13 @@ export type EocEffectList = [
 type RunEoc = {
     /**运行Eoc */
     run_eocs: ParamsEoc;
+};
+/**延迟队列eoc */
+type QueueEoc = {
+    /**运行Eoc 将会丢失beta talker*/
+    queue_eocs: ParamsEoc;
+    /**延迟 */
+    time_in_future: Time;
 };
 /**运行Eoc 并提供参数 */
 type RunEocWith = {

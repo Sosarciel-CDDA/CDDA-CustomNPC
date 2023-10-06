@@ -53,6 +53,7 @@ export async function createAnimStatus(dm:DataManager,charName:string){
         Move:"CharMove",
         Attack:"CharCauseHit",
         Idle:"CharIdle",
+        //Death:"CharDeath",
     }
     //添加切换动画
     for(const mtnName in animEventMap){

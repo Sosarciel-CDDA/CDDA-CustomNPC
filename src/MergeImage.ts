@@ -19,8 +19,10 @@ type ImageInfo = Partial<Record<AnimType,{
 	sprite_offset_y?: number;
     /**图片缩放比例 */
 	pixelscale?: number;
-    /**帧动画间隔 */
+    /**帧动画间隔 默认10 */
     interval?:number;
+    /**最后一帧的权重 默认等于interval */
+    last_weight?:number;
     /**帧动画文件名的格式正则 顺序数字应位于捕获组1 如 Idle_(.*)\.png  默认为 Idle(.*)\.png*/
     format_regex?:string;
 }>>;
@@ -70,7 +72,7 @@ export async function mergeImage(dm:DataManager,charName:string){
 
         //复制数据到缓存
         await fs.promises.cp(mtnPath,tmpMthPath,{ recursive: true });
-        const {interval,format_regex,...rest} = mtnInfo;
+        const {interval,last_weight,format_regex,...rest} = mtnInfo;
 
         //检查图片 创建动画数据
         const animages = (await fs.promises.readdir(tmpMthPath))
@@ -84,6 +86,9 @@ export async function mergeImage(dm:DataManager,charName:string){
                 return parseInt(amatch[1])-parseInt(bmatch[1]);
             })
             .map(fileName=>({weight:(interval??10),sprite:path.parse(fileName).name}));
+        //设置最后一帧循环
+        if(animages.length>0 && last_weight!=null && last_weight>0)
+            animages[animages.length-1].weight = last_weight;
         //写入动画数据
         await UtilFT.writeJSONFile(path.join(tmpMthPath,animName),{
             //id:`overlay_worn_${animData.armorID}`,

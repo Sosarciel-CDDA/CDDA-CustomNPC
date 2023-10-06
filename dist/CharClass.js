@@ -100,7 +100,7 @@ async function createCharClass(dm, charName) {
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${charName}_RemoveProcess`),
         effect: [
-            { run_eocs: "CNPC_EOC_CharDeath" }
+            { run_eocs: "CNPC_EOC_DeathProcess" }
         ],
         condition: { math: ["u_UID", "!=", `${charName}_UID`] }
     };
@@ -110,19 +110,7 @@ async function createCharClass(dm, charName) {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
-        effect: [
-            { run_eoc_with: {
-                    id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess_Sub`),
-                    eoc_type: "ACTIVATION",
-                    effect: [
-                        { u_add_effect: "incorporeal", duration: "PERMANENT", force: true },
-                        { u_location_variable: { global_val: "tmp_loc" }, z_adjust: -10, z_override: true },
-                        { u_teleport: { global_val: "tmp_loc" }, force: true },
-                        { npc_teleport: { global_val: "avatar_loc" }, force: true },
-                        { math: ["u_hp()", "=", "0"] }
-                    ]
-                }, beta_loc: { global_val: "avatar_loc" } }
-        ]
+        effect: []
     };
     dm.addCharEvent(charName, "CharDeath", -1000, charDeathEoc);
     outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charDeathEoc, charInitEoc, charRemoveEoc];

@@ -4,7 +4,7 @@ import { BodyPartID, CddaID, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";
 import { VitaminsID } from "./Vitamins";
 /**预定义的EffectID 列表 */
-export declare const DefineEffectIDList: readonly ["npc_run_away", "incorporeal"];
+export declare const DefineEffectIDList: readonly ["npc_run_away", "npc_suspend", "incorporeal", "stunned", "downed"];
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];
 /**效果ID

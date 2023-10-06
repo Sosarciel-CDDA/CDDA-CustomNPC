@@ -44,7 +44,7 @@ async function mergeImage(dm, charName) {
         await utils_1.UtilFT.ensurePathExists(tmpMthPath, true);
         //复制数据到缓存
         await fs.promises.cp(mtnPath, tmpMthPath, { recursive: true });
-        const { interval, format_regex, ...rest } = mtnInfo;
+        const { interval, last_weight, format_regex, ...rest } = mtnInfo;
         //检查图片 创建动画数据
         const animages = (await fs.promises.readdir(tmpMthPath))
             .filter(fileName => path.parse(fileName).ext == '.png')
@@ -57,6 +57,9 @@ async function mergeImage(dm, charName) {
             return parseInt(amatch[1]) - parseInt(bmatch[1]);
         })
             .map(fileName => ({ weight: (interval ?? 10), sprite: path.parse(fileName).name }));
+        //设置最后一帧循环
+        if (animages.length > 0 && last_weight != null && last_weight > 0)
+            animages[animages.length - 1].weight = last_weight;
         //写入动画数据
         await utils_1.UtilFT.writeJSONFile(path.join(tmpMthPath, animName), {
             //id:`overlay_worn_${animData.armorID}`,

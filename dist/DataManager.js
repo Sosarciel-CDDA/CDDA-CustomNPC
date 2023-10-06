@@ -335,9 +335,17 @@ class DataManager {
                         eoc_type: "ACTIVATION",
                         id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                         effect: [...charEventList.map(event => event.effect)],
-                        condition: Event_1.CharEventTypeList.includes(etype)
-                            ? { u_has_trait: charData.defineData.baseMutID }
-                            : { npc_has_trait: charData.defineData.baseMutID }
+                        condition: Event_1.CharEventTypeList.includes(etype) //判断是否为反转事件 并修改条件
+                            ? { and: [
+                                    { u_has_trait: charData.defineData.baseMutID },
+                                    ...(etype.includes("Death")
+                                        ? [{ math: ["u_isDeath", "!=", "1"] }] : [])
+                                ] }
+                            : { and: [
+                                    { npc_has_trait: charData.defineData.baseMutID },
+                                    ...(etype.includes("Death")
+                                        ? [{ math: ["n_isDeath", "!=", "1"] }] : [])
+                                ] }
                     };
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc
