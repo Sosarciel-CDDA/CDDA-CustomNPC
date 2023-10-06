@@ -51,6 +51,14 @@ async function createUpgResp(dm:DataManager,charName:string){
     //主升级话题ID
     const upgtopicid = genTalkTopicID(`${charName}_upgrade`);
 
+    //初始化变量Eoc
+    const InitUpgField:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_InitFieldVar`),
+        eoc_type:"ACTIVATION",
+        effect:[]
+    }
+
     /**升级项列表 */
     const upgRespList:Resp[] = [];
     const upgTopicList:TalkTopic[] = [];
@@ -116,7 +124,7 @@ async function createUpgResp(dm:DataManager,charName:string){
 
                 /**对话 */
                 const costtext = andRes.map(item=>`<item_name:${item.id}>:${item.count??1} `).join("");
-                const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>\n升级消耗:${costtext}\n`;
+                const resptext = `消耗:${costtext}\n`;
                 const charUpResp:Resp={
                     condition:{and:lvlCond},
                     truefalsetext:{
@@ -159,15 +167,6 @@ async function createUpgResp(dm:DataManager,charName:string){
         }
 
         //创建对应升级菜单
-        upgTopicList.push({
-            type:"talk_topic",
-            id:subTopicId,
-            dynamic_line:"...",
-            responses:[...upgSubRespList,{
-                text:"[返回]算了。",
-                topic:upgtopicid
-            }]
-        })
         const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
         upgRespList.push({
             truefalsetext:{
@@ -177,8 +176,20 @@ async function createUpgResp(dm:DataManager,charName:string){
             },
             topic:subTopicId,
         });
-    }
+        upgTopicList.push({
+            type:"talk_topic",
+            id:subTopicId,
+            dynamic_line:resptext,
+            responses:[...upgSubRespList,{
+                text:"[返回]算了。",
+                topic:upgtopicid
+            }]
+        })
 
+        //添加初始化
+        InitUpgField.effect?.push({math:[fieldID,"+=","0"]});
+    }
+    //升级主对话
     const upgTalkTopic:TalkTopic={
         type:"talk_topic",
         id:upgtopicid,
@@ -188,6 +199,9 @@ async function createUpgResp(dm:DataManager,charName:string){
             topic:"TALK_DONE"
         }]
     }
-    outData['upgrade_talk_topic'] = [upgTalkTopic,...upgEocList,...mutEocList,...upgTopicList];
+    //注册初始化eoc
+    dm.addCharEvent(charName,"CharInit",0,InitUpgField);
+
+    outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...mutEocList,...upgTopicList];
     return upgtopicid;
 }

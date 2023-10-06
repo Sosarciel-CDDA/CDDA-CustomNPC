@@ -80,16 +80,37 @@ export async function createCharClass(dm:DataManager,charName:string){
 		id: genEOCID(spawnerId),
 		effect: [
 			//{ u_consume_item: genGenericID(spawnerId), count: 1 },
+            {math:[`${charName}_UID`,"+=","1"]},
 			{
                 u_spawn_npc: defineData.instanceID,
 				real_count: 1,
 				min_radius: 1,
 				max_radius: 1,
 			},
-            {math:[`${charName}_IsAlive`,"=","1"]},
 		],
-        condition:{math:[`${charName}_IsAlive`,"<=","0"]}
 	};
+    /**初始化事件 */
+    const charInitEoc:Eoc = {
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_InitProcess`),
+        effect:[
+            {math:[`u_UID`,"=",`${charName}_UID`]},
+        ]
+    }
+    dm.addCharEvent(charName,"CharInit",1000,charInitEoc);
+
+    /**销毁事件 */
+    const charRemoveEoc:Eoc = {
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_RemoveProcess`),
+        effect:[
+            {run_eocs:"CNPC_EOC_CharDeath"}
+        ],
+        condition:{math:["u_UID","!=",`${charName}_UID`]}
+    }
+    dm.addCharEvent(charName,"CharUpdate",0,charRemoveEoc);
 
     /**死亡事件 */
     const charDeathEoc:Eoc = {
@@ -101,15 +122,15 @@ export async function createCharClass(dm:DataManager,charName:string){
                 id:genEOCID(`${charName}_DeathProcess_Sub`),
                 eoc_type:"ACTIVATION",
                 effect:[
-                    {math:[`${charName}_IsAlive`,"=","0"]},
                     {u_add_effect:"incorporeal",duration:"PERMANENT",force:true},
                     {u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true},
                     {u_teleport:{global_val:"tmp_loc"},force:true},
                     {npc_teleport:{global_val:"avatar_loc"},force:true},
+                    {math:["u_hp()","=","0"]}
                 ]
             },beta_loc:{global_val:"avatar_loc"}}
         ]
     }
     dm.addCharEvent(charName,"CharDeath",-1000,charDeathEoc);
-    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc];
+    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc,charInitEoc,charRemoveEoc];
 }

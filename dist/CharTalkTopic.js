@@ -37,6 +37,13 @@ async function createUpgResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主升级话题ID
     const upgtopicid = (0, _1.genTalkTopicID)(`${charName}_upgrade`);
+    //初始化变量Eoc
+    const InitUpgField = {
+        type: "effect_on_condition",
+        id: (0, _1.genEOCID)(`${charName}_InitFieldVar`),
+        eoc_type: "ACTIVATION",
+        effect: []
+    };
     /**升级项列表 */
     const upgRespList = [];
     const upgTopicList = [];
@@ -99,7 +106,7 @@ async function createUpgResp(dm, charName) {
                 upgEocList.push(charUpEoc);
                 /**对话 */
                 const costtext = andRes.map(item => `<item_name:${item.id}>:${item.count ?? 1} `).join("");
-                const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>\n升级消耗:${costtext}\n`;
+                const resptext = `消耗:${costtext}\n`;
                 const charUpResp = {
                     condition: { and: lvlCond },
                     truefalsetext: {
@@ -138,24 +145,28 @@ async function createUpgResp(dm, charName) {
             mutEocList.push(mutEoc);
         }
         //创建对应升级菜单
+        const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
+        upgRespList.push({
+            truefalsetext: {
+                true: `[可以升级]${resptext}`,
+                false: `<color_red>[素材不足]${resptext}</color>`,
+                condition: { or: upgSubResCondList },
+            },
+            topic: subTopicId,
+        });
         upgTopicList.push({
             type: "talk_topic",
             id: subTopicId,
-            dynamic_line: "...",
+            dynamic_line: resptext,
             responses: [...upgSubRespList, {
                     text: "[返回]算了。",
                     topic: upgtopicid
                 }]
         });
-        upgRespList.push({
-            truefalsetext: {
-                true: `[可以升级]${upgObj.field}`,
-                false: `<color_red>[素材不足]${upgObj.field}</color>`,
-                condition: { or: upgSubResCondList },
-            },
-            topic: subTopicId,
-        });
+        //添加初始化
+        InitUpgField.effect?.push({ math: [fieldID, "+=", "0"] });
     }
+    //升级主对话
     const upgTalkTopic = {
         type: "talk_topic",
         id: upgtopicid,
@@ -165,6 +176,8 @@ async function createUpgResp(dm, charName) {
                 topic: "TALK_DONE"
             }]
     };
-    outData['upgrade_talk_topic'] = [upgTalkTopic, ...upgEocList, ...mutEocList, ...upgTopicList];
+    //注册初始化eoc
+    dm.addCharEvent(charName, "CharInit", 0, InitUpgField);
+    outData['upgrade_talk_topic'] = [InitUpgField, upgTalkTopic, ...upgEocList, ...mutEocList, ...upgTopicList];
     return upgtopicid;
 }
