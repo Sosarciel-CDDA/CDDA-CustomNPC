@@ -19,6 +19,7 @@ export type Armor = {
 	/**环境保护 */
 	environmental_protection?: number;
 	flags?: ArmorFlag[];
+	/**护甲数据 必须设置覆盖层 */
 	armor?: ArmorData[];
 } & GenericBase;
 
@@ -33,13 +34,13 @@ export type ArmorData = {
 		thickness: number;
 	}[];
 	/**覆盖 主肢体id */
-	covers?: BodyPartID[];
+	covers: BodyPartID[];
 	/**特殊覆盖 子肢体id */
 	specifically_covers?: BodyPartID[];
 	/**覆盖率 */
-	coverage?: number;
+	coverage: number;
 	/**累赘度 [每件累赘度, 多件累赘度惩罚]  重复穿着3件时 [0]*3+[1] */
-	encumbrance?: number | [number, number];
+	encumbrance: number | [number, number];
 	/**层级 */
 	layers?: ArmorLayer[];
 };

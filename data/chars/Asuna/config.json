@@ -153,5 +153,10 @@
 				"energy_source": "MANA"
 			}
 		}
-	]
+	],
+	"desc": {
+		"age": 17,
+		"gender": "female",
+		"height": 158
+	}
 }

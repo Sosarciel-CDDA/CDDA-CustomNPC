@@ -1,9 +1,8 @@
-import { AmmunitionType, Ammo, Armor, BodyPartList, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchGenericValTypeList, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal } from "CddaJsonFormat";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
-import { EnchStat, getFieldVarID, parseEnchStatTable } from "./CharConfig";
+import { getFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
-import { STATUS_VAR_MAP_ENCHID } from ".";
 
 
 
@@ -76,19 +75,19 @@ export async function createCharEquip(dm:DataManager,charName:string){
             "PARTIAL_DEAF"  ,//降低音量到安全水平
         ],
         pocket_data : (charConfig.weapon
-        ?[{
-            rigid: true,
-            pocket_type: "CONTAINER",
-            max_contains_volume: "100 L",
-            max_contains_weight: "100 kg",
-            moves: 1,
-            fire_protection: true,
-            max_item_length: "1 km",
-            weight_multiplier: 0,
-            volume_multiplier: 0,
-            item_restriction:[charConfig.weapon.id]
-        }]
-        :undefined),
+            ? [{
+                rigid: true,
+                pocket_type: "CONTAINER",
+                max_contains_volume: "100 L",
+                max_contains_weight: "100 kg",
+                moves: 1,
+                fire_protection: true,
+                max_item_length: "1 km",
+                weight_multiplier: 0,
+                volume_multiplier: 0,
+                item_restriction:[charConfig.weapon.id]
+            }]
+            : undefined),
     }
 
     /**基础变异 */

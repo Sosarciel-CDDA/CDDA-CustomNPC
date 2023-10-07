@@ -3,9 +3,16 @@ import { BodyPartID, CddaID } from "./GenericDefine";
 import { ArmorID } from "./Item";
 
 
+
+/**预定义的变异ID 列表 */
+export const DefineMutionIdList = [
+	"TOUGH_FEET",//坚硬脚掌
+] as const;
+/**预定义的变异ID */
+export type DefineMutionId = typeof DefineMutionIdList[number];
 /**Mutation ID格式  
  */
-export type MutationID = CddaID<"MUT">;
+export type MutationID = CddaID<"MUT">|DefineMutionId;
 
 /**变异 */
 export type Mutation = {

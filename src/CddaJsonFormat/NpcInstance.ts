@@ -29,6 +29,8 @@ export type NpcInstance = {
     faction?: DefineNpcFaction;
     /**死亡触发的eoc */
     death_eocs?: EocID[];
+    /**性别 */
+    gender?: NpcGender;
     /**年龄 */
     age?: number;
     /**身高 */
@@ -74,3 +76,6 @@ export const NpcMissionList = [
 ] as const;
 /**Npc行为 */
 export type NpcMission = typeof NpcMissionList[number];
+
+/**性别 */
+export type NpcGender = "male"|"female";

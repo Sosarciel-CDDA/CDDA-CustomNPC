@@ -1,4 +1,4 @@
-import { Armor, BodyPartList, Eoc, Generic, Mutation, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
 import { SkillID } from "./CddaJsonFormat/Skill";
@@ -32,13 +32,11 @@ export async function createCharClass(dm:DataManager,charName:string){
             return [...acc,skill];
         },[] as NPCClassBaseSkill[]),
         traits:[
+            { "trait": genMutationID("CnpcFlag") },
             { "trait": defineData.baseMutID },
-            (
-                defineData.vaildAnim.length>=1
-                ? { "trait": defineData.animData.Idle.mutID }
-                : { "trait": genMutationID("NoAnim") }
-            ),
-            { "trait": genMutationID("CnpcFlag") }]
+            ...(defineData.vaildAnim.length>=1
+            ? [{ "trait": defineData.animData.Idle.mutID },{"trait":"TOUGH_FEET" as MutationID}]
+            : [{ "trait": genMutationID("NoAnim") }])]
     }
     /**NPC实例 */
     const charInstance:NpcInstance={
@@ -54,6 +52,9 @@ export async function createCharClass(dm:DataManager,charName:string){
         dex: charConfig.base_status?.dex || 10,
         int: charConfig.base_status?.int || 10,
         per: charConfig.base_status?.per || 10,
+        height  :charConfig.desc?.height,
+        age     :charConfig.desc?.age   ,
+        gender  :charConfig.desc?.gender,
         death_eocs:["CNPC_EOC_NPC_DEATH"], //设置事件字段
     }
     /**生成器ID */

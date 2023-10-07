@@ -1,9 +1,13 @@
 import { ParamsEnchantment } from "./Enchantment";
 import { BodyPartID, CddaID } from "./GenericDefine";
 import { ArmorID } from "./Item";
+/**预定义的变异ID 列表 */
+export declare const DefineMutionIdList: readonly ["TOUGH_FEET"];
+/**预定义的变异ID */
+export type DefineMutionId = typeof DefineMutionIdList[number];
 /**Mutation ID格式
  */
-export type MutationID = CddaID<"MUT">;
+export type MutationID = CddaID<"MUT"> | DefineMutionId;
 /**变异 */
 export type Mutation = {
     type: "mutation";

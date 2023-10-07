@@ -28,11 +28,11 @@ async function createCharClass(dm, charName) {
             return [...acc, skill];
         }, []),
         traits: [
+            { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") },
             { "trait": defineData.baseMutID },
-            (defineData.vaildAnim.length >= 1
-                ? { "trait": defineData.animData.Idle.mutID }
-                : { "trait": (0, ModDefine_1.genMutationID)("NoAnim") }),
-            { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") }
+            ...(defineData.vaildAnim.length >= 1
+                ? [{ "trait": defineData.animData.Idle.mutID }, { "trait": "TOUGH_FEET" }]
+                : [{ "trait": (0, ModDefine_1.genMutationID)("NoAnim") }])
         ]
     };
     /**NPC实例 */
@@ -49,6 +49,9 @@ async function createCharClass(dm, charName) {
         dex: charConfig.base_status?.dex || 10,
         int: charConfig.base_status?.int || 10,
         per: charConfig.base_status?.per || 10,
+        height: charConfig.desc?.height,
+        age: charConfig.desc?.age,
+        gender: charConfig.desc?.gender,
         death_eocs: ["CNPC_EOC_NPC_DEATH"], //设置事件字段
     };
     /**生成器ID */

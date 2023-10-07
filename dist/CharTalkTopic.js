@@ -43,6 +43,8 @@ async function createUpgResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主升级话题ID
     const upgtopicid = (0, _1.genTalkTopicID)(`${charName}_upgrade`);
+    //显示素材不足开关变量ID
+    const showNotEnough = `${charName}_showNotEnoughRes`;
     //初始化变量Eoc
     const InitUpgField = {
         type: "effect_on_condition",
@@ -159,6 +161,7 @@ async function createUpgResp(dm, charName) {
                 condition: { or: upgSubResCondList },
             },
             topic: subTopicId,
+            condition: { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] }
         });
         upgTopicList.push({
             type: "talk_topic",
@@ -176,8 +179,18 @@ async function createUpgResp(dm, charName) {
     const upgTalkTopic = {
         type: "talk_topic",
         id: upgtopicid,
-        dynamic_line: "...",
-        responses: [...upgRespList, {
+        dynamic_line: "&",
+        responses: [...upgRespList,
+            {
+                truefalsetext: {
+                    condition: { math: [showNotEnough, "==", "1"] },
+                    true: "[显示切换]隐藏素材不足项",
+                    false: "[显示切换]显示素材不足项"
+                },
+                topic: upgtopicid,
+                effect: { math: [`${showNotEnough}`, "=", `(${showNotEnough} == 1) ? 0 : 1`] }
+            },
+            {
                 text: "[继续]走吧。",
                 topic: "TALK_DONE"
             }]
@@ -212,12 +225,14 @@ async function createSkillResp(dm, charName) {
         const resp = {
             truefalsetext: {
                 condition: { math: [stopVar, "==", "1"] },
-                true: `[开始使用] ${spell.name}`,
-                false: `[停止使用] ${spell.name}`,
+                true: `[已停用] ${spell.name}`,
+                false: `[已启用] ${spell.name}`,
             },
             effect: { run_eocs: eocid },
             topic: skillTalkTopicId,
         };
+        if (skill.require_field)
+            resp.condition = { math: [(0, CharConfig_1.getFieldVarID)(charName, skill.require_field[0]), ">=", `${skill.require_field[1]}`] };
         skillRespList.push(resp);
         dynLine.push({
             math: [stopVar, "==", "1"],
@@ -229,7 +244,8 @@ async function createSkillResp(dm, charName) {
     const skillTalkTopic = {
         type: "talk_topic",
         id: skillTalkTopicId,
-        dynamic_line: { concatenate: ["&", ...dynLine] },
+        dynamic_line: "&",
+        //dynamic_line:{concatenate:["&",...dynLine]},
         responses: [...skillRespList, {
                 text: "[继续]走吧。",
                 topic: "TALK_DONE"

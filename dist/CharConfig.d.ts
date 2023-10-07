@@ -1,4 +1,4 @@
-import { AnyItemID, EnchArmorValType, EnchGenericValType, Generic, Gun, MutationID, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
+import { AnyItemID, EnchArmorValType, EnchGenericValType, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { DataManager } from './DataManager';
 /**动态读取的角色设定 */
@@ -12,6 +12,8 @@ export type CharConfig = {
     extends?: string[];
     /**是虚拟的/仅用于继承的 */
     virtual?: boolean;
+    /**描述信息 */
+    desc?: CharDesc;
     /**基础属性 */
     base_status?: Record<StatusSimple, number>;
     /**基础技能 */
@@ -24,6 +26,15 @@ export type CharConfig = {
     skill?: CharSkill[];
     /**强化项 */
     upgrade?: CharUpgrade[];
+};
+/**角色描述信息 */
+export type CharDesc = {
+    /**年龄 */
+    age?: number;
+    /**身高 */
+    height?: number;
+    /**性别 */
+    gender?: NpcGender;
 };
 /**要求的资源 */
 export type RequireResource = {

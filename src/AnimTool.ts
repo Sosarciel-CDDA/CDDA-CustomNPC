@@ -46,7 +46,7 @@ export async function createAnimTool(dm:DataManager,charName:string){
             weight: 0,
             volume: 0,
             symbol: "O",
-            flags:["AURA","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT"]
+            flags:["AURA","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT"],
         }
         const animArmorGroup:ItemGroup={
             type:"item_group",

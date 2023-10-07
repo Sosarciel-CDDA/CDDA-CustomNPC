@@ -198,22 +198,22 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect } = baseSkillData;
     const { hook, spell, one_in_chance } = skill;
     //复制法术
-    const ospell = utils_1.UtilFunc.deepClone(spell);
-    spell.id = (spell.id + "_reverse");
-    spell.valid_targets.push("self");
+    const rspell = utils_1.UtilFunc.deepClone(spell);
+    rspell.id = (rspell.id + "_reverse");
+    rspell.valid_targets.push("self");
     //解析伤害字符串
     let dmgstr = `0`;
-    let dmgvar = `${spell.id}_reverse_dmg`;
-    if (spell.min_damage !== undefined) {
-        if (typeof spell.min_damage == "number")
-            dmgstr = spell.min_damage + "";
-        else if ("math" in spell.min_damage)
-            dmgstr = spell.min_damage.math[0];
+    let dmgvar = `${rspell.id}_reverse_dmg`;
+    if (rspell.min_damage !== undefined) {
+        if (typeof rspell.min_damage == "number")
+            dmgstr = rspell.min_damage + "";
+        else if ("math" in rspell.min_damage)
+            dmgstr = rspell.min_damage.math[0];
         else
             throw `翻转命中伤害只支持固定值number 或 math表达式`;
     }
-    spell.min_damage = { math: [dmgvar] };
-    spell.max_damage = 999999;
+    rspell.min_damage = { math: [dmgvar] };
+    rspell.max_damage = 999999;
     //翻转u与n
     baseCond = JSON.parse(JSON.stringify(baseCond).replace(/(?<!\w)u_/g, 'n_'));
     TEffect = JSON.parse(JSON.stringify(TEffect).replace(/(?<!\w)u_/g, 'n_'));
@@ -227,7 +227,7 @@ function reverse_hitProc(dm, charName, baseSkillData) {
             { math: [dmgvar, `=`, dmgstr] },
             {
                 u_cast_spell: {
-                    id: spell.id,
+                    id: rspell.id,
                     once_in: one_in_chance,
                     hit_self: true //如果是翻转事件则需命中自身
                 },
@@ -244,28 +244,28 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     if (Event_1.CharEventTypeList.includes(hook))
         throw `翻转命中 所用的事件必须为 翻转事件: ${Event_1.ReverseCharEventTypeList}`;
     dm.addReverseCharEvent(charName, hook, 0, castEoc);
-    return [spell, ospell, castEoc];
+    return [spell, rspell, castEoc];
 }
 function direct_hitProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect } = baseSkillData;
     const { hook, spell, one_in_chance } = skill;
     //复制法术
-    const ospell = utils_1.UtilFunc.deepClone(spell);
-    spell.id = (spell.id + "_reverse");
-    spell.valid_targets.push("self");
+    const rspell = utils_1.UtilFunc.deepClone(spell);
+    rspell.id = (rspell.id + "_reverse");
+    rspell.valid_targets.push("self");
     //解析伤害字符串
     let dmgstr = `0`;
-    let dmgvar = `${spell.id}_reverse_dmg`;
-    if (spell.min_damage !== undefined) {
-        if (typeof spell.min_damage == "number")
-            dmgstr = spell.min_damage + "";
-        else if ("math" in spell.min_damage)
-            dmgstr = spell.min_damage.math[0];
+    let dmgvar = `${rspell.id}_reverse_dmg`;
+    if (rspell.min_damage !== undefined) {
+        if (typeof rspell.min_damage == "number")
+            dmgstr = rspell.min_damage + "";
+        else if ("math" in rspell.min_damage)
+            dmgstr = rspell.min_damage.math[0];
         else
             throw `直接命中伤害只支持固定值number 或 math表达式`;
     }
-    spell.min_damage = { math: [dmgvar] };
-    spell.max_damage = 999999;
+    rspell.min_damage = { math: [dmgvar] };
+    rspell.max_damage = 999999;
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
@@ -275,7 +275,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
             { math: [dmgvar, `=`, dmgstr] },
             {
                 npc_cast_spell: {
-                    id: spell.id,
+                    id: rspell.id,
                     once_in: one_in_chance,
                     hit_self: true //如果是翻转事件则需命中自身
                 },
@@ -294,7 +294,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
     if (!Event_1.InteractiveCharEventList.includes(hook))
         throw `直接命中 所用的事件必须为 交互事件: ${Event_1.InteractiveCharEventList}`;
     dm.addCharEvent(charName, hook, 0, castEoc);
-    return [spell, ospell, castEoc];
+    return [spell, rspell, castEoc];
 }
 function autoProc(dm, charName, baseSkillData) {
     const { skill } = baseSkillData;
