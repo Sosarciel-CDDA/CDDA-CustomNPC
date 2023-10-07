@@ -1,6 +1,7 @@
 import { BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
-import { Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
+import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
 import { getFieldVarID } from "./CharConfig";
+import { stopSpellVar } from "./CharSkill";
 import { DataManager } from "./DataManager";
 
 
@@ -34,6 +35,10 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
             topic: await createUpgResp(dm,charName)
         },
         {
+            text : "[技能]我想调整你的技能。",
+            topic: await createSkillResp(dm,charName)
+        },
+        {
             text : "[返回]算了。",
             topic: "TALK_NONE"
         }]
@@ -44,7 +49,7 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
 }
 
 
-
+/**创建升级对话 */
 async function createUpgResp(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
@@ -179,7 +184,7 @@ async function createUpgResp(dm:DataManager,charName:string){
         upgTopicList.push({
             type:"talk_topic",
             id:subTopicId,
-            dynamic_line:resptext,
+            dynamic_line:`&${resptext}`,
             responses:[...upgSubRespList,{
                 text:"[返回]算了。",
                 topic:upgtopicid
@@ -204,4 +209,61 @@ async function createUpgResp(dm:DataManager,charName:string){
 
     outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...mutEocList,...upgTopicList];
     return upgtopicid;
+}
+
+/**创建技能对话 */
+async function createSkillResp(dm:DataManager,charName:string){
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    //主对话id
+    const skillTalkTopicId = genTalkTopicID(`${charName}_skill`);
+
+    //遍历技能
+    const skillRespList:Resp[] = [];
+    const skillRespEocList:Eoc[] = [];
+    const dynLine:DynamicLine[] = [];
+    for(const skill of charConfig.skill??[]){
+        const {spell} = skill;
+        const stopVar = stopSpellVar(charName,spell);
+
+        const eocid = genEOCID(`${stopVar}_switch`)
+        const eoc:Eoc={
+            type:"effect_on_condition",
+            id:eocid,
+            eoc_type:"ACTIVATION",
+            effect:[{math:[stopVar,"=","0"]}],
+            false_effect:[{math:[stopVar,"=","1"]}],
+            condition:{math:[stopVar,"==","1"]},
+        }
+        skillRespEocList.push(eoc)
+
+        const resp:Resp={
+            truefalsetext:{
+                condition:{math:[stopVar,"==","1"]},
+                true:`[开始使用] ${spell.name}`,
+                false:`[停止使用] ${spell.name}`,
+            },
+            effect:{run_eocs:eocid},
+            topic:skillTalkTopicId,
+        }
+        skillRespList.push(resp);
+
+        dynLine.push({
+            math:[stopVar,"==","1"],
+            yes:`${charName} 不会使用 ${spell.name}\n`,
+            no:`${charName} 会尝试使用 ${spell.name}\n`,
+        })
+    }
+
+    //技能主对话
+    const skillTalkTopic:TalkTopic={
+        type:"talk_topic",
+        id:skillTalkTopicId,
+        dynamic_line:{concatenate:["&",...dynLine]},
+        responses:[...skillRespList,{
+            text:"[继续]走吧。",
+            topic:"TALK_DONE"
+        }]
+    }
+    outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList];
+    return skillTalkTopicId;
 }

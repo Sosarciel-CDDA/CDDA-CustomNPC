@@ -47,6 +47,8 @@ export type CharSkill = {
     /**要求强化字段 [字段,强化等级] */
     require_field?: [string, number];
 };
+/**使某个技能停止使用的变量 */
+export declare function stopSpellVar(charName: string, spell: Spell): string;
 /**处理角色技能 */
 export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;
 export {};

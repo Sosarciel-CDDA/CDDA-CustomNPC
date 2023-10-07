@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharTalkTopic = void 0;
 const _1 = require(".");
 const CharConfig_1 = require("./CharConfig");
+const CharSkill_1 = require("./CharSkill");
 /**创建对话选项 */
 async function createCharTalkTopic(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
@@ -26,6 +27,10 @@ async function createCharTalkTopic(dm, charName) {
                 topic: await createUpgResp(dm, charName)
             },
             {
+                text: "[技能]我想调整你的技能。",
+                topic: await createSkillResp(dm, charName)
+            },
+            {
                 text: "[返回]算了。",
                 topic: "TALK_NONE"
             }]
@@ -33,6 +38,7 @@ async function createCharTalkTopic(dm, charName) {
     outData['talk_topic'] = [extTalkTopic, mainTalkTopic];
 }
 exports.createCharTalkTopic = createCharTalkTopic;
+/**创建升级对话 */
 async function createUpgResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主升级话题ID
@@ -157,7 +163,7 @@ async function createUpgResp(dm, charName) {
         upgTopicList.push({
             type: "talk_topic",
             id: subTopicId,
-            dynamic_line: resptext,
+            dynamic_line: `&${resptext}`,
             responses: [...upgSubRespList, {
                     text: "[返回]算了。",
                     topic: upgtopicid
@@ -180,4 +186,55 @@ async function createUpgResp(dm, charName) {
     dm.addCharEvent(charName, "CharInit", 0, InitUpgField);
     outData['upgrade_talk_topic'] = [InitUpgField, upgTalkTopic, ...upgEocList, ...mutEocList, ...upgTopicList];
     return upgtopicid;
+}
+/**创建技能对话 */
+async function createSkillResp(dm, charName) {
+    const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    //主对话id
+    const skillTalkTopicId = (0, _1.genTalkTopicID)(`${charName}_skill`);
+    //遍历技能
+    const skillRespList = [];
+    const skillRespEocList = [];
+    const dynLine = [];
+    for (const skill of charConfig.skill ?? []) {
+        const { spell } = skill;
+        const stopVar = (0, CharSkill_1.stopSpellVar)(charName, spell);
+        const eocid = (0, _1.genEOCID)(`${stopVar}_switch`);
+        const eoc = {
+            type: "effect_on_condition",
+            id: eocid,
+            eoc_type: "ACTIVATION",
+            effect: [{ math: [stopVar, "=", "0"] }],
+            false_effect: [{ math: [stopVar, "=", "1"] }],
+            condition: { math: [stopVar, "==", "1"] },
+        };
+        skillRespEocList.push(eoc);
+        const resp = {
+            truefalsetext: {
+                condition: { math: [stopVar, "==", "1"] },
+                true: `[开始使用] ${spell.name}`,
+                false: `[停止使用] ${spell.name}`,
+            },
+            effect: { run_eocs: eocid },
+            topic: skillTalkTopicId,
+        };
+        skillRespList.push(resp);
+        dynLine.push({
+            math: [stopVar, "==", "1"],
+            yes: `${charName} 不会使用 ${spell.name}\n`,
+            no: `${charName} 会尝试使用 ${spell.name}\n`,
+        });
+    }
+    //技能主对话
+    const skillTalkTopic = {
+        type: "talk_topic",
+        id: skillTalkTopicId,
+        dynamic_line: { concatenate: ["&", ...dynLine] },
+        responses: [...skillRespList, {
+                text: "[继续]走吧。",
+                topic: "TALK_DONE"
+            }]
+    };
+    outData['skill_talk_topic'] = [skillTalkTopic, ...skillRespEocList];
+    return skillTalkTopicId;
 }

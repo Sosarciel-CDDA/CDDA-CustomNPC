@@ -181,6 +181,7 @@ export type DefineTopic = typeof DefineTopicList[number];
 
 /**动态回复构造器  
  * 如果是数组 则为随机选择其中一条回复  
+ * 以字符 & 开头的对话将会删除引号
  */
 export type DynamicLine = DynmaicLineOpera[number][]|DynmaicLineOpera[number];
 
@@ -208,7 +209,8 @@ type AvatarSexResp = {
     u_male: DynamicLine;
 }
 /**多条链接 */
-type Concatenate = DynamicLine[];
+type Concatenate = {concatenate:DynamicLine[]};
+
 
 
 /**任意EocBool条件 */

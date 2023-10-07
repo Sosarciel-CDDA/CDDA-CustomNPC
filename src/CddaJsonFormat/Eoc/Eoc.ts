@@ -18,6 +18,8 @@ export type Eoc = {
 	eoc_type: EocType,
 	/**效果 */
 	effect?: EocEffect[];
+	/**启用条件为假时的效果 */
+	false_effect?: EocEffect[];
 	/**启用条件 */
 	condition?: BoolObj;
 	/**循环间隔 */

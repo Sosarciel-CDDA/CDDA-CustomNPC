@@ -66,8 +66,8 @@ exports.BaseSpell = [
         valid_targets: ["hostile"],
         flags: [...exports.CON_SPELL_FLAG],
         min_aoe: 1,
-        min_duration: 200,
-        max_duration: 200,
+        min_duration: 100,
+        max_duration: 100,
     },
     {
         type: "SPELL",

@@ -58,6 +58,11 @@ export type CharSkill = {
 //全局冷却字段名
 const gcdValName = `u_CoCooldown`;
 
+/**使某个技能停止使用的变量 */
+export function stopSpellVar(charName:string,spell:Spell){
+    return `${charName}_${spell.id}_stop`;
+}
+
 /**处理角色技能 */
 export async function createCharSkill(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
@@ -91,7 +96,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
         const baseCond:BoolObj[] = [
-            {math:[gcdValName,"<=","0"]}
+            {math:[gcdValName,"<=","0"]},
+            {math:[stopSpellVar(charName,spell),"!=","1"]}
         ];
         if(spell.base_energy_cost!=undefined)
             baseCond.push({math:["u_val('mana')",">=",spellCost]});

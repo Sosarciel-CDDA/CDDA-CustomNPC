@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharSkill = void 0;
+exports.createCharSkill = exports.stopSpellVar = void 0;
 const utils_1 = require("@zwa73/utils");
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
@@ -9,6 +9,11 @@ const Event_1 = require("./Event");
 const hasTargetVar = "hasTarget";
 //全局冷却字段名
 const gcdValName = `u_CoCooldown`;
+/**使某个技能停止使用的变量 */
+function stopSpellVar(charName, spell) {
+    return `${charName}_${spell.id}_stop`;
+}
+exports.stopSpellVar = stopSpellVar;
 /**处理角色技能 */
 async function createCharSkill(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
@@ -36,7 +41,8 @@ async function createCharSkill(dm, charName) {
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算基础条件
         const baseCond = [
-            { math: [gcdValName, "<=", "0"] }
+            { math: [gcdValName, "<=", "0"] },
+            { math: [stopSpellVar(charName, spell), "!=", "1"] }
         ];
         if (spell.base_energy_cost != undefined)
             baseCond.push({ math: ["u_val('mana')", ">=", spellCost] });
