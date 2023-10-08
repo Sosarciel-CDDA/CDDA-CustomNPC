@@ -26,7 +26,11 @@ export type CharSkill = {
      */
     common_cooldown?:number,
     /**法术效果 */
-    spell           :Spell,
+    spell           :Spell|SpellID,
+    /**代替原效果的法术效果 默认为根据 Spell 生成
+     * 若为 SpellID 则视为范围无限其他未定义
+     */
+    fixspell?       :FixSpell,
     /**技能音效 */
     audio?          :(string|{
         /**音效变体ID */
@@ -69,8 +73,17 @@ export type CastCondition={
 const gcdValName = `u_CoCooldown`;
 
 /**使某个技能停止使用的变量 */
-export function stopSpellVar(charName:string,spell:Spell){
+export function stopSpellVar(charName:string,spell:FixSpell){
     return `${charName}_${spell.id}_stop`;
+}
+
+/**简化法术信息 */
+export type FixSpell={
+    id:SpellID;
+    name:string,
+    base_energy_cost?:number ;
+    energy_increment?:number ;
+    final_energy_cost?:number;
 }
 
 /**处理角色技能 */
@@ -97,18 +110,27 @@ export async function createCharSkill(dm:DataManager,charName:string){
     for(const skill of skills){
         const {cast_condition,spell,cooldown,common_cooldown,audio,require_field} = skill;
 
+        const fixspell:FixSpell = typeof spell=="object"
+            ? spell as FixSpell
+            : skill.fixspell
+            ? skill.fixspell
+            : {
+                id:spell,
+                name:spell
+            } as const;
+
         //法术消耗字符串
-        const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
-            `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost??999999})`;
+        const spellCost = `min(${fixspell.base_energy_cost??0}+${fixspell.energy_increment??0}*`+
+            `u_val('spell_level', 'spell: ${fixspell.id}'),${fixspell.final_energy_cost??999999})`;
 
         //生成冷却变量名
-        const cdValName = `u_${spell.id}_Cooldown`;
+        const cdValName = `u_${fixspell.id}_Cooldown`;
 
         //计算成功效果
         const TEffect:EocEffect[]=[];
         if(common_cooldown!=0)
             TEffect.push({math:[gcdValName,"=",`${common_cooldown??1}`]});
-        if(spell.base_energy_cost!=undefined)
+        if(fixspell.base_energy_cost!=undefined)
             TEffect.push({math:["u_val('mana')","-=",spellCost]});
         if(cooldown)
             TEffect.push({math:[cdValName,"=",`${cooldown??0}`]});
@@ -141,9 +163,9 @@ export async function createCharSkill(dm:DataManager,charName:string){
             //计算基础条件
             const baseCond:BoolObj[] = [
                 {math:[gcdValName,"<=","0"]},
-                {math:[stopSpellVar(charName,spell),"!=","1"]}
+                {math:[stopSpellVar(charName,fixspell),"!=","1"]}
             ];
-            if(spell.base_energy_cost!=undefined)
+            if(fixspell.base_energy_cost!=undefined)
                 baseCond.push({math:["u_val('mana')",">=",spellCost]});
             if(condition)
                 baseCond.push(condition);
@@ -163,7 +185,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
             //处理并加入输出
             skillDataList.push(...ProcMap[target??"auto"](dm,charName,baseSkillData));
         }
-        skillDataList.push(spell);
+        if(typeof spell=="object")
+            skillDataList.push(spell);
         //冷却事件
         if(cooldown!=null){
             const CDEoc:Eoc={

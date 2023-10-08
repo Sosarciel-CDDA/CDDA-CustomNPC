@@ -48,6 +48,10 @@ export type Effect = {
      * 按效果强度应用不同成员  
      */
     desc?: string[];
+    /**被抵抗时产生的描述  
+     * 按效果强度应用不同成员  
+     */
+    reduced_desc?: string[];
     /**如果“part_descs”== true，则描述前面带有“您的 X”，  
      * 其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。  
      */
@@ -379,5 +383,7 @@ export const EffectModTypeList = [
  */
 export type EffectModType = typeof EffectModTypeList[number];
 
-/**效果的调整值格式 */
-export type EffectMod = Partial<Record<EffectModType,number>>;
+/**效果的调整值格式  
+ * {字段: [加成,被抵抗时的加成]}  
+ */
+export type EffectMod = Partial<Record<EffectModType,number[]>>;

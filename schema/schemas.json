@@ -9913,7 +9913,6 @@
 						}
 					},
 					"required": [
-						"armor",
 						"category",
 						"id",
 						"type"
@@ -11298,7 +11297,7 @@
 			],
 			"type": "object"
 		},
-		"BaseSkillData": {
+		"BaseSkillCastData": {
 			"properties": {
 				"TEffect": {
 					"description": "基础成功eoc效果",
@@ -12182,44 +12181,9 @@
 					},
 					"type": "array"
 				},
-				"skill": {
-					"description": "技能",
+				"castCondition": {
+					"description": "释放条件",
 					"properties": {
-						"audio": {
-							"description": "技能音效",
-							"items": {
-								"anyOf": [
-									{
-										"properties": {
-											"id": {
-												"description": "音效变体ID",
-												"type": "string"
-											},
-											"one_in_chance": {
-												"description": "产生音效的概率 1/n 默认1",
-												"type": "number"
-											},
-											"volume": {
-												"description": "音量 1-128 默认100",
-												"type": "number"
-											}
-										},
-										"required": [
-											"id"
-										],
-										"type": "object"
-									},
-									{
-										"type": "string"
-									}
-								]
-							},
-							"type": "array"
-						},
-						"common_cooldown": {
-							"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
-							"type": "number"
-						},
 						"condition": {
 							"anyOf": [
 								{
@@ -12500,15 +12464,693 @@
 									"type": "string"
 								}
 							],
-							"description": "释放条件"
-						},
-						"cooldown": {
-							"description": "冷却时间 单位为每次CharUpdate 默认0",
-							"type": "number"
+							"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
 						},
 						"hook": {
 							"$ref": "#/definitions/AnyCharEvenetType",
 							"description": "时机"
+						},
+						"target": {
+							"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+							"enum": [
+								"auto",
+								"auto_hit",
+								"direct_hit",
+								"random",
+								"reverse_hit",
+								"spell_target"
+							],
+							"type": "string"
+						}
+					},
+					"required": [
+						"hook"
+					],
+					"type": "object"
+				},
+				"skill": {
+					"description": "技能",
+					"properties": {
+						"audio": {
+							"description": "技能音效",
+							"items": {
+								"anyOf": [
+									{
+										"properties": {
+											"id": {
+												"description": "音效变体ID",
+												"type": "string"
+											},
+											"one_in_chance": {
+												"description": "产生音效的概率 1/n 默认1",
+												"type": "number"
+											},
+											"volume": {
+												"description": "音量 1-128 默认100",
+												"type": "number"
+											}
+										},
+										"required": [
+											"id"
+										],
+										"type": "object"
+									},
+									{
+										"type": "string"
+									}
+								]
+							},
+							"type": "array"
+						},
+						"cast_condition": {
+							"anyOf": [
+								{
+									"description": "技能的释放条件",
+									"properties": {
+										"condition": {
+											"anyOf": [
+												{
+													"$ref": "#/definitions/BoolOperaNot"
+												},
+												{
+													"$ref": "#/definitions/BoolOperaOr"
+												},
+												{
+													"$ref": "#/definitions/BoolOperaAnd"
+												},
+												{
+													"$ref": "#/definitions/BoolOperaCompStr"
+												},
+												{
+													"properties": {
+														"math": {
+															"items": [
+																{
+																	"type": "string"
+																},
+																{
+																	"enum": [
+																		"!=",
+																		"<",
+																		"<=",
+																		"==",
+																		">",
+																		">="
+																	],
+																	"type": "string"
+																},
+																{
+																	"type": "string"
+																}
+															],
+															"maxItems": 3,
+															"minItems": 3,
+															"type": "array"
+														}
+													},
+													"required": [
+														"math"
+													],
+													"type": "object"
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_item?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_item?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_items?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_trait?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{u_has_effect?:undefined;}"
+														}
+													]
+												},
+												{
+													"allOf": [
+														{
+															"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+														},
+														{
+															"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+														},
+														{
+															"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+														}
+													]
+												},
+												{
+													"description": "1/n的概率返回true",
+													"properties": {
+														"one_in_chance": {
+															"anyOf": [
+																{
+																	"properties": {
+																		"global_val": {
+																			"type": "string"
+																		}
+																	},
+																	"required": [
+																		"global_val"
+																	],
+																	"type": "object"
+																},
+																{
+																	"properties": {
+																		"u_val": {
+																			"type": "string"
+																		}
+																	},
+																	"required": [
+																		"u_val"
+																	],
+																	"type": "object"
+																},
+																{
+																	"properties": {
+																		"npc_val": {
+																			"type": "string"
+																		}
+																	},
+																	"required": [
+																		"npc_val"
+																	],
+																	"type": "object"
+																},
+																{
+																	"properties": {
+																		"context_val": {
+																			"type": "string"
+																		}
+																	},
+																	"required": [
+																		"context_val"
+																	],
+																	"type": "object"
+																},
+																{
+																	"properties": {
+																		"var_val": {
+																			"type": "string"
+																		}
+																	},
+																	"required": [
+																		"var_val"
+																	],
+																	"type": "object"
+																},
+																{
+																	"description": "Math数字表达式",
+																	"properties": {
+																		"math": {
+																			"items": [
+																				{
+																					"type": "string"
+																				}
+																			],
+																			"maxItems": 1,
+																			"minItems": 1,
+																			"type": "array"
+																		}
+																	},
+																	"required": [
+																		"math"
+																	],
+																	"type": "object"
+																},
+																{
+																	"type": "number"
+																}
+															],
+															"description": "1/n的概率返回true"
+														}
+													},
+													"required": [
+														"one_in_chance"
+													],
+													"type": "object"
+												},
+												{
+													"enum": [
+														"npc_female",
+														"npc_is_alive",
+														"npc_male",
+														"u_can_drop_weapon",
+														"u_female",
+														"u_is_alive",
+														"u_male"
+													],
+													"type": "string"
+												}
+											],
+											"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+										},
+										"hook": {
+											"$ref": "#/definitions/AnyCharEvenetType",
+											"description": "时机"
+										},
+										"target": {
+											"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+											"enum": [
+												"auto",
+												"auto_hit",
+												"direct_hit",
+												"random",
+												"reverse_hit",
+												"spell_target"
+											],
+											"type": "string"
+										}
+									},
+									"required": [
+										"hook"
+									],
+									"type": "object"
+								},
+								{
+									"items": {
+										"description": "技能的释放条件",
+										"properties": {
+											"condition": {
+												"anyOf": [
+													{
+														"$ref": "#/definitions/BoolOperaNot"
+													},
+													{
+														"$ref": "#/definitions/BoolOperaOr"
+													},
+													{
+														"$ref": "#/definitions/BoolOperaAnd"
+													},
+													{
+														"$ref": "#/definitions/BoolOperaCompStr"
+													},
+													{
+														"properties": {
+															"math": {
+																"items": [
+																	{
+																		"type": "string"
+																	},
+																	{
+																		"enum": [
+																			"!=",
+																			"<",
+																			"<=",
+																			"==",
+																			">",
+																			">="
+																		],
+																		"type": "string"
+																	},
+																	{
+																		"type": "string"
+																	}
+																],
+																"maxItems": 3,
+																"minItems": 3,
+																"type": "array"
+															}
+														},
+														"required": [
+															"math"
+														],
+														"type": "object"
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_item?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_item?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_items?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_items?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_trait?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_effect?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+															}
+														]
+													},
+													{
+														"description": "1/n的概率返回true",
+														"properties": {
+															"one_in_chance": {
+																"anyOf": [
+																	{
+																		"properties": {
+																			"global_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"global_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"u_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"u_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"npc_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"npc_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"context_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"context_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"var_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"var_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"description": "Math数字表达式",
+																		"properties": {
+																			"math": {
+																				"items": [
+																					{
+																						"type": "string"
+																					}
+																				],
+																				"maxItems": 1,
+																				"minItems": 1,
+																				"type": "array"
+																			}
+																		},
+																		"required": [
+																			"math"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"type": "number"
+																	}
+																],
+																"description": "1/n的概率返回true"
+															}
+														},
+														"required": [
+															"one_in_chance"
+														],
+														"type": "object"
+													},
+													{
+														"enum": [
+															"npc_female",
+															"npc_is_alive",
+															"npc_male",
+															"u_can_drop_weapon",
+															"u_female",
+															"u_is_alive",
+															"u_male"
+														],
+														"type": "string"
+													}
+												],
+												"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+											},
+											"hook": {
+												"$ref": "#/definitions/AnyCharEvenetType",
+												"description": "时机"
+											},
+											"target": {
+												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+												"enum": [
+													"auto",
+													"auto_hit",
+													"direct_hit",
+													"random",
+													"reverse_hit",
+													"spell_target"
+												],
+												"type": "string"
+											}
+										},
+										"required": [
+											"hook"
+										],
+										"type": "object"
+									},
+									"type": "array"
+								}
+							],
+							"description": "技能的释放条件"
+						},
+						"common_cooldown": {
+							"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
+							"type": "number"
+						},
+						"cooldown": {
+							"description": "冷却时间 单位为每次CharUpdate 默认0",
+							"type": "number"
 						},
 						"one_in_chance": {
 							"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -15795,25 +16437,13 @@
 							],
 							"type": "object"
 						},
-						"target": {
-							"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
-							"enum": [
-								"auto",
-								"auto_hit",
-								"direct_hit",
-								"random",
-								"reverse_hit",
-								"spell_target"
-							],
-							"type": "string"
-						},
 						"weight": {
 							"description": "权重 优先尝试触发高权重的spell 默认0",
 							"type": "number"
 						}
 					},
 					"required": [
-						"hook",
+						"cast_condition",
 						"spell"
 					],
 					"type": "object"
@@ -15822,6 +16452,7 @@
 			"required": [
 				"TEffect",
 				"baseCond",
+				"castCondition",
 				"skill"
 			],
 			"type": "object"
@@ -18008,6 +18639,313 @@
 			],
 			"type": "object"
 		},
+		"CastCondition": {
+			"description": "技能的释放条件",
+			"properties": {
+				"condition": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/BoolOperaNot"
+						},
+						{
+							"$ref": "#/definitions/BoolOperaOr"
+						},
+						{
+							"$ref": "#/definitions/BoolOperaAnd"
+						},
+						{
+							"$ref": "#/definitions/BoolOperaCompStr"
+						},
+						{
+							"properties": {
+								"math": {
+									"items": [
+										{
+											"type": "string"
+										},
+										{
+											"enum": [
+												"!=",
+												"<",
+												"<=",
+												"==",
+												">",
+												">="
+											],
+											"type": "string"
+										},
+										{
+											"type": "string"
+										}
+									],
+									"maxItems": 3,
+									"minItems": 3,
+									"type": "array"
+								}
+							},
+							"required": [
+								"math"
+							],
+							"type": "object"
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_item?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_items?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_trait?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{u_has_effect?:undefined;}"
+								}
+							]
+						},
+						{
+							"allOf": [
+								{
+									"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+								},
+								{
+									"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+								},
+								{
+									"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+								}
+							]
+						},
+						{
+							"description": "1/n的概率返回true",
+							"properties": {
+								"one_in_chance": {
+									"anyOf": [
+										{
+											"properties": {
+												"global_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"global_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"u_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"u_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"npc_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"npc_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"context_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"context_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"var_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"var_val"
+											],
+											"type": "object"
+										},
+										{
+											"description": "Math数字表达式",
+											"properties": {
+												"math": {
+													"items": [
+														{
+															"type": "string"
+														}
+													],
+													"maxItems": 1,
+													"minItems": 1,
+													"type": "array"
+												}
+											},
+											"required": [
+												"math"
+											],
+											"type": "object"
+										},
+										{
+											"type": "number"
+										}
+									],
+									"description": "1/n的概率返回true"
+								}
+							},
+							"required": [
+								"one_in_chance"
+							],
+							"type": "object"
+						},
+						{
+							"enum": [
+								"npc_female",
+								"npc_is_alive",
+								"npc_male",
+								"u_can_drop_weapon",
+								"u_female",
+								"u_is_alive",
+								"u_male"
+							],
+							"type": "string"
+						}
+					],
+					"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+				},
+				"hook": {
+					"$ref": "#/definitions/AnyCharEvenetType",
+					"description": "时机"
+				},
+				"target": {
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+					"enum": [
+						"auto",
+						"auto_hit",
+						"direct_hit",
+						"random",
+						"reverse_hit",
+						"spell_target"
+					],
+					"type": "string"
+				}
+			},
+			"required": [
+				"hook"
+			],
+			"type": "object"
+		},
 		"CastSpell": {
 			"anyOf": [
 				{
@@ -18142,257 +19080,49 @@
 								},
 								"type": "array"
 							},
-							"common_cooldown": {
-								"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
-								"type": "number"
-							},
-							"condition": {
+							"cast_condition": {
 								"anyOf": [
 									{
-										"$ref": "#/definitions/BoolOperaNot"
-									},
-									{
-										"$ref": "#/definitions/BoolOperaOr"
-									},
-									{
-										"$ref": "#/definitions/BoolOperaAnd"
-									},
-									{
-										"$ref": "#/definitions/BoolOperaCompStr"
-									},
-									{
+										"description": "技能的释放条件",
 										"properties": {
-											"math": {
-												"items": [
-													{
-														"type": "string"
-													},
-													{
-														"enum": [
-															"!=",
-															"<",
-															"<=",
-															"==",
-															">",
-															">="
-														],
-														"type": "string"
-													},
-													{
-														"type": "string"
-													}
-												],
-												"maxItems": 3,
-												"minItems": 3,
-												"type": "array"
-											}
-										},
-										"required": [
-											"math"
-										],
-										"type": "object"
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-											},
-											{
-												"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_has_item?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-											},
-											{
-												"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_item?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_has_items?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-											},
-											{
-												"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_items?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_has_trait?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-											},
-											{
-												"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_trait?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{u_has_effect?:undefined;}"
-											}
-										]
-									},
-									{
-										"allOf": [
-											{
-												"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-											},
-											{
-												"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-											},
-											{
-												"$ref": "#/definitions/{npc_has_effect?:undefined;}"
-											}
-										]
-									},
-									{
-										"description": "1/n的概率返回true",
-										"properties": {
-											"one_in_chance": {
+											"condition": {
 												"anyOf": [
 													{
-														"properties": {
-															"global_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"global_val"
-														],
-														"type": "object"
+														"$ref": "#/definitions/BoolOperaNot"
 													},
 													{
-														"properties": {
-															"u_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"u_val"
-														],
-														"type": "object"
+														"$ref": "#/definitions/BoolOperaOr"
 													},
 													{
-														"properties": {
-															"npc_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"npc_val"
-														],
-														"type": "object"
+														"$ref": "#/definitions/BoolOperaAnd"
 													},
 													{
-														"properties": {
-															"context_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"context_val"
-														],
-														"type": "object"
+														"$ref": "#/definitions/BoolOperaCompStr"
 													},
 													{
-														"properties": {
-															"var_val": {
-																"type": "string"
-															}
-														},
-														"required": [
-															"var_val"
-														],
-														"type": "object"
-													},
-													{
-														"description": "Math数字表达式",
 														"properties": {
 															"math": {
 																"items": [
 																	{
 																		"type": "string"
+																	},
+																	{
+																		"enum": [
+																			"!=",
+																			"<",
+																			"<=",
+																			"==",
+																			">",
+																			">="
+																		],
+																		"type": "string"
+																	},
+																	{
+																		"type": "string"
 																	}
 																],
-																"maxItems": 1,
-																"minItems": 1,
+																"maxItems": 3,
+																"minItems": 3,
 																"type": "array"
 															}
 														},
@@ -18402,39 +19132,583 @@
 														"type": "object"
 													},
 													{
-														"type": "number"
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_item?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_item?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_items?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_items?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_trait?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{u_has_effect?:undefined;}"
+															}
+														]
+													},
+													{
+														"allOf": [
+															{
+																"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+															},
+															{
+																"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+															},
+															{
+																"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+															}
+														]
+													},
+													{
+														"description": "1/n的概率返回true",
+														"properties": {
+															"one_in_chance": {
+																"anyOf": [
+																	{
+																		"properties": {
+																			"global_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"global_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"u_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"u_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"npc_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"npc_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"context_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"context_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"properties": {
+																			"var_val": {
+																				"type": "string"
+																			}
+																		},
+																		"required": [
+																			"var_val"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"description": "Math数字表达式",
+																		"properties": {
+																			"math": {
+																				"items": [
+																					{
+																						"type": "string"
+																					}
+																				],
+																				"maxItems": 1,
+																				"minItems": 1,
+																				"type": "array"
+																			}
+																		},
+																		"required": [
+																			"math"
+																		],
+																		"type": "object"
+																	},
+																	{
+																		"type": "number"
+																	}
+																],
+																"description": "1/n的概率返回true"
+															}
+														},
+														"required": [
+															"one_in_chance"
+														],
+														"type": "object"
+													},
+													{
+														"enum": [
+															"npc_female",
+															"npc_is_alive",
+															"npc_male",
+															"u_can_drop_weapon",
+															"u_female",
+															"u_is_alive",
+															"u_male"
+														],
+														"type": "string"
 													}
 												],
-												"description": "1/n的概率返回true"
+												"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+											},
+											"hook": {
+												"$ref": "#/definitions/AnyCharEvenetType",
+												"description": "时机"
+											},
+											"target": {
+												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+												"enum": [
+													"auto",
+													"auto_hit",
+													"direct_hit",
+													"random",
+													"reverse_hit",
+													"spell_target"
+												],
+												"type": "string"
 											}
 										},
 										"required": [
-											"one_in_chance"
+											"hook"
 										],
 										"type": "object"
 									},
 									{
-										"enum": [
-											"npc_female",
-											"npc_is_alive",
-											"npc_male",
-											"u_can_drop_weapon",
-											"u_female",
-											"u_is_alive",
-											"u_male"
-										],
-										"type": "string"
+										"items": {
+											"description": "技能的释放条件",
+											"properties": {
+												"condition": {
+													"anyOf": [
+														{
+															"$ref": "#/definitions/BoolOperaNot"
+														},
+														{
+															"$ref": "#/definitions/BoolOperaOr"
+														},
+														{
+															"$ref": "#/definitions/BoolOperaAnd"
+														},
+														{
+															"$ref": "#/definitions/BoolOperaCompStr"
+														},
+														{
+															"properties": {
+																"math": {
+																	"items": [
+																		{
+																			"type": "string"
+																		},
+																		{
+																			"enum": [
+																				"!=",
+																				"<",
+																				"<=",
+																				"==",
+																				">",
+																				">="
+																			],
+																			"type": "string"
+																		},
+																		{
+																			"type": "string"
+																		}
+																	],
+																	"maxItems": 3,
+																	"minItems": 3,
+																	"type": "array"
+																}
+															},
+															"required": [
+																"math"
+															],
+															"type": "object"
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_item?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_item?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_items?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_items?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_trait?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_effect?:undefined;}"
+																}
+															]
+														},
+														{
+															"allOf": [
+																{
+																	"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																},
+																{
+																	"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																},
+																{
+																	"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+																}
+															]
+														},
+														{
+															"description": "1/n的概率返回true",
+															"properties": {
+																"one_in_chance": {
+																	"anyOf": [
+																		{
+																			"properties": {
+																				"global_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"global_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"u_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"u_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"npc_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"npc_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"context_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"context_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"var_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"var_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"description": "Math数字表达式",
+																			"properties": {
+																				"math": {
+																					"items": [
+																						{
+																							"type": "string"
+																						}
+																					],
+																					"maxItems": 1,
+																					"minItems": 1,
+																					"type": "array"
+																				}
+																			},
+																			"required": [
+																				"math"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"type": "number"
+																		}
+																	],
+																	"description": "1/n的概率返回true"
+																}
+															},
+															"required": [
+																"one_in_chance"
+															],
+															"type": "object"
+														},
+														{
+															"enum": [
+																"npc_female",
+																"npc_is_alive",
+																"npc_male",
+																"u_can_drop_weapon",
+																"u_female",
+																"u_is_alive",
+																"u_male"
+															],
+															"type": "string"
+														}
+													],
+													"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+												},
+												"hook": {
+													"$ref": "#/definitions/AnyCharEvenetType",
+													"description": "时机"
+												},
+												"target": {
+													"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+													"enum": [
+														"auto",
+														"auto_hit",
+														"direct_hit",
+														"random",
+														"reverse_hit",
+														"spell_target"
+													],
+													"type": "string"
+												}
+											},
+											"required": [
+												"hook"
+											],
+											"type": "object"
+										},
+										"type": "array"
 									}
 								],
-								"description": "释放条件"
+								"description": "技能的释放条件"
+							},
+							"common_cooldown": {
+								"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
+								"type": "number"
 							},
 							"cooldown": {
 								"description": "冷却时间 单位为每次CharUpdate 默认0",
 								"type": "number"
-							},
-							"hook": {
-								"$ref": "#/definitions/AnyCharEvenetType",
-								"description": "时机"
 							},
 							"one_in_chance": {
 								"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -21721,25 +22995,13 @@
 								],
 								"type": "object"
 							},
-							"target": {
-								"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
-								"enum": [
-									"auto",
-									"auto_hit",
-									"direct_hit",
-									"random",
-									"reverse_hit",
-									"spell_target"
-								],
-								"type": "string"
-							},
 							"weight": {
 								"description": "权重 优先尝试触发高权重的spell 默认0",
 								"type": "number"
 							}
 						},
 						"required": [
-							"hook",
+							"cast_condition",
 							"spell"
 						],
 						"type": "object"
@@ -21949,257 +23211,49 @@
 										},
 										"type": "array"
 									},
-									"common_cooldown": {
-										"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
-										"type": "number"
-									},
-									"condition": {
+									"cast_condition": {
 										"anyOf": [
 											{
-												"$ref": "#/definitions/BoolOperaNot"
-											},
-											{
-												"$ref": "#/definitions/BoolOperaOr"
-											},
-											{
-												"$ref": "#/definitions/BoolOperaAnd"
-											},
-											{
-												"$ref": "#/definitions/BoolOperaCompStr"
-											},
-											{
+												"description": "技能的释放条件",
 												"properties": {
-													"math": {
-														"items": [
-															{
-																"type": "string"
-															},
-															{
-																"enum": [
-																	"!=",
-																	"<",
-																	"<=",
-																	"==",
-																	">",
-																	">="
-																],
-																"type": "string"
-															},
-															{
-																"type": "string"
-															}
-														],
-														"maxItems": 3,
-														"minItems": 3,
-														"type": "array"
-													}
-												},
-												"required": [
-													"math"
-												],
-												"type": "object"
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-													},
-													{
-														"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{u_has_item?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-													},
-													{
-														"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_item?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-													},
-													{
-														"$ref": "#/definitions/{u_has_items?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-													},
-													{
-														"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_items?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{u_has_trait?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-													},
-													{
-														"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_trait?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{u_has_effect?:undefined;}"
-													}
-												]
-											},
-											{
-												"allOf": [
-													{
-														"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-													},
-													{
-														"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-													},
-													{
-														"$ref": "#/definitions/{npc_has_effect?:undefined;}"
-													}
-												]
-											},
-											{
-												"description": "1/n的概率返回true",
-												"properties": {
-													"one_in_chance": {
+													"condition": {
 														"anyOf": [
 															{
-																"properties": {
-																	"global_val": {
-																		"type": "string"
-																	}
-																},
-																"required": [
-																	"global_val"
-																],
-																"type": "object"
+																"$ref": "#/definitions/BoolOperaNot"
 															},
 															{
-																"properties": {
-																	"u_val": {
-																		"type": "string"
-																	}
-																},
-																"required": [
-																	"u_val"
-																],
-																"type": "object"
+																"$ref": "#/definitions/BoolOperaOr"
 															},
 															{
-																"properties": {
-																	"npc_val": {
-																		"type": "string"
-																	}
-																},
-																"required": [
-																	"npc_val"
-																],
-																"type": "object"
+																"$ref": "#/definitions/BoolOperaAnd"
 															},
 															{
-																"properties": {
-																	"context_val": {
-																		"type": "string"
-																	}
-																},
-																"required": [
-																	"context_val"
-																],
-																"type": "object"
+																"$ref": "#/definitions/BoolOperaCompStr"
 															},
 															{
-																"properties": {
-																	"var_val": {
-																		"type": "string"
-																	}
-																},
-																"required": [
-																	"var_val"
-																],
-																"type": "object"
-															},
-															{
-																"description": "Math数字表达式",
 																"properties": {
 																	"math": {
 																		"items": [
 																			{
 																				"type": "string"
+																			},
+																			{
+																				"enum": [
+																					"!=",
+																					"<",
+																					"<=",
+																					"==",
+																					">",
+																					">="
+																				],
+																				"type": "string"
+																			},
+																			{
+																				"type": "string"
 																			}
 																		],
-																		"maxItems": 1,
-																		"minItems": 1,
+																		"maxItems": 3,
+																		"minItems": 3,
 																		"type": "array"
 																	}
 																},
@@ -22209,39 +23263,583 @@
 																"type": "object"
 															},
 															{
-																"type": "number"
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_item?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_item?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_items?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_items?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_trait?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_effect?:undefined;}"
+																	}
+																]
+															},
+															{
+																"allOf": [
+																	{
+																		"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																	},
+																	{
+																		"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																	},
+																	{
+																		"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+																	}
+																]
+															},
+															{
+																"description": "1/n的概率返回true",
+																"properties": {
+																	"one_in_chance": {
+																		"anyOf": [
+																			{
+																				"properties": {
+																					"global_val": {
+																						"type": "string"
+																					}
+																				},
+																				"required": [
+																					"global_val"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"properties": {
+																					"u_val": {
+																						"type": "string"
+																					}
+																				},
+																				"required": [
+																					"u_val"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"properties": {
+																					"npc_val": {
+																						"type": "string"
+																					}
+																				},
+																				"required": [
+																					"npc_val"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"properties": {
+																					"context_val": {
+																						"type": "string"
+																					}
+																				},
+																				"required": [
+																					"context_val"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"properties": {
+																					"var_val": {
+																						"type": "string"
+																					}
+																				},
+																				"required": [
+																					"var_val"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"description": "Math数字表达式",
+																				"properties": {
+																					"math": {
+																						"items": [
+																							{
+																								"type": "string"
+																							}
+																						],
+																						"maxItems": 1,
+																						"minItems": 1,
+																						"type": "array"
+																					}
+																				},
+																				"required": [
+																					"math"
+																				],
+																				"type": "object"
+																			},
+																			{
+																				"type": "number"
+																			}
+																		],
+																		"description": "1/n的概率返回true"
+																	}
+																},
+																"required": [
+																	"one_in_chance"
+																],
+																"type": "object"
+															},
+															{
+																"enum": [
+																	"npc_female",
+																	"npc_is_alive",
+																	"npc_male",
+																	"u_can_drop_weapon",
+																	"u_female",
+																	"u_is_alive",
+																	"u_male"
+																],
+																"type": "string"
 															}
 														],
-														"description": "1/n的概率返回true"
+														"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+													},
+													"hook": {
+														"$ref": "#/definitions/AnyCharEvenetType",
+														"description": "时机"
+													},
+													"target": {
+														"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+														"enum": [
+															"auto",
+															"auto_hit",
+															"direct_hit",
+															"random",
+															"reverse_hit",
+															"spell_target"
+														],
+														"type": "string"
 													}
 												},
 												"required": [
-													"one_in_chance"
+													"hook"
 												],
 												"type": "object"
 											},
 											{
-												"enum": [
-													"npc_female",
-													"npc_is_alive",
-													"npc_male",
-													"u_can_drop_weapon",
-													"u_female",
-													"u_is_alive",
-													"u_male"
-												],
-												"type": "string"
+												"items": {
+													"description": "技能的释放条件",
+													"properties": {
+														"condition": {
+															"anyOf": [
+																{
+																	"$ref": "#/definitions/BoolOperaNot"
+																},
+																{
+																	"$ref": "#/definitions/BoolOperaOr"
+																},
+																{
+																	"$ref": "#/definitions/BoolOperaAnd"
+																},
+																{
+																	"$ref": "#/definitions/BoolOperaCompStr"
+																},
+																{
+																	"properties": {
+																		"math": {
+																			"items": [
+																				{
+																					"type": "string"
+																				},
+																				{
+																					"enum": [
+																						"!=",
+																						"<",
+																						"<=",
+																						"==",
+																						">",
+																						">="
+																					],
+																					"type": "string"
+																				},
+																				{
+																					"type": "string"
+																				}
+																			],
+																			"maxItems": 3,
+																			"minItems": 3,
+																			"type": "array"
+																		}
+																	},
+																	"required": [
+																		"math"
+																	],
+																	"type": "object"
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_item?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_item?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_items?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_items?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_trait?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_effect?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"allOf": [
+																		{
+																			"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+																		},
+																		{
+																			"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+																		},
+																		{
+																			"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+																		}
+																	]
+																},
+																{
+																	"description": "1/n的概率返回true",
+																	"properties": {
+																		"one_in_chance": {
+																			"anyOf": [
+																				{
+																					"properties": {
+																						"global_val": {
+																							"type": "string"
+																						}
+																					},
+																					"required": [
+																						"global_val"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"properties": {
+																						"u_val": {
+																							"type": "string"
+																						}
+																					},
+																					"required": [
+																						"u_val"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"properties": {
+																						"npc_val": {
+																							"type": "string"
+																						}
+																					},
+																					"required": [
+																						"npc_val"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"properties": {
+																						"context_val": {
+																							"type": "string"
+																						}
+																					},
+																					"required": [
+																						"context_val"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"properties": {
+																						"var_val": {
+																							"type": "string"
+																						}
+																					},
+																					"required": [
+																						"var_val"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"description": "Math数字表达式",
+																					"properties": {
+																						"math": {
+																							"items": [
+																								{
+																									"type": "string"
+																								}
+																							],
+																							"maxItems": 1,
+																							"minItems": 1,
+																							"type": "array"
+																						}
+																					},
+																					"required": [
+																						"math"
+																					],
+																					"type": "object"
+																				},
+																				{
+																					"type": "number"
+																				}
+																			],
+																			"description": "1/n的概率返回true"
+																		}
+																	},
+																	"required": [
+																		"one_in_chance"
+																	],
+																	"type": "object"
+																},
+																{
+																	"enum": [
+																		"npc_female",
+																		"npc_is_alive",
+																		"npc_male",
+																		"u_can_drop_weapon",
+																		"u_female",
+																		"u_is_alive",
+																		"u_male"
+																	],
+																	"type": "string"
+																}
+															],
+															"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+														},
+														"hook": {
+															"$ref": "#/definitions/AnyCharEvenetType",
+															"description": "时机"
+														},
+														"target": {
+															"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+															"enum": [
+																"auto",
+																"auto_hit",
+																"direct_hit",
+																"random",
+																"reverse_hit",
+																"spell_target"
+															],
+															"type": "string"
+														}
+													},
+													"required": [
+														"hook"
+													],
+													"type": "object"
+												},
+												"type": "array"
 											}
 										],
-										"description": "释放条件"
+										"description": "技能的释放条件"
+									},
+									"common_cooldown": {
+										"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
+										"type": "number"
 									},
 									"cooldown": {
 										"description": "冷却时间 单位为每次CharUpdate 默认0",
 										"type": "number"
-									},
-									"hook": {
-										"$ref": "#/definitions/AnyCharEvenetType",
-										"description": "时机"
 									},
 									"one_in_chance": {
 										"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -25528,25 +27126,13 @@
 										],
 										"type": "object"
 									},
-									"target": {
-										"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
-										"enum": [
-											"auto",
-											"auto_hit",
-											"direct_hit",
-											"random",
-											"reverse_hit",
-											"spell_target"
-										],
-										"type": "string"
-									},
 									"weight": {
 										"description": "权重 优先尝试触发高权重的spell 默认0",
 										"type": "number"
 									}
 								},
 								"required": [
-									"hook",
+									"cast_condition",
 									"spell"
 								],
 								"type": "object"
@@ -25921,257 +27507,49 @@
 					},
 					"type": "array"
 				},
-				"common_cooldown": {
-					"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
-					"type": "number"
-				},
-				"condition": {
+				"cast_condition": {
 					"anyOf": [
 						{
-							"$ref": "#/definitions/BoolOperaNot"
-						},
-						{
-							"$ref": "#/definitions/BoolOperaOr"
-						},
-						{
-							"$ref": "#/definitions/BoolOperaAnd"
-						},
-						{
-							"$ref": "#/definitions/BoolOperaCompStr"
-						},
-						{
+							"description": "技能的释放条件",
 							"properties": {
-								"math": {
-									"items": [
-										{
-											"type": "string"
-										},
-										{
-											"enum": [
-												"!=",
-												"<",
-												"<=",
-												"==",
-												">",
-												">="
-											],
-											"type": "string"
-										},
-										{
-											"type": "string"
-										}
-									],
-									"maxItems": 3,
-									"minItems": 3,
-									"type": "array"
-								}
-							},
-							"required": [
-								"math"
-							],
-							"type": "object"
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
-								},
-								{
-									"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{u_has_item?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
-								},
-								{
-									"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_item?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-								},
-								{
-									"$ref": "#/definitions/{u_has_items?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
-								},
-								{
-									"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_items?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{u_has_trait?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
-								},
-								{
-									"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_trait?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{u_has_effect?:undefined;}"
-								}
-							]
-						},
-						{
-							"allOf": [
-								{
-									"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
-								},
-								{
-									"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
-								},
-								{
-									"$ref": "#/definitions/{npc_has_effect?:undefined;}"
-								}
-							]
-						},
-						{
-							"description": "1/n的概率返回true",
-							"properties": {
-								"one_in_chance": {
+								"condition": {
 									"anyOf": [
 										{
-											"properties": {
-												"global_val": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"global_val"
-											],
-											"type": "object"
+											"$ref": "#/definitions/BoolOperaNot"
 										},
 										{
-											"properties": {
-												"u_val": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"u_val"
-											],
-											"type": "object"
+											"$ref": "#/definitions/BoolOperaOr"
 										},
 										{
-											"properties": {
-												"npc_val": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"npc_val"
-											],
-											"type": "object"
+											"$ref": "#/definitions/BoolOperaAnd"
 										},
 										{
-											"properties": {
-												"context_val": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"context_val"
-											],
-											"type": "object"
+											"$ref": "#/definitions/BoolOperaCompStr"
 										},
 										{
-											"properties": {
-												"var_val": {
-													"type": "string"
-												}
-											},
-											"required": [
-												"var_val"
-											],
-											"type": "object"
-										},
-										{
-											"description": "Math数字表达式",
 											"properties": {
 												"math": {
 													"items": [
 														{
 															"type": "string"
+														},
+														{
+															"enum": [
+																"!=",
+																"<",
+																"<=",
+																"==",
+																">",
+																">="
+															],
+															"type": "string"
+														},
+														{
+															"type": "string"
 														}
 													],
-													"maxItems": 1,
-													"minItems": 1,
+													"maxItems": 3,
+													"minItems": 3,
 													"type": "array"
 												}
 											},
@@ -26181,39 +27559,583 @@
 											"type": "object"
 										},
 										{
-											"type": "number"
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_item?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_item?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_items?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_trait?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{u_has_effect?:undefined;}"
+												}
+											]
+										},
+										{
+											"allOf": [
+												{
+													"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+												},
+												{
+													"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+												},
+												{
+													"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+												}
+											]
+										},
+										{
+											"description": "1/n的概率返回true",
+											"properties": {
+												"one_in_chance": {
+													"anyOf": [
+														{
+															"properties": {
+																"global_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"global_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"u_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"u_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"npc_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"npc_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"context_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"context_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"var_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"var_val"
+															],
+															"type": "object"
+														},
+														{
+															"description": "Math数字表达式",
+															"properties": {
+																"math": {
+																	"items": [
+																		{
+																			"type": "string"
+																		}
+																	],
+																	"maxItems": 1,
+																	"minItems": 1,
+																	"type": "array"
+																}
+															},
+															"required": [
+																"math"
+															],
+															"type": "object"
+														},
+														{
+															"type": "number"
+														}
+													],
+													"description": "1/n的概率返回true"
+												}
+											},
+											"required": [
+												"one_in_chance"
+											],
+											"type": "object"
+										},
+										{
+											"enum": [
+												"npc_female",
+												"npc_is_alive",
+												"npc_male",
+												"u_can_drop_weapon",
+												"u_female",
+												"u_is_alive",
+												"u_male"
+											],
+											"type": "string"
 										}
 									],
-									"description": "1/n的概率返回true"
+									"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+								},
+								"hook": {
+									"$ref": "#/definitions/AnyCharEvenetType",
+									"description": "时机"
+								},
+								"target": {
+									"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+									"enum": [
+										"auto",
+										"auto_hit",
+										"direct_hit",
+										"random",
+										"reverse_hit",
+										"spell_target"
+									],
+									"type": "string"
 								}
 							},
 							"required": [
-								"one_in_chance"
+								"hook"
 							],
 							"type": "object"
 						},
 						{
-							"enum": [
-								"npc_female",
-								"npc_is_alive",
-								"npc_male",
-								"u_can_drop_weapon",
-								"u_female",
-								"u_is_alive",
-								"u_male"
-							],
-							"type": "string"
+							"items": {
+								"description": "技能的释放条件",
+								"properties": {
+									"condition": {
+										"anyOf": [
+											{
+												"$ref": "#/definitions/BoolOperaNot"
+											},
+											{
+												"$ref": "#/definitions/BoolOperaOr"
+											},
+											{
+												"$ref": "#/definitions/BoolOperaAnd"
+											},
+											{
+												"$ref": "#/definitions/BoolOperaCompStr"
+											},
+											{
+												"properties": {
+													"math": {
+														"items": [
+															{
+																"type": "string"
+															},
+															{
+																"enum": [
+																	"!=",
+																	"<",
+																	"<=",
+																	"==",
+																	">",
+																	">="
+																],
+																"type": "string"
+															},
+															{
+																"type": "string"
+															}
+														],
+														"maxItems": 3,
+														"minItems": 3,
+														"type": "array"
+													}
+												},
+												"required": [
+													"math"
+												],
+												"type": "object"
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_wielded_with_flag?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_wielded_with_flag\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_wielded_with_flag:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_wielded_with_flag?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_item?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_item\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_item?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_items?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};},\"has_items\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_items:{item:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};count:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_items?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_trait?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};},\"has_trait\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_trait:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_trait?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{u_has_effect?:undefined;}"
+													}
+												]
+											},
+											{
+												"allOf": [
+													{
+														"$ref": "#/definitions/Omit<{has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;bodypart?:BodyPartID|undefined;},\"has_effect\">"
+													},
+													{
+														"$ref": "#/definitions/{u_has_effect:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+													},
+													{
+														"$ref": "#/definitions/{npc_has_effect?:undefined;}"
+													}
+												]
+											},
+											{
+												"description": "1/n的概率返回true",
+												"properties": {
+													"one_in_chance": {
+														"anyOf": [
+															{
+																"properties": {
+																	"global_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"global_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"u_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"u_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"npc_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"npc_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"context_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"context_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"var_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"var_val"
+																],
+																"type": "object"
+															},
+															{
+																"description": "Math数字表达式",
+																"properties": {
+																	"math": {
+																		"items": [
+																			{
+																				"type": "string"
+																			}
+																		],
+																		"maxItems": 1,
+																		"minItems": 1,
+																		"type": "array"
+																	}
+																},
+																"required": [
+																	"math"
+																],
+																"type": "object"
+															},
+															{
+																"type": "number"
+															}
+														],
+														"description": "1/n的概率返回true"
+													}
+												},
+												"required": [
+													"one_in_chance"
+												],
+												"type": "object"
+											},
+											{
+												"enum": [
+													"npc_female",
+													"npc_is_alive",
+													"npc_male",
+													"u_can_drop_weapon",
+													"u_female",
+													"u_is_alive",
+													"u_male"
+												],
+												"type": "string"
+											}
+										],
+										"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+									},
+									"hook": {
+										"$ref": "#/definitions/AnyCharEvenetType",
+										"description": "时机"
+									},
+									"target": {
+										"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+										"enum": [
+											"auto",
+											"auto_hit",
+											"direct_hit",
+											"random",
+											"reverse_hit",
+											"spell_target"
+										],
+										"type": "string"
+									}
+								},
+								"required": [
+									"hook"
+								],
+								"type": "object"
+							},
+							"type": "array"
 						}
 					],
-					"description": "释放条件"
+					"description": "技能的释放条件"
+				},
+				"common_cooldown": {
+					"description": "共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  \n一个高权重0共同冷却的技能意味着可以同时触发",
+					"type": "number"
 				},
 				"cooldown": {
 					"description": "冷却时间 单位为每次CharUpdate 默认0",
 					"type": "number"
-				},
-				"hook": {
-					"$ref": "#/definitions/AnyCharEvenetType",
-					"description": "时机"
 				},
 				"one_in_chance": {
 					"description": "概率 有1/chance的几率使用这个技能 默认1",
@@ -29500,25 +31422,13 @@
 					],
 					"type": "object"
 				},
-				"target": {
-					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto",
-					"enum": [
-						"auto",
-						"auto_hit",
-						"direct_hit",
-						"random",
-						"reverse_hit",
-						"spell_target"
-					],
-					"type": "string"
-				},
 				"weight": {
 					"description": "权重 优先尝试触发高权重的spell 默认0",
 					"type": "number"
 				}
 			},
 			"required": [
-				"hook",
+				"cast_condition",
 				"spell"
 			],
 			"type": "object"

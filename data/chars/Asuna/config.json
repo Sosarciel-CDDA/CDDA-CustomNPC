@@ -60,7 +60,9 @@
 	},
 	"skill": [
 		{
-			"hook": "CharCauseRangeHit",
+			"cast_condition":{
+				"hook": "CharCauseRangeHit"
+			},
 			"cooldown":60,
 			"one_in_chance": 2,
 			"audio":[
@@ -86,7 +88,9 @@
 			}
 		},
 		{
-			"hook": "CharCauseMeleeHit",
+			"cast_condition":{
+				"hook": "CharCauseMeleeHit"
+			},
 			"cooldown":60,
 			"one_in_chance": 2,
 			"audio":[
@@ -111,7 +115,9 @@
 			}
 		},
 		{
-			"hook": "CharCauseMeleeHit",
+			"cast_condition":{
+				"hook": "CharCauseMeleeHit"
+			},
 			"cooldown":10,
 			"audio":[
 				{"id":"BladeofTrauma", "one_in_chance":2},
@@ -135,7 +141,9 @@
 			}
 		},
 		{
-			"hook": "CharBattleUpdate",
+			"cast_condition":{
+				"hook": "CharBattleUpdate"
+			},
 			"cooldown":30,
 			"audio":["Snipe","SnipeSF"],
 			"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}},
