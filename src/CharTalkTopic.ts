@@ -176,7 +176,7 @@ async function createUpgResp(dm:DataManager,charName:string){
             mutEocList.push(mutEoc);
         }
 
-        //创建对应升级菜单
+        //创建对应升级菜单路由选项
         const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
         upgRespList.push({
             truefalsetext:{
@@ -187,10 +187,12 @@ async function createUpgResp(dm:DataManager,charName:string){
             topic:subTopicId,
             condition:{or:[{or:upgSubResCondList},{math:[showNotEnough,"==","1"]}]}
         });
+        //创建菜单话题
+        const desc = upgObj.desc ? "\n"+upgObj.desc : "";
         upgTopicList.push({
             type:"talk_topic",
             id:subTopicId,
-            dynamic_line:`&${resptext}`,
+            dynamic_line:`&${resptext}${desc}`,
             responses:[...upgSubRespList,{
                 text:"[返回]算了。",
                 topic:upgtopicid
@@ -261,8 +263,11 @@ async function createSkillResp(dm:DataManager,charName:string){
             effect:{run_eocs:eocid},
             topic:skillTalkTopicId,
         }
-        if(skill.require_field)
-            resp.condition = {math:[getFieldVarID(charName,skill.require_field[0]),">=",`${skill.require_field[1]}`]}
+        if(skill.require_field){
+            let fdarr = typeof skill.require_field == "string"
+                ? [skill.require_field,1] as const : skill.require_field;
+            resp.condition = {math:[getFieldVarID(charName,fdarr[0]),">=",`${fdarr[1]}`]}
+        }
         skillRespList.push(resp);
 
         dynLine.push({

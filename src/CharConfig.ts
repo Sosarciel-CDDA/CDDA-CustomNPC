@@ -80,6 +80,8 @@ export type CharUpgrade = {
      * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]  
      */
     mutation?:({id:MutationID,lvl:number}|MutationID)[];
+    /**对这个升级项的说明 */
+    desc?:string;
 }
 
 

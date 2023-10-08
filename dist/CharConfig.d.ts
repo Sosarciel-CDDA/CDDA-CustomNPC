@@ -63,7 +63,7 @@ export type CharUpgrade = {
      * [[10x魔力结晶,1x诱变剂],[1x魔法水晶,1x诱变剂]]
      * ]
      */
-    require_resource: RequireResource[][][];
+    require_resource: (RequireResource | AnyItemID)[][][];
     /**每个强化等级提升的附魔属性 */
     lvl_ench_status?: Partial<Record<EnchStat, number | NumMathExp>>;
     /**只要拥有此字段就会添加的附魔属性 */
@@ -75,6 +75,8 @@ export type CharUpgrade = {
         id: MutationID;
         lvl: number;
     } | MutationID)[];
+    /**对这个升级项的说明 */
+    desc?: string;
 };
 /**变量属性 */
 export type EnchStat = `${"add" | "multiply"}_${EnchGenericValType | EnchArmorValType}`;

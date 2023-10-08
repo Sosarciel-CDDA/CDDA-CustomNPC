@@ -3,10 +3,46 @@
     "virtual": true,
     "upgrade": [
         {
-            "field": "法术:猫之优雅",
+            "field": "猫之优雅",
             "require_resource": [
                 [[{"id":"spell_scroll_cats_grace","not_consume": true}]]
-            ]
+            ],
+            "desc": "让角色学会法术:猫之优雅"
+        },
+        {
+            "field": "鹰眼",
+            "require_resource": [
+                [[{"id":"spell_scroll_eagles_sight","not_consume": true}]]
+            ],
+            "desc": "让角色学会法术:鹰眼"
+        },
+        {
+            "field": "巨魔之力",
+            "require_resource": [
+                [[{"id":"spell_scroll_ogres_strength","not_consume": true}]]
+            ],
+            "desc": "让角色学会法术:巨魔之力"
+        },
+        {
+            "field": "狐之狡黠",
+            "require_resource": [
+                [[{"id":"spell_scroll_foxs_cunning","not_consume": true}]]
+            ],
+            "desc": "让角色学会法术:狐之狡黠"
+        },
+        {
+            "field": "突触刺激",
+            "require_resource": [
+                [[{"id":"spell_scroll_synaptic_stimulation","not_consume": true}]]
+            ],
+            "desc": "让角色学会法术:突触刺激"
+        },
+        {
+            "field": "祝福",
+            "require_resource": [
+                [[{"id":"spell_scroll_bless","not_consume": true}]]
+            ],
+            "desc": "让角色学会法术:祝福"
         }
     ],
     "skill": [
@@ -18,7 +54,7 @@
             "spell": {
                 "id": "CNPC_cats_grace",
                 "type": "SPELL",
-                "name": "NPC_猫之优雅",
+                "name": "猫之优雅_NPC",
                 "description": "You become more graceful, agile, and coordinated.",
                 "valid_targets": [ "self" ],
                 "min_duration": 360000,
@@ -31,7 +67,128 @@
                 "energy_source": "MANA",
                 "base_energy_cost": 300
             },
-            "require_field": "法术:猫之优雅"
+            "require_field": "猫之优雅",
+            "weight": -1
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"eagles_sight"}}
+            },
+            "spell": {
+                "id": "CNPC_eagles_sight",
+                "type": "SPELL",
+                "name": "鹰眼_NPC",
+                "description": "You gain the perception of an eagle.",
+                "valid_targets": [ "self" ],
+                "min_duration": 360000,
+                "base_casting_time": 250,
+                "difficulty": 5,
+                "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "eagles_sight",
+                "energy_source": "MANA",
+                "base_energy_cost": 300
+            },
+            "require_field": "鹰眼",
+            "weight": -1
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"ogres_strength"}}
+            },
+            "spell": {
+                "id": "CNPC_ogres_strength",
+                "type": "SPELL",
+                "name": "巨魔之力_NPC",
+                "description": "You gain the strength of an ogre.",
+                "valid_targets": [ "self" ],
+                "min_duration": 360000,
+                "base_casting_time": 250,
+                "difficulty": 5,
+                "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "ogres_strength",
+                "energy_source": "MANA",
+                "base_energy_cost": 300
+            },
+            "require_field": "巨魔之力",
+            "weight": -1
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"foxs_cunning"}}
+            },
+            "spell": {
+                "id": "CNPC_foxs_cunning",
+                "type": "SPELL",
+                "name": "狐之狡黠_NPC",
+                "description": "You become wily like a fox.",
+                "valid_targets": [ "self" ],
+                "min_duration": 360000,
+                "base_casting_time": 250,
+                "difficulty": 5,
+                "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "foxs_cunning",
+                "energy_source": "MANA",
+                "base_energy_cost": 300
+            },
+            "require_field": "狐之狡黠",
+            "weight": -1
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"synaptic_stim"}}
+            },
+            "spell": {
+                "id": "CNPC_synaptic_stimulation",
+                "type": "SPELL",
+                "name": "突触刺激_NPC",
+                "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability, including enhancing your reflexes, speed, and raw intellectual power.  Use responsibly!",
+                "valid_targets": [ "self" ],
+                "min_duration": 180000,
+                "base_casting_time": 450,
+                "difficulty": 7,
+                "flags": [ "NO_LEGS", "VERBAL", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "synaptic_stim",
+                "energy_source": "MANA",
+                "base_energy_cost": 350
+            },
+            "require_field": "突触刺激"
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"bless"}}
+            },
+            "spell": {
+                "id": "CNPC_bless",
+                "type": "SPELL",
+                "name": "祝福_NPC",
+                "description": "A spell of blessing that gives you energy and boosts your abilities.",
+                "valid_targets": [ "self" ],
+                "min_aoe": 5,
+                "min_duration": 30000,
+                "base_casting_time": 100,
+                "difficulty": 5,
+                "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "bless",
+                "affected_body_parts": [ "torso" ],
+                "energy_source": "MANA",
+                "base_energy_cost": 100
+            },
+            "require_field": "祝福"
         }
     ]
 }

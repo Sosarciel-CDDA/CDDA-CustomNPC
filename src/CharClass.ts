@@ -81,7 +81,7 @@ export async function createCharClass(dm:DataManager,charName:string){
 		id: genEOCID(spawnerId),
 		effect: [
 			//{ u_consume_item: genGenericID(spawnerId), count: 1 },
-            {math:[`${charName}_UID`,"+=","1"]},
+            {math:[`${charName}_uid`,"+=","1"]},
 			{
                 u_spawn_npc: defineData.instanceID,
 				real_count: 1,
@@ -96,7 +96,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         eoc_type:"ACTIVATION",
         id:genEOCID(`${charName}_InitProcess`),
         effect:[
-            {math:[`u_UID`,"=",`${charName}_UID`]},
+            {math:[`u_uid`,"=",`${charName}_uid`]},
         ]
     }
     dm.addCharEvent(charName,"CharInit",1000,charInitEoc);
@@ -109,7 +109,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         effect:[
             {run_eocs:"CNPC_EOC_DeathProcess"}
         ],
-        condition:{math:["u_UID","!=",`${charName}_UID`]}
+        condition:{math:["u_uid","!=",`${charName}_uid`]}
     }
     dm.addCharEvent(charName,"CharUpdate",0,charRemoveEoc);
 

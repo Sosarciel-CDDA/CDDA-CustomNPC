@@ -5,6 +5,7 @@ const utils_1 = require("@zwa73/utils");
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
 const Event_1 = require("./Event");
+const CharConfig_1 = require("./CharConfig");
 //脚本提供的判断是否成功命中目标的全局变量 字段
 const hasTargetVar = "hasTarget";
 //全局冷却字段名
@@ -14,6 +15,14 @@ function stopSpellVar(charName, spell) {
     return `${charName}_${spell.id}_stop`;
 }
 exports.stopSpellVar = stopSpellVar;
+//法术消耗变量类型映射
+const costMap = {
+    "BIONIC": "u_val('power')",
+    "HP": "u_hp()",
+    "MANA": "u_val('mana')",
+    "STAMINA": "u_val('stamina')",
+    "NONE": undefined,
+};
 /**处理角色技能 */
 async function createCharSkill(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
@@ -33,18 +42,25 @@ async function createCharSkill(dm, charName) {
     skillDataList.push(GCDEoc);
     //遍历技能
     for (const skill of skills) {
+        //替换变量字段
+        skill.spell = JSON.parse(JSON.stringify(skill.spell)
+            .replace(/(\{\{.*?\}\})/g, (match, p1) => (0, CharConfig_1.getFieldVarID)(charName, p1)));
         const { cast_condition, spell, cooldown, common_cooldown, audio, require_field } = skill;
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
+        //法术消耗变量类型
+        const costType = spell.energy_source !== undefined
+            ? costMap[spell.energy_source]
+            : undefined;
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
         //计算成功效果
         const TEffect = [];
         if (common_cooldown != 0)
             TEffect.push({ math: [gcdValName, "=", `${common_cooldown ?? 1}`] });
-        if (spell.base_energy_cost != undefined)
-            TEffect.push({ math: ["u_val('mana')", "-=", spellCost] });
+        if (spell.base_energy_cost != undefined && costType != undefined)
+            TEffect.push({ math: [costType, "-=", spellCost] });
         if (cooldown)
             TEffect.push({ math: [cdValName, "=", `${cooldown ?? 0}`] });
         if (audio) {
@@ -75,14 +91,17 @@ async function createCharSkill(dm, charName) {
                 { math: [gcdValName, "<=", "0"] },
                 { math: [stopSpellVar(charName, spell), "!=", "1"] }
             ];
-            if (spell.base_energy_cost != undefined)
-                baseCond.push({ math: ["u_val('mana')", ">=", spellCost] });
+            if (spell.base_energy_cost != undefined && costType != undefined)
+                baseCond.push({ math: [costType, ">=", spellCost] });
             if (condition)
                 baseCond.push(condition);
             if (cooldown)
                 baseCond.push({ math: [cdValName, "<=", "0"] });
-            if (require_field)
-                baseCond.push({ math: [require_field[0], ">=", require_field[1] + ""] });
+            if (require_field) {
+                let fdarr = typeof require_field == "string"
+                    ? [require_field, 1] : require_field;
+                baseCond.push({ math: [fdarr[0], ">=", fdarr[1] + ""] });
+            }
             //基本通用数据
             const baseSkillData = {
                 skill,
@@ -210,6 +229,13 @@ function randomProc(dm, charName, baseSkillData) {
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
+}
+//翻转u与n
+function revTalker(obj) {
+    let str = JSON.stringify(obj);
+    str = str.replace(/"u_(\w+?)":/g, '"npc_$1":');
+    str = str.replace(/(?<!\w)u_/g, 'n_');
+    return JSON.parse(str);
 }
 function reverse_hitProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect, castCondition } = baseSkillData;

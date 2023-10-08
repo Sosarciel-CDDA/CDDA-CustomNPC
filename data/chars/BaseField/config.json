@@ -9,7 +9,8 @@
             ],
             "lvl_ench_status": {
                 "add_STRENGTH":1
-            }
+            },
+            "desc": "每级提高 1 点 力量"
         },
         {
             "field": "智力",
@@ -19,7 +20,8 @@
             ],
             "lvl_ench_status": {
                 "add_INTELLIGENCE":1
-            }
+            },
+            "desc": "每级提高 1 点 智力"
         },
         {
             "field": "感知",
@@ -29,7 +31,8 @@
             ],
             "lvl_ench_status": {
                 "add_PERCEPTION":1
-            }
+            },
+            "desc": "每级提高 1 点 感知"
         },
         {
             "field": "敏捷",
@@ -39,7 +42,8 @@
             ],
             "lvl_ench_status": {
                 "add_PERCEPTION":1
-            }
+            },
+            "desc": "每级提高 1 点 敏捷"
         },
         {
             "field": "魔力",
@@ -51,7 +55,8 @@
                 "add_MAX_MANA": 300,
                 "multiply_MAX_MANA": 0.2,
                 "multiply_REGEN_MANA": 0.1
-            }
+            },
+            "desc": "每级提高 300 点 法力上限, 20% 法力上限倍率, 10% 法力回复速度"
         },
         {
             "field": "自愈",
@@ -61,7 +66,8 @@
             ],
             "lvl_ench_status": {
                 "multiply_REGEN_HP":0.2
-            }
+            },
+            "desc": "每级提高 20% 生命回复速度"
         },
         {
             "field": "生命",
@@ -70,8 +76,9 @@
                 [["iv_mutagen_ursine"],["iv_mutagen_cattle"]]
             ],
             "lvl_ench_status": {
-                "multiply_REGEN_HP":0.2
-            }
+                "multiply_MAX_HP":0.1
+            },
+            "desc": "每级提高 10% 最大生命"
         },
         {
             "field": "耐力",
@@ -82,7 +89,8 @@
             "lvl_ench_status": {
                 "multiply_REGEN_STAMINA":0.02,
                 "multiply_MAX_STAMINA":0.06
-            }
+            },
+            "desc": "每级提高 6% 最大耐力, 2% 耐力回复速度"
         }
     ]
 }

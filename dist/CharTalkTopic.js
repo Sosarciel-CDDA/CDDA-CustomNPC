@@ -79,6 +79,8 @@ async function createUpgResp(dm, charName) {
             //遍历 或材料组 取得 与材料组
             let index = 0;
             for (const andRes of orRes) {
+                //过滤item 全部转为obj形式
+                const fixRes = andRes.map(item => typeof item == "string" ? { id: item } : item);
                 //字段等级条件
                 const lvlCond = (isLastRes
                     ? [{ math: [fieldID, ">=", lvl + ""] }, { math: [fieldID, "<", maxLvl + ""] }]
@@ -86,7 +88,7 @@ async function createUpgResp(dm, charName) {
                 //升级材料条件
                 const cond = { and: [
                         ...lvlCond,
-                        ...andRes.map(item => ({ u_has_items: {
+                        ...fixRes.map(item => ({ u_has_items: {
                                 item: item.id,
                                 count: item.count ?? 1
                             } }))
@@ -100,7 +102,7 @@ async function createUpgResp(dm, charName) {
                     id: upgEocId,
                     eoc_type: "ACTIVATION",
                     effect: [
-                        ...andRes.filter(item => item.not_consume !== true)
+                        ...fixRes.filter(item => item.not_consume !== true)
                             .map(item => ({
                             u_consume_item: item.id,
                             count: item.count ?? 1,
@@ -113,7 +115,7 @@ async function createUpgResp(dm, charName) {
                 };
                 upgEocList.push(charUpEoc);
                 /**对话 */
-                const costtext = andRes.map(item => `<item_name:${item.id}>:${item.count ?? 1} `).join("");
+                const costtext = fixRes.map(item => `<item_name:${item.id}>:${item.count ?? 1} `).join("");
                 const resptext = `消耗:${costtext}\n`;
                 const charUpResp = {
                     condition: { and: lvlCond },
@@ -152,7 +154,7 @@ async function createUpgResp(dm, charName) {
             dm.addCharEvent(charName, "CharUpdate", 0, mutEoc);
             mutEocList.push(mutEoc);
         }
-        //创建对应升级菜单
+        //创建对应升级菜单路由选项
         const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
         upgRespList.push({
             truefalsetext: {
@@ -163,10 +165,12 @@ async function createUpgResp(dm, charName) {
             topic: subTopicId,
             condition: { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] }
         });
+        //创建菜单话题
+        const desc = upgObj.desc ? "\n" + upgObj.desc : "";
         upgTopicList.push({
             type: "talk_topic",
             id: subTopicId,
-            dynamic_line: `&${resptext}`,
+            dynamic_line: `&${resptext}${desc}`,
             responses: [...upgSubRespList, {
                     text: "[返回]算了。",
                     topic: upgtopicid
@@ -231,8 +235,11 @@ async function createSkillResp(dm, charName) {
             effect: { run_eocs: eocid },
             topic: skillTalkTopicId,
         };
-        if (skill.require_field)
-            resp.condition = { math: [(0, CharConfig_1.getFieldVarID)(charName, skill.require_field[0]), ">=", `${skill.require_field[1]}`] };
+        if (skill.require_field) {
+            let fdarr = typeof skill.require_field == "string"
+                ? [skill.require_field, 1] : skill.require_field;
+            resp.condition = { math: [(0, CharConfig_1.getFieldVarID)(charName, fdarr[0]), ">=", `${fdarr[1]}`] };
+        }
         skillRespList.push(resp);
         dynLine.push({
             math: [stopVar, "==", "1"],

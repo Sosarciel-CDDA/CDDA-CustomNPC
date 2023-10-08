@@ -26,8 +26,12 @@ export type CharSkill = {
      * 一个高权重0共同冷却的技能意味着可以同时触发  
      */
     common_cooldown?:number,
-    /**法术效果 可用{{fieldName}}表示字段变量  
-     * 如 min_damage: {math:["{{重击}} * 10"]}
+    /**法术效果  
+     * 可用{{fieldName}}表示字段变量  
+     * 如 min_damage: {math:["{{重击}} * 10"]}  
+     * 可用 `u_${法术id}_cooldown` 获得对应技能冷却  
+     * 如 {math:["u_fireball_cooldown"]} 
+     * 可用 u_coCooldown 获得公共冷却时间
      */
     spell           :Spell,
     /**技能音效 */
@@ -69,7 +73,7 @@ export type CastCondition={
 }
 
 //全局冷却字段名
-const gcdValName = `u_CoCooldown`;
+const gcdValName = `u_coCooldown`;
 
 /**使某个技能停止使用的变量 */
 export function stopSpellVar(charName:string,spell:Spell){
@@ -80,7 +84,7 @@ export function stopSpellVar(charName:string,spell:Spell){
 const costMap:Record<SpellEnergySource,string|undefined>={
     "BIONIC" : "u_val('power')",
     "HP"     : "u_hp()",
-    "MANA"   : "u_val('mana)",
+    "MANA"   : "u_val('mana')",
     "STAMINA": "u_val('stamina')",
     "NONE"   : undefined,
 }
@@ -123,7 +127,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
 
         //生成冷却变量名
-        const cdValName = `u_${spell.id}_Cooldown`;
+        const cdValName = `u_${spell.id}_cooldown`;
 
         //计算成功效果
         const TEffect:EocEffect[]=[];
@@ -192,7 +196,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         if(cooldown!=null){
             const CDEoc:Eoc={
                 type:"effect_on_condition",
-                id:genEOCID(`${charName}_${spell.id}_Cooldown`),
+                id:genEOCID(`${charName}_${spell.id}_cooldown`),
                 effect:[
                     {math:[cdValName,"-=","1"]}
                 ],
@@ -327,6 +331,14 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
     dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
 
     return [castEoc];
+}
+
+//翻转u与n
+function revTalker(obj:JObject):any{
+    let str = JSON.stringify(obj);
+    str = str.replace(/"u_(\w+?)":/g, '"npc_$1":');
+    str = str.replace(/(?<!\w)u_/g, 'n_');
+    return JSON.parse(str);
 }
 
 function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){

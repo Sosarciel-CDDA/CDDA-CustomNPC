@@ -18,7 +18,9 @@ export type CharSkill = {
      * 一个高权重0共同冷却的技能意味着可以同时触发
      */
     common_cooldown?: number;
-    /**法术效果 */
+    /**法术效果 可用{{fieldName}}表示字段变量
+     * 如 min_damage: {math:["{{重击}} * 10"]}
+     */
     spell: Spell;
     /**技能音效 */
     audio?: (string | {
@@ -29,8 +31,8 @@ export type CharSkill = {
         /**音量 1-128 默认100 */
         volume?: number;
     })[];
-    /**要求强化字段 [字段,强化等级] */
-    require_field?: [string, number];
+    /**要求强化字段 [字段,强化等级] 或 字段名 */
+    require_field?: [string, number] | string;
 };
 /**技能的释放条件 */
 export type CastCondition = {
@@ -51,7 +53,7 @@ export type CastCondition = {
      * 除 reverse_hit 外无法使用翻转事件;
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
      * 默认为auto
-     * 若允许多个条件 请指定具体type
+     * 若允许多个CastCondition 请指定具体type
      * 相同的hook与target(包括auto或未指定)将覆盖
      */
     target?: TargetType;
