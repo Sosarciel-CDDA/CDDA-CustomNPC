@@ -1,10 +1,11 @@
 import { JArray, JObject, UtilFunc } from "@zwa73/utils";
 import { CON_SPELL_FLAG, genEOCID } from ".";
 import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
-import { Spell, SpellID } from "./CddaJsonFormat/Spell";
+import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
 import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "./Event";
+import { getFieldVarID } from "./CharConfig";
 
 
 //脚本提供的判断是否成功命中目标的全局变量 字段
@@ -25,7 +26,9 @@ export type CharSkill = {
      * 一个高权重0共同冷却的技能意味着可以同时触发  
      */
     common_cooldown?:number,
-    /**法术效果 */
+    /**法术效果 可用{{fieldName}}表示字段变量  
+     * 如 min_damage: {math:["{{重击}} * 10"]}
+     */
     spell           :Spell,
     /**技能音效 */
     audio?          :(string|{
@@ -36,8 +39,8 @@ export type CharSkill = {
         /**音量 1-128 默认100 */
         volume?:number,
     })[],
-    /**要求强化字段 [字段,强化等级] */
-    require_field?:[string,number];
+    /**要求强化字段 [字段,强化等级] 或 字段名 */
+    require_field?:[string,number]|string;
 };
 
 /**技能的释放条件 */
@@ -59,7 +62,7 @@ export type CastCondition={
      * 除 reverse_hit 外无法使用翻转事件;  
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  
      * 默认为auto
-     * 若允许多个条件 请指定具体type  
+     * 若允许多个CastCondition 请指定具体type  
      * 相同的hook与target(包括auto或未指定)将覆盖  
      */
     target?         :TargetType;
@@ -71,6 +74,15 @@ const gcdValName = `u_CoCooldown`;
 /**使某个技能停止使用的变量 */
 export function stopSpellVar(charName:string,spell:Spell){
     return `${charName}_${spell.id}_stop`;
+}
+
+//法术消耗变量类型映射
+const costMap:Record<SpellEnergySource,string|undefined>={
+    "BIONIC" : "u_val('power')",
+    "HP"     : "u_hp()",
+    "MANA"   : "u_val('mana)",
+    "STAMINA": "u_val('stamina')",
+    "NONE"   : undefined,
 }
 
 /**处理角色技能 */
@@ -95,11 +107,20 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
     //遍历技能
     for(const skill of skills){
+        //替换变量字段
+        skill.spell = JSON.parse(JSON.stringify(skill.spell)
+            .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(charName,p1)));
+
         const {cast_condition,spell,cooldown,common_cooldown,audio,require_field} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost??999999})`;
+        //法术消耗变量类型
+        const costType = spell.energy_source !== undefined
+            ? costMap[spell.energy_source]
+            : undefined;
+
 
         //生成冷却变量名
         const cdValName = `u_${spell.id}_Cooldown`;
@@ -108,8 +129,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
         const TEffect:EocEffect[]=[];
         if(common_cooldown!=0)
             TEffect.push({math:[gcdValName,"=",`${common_cooldown??1}`]});
-        if(spell.base_energy_cost!=undefined)
-            TEffect.push({math:["u_val('mana')","-=",spellCost]});
+        if(spell.base_energy_cost!=undefined && costType!=undefined)
+            TEffect.push({math:[costType,"-=",spellCost]});
         if(cooldown)
             TEffect.push({math:[cdValName,"=",`${cooldown??0}`]});
         if(audio){
@@ -143,14 +164,17 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 {math:[gcdValName,"<=","0"]},
                 {math:[stopSpellVar(charName,spell),"!=","1"]}
             ];
-            if(spell.base_energy_cost!=undefined)
-                baseCond.push({math:["u_val('mana')",">=",spellCost]});
+            if(spell.base_energy_cost!=undefined && costType!=undefined)
+                baseCond.push({math:[costType,">=",spellCost]});
             if(condition)
                 baseCond.push(condition);
             if(cooldown)
                 baseCond.push({math:[cdValName,"<=","0"]});
-            if(require_field)
-                baseCond.push({math:[require_field[0],">=",require_field[1]+""]});
+            if(require_field){
+                let fdarr = typeof require_field == "string"
+                    ? [require_field,1] as const : require_field;
+                baseCond.push({math:[fdarr[0],">=",fdarr[1]+""]});
+            }
             //基本通用数据
             const baseSkillData = {
                 skill,

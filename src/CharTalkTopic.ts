@@ -1,6 +1,6 @@
-import { BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
+import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
-import { getFieldVarID } from "./CharConfig";
+import { RequireResource, getFieldVarID } from "./CharConfig";
 import { stopSpellVar } from "./CharSkill";
 import { DataManager } from "./DataManager";
 
@@ -96,6 +96,8 @@ async function createUpgResp(dm:DataManager,charName:string){
             //遍历 或材料组 取得 与材料组
             let index = 0;
             for(const andRes of orRes){
+                //过滤item 全部转为obj形式
+                const fixRes:RequireResource[] = andRes.map(item=>typeof item =="string" ? {id:item} : item);
                 //字段等级条件
                 const lvlCond:BoolObj[] = (isLastRes
                         ? [{math:[fieldID,">=",lvl+""]},{math:[fieldID,"<",maxLvl+""]}]
@@ -103,7 +105,7 @@ async function createUpgResp(dm:DataManager,charName:string){
                 //升级材料条件
                 const cond:BoolObj={and:[
                     ...lvlCond,
-                    ...andRes.map(item=>({u_has_items:{
+                    ...fixRes.map(item=>({u_has_items:{
                         item: item.id,
                         count: item.count??1
                     }}))
@@ -117,7 +119,7 @@ async function createUpgResp(dm:DataManager,charName:string){
                     id:upgEocId,
                     eoc_type:"ACTIVATION",
                     effect:[
-                        ...andRes.filter(item=>item.not_consume!==true)
+                        ...fixRes.filter(item=>item.not_consume!==true)
                             .map(item=>({
                                 u_consume_item:item.id,
                                 count: item.count??1,
@@ -131,7 +133,7 @@ async function createUpgResp(dm:DataManager,charName:string){
                 upgEocList.push(charUpEoc);
 
                 /**对话 */
-                const costtext = andRes.map(item=>`<item_name:${item.id}>:${item.count??1} `).join("");
+                const costtext = fixRes.map(item=>`<item_name:${item.id}>:${item.count??1} `).join("");
                 const resptext = `消耗:${costtext}\n`;
                 const charUpResp:Resp={
                     condition:{and:lvlCond},

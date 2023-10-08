@@ -5,7 +5,7 @@
             "field": "力量",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_ursine"}],[{"id":"iv_mutagen_beast"}]]
+                [["iv_mutagen_ursine"],["iv_mutagen_beast"]]
             ],
             "lvl_ench_status": {
                 "add_STRENGTH":1
@@ -15,7 +15,7 @@
             "field": "智力",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_cephalopod"}]]
+                [["iv_mutagen_cephalopod"]]
             ],
             "lvl_ench_status": {
                 "add_INTELLIGENCE":1
@@ -25,7 +25,7 @@
             "field": "感知",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_bird"}]]
+                [["iv_mutagen_bird"]]
             ],
             "lvl_ench_status": {
                 "add_PERCEPTION":1
@@ -35,7 +35,7 @@
             "field": "敏捷",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_fish"}],[{"id":"iv_mutagen_cephalopod"}]]
+                [["iv_mutagen_fish"],["iv_mutagen_cephalopod"]]
             ],
             "lvl_ench_status": {
                 "add_PERCEPTION":1
@@ -45,7 +45,7 @@
             "field": "魔力",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"manatouched_serum"}]]
+                [["manatouched_serum"]]
             ],
             "lvl_ench_status": {
                 "add_MAX_MANA": 300,
@@ -57,7 +57,7 @@
             "field": "自愈",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_slime"}],[{"id":"iv_mutagen_troglobite"}]]
+                [["iv_mutagen_slime"],["iv_mutagen_troglobite"]]
             ],
             "lvl_ench_status": {
                 "multiply_REGEN_HP":0.2
@@ -67,7 +67,7 @@
             "field": "生命",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_ursine"}],[{"id":"iv_mutagen_cattle"}]]
+                [["iv_mutagen_ursine"],["iv_mutagen_cattle"]]
             ],
             "lvl_ench_status": {
                 "multiply_REGEN_HP":0.2
@@ -77,7 +77,7 @@
             "field": "耐力",
             "max_lvl": 10,
             "require_resource": [
-                [[{"id":"iv_mutagen_lupine"}],[{"id":"iv_mutagen_mouse"}],[{"id":"iv_mutagen_rabbit"}]]
+                [["iv_mutagen_lupine"],["iv_mutagen_mouse"],["iv_mutagen_rabbit"]]
             ],
             "lvl_ench_status": {
                 "multiply_REGEN_STAMINA":0.02,

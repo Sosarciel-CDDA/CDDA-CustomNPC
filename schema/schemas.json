@@ -2651,7 +2651,7 @@
 							"description": "效果被添加时产生的消息"
 						},
 						"base_mods": {
-							"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>",
+							"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>",
 							"description": "效果的基础调整"
 						},
 						"blocks_effects": {
@@ -2910,6 +2910,13 @@
 							],
 							"type": "string"
 						},
+						"reduced_desc": {
+							"description": "被抵抗时产生的描述  \n按效果强度应用不同成员",
+							"items": {
+								"type": "string"
+							},
+							"type": "array"
+						},
 						"remove_memorial_log": {
 							"description": "效果被移除时产生的log",
 							"type": "string"
@@ -2980,7 +2987,7 @@
 							"description": "可 抵抗 此效果的变异"
 						},
 						"scaling_mods": {
-							"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>",
+							"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>",
 							"description": "效果的诶个强度等级的额外调整"
 						},
 						"show_in_info": {
@@ -12471,7 +12478,7 @@
 							"description": "时机"
 						},
 						"target": {
-							"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+							"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 							"enum": [
 								"auto",
 								"auto_hit",
@@ -12814,7 +12821,7 @@
 											"description": "时机"
 										},
 										"target": {
-											"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+											"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 											"enum": [
 												"auto",
 												"auto_hit",
@@ -13122,7 +13129,7 @@
 												"description": "时机"
 											},
 											"target": {
-												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 												"enum": [
 													"auto",
 													"auto_hit",
@@ -13157,21 +13164,28 @@
 							"type": "number"
 						},
 						"require_field": {
-							"description": "要求强化字段 [字段,强化等级]",
-							"items": [
+							"anyOf": [
 								{
-									"type": "string"
+									"items": [
+										{
+											"type": "string"
+										},
+										{
+											"type": "number"
+										}
+									],
+									"maxItems": 2,
+									"minItems": 2,
+									"type": "array"
 								},
 								{
-									"type": "number"
+									"type": "string"
 								}
 							],
-							"maxItems": 2,
-							"minItems": 2,
-							"type": "array"
+							"description": "要求强化字段 [字段,强化等级] 或 字段名"
 						},
 						"spell": {
-							"description": "法术效果",
+							"description": "法术效果 可用{{fieldName}}表示字段变量  \n如 min_damage: {math:[\"{{重击}} * 10\"]}",
 							"properties": {
 								"accuracy_increment": {
 									"anyOf": [
@@ -18929,7 +18943,7 @@
 					"description": "时机"
 				},
 				"target": {
-					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 					"enum": [
 						"auto",
 						"auto_hit",
@@ -19372,7 +19386,7 @@
 												"description": "时机"
 											},
 											"target": {
-												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+												"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 												"enum": [
 													"auto",
 													"auto_hit",
@@ -19680,7 +19694,7 @@
 													"description": "时机"
 												},
 												"target": {
-													"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+													"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 													"enum": [
 														"auto",
 														"auto_hit",
@@ -19715,21 +19729,28 @@
 								"type": "number"
 							},
 							"require_field": {
-								"description": "要求强化字段 [字段,强化等级]",
-								"items": [
+								"anyOf": [
 									{
-										"type": "string"
+										"items": [
+											{
+												"type": "string"
+											},
+											{
+												"type": "number"
+											}
+										],
+										"maxItems": 2,
+										"minItems": 2,
+										"type": "array"
 									},
 									{
-										"type": "number"
+										"type": "string"
 									}
 								],
-								"maxItems": 2,
-								"minItems": 2,
-								"type": "array"
+								"description": "要求强化字段 [字段,强化等级] 或 字段名"
 							},
 							"spell": {
-								"description": "法术效果",
+								"description": "法术效果 可用{{fieldName}}表示字段变量  \n如 min_damage: {math:[\"{{重击}} * 10\"]}",
 								"properties": {
 									"accuracy_increment": {
 										"anyOf": [
@@ -23073,25 +23094,65 @@
 								"items": {
 									"items": {
 										"items": {
-											"description": "要求的资源",
-											"properties": {
-												"count": {
-													"description": "需求数量 默认1",
-													"type": "number"
+											"anyOf": [
+												{
+													"pattern": "^.*$",
+													"type": "string"
 												},
-												"id": {
-													"$ref": "#/definitions/AnyItemID",
-													"description": "物品ID"
+												{
+													"pattern": "^ARMOR_.*$",
+													"type": "string"
 												},
-												"not_consume": {
-													"description": "不会消耗 默认 false",
-													"type": "boolean"
+												{
+													"pattern": "^.*_ARMOR_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^GENERIC_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^.*_GENERIC_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^AMMO_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^.*_AMMO_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^GUN_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^.*_GUN_.*$",
+													"type": "string"
+												},
+												{
+													"description": "要求的资源",
+													"properties": {
+														"count": {
+															"description": "需求数量 默认1",
+															"type": "number"
+														},
+														"id": {
+															"$ref": "#/definitions/AnyItemID",
+															"description": "物品ID"
+														},
+														"not_consume": {
+															"description": "不会消耗 默认 false",
+															"type": "boolean"
+														}
+													},
+													"required": [
+														"id"
+													],
+													"type": "object"
 												}
-											},
-											"required": [
-												"id"
-											],
-											"type": "object"
+											]
 										},
 										"type": "array"
 									},
@@ -23503,7 +23564,7 @@
 														"description": "时机"
 													},
 													"target": {
-														"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+														"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 														"enum": [
 															"auto",
 															"auto_hit",
@@ -23811,7 +23872,7 @@
 															"description": "时机"
 														},
 														"target": {
-															"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+															"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 															"enum": [
 																"auto",
 																"auto_hit",
@@ -23846,21 +23907,28 @@
 										"type": "number"
 									},
 									"require_field": {
-										"description": "要求强化字段 [字段,强化等级]",
-										"items": [
+										"anyOf": [
 											{
-												"type": "string"
+												"items": [
+													{
+														"type": "string"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"maxItems": 2,
+												"minItems": 2,
+												"type": "array"
 											},
 											{
-												"type": "number"
+												"type": "string"
 											}
 										],
-										"maxItems": 2,
-										"minItems": 2,
-										"type": "array"
+										"description": "要求强化字段 [字段,强化等级] 或 字段名"
 									},
 									"spell": {
-										"description": "法术效果",
+										"description": "法术效果 可用{{fieldName}}表示字段变量  \n如 min_damage: {math:[\"{{重击}} * 10\"]}",
 										"properties": {
 											"accuracy_increment": {
 												"anyOf": [
@@ -27204,25 +27272,65 @@
 										"items": {
 											"items": {
 												"items": {
-													"description": "要求的资源",
-													"properties": {
-														"count": {
-															"description": "需求数量 默认1",
-															"type": "number"
+													"anyOf": [
+														{
+															"pattern": "^.*$",
+															"type": "string"
 														},
-														"id": {
-															"$ref": "#/definitions/AnyItemID",
-															"description": "物品ID"
+														{
+															"pattern": "^ARMOR_.*$",
+															"type": "string"
 														},
-														"not_consume": {
-															"description": "不会消耗 默认 false",
-															"type": "boolean"
+														{
+															"pattern": "^.*_ARMOR_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^GENERIC_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^.*_GENERIC_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^AMMO_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^.*_AMMO_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^GUN_.*$",
+															"type": "string"
+														},
+														{
+															"pattern": "^.*_GUN_.*$",
+															"type": "string"
+														},
+														{
+															"description": "要求的资源",
+															"properties": {
+																"count": {
+																	"description": "需求数量 默认1",
+																	"type": "number"
+																},
+																"id": {
+																	"$ref": "#/definitions/AnyItemID",
+																	"description": "物品ID"
+																},
+																"not_consume": {
+																	"description": "不会消耗 默认 false",
+																	"type": "boolean"
+																}
+															},
+															"required": [
+																"id"
+															],
+															"type": "object"
 														}
-													},
-													"required": [
-														"id"
-													],
-													"type": "object"
+													]
 												},
 												"type": "array"
 											},
@@ -27799,7 +27907,7 @@
 									"description": "时机"
 								},
 								"target": {
-									"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+									"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 									"enum": [
 										"auto",
 										"auto_hit",
@@ -28107,7 +28215,7 @@
 										"description": "时机"
 									},
 									"target": {
-										"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个条件 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+										"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \nrandom 为 原版随机;  \nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \ndirect_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \nreverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n默认为auto\n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 										"enum": [
 											"auto",
 											"auto_hit",
@@ -28142,21 +28250,28 @@
 					"type": "number"
 				},
 				"require_field": {
-					"description": "要求强化字段 [字段,强化等级]",
-					"items": [
+					"anyOf": [
 						{
-							"type": "string"
+							"items": [
+								{
+									"type": "string"
+								},
+								{
+									"type": "number"
+								}
+							],
+							"maxItems": 2,
+							"minItems": 2,
+							"type": "array"
 						},
 						{
-							"type": "number"
+							"type": "string"
 						}
 					],
-					"maxItems": 2,
-					"minItems": 2,
-					"type": "array"
+					"description": "要求强化字段 [字段,强化等级] 或 字段名"
 				},
 				"spell": {
-					"description": "法术效果",
+					"description": "法术效果 可用{{fieldName}}表示字段变量  \n如 min_damage: {math:[\"{{重击}} * 10\"]}",
 					"properties": {
 						"accuracy_increment": {
 							"anyOf": [
@@ -31496,25 +31611,65 @@
 					"items": {
 						"items": {
 							"items": {
-								"description": "要求的资源",
-								"properties": {
-									"count": {
-										"description": "需求数量 默认1",
-										"type": "number"
+								"anyOf": [
+									{
+										"pattern": "^.*$",
+										"type": "string"
 									},
-									"id": {
-										"$ref": "#/definitions/AnyItemID",
-										"description": "物品ID"
+									{
+										"pattern": "^ARMOR_.*$",
+										"type": "string"
 									},
-									"not_consume": {
-										"description": "不会消耗 默认 false",
-										"type": "boolean"
+									{
+										"pattern": "^.*_ARMOR_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^GENERIC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_GENERIC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^AMMO_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_AMMO_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^GUN_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_GUN_.*$",
+										"type": "string"
+									},
+									{
+										"description": "要求的资源",
+										"properties": {
+											"count": {
+												"description": "需求数量 默认1",
+												"type": "number"
+											},
+											"id": {
+												"$ref": "#/definitions/AnyItemID",
+												"description": "物品ID"
+											},
+											"not_consume": {
+												"description": "不会消耗 默认 false",
+												"type": "boolean"
+											}
+										},
+										"required": [
+											"id"
+										],
+										"type": "object"
 									}
-								},
-								"required": [
-									"id"
-								],
-								"type": "object"
+								]
 							},
 							"type": "array"
 						},
@@ -33194,7 +33349,7 @@
 					"description": "效果被添加时产生的消息"
 				},
 				"base_mods": {
-					"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>",
+					"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>",
 					"description": "效果的基础调整"
 				},
 				"blocks_effects": {
@@ -33453,6 +33608,13 @@
 					],
 					"type": "string"
 				},
+				"reduced_desc": {
+					"description": "被抵抗时产生的描述  \n按效果强度应用不同成员",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
 				"remove_memorial_log": {
 					"description": "效果被移除时产生的log",
 					"type": "string"
@@ -33523,7 +33685,7 @@
 					"description": "可 抵抗 此效果的变异"
 				},
 				"scaling_mods": {
-					"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>",
+					"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>",
 					"description": "效果的诶个强度等级的额外调整"
 				},
 				"show_in_info": {
@@ -33681,8 +33843,8 @@
 			"type": "object"
 		},
 		"EffectMod": {
-			"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>",
-			"description": "效果的调整值格式"
+			"$ref": "#/definitions/Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>",
+			"description": "效果的调整值格式  \n{字段: [加成,被抵抗时的加成]}"
 		},
 		"EffectModType": {
 			"enum": [
@@ -70071,349 +70233,691 @@
 			},
 			"type": "object"
 		},
-		"Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number>>": {
+		"Partial<Record<\"str_mod\"|\"dex_mod\"|\"per_mod\"|\"int_mod\"|\"speed_mod\"|\"pain_amount\"|\"pain_min\"|\"pain_max\"|\"pain_max_val\"|\"pain_chance\"|\"pain_chance_bot\"|\"pain_tick\"|\"hurt_amount\"|\"hurt_min\"|\"hurt_max\"|\"hurt_chance\"|\"hurt_chance_bot\"|\"hurt_tick\"|\"sleep_amount\"|\"sleep_min\"|\"sleep_max\"|\"sleep_chance\"|\"sleep_chance_bot\"|\"sleep_tick\"|\"pkill_amount\"|\"pkill_min\"|\"pkill_max\"|\"pkill_max_val\"|\"pkill_chance\"|\"pkill_chance_bot\"|\"pkill_tick\"|\"stim_amount\"|\"stim_min\"|\"stim_max\"|\"stim_min_val\"|\"stim_max_val\"|\"stim_chance\"|\"stim_chance_bot\"|\"stim_tick\"|\"health_amount\"|\"health_min\"|\"health_max\"|\"health_min_val\"|\"health_max_val\"|\"health_chance\"|\"health_chance_bot\"|\"health_tick\"|\"h_mod_amount\"|\"h_mod_min\"|\"h_mod_max\"|\"h_mod_min_val\"|\"h_mod_max_val\"|\"h_mod_chance\"|\"h_mod_chance_bot\"|\"h_mod_tick\"|\"rad_amount\"|\"rad_min\"|\"rad_max\"|\"rad_max_val\"|\"rad_chance\"|\"rad_chance_bot\"|\"rad_tick\"|\"hunger_amount\"|\"hunger_min\"|\"hunger_max\"|\"hunger_min_val\"|\"hunger_max_val\"|\"hunger_chance\"|\"hunger_chance_bot\"|\"hunger_tick\"|\"thirst_amount\"|\"thirst_min\"|\"thirst_max\"|\"thirst_min_val\"|\"thirst_max_val\"|\"thirst_chance\"|\"thirst_chance_bot\"|\"thirst_tick\"|\"perspiration_amount\"|\"perspiration_min\"|\"perspiration_max\"|\"perspiration_min_val\"|\"perspiration_max_val\"|\"perspiration_chance\"|\"perspiration_chance_bot\"|\"perspiration_tick\"|\"fatigue_amount\"|\"fatigue_min\"|\"fatigue_max\"|\"fatigue_min_val\"|\"fatigue_max_val\"|\"fatigue_chance\"|\"fatigue_chance_bot\"|\"fatigue_tick\"|\"stamina_amount\"|\"stamina_min\"|\"stamina_max\"|\"stamina_min_val\"|\"stamina_max_val\"|\"stamina_chance\"|\"stamina_chance_bot\"|\"stamina_tick\"|\"cough_chance\"|\"cough_chance_bot\"|\"cough_tick\"|\"vomit_chance\"|\"vomit_chance_bot\"|\"vomit_tick\"|\"healing_rate\"|\"healing_head\"|\"healing_torso\"|\"dodge_mod\"|\"hit_mod\"|\"bash_mod\",number[]>>": {
 			"properties": {
 				"bash_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"cough_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"cough_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"cough_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"dex_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"dodge_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"fatigue_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"h_mod_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"healing_head": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"healing_rate": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"healing_torso": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"health_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hit_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hunger_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"hurt_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"int_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pain_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"per_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"perspiration_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"pkill_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"rad_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"sleep_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"speed_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stamina_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"stim_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"str_mod": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_amount": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_max": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_max_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_min": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_min_val": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"thirst_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"vomit_chance": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"vomit_chance_bot": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				},
 				"vomit_tick": {
-					"type": "number"
+					"items": {
+						"type": "number"
+					},
+					"type": "array"
 				}
 			},
 			"type": "object"

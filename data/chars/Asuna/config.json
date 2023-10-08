@@ -1,5 +1,5 @@
 {
-	"extends": ["Base"],
+	"extends": ["BaseField","BaseSkill"],
     "base_status":{
         "str":10,
         "dex":12,
@@ -83,8 +83,7 @@
 				"min_aoe":1,
 				"shape": "cone",
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack",
-				"energy_source": "MANA"
+				"effect": "attack"
 			}
 		},
 		{
@@ -110,8 +109,7 @@
 				"shape": "blast",
 				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack",
-				"energy_source": "MANA"
+				"effect": "attack"
 			}
 		},
 		{
@@ -136,15 +134,13 @@
 				"shape": "blast",
 				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack",
-				"energy_source": "MANA"
+				"effect": "attack"
 			}
 		},
 		{
 			"cast_condition":{
 				"hook": "CharBattleUpdate"
 			},
-			"cooldown":30,
 			"audio":["Snipe","SnipeSF"],
 			"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}},
 			"spell": {
@@ -157,8 +153,8 @@
 				"effect_str": "CNPC_EFF_Snipe",
 				"shape": "blast",
 				"min_duration": 18000,
-				"base_energy_cost":160,
-				"energy_source": "MANA"
+				"energy_source": "MANA",
+				"base_energy_cost":160
 			}
 		}
 	],

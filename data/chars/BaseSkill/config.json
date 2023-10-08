@@ -1,0 +1,37 @@
+
+{
+    "virtual": true,
+    "upgrade": [
+        {
+            "field": "法术:猫之优雅",
+            "require_resource": [
+                [[{"id":"spell_scroll_cats_grace","not_consume": true}]]
+            ]
+        }
+    ],
+    "skill": [
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"cats_grace"}}
+            },
+            "spell": {
+                "id": "CNPC_cats_grace",
+                "type": "SPELL",
+                "name": "NPC_猫之优雅",
+                "description": "You become more graceful, agile, and coordinated.",
+                "valid_targets": [ "self" ],
+                "min_duration": 360000,
+                "base_casting_time": 250,
+                "difficulty": 5,
+                "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "cats_grace",
+                "energy_source": "MANA",
+                "base_energy_cost": 300
+            },
+            "require_field": "法术:猫之优雅"
+        }
+    ]
+}
