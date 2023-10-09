@@ -1,4 +1,4 @@
-import { JArray, JToken } from '@zwa73/utils';
+import { JArray, JObject, JToken } from '@zwa73/utils';
 import { AnimType } from './AnimTool';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, AnyCddaJson } from './CddaJsonFormat';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
@@ -56,6 +56,8 @@ export type DataTable = {
     staticTable: Record<string, JArray>;
     /**输出的Eoc事件 */
     eventEocs: Record<GlobalEventType, EventEffect[]>;
+    /**共用资源表 */
+    sharedTable: Record<string, JObject>;
 };
 /**build配置 */
 export type BuildSetting = {
@@ -123,6 +125,8 @@ export declare class DataManager {
     getCharPath(charName: string): string;
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
+    /**添加共享资源 */
+    addSharedRes(key: string, val: JObject): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;
     /**输出数据到主目录 */

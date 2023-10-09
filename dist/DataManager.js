@@ -27,6 +27,7 @@ class DataManager {
     dataTable = {
         charTable: {},
         staticTable: {},
+        sharedTable: {},
         eventEocs: Event_1.GlobalEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
     //———————————————————— 初始化 ————————————————————//
@@ -287,6 +288,10 @@ class DataManager {
     getOutCharPath(charName) {
         return path.join(this.outPath, 'chars', charName);
     }
+    /**添加共享资源 */
+    addSharedRes(key, val) {
+        this.dataTable.sharedTable[key] = val;
+    }
     //———————————————————— 输出 ————————————————————//
     /**输出数据到角色目录 */
     async saveToCharFile(charName, filePath, obj) {
@@ -310,6 +315,8 @@ class DataManager {
             //await
             this.saveToFile(key, obj);
         }
+        //导出共用资源
+        this.saveToFile("SharedTable", Object.values(this.dataTable.sharedTable));
         //导出角色数据
         for (let charName of this.charList) {
             const charData = this.dataTable.charTable[charName];

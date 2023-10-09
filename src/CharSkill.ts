@@ -268,7 +268,7 @@ function revSpell(charName:string,spell:Spell,ccuid:string):Spell{
     return rspell;
 }
 /**解析伤害字符串 */
-function parseNumObj(spell:Spell,ccuid:string,field:keyof Spell){
+function parseNumObj(spell:Spell,field:keyof Spell){
     let strExp = `0`;
     const value = spell[field];
     if(value!==undefined){
@@ -281,8 +281,8 @@ function parseNumObj(spell:Spell,ccuid:string,field:keyof Spell){
     return strExp;
 }
 /**修改翻转法术伤害 */
-function fixRevSpellDmg(spell:Spell,ccuid:string){
-    const dmgvar = `${spell.id}_reverse_dmg_${ccuid}`;
+function fixRevSpellDmg(spell:Spell){
+    const dmgvar = `${spell.id}_reverse_dmg`;
     spell.min_damage = {math:[dmgvar]};
     spell.max_damage = 999999;
     return dmgvar;
@@ -396,8 +396,8 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     const rspell = revSpell(charName,spell,ccuid);
 
     //解析伤害字符串
-    const dmgstr = revTalker(parseNumObj(spell,ccuid,"min_damage"));
-    const dmgvar = fixRevSpellDmg(spell,ccuid);
+    const dmgstr = revTalker(parseNumObj(rspell,"min_damage"));
+    const dmgvar = fixRevSpellDmg(rspell);
 
     //翻转u与n
     baseCond = revTalker(baseCond);
@@ -406,7 +406,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        id:genEOCID(`${charName}_Cast${rspell.id}`),
         eoc_type:"ACTIVATION",
         effect:[
             {math: [dmgvar , `=` , dmgstr]},//预先计算伤害
@@ -417,7 +417,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
+                    id:genEOCID(`${charName}_${rspell.id}TrueEoc`),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }
@@ -440,38 +440,24 @@ function filter_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     const {hook} = castCondition;
     const ccuid = castCondUid(castCondition);
 
-    //创建筛选目标的辅助索敌法术
-    const {min_range,max_range,range_increment,
-        max_level,shape,valid_targets,targeted_monster_ids} = spell;
-    const filterTargetSpell:Spell = {
-        id:genSpellID(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
-        type:"SPELL",
-        name:spell.name+"_筛选索敌",
-        description:`${spell.name}的筛选索敌法术`,
-        effect:"effect_on_condition",
-        effect_str:`${spell.id}_FilterTargetEoc_${ccuid}`,
-        flags:[...CON_SPELL_FLAG],
-        min_range,max_range,range_increment,
-        shape,max_level,valid_targets,targeted_monster_ids,
-        extra_effects:[{id:spell.id}],
-    }
-
     //复制法术
     const rspell = revSpell(charName,spell,ccuid);
 
     //解析伤害字符串
-    const dmgstr = revTalker(parseNumObj(spell,ccuid,"min_damage"));
-    const dmgvar = fixRevSpellDmg(spell,ccuid);
+    const dmgstr = revTalker(parseNumObj(rspell,"min_damage"));
+    const dmgvar = fixRevSpellDmg(rspell);
 
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
 
+    //命中id
+    const fhitvar = `${rspell.id}_hasTarget`;
 
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        id:genEOCID(`${charName}_Cast${rspell.id}`),
         eoc_type:"ACTIVATION",
         effect:[
             {math: [dmgvar , `=` , dmgstr]},//预先计算伤害
@@ -482,21 +468,55 @@ function filter_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
-                    effect:[...TEffect],
+                    id:genEOCID(`${charName}_${rspell.id}TrueEoc`),
+                    effect:[...TEffect,{math:[fhitvar,"=","1"]}],
                     eoc_type:"ACTIVATION",
                 }
             }
+        ],
+        condition:{and:[...baseCond,{math:[fhitvar,"!=","1"]}]},
+    }
+
+
+    //创建筛选目标的辅助索敌法术
+    const {min_range,max_range,range_increment,
+        max_level,valid_targets,targeted_monster_ids} = spell;
+    const filterTargetSpell:Spell = {
+        id:genSpellID(`${charName}_${rspell.id}_FilterTarget`),
+        type:"SPELL",
+        name:rspell.name+"_筛选索敌",
+        description:`${rspell.name}的筛选索敌法术`,
+        effect:"effect_on_condition",
+        effect_str:castEoc.id,
+        flags:[...CON_SPELL_FLAG],
+        shape:"blast",
+        min_range,max_range,range_increment,
+        max_level,valid_targets,targeted_monster_ids,
+    }
+
+    //创建释放索敌法术的eoc
+    const castSelEoc:Eoc = {
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_Cast${filterTargetSpell.id}`),
+        eoc_type:"ACTIVATION",
+        effect:[
+            {
+                u_cast_spell:{
+                    id:filterTargetSpell.id,
+                    once_in:one_in_chance,
+                }
+            },
+            {math:[fhitvar,"=","0"]}
         ],
         condition:{and:[...baseCond]},
     }
 
     //加入触发
-    if(CharEventTypeList.includes(hook as any))
-        throw `翻转命中 所用的事件必须为 翻转事件: ${ReverseCharEventTypeList}`
-    dm.addReverseCharEvent(charName,hook as ReverseCharEventType,0,castEoc);
+    if(ReverseCharEventTypeList.includes(hook as any))
+        throw `翻转事件只能应用于翻转命中`
+    dm.addCharEvent(charName,hook as CharEventType,0,castSelEoc);
 
-    return [rspell,castEoc];
+    return [rspell,castEoc,castSelEoc];
 }
 
 function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
@@ -509,14 +529,14 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     const rspell = revSpell(charName,spell,ccuid);
 
     //解析伤害字符串
-    const dmgstr = parseNumObj(spell,ccuid,"min_damage");
-    const dmgvar = fixRevSpellDmg(spell,ccuid);
+    const dmgstr = parseNumObj(rspell,"min_damage");
+    const dmgvar = fixRevSpellDmg(rspell);
 
 
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        id:genEOCID(`${charName}_Cast${rspell.id}`),
         eoc_type:"ACTIVATION",
         effect:[
             {math: [dmgvar , `=` , dmgstr]},//预先计算伤害
@@ -527,7 +547,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
+                    id:genEOCID(`${charName}_${rspell.id}TrueEoc`),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }

@@ -2,8 +2,10 @@ import { BoolObj, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { AnyCharEvenetType } from "./Event";
+/**技能选择目标类型 列表 */
+declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_hit"];
 /**技能选择目标类型 */
-type TargetType = "auto" | "random" | "spell_target" | "reverse_hit" | "direct_hit" | "auto_hit";
+type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
     /**技能的释放条件 */
@@ -52,9 +54,9 @@ export type CastCondition = {
      * auto 为 根据施法目标自动选择;
      * random 为 原版随机;
      * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
-     * direct_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能
+     * direct_hit 为 直接命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
-     * reverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能
+     * reverse_hit 为 翻转命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
      * hook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage
      * 除 reverse_hit 外无法使用翻转事件;
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
