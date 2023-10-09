@@ -16,7 +16,7 @@ const TargetTypeList = [
     "reverse_hit",
     "direct_hit",
     "auto_hit",
-    "filter_hit", //筛选目标命中 u为角色 n为受害者 处理时翻转 任意非翻转hook
+    "filter_random", //筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
 ];
 //全局冷却字段名
 const gcdValName = `u_coCooldown`;
@@ -97,7 +97,7 @@ async function createCharSkill(dm, charName) {
             ? cast_condition
             : [cast_condition];
         for (const castCondition of ccs) {
-            const { condition, target } = castCondition;
+            const { target } = castCondition;
             //计算基础条件
             const baseCond = [
                 { math: [gcdValName, "<=", "0"] },
@@ -105,14 +105,12 @@ async function createCharSkill(dm, charName) {
             ];
             if (spell.base_energy_cost != undefined && costType != undefined)
                 baseCond.push({ math: [costType, ">=", spellCost] });
-            if (condition)
-                baseCond.push(condition);
             if (cooldown)
                 baseCond.push({ math: [cdValName, "<=", "0"] });
             if (require_field) {
                 let fdarr = typeof require_field == "string"
                     ? [require_field, 1] : require_field;
-                baseCond.push({ math: [fdarr[0], ">=", fdarr[1] + ""] });
+                baseCond.push({ math: [(0, CharConfig_1.getFieldVarID)(charName, fdarr[0]), ">=", fdarr[1] + ""] });
             }
             //基本通用数据
             const baseSkillData = {
@@ -152,7 +150,7 @@ const ProcMap = {
     "reverse_hit": reverse_hitProc,
     "direct_hit": direct_hitProc,
     "auto_hit": auto_hitProc,
-    "filter_hit": filter_hitProc,
+    "filter_random": filter_randomProc,
 };
 //获取施法方式的uid
 function castCondUid(cc) {
@@ -161,16 +159,21 @@ function castCondUid(cc) {
 //翻转u与n
 function revTalker(obj) {
     let str = JSON.stringify(obj);
-    str = str.replace(/"u_(\w+?)":/g, '"npc_$1":');
-    str = str.replace(/(?<!\w)u_/g, 'n_');
+    str = str.replace(/"u_(\w+?)":/g, '"tmpnpctmp_$1":');
+    str = str.replace(/(?<!\w)u_/g, 'tmpntmp_');
+    str = str.replace(/"npc_(\w+?)":/g, '"u_$1":');
+    str = str.replace(/(?<!\w)n_/g, 'u_');
+    str = str.replace(/tmpnpctmp_/g, 'npc_');
+    str = str.replace(/tmpntmp_/g, 'n_');
     return JSON.parse(str);
 }
 /**翻转法术 */
 function revSpell(charName, spell, ccuid) {
     const rspell = utils_1.UtilFunc.deepClone(spell);
-    rspell.name = `${charName}_${spell.name}_reverse_${ccuid}`;
-    rspell.id = `${charName}_${rspell.id}_reverse_${ccuid}`;
-    rspell.valid_targets.push("self");
+    rspell.name = `${spell.name}_${charName}_reverse_${ccuid}`;
+    rspell.id = `${rspell.id}_${charName}_reverse_${ccuid}`;
+    if (!rspell.valid_targets.includes("self"))
+        rspell.valid_targets.push("self");
     return rspell;
 }
 /**解析伤害字符串 */
@@ -187,17 +190,40 @@ function parseNumObj(spell, field) {
     }
     return strExp;
 }
-/**修改翻转法术伤害 */
+/**将翻转法术数据转为全局变量
+ * 返回 预先计算全局变量的effect
+ */
 function fixRevSpellDmg(spell) {
+    const dmgstr = parseNumObj(spell, "min_damage");
+    const dotstr = parseNumObj(spell, "min_dot");
+    const durstr = parseNumObj(spell, "min_duration");
     const dmgvar = `${spell.id}_reverse_dmg`;
-    spell.min_damage = { math: [dmgvar] };
-    spell.max_damage = 999999;
-    return dmgvar;
+    if (spell.min_damage) {
+        spell.min_damage = { math: [dmgvar] };
+        spell.max_damage = 999999;
+    }
+    const dotvar = `${spell.id}_reverse_dot`;
+    if (spell.min_dot) {
+        spell.min_dot = { math: [dotvar] };
+        spell.max_dot = 999999;
+    }
+    const durvar = `${spell.id}_reverse_dur`;
+    if (spell.min_duration) {
+        spell.min_duration = { math: [durvar] };
+        spell.max_duration = 999999;
+    }
+    return [
+        { math: [dmgvar, `=`, dmgstr] },
+        { math: [dotvar, `=`, dotstr] },
+        { math: [durvar, `=`, durstr] },
+    ];
 }
 function spell_targetProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect, castCondition } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
+    if (castCondition.condition)
+        baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
     //创建瞄准法术标靶的辅助索敌法术
     const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape } = spell;
@@ -252,6 +278,8 @@ function randomProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect, castCondition } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
+    if (castCondition.condition)
+        baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
     //创建施法EOC
     const castEoc = {
@@ -284,22 +312,23 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect, castCondition } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
+    if (castCondition.condition)
+        baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
     //复制法术
     const rspell = revSpell(charName, spell, ccuid);
     //解析伤害字符串
-    const dmgstr = revTalker(parseNumObj(rspell, "min_damage"));
-    const dmgvar = fixRevSpellDmg(rspell);
+    const dmgPreEff = fixRevSpellDmg(rspell);
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`${charName}_Cast${rspell.id}`),
+        id: (0, _1.genEOCID)(`Cast${rspell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
-            { math: [dmgvar, `=`, dmgstr] },
+            ...dmgPreEff,
             {
                 u_cast_spell: {
                     id: rspell.id,
@@ -307,7 +336,7 @@ function reverse_hitProc(dm, charName, baseSkillData) {
                     hit_self: true //如果是翻转事件则需命中自身
                 },
                 true_eocs: {
-                    id: (0, _1.genEOCID)(`${charName}_${rspell.id}TrueEoc`),
+                    id: (0, _1.genEOCID)(`${rspell.id}TrueEoc`),
                     effect: [...TEffect],
                     eoc_type: "ACTIVATION",
                 }
@@ -321,7 +350,7 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     dm.addReverseCharEvent(charName, hook, 0, castEoc);
     return [rspell, castEoc];
 }
-function filter_hitProc(dm, charName, baseSkillData) {
+function filter_randomProc(dm, charName, baseSkillData) {
     let { skill, baseCond, TEffect, castCondition } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
@@ -329,9 +358,11 @@ function filter_hitProc(dm, charName, baseSkillData) {
     //复制法术
     const rspell = revSpell(charName, spell, ccuid);
     //解析伤害字符串
-    const dmgstr = revTalker(parseNumObj(rspell, "min_damage"));
-    const dmgvar = fixRevSpellDmg(rspell);
+    const dmgPreEff = fixRevSpellDmg(rspell);
     //翻转u与n
+    const unrbaseCond = utils_1.UtilFunc.deepClone(baseCond);
+    if (castCondition.condition)
+        baseCond.push(castCondition.condition);
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
     //命中id
@@ -339,10 +370,10 @@ function filter_hitProc(dm, charName, baseSkillData) {
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`${charName}_Cast${rspell.id}`),
+        id: (0, _1.genEOCID)(`Cast${rspell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
-            { math: [dmgvar, `=`, dmgstr] },
+            ...dmgPreEff,
             {
                 u_cast_spell: {
                     id: rspell.id,
@@ -350,18 +381,21 @@ function filter_hitProc(dm, charName, baseSkillData) {
                     hit_self: true //如果是翻转事件则需命中自身
                 },
                 true_eocs: {
-                    id: (0, _1.genEOCID)(`${charName}_${rspell.id}TrueEoc`),
+                    id: (0, _1.genEOCID)(`${rspell.id}TrueEoc`),
                     effect: [...TEffect, { math: [fhitvar, "=", "1"] }],
                     eoc_type: "ACTIVATION",
                 }
             }
         ],
-        condition: { and: [...baseCond, { math: [fhitvar, "!=", "1"] }] },
+        condition: { and: [
+                ...baseCond,
+                { math: [fhitvar, "!=", "1"] },
+            ] },
     };
     //创建筛选目标的辅助索敌法术
     const { min_range, max_range, range_increment, max_level, valid_targets, targeted_monster_ids } = spell;
     const filterTargetSpell = {
-        id: (0, _1.genSpellID)(`${charName}_${rspell.id}_FilterTarget`),
+        id: (0, _1.genSpellID)(`${rspell.id}_FilterTarget`),
         type: "SPELL",
         name: rspell.name + "_筛选索敌",
         description: `${rspell.name}的筛选索敌法术`,
@@ -369,13 +403,16 @@ function filter_hitProc(dm, charName, baseSkillData) {
         effect_str: castEoc.id,
         flags: [..._1.CON_SPELL_FLAG],
         shape: "blast",
-        min_range, max_range, range_increment,
-        max_level, valid_targets, targeted_monster_ids,
+        min_aoe: min_range,
+        max_aoe: max_range,
+        aoe_increment: range_increment,
+        max_level, targeted_monster_ids,
+        valid_targets: valid_targets.filter(item => item != "ground"),
     };
     //创建释放索敌法术的eoc
     const castSelEoc = {
         type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`${charName}_Cast${filterTargetSpell.id}`),
+        id: (0, _1.genEOCID)(`Cast${filterTargetSpell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
             {
@@ -386,31 +423,32 @@ function filter_hitProc(dm, charName, baseSkillData) {
             },
             { math: [fhitvar, "=", "0"] }
         ],
-        condition: { and: [...baseCond] },
+        condition: { and: [...unrbaseCond] },
     };
     //加入触发
     if (Event_1.ReverseCharEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castSelEoc);
-    return [rspell, castEoc, castSelEoc];
+    return [rspell, castEoc, castSelEoc, filterTargetSpell];
 }
 function direct_hitProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect, castCondition } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
+    if (castCondition.condition)
+        baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
     //复制法术
     const rspell = revSpell(charName, spell, ccuid);
     //解析伤害字符串
-    const dmgstr = parseNumObj(rspell, "min_damage");
-    const dmgvar = fixRevSpellDmg(rspell);
+    const dmgPreEff = fixRevSpellDmg(rspell);
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`${charName}_Cast${rspell.id}`),
+        id: (0, _1.genEOCID)(`Cast${rspell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
-            { math: [dmgvar, `=`, dmgstr] },
+            ...dmgPreEff,
             {
                 npc_cast_spell: {
                     id: rspell.id,
@@ -418,7 +456,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
                     hit_self: true //如果是翻转事件则需命中自身
                 },
                 true_eocs: {
-                    id: (0, _1.genEOCID)(`${charName}_${rspell.id}TrueEoc`),
+                    id: (0, _1.genEOCID)(`${rspell.id}TrueEoc`),
                     effect: [...TEffect],
                     eoc_type: "ACTIVATION",
                 }
@@ -441,12 +479,16 @@ function autoProc(dm, charName, baseSkillData) {
     //判断瞄准方式
     //是敌对目标法术
     const isHostileTarget = spell.valid_targets.includes("hostile");
+    const isAllyTarget = spell.valid_targets.includes("ally");
     //是Aoe法术
     const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
         (spell.aoe_increment != null && spell.aoe_increment != 0);
     //aoe敌对目标法术将使用法术标靶
     if (isHostileTarget && isAoe)
         return ProcMap.spell_target(dm, charName, baseSkillData);
+    //友方条件目标法术适用筛选命中
+    if (isAllyTarget && castCondition.condition != undefined)
+        return ProcMap.filter_random(dm, charName, baseSkillData);
     //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
     if ((Event_1.ReverseCharEventTypeList.includes(hook) ||
         Event_1.InteractiveCharEventList.includes(hook)) &&

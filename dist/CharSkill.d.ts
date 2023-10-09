@@ -3,7 +3,7 @@ import { Spell } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { AnyCharEvenetType } from "./Event";
 /**技能选择目标类型 列表 */
-declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_hit"];
+declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_random"];
 /**技能选择目标类型 */
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
@@ -52,14 +52,22 @@ export type CastCondition = {
     hook: AnyCharEvenetType;
     /**瞄准方式
      * auto 为 根据施法目标自动选择;
-     * random 为 原版随机;
+     *
+     * random 为 原版随机 适用于自身buff;
+     *
      * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
+     *
      * direct_hit 为 直接命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
+     *
      * reverse_hit 为 翻转命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
      * hook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage
      * 除 reverse_hit 外无法使用翻转事件;
+     *
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
+     *
+     * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 适用于队友buff;
+     *
      * 默认为auto
      * 若允许多个CastCondition 请指定具体type
      * 相同的hook与target(包括auto或未指定)将覆盖

@@ -230,8 +230,8 @@ async function createSkillResp(dm, charName) {
         const resp = {
             truefalsetext: {
                 condition: { math: [stopVar, "==", "1"] },
-                true: `[已停用] ${spell.name}`,
-                false: `[已启用] ${spell.name}`,
+                true: `[已停用] ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}`,
+                false: `[已启用] ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}`,
             },
             effect: { run_eocs: eocid },
             topic: skillTalkTopicId,
@@ -244,8 +244,8 @@ async function createSkillResp(dm, charName) {
         skillRespList.push(resp);
         dynLine.push({
             math: [stopVar, "==", "1"],
-            yes: `${charName} 不会使用 ${spell.name}\n`,
-            no: `${charName} 会尝试使用 ${spell.name}\n`,
+            yes: `${charName} 不会使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}\n`,
+            no: `${charName} 会尝试使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}\n`,
         });
     }
     //技能主对话

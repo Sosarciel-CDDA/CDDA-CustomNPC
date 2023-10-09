@@ -291,6 +291,10 @@ function CNPC_EOC_GlobalUpdateEvent(){
 				eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
 				//运行动态生成的事件eoc
 				CNPC_EOC_CharBattleUpdate();
+			}else{
+				//触发非战斗中
+				//运行动态生成的事件eoc
+				CNPC_EOC_CharNonBattleUpdate();
 			}
 
 

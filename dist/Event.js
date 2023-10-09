@@ -21,6 +21,7 @@ exports.CharEventTypeList = [
     "CharUpdate",
     "CharInit",
     "CharBattleUpdate",
+    "CharNonBattleUpdate",
     "CharDeath",
     "CharDeathPrev",
     "CharDeathAfter",

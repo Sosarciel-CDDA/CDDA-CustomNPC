@@ -58,6 +58,13 @@
             ],
             "desc": "让角色学会 法术 : 朦胧术",
             "effect": [{"math": ["n_val('spell_exp', 'spell: obfuscated_body')","+=","1000000"]}]
+        },
+        {
+            "field": "治疗轻伤",
+            "require_resource": [
+                [[{"id":"spell_scroll_light_healing","not_consume": true}]]
+            ],
+            "desc": "让角色学会 法术 : 治疗轻伤"
         }
     ],
     "skill": [
@@ -199,17 +206,18 @@
         {
             "cast_condition":{
                 "hook": "CharBattleUpdate",
-                "condition": {"not":{"u_has_effect":"bless"}}
+                "condition": {"not":{"npc_has_effect":"bless"}}
             },
             "spell": {
                 "id": "CNPC_SPELL_bless",
                 "type": "SPELL",
                 "name": "祝福_NPC",
                 "description": "A spell of blessing that gives you energy and boosts your abilities.",
-                "valid_targets": [ "self" ],
+                "valid_targets": [ "self","ally" ],
                 "min_aoe": 5,
                 "min_duration": 30000,
                 "base_casting_time": 100,
+                "min_range": 10,
                 "difficulty": 5,
                 "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
                 "shape": "blast",
@@ -267,6 +275,35 @@
                 "base_energy_cost": 200
             },
             "require_field": "朦胧术"
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"or":[
+                    {"math":["n_hp()","<=","n_hp_max()/2"]},
+                    {"math":["n_hp('torso')","<=","n_hp_max('torso')/3"]},
+                    {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
+                ]}
+            },
+            "spell": {
+                "id": "CNPC_SPELL_light_healing",
+                "type": "SPELL",
+                "name": "治疗轻伤_NPC",
+                "description": "Heals a little bit of damage on the target.",
+                "valid_targets": [ "self","ally" ],
+                "min_damage": -20,
+                "max_damage": -20,
+                "min_range": 4,
+                "base_casting_time": 300,
+                "difficulty": 2,
+                "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "energy_source": "MANA",
+                "base_energy_cost": 800
+            },
+            "require_field": "治疗轻伤",
+            "weight": -1
         }
     ]
 }
