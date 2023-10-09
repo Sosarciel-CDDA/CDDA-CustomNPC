@@ -7,52 +7,72 @@
             "require_resource": [
                 [[{"id":"spell_scroll_cats_grace","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:猫之优雅"
+            "desc": "让角色学会 法术 : 猫之优雅"
         },
         {
             "field": "鹰眼",
             "require_resource": [
                 [[{"id":"spell_scroll_eagles_sight","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:鹰眼"
+            "desc": "让角色学会 法术 : 鹰眼"
         },
         {
             "field": "巨魔之力",
             "require_resource": [
                 [[{"id":"spell_scroll_ogres_strength","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:巨魔之力"
+            "desc": "让角色学会 法术 : 巨魔之力"
         },
         {
             "field": "狐之狡黠",
             "require_resource": [
                 [[{"id":"spell_scroll_foxs_cunning","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:狐之狡黠"
+            "desc": "让角色学会 法术 : 狐之狡黠"
         },
         {
             "field": "突触刺激",
             "require_resource": [
                 [[{"id":"spell_scroll_synaptic_stimulation","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:突触刺激"
+            "desc": "让角色学会 法术 : 突触刺激"
         },
         {
             "field": "祝福",
             "require_resource": [
                 [[{"id":"spell_scroll_bless","not_consume": true}]]
             ],
-            "desc": "让角色学会法术:祝福"
+            "desc": "让角色学会 法术 : 祝福"
+        },
+        {
+            "field": "风行术",
+            "require_resource": [
+                [[{"id":"spell_scroll_windrun","not_consume": true}]]
+            ],
+            "desc": "让角色学会 法术 : 风行术"
+        },
+        {
+            "field": "朦胧术",
+            "require_resource": [
+                [[{"id":"spell_scroll_obfuscated_body","not_consume": true}]]
+            ],
+            "desc": "让角色学会 法术 : 朦胧术",
+            "effect": [{"math": ["n_val('spell_exp', 'spell: obfuscated_body')","+=","1000000"]}]
         }
     ],
     "skill": [
         {
             "cast_condition":{
                 "hook": "CharBattleUpdate",
-                "condition": {"not":{"u_has_effect":"cats_grace"}}
+                "condition": {"and":[
+                    {"not":{"u_has_effect":"cats_grace"}},
+                    {"not":{"u_has_effect":"eagles_sight"}},
+                    {"not":{"u_has_effect":"ogres_strength"}},
+                    {"not":{"u_has_effect":"foxs_cunning"}}
+                ]}
             },
             "spell": {
-                "id": "CNPC_cats_grace",
+                "id": "CNPC_SPELL_cats_grace",
                 "type": "SPELL",
                 "name": "猫之优雅_NPC",
                 "description": "You become more graceful, agile, and coordinated.",
@@ -67,16 +87,20 @@
                 "energy_source": "MANA",
                 "base_energy_cost": 300
             },
-            "require_field": "猫之优雅",
-            "weight": -1
+            "require_field": "猫之优雅"
         },
         {
             "cast_condition":{
                 "hook": "CharBattleUpdate",
-                "condition": {"not":{"u_has_effect":"eagles_sight"}}
+                "condition": {"and":[
+                    {"not":{"u_has_effect":"cats_grace"}},
+                    {"not":{"u_has_effect":"eagles_sight"}},
+                    {"not":{"u_has_effect":"ogres_strength"}},
+                    {"not":{"u_has_effect":"foxs_cunning"}}
+                ]}
             },
             "spell": {
-                "id": "CNPC_eagles_sight",
+                "id": "CNPC_SPELL_eagles_sight",
                 "type": "SPELL",
                 "name": "鹰眼_NPC",
                 "description": "You gain the perception of an eagle.",
@@ -91,16 +115,20 @@
                 "energy_source": "MANA",
                 "base_energy_cost": 300
             },
-            "require_field": "鹰眼",
-            "weight": -1
+            "require_field": "鹰眼"
         },
         {
             "cast_condition":{
                 "hook": "CharBattleUpdate",
-                "condition": {"not":{"u_has_effect":"ogres_strength"}}
+                "condition": {"and":[
+                    {"not":{"u_has_effect":"cats_grace"}},
+                    {"not":{"u_has_effect":"eagles_sight"}},
+                    {"not":{"u_has_effect":"ogres_strength"}},
+                    {"not":{"u_has_effect":"foxs_cunning"}}
+                ]}
             },
             "spell": {
-                "id": "CNPC_ogres_strength",
+                "id": "CNPC_SPELL_ogres_strength",
                 "type": "SPELL",
                 "name": "巨魔之力_NPC",
                 "description": "You gain the strength of an ogre.",
@@ -115,16 +143,20 @@
                 "energy_source": "MANA",
                 "base_energy_cost": 300
             },
-            "require_field": "巨魔之力",
-            "weight": -1
+            "require_field": "巨魔之力"
         },
         {
             "cast_condition":{
                 "hook": "CharBattleUpdate",
-                "condition": {"not":{"u_has_effect":"foxs_cunning"}}
+                "condition": {"and":[
+                    {"not":{"u_has_effect":"cats_grace"}},
+                    {"not":{"u_has_effect":"eagles_sight"}},
+                    {"not":{"u_has_effect":"ogres_strength"}},
+                    {"not":{"u_has_effect":"foxs_cunning"}}
+                ]}
             },
             "spell": {
-                "id": "CNPC_foxs_cunning",
+                "id": "CNPC_SPELL_foxs_cunning",
                 "type": "SPELL",
                 "name": "狐之狡黠_NPC",
                 "description": "You become wily like a fox.",
@@ -139,8 +171,7 @@
                 "energy_source": "MANA",
                 "base_energy_cost": 300
             },
-            "require_field": "狐之狡黠",
-            "weight": -1
+            "require_field": "狐之狡黠"
         },
         {
             "cast_condition":{
@@ -148,7 +179,7 @@
                 "condition": {"not":{"u_has_effect":"synaptic_stim"}}
             },
             "spell": {
-                "id": "CNPC_synaptic_stimulation",
+                "id": "CNPC_SPELL_synaptic_stimulation",
                 "type": "SPELL",
                 "name": "突触刺激_NPC",
                 "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability, including enhancing your reflexes, speed, and raw intellectual power.  Use responsibly!",
@@ -171,7 +202,7 @@
                 "condition": {"not":{"u_has_effect":"bless"}}
             },
             "spell": {
-                "id": "CNPC_bless",
+                "id": "CNPC_SPELL_bless",
                 "type": "SPELL",
                 "name": "祝福_NPC",
                 "description": "A spell of blessing that gives you energy and boosts your abilities.",
@@ -189,6 +220,53 @@
                 "base_energy_cost": 100
             },
             "require_field": "祝福"
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"enchant_windrun"}}
+            },
+            "spell": {
+                "id": "CNPC_SPELL_windrun",
+                "type": "SPELL",
+                "name": "风行术_NPC",
+                "description": "A magical wind pushes you forward as you move, easing your movements and increasing speed.",
+                "valid_targets": [ "self" ],
+                "min_duration": 30000,
+                "base_casting_time": 50,
+                "difficulty": 1,
+                "flags": [ "CONCENTRATE", "SILENT", "VERBAL", "NO_HANDS", "NO_PROJECTILE" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "enchant_windrun",
+                "affected_body_parts": [ "torso" ],
+                "energy_source": "MANA",
+                "base_energy_cost": 50
+            },
+            "require_field": "风行术"
+        },
+        {
+            "cast_condition":{
+                "hook": "CharBattleUpdate",
+                "condition": {"not":{"u_has_effect":"effect_obfuscating_aura"}}
+            },
+            "spell": {
+                "id": "CNPC_SPELL_obfuscated_body_plus",
+                "type": "SPELL",
+                "name": "朦胧术_NPC",
+                "description": "A magical aura distorts light around your body, increasing the amount of attacks you might dodge in a given turn.",
+                "valid_targets": [ "self" ],
+                "min_duration": 2160000,
+                "base_casting_time": 150,
+                "difficulty": 7,
+                "flags": [ "NO_LEGS" ],
+                "shape": "blast",
+                "effect": "attack",
+                "effect_str": "effect_obfuscating_aura",
+                "energy_source": "MANA",
+                "base_energy_cost": 200
+            },
+            "require_field": "朦胧术"
         }
     ]
 }

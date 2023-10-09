@@ -1,4 +1,4 @@
-import { BoolObj } from "./CddaJsonFormat/Eoc";
+import { BoolObj, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { AnyCharEvenetType } from "./Event";
@@ -18,8 +18,12 @@ export type CharSkill = {
      * 一个高权重0共同冷却的技能意味着可以同时触发
      */
     common_cooldown?: number;
-    /**法术效果 可用{{fieldName}}表示字段变量
-     * 如 min_damage: {math:["{{重击}} * 10"]}
+    /**法术效果
+     * 可用 {{字段}} 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量
+     * 如 min_damage: {math:["{{重击}} * 10 + Asuna_重击"]}
+     * 可用 `u_${法术id}_cooldown` 获得对应技能冷却
+     * 如 {math:["u_fireball_cooldown"]}
+     * 可用 u_coCooldown 获得公共冷却时间
      */
     spell: Spell;
     /**技能音效 */
@@ -33,6 +37,8 @@ export type CharSkill = {
     })[];
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?: [string, number] | string;
+    /**释放成功后运行的效果 */
+    effect?: EocEffect[];
 };
 /**技能的释放条件 */
 export type CastCondition = {

@@ -1,4 +1,4 @@
-import { AnyItemID, EnchArmorValType, EnchGenericValType, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
+import { AnyItemID, EnchArmorValType, EnchGenericValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { DataManager } from './DataManager';
 /**动态读取的角色设定 */
@@ -77,6 +77,10 @@ export type CharUpgrade = {
     } | MutationID)[];
     /**对这个升级项的说明 */
     desc?: string;
+    /**每次升级时将会应用的EocEffect
+     * u是玩家 n是角色
+     */
+    effect?: EocEffect[];
 };
 /**变量属性 */
 export type EnchStat = `${"add" | "multiply"}_${EnchGenericValType | EnchArmorValType}`;

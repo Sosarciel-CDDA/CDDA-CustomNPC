@@ -32,7 +32,7 @@ export const StatMod:Enchantment={
         multiply:{math:["DamageMul(u_val('strength'))-1"]}
     },{
         value:"SPEED",
-        multiply:{math:["DamageMul(u_val('dexterity'))-1"]}
+        multiply:{math:["(DamageMul(u_val('dexterity'))-1)/2"]}
     }]
 }
 

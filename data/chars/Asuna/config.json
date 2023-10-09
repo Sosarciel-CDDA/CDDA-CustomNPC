@@ -63,8 +63,7 @@
 			"cast_condition":{
 				"hook": "CharCauseRangeHit"
 			},
-			"cooldown":60,
-			"one_in_chance": 2,
+			"cooldown":30,
 			"audio":[
 				{"id":"EvaporateFuture", "one_in_chance":2},
 				"EvaporateFutureSF","Hit"
@@ -84,14 +83,17 @@
 				"shape": "cone",
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
-			}
+			},
+			"effect":[
+				{"math": ["u_CNPC_SPELL_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_CNPC_SPELL_EvaporateFuture_cooldown"]}
+			],
+			"weight": 2
 		},
 		{
 			"cast_condition":{
 				"hook": "CharCauseMeleeHit"
 			},
-			"cooldown":60,
-			"one_in_chance": 2,
+			"cooldown":30,
 			"audio":[
 				{"id":"BladeStrike", "one_in_chance":2},
 				"BladeStrikeSF","Hit"
@@ -110,7 +112,8 @@
 				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
-			}
+			},
+			"weight": 2
 		},
 		{
 			"cast_condition":{
@@ -135,14 +138,15 @@
 				"min_range": 1,
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
-			}
+			},
+			"weight": 1
 		},
 		{
 			"cast_condition":{
-				"hook": "CharBattleUpdate"
+				"hook": "CharBattleUpdate",
+				"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}}
 			},
 			"audio":["Snipe","SnipeSF"],
-			"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}},
 			"spell": {
 				"type": "SPELL",
 				"id":"CNPC_SPELL_Snipe",
@@ -154,8 +158,9 @@
 				"shape": "blast",
 				"min_duration": 18000,
 				"energy_source": "MANA",
-				"base_energy_cost":160
-			}
+				"base_energy_cost":200
+			},
+			"weight": 1
 		}
 	],
 	"desc": {

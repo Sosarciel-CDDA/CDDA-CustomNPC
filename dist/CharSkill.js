@@ -9,7 +9,7 @@ const CharConfig_1 = require("./CharConfig");
 //脚本提供的判断是否成功命中目标的全局变量 字段
 const hasTargetVar = "hasTarget";
 //全局冷却字段名
-const gcdValName = `u_CoCooldown`;
+const gcdValName = `u_coCooldown`;
 /**使某个技能停止使用的变量 */
 function stopSpellVar(charName, spell) {
     return `${charName}_${spell.id}_stop`;
@@ -45,7 +45,7 @@ async function createCharSkill(dm, charName) {
         //替换变量字段
         skill.spell = JSON.parse(JSON.stringify(skill.spell)
             .replace(/(\{\{.*?\}\})/g, (match, p1) => (0, CharConfig_1.getFieldVarID)(charName, p1)));
-        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field } = skill;
+        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field, effect } = skill;
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
@@ -54,7 +54,7 @@ async function createCharSkill(dm, charName) {
             ? costMap[spell.energy_source]
             : undefined;
         //生成冷却变量名
-        const cdValName = `u_${spell.id}_Cooldown`;
+        const cdValName = `u_${spell.id}_cooldown`;
         //计算成功效果
         const TEffect = [];
         if (common_cooldown != 0)
@@ -80,6 +80,8 @@ async function createCharSkill(dm, charName) {
                 return effect;
             }));
         }
+        if (effect)
+            TEffect.push(...effect);
         //遍历释放条件
         const ccs = Array.isArray(cast_condition)
             ? cast_condition
@@ -118,7 +120,7 @@ async function createCharSkill(dm, charName) {
         if (cooldown != null) {
             const CDEoc = {
                 type: "effect_on_condition",
-                id: (0, _1.genEOCID)(`${charName}_${spell.id}_Cooldown`),
+                id: (0, _1.genEOCID)(`${charName}_${spell.id}_cooldown`),
                 effect: [
                     { math: [cdValName, "-=", "1"] }
                 ],

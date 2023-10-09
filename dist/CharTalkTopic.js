@@ -110,6 +110,7 @@ async function createUpgResp(dm, charName) {
                         })),
                         { math: [fieldID, "+=", "1"] },
                         { u_message: `${charName} 升级了 ${upgObj.field}` },
+                        ...upgObj.effect ?? [], //应用升级效果
                     ],
                     condition: cond
                 };

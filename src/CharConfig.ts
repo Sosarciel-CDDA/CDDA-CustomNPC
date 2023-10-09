@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
+import { AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
 import { DataManager } from './DataManager';
@@ -82,6 +82,10 @@ export type CharUpgrade = {
     mutation?:({id:MutationID,lvl:number}|MutationID)[];
     /**对这个升级项的说明 */
     desc?:string;
+    /**每次升级时将会应用的EocEffect 
+     * u是玩家 n是角色
+     */
+    effect?:EocEffect[];
 }
 
 

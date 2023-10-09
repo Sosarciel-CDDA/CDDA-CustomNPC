@@ -1,6 +1,6 @@
-import { JArray, JObject, UtilFunc } from "@zwa73/utils";
-import { CON_SPELL_FLAG, genEOCID } from ".";
-import { BoolObj, Eoc, EocEffect } from "./CddaJsonFormat/Eoc";
+import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
+import { CON_SPELL_FLAG, genEOCID, genSpellID } from ".";
+import { BoolObj, Eoc, EocEffect, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
@@ -9,9 +9,19 @@ import { getFieldVarID } from "./CharConfig";
 
 
 //脚本提供的判断是否成功命中目标的全局变量 字段
-const hasTargetVar = "hasTarget"
+const hasTargetVar = "hasTarget";
+/**技能选择目标类型 列表 */
+const TargetTypeList = [
+    "auto"          ,//自动         任意非翻转hook
+    "random"        ,//原版随机     任意非翻转hook
+    "spell_target"  ,//瞄准法术标靶 任意非翻转hook 但法术标靶只在造成伤害时生成
+    "reverse_hit"   ,//翻转命中交互单位 u为角色 n为受害者 处理时翻转 hook必须为ReverseCharEventType
+    "direct_hit"    ,//直接命中交互单位 u为角色 n为受害者 hook必须为InteractiveCharEvent
+    "auto_hit"      ,//自动判断命中交互单位 hook必须为InteractiveCharEvent或ReverseCharEventType
+    "filter_hit"    ,//筛选目标命中 u为角色 n为受害者 处理时翻转 任意非翻转hook
+]as const;
 /**技能选择目标类型 */
-type TargetType = "auto"|"random"|"spell_target"|"reverse_hit"|"direct_hit"|"auto_hit";
+type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
     /**技能的释放条件 */
@@ -27,8 +37,8 @@ export type CharSkill = {
      */
     common_cooldown?:number,
     /**法术效果  
-     * 可用{{fieldName}}表示字段变量  
-     * 如 min_damage: {math:["{{重击}} * 10"]}  
+     * 可用 {{字段}} 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量  
+     * 如 min_damage: {math:["{{重击}} * 10 + Asuna_重击"]}  
      * 可用 `u_${法术id}_cooldown` 获得对应技能冷却  
      * 如 {math:["u_fireball_cooldown"]} 
      * 可用 u_coCooldown 获得公共冷却时间
@@ -45,6 +55,8 @@ export type CharSkill = {
     })[],
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?:[string,number]|string;
+    /**释放成功后运行的效果 */
+    effect?:EocEffect[];
 };
 
 /**技能的释放条件 */
@@ -59,9 +71,9 @@ export type CastCondition={
      * auto 为 根据施法目标自动选择;  
      * random 为 原版随机;  
      * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  
-     * direct_hit 为 直接命中 使目标使用此法术攻击自己 适用于单体目标技能  
+     * direct_hit 为 直接命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能  
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
-     * reverse_hit 为 翻转命中 使目标使用此法术攻击自己 适用于单体目标技能  
+     * reverse_hit 为 翻转命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能  
      * hook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  
      * 除 reverse_hit 外无法使用翻转事件;  
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  
@@ -115,7 +127,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         skill.spell = JSON.parse(JSON.stringify(skill.spell)
             .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(charName,p1)));
 
-        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field} = skill;
+        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,effect} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
@@ -155,6 +167,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 return effect;
             }));
         }
+        if(effect)
+            TEffect.push(...effect);
 
         //遍历释放条件
         const ccs = Array.isArray(cast_condition)
@@ -191,7 +205,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             //处理并加入输出
             skillDataList.push(...ProcMap[target??"auto"](dm,charName,baseSkillData));
         }
-        skillDataList.push(spell);
+        dm.addSharedRes(spell.id,spell);
         //冷却事件
         if(cooldown!=null){
             const CDEoc:Eoc={
@@ -219,6 +233,7 @@ const ProcMap:Record<TargetType,(dm:DataManager,charName:string,baseSkillData:Ba
     "reverse_hit"   : reverse_hitProc,
     "direct_hit"    : direct_hitProc,
     "auto_hit"      : auto_hitProc,
+    "filter_hit"    : filter_hitProc,
 }
 
 /**基础技能数据 */
@@ -237,6 +252,41 @@ type BaseSkillCastData=Readonly<{
 function castCondUid(cc:CastCondition){
     return `${cc.hook}_${cc.target??"auto"}`;
 }
+//翻转u与n
+function revTalker(obj:JToken):any{
+    let str = JSON.stringify(obj);
+    str = str.replace(/"u_(\w+?)":/g, '"npc_$1":');
+    str = str.replace(/(?<!\w)u_/g, 'n_');
+    return JSON.parse(str);
+}
+/**翻转法术 */
+function revSpell(charName:string,spell:Spell,ccuid:string):Spell{
+    const rspell = UtilFunc.deepClone(spell);
+    rspell.name = `${charName}_${spell.name}_reverse_${ccuid}`;
+    rspell.id = `${charName}_${rspell.id}_reverse_${ccuid}` as SpellID;
+    rspell.valid_targets.push("self");
+    return rspell;
+}
+/**解析伤害字符串 */
+function parseNumObj(spell:Spell,ccuid:string,field:keyof Spell){
+    let strExp = `0`;
+    const value = spell[field];
+    if(value!==undefined){
+        if(typeof value == "number")
+            strExp = value+"";
+        else if(typeof value == "object" && "math" in value)
+            strExp = value.math[0];
+        else throw `伤害解析只支持固定值number 或 math表达式`
+    }
+    return strExp;
+}
+/**修改翻转法术伤害 */
+function fixRevSpellDmg(spell:Spell,ccuid:string){
+    const dmgvar = `${spell.id}_reverse_dmg_${ccuid}`;
+    spell.min_damage = {math:[dmgvar]};
+    spell.max_damage = 999999;
+    return dmgvar;
+}
 
 function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition} = baseSkillData;
@@ -244,12 +294,12 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
     const {hook} = castCondition;
     const ccuid = castCondUid(castCondition);
 
-    //如果需要选择目标 创建索敌辅助法术
+    //创建瞄准法术标靶的辅助索敌法术
     const {min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape} = spell;
-    const selTargetSpell = {
-        id:`${spell.id}_SelTarget_${ccuid}` as SpellID,
+    const selTargetSpell:Spell = {
+        id:genSpellID(`${spell.id}_SelTarget`),
         type:"SPELL",
         name:spell.name+"_索敌",
         description:`${spell.name}的辅助索敌法术`,
@@ -264,6 +314,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         shape,max_level,
         extra_effects:[{id:spell.id}],
     }
+    dm.addSharedRes(selTargetSpell.id,selTargetSpell);
 
     //创建施法EOC
     const castEoc:Eoc={
@@ -294,7 +345,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         throw `翻转事件只能应用于翻转命中`
     dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
 
-    return [castEoc,selTargetSpell];
+    return [castEoc];
 }
 
 function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
@@ -333,13 +384,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
     return [castEoc];
 }
 
-//翻转u与n
-function revTalker(obj:JObject):any{
-    let str = JSON.stringify(obj);
-    str = str.replace(/"u_(\w+?)":/g, '"npc_$1":');
-    str = str.replace(/(?<!\w)u_/g, 'n_');
-    return JSON.parse(str);
-}
+
 
 function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     let {skill,baseCond,TEffect,castCondition} = baseSkillData;
@@ -348,27 +393,79 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = UtilFunc.deepClone(spell);
-    rspell.id = `${rspell.id}_reverse_${ccuid}` as SpellID;
-    rspell.valid_targets.push("self");
+    const rspell = revSpell(charName,spell,ccuid);
 
     //解析伤害字符串
-    let dmgstr = `0`;
-    let dmgvar = `${rspell.id}_reverse_dmg_${ccuid}`;
-    if(rspell.min_damage!==undefined){
-        if(typeof rspell.min_damage == "number")
-            dmgstr = rspell.min_damage+"";
-        else if("math" in rspell.min_damage)
-            dmgstr = rspell.min_damage.math[0];
-        else throw `翻转命中伤害只支持固定值number 或 math表达式`
-    }
-    rspell.min_damage = {math:[dmgvar]};
-    rspell.max_damage = 999999;
+    const dmgstr = revTalker(parseNumObj(spell,ccuid,"min_damage"));
+    const dmgvar = fixRevSpellDmg(spell,ccuid);
 
     //翻转u与n
-    baseCond = JSON.parse(JSON.stringify(baseCond).replace(/(?<!\w)u_/g, 'n_'));
-    TEffect = JSON.parse(JSON.stringify(TEffect).replace(/(?<!\w)u_/g, 'n_'));
-    dmgstr = dmgstr.replace(/(?<!\w)u_/g, 'n_');
+    baseCond = revTalker(baseCond);
+    TEffect = revTalker(TEffect);
+
+    //创建翻转的施法EOC
+    const castEoc:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        eoc_type:"ACTIVATION",
+        effect:[
+            {math: [dmgvar , `=` , dmgstr]},//预先计算伤害
+            {
+                u_cast_spell:{
+                    id:rspell.id,
+                    once_in:one_in_chance,
+                    hit_self:true              //如果是翻转事件则需命中自身
+                },
+                true_eocs:{
+                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
+                    effect:[...TEffect],
+                    eoc_type:"ACTIVATION",
+                }
+            }
+        ],
+        condition:{and:[...baseCond]},
+    }
+
+    //加入触发
+    if(CharEventTypeList.includes(hook as any))
+        throw `翻转命中 所用的事件必须为 翻转事件: ${ReverseCharEventTypeList}`
+    dm.addReverseCharEvent(charName,hook as ReverseCharEventType,0,castEoc);
+
+    return [rspell,castEoc];
+}
+
+function filter_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+    let {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    const {spell,one_in_chance} = skill;
+    const {hook} = castCondition;
+    const ccuid = castCondUid(castCondition);
+
+    //创建筛选目标的辅助索敌法术
+    const {min_range,max_range,range_increment,
+        max_level,shape,valid_targets,targeted_monster_ids} = spell;
+    const filterTargetSpell:Spell = {
+        id:genSpellID(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
+        type:"SPELL",
+        name:spell.name+"_筛选索敌",
+        description:`${spell.name}的筛选索敌法术`,
+        effect:"effect_on_condition",
+        effect_str:`${spell.id}_FilterTargetEoc_${ccuid}`,
+        flags:[...CON_SPELL_FLAG],
+        min_range,max_range,range_increment,
+        shape,max_level,valid_targets,targeted_monster_ids,
+        extra_effects:[{id:spell.id}],
+    }
+
+    //复制法术
+    const rspell = revSpell(charName,spell,ccuid);
+
+    //解析伤害字符串
+    const dmgstr = revTalker(parseNumObj(spell,ccuid,"min_damage"));
+    const dmgvar = fixRevSpellDmg(spell,ccuid);
+
+    //翻转u与n
+    baseCond = revTalker(baseCond);
+    TEffect = revTalker(TEffect);
 
 
     //创建翻转的施法EOC
@@ -403,28 +500,17 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
 }
 
 function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    let {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = UtilFunc.deepClone(spell);
-    rspell.id = `${rspell.id}_reverse_${ccuid}` as SpellID;
-    rspell.valid_targets.push("self");
+    const rspell = revSpell(charName,spell,ccuid);
 
     //解析伤害字符串
-    let dmgstr = `0`;
-    let dmgvar = `${rspell.id}_reverse_dmg_${ccuid}`;
-    if(rspell.min_damage!==undefined){
-        if(typeof rspell.min_damage == "number")
-            dmgstr = rspell.min_damage+"";
-        else if("math" in rspell.min_damage)
-            dmgstr = rspell.min_damage.math[0];
-        else throw `直接命中伤害只支持固定值number 或 math表达式`
-    }
-    rspell.min_damage = {math:[dmgvar]};
-    rspell.max_damage = 999999;
+    const dmgstr = parseNumObj(spell,ccuid,"min_damage");
+    const dmgvar = fixRevSpellDmg(spell,ccuid);
 
 
     //创建翻转的施法EOC

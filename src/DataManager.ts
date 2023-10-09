@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { JArray, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
+import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from './StaticData';
 import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
 import { genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from './ModDefine';
@@ -65,6 +65,8 @@ export type DataTable={
     staticTable:Record<string,JArray>;
     /**输出的Eoc事件 */
     eventEocs:Record<GlobalEventType,EventEffect[]>;
+    /**共用资源表 */
+    sharedTable:Record<string,JObject>;
 }
 
 /**build配置 */
@@ -103,6 +105,7 @@ export class DataManager{
     private dataTable:DataTable={
         charTable:{},
         staticTable:{},
+        sharedTable:{},
         eventEocs:GlobalEvemtTypeList.reduce((acc,etype)=>
             ({...acc,[etype]:[]}),{} as Record<GlobalEventType,EventEffect[]>)
     }
@@ -390,6 +393,10 @@ export class DataManager{
     getOutCharPath(charName:string){
         return path.join(this.outPath,'chars',charName);
     }
+    /**添加共享资源 */
+    addSharedRes(key:string,val:JObject){
+        this.dataTable.sharedTable[key]=val;
+    }
 
 
 
@@ -417,6 +424,9 @@ export class DataManager{
             //await
             this.saveToFile(key,obj);
         }
+
+        //导出共用资源
+        this.saveToFile("SharedTable",Object.values(this.dataTable.sharedTable));
 
 
         //导出角色数据
