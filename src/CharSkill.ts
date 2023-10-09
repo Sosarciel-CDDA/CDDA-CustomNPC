@@ -8,8 +8,6 @@ import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseChar
 import { getFieldVarID } from "./CharConfig";
 
 
-//脚本提供的判断是否成功命中目标的全局变量 字段
-const hasTargetVar = "hasTarget";
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
     "auto"          ,//自动         任意非翻转hook
@@ -372,9 +370,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
                 }
             }
         ],
-        condition:{and:[
-            {math:[hasTargetVar,"==","1"]}
-            ,...baseCond]},
+        condition:{and:[...baseCond]},
     }
 
     //加入触发
@@ -598,9 +594,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
                 }
             }
         ],
-        condition:{and:["npc_is_alive",
-            {math:[hasTargetVar,"==","1"]}
-            ,...baseCond]},
+        condition:{and:[...baseCond]},
     }
 
     //加入触发

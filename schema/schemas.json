@@ -8933,10 +8933,12 @@
 				"CharIdle",
 				"CharInit",
 				"CharMove",
+				"CharNonBattleUpdate",
 				"CharTakeDamage",
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
-				"CharUpdate"
+				"CharUpdate",
+				"CharUpdateSlow"
 			],
 			"type": "string"
 		},
@@ -30369,7 +30371,7 @@
 					"type": "object"
 				},
 				"charEventEocs": {
-					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>",
+					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharUpdateSlow\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharNonBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>",
 					"description": "输出的角色Eoc事件 u为角色 npc为未定义  \nid为 `${charName}_${etype}`"
 				},
 				"defineData": {
@@ -30575,10 +30577,12 @@
 				"CharIdle",
 				"CharInit",
 				"CharMove",
+				"CharNonBattleUpdate",
 				"CharTakeDamage",
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
-				"CharUpdate"
+				"CharUpdate",
+				"CharUpdateSlow"
 			],
 			"type": "string"
 		},
@@ -35991,7 +35995,7 @@
 							"description": "输出的角色数据表"
 						},
 						"eventEocs": {
-							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
+							"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharUpdateSlow\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharNonBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 							"description": "输出的Eoc事件"
 						},
 						"sharedTable": {
@@ -36049,7 +36053,7 @@
 					"description": "输出的角色数据表"
 				},
 				"eventEocs": {
-					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
+					"$ref": "#/definitions/Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharUpdateSlow\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharNonBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>",
 					"description": "输出的Eoc事件"
 				},
 				"sharedTable": {
@@ -60648,10 +60652,12 @@
 				"CharIdle",
 				"CharInit",
 				"CharMove",
+				"CharNonBattleUpdate",
 				"CharTakeDamage",
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
 				"CharUpdate",
+				"CharUpdateSlow",
 				"PlayerUpdate"
 			],
 			"type": "string"
@@ -77568,7 +77574,7 @@
 			],
 			"type": "object"
 		},
-		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>": {
+		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharUpdateSlow\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharNonBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\",EventEffect[]>": {
 			"properties": {
 				"CharBattleUpdate": {
 					"items": {
@@ -83680,6 +83686,617 @@
 					},
 					"type": "array"
 				},
+				"CharNonBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"anyOf": [
+									{
+										"properties": {
+											"math": {
+												"items": [
+													{
+														"type": "string"
+													},
+													{
+														"enum": [
+															"*=",
+															"+=",
+															"-=",
+															"/=",
+															"="
+														],
+														"type": "string"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"maxItems": 3,
+												"minItems": 3,
+												"type": "array"
+											}
+										},
+										"required": [
+											"math"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_lose_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_lose_trait"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/RunEoc",
+										"description": "运行Eoc"
+									},
+									{
+										"description": "延迟队列eoc",
+										"properties": {
+											"queue_eocs": {
+												"$ref": "#/definitions/ParamsEoc",
+												"description": "运行Eoc 将会丢失beta talker"
+											},
+											"time_in_future": {
+												"$ref": "#/definitions/Time",
+												"description": "延迟"
+											}
+										},
+										"required": [
+											"queue_eocs",
+											"time_in_future"
+										],
+										"type": "object"
+									},
+									{
+										"description": "运行Eoc 并提供参数",
+										"properties": {
+											"beta_loc": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													}
+												],
+												"description": "将loc所在位置的单位作为beta talker"
+											},
+											"run_eoc_with": {
+												"$ref": "#/definitions/ParamsEoc"
+											},
+											"variables": {
+												"$ref": "#/definitions/Record<string,string>",
+												"description": "提供的上下文参数表 变量名:值"
+											}
+										},
+										"required": [
+											"run_eoc_with"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_add_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_add_trait"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"count": {
+												"type": "number"
+											},
+											"u_consume_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"count",
+											"u_consume_item"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"properties": {
+											"u_spawn_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"u_spawn_item"
+										],
+										"type": "object"
+									},
+									{
+										"description": "播放声音",
+										"properties": {
+											"id": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "音效ID"
+											},
+											"outdoor_event": {
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
+												"type": "boolean"
+											},
+											"sound_effect": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "变体ID"
+											},
+											"volume": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"description": "Math数字表达式",
+														"properties": {
+															"math": {
+																"items": [
+																	{
+																		"type": "string"
+																	}
+																],
+																"maxItems": 1,
+																"minItems": 1,
+																"type": "array"
+															}
+														},
+														"required": [
+															"math"
+														],
+														"type": "object"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"description": "音量"
+											}
+										},
+										"required": [
+											"id",
+											"volume"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"enum": [
+											"drop_weapon",
+											"follow_only",
+											"leave"
+										],
+										"type": "string"
+									}
+								],
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"CharTakeDamage": {
 					"items": {
 						"description": "事件效果",
@@ -86123,6 +86740,617 @@
 						"type": "object"
 					},
 					"type": "array"
+				},
+				"CharUpdateSlow": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"anyOf": [
+									{
+										"properties": {
+											"math": {
+												"items": [
+													{
+														"type": "string"
+													},
+													{
+														"enum": [
+															"*=",
+															"+=",
+															"-=",
+															"/=",
+															"="
+														],
+														"type": "string"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"maxItems": 3,
+												"minItems": 3,
+												"type": "array"
+											}
+										},
+										"required": [
+											"math"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_lose_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_lose_trait"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/RunEoc",
+										"description": "运行Eoc"
+									},
+									{
+										"description": "延迟队列eoc",
+										"properties": {
+											"queue_eocs": {
+												"$ref": "#/definitions/ParamsEoc",
+												"description": "运行Eoc 将会丢失beta talker"
+											},
+											"time_in_future": {
+												"$ref": "#/definitions/Time",
+												"description": "延迟"
+											}
+										},
+										"required": [
+											"queue_eocs",
+											"time_in_future"
+										],
+										"type": "object"
+									},
+									{
+										"description": "运行Eoc 并提供参数",
+										"properties": {
+											"beta_loc": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													}
+												],
+												"description": "将loc所在位置的单位作为beta talker"
+											},
+											"run_eoc_with": {
+												"$ref": "#/definitions/ParamsEoc"
+											},
+											"variables": {
+												"$ref": "#/definitions/Record<string,string>",
+												"description": "提供的上下文参数表 变量名:值"
+											}
+										},
+										"required": [
+											"run_eoc_with"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_add_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_add_trait"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"count": {
+												"type": "number"
+											},
+											"u_consume_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"count",
+											"u_consume_item"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"properties": {
+											"u_spawn_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"u_spawn_item"
+										],
+										"type": "object"
+									},
+									{
+										"description": "播放声音",
+										"properties": {
+											"id": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "音效ID"
+											},
+											"outdoor_event": {
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
+												"type": "boolean"
+											},
+											"sound_effect": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "变体ID"
+											},
+											"volume": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"description": "Math数字表达式",
+														"properties": {
+															"math": {
+																"items": [
+																	{
+																		"type": "string"
+																	}
+																],
+																"maxItems": 1,
+																"minItems": 1,
+																"type": "array"
+															}
+														},
+														"required": [
+															"math"
+														],
+														"type": "object"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"description": "音量"
+											}
+										},
+										"required": [
+											"id",
+											"volume"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"enum": [
+											"drop_weapon",
+											"follow_only",
+											"leave"
+										],
+										"type": "string"
+									}
+								],
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
 				}
 			},
 			"required": [
@@ -86136,14 +87364,16 @@
 				"CharIdle",
 				"CharInit",
 				"CharMove",
+				"CharNonBattleUpdate",
 				"CharTakeDamage",
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
-				"CharUpdate"
+				"CharUpdate",
+				"CharUpdateSlow"
 			],
 			"type": "object"
 		},
-		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>": {
+		"Record<\"CharIdle\"|\"CharMove\"|\"CharUpdate\"|\"CharUpdateSlow\"|\"CharInit\"|\"CharBattleUpdate\"|\"CharNonBattleUpdate\"|\"CharDeath\"|\"CharDeathPrev\"|\"CharDeathAfter\"|\"CharTakeDamage\"|\"CharTakeRangeDamage\"|\"CharTakeMeleeDamage\"|\"CharCauseMeleeHit\"|\"CharCauseRangeHit\"|\"CharCauseHit\"|\"CharCauseDamage\"|\"CharCauseMeleeDamage\"|\"CharCauseRangeDamage\"|\"PlayerUpdate\",EventEffect[]>": {
 			"properties": {
 				"CharBattleUpdate": {
 					"items": {
@@ -94088,6 +95318,617 @@
 					},
 					"type": "array"
 				},
+				"CharNonBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"anyOf": [
+									{
+										"properties": {
+											"math": {
+												"items": [
+													{
+														"type": "string"
+													},
+													{
+														"enum": [
+															"*=",
+															"+=",
+															"-=",
+															"/=",
+															"="
+														],
+														"type": "string"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"maxItems": 3,
+												"minItems": 3,
+												"type": "array"
+											}
+										},
+										"required": [
+											"math"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_lose_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_lose_trait"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/RunEoc",
+										"description": "运行Eoc"
+									},
+									{
+										"description": "延迟队列eoc",
+										"properties": {
+											"queue_eocs": {
+												"$ref": "#/definitions/ParamsEoc",
+												"description": "运行Eoc 将会丢失beta talker"
+											},
+											"time_in_future": {
+												"$ref": "#/definitions/Time",
+												"description": "延迟"
+											}
+										},
+										"required": [
+											"queue_eocs",
+											"time_in_future"
+										],
+										"type": "object"
+									},
+									{
+										"description": "运行Eoc 并提供参数",
+										"properties": {
+											"beta_loc": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													}
+												],
+												"description": "将loc所在位置的单位作为beta talker"
+											},
+											"run_eoc_with": {
+												"$ref": "#/definitions/ParamsEoc"
+											},
+											"variables": {
+												"$ref": "#/definitions/Record<string,string>",
+												"description": "提供的上下文参数表 变量名:值"
+											}
+										},
+										"required": [
+											"run_eoc_with"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_add_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_add_trait"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"count": {
+												"type": "number"
+											},
+											"u_consume_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"count",
+											"u_consume_item"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"properties": {
+											"u_spawn_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"u_spawn_item"
+										],
+										"type": "object"
+									},
+									{
+										"description": "播放声音",
+										"properties": {
+											"id": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "音效ID"
+											},
+											"outdoor_event": {
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
+												"type": "boolean"
+											},
+											"sound_effect": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "变体ID"
+											},
+											"volume": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"description": "Math数字表达式",
+														"properties": {
+															"math": {
+																"items": [
+																	{
+																		"type": "string"
+																	}
+																],
+																"maxItems": 1,
+																"minItems": 1,
+																"type": "array"
+															}
+														},
+														"required": [
+															"math"
+														],
+														"type": "object"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"description": "音量"
+											}
+										},
+										"required": [
+											"id",
+											"volume"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"enum": [
+											"drop_weapon",
+											"follow_only",
+											"leave"
+										],
+										"type": "string"
+									}
+								],
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"CharTakeDamage": {
 					"items": {
 						"description": "事件效果",
@@ -96532,6 +98373,617 @@
 					},
 					"type": "array"
 				},
+				"CharUpdateSlow": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"anyOf": [
+									{
+										"properties": {
+											"math": {
+												"items": [
+													{
+														"type": "string"
+													},
+													{
+														"enum": [
+															"*=",
+															"+=",
+															"-=",
+															"/=",
+															"="
+														],
+														"type": "string"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"maxItems": 3,
+												"minItems": 3,
+												"type": "array"
+											}
+										},
+										"required": [
+											"math"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_lose_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_lose_trait"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/RunEoc",
+										"description": "运行Eoc"
+									},
+									{
+										"description": "延迟队列eoc",
+										"properties": {
+											"queue_eocs": {
+												"$ref": "#/definitions/ParamsEoc",
+												"description": "运行Eoc 将会丢失beta talker"
+											},
+											"time_in_future": {
+												"$ref": "#/definitions/Time",
+												"description": "延迟"
+											}
+										},
+										"required": [
+											"queue_eocs",
+											"time_in_future"
+										],
+										"type": "object"
+									},
+									{
+										"description": "运行Eoc 并提供参数",
+										"properties": {
+											"beta_loc": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													}
+												],
+												"description": "将loc所在位置的单位作为beta talker"
+											},
+											"run_eoc_with": {
+												"$ref": "#/definitions/ParamsEoc"
+											},
+											"variables": {
+												"$ref": "#/definitions/Record<string,string>",
+												"description": "提供的上下文参数表 变量名:值"
+											}
+										},
+										"required": [
+											"run_eoc_with"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_add_trait": {
+												"$ref": "#/definitions/MutationID"
+											}
+										},
+										"required": [
+											"u_add_trait"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"count": {
+												"type": "number"
+											},
+											"u_consume_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"count",
+											"u_consume_item"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{spawn_npc:NpcInstanceID;real_count?:number|undefined;min_radius?:number|undefined;max_radius?:number|undefined;},\"spawn_npc\">"
+											},
+											{
+												"$ref": "#/definitions/{u_spawn_npc:NpcInstanceID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_spawn_npc?:undefined;}"
+											}
+										]
+									},
+									{
+										"properties": {
+											"u_spawn_item": {
+												"$ref": "#/definitions/AnyItemID"
+											}
+										},
+										"required": [
+											"u_spawn_item"
+										],
+										"type": "object"
+									},
+									{
+										"description": "播放声音",
+										"properties": {
+											"id": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "音效ID"
+											},
+											"outdoor_event": {
+												"description": "如果为true则如果玩家在 地下/地下室 时难以听到",
+												"type": "boolean"
+											},
+											"sound_effect": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"type": "string"
+													}
+												],
+												"description": "变体ID"
+											},
+											"volume": {
+												"anyOf": [
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"description": "Math数字表达式",
+														"properties": {
+															"math": {
+																"items": [
+																	{
+																		"type": "string"
+																	}
+																],
+																"maxItems": 1,
+																"minItems": 1,
+																"type": "array"
+															}
+														},
+														"required": [
+															"math"
+														],
+														"type": "object"
+													},
+													{
+														"type": "number"
+													}
+												],
+												"description": "音量"
+											}
+										},
+										"required": [
+											"id",
+											"volume"
+										],
+										"type": "object"
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+											},
+											{
+												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_cast_spell?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};success_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;fail_message?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;force?:boolean|undefined;},\"teleport\">"
+											},
+											{
+												"$ref": "#/definitions/{u_teleport:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_teleport?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;outdoor_only?:boolean|undefined;target_params?:null|undefined;x_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;y_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_adjust?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;z_override?:boolean|undefined;terrain?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;furniture?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;trap?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;monster?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;zone?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;npc?:string|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;target_min_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;target_max_radius?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;},\"location_variable\">"
+											},
+											{
+												"$ref": "#/definitions/{u_location_variable:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};}"
+											},
+											{
+												"$ref": "#/definitions/{npc_location_variable?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{u_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{message:string;type?:\"warning\"|\"info\"|\"debug\"|\"good\"|\"neutral\"|\"bad\"|\"mixed\"|\"headshot\"|\"critical\"|\"grazing\"|undefined;sound?:boolean|undefined;outdoor_only?:boolean|undefined;snippet?:boolean|undefined;same_snippet?:boolean|undefined;popup?:boolean|undefined;popup_w_interrupt_query?:boolean|undefined;interrupt_type?:boolean|undefined;},\"message\">"
+											},
+											{
+												"$ref": "#/definitions/{u_message:string;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_message?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{add_effect:EffectID;duration?:Time|undefined;target_part?:BodyPartParam|undefined;intensity?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|undefined;force?:boolean|undefined;},\"add_effect\">"
+											},
+											{
+												"$ref": "#/definitions/{u_add_effect:EffectID;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_add_effect?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"allOf": [
+											{
+												"$ref": "#/definitions/Omit<{set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;target_part?:BodyPartParam|undefined;only_increase?:boolean|undefined;main_only?:boolean|undefined;minor_only?:boolean|undefined;max?:boolean|undefined;},\"set_hp\">"
+											},
+											{
+												"$ref": "#/definitions/{u_set_hp:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp;}"
+											},
+											{
+												"$ref": "#/definitions/{npc_set_hp?:undefined;}"
+											}
+										]
+									},
+									{
+										"enum": [
+											"drop_weapon",
+											"follow_only",
+											"leave"
+										],
+										"type": "string"
+									}
+								],
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"PlayerUpdate": {
 					"items": {
 						"description": "事件效果",
@@ -97158,10 +99610,12 @@
 				"CharIdle",
 				"CharInit",
 				"CharMove",
+				"CharNonBattleUpdate",
 				"CharTakeDamage",
 				"CharTakeMeleeDamage",
 				"CharTakeRangeDamage",
 				"CharUpdate",
+				"CharUpdateSlow",
 				"PlayerUpdate"
 			],
 			"type": "object"

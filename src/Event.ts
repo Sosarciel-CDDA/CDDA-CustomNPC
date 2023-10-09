@@ -6,12 +6,12 @@ import { EocEffect } from "CddaJsonFormat";
  * u为角色 n为怪物
  */
 export const InteractiveCharEventList = [
-    "CharTakeDamage"        ,//角色 受到任何伤害
-    "CharTakeRangeDamage"   ,//角色 受到远程伤害
-    "CharTakeMeleeDamage"   ,//角色 受到近战伤害
-    "CharCauseMeleeHit"     ,//角色 近战攻击命中目标 并成功造成伤害
-    "CharCauseRangeHit"     ,//角色 远程攻击命中目标 并成功造成伤害
-    "CharCauseHit"          ,//角色 命中目标 并成功造成伤害
+    "CharTakeDamage"        ,//受到任何伤害
+    "CharTakeRangeDamage"   ,//受到远程伤害
+    "CharTakeMeleeDamage"   ,//受到近战伤害
+    "CharCauseMeleeHit"     ,//近战攻击命中目标 并成功造成伤害
+    "CharCauseRangeHit"     ,//远程攻击命中目标 并成功造成伤害
+    "CharCauseHit"          ,//命中目标 并成功造成伤害
 ] as const;
 /**角色与怪物互动的事件 */
 export type InteractiveCharEvent = typeof InteractiveCharEventList[number];
@@ -21,15 +21,19 @@ export type InteractiveCharEvent = typeof InteractiveCharEventList[number];
  * u为角色 n不存在
  */
 export const CharEventTypeList = [
-    "CharIdle"              ,//角色 等待状态 刷新
-    "CharMove"              ,//角色 移动状态 刷新
-    "CharUpdate"            ,//角色 刷新
-    "CharInit"              ,//角色 被创建时
-    "CharBattleUpdate"      ,//角色 进入战斗时 刷新
-    "CharNonBattleUpdate"   ,//角色 非战斗时 刷新
-    "CharDeath"             ,//角色 死亡
-    "CharDeathPrev"         ,//角色 死亡前 回复生命可阻止死亡
-    "CharDeathAfter"        ,//角色 死亡后
+    "CharIdle"              ,//等待状态 刷新
+    "CharMove"              ,//移动状态 刷新
+    "CharUpdate"            ,//刷新
+    "CharUpdateSlow"        ,//慢速刷新 60刷新触发一次
+    "CharInit"              ,//被创建时
+    "CharBattleUpdate"      ,//进入战斗时 刷新
+    "CharNonBattleUpdate"   ,//非战斗时 刷新
+    "CharDeath"             ,//死亡
+    "CharDeathPrev"         ,//死亡前 回复生命可阻止死亡
+    "CharDeathAfter"        ,//死亡后
+    "CharTryMeleeHit"       ,//尝试近战攻击
+    "CharTryRangeHit"       ,//尝试远程攻击
+    "CharTryHit"            ,//尝试攻击
     ...InteractiveCharEventList
 ] as const;
 /**角色事件类型 */

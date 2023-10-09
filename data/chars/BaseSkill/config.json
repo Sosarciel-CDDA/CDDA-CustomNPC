@@ -277,14 +277,19 @@
             "require_field": "朦胧术"
         },
         {
-            "cast_condition":{
+            "cast_condition":[{
                 "hook": "CharBattleUpdate",
                 "condition": {"or":[
-                    {"math":["n_hp()","<=","n_hp_max()/2"]},
                     {"math":["n_hp('torso')","<=","n_hp_max('torso')/3"]},
                     {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
                 ]}
-            },
+            },{
+                "hook": "CharUpdateSlow",
+                "condition": {"or":[
+                    {"math":["n_hp('torso')","<=","n_hp_max('torso')/3"]},
+                    {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
+                ]}
+            }],
             "spell": {
                 "id": "CNPC_SPELL_light_healing",
                 "type": "SPELL",

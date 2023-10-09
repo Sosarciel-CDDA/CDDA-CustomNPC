@@ -6,8 +6,6 @@ const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
 const Event_1 = require("./Event");
 const CharConfig_1 = require("./CharConfig");
-//脚本提供的判断是否成功命中目标的全局变量 字段
-const hasTargetVar = "hasTarget";
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
     "auto",
@@ -263,10 +261,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
                 }
             }
         ],
-        condition: { and: [
-                { math: [hasTargetVar, "==", "1"] },
-                ...baseCond
-            ] },
+        condition: { and: [...baseCond] },
     };
     //加入触发
     if (Event_1.ReverseCharEventTypeList.includes(hook))
@@ -462,9 +457,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
                 }
             }
         ],
-        condition: { and: ["npc_is_alive",
-                { math: [hasTargetVar, "==", "1"] },
-                ...baseCond] },
+        condition: { and: [...baseCond] },
     };
     //加入触发
     if (!Event_1.InteractiveCharEventList.includes(hook))

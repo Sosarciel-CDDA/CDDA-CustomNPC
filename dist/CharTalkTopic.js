@@ -164,7 +164,19 @@ async function createUpgResp(dm, charName) {
                 condition: { or: upgSubResCondList },
             },
             topic: subTopicId,
-            condition: { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] }
+            condition: { and: [
+                    { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] },
+                    { math: [fieldID, "<", maxLvl + ""] }
+                ] }
+        });
+        //创建满级选项
+        upgRespList.push({
+            text: `<color_red>[达到上限]${resptext}</color>`,
+            topic: subTopicId,
+            condition: { and: [
+                    { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] },
+                    { math: [fieldID, ">=", maxLvl + ""] }
+                ] }
         });
         //创建菜单话题
         const desc = upgObj.desc ? "\n" + upgObj.desc : "";

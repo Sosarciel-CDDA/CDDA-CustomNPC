@@ -10,7 +10,7 @@ exports.InteractiveCharEventList = [
     "CharTakeMeleeDamage",
     "CharCauseMeleeHit",
     "CharCauseRangeHit",
-    "CharCauseHit", //角色 命中目标 并成功造成伤害
+    "CharCauseHit", //命中目标 并成功造成伤害
 ];
 /**角色事件列表
  * u为角色 n不存在
@@ -19,12 +19,16 @@ exports.CharEventTypeList = [
     "CharIdle",
     "CharMove",
     "CharUpdate",
+    "CharUpdateSlow",
     "CharInit",
     "CharBattleUpdate",
     "CharNonBattleUpdate",
     "CharDeath",
     "CharDeathPrev",
     "CharDeathAfter",
+    "CharTryMeleeHit",
+    "CharTryRangeHit",
+    "CharTryHit",
     ...exports.InteractiveCharEventList
 ];
 /**反转Talker的角色事件列表
