@@ -12,4 +12,4 @@ exports.Courage = {
     removes_effects: ["npc_run_away"],
 };
 exports.BaseEffect = [exports.Courage];
-(0, StaticData_1.saveStaticData)("BaseEffect", exports.BaseEffect);
+(0, StaticData_1.saveStaticData)("base_effect", exports.BaseEffect);

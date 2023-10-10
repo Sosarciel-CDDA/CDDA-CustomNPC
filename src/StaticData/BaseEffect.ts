@@ -17,4 +17,4 @@ export const Courage:Effect={
 
 export const BaseEffect = [Courage];
 
-saveStaticData("BaseEffect",BaseEffect);
+saveStaticData("base_effect",BaseEffect);

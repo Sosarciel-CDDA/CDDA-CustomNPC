@@ -41,4 +41,4 @@ exports.HitEvent = [
         "required_event": "character_ranged_attacks_monster"
     }
 ];
-(0, StaticData_1.saveStaticData)('HitEvent', exports.HitEvent);
+(0, StaticData_1.saveStaticData)('hit_event', exports.HitEvent);

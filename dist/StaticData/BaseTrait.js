@@ -59,4 +59,4 @@ const StatMod = {
     enchantments: [BaseEnch_1.STAT_MOD_ENCHID],
 };
 exports.BaseTrait = [exports.CnpcFlagMut, exports.CnpcBaseBody, exports.BaseBodyOrdering, NoAnim, StatMod];
-(0, StaticData_1.saveStaticData)('BaseTrait', exports.BaseTrait);
+(0, StaticData_1.saveStaticData)('base_trait', exports.BaseTrait);

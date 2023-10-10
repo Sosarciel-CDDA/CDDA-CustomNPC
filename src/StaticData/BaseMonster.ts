@@ -30,4 +30,4 @@ const Target:Monster = {
 }
 
 export const BaseMonster = [Target];
-saveStaticData("BaseMonster",BaseMonster)
+saveStaticData("base_monster",BaseMonster)

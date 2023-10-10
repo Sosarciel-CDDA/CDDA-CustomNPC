@@ -41,4 +41,4 @@ export const HitEvent = [
 	}
 ]
 
-saveStaticData('HitEvent',HitEvent);
+saveStaticData('hit_event',HitEvent);

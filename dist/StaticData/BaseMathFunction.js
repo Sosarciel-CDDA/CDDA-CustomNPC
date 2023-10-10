@@ -40,4 +40,4 @@ exports.LvlExp = {
     return: "100 + (_0 * _0 * 100)",
 };
 exports.BaseMathFunction = [exports.CalcDamage, exports.DamageMul, exports.Log10, exports.LvlExp];
-(0, StaticData_1.saveStaticData)("BaseMathFunction", exports.BaseMathFunction);
+(0, StaticData_1.saveStaticData)("base_math_function", exports.BaseMathFunction);

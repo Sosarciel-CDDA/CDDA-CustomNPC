@@ -11,4 +11,4 @@ exports.EmptyGroup = {
     items: [],
 };
 exports.BaseItemGroup = [exports.EmptyGroup];
-(0, StaticData_1.saveStaticData)("BaseItemGroup", exports.BaseItemGroup);
+(0, StaticData_1.saveStaticData)("base_item_group", exports.BaseItemGroup);

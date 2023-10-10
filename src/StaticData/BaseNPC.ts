@@ -23,4 +23,4 @@ const BaseNpcInstance:NpcInstance={
 }
 export const BaseNpc = [BaseNpcClass,BaseNpcInstance];
 
-saveStaticData('BaseNpc',BaseNpc);
+saveStaticData('base_npc',BaseNpc);

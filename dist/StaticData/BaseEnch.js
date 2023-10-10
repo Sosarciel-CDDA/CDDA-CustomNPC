@@ -36,4 +36,4 @@ exports.StatMod = {
         }]
 };
 exports.BaseEnch = [exports.StatusVarMap, exports.StatMod];
-(0, StaticData_1.saveStaticData)('BaseEnch', exports.BaseEnch);
+(0, StaticData_1.saveStaticData)('base_ench', exports.BaseEnch);

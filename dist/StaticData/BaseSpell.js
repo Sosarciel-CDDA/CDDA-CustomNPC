@@ -152,4 +152,4 @@ exports.BaseSpell = [
         shape: "blast",
     }
 ];
-(0, StaticData_1.saveStaticData)('BaseSpell', exports.BaseSpell);
+(0, StaticData_1.saveStaticData)('base_spell', exports.BaseSpell);
