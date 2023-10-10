@@ -202,9 +202,12 @@ class DataManager {
                     "melee_hit_metal",
                     "melee_hit", //近战攻击
                 ];
-                if (defineList.includes(audioFolderName)) {
-                    se.id = audioFolderName;
-                    se.variant = (await dm.getCharData(charName)).charConfig.weapon?.id;
+                //(武器id)_(类型)
+                const defmatch = audioFolderName.match(/^(.+?)_(.+)$/);
+                if (defmatch != null && defineList.includes(defmatch[2])) {
+                    se.id = defmatch[2];
+                    se.variant = defmatch[1];
+                    //se.variant = (await dm.getCharData(charName)).charConfig.weapon?.id as SoundEffectVariantID;
                 }
                 await utils_1.UtilFT.writeJSONFile(path.join(charOutAudioFolder, audioFolderName), [se]);
             }
@@ -243,7 +246,6 @@ class DataManager {
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
-                baseWeaponGroupID: (0, ModDefine_1.genItemGroupID)(`${charName}_WeaponGroup`),
                 baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
                 expVarID: `${charName}_exp`,
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),

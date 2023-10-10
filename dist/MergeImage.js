@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 /**合并并创建序列帧 */
-async function mergeImage(dm, charName) {
+async function mergeImage(dm, charName, forcePackage = true) {
     const { defineData, outData } = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName), "image");
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
@@ -26,7 +26,8 @@ async function mergeImage(dm, charName) {
     //处理动作
     const tmpPath = path.join(imagePath, 'tmp');
     //删除缓存
-    await fs.promises.rm(tmpPath, { recursive: true, force: true });
+    if (forcePackage)
+        await fs.promises.rm(tmpPath, { recursive: true, force: true });
     const rawPath = path.join(tmpPath, 'raw');
     const mergePath = path.join(tmpPath, 'merge');
     for (const mtnName in info) {
@@ -88,11 +89,14 @@ async function mergeImage(dm, charName) {
     await fs.promises.writeFile(path.join(rawPath, 'tileset.txt'), str);
     //打包
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
-    //await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
+    const packageInfoPath = path.join(mergePath, 'tile_config.json');
+    //如果不存在目标info文件或强制打包则进行打包
+    if (forcePackage || !(await utils_1.UtilFT.pathExists(packageInfoPath)))
+        await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
     //写入 mod贴图设置 到角色文件夹
     const charAnimPath = path.join(dm.getOutCharPath(charName), 'anim');
     await utils_1.UtilFT.ensurePathExists(charAnimPath, true);
-    const tilesetNew = (await utils_1.UtilFT.loadJSONFile(path.join(mergePath, 'tile_config.json')))["tiles-new"]
+    const tilesetNew = (await utils_1.UtilFT.loadJSONFile(packageInfoPath))["tiles-new"]
         .filter(item => item.file != "fallback.png");
     outData["mod_tileset"] = [{
             type: "mod_tileset",

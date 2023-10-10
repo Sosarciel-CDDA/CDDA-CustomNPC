@@ -50,7 +50,8 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     //处理动作
     const tmpPath = path.join(imagePath,'tmp');
     //删除缓存
-    await fs.promises.rm(tmpPath, { recursive: true, force: true });
+    if(forcePackage)
+        await fs.promises.rm(tmpPath, { recursive: true, force: true });
     const rawPath = path.join(tmpPath,'raw');
     const mergePath = path.join(tmpPath,'merge');
     for(const mtnName in info){

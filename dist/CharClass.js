@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
 const ModDefine_1 = require("./ModDefine");
+const StaticData_1 = require("./StaticData");
 /**创建角色职业和实例
  * @param charName 角色名
  */
@@ -14,9 +15,9 @@ async function createCharClass(dm, charName) {
         name: charName,
         job_description: `${charName}专用的职业`,
         common: false,
-        worn_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
-        weapon_override: defineData.baseWeaponGroupID,
-        carry_override: (0, ModDefine_1.genItemGroupID)("EmptyGroup"),
+        worn_override: StaticData_1.EMPTY_GROUP_ID,
+        weapon_override: StaticData_1.EMPTY_GROUP_ID,
+        carry_override: StaticData_1.EMPTY_GROUP_ID,
         skills: Object.entries(charConfig.base_skill || []).reduce((acc, item) => {
             if (item[1] == null)
                 return acc;

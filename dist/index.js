@@ -16,6 +16,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = exports.buildChar = void 0;
 const DataManager_1 = require("./DataManager");
+const MergeImage_1 = require("./MergeImage");
 const CharClass_1 = require("./CharClass");
 const AnimTool_1 = require("./AnimTool");
 const CharEquip_1 = require("./CharEquip");
@@ -25,7 +26,7 @@ const CharSkill_1 = require("./CharSkill");
 const CharTalkTopic_1 = require("./CharTalkTopic");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
-    //await mergeImage(dm,charName);
+    await (0, MergeImage_1.mergeImage)(dm, charName, false);
     await (0, AnimTool_1.createAnimTool)(dm, charName);
     await (0, CharClass_1.createCharClass)(dm, charName);
     await (0, CharEquip_1.createCharEquip)(dm, charName);

@@ -8,6 +8,7 @@ import { Gun, GunID } from "./Gun";
 import { WeaponTypeID } from "../WeaponCategory";
 import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
+import { Tool, ToolID } from "./Tool";
 
 
 
@@ -22,8 +23,6 @@ export type Generic = CopyfromVar<{
 	id:GenericID;
 	flags?: GenericFlag[];
 }&GenericBase>;
-
-
 
 /**通用物品基础 */
 export type GenericBase = {
@@ -40,8 +39,8 @@ export type GenericBase = {
 		/**翻译上下文 */
 		ctxt?:string;
 	};
-	/**复制某个物品的数据 */
-	"copy-from"?: string;
+	/**物品分类 */
+	category?:ItemCategotyID;
 	/**该项目应在哪个容器（如果有）中生成 */
 	container?:string;
 	/**如果该物品没有配方，则修复该物品时等同于配方 */
@@ -185,9 +184,9 @@ export type ItemMaterial = MaterialID|{
 }
 
 /**任何物品ID */
-export type AnyItemID = GenericID|AmmoID|ArmorID|GunID;
+export type AnyItemID = GenericID|AmmoID|ArmorID|GunID|ToolID;
 /**任何物品 */
-export type AnyItem = Generic|Ammo|Gun;
+export type AnyItem = Generic|Ammo|Gun|Tool;
 
 /**预定义的物品类别 列表 */
 export const DefineItemCategoryList =[
@@ -196,7 +195,7 @@ export const DefineItemCategoryList =[
 	"ammo"					,//
 	"weapons"				,//
 	"tools"					,//
-	"clothing"				,//
+	"clothing"				,//衣物
 	"food"					,//
 	"drugs"					,//
 	"manuals"				,//
@@ -219,7 +218,7 @@ export const DefineItemCategoryList =[
 	"keys"					,//
 	"corpses"				,//
 	"tool_magazine"			,//
-	"armor"					,//
+	"armor"					,//盔甲
 	"exosuit"				,//
 	"ITEMS_WORN"			,//
 	"INTEGRATED"			,//

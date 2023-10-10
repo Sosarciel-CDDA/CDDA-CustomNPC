@@ -92,7 +92,8 @@ export async function createCharEquip(dm:DataManager,charName:string){
                 max_item_length: "1 km",
                 weight_multiplier: 0,
                 volume_multiplier: 0,
-                item_restriction:charConfig.weapon.map(item=>item.id)
+                flag_restriction:[defineData.baseWeaponFlagID]
+                //item_restriction:charConfig.weapon.map(item=>item.id)
             }]
             : undefined),
     }

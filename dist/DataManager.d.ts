@@ -22,9 +22,7 @@ export type CharDefineData = Readonly<{
     baseArmorID: ArmorID;
     /**基础装备附魔ID */
     baseEnchID: EnchantmentID;
-    /**基础武器物品组ID */
-    baseWeaponGroupID: ItemGroupID;
-    /**基础武器Flag ID */
+    /**基础武器FlagID 用于分辨是否为角色武器 */
     baseWeaponFlagID: FlagID;
     /**经验变量ID */
     expVarID: string;

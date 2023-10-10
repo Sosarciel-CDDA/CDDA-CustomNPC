@@ -23,9 +23,14 @@ export type CharSkill = {
     /**法术效果
      * 可用 `u_${字段}` 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量
      * 如 min_damage: {math:["u_重击 * 10 + Asuna_重击"]}
+     *
      * 可用 `u_${法术id}_cooldown` 获得对应技能冷却
      * 如 {math:["u_fireball_cooldown"]}
+     *
      * 可用 u_coCooldown 获得公共冷却时间
+     *
+     * `${法术名}_NPC` 格式的name在显示时 _NPC尾缀会被忽略
+     * 如 重击_NPC 将显示为 重击
      */
     spell: Spell;
     /**技能音效 */
@@ -74,9 +79,10 @@ export type CastCondition = {
      */
     target?: TargetType;
 };
+/**使某个技能停止使用的全局变量 */
+export declare function getGlobalDisableSpellVar(charName: string, spell: Spell): string;
 /**使某个技能停止使用的变量 */
-export declare function getGlobalStopSpellVar(charName: string, spell: Spell): string;
-export declare function getStopSpellVar(talker: "u" | "n", spell: Spell): string;
+export declare function getDisableSpellVar(talker: "u" | "n", spell: Spell): string;
 /**处理角色技能 */
 export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;
 export {};

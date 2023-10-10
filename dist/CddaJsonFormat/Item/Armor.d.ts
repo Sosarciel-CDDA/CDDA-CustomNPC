@@ -1,15 +1,13 @@
-import { BodyPartID, CddaID } from "../GenericDefine";
+import { BodyPartID, CddaID, CopyfromVar } from "../GenericDefine";
 import { MaterialID } from "../Material";
 import { GenericBase, GenericFlag } from "./Generic";
 /**Armor ID格式
  */
 export type ArmorID = CddaID<"ARMOR">;
 /**一件护甲 */
-export type Armor = {
+export type Armor = CopyfromVar<{
     id: ArmorID;
     type: "ARMOR";
-    /**衣物还是盔甲 */
-    category: "armor" | "clothing";
     /**保暖度 */
     warmth?: number;
     /**环境保护 */
@@ -17,7 +15,7 @@ export type Armor = {
     flags?: ArmorFlag[];
     /**护甲数据 必须设置覆盖层 */
     armor?: ArmorData[];
-} & GenericBase;
+} & GenericBase>;
 export type ArmorData = {
     /**材质 */
     material?: {

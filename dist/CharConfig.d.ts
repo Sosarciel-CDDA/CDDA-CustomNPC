@@ -1,4 +1,4 @@
-import { AnyItemID, EnchArmorValType, EnchGenericValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "./CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { DataManager } from './DataManager';
 /**动态读取的角色设定 */
@@ -21,7 +21,7 @@ export type CharConfig = {
     /**附魔属性 */
     ench_status?: Partial<Record<EnchStat, number | NumMathExp>>;
     /**固定的武器 */
-    weapon?: Gun | Generic;
+    weapon?: CharWeapon[];
     /**技能 */
     skill?: CharSkill[];
     /**强化项 */
@@ -81,6 +81,13 @@ export type CharUpgrade = {
      * u是玩家 n是角色
      */
     effect?: EocEffect[];
+};
+/**角色武器 */
+export type CharWeapon = {
+    /**武器物品 */
+    item: AnyItem;
+    /**要求强化字段 [字段,强化等级] 或 字段名 */
+    require_field?: [string, number] | string;
 };
 /**变量属性 */
 export type EnchStat = `${"add" | "multiply"}_${EnchGenericValType | EnchArmorValType}`;

@@ -12,8 +12,6 @@ export type ArmorID = CddaID<"ARMOR">;
 export type Armor = CopyfromVar<{
 	id:ArmorID;
 	type: "ARMOR";
-	/**衣物还是盔甲 */
-	category: "armor" | "clothing";
 	/**保暖度 */
 	warmth?: number;
 	/**环境保护 */

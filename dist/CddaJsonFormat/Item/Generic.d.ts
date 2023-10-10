@@ -1,22 +1,23 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
-import { CddaID, Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
+import { CddaID, Color, CopyfromVar, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
 import { WeaponTypeID } from "../WeaponCategory";
 import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
+import { Tool, ToolID } from "./Tool";
 /**Generic ID格式
  */
 export type GenericID = CddaID<"GENERIC">;
 /**通用物品 */
-export type Generic = {
+export type Generic = CopyfromVar<{
     type: "GENERIC";
     id: GenericID;
     flags?: GenericFlag[];
-} & GenericBase;
+} & GenericBase>;
 /**通用物品基础 */
 export type GenericBase = {
     /**物品唯一ID */
@@ -32,8 +33,8 @@ export type GenericBase = {
         /**翻译上下文 */
         ctxt?: string;
     };
-    /**复制某个物品的数据 */
-    "copy-from"?: string;
+    /**物品分类 */
+    category?: ItemCategotyID;
     /**该项目应在哪个容器（如果有）中生成 */
     container?: string;
     /**如果该物品没有配方，则修复该物品时等同于配方 */
@@ -163,9 +164,9 @@ export type ItemMaterial = MaterialID | {
     portion?: number;
 };
 /**任何物品ID */
-export type AnyItemID = GenericID | AmmoID | ArmorID | GunID;
+export type AnyItemID = GenericID | AmmoID | ArmorID | GunID | ToolID;
 /**任何物品 */
-export type AnyItem = Generic | Ammo | Gun;
+export type AnyItem = Generic | Ammo | Gun | Tool;
 /**预定义的物品类别 列表 */
 export declare const DefineItemCategoryList: readonly ["guns", "magazines", "ammo", "weapons", "tools", "clothing", "food", "drugs", "manuals", "books", "maps", "mods", "mutagen", "bionics", "currency", "veh_parts", "other", "fuel", "seeds", "ma_manuals", "traps", "chems", "spare_parts", "container", "artifacts", "keys", "corpses", "tool_magazine", "armor", "exosuit", "ITEMS_WORN", "INTEGRATED", "BIONIC_FUEL_SOURCE", "WEAPON_HELD"];
 /**预定义的物品类别 */

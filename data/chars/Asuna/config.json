@@ -10,40 +10,58 @@
 		"ALL": 4,
 		"pistol": 10
 	},
-    "weapon":{
-		"type": "GUN",
-		"copy-from": "m9",
-		"id": "CNPC_GUN_AsunaWeapon",
-		"name": {"str_sp": "Asuna 的 伯莱塔 M9A1 手枪"},
-		"description": "Asuna 的 伯莱塔 M9A1 手枪",
-		"ammo": ["9mm"],
-		"relic_data": {
-			"charge_info": {
-				"recharge_type": "periodic",
-				"time": 1,
-				"regenerate_ammo": true
-			}
-		},
-		"pocket_data": [{
-			"pocket_type": "MAGAZINE",
-			"ammo_restriction": {"9mm": 15}
-		}],
-		"ammo_to_fire": 0,
-		"flags": ["NO_RELOAD","NO_UNLOAD"],
-        "to_hit": {
-            "grip": "weapon",
-            "length": "short",
-            "surface": "line",
-            "balance": "good"
-        },
-		"valid_mod_locations": [],
-		"faults": [],
-		"modes": [
-			["MELEE"  ,"auto", 1 ],
-			["DEFAULT","auto", 1 ],
-			["AUTO"   ,"auto", 1 ]
-		]
-	},
+    "weapon":[{
+		"item":{
+			"type": "GUN",
+			"copy-from": "m9",
+			"id": "AsunaM9",
+			"name": {"str_sp": "Asuna 的 伯莱塔 M9A1 手枪"},
+			"description": "Asuna 的 伯莱塔 M9A1 手枪",
+			"ammo": ["9mm"],
+			"relic_data": {
+				"charge_info": {
+					"recharge_type": "periodic",
+					"time": 1,
+					"regenerate_ammo": true
+				}
+			},
+			"pocket_data": [{
+				"pocket_type": "MAGAZINE",
+				"ammo_restriction": {"9mm": 15}
+			}],
+			"ammo_to_fire": 0,
+			"flags": ["NO_RELOAD","NO_UNLOAD"],
+			"to_hit": {
+				"grip": "weapon",
+				"length": "short",
+				"surface": "line",
+				"balance": "good"
+			},
+			"valid_mod_locations": [],
+			"faults": [],
+			"modes": [
+				["MELEE"  ,"auto", 1 ],
+				["DEFAULT","auto", 1 ],
+				["AUTO"   ,"auto", 1 ]
+			]
+		}
+	},{
+		"item":{
+			"type": "TOOL",
+			"copy-from": "knife_rm42",
+			"id": "AsunaKnife",
+			"name":{"str_sp": "Asuna 的 战术匕首"},
+			"description": "Asuna 的 战术匕首",
+			"to_hit":{
+				"grip": "weapon",
+				"length": "short",
+				"surface": "line",
+				"balance": "good"
+			},
+			"gunmod_data":{},
+			"flags": [ "DIAMOND" ]
+		}
+	}],
 	"skill": [
 		{
 			"cast_condition":{
@@ -93,6 +111,58 @@
 				"min_duration": 18000,
 				"energy_source": "MANA",
 				"base_energy_cost":200
+			},
+			"weight": 1
+		},
+		{
+			"cast_condition":{
+				"hook": "CharCauseMeleeHit"
+			},
+			"cooldown":30,
+			"audio":[
+				{"id":"BladeStrike", "one_in_chance":2},
+				"BladeStrikeSF","Hit"
+			],
+			"spell": {
+				"id":"CNPC_SPELL_BladeStrike",
+				"type": "SPELL",
+				"name": "刀锋打击",
+				"description": "刀锋打击",
+				"min_damage":{
+					"math": ["CalcDamage(27, u_val('strength'))*3.6"]
+				},
+				"max_damage":999999,
+				"damage_type": "cut",
+				"shape": "blast",
+				"min_range": 1,
+				"valid_targets": ["hostile","ground"],
+				"effect": "attack"
+			},
+			"weight": 2
+		},
+		{
+			"cast_condition":{
+				"hook": "CharCauseMeleeHit"
+			},
+			"cooldown":10,
+			"audio":[
+				{"id":"BladeofTrauma", "one_in_chance":2},
+				"BladeofTraumaSF","Hit"
+			],
+			"spell": {
+				"id":"CNPC_SPELL_BladeofTrauma",
+				"type": "SPELL",
+				"name": "创伤之刃",
+				"description": "创伤之刃",
+				"min_damage":{
+					"math": ["CalcDamage(27, u_val('strength'))*1.8"]
+				},
+				"max_damage":999999,
+				"damage_type": "cut",
+				"shape": "blast",
+				"min_range": 1,
+				"valid_targets": ["hostile","ground"],
+				"effect": "attack"
 			},
 			"weight": 1
 		}

@@ -4,12 +4,12 @@ import { genItemGroupID } from "@src/ModDefine";
 
 
 
-
-
+/**空物品组 ID */
+export const EMPTY_GROUP_ID = genItemGroupID("EmptyGroup");
 /**空物品组 */
 export const EmptyGroup:ItemGroup={
     type:"item_group",
-    id:genItemGroupID("EmptyGroup"),
+    id:EMPTY_GROUP_ID,
     subtype:"collection",
     items:[],
 }

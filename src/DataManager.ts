@@ -29,9 +29,8 @@ export type CharDefineData=Readonly<{
     baseArmorID : ArmorID;
     /**基础装备附魔ID */
     baseEnchID : EnchantmentID;
-    /**基础武器物品组ID */
-    baseWeaponGroupID: ItemGroupID;
-
+    /**基础武器FlagID 用于分辨是否为角色武器 */
+    baseWeaponFlagID: FlagID;
     /**经验变量ID */
     expVarID      :string;
     /**主对话ID */
@@ -339,7 +338,7 @@ export class DataManager{
                 vaildAnim           : [],
                 baseArmorID         : genArmorID(charName),
                 baseEnchID          : genEnchantmentID(charName),
-                baseWeaponGroupID   : genItemGroupID(`${charName}_WeaponGroup`),
+                baseWeaponFlagID    : genFlagID(`${charName}_WeaponFlag`),
                 expVarID          : `${charName}_exp`,
                 talkTopicID         : genTalkTopicID(charName),
             }

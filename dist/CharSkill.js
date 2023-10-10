@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharSkill = exports.getStopSpellVar = exports.getGlobalStopSpellVar = void 0;
+exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
 const utils_1 = require("@zwa73/utils");
 const _1 = require(".");
 const BaseMonster_1 = require("./StaticData/BaseMonster");
@@ -17,15 +17,16 @@ const TargetTypeList = [
 ];
 //全局冷却字段名
 const gcdValName = `u_coCooldown`;
+/**使某个技能停止使用的全局变量 */
+function getGlobalDisableSpellVar(charName, spell) {
+    return `${charName}_${spell.id}_disable`;
+}
+exports.getGlobalDisableSpellVar = getGlobalDisableSpellVar;
 /**使某个技能停止使用的变量 */
-function getGlobalStopSpellVar(charName, spell) {
-    return `${charName}_${spell.id}_stop`;
+function getDisableSpellVar(talker, spell) {
+    return `${talker}_${spell.id}_disable`;
 }
-exports.getGlobalStopSpellVar = getGlobalStopSpellVar;
-function getStopSpellVar(talker, spell) {
-    return `${talker}_${spell.id}_stop`;
-}
-exports.getStopSpellVar = getStopSpellVar;
+exports.getDisableSpellVar = getDisableSpellVar;
 //法术消耗变量类型映射
 const costMap = {
     "BIONIC": "u_val('power')",
@@ -102,7 +103,7 @@ async function createCharSkill(dm, charName) {
             //计算基础条件
             const baseCond = [
                 { math: [gcdValName, "<=", "0"] },
-                { math: [getStopSpellVar("u", spell), "!=", "1"] }
+                { math: [getDisableSpellVar("u", spell), "!=", "1"] }
             ];
             if (spell.base_energy_cost != undefined && costType != undefined)
                 baseCond.push({ math: [costType, ">=", spellCost] });

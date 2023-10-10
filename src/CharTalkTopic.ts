@@ -1,8 +1,8 @@
 import { JObject } from "@zwa73/utils";
-import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, Flag, ItemGroup, genEOCID, genFlagID, genTalkTopicID } from ".";
+import { AnyItem, AnyItemID, BoolObj, CNPC_FLAG, Eoc, EocEffect, Flag, ItemGroup, genEOCID, genFlagID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
-import { getGlobalStopSpellVar, getStopSpellVar } from "./CharSkill";
+import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
 import { DataManager } from "./DataManager";
 
 
@@ -38,6 +38,10 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
         {
             text : "[技能]我想调整你的技能。",
             topic: await createSkillResp(dm,charName)
+        },
+        {
+            text : "[武器]我想更换你的武器。",
+            topic: await createWeaponResp(dm,charName)
         },
         {
             text : "[返回]算了。",
@@ -269,9 +273,9 @@ async function createSkillResp(dm:DataManager,charName:string){
     const dynLine:DynamicLine[] = [];
     for(const skill of charConfig.skill??[]){
         const {spell} = skill;
-        const gstopVar = getGlobalStopSpellVar(charName,spell);
-        const nstopVar = getStopSpellVar("n",spell);
-        const ustopVar = getStopSpellVar("u",spell);
+        const gstopVar = getGlobalDisableSpellVar(charName,spell);
+        const nstopVar = getDisableSpellVar("n",spell);
+        const ustopVar = getDisableSpellVar("u",spell);
 
         const eocid = genEOCID(`${gstopVar}_switch`)
         const eoc:Eoc={
@@ -335,6 +339,15 @@ async function createSkillResp(dm:DataManager,charName:string){
 }
 
 
+/**使某个武器停止使用的全局变量 */
+export function getGlobalDisableWeaponVar(charName:string,item:AnyItem){
+    return `${charName}_${item.id}_disable`;
+}
+/**使某个武器停止使用的变量 */
+export function getTalkerDisableWeaponVar(talker:"u"|"n",item:AnyItem){
+    return `${talker}_${item.id}_disable`;
+}
+
 /**创建武器对话 */
 async function createWeaponResp(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
@@ -343,72 +356,149 @@ async function createWeaponResp(dm:DataManager,charName:string){
     //主对话id
     const weaponTalkTopicId = genTalkTopicID(`${charName}_weapon`);
 
-    /**基础武器 预处理 */
+    //初始化状态Eoc
+    const InitWeapon:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_InitWeapon`),
+        eoc_type:"ACTIVATION",
+        effect:[]
+    }
+
+    /**基础武器的识别flag */
+    const baseWeaponFlag:Flag={
+        type:"json_flag",
+        id:defineData.baseWeaponFlagID,
+    }
+
+    /**丢掉其他武器 */
+    const dropOtherWeapon:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_DropOtherWeapon`),
+        condition:{and:[
+            "u_can_drop_weapon",
+            {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
+        ]},
+        effect:[
+            {u_location_variable:{global_val:"tmp_loc"}},
+            {run_eoc_with:{
+                id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
+                eoc_type:"ACTIVATION",
+                effect:["drop_weapon"]
+            },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
+        ],
+        eoc_type:"ACTIVATION",
+    }
+    dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
+
+
+    /**基础武器 */
     const baseWeapons = charConfig.weapon;
-    const baseWeaponData:JObject[] = [];
+    const weaponResp:Resp[] = [];
+    const weaponData:JObject[] = [baseWeaponFlag,dropOtherWeapon,InitWeapon];
     if(baseWeapons){
+        //console.log(baseWeapons)
         for(const baseWeapon of baseWeapons){
-            baseWeapon.looks_like = baseWeapon.looks_like||TransparentItem;
-            baseWeapon.flags = baseWeapon.flags||[];
-            baseWeapon.flags?.push(
-                "ACTIVATE_ON_PLACE"      ,//自动销毁
-                "TRADER_KEEP"            ,//不会出售
-                "UNBREAKABLE"            ,//不会损坏
+            const {item,require_field} = baseWeapon;
+            const fixrequire = typeof require_field == "string"
+                ? [require_field,1] as const
+                : require_field;
+            const gdisable = getGlobalDisableWeaponVar(charName,item);
+            const udisable = getTalkerDisableWeaponVar("u",item);
+            const ndisable = getTalkerDisableWeaponVar("n",item);
+
+            //通用条件
+            const baseCond:BoolObj[] = [
+                {not:{ u_has_item: item.id }},
+                {math:[udisable,"!=","1"]}
+            ];
+            if(fixrequire)
+                baseCond.push({math:[getTalkerFieldVarID("u",fixrequire[0]),">=",fixrequire[1]+""]})
+
+
+            //预处理
+            item.looks_like = item.looks_like||TransparentItem;
+            item.flags = item.flags||[];
+            item.flags?.push(
+                "ACTIVATE_ON_PLACE"         ,//自动销毁
+                "TRADER_KEEP"               ,//不会出售
+                "UNBREAKABLE"               ,//不会损坏
+                defineData.baseWeaponFlagID ,//基础flag
             );
-            if(baseWeapon.type=="GUN"){
-                baseWeapon.flags?.push(
+            if(item.type=="GUN"){
+                item.flags?.push(
                     "NEEDS_NO_LUBE" ,//不需要润滑油
                     "NEVER_JAMS"    ,//不会故障
                     "NON_FOULING"   ,//枪不会变脏或被黑火药污染。
                 )
             }
-            baseWeapon.countdown_interval= 1; //自动销毁
+            item.countdown_interval= 1; //自动销毁
+            weaponData.push(item);
 
-            /**基础武器物品组 */
-            const baseItemGroup:ItemGroup={
-                type:"item_group",
-                id:defineData.baseWeaponGroupID,
-                subtype:"collection",
-                items:[baseWeapon.id],
-            }
-            /**基础武器的识别flag */
-            const baseWeaponFlag:Flag={
-                type:"json_flag",
-                id:genFlagID(baseWeapon.id),
-            }
-            /**如果没武器则给予 */
+            /**如果没武器且非禁用则给予 */
             const giveWeapon:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
-                id:genEOCID(`${charName}_GiveWeapon`),
-                condition:{not:{ u_has_item: baseWeapon.id }},
-                effect:[
-                    {u_spawn_item:baseWeapon.id}
-                ]
+                id:genEOCID(`${charName}_GiveWeapon_${item.id}`),
+                condition:{and:[...baseCond]},
+                effect:[{u_spawn_item:item.id}]
             }
             dm.addCharEvent(charName,"CharUpdate",0,giveWeapon);
+            weaponData.push(giveWeapon)
 
-            /**丢掉其他武器 */
-            const dropOtherWeapon:Eoc={
+
+            //开关eoc
+            const eoc:Eoc={
                 type:"effect_on_condition",
-                id:genEOCID(`${charName}_DropOtherWeapon`),
-                condition:{and:[
-                    "u_can_drop_weapon",
-                    {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
-                ]},
-                effect:[
-                    {u_location_variable:{global_val:"tmp_loc"}},
-                    {run_eoc_with:{
-                        id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
-                        eoc_type:"ACTIVATION",
-                        effect:["drop_weapon"]
-                    },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
-                ],
+                id:genEOCID(`${gdisable}_switch`),
                 eoc_type:"ACTIVATION",
+                effect:[
+                    {math:[gdisable,"=","0"]},
+                    {math:[ndisable,"=","0"]},
+                ],
+                false_effect:[
+                    {math:[gdisable,"=","1"]},
+                    {math:[ndisable,"=","1"]},
+                ],
+                condition:{math:[ndisable,"==","1"]},
             }
-            dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
+            weaponData.push(eoc)
 
-            baseWeaponData.push(giveWeapon,baseWeaponFlag,baseItemGroup,baseWeapon);
+            //选项
+            const resp:Resp={
+                truefalsetext:{
+                    condition:{math:[ndisable,"==","1"]},
+                    true:`[已停用] <item_name:${item.id}>`,
+                    false:`[已启用] <item_name:${item.id}>`,
+                },
+                effect:{run_eocs:eoc.id},
+                topic:weaponTalkTopicId,
+            }
+            if(fixrequire)
+                resp.condition = {math:[getTalkerFieldVarID("n",fixrequire[0]),">=",`${fixrequire[1]}`]}
+            weaponResp.push(resp);
+
+
+
+            //添加初始化
+            InitWeapon.effect?.push({math:[udisable,"=",`${gdisable}`]});
         }
     }
+
+
+    //武器主对话
+    const weaponTalkTopic:TalkTopic={
+        type:"talk_topic",
+        id:weaponTalkTopicId,
+        dynamic_line:"&",
+        //dynamic_line:{concatenate:["&",...dynLine]},
+        responses:[...weaponResp,{
+            text:"[继续]走吧。",
+            topic:"TALK_DONE"
+        }]
+    }
+
+    //注册初始化eoc
+    dm.addCharEvent(charName,"CharInit",0,InitWeapon);
+    outData['weapon_talk_topic'] = [weaponTalkTopic,...weaponData];
+    return weaponTalkTopicId;
 }

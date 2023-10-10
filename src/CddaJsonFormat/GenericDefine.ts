@@ -21,6 +21,8 @@ export type Volume = number|`${number} ${"L"|"ml"}`;
 export type Length = number|`${number} ${"mm"|"cm"|"m"|"km"}`;
 /**能量 */
 export type Energy = number|`${number} ${"mJ"|"kJ"}`;
+/**能耗 */
+export type Power = number|`${number} ${"mW"}`;
 /**价格 */
 export type Price = number|`${number} ${"USD"|"cent"|"kUSD"}`;
 /**时间 PERMANENT 为永久 */

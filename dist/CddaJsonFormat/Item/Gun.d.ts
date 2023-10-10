@@ -1,5 +1,5 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume, CddaID } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, CddaID, CopyfromVar } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
@@ -8,7 +8,7 @@ import { GenericBase, GenericFlag } from "./Generic";
 export type GunID = CddaID<"GUN">;
 /**枪械
  */
-export type Gun = {
+export type Gun = CopyfromVar<{
     id: GunID;
     type: "GUN";
     /**用于射击的技能 */
@@ -69,7 +69,17 @@ export type Gun = {
     flags?: GunFlag[];
     /**子弹附加效果 */
     ammo_effects?: AmmoEffect[];
-} & GenericBase;
+    /**使用武器的最小力量值 */
+    min_strength?: number;
+    /**重装时发出的声音 */
+    reload_noise?: string;
+    /**重装时发出的声音大小 */
+    reload_noise_volume?: number;
+    /**可能适用于该枪的故障类型； 通常继承自单个抽象，例如rifle_base，但也存在例外 */
+    faults?: string[];
+    /**武器的处理； 更好的操控性意味着更少的后坐力 */
+    handling?: number;
+} & GenericBase>;
 /**开火模式 */
 export type FireMode = [
     /**基础模式 */
