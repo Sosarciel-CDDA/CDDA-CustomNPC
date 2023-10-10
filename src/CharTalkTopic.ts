@@ -183,7 +183,8 @@ async function createUpgResp(dm:DataManager,charName:string){
                 ]}
             }
 
-            dm.addCharEvent(charName,"CharUpdate",0,mutEoc);
+            dm.addCharEvent(charName,"CharUpdateSlow",0,mutEoc);
+            dm.addCharEvent(charName,"CharInit",-1,mutEoc);
             dm.addSharedRes("field_mut_eoc",mutEoc.id,mutEoc);
         }
 
@@ -406,17 +407,9 @@ async function createWeaponResp(dm:DataManager,charName:string){
             const udisable = getTalkerDisableWeaponVar("u",item);
             const ndisable = getTalkerDisableWeaponVar("n",item);
 
-            //通用条件
-            const baseCond:BoolObj[] = [
-                {not:{ u_has_item: item.id }},
-                {math:[udisable,"!=","1"]}
-            ];
-            if(fixrequire)
-                baseCond.push({math:[getTalkerFieldVarID("u",fixrequire[0]),">=",fixrequire[1]+""]})
-
 
             //预处理
-            item.looks_like = item.looks_like||TransparentItem;
+            item.looks_like = item.looks_like??TransparentItem;
             item.flags = item.flags||[];
             item.flags?.push(
                 "ACTIVATE_ON_PLACE"         ,//自动销毁
@@ -434,15 +427,39 @@ async function createWeaponResp(dm:DataManager,charName:string){
             item.countdown_interval= 1; //自动销毁
             weaponData.push(item);
 
+
+
+            //给予条件
+            const giveCond:BoolObj[] = [
+                {not:{ u_has_item: item.id }},
+                {math:[udisable,"!=","1"]}
+            ];
+            if(fixrequire)
+                giveCond.push({math:[getTalkerFieldVarID("u",fixrequire[0]),">=",fixrequire[1]+""]})
             /**如果没武器且非禁用则给予 */
             const giveWeapon:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
                 id:genEOCID(`${charName}_GiveWeapon_${item.id}`),
-                condition:{and:[...baseCond]},
+                condition:{and:[...giveCond]},
                 effect:[{u_spawn_item:item.id}]
             }
-            dm.addCharEvent(charName,"CharUpdate",0,giveWeapon);
+            dm.addCharEvent(charName,"CharUpdateSlow",0,giveWeapon);
+            dm.addCharEvent(charName,"CharInit",-1,giveWeapon);
+            weaponData.push(giveWeapon)
+
+            /**如果禁用则删除 */
+            const removeWeapon:Eoc={
+                type:"effect_on_condition",
+                eoc_type:"ACTIVATION",
+                id:genEOCID(`${charName}_RemoveWeapon_${item.id}`),
+                condition:{and:[
+                    { u_has_item: item.id },
+                    {math:[udisable,"==","1"]}
+                ]},
+                effect:[{u_consume_item:item.id,count:1}]
+            }
+            dm.addCharEvent(charName,"CharUpdateSlow",0,giveWeapon);
             weaponData.push(giveWeapon)
 
 

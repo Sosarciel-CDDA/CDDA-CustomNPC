@@ -31,12 +31,6 @@
 			}],
 			"ammo_to_fire": 0,
 			"flags": ["NO_RELOAD","NO_UNLOAD"],
-			"to_hit": {
-				"grip": "weapon",
-				"length": "short",
-				"surface": "line",
-				"balance": "good"
-			},
 			"valid_mod_locations": [],
 			"faults": [],
 			"modes": [

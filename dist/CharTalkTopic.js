@@ -372,7 +372,7 @@ async function createWeaponResp(dm, charName) {
             if (fixrequire)
                 baseCond.push({ math: [(0, CharConfig_1.getTalkerFieldVarID)("u", fixrequire[0]), ">=", fixrequire[1] + ""] });
             //预处理
-            item.looks_like = item.looks_like || TransparentItem;
+            item.looks_like = item.looks_like ?? TransparentItem;
             item.flags = item.flags || [];
             item.flags?.push("ACTIVATE_ON_PLACE", //自动销毁
             "TRADER_KEEP", //不会出售
