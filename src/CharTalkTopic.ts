@@ -356,6 +356,8 @@ async function createWeaponResp(dm:DataManager,charName:string){
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     //主对话id
     const weaponTalkTopicId = genTalkTopicID(`${charName}_weapon`);
+    //武器对话数据
+    const weaponData:JObject[] = [];
 
     //初始化状态Eoc
     const InitWeapon:Eoc={
@@ -364,38 +366,40 @@ async function createWeaponResp(dm:DataManager,charName:string){
         eoc_type:"ACTIVATION",
         effect:[]
     }
+    weaponData.push(InitWeapon);
 
     /**基础武器的识别flag */
     const baseWeaponFlag:Flag={
         type:"json_flag",
         id:defineData.baseWeaponFlagID,
     }
+    weaponData.push(baseWeaponFlag);
 
     /**丢掉其他武器 */
-    const dropOtherWeapon:Eoc={
-        type:"effect_on_condition",
-        id:genEOCID(`${charName}_DropOtherWeapon`),
-        condition:{and:[
-            "u_can_drop_weapon",
-            {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
-        ]},
-        effect:[
-            {u_location_variable:{global_val:"tmp_loc"}},
-            {run_eoc_with:{
-                id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
-                eoc_type:"ACTIVATION",
-                effect:["drop_weapon"]
-            },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
-        ],
-        eoc_type:"ACTIVATION",
-    }
-    dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
+    //const dropOtherWeapon:Eoc={
+    //    type:"effect_on_condition",
+    //    id:genEOCID(`${charName}_DropOtherWeapon`),
+    //    condition:{and:[
+    //        "u_can_drop_weapon",
+    //        {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
+    //    ]},
+    //    effect:[
+    //        {u_location_variable:{global_val:"tmp_loc"}},
+    //        {run_eoc_with:{
+    //            id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
+    //            eoc_type:"ACTIVATION",
+    //            effect:["drop_weapon"]
+    //        },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
+    //    ],
+    //    eoc_type:"ACTIVATION",
+    //}
+    //dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
+    //baseWeaponFlag.push(dropOtherWeapon);
 
 
     /**基础武器 */
     const baseWeapons = charConfig.weapon;
     const weaponResp:Resp[] = [];
-    const weaponData:JObject[] = [baseWeaponFlag,dropOtherWeapon,InitWeapon];
     if(baseWeapons){
         //console.log(baseWeapons)
         for(const baseWeapon of baseWeapons){
@@ -409,6 +413,8 @@ async function createWeaponResp(dm:DataManager,charName:string){
 
 
             //预处理
+            item.price = 0;
+            item.price_postapoc = 0;
             item.looks_like = item.looks_like??TransparentItem;
             item.flags = item.flags||[];
             item.flags?.push(

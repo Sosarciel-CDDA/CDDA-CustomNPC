@@ -19,7 +19,7 @@ export type Gun = CopyfromVar<{
     /**接受重新加载的弹药类型 */
 	ammo: AmmunitionTypeID[];
     /**发射时的远程伤害 */
-	ranged_damage?: RangeDamage;
+	ranged_damage?: RangeDamage|RangeDamage[];
     /**发射时的范围 */
 	range?: number;
     /**枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量  

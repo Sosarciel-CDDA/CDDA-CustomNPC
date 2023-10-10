@@ -15,8 +15,8 @@
 			"type": "GUN",
 			"copy-from": "m9",
 			"id": "AsunaM9",
-			"name": {"str_sp": "Asuna 的 伯莱塔 M9A1 手枪"},
-			"description": "Asuna 的 伯莱塔 M9A1 手枪",
+			"name": {"str_sp": "Asuna的 伯莱塔 M9A1 手枪"},
+			"description": "Asuna的 伯莱塔 M9A1 手枪",
 			"ammo": ["9mm"],
 			"relic_data": {
 				"charge_info": {
@@ -44,8 +44,8 @@
 			"type": "TOOL",
 			"copy-from": "knife_rm42",
 			"id": "AsunaKnife",
-			"name":{"str_sp": "Asuna 的 战术匕首"},
-			"description": "Asuna 的 战术匕首",
+			"name":{"str_sp": "Asuna的 战术匕首"},
+			"description": "Asuna的 战术匕首",
 			"to_hit":{
 				"grip": "weapon",
 				"length": "short",
