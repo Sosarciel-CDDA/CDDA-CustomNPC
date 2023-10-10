@@ -93,8 +93,11 @@ export type CastCondition={
 const gcdValName = `u_coCooldown`;
 
 /**使某个技能停止使用的变量 */
-export function stopSpellVar(charName:string,spell:Spell){
+export function getGlobalStopSpellVar(charName:string,spell:Spell){
     return `${charName}_${spell.id}_stop`;
+}
+export function getStopSpellVar(talker:"u"|"n",spell:Spell){
+    return `${talker}_${spell.id}_stop`;
 }
 
 //法术消耗变量类型映射
@@ -185,7 +188,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             //计算基础条件
             const baseCond:BoolObj[] = [
                 {math:[gcdValName,"<=","0"]},
-                {math:[stopSpellVar(charName,spell),"!=","1"]}
+                {math:[getStopSpellVar("u",spell),"!=","1"]}
             ];
             if(spell.base_energy_cost!=undefined && costType!=undefined)
                 baseCond.push({math:[costType,">=",spellCost]});

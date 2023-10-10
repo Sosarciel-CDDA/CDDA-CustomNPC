@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadCharConfig = exports.getGlobalFieldVarID = exports.parseEnchStatTable = exports.parseEnchStat = void 0;
+exports.loadCharConfig = exports.getTalkerFieldVarID = exports.getGlobalFieldVarID = exports.parseEnchStatTable = exports.parseEnchStat = void 0;
 const path = require("path");
 const utils_1 = require("@zwa73/utils");
 /**解析变量属性Obj */
@@ -44,6 +44,10 @@ function getGlobalFieldVarID(charName, field) {
     return `${charName}_${field}`;
 }
 exports.getGlobalFieldVarID = getGlobalFieldVarID;
+function getTalkerFieldVarID(talker, field) {
+    return `${talker}_${field}`;
+}
+exports.getTalkerFieldVarID = getTalkerFieldVarID;
 let count = 0;
 /**读取某个角色的CharConfig */
 async function loadCharConfig(dm, charName) {

@@ -75,7 +75,8 @@ export type CastCondition = {
     target?: TargetType;
 };
 /**使某个技能停止使用的变量 */
-export declare function stopSpellVar(charName: string, spell: Spell): string;
+export declare function getGlobalStopSpellVar(charName: string, spell: Spell): string;
+export declare function getStopSpellVar(talker: "u" | "n", spell: Spell): string;
 /**处理角色技能 */
 export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;
 export {};

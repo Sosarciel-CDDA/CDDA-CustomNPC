@@ -19,7 +19,7 @@ async function createCharEquip(dm, charName) {
     const enchList = [];
     for (const upgObj of charConfig.upgrade || []) {
         const field = upgObj.field;
-        const ufield = "u_" + upgObj.field;
+        const ufield = (0, CharConfig_1.getTalkerFieldVarID)("u", field);
         /**字段基础附魔 */
         const fdBaseEnch = {
             id: (0, ModDefine_1.genEnchantmentID)(`${field}_base`),

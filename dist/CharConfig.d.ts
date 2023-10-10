@@ -104,6 +104,7 @@ type StatModVal = {
 };
 /**获取全局的强化字段的变量ID */
 export declare function getGlobalFieldVarID(charName: string, field: string): string;
+export declare function getTalkerFieldVarID(talker: "u" | "n", field: string): string;
 /**读取某个角色的CharConfig */
 export declare function loadCharConfig(dm: DataManager, charName: string): Promise<CharConfig>;
 export {};

@@ -140,6 +140,9 @@ type StatModVal = {
 export function getGlobalFieldVarID(charName:string,field:string){
     return `${charName}_${field}`;
 }
+export function getTalkerFieldVarID(talker:"u"|"n",field:string){
+    return `${talker}_${field}`;
+}
 
 let count=0;
 /**读取某个角色的CharConfig */

@@ -1,7 +1,7 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
-import { parseEnchStatTable } from "./CharConfig";
+import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 
 
@@ -26,7 +26,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
     const enchList:Enchantment[] = [];
     for(const upgObj of charConfig.upgrade||[]){
         const field = upgObj.field;
-        const ufield = "u_"+upgObj.field;
+        const ufield = getTalkerFieldVarID("u",field);
         /**字段基础附魔 */
         const fdBaseEnch:Enchantment={
             id:genEnchantmentID(`${field}_base`),

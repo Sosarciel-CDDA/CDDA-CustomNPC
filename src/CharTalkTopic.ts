@@ -1,7 +1,7 @@
 import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
-import { RequireResource, getGlobalFieldVarID } from "./CharConfig";
-import { stopSpellVar } from "./CharSkill";
+import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
+import { getGlobalStopSpellVar, getStopSpellVar } from "./CharSkill";
 import { DataManager } from "./DataManager";
 
 
@@ -82,8 +82,8 @@ async function createUpgResp(dm:DataManager,charName:string){
 
         //字段
         const field = upgObj.field;
-        const ufield = "u_"+upgObj.field;
-        const nfield = "n_"+upgObj.field;
+        const ufield = getTalkerFieldVarID("u",field);
+        const nfield = getTalkerFieldVarID("n",field);
         //子话题ID
         const subTopicId = genTalkTopicID(globalFieldID);
 
@@ -254,28 +254,44 @@ async function createSkillResp(dm:DataManager,charName:string){
     //主对话id
     const skillTalkTopicId = genTalkTopicID(`${charName}_skill`);
 
+    //初始化状态Eoc
+    const InitSkill:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_InitSkill`),
+        eoc_type:"ACTIVATION",
+        effect:[]
+    }
+
     //遍历技能
     const skillRespList:Resp[] = [];
     const skillRespEocList:Eoc[] = [];
     const dynLine:DynamicLine[] = [];
     for(const skill of charConfig.skill??[]){
         const {spell} = skill;
-        const stopVar = stopSpellVar(charName,spell);
+        const gstopVar = getGlobalStopSpellVar(charName,spell);
+        const nstopVar = getStopSpellVar("n",spell);
+        const ustopVar = getStopSpellVar("u",spell);
 
-        const eocid = genEOCID(`${stopVar}_switch`)
+        const eocid = genEOCID(`${gstopVar}_switch`)
         const eoc:Eoc={
             type:"effect_on_condition",
             id:eocid,
             eoc_type:"ACTIVATION",
-            effect:[{math:[stopVar,"=","0"]}],
-            false_effect:[{math:[stopVar,"=","1"]}],
-            condition:{math:[stopVar,"==","1"]},
+            effect:[
+                {math:[gstopVar,"=","0"]},
+                {math:[nstopVar,"=","0"]},
+            ],
+            false_effect:[
+                {math:[gstopVar,"=","1"]},
+                {math:[nstopVar,"=","1"]},
+            ],
+            condition:{math:[nstopVar,"==","1"]},
         }
         skillRespEocList.push(eoc)
 
         const resp:Resp={
             truefalsetext:{
-                condition:{math:[stopVar,"==","1"]},
+                condition:{math:[nstopVar,"==","1"]},
                 true:`[已停用] ${spell.name.replace(/(.+?)(_NPC|"")$/g,'$1')}`,
                 false:`[已启用] ${spell.name.replace(/(.+?)(_NPC|"")$/g,'$1')}`,
             },
@@ -285,15 +301,18 @@ async function createSkillResp(dm:DataManager,charName:string){
         if(skill.require_field){
             let fdarr = typeof skill.require_field == "string"
                 ? [skill.require_field,1] as const : skill.require_field;
-            resp.condition = {math:[`n_${fdarr[0]}`,">=",`${fdarr[1]}`]}
+            resp.condition = {math:[getTalkerFieldVarID("n",fdarr[0]),">=",`${fdarr[1]}`]}
         }
         skillRespList.push(resp);
 
         dynLine.push({
-            math:[stopVar,"==","1"],
+            math:[nstopVar,"==","1"],
             yes:`${charName} 不会使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g,'$1')}\n`,
             no:`${charName} 会尝试使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g,'$1')}\n`,
         })
+
+        //添加初始化
+        InitSkill.effect?.push({math:[ustopVar,"=",`${gstopVar}`]});
     }
 
     //技能主对话
@@ -307,6 +326,9 @@ async function createSkillResp(dm:DataManager,charName:string){
             topic:"TALK_DONE"
         }]
     }
-    outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList];
+
+    //注册初始化eoc
+    dm.addCharEvent(charName,"CharInit",0,InitSkill);
+    outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList,InitSkill];
     return skillTalkTopicId;
 }
