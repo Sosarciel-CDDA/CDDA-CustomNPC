@@ -57,7 +57,7 @@ export type DataTable = {
     /**输出的Eoc事件 */
     eventEocs: Record<GlobalEventType, EventEffect[]>;
     /**共用资源表 */
-    sharedTable: Record<string, JObject>;
+    sharedTable: Record<string, Record<string, JObject>>;
 };
 /**build配置 */
 export type BuildSetting = {
@@ -126,7 +126,7 @@ export declare class DataManager {
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
     /**添加共享资源 */
-    addSharedRes(key: string, val: JObject): void;
+    addSharedRes(filepath: string, key: string, val: JObject): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;
     /**输出数据到主目录 */

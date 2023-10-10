@@ -16,12 +16,13 @@ async function createCharEquip(dm, charName) {
         values: (0, CharConfig_1.parseEnchStatTable)(charConfig.ench_status)
     };
     //字段附魔
-    const enchList = [baseEnch];
+    const enchList = [];
     for (const upgObj of charConfig.upgrade || []) {
-        const fieldID = (0, CharConfig_1.getFieldVarID)(charName, upgObj.field);
+        const field = upgObj.field;
+        const ufield = "u_" + upgObj.field;
         /**字段基础附魔 */
         const fdBaseEnch = {
-            id: (0, ModDefine_1.genEnchantmentID)(`${fieldID}_base`),
+            id: (0, ModDefine_1.genEnchantmentID)(`${field}_base`),
             type: "enchantment",
             condition: "ALWAYS",
             values: (0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status)
@@ -29,15 +30,15 @@ async function createCharEquip(dm, charName) {
                 const { value, add, multiply } = item;
                 let out = { value };
                 if (add)
-                    out.add = { math: [`min(1,${fieldID})*(${add.math[0]})`] };
+                    out.add = { math: [`min(1,${ufield})*(${add.math[0]})`] };
                 if (multiply)
-                    out.multiply = { math: [`min(1,${fieldID})*(${multiply.math[0]})`] };
+                    out.multiply = { math: [`min(1,${ufield})*(${multiply.math[0]})`] };
                 return out;
             })
         };
         /**字段等级附魔 */
         const fdLvlEnch = {
-            id: (0, ModDefine_1.genEnchantmentID)(`${fieldID}_lvl`),
+            id: (0, ModDefine_1.genEnchantmentID)(`${field}_lvl`),
             type: "enchantment",
             condition: "ALWAYS",
             values: (0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status)
@@ -45,13 +46,20 @@ async function createCharEquip(dm, charName) {
                 const { value, add, multiply } = item;
                 let out = { value };
                 if (add)
-                    out.add = { math: [`${fieldID}*(${add.math[0]})`] };
+                    out.add = { math: [`${ufield}*(${add.math[0]})`] };
                 if (multiply)
-                    out.multiply = { math: [`${fieldID}*( ${multiply.math[0]})`] };
+                    out.multiply = { math: [`${ufield}*(${multiply.math[0]})`] };
                 return out;
             })
         };
-        enchList.push(fdBaseEnch, fdLvlEnch);
+        if ((0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status).length > 0) {
+            dm.addSharedRes("common_ench", fdBaseEnch.id, fdBaseEnch);
+            enchList.push(fdBaseEnch);
+        }
+        if ((0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status).length > 0) {
+            dm.addSharedRes("common_ench", fdLvlEnch.id, fdLvlEnch);
+            enchList.push(fdLvlEnch);
+        }
     }
     /**基础装备 */
     const baseArmor = {
@@ -95,7 +103,7 @@ async function createCharEquip(dm, charName) {
         points: 0,
         integrated_armor: [defineData.baseArmorID],
         enchantments: [
-            ...enchList.map(ench => ench.id)
+            ...[...enchList, baseEnch].map(ench => ench.id)
         ]
     };
     /**基础武器 */
@@ -130,7 +138,7 @@ async function createCharEquip(dm, charName) {
         const giveWeapon = {
             type: "effect_on_condition",
             eoc_type: "ACTIVATION",
-            id: (0, ModDefine_1.genEOCID)("GiveWeapon"),
+            id: (0, ModDefine_1.genEOCID)(`${charName}_GiveWeapon`),
             condition: { not: { u_has_item: baseWeapon.id } },
             effect: [
                 { u_spawn_item: baseWeapon.id }
@@ -159,6 +167,6 @@ async function createCharEquip(dm, charName) {
     };
     dm.addCharEvent(charName, "CharUpdate", 0, dropOtherWeapon);
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, dropOtherWeapon, ...baseWeaponData, ...enchList];
+    outData['equip'] = [baseMut, baseArmor, dropOtherWeapon, ...baseWeaponData, baseEnch];
 }
 exports.createCharEquip = createCharEquip;

@@ -289,8 +289,16 @@ class DataManager {
         return path.join(this.outPath, 'chars', charName);
     }
     /**添加共享资源 */
-    addSharedRes(key, val) {
-        this.dataTable.sharedTable[key] = val;
+    addSharedRes(filepath, key, val) {
+        if (this.dataTable.sharedTable[filepath] == null)
+            this.dataTable.sharedTable[filepath] = {};
+        const table = this.dataTable.sharedTable[filepath];
+        const oval = table[key];
+        table[key] = val;
+        if (oval != null) {
+            if (JSON.stringify(oval) != JSON.stringify(val))
+                console.log(`addSharedRes 出现了一个不相同的数据 \n原数据:${JSON.stringify(oval)}\n新数据:${JSON.stringify(val)}`);
+        }
     }
     //———————————————————— 输出 ————————————————————//
     /**输出数据到角色目录 */
@@ -316,7 +324,8 @@ class DataManager {
             this.saveToFile(key, obj);
         }
         //导出共用资源
-        this.saveToFile("SharedTable", Object.values(this.dataTable.sharedTable));
+        for (const filePath in this.dataTable.sharedTable)
+            this.saveToFile(filePath, Object.values(this.dataTable.sharedTable[filePath]));
         //导出角色数据
         for (let charName of this.charList) {
             const charData = this.dataTable.charTable[charName];

@@ -56,17 +56,20 @@ async function createUpgResp(dm, charName) {
     const upgRespList = [];
     const upgTopicList = [];
     const upgEocList = [];
-    const mutEocList = [];
     //遍历升级项
     for (const upgObj of charConfig.upgrade ?? []) {
         //子话题的回复
         const upgSubRespList = [];
         //判断是否有任何子选项可以升级
         const upgSubResCondList = [];
-        //字段变量ID
-        const fieldID = (0, CharConfig_1.getFieldVarID)(charName, upgObj.field);
+        //全局字段变量
+        const globalFieldID = (0, CharConfig_1.getGlobalFieldVarID)(charName, upgObj.field);
+        //字段
+        const field = upgObj.field;
+        const ufield = "u_" + upgObj.field;
+        const nfield = "n_" + upgObj.field;
         //子话题ID
-        const subTopicId = (0, _1.genTalkTopicID)(fieldID);
+        const subTopicId = (0, _1.genTalkTopicID)(globalFieldID);
         //遍历升级项等级
         const maxLvl = upgObj.max_lvl ?? upgObj.require_resource.length;
         for (let lvl = 0; lvl < maxLvl; lvl++) {
@@ -83,8 +86,8 @@ async function createUpgResp(dm, charName) {
                 const fixRes = andRes.map(item => typeof item == "string" ? { id: item } : item);
                 //字段等级条件
                 const lvlCond = (isLastRes
-                    ? [{ math: [fieldID, ">=", lvl + ""] }, { math: [fieldID, "<", maxLvl + ""] }]
-                    : [{ math: [fieldID, "==", lvl + ""] }]);
+                    ? [{ math: [nfield, ">=", lvl + ""] }, { math: [nfield, "<", maxLvl + ""] }]
+                    : [{ math: [nfield, "==", lvl + ""] }]);
                 //升级材料条件
                 const cond = { and: [
                         ...lvlCond,
@@ -95,7 +98,7 @@ async function createUpgResp(dm, charName) {
                     ] };
                 upgSubResCondList.push(cond);
                 //升级EocId
-                const upgEocId = (0, _1.genEOCID)(`${fieldID}_UpgradeEoc_${index}`);
+                const upgEocId = (0, _1.genEOCID)(`${globalFieldID}_UpgradeEoc_${index}`);
                 /**使用材料 */
                 const charUpEoc = {
                     type: "effect_on_condition",
@@ -108,7 +111,8 @@ async function createUpgResp(dm, charName) {
                             count: item.count ?? 1,
                             popup: true
                         })),
-                        { math: [fieldID, "+=", "1"] },
+                        { math: [globalFieldID, "+=", "1"] },
+                        { math: [nfield, "=", globalFieldID] },
                         { u_message: `${charName} 升级了 ${upgObj.field}` },
                         ...upgObj.effect ?? [], //应用升级效果
                     ],
@@ -142,21 +146,21 @@ async function createUpgResp(dm, charName) {
             //创建变异EOC
             const mutEoc = {
                 type: "effect_on_condition",
-                id: (0, _1.genEOCID)(`${fieldID}_${mut.id}_${mut.lvl}`),
+                id: (0, _1.genEOCID)(`${field}_${mut.id}_${mut.lvl}`),
                 eoc_type: "ACTIVATION",
                 effect: [
                     { u_add_trait: mut.id }
                 ],
                 condition: { and: [
                         { not: { u_has_trait: mut.id } },
-                        { math: [fieldID, ">=", mut.lvl + ""] }
+                        { math: [ufield, ">=", mut.lvl + ""] }
                     ] }
             };
             dm.addCharEvent(charName, "CharUpdate", 0, mutEoc);
-            mutEocList.push(mutEoc);
+            dm.addSharedRes("field_mut_eoc", mutEoc.id, mutEoc);
         }
         //创建对应升级菜单路由选项
-        const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
+        const resptext = `${upgObj.field} 当前等级:<npc_val:${upgObj.field}>`;
         upgRespList.push({
             truefalsetext: {
                 true: `[可以升级]${resptext}`,
@@ -166,7 +170,7 @@ async function createUpgResp(dm, charName) {
             topic: subTopicId,
             condition: { and: [
                     { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] },
-                    { math: [fieldID, "<", maxLvl + ""] }
+                    { math: [nfield, "<", maxLvl + ""] }
                 ] }
         });
         //创建满级选项
@@ -175,7 +179,7 @@ async function createUpgResp(dm, charName) {
             topic: subTopicId,
             condition: { and: [
                     { or: [{ or: upgSubResCondList }, { math: [showNotEnough, "==", "1"] }] },
-                    { math: [fieldID, ">=", maxLvl + ""] }
+                    { math: [nfield, ">=", maxLvl + ""] }
                 ] }
         });
         //创建菜单话题
@@ -190,7 +194,8 @@ async function createUpgResp(dm, charName) {
                 }]
         });
         //添加初始化
-        InitUpgField.effect?.push({ math: [fieldID, "+=", "0"] });
+        InitUpgField.effect?.push({ math: [globalFieldID, "=", `${globalFieldID}<=0 ? 0 : ${globalFieldID}`] });
+        InitUpgField.effect?.push({ math: [ufield, "=", `${globalFieldID}`] });
     }
     //升级主对话
     const upgTalkTopic = {
@@ -214,7 +219,7 @@ async function createUpgResp(dm, charName) {
     };
     //注册初始化eoc
     dm.addCharEvent(charName, "CharInit", 0, InitUpgField);
-    outData['upgrade_talk_topic'] = [InitUpgField, upgTalkTopic, ...upgEocList, ...mutEocList, ...upgTopicList];
+    outData['upgrade_talk_topic'] = [InitUpgField, upgTalkTopic, ...upgEocList, ...upgTopicList];
     return upgtopicid;
 }
 /**创建技能对话 */
@@ -251,7 +256,7 @@ async function createSkillResp(dm, charName) {
         if (skill.require_field) {
             let fdarr = typeof skill.require_field == "string"
                 ? [skill.require_field, 1] : skill.require_field;
-            resp.condition = { math: [(0, CharConfig_1.getFieldVarID)(charName, fdarr[0]), ">=", `${fdarr[1]}`] };
+            resp.condition = { math: [`n_${fdarr[0]}`, ">=", `${fdarr[1]}`] };
         }
         skillRespList.push(resp);
         dynLine.push({

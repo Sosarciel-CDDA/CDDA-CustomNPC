@@ -136,10 +136,6 @@ type StatModVal = {
     add     ?:NumMathExp;
 }
 
-/**获取强化字段的变量ID */
-export function getFieldVarID(field:string){
-    return `u_${field}`;
-}
 /**获取全局的强化字段的变量ID */
 export function getGlobalFieldVarID(charName:string,field:string){
     return `${charName}_${field}`;

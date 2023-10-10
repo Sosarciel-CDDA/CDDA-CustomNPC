@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loadCharConfig = exports.getFieldVarID = exports.parseEnchStatTable = exports.parseEnchStat = void 0;
+exports.loadCharConfig = exports.getGlobalFieldVarID = exports.parseEnchStatTable = exports.parseEnchStat = void 0;
 const path = require("path");
 const utils_1 = require("@zwa73/utils");
 /**解析变量属性Obj */
@@ -39,11 +39,11 @@ function parseEnchStatTable(table) {
     return out;
 }
 exports.parseEnchStatTable = parseEnchStatTable;
-/**获取强化字段的变量ID */
-function getFieldVarID(charName, field) {
+/**获取全局的强化字段的变量ID */
+function getGlobalFieldVarID(charName, field) {
     return `${charName}_${field}`;
 }
-exports.getFieldVarID = getFieldVarID;
+exports.getGlobalFieldVarID = getGlobalFieldVarID;
 let count = 0;
 /**读取某个角色的CharConfig */
 async function loadCharConfig(dm, charName) {

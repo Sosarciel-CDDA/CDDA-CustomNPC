@@ -7,14 +7,14 @@ function hasAnim(outData, animType) {
     return outData[path.join("anim", animType)];
 }
 /**移除其他动作变异 */
-function removeOtherAnimEoc(baseData, animType) {
+function removeOtherAnimEoc(charName, baseData, animType) {
     const otherAnim = baseData.vaildAnim.filter(item => item != animType);
     if (otherAnim.length <= 0)
         return null;
     const eoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)("RemoveOtherAnimEoc_" + animType),
+        id: (0, ModDefine_1.genEOCID)(charName + "_RemoveOtherAnimEoc_" + animType),
         effect: [
             ...otherAnim.map(otherAnimType => ({
                 u_lose_trait: baseData.animData[otherAnimType].mutID
@@ -25,16 +25,16 @@ function removeOtherAnimEoc(baseData, animType) {
 }
 exports.removeOtherAnimEoc = removeOtherAnimEoc;
 /**切换动作EOC */
-function changeAnimEoc(baseData, animType) {
-    const removeEoc = removeOtherAnimEoc(baseData, animType);
+function changeAnimEoc(charName, baseData, animType) {
+    const removeEoc = removeOtherAnimEoc(charName, baseData, animType);
     if (removeEoc == null)
         return [];
     const eoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)("ChangeAnimEoc_" + animType),
+        id: (0, ModDefine_1.genEOCID)(charName + "_ChangeAnimEoc_" + animType),
         effect: [
-            { "run_eocs": (0, ModDefine_1.genEOCID)("RemoveOtherAnimEoc_" + animType) },
+            { "run_eocs": removeEoc.id },
             { "u_add_trait": baseData.animData[animType].mutID },
         ],
         condition: { not: { "u_has_trait": baseData.animData[animType].mutID } }
@@ -56,7 +56,7 @@ async function createAnimStatus(dm, charName) {
     for (const mtnName in animEventMap) {
         const animType = mtnName;
         if (hasAnim(outData, animType)) {
-            let eocs = changeAnimEoc(defineData, animType);
+            let eocs = changeAnimEoc(charName, defineData, animType);
             eocList.push(...eocs);
             const eventName = animEventMap[animType];
             if (eventName != null && eocs != null)

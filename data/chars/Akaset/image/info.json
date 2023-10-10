@@ -1,0 +1,29 @@
+{
+    "Idle":{
+        "sprite_width": 128,
+        "sprite_height": 160,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": -8,
+        "pixelscale": 0.25,
+        "interval":1,
+        "format_regex": "Idle_(.*)\\.png"
+    },
+	"Move":{
+        "sprite_width": 128,
+        "sprite_height": 160,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": -8,
+        "pixelscale": 0.25,
+        "interval":1,
+        "format_regex": "Move_(.*)\\.png"
+    },
+	"Attack":{
+        "sprite_width": 128,
+        "sprite_height": 160,
+        "sprite_offset_x": 0,
+        "sprite_offset_y": -8,
+        "pixelscale": 0.26,
+        "interval":1,
+        "format_regex": "Attack_(.*)\\.png"
+    }
+}

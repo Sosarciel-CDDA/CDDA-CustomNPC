@@ -102,8 +102,8 @@ type StatModVal = {
     /**加值增幅 在计算倍率前先添加 */
     add?: NumMathExp;
 };
-/**获取强化字段的变量ID */
-export declare function getFieldVarID(charName: string, field: string): string;
+/**获取全局的强化字段的变量ID */
+export declare function getGlobalFieldVarID(charName: string, field: string): string;
 /**读取某个角色的CharConfig */
 export declare function loadCharConfig(dm: DataManager, charName: string): Promise<CharConfig>;
 export {};

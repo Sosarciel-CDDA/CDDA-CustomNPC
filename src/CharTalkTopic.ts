@@ -1,6 +1,6 @@
 import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
-import { RequireResource, getFieldVarID } from "./CharConfig";
+import { RequireResource, getGlobalFieldVarID } from "./CharConfig";
 import { stopSpellVar } from "./CharSkill";
 import { DataManager } from "./DataManager";
 
@@ -71,17 +71,21 @@ async function createUpgResp(dm:DataManager,charName:string){
     const upgRespList:Resp[] = [];
     const upgTopicList:TalkTopic[] = [];
     const upgEocList:Eoc[] = [];
-    const mutEocList:Eoc[] = [];
     //遍历升级项
     for(const upgObj of charConfig.upgrade??[]){
         //子话题的回复
         const upgSubRespList:Resp[] = [];
         //判断是否有任何子选项可以升级
         const upgSubResCondList:BoolObj[] = [];
-        //字段变量ID
-        const fieldID = getFieldVarID(charName,upgObj.field);
+        //全局字段变量
+        const globalFieldID = getGlobalFieldVarID(charName,upgObj.field);
+
+        //字段
+        const field = upgObj.field;
+        const ufield = "u_"+upgObj.field;
+        const nfield = "n_"+upgObj.field;
         //子话题ID
-        const subTopicId = genTalkTopicID(fieldID);
+        const subTopicId = genTalkTopicID(globalFieldID);
 
         //遍历升级项等级
         const maxLvl = upgObj.max_lvl??upgObj.require_resource.length;
@@ -100,8 +104,8 @@ async function createUpgResp(dm:DataManager,charName:string){
                 const fixRes:RequireResource[] = andRes.map(item=>typeof item =="string" ? {id:item} : item);
                 //字段等级条件
                 const lvlCond:BoolObj[] = (isLastRes
-                        ? [{math:[fieldID,">=",lvl+""]},{math:[fieldID,"<",maxLvl+""]}]
-                        : [{math:[fieldID,"==",lvl+""]}])
+                        ? [{math:[nfield,">=",lvl+""]},{math:[nfield,"<",maxLvl+""]}]
+                        : [{math:[nfield,"==",lvl+""]}])
                 //升级材料条件
                 const cond:BoolObj={and:[
                     ...lvlCond,
@@ -112,7 +116,7 @@ async function createUpgResp(dm:DataManager,charName:string){
                 ]}
                 upgSubResCondList.push(cond)
                 //升级EocId
-                const upgEocId = genEOCID(`${fieldID}_UpgradeEoc_${index}`);
+                const upgEocId = genEOCID(`${globalFieldID}_UpgradeEoc_${index}`);
                 /**使用材料 */
                 const charUpEoc:Eoc={
                     type:"effect_on_condition",
@@ -125,7 +129,8 @@ async function createUpgResp(dm:DataManager,charName:string){
                                 count: item.count??1,
                                 popup:true
                             })),
-                        {math:[fieldID,"+=","1"]},
+                        {math:[globalFieldID,"+=","1"]},
+                        {math:[nfield,"=",globalFieldID]},
                         {u_message:`${charName} 升级了 ${upgObj.field}`},
                         ...upgObj.effect??[],//应用升级效果
                     ],
@@ -162,23 +167,23 @@ async function createUpgResp(dm:DataManager,charName:string){
             //创建变异EOC
             const mutEoc:Eoc = {
                 type:"effect_on_condition",
-                id:genEOCID(`${fieldID}_${mut.id}_${mut.lvl}`),
+                id:genEOCID(`${field}_${mut.id}_${mut.lvl}`),
                 eoc_type:"ACTIVATION",
                 effect:[
                     {u_add_trait:mut.id}
                 ],
                 condition:{and:[
                     {not:{u_has_trait:mut.id}},
-                    {math:[fieldID,">=",mut.lvl+""]}
+                    {math:[ufield,">=",mut.lvl+""]}
                 ]}
             }
 
             dm.addCharEvent(charName,"CharUpdate",0,mutEoc);
-            mutEocList.push(mutEoc);
+            dm.addSharedRes("field_mut_eoc",mutEoc.id,mutEoc);
         }
 
         //创建对应升级菜单路由选项
-        const resptext = `${upgObj.field} 当前等级:<global_val:${fieldID}>`;
+        const resptext = `${upgObj.field} 当前等级:<npc_val:${upgObj.field}>`;
         upgRespList.push({
             truefalsetext:{
                 true:`[可以升级]${resptext}`,
@@ -188,7 +193,7 @@ async function createUpgResp(dm:DataManager,charName:string){
             topic:subTopicId,
             condition:{and:[
                 {or:[{or:upgSubResCondList},{math:[showNotEnough,"==","1"]}]},
-                {math:[fieldID,"<",maxLvl+""]}
+                {math:[nfield,"<",maxLvl+""]}
             ]}
         });
         //创建满级选项
@@ -197,7 +202,7 @@ async function createUpgResp(dm:DataManager,charName:string){
             topic:subTopicId,
             condition:{and:[
                 {or:[{or:upgSubResCondList},{math:[showNotEnough,"==","1"]}]},
-                {math:[fieldID,">=",maxLvl+""]}
+                {math:[nfield,">=",maxLvl+""]}
             ]}
         });
         //创建菜单话题
@@ -213,7 +218,8 @@ async function createUpgResp(dm:DataManager,charName:string){
         })
 
         //添加初始化
-        InitUpgField.effect?.push({math:[fieldID,"=",`${fieldID}<=0 ? 0 : ${fieldID}`]});
+        InitUpgField.effect?.push({math:[globalFieldID,"=",`${globalFieldID}<=0 ? 0 : ${globalFieldID}`]});
+        InitUpgField.effect?.push({math:[ufield,"=",`${globalFieldID}`]});
     }
     //升级主对话
     const upgTalkTopic:TalkTopic={
@@ -238,7 +244,7 @@ async function createUpgResp(dm:DataManager,charName:string){
     //注册初始化eoc
     dm.addCharEvent(charName,"CharInit",0,InitUpgField);
 
-    outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...mutEocList,...upgTopicList];
+    outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList];
     return upgtopicid;
 }
 
@@ -279,7 +285,7 @@ async function createSkillResp(dm:DataManager,charName:string){
         if(skill.require_field){
             let fdarr = typeof skill.require_field == "string"
                 ? [skill.require_field,1] as const : skill.require_field;
-            resp.condition = {math:[getFieldVarID(charName,fdarr[0]),">=",`${fdarr[1]}`]}
+            resp.condition = {math:[`n_${fdarr[0]}`,">=",`${fdarr[1]}`]}
         }
         skillRespList.push(resp);
 

@@ -1,0 +1,67 @@
+{
+	"extends": ["BaseField","BaseSkill"],
+    "base_status":{
+        "str":12,
+        "dex":10,
+        "per":12,
+        "int":10
+    },
+	"base_skill": {
+		"ALL": 4
+	},
+    "weapon":{
+		"type": "GUN",
+		"id": "CNPC_GUN_AkasetWeapon",
+		"name": "Akaset的激光炮",
+		"description": "Akaset的激光炮",
+		"ammo": ["500"],
+		"relic_data": {
+			"charge_info": {
+				"recharge_type": "periodic",
+				"time": 10,
+				"regenerate_ammo": true
+			}
+		},
+		"pocket_data": [{
+			"pocket_type": "MAGAZINE",
+			"ammo_restriction": {
+				"500": 10
+			}
+		}],
+		"skill": "pistol",
+		"weight": "1700 g",
+        "volume": "617 ml",
+        "longest_side": "30 cm",
+		"symbol": ";",
+		"flags": [
+			"NO_RELOAD",
+			"NO_UNLOAD"
+		],
+        "weapon_category": [
+            "KNIVES"
+        ],
+		"range": 20,
+        "material": [ "steel", "plastic" ],
+        "to_hit": {
+            "grip": "weapon",
+            "length": "short",
+            "surface": "line",
+            "balance": "good"
+        },
+        "techniques": [
+            "RAPID"
+        ],
+		"melee_damage": { "cut": 25,"bash": 6 },
+		"modes": [
+			["MELEE"  ,"auto", 1 ],
+			["DEFAULT","auto", 1 ],
+			["AUTO"   ,"auto", 1 ]
+		]
+	},
+	"skill": [],
+	"desc": {
+		"age": 17,
+		"gender": "female",
+		"height": 158
+	}
+}

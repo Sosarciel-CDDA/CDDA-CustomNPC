@@ -66,7 +66,7 @@ export type DataTable={
     /**输出的Eoc事件 */
     eventEocs:Record<GlobalEventType,EventEffect[]>;
     /**共用资源表 */
-    sharedTable:Record<string,JObject>;
+    sharedTable:Record<string,Record<string,JObject>>;
 }
 
 /**build配置 */
@@ -394,8 +394,16 @@ export class DataManager{
         return path.join(this.outPath,'chars',charName);
     }
     /**添加共享资源 */
-    addSharedRes(key:string,val:JObject){
-        this.dataTable.sharedTable[key]=val;
+    addSharedRes(filepath:string,key:string,val:JObject){
+        if(this.dataTable.sharedTable[filepath]==null)
+            this.dataTable.sharedTable[filepath]={};
+        const table = this.dataTable.sharedTable[filepath];
+        const oval = table[key];
+        table[key]=val;
+        if(oval!=null){
+            if(JSON.stringify(oval)!=JSON.stringify(val))
+                console.log(`addSharedRes 出现了一个不相同的数据 \n原数据:${JSON.stringify(oval)}\n新数据:${JSON.stringify(val)}`);
+        }
     }
 
 
@@ -426,7 +434,8 @@ export class DataManager{
         }
 
         //导出共用资源
-        this.saveToFile("SharedTable",Object.values(this.dataTable.sharedTable));
+        for(const filePath in this.dataTable.sharedTable)
+            this.saveToFile(filePath,Object.values(this.dataTable.sharedTable[filePath]));
 
 
         //导出角色数据

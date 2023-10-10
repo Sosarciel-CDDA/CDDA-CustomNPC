@@ -1,11 +1,10 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { CON_SPELL_FLAG, genEOCID, genSpellID } from ".";
-import { BoolObj, Eoc, EocEffect, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
+import { BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
 import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "./Event";
-import { getFieldVarID } from "./CharConfig";
 
 
 /**技能选择目标类型 列表 */
@@ -35,8 +34,8 @@ export type CharSkill = {
      */
     common_cooldown?:number,
     /**法术效果  
-     * 可用 {{字段}} 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量  
-     * 如 min_damage: {math:["{{重击}} * 10 + Asuna_重击"]}  
+     * 可用 `u_${字段}` 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量  
+     * 如 min_damage: {math:["u_重击 * 10 + Asuna_重击"]}  
      * 可用 `u_${法术id}_cooldown` 获得对应技能冷却  
      * 如 {math:["u_fireball_cooldown"]} 
      * 可用 u_coCooldown 获得公共冷却时间
@@ -130,8 +129,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
     //遍历技能
     for(const skill of skills){
         //替换变量字段
-        skill.spell = JSON.parse(JSON.stringify(skill.spell)
-            .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(charName,p1)));
+        //skill.spell = JSON.parse(JSON.stringify(skill.spell)
+        //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
 
         const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,effect} = skill;
 
@@ -195,7 +194,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             if(require_field){
                 let fdarr = typeof require_field == "string"
                     ? [require_field,1] as const : require_field;
-                baseCond.push({math:[getFieldVarID(charName,fdarr[0]),">=",fdarr[1]+""]});
+                baseCond.push({math:[`u_${fdarr[0]}`,">=",fdarr[1]+""]});
             }
             //基本通用数据
             const baseSkillData = {
@@ -209,7 +208,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             //处理并加入输出
             skillDataList.push(...ProcMap[target??"auto"](dm,charName,baseSkillData));
         }
-        dm.addSharedRes(spell.id,spell);
+        dm.addSharedRes("common_spell",spell.id,spell);
         //冷却事件
         if(cooldown!=null){
             const CDEoc:Eoc={
@@ -270,10 +269,10 @@ function revTalker(obj:JToken):any{
     return JSON.parse(str);
 }
 /**翻转法术 */
-function revSpell(charName:string,spell:Spell,ccuid:string):Spell{
+function revSpell(spell:Spell):Spell{
     const rspell = UtilFunc.deepClone(spell);
-    rspell.name = `${spell.name}_${charName}_reverse_${ccuid}`;
-    rspell.id = `${rspell.id}_${charName}_reverse_${ccuid}` as SpellID;
+    rspell.name = `${spell.name}_reverse`;
+    rspell.id = `${rspell.id}_reverse` as SpellID;
     if(!rspell.valid_targets.includes("self"))
         rspell.valid_targets.push("self");
     return rspell;
@@ -322,6 +321,14 @@ function fixRevSpellDmg(spell:Spell):EocEffect[]{
     ];
 }
 
+function genCastEocID(charName:string,spell:Spell,ccuid:string):EocID{
+    return genEOCID(`${charName}_Cast${spell.id}_${ccuid}`);
+}
+function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
+    return genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`)
+}
+
+
 function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition} = baseSkillData;
     const {spell,one_in_chance} = skill;
@@ -349,12 +356,12 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         shape,max_level,
         extra_effects:[{id:spell.id}],
     }
-    dm.addSharedRes(selTargetSpell.id,selTargetSpell);
+    dm.addSharedRes("common_spell_assist",selTargetSpell.id,selTargetSpell);
 
     //创建施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        id:genCastEocID(charName,spell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
             {
@@ -364,7 +371,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
                 },
                 targeted: true,
                 true_eocs:{
-                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
+                    id:genTrueEocID(charName,spell,ccuid),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }
@@ -391,7 +398,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
     //创建施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${charName}_Cast${spell.id}_${ccuid}`),
+        id:genCastEocID(charName,spell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
             {
@@ -401,7 +408,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
                 },
                 targeted: false,
                 true_eocs:{
-                    id:genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`),
+                    id:genTrueEocID(charName,spell,ccuid),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }
@@ -428,10 +435,10 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(charName,spell,ccuid);
-
+    const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
+    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
 
     //翻转u与n
     baseCond = revTalker(baseCond);
@@ -440,7 +447,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`Cast${rspell.id}`),
+        id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
             ...dmgPreEff,//预先计算伤害
@@ -451,7 +458,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${rspell.id}TrueEoc`),
+                    id:genTrueEocID(charName,rspell,ccuid),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }
@@ -465,7 +472,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
         throw `翻转命中 所用的事件必须为 翻转事件: ${ReverseCharEventTypeList}`
     dm.addReverseCharEvent(charName,hook as ReverseCharEventType,0,castEoc);
 
-    return [rspell,castEoc];
+    return [castEoc];
 }
 
 function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
@@ -475,10 +482,10 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(charName,spell,ccuid);
-
+    const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
+    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
 
     //翻转u与n
     const unrbaseCond = UtilFunc.deepClone(baseCond);
@@ -492,7 +499,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`Cast${rspell.id}`),
+        id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
             ...dmgPreEff,//预先计算伤害
@@ -503,7 +510,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${rspell.id}TrueEoc`),
+                    id:genTrueEocID(charName,rspell,ccuid),
                     effect:[...TEffect,{math:[fhitvar,"=","1"]}],
                     eoc_type:"ACTIVATION",
                 }
@@ -520,7 +527,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     const {min_range,max_range,range_increment,
         max_level,valid_targets,targeted_monster_ids} = spell;
     const filterTargetSpell:Spell = {
-        id:genSpellID(`${rspell.id}_FilterTarget`),
+        id:genSpellID(`${charName}_${rspell.id}_FilterTarget_${ccuid}`),
         type:"SPELL",
         name:rspell.name+"_筛选索敌",
         description:`${rspell.name}的筛选索敌法术`,
@@ -557,7 +564,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
         throw `翻转事件只能应用于翻转命中`
     dm.addCharEvent(charName,hook as CharEventType,0,castSelEoc);
 
-    return [rspell,castEoc,castSelEoc,filterTargetSpell];
+    return [castEoc,castSelEoc,filterTargetSpell];
 }
 
 function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
@@ -568,16 +575,16 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(charName,spell,ccuid);
-
+    const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
+    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
 
 
     //创建翻转的施法EOC
     const castEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`Cast${rspell.id}`),
+        id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
             ...dmgPreEff,//预先计算伤害
@@ -588,7 +595,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
                     hit_self:true              //如果是翻转事件则需命中自身
                 },
                 true_eocs:{
-                    id:genEOCID(`${rspell.id}TrueEoc`),
+                    id:genTrueEocID(charName,rspell,ccuid),
                     effect:[...TEffect],
                     eoc_type:"ACTIVATION",
                 }
@@ -602,7 +609,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
         throw `直接命中 所用的事件必须为 交互事件: ${InteractiveCharEventList}`
     dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
 
-    return [rspell,castEoc];
+    return [castEoc];
 }
 
 function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){

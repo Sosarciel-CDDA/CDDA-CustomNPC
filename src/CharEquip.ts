@@ -1,7 +1,7 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
-import { getFieldVarID, parseEnchStatTable } from "./CharConfig";
+import { parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 
 
@@ -23,38 +23,46 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
 
     //字段附魔
-    const enchList:Enchantment[] = [baseEnch];
+    const enchList:Enchantment[] = [];
     for(const upgObj of charConfig.upgrade||[]){
-        const fieldID = getFieldVarID(charName,upgObj.field);
+        const field = upgObj.field;
+        const ufield = "u_"+upgObj.field;
         /**字段基础附魔 */
         const fdBaseEnch:Enchantment={
-            id:genEnchantmentID(`${fieldID}_base`),
+            id:genEnchantmentID(`${field}_base`),
             type:"enchantment",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.ench_status)
                 .map(item=>{
                     const {value,add,multiply} = item;
                     let out:EnchModVal = {value};
-                    if(add) out.add = {math:[`min(1,${fieldID})*(${add.math[0]})`]}
-                    if(multiply) out.multiply = {math:[`min(1,${fieldID})*(${multiply.math[0]})`]}
+                    if(add) out.add = {math:[`min(1,${ufield})*(${add.math[0]})`]}
+                    if(multiply) out.multiply = {math:[`min(1,${ufield})*(${multiply.math[0]})`]}
                     return out;
                 })
         }
         /**字段等级附魔 */
         const fdLvlEnch:Enchantment={
-            id:genEnchantmentID(`${fieldID}_lvl`),
+            id:genEnchantmentID(`${field}_lvl`),
             type:"enchantment",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.lvl_ench_status)
                 .map(item=>{
                     const {value,add,multiply} = item;
                     let out:EnchModVal = {value};
-                    if(add) out.add = {math:[`${fieldID}*(${add.math[0]})`]}
-                    if(multiply) out.multiply = {math:[`${fieldID}*( ${multiply.math[0]})`]}
+                    if(add) out.add = {math:[`${ufield}*(${add.math[0]})`]}
+                    if(multiply) out.multiply = {math:[`${ufield}*(${multiply.math[0]})`]}
                     return out;
                 })
         }
-        enchList.push(fdBaseEnch,fdLvlEnch);
+        if(parseEnchStatTable(upgObj.ench_status).length>0){
+            dm.addSharedRes("common_ench",fdBaseEnch.id,fdBaseEnch);
+            enchList.push(fdBaseEnch);
+        }
+        if(parseEnchStatTable(upgObj.lvl_ench_status).length>0){
+            dm.addSharedRes("common_ench",fdLvlEnch.id,fdLvlEnch);
+            enchList.push(fdLvlEnch);
+        }
     }
     /**基础装备 */
     const baseArmor:Armor={
@@ -99,7 +107,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         points          : 0,
         integrated_armor: [defineData.baseArmorID],
         enchantments:[
-            ...enchList.map(ench=>ench.id)
+            ...[...enchList,baseEnch].map(ench=>ench.id)
         ]
     }
 
@@ -141,7 +149,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         const giveWeapon:Eoc={
             type:"effect_on_condition",
             eoc_type:"ACTIVATION",
-            id:genEOCID("GiveWeapon"),
+            id:genEOCID(`${charName}_GiveWeapon`),
             condition:{not:{ u_has_item: baseWeapon.id }},
             effect:[
                 {u_spawn_item:baseWeapon.id}
@@ -172,5 +180,5 @@ export async function createCharEquip(dm:DataManager,charName:string){
     dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,dropOtherWeapon,...baseWeaponData,...enchList];
+    outData['equip'] = [baseMut,baseArmor,dropOtherWeapon,...baseWeaponData,baseEnch];
 }
