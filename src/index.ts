@@ -12,7 +12,7 @@ import { createCharTalkTopic } from "./CharTalkTopic";
 
 export async function buildChar(dm:DataManager,charName:string){
     UtilFT.ensurePathExists(dm.getOutCharPath(charName),true);
-    await mergeImage(dm,charName);
+    await mergeImage(dm,charName,false);
     await createAnimTool(dm,charName);
     await createCharClass(dm,charName);
     await createCharEquip(dm,charName);

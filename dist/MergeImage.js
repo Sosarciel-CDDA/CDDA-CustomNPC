@@ -11,7 +11,7 @@ async function mergeImage(dm, charName) {
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
     //检查是否有Idle动作
     if (info.Idle == null && Object.values(info).length >= 1)
-        throw `${charName} 必须要有Idle动画`;
+        throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
     //提供给打包脚本的info
     const tmpInfo = [{
             "width": 32,
@@ -88,7 +88,7 @@ async function mergeImage(dm, charName) {
     await fs.promises.writeFile(path.join(rawPath, 'tileset.txt'), str);
     //打包
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
-    await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
+    //await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
     //写入 mod贴图设置 到角色文件夹
     const charAnimPath = path.join(dm.getOutCharPath(charName), 'anim');
     await utils_1.UtilFT.ensurePathExists(charAnimPath, true);

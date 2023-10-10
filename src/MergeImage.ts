@@ -29,12 +29,12 @@ type ImageInfo = Partial<Record<AnimType,{
 
 
 /**合并并创建序列帧 */
-export async function mergeImage(dm:DataManager,charName:string){
+export async function mergeImage(dm:DataManager,charName:string,forcePackage:boolean=true){
     const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName),"image");
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
     //检查是否有Idle动作
-    if(info.Idle==null && Object.values(info).length>=1) throw `${charName} 必须要有Idle动画`;
+    if(info.Idle==null && Object.values(info).length>=1) throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
 
     //提供给打包脚本的info
     const tmpInfo:any[] = [{
@@ -117,12 +117,15 @@ export async function mergeImage(dm:DataManager,charName:string){
     await fs.promises.writeFile(path.join(rawPath,'tileset.txt'), str);
     //打包
     await UtilFT.ensurePathExists(mergePath,true);
-    await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
+    const packageInfoPath = path.join(mergePath,'tile_config.json');
+    //如果不存在目标info文件或强制打包则进行打包
+    if(forcePackage || !(await UtilFT.pathExists(packageInfoPath)))
+        await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
 
     //写入 mod贴图设置 到角色文件夹
     const charAnimPath = path.join(dm.getOutCharPath(charName),'anim');
     await UtilFT.ensurePathExists(charAnimPath,true);
-    const tilesetNew = ((await UtilFT.loadJSONFile(path.join(mergePath,'tile_config.json')))["tiles-new"] as any[])
+    const tilesetNew = ((await UtilFT.loadJSONFile(packageInfoPath))["tiles-new"] as any[])
         .filter(item => item.file!="fallback.png");
     outData["mod_tileset"] = [{
 		type: "mod_tileset",
