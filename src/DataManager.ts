@@ -31,8 +31,7 @@ export type CharDefineData=Readonly<{
     baseEnchID : EnchantmentID;
     /**基础武器物品组ID */
     baseWeaponGroupID: ItemGroupID;
-    /**基础武器Flag ID */
-    baseWeaponFlagID: FlagID;
+
     /**经验变量ID */
     expVarID      :string;
     /**主对话ID */
@@ -290,9 +289,12 @@ export class DataManager{
                     "melee_hit_metal"   ,//近战攻击金属质
                     "melee_hit"         ,//近战攻击
                 ] as const;
-                if(defineList.includes(audioFolderName as any)){
-                    se.id = audioFolderName as SoundEffectID;
-                    se.variant = (await dm.getCharData(charName)).charConfig.weapon?.id as SoundEffectVariantID;
+                //(武器id)_(类型)
+                const defmatch = audioFolderName.match(/^(.+?)_(.+)$/);
+                if(defmatch!=null && defineList.includes(defmatch[2] as any)){
+                    se.id = defmatch[2] as SoundEffectID;
+                    se.variant = defmatch[1] as SoundEffectVariantID;
+                    //se.variant = (await dm.getCharData(charName)).charConfig.weapon?.id as SoundEffectVariantID;
                 }
                 await UtilFT.writeJSONFile(path.join(charOutAudioFolder,audioFolderName),[se]);
             }
@@ -338,7 +340,6 @@ export class DataManager{
                 baseArmorID         : genArmorID(charName),
                 baseEnchID          : genEnchantmentID(charName),
                 baseWeaponGroupID   : genItemGroupID(`${charName}_WeaponGroup`),
-                baseWeaponFlagID    : genFlagID(`${charName}_WeaponFlag`),
                 expVarID          : `${charName}_exp`,
                 talkTopicID         : genTalkTopicID(charName),
             }

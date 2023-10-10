@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
-import { CddaID, Color, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
+import { CddaID, Color, CopyfromVar, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
@@ -17,11 +17,13 @@ import { MaterialID } from "../Material";
 export type GenericID = CddaID<"GENERIC">;
 
 /**通用物品 */
-export type Generic = {
+export type Generic = CopyfromVar<{
 	type: "GENERIC";
 	id:GenericID;
 	flags?: GenericFlag[];
-}&GenericBase;
+}&GenericBase>;
+
+
 
 /**通用物品基础 */
 export type GenericBase = {

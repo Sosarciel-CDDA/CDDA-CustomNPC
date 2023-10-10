@@ -1,4 +1,5 @@
-import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, genEOCID, genTalkTopicID } from ".";
+import { JObject } from "@zwa73/utils";
+import { AnyItemID, BoolObj, CNPC_FLAG, Eoc, Flag, ItemGroup, genEOCID, genFlagID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalStopSpellVar, getStopSpellVar } from "./CharSkill";
@@ -331,4 +332,83 @@ async function createSkillResp(dm:DataManager,charName:string){
     dm.addCharEvent(charName,"CharInit",0,InitSkill);
     outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList,InitSkill];
     return skillTalkTopicId;
+}
+
+
+/**创建武器对话 */
+async function createWeaponResp(dm:DataManager,charName:string){
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    //透明物品ID
+    const TransparentItem = "CNPC_GENERIC_TransparentItem";
+    //主对话id
+    const weaponTalkTopicId = genTalkTopicID(`${charName}_weapon`);
+
+    /**基础武器 预处理 */
+    const baseWeapons = charConfig.weapon;
+    const baseWeaponData:JObject[] = [];
+    if(baseWeapons){
+        for(const baseWeapon of baseWeapons){
+            baseWeapon.looks_like = baseWeapon.looks_like||TransparentItem;
+            baseWeapon.flags = baseWeapon.flags||[];
+            baseWeapon.flags?.push(
+                "ACTIVATE_ON_PLACE"      ,//自动销毁
+                "TRADER_KEEP"            ,//不会出售
+                "UNBREAKABLE"            ,//不会损坏
+            );
+            if(baseWeapon.type=="GUN"){
+                baseWeapon.flags?.push(
+                    "NEEDS_NO_LUBE" ,//不需要润滑油
+                    "NEVER_JAMS"    ,//不会故障
+                    "NON_FOULING"   ,//枪不会变脏或被黑火药污染。
+                )
+            }
+            baseWeapon.countdown_interval= 1; //自动销毁
+
+            /**基础武器物品组 */
+            const baseItemGroup:ItemGroup={
+                type:"item_group",
+                id:defineData.baseWeaponGroupID,
+                subtype:"collection",
+                items:[baseWeapon.id],
+            }
+            /**基础武器的识别flag */
+            const baseWeaponFlag:Flag={
+                type:"json_flag",
+                id:genFlagID(baseWeapon.id),
+            }
+            /**如果没武器则给予 */
+            const giveWeapon:Eoc={
+                type:"effect_on_condition",
+                eoc_type:"ACTIVATION",
+                id:genEOCID(`${charName}_GiveWeapon`),
+                condition:{not:{ u_has_item: baseWeapon.id }},
+                effect:[
+                    {u_spawn_item:baseWeapon.id}
+                ]
+            }
+            dm.addCharEvent(charName,"CharUpdate",0,giveWeapon);
+
+            /**丢掉其他武器 */
+            const dropOtherWeapon:Eoc={
+                type:"effect_on_condition",
+                id:genEOCID(`${charName}_DropOtherWeapon`),
+                condition:{and:[
+                    "u_can_drop_weapon",
+                    {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
+                ]},
+                effect:[
+                    {u_location_variable:{global_val:"tmp_loc"}},
+                    {run_eoc_with:{
+                        id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
+                        eoc_type:"ACTIVATION",
+                        effect:["drop_weapon"]
+                    },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
+                ],
+                eoc_type:"ACTIVATION",
+            }
+            dm.addCharEvent(charName,"CharUpdate",0,dropOtherWeapon);
+
+            baseWeaponData.push(giveWeapon,baseWeaponFlag,baseItemGroup,baseWeapon);
+        }
+    }
 }

@@ -64,6 +64,13 @@ export type CustBP = CddaID<"BP">;
  */
 export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`|SchemaString;
 
+/**可以复制的物体 */
+export type CopyfromAble = {id:string,type:string};
+/**Copyfrom的物品 */
+export type CopyfromVar<T extends CopyfromAble> = (T&{"//"?:"uncopy"})|Copyfrom<T>;
+export type Copyfrom<T extends CopyfromAble> =
+    (Partial<Omit<T,"id"|"type">>&Pick<T,"id"|"type">&{"copy-from":T["id"],"//"?:"copy"});
+
 /**用于辅助解析只能补全的类型  
  * 输出后替换为 ^.*$ 的 string 匹配  
  */

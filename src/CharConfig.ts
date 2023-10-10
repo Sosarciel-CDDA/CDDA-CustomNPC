@@ -27,7 +27,7 @@ export type CharConfig = {
     /**附魔属性 */
     ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**固定的武器 */
-    weapon?:Gun|Generic;
+    weapon?:(Gun|Generic)[];
     /**技能 */
     skill?:CharSkill[];
     /**强化项 */

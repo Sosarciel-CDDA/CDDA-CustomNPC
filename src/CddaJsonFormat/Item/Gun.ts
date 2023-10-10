@@ -1,5 +1,5 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume, CddaID } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, CddaID, CopyfromVar } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
@@ -11,7 +11,7 @@ export type GunID = CddaID<"GUN">;
 
 /**枪械  
  */
-export type Gun = {
+export type Gun = CopyfromVar<{
     id:GunID;
 	type: "GUN";
     /**用于射击的技能 */
@@ -72,7 +72,18 @@ export type Gun = {
     flags?: GunFlag[];
     /**子弹附加效果 */
     ammo_effects?: AmmoEffect[],
-} & GenericBase;
+    /**使用武器的最小力量值 */
+    min_strength?: number;
+    /**重装时发出的声音 */
+    reload_noise?: string;
+    /**重装时发出的声音大小 */
+    reload_noise_volume?: number;
+    /**可能适用于该枪的故障类型； 通常继承自单个抽象，例如rifle_base，但也存在例外 */
+    faults?:string[];
+    /**武器的处理； 更好的操控性意味着更少的后坐力 */
+    handling?:number;
+
+} & GenericBase>;
 
 
 
@@ -107,7 +118,7 @@ export type FireModeDisplayName =[
     "auto"          , // 全自动 用于全自动武器
     "double"        , // 散射   用于霰弹枪或其他可以同时从多个枪管发射的武器
     "multi"         , // 并射   用于同时从两个以上枪管发射的武器 如多管火箭筒
-    `${number} rd.` , // n连发 仅适用于具有附加连发模式的枪支，不应用于代替auto
+    `${number} rd.` , // n连发  仅适用于具有附加连发模式的枪支，不应用于代替auto
 ][number];
 
 /*开火模式额外flag */

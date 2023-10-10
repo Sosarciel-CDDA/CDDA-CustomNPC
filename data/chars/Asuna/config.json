@@ -7,51 +7,37 @@
         "int":10
     },
 	"base_skill": {
-		"ALL": 4
+		"ALL": 4,
+		"pistol": 10
 	},
     "weapon":{
 		"type": "GUN",
+		"copy-from": "m9",
 		"id": "CNPC_GUN_AsunaWeapon",
-		"name": "Asuna的枪与匕首",
-		"description": "Asuna的枪与匕首",
-		"ammo": ["500"],
+		"name": {"str_sp": "Asuna 的 伯莱塔 M9A1 手枪"},
+		"description": "Asuna 的 伯莱塔 M9A1 手枪",
+		"ammo": ["9mm"],
 		"relic_data": {
 			"charge_info": {
 				"recharge_type": "periodic",
-				"time": 10,
+				"time": 1,
 				"regenerate_ammo": true
 			}
 		},
 		"pocket_data": [{
 			"pocket_type": "MAGAZINE",
-			"ammo_restriction": {
-				"500": 10
-			}
+			"ammo_restriction": {"9mm": 15}
 		}],
-		"skill": "pistol",
-		"weight": "1700 g",
-        "volume": "617 ml",
-        "longest_side": "30 cm",
-		"symbol": ";",
-		"flags": [
-			"NO_RELOAD",
-			"NO_UNLOAD"
-		],
-        "weapon_category": [
-            "KNIVES"
-        ],
-		"range": 20,
-        "material": [ "steel", "plastic" ],
+		"ammo_to_fire": 0,
+		"flags": ["NO_RELOAD","NO_UNLOAD"],
         "to_hit": {
             "grip": "weapon",
             "length": "short",
             "surface": "line",
             "balance": "good"
         },
-        "techniques": [
-            "RAPID"
-        ],
-		"melee_damage": { "cut": 25,"bash": 6 },
+		"valid_mod_locations": [],
+		"faults": [],
 		"modes": [
 			["MELEE"  ,"auto", 1 ],
 			["DEFAULT","auto", 1 ],
@@ -69,12 +55,12 @@
 				"EvaporateFutureSF","Hit"
 			],
 			"spell": {
-				"id":"CNPC_SPELL_EvaporateFuture",
+				"id":"EvaporateFuture",
 				"type": "SPELL",
 				"name": "蒸发未来",
 				"description": "蒸发未来",
 				"min_damage":{
-					"math": ["CalcDamage(100, u_val('perception'))*3.6"]
+					"math": ["CalcDamage(26, u_val('perception'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "bullet",
@@ -85,61 +71,9 @@
 				"effect": "attack"
 			},
 			"effect":[
-				{"math": ["u_CNPC_SPELL_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_CNPC_SPELL_EvaporateFuture_cooldown"]}
+				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_EvaporateFuture_cooldown"]}
 			],
 			"weight": 2
-		},
-		{
-			"cast_condition":{
-				"hook": "CharCauseMeleeHit"
-			},
-			"cooldown":30,
-			"audio":[
-				{"id":"BladeStrike", "one_in_chance":2},
-				"BladeStrikeSF","Hit"
-			],
-			"spell": {
-				"id":"CNPC_SPELL_BladeStrike",
-				"type": "SPELL",
-				"name": "刀锋打击",
-				"description": "刀锋打击",
-				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*3.6"]
-				},
-				"max_damage":999999,
-				"damage_type": "cut",
-				"shape": "blast",
-				"min_range": 1,
-				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
-			},
-			"weight": 2
-		},
-		{
-			"cast_condition":{
-				"hook": "CharCauseMeleeHit"
-			},
-			"cooldown":10,
-			"audio":[
-				{"id":"BladeofTrauma", "one_in_chance":2},
-				"BladeofTraumaSF","Hit"
-			],
-			"spell": {
-				"id":"CNPC_SPELL_BladeofTrauma",
-				"type": "SPELL",
-				"name": "创伤之刃",
-				"description": "创伤之刃",
-				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*1.8"]
-				},
-				"max_damage":999999,
-				"damage_type": "cut",
-				"shape": "blast",
-				"min_range": 1,
-				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
-			},
-			"weight": 1
 		},
 		{
 			"cast_condition":{
