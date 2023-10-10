@@ -213,7 +213,7 @@ async function createUpgResp(dm:DataManager,charName:string){
         })
 
         //添加初始化
-        InitUpgField.effect?.push({math:[fieldID,"+=","0"]});
+        InitUpgField.effect?.push({math:[fieldID,"=",`${fieldID}<=0 ? 0 : ${fieldID}`]});
     }
     //升级主对话
     const upgTalkTopic:TalkTopic={
