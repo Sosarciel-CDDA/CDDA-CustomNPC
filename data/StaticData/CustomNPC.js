@@ -329,6 +329,7 @@ function CNPC_EOC_GlobalUpdateEvent(){
 			if(u_update_count>60){
 				//运行动态生成的事件eoc
 				CNPC_EOC_CharUpdateSlow();
+				u_update_count=0;
 			}
 
 			//附近有怪物 u_search_radius 无效

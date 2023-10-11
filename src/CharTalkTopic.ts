@@ -184,7 +184,7 @@ async function createUpgResp(dm:DataManager,charName:string){
             }
 
             dm.addCharEvent(charName,"CharUpdateSlow",0,mutEoc);
-            dm.addCharEvent(charName,"CharInit",-1,mutEoc);
+            dm.addCharEvent(charName,"CharInit",0,mutEoc);
             dm.addSharedRes("field_mut_eoc",mutEoc.id,mutEoc);
         }
 
@@ -248,7 +248,7 @@ async function createUpgResp(dm:DataManager,charName:string){
         }]
     }
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",0,InitUpgField);
+    dm.addCharEvent(charName,"CharInit",10,InitUpgField);
 
     outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList];
     return upgtopicid;
@@ -334,7 +334,7 @@ async function createSkillResp(dm:DataManager,charName:string){
     }
 
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",0,InitSkill);
+    dm.addCharEvent(charName,"CharInit",10,InitSkill);
     outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList,InitSkill];
     return skillTalkTopicId;
 }
@@ -367,13 +367,6 @@ async function createWeaponResp(dm:DataManager,charName:string){
         effect:[]
     }
     weaponData.push(InitWeapon);
-
-    /**基础武器的识别flag */
-    const baseWeaponFlag:Flag={
-        type:"json_flag",
-        id:defineData.baseWeaponFlagID,
-    }
-    weaponData.push(baseWeaponFlag);
 
     /**丢掉其他武器 */
     //const dropOtherWeapon:Eoc={
@@ -421,7 +414,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 "ACTIVATE_ON_PLACE"         ,//自动销毁
                 "TRADER_KEEP"               ,//不会出售
                 "UNBREAKABLE"               ,//不会损坏
-                defineData.baseWeaponFlagID ,//基础flag
+                defineData.baseItemFlagID ,//基础flag
             );
             if(item.type=="GUN"){
                 item.flags?.push(
@@ -451,7 +444,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 effect:[{u_spawn_item:item.id}]
             }
             dm.addCharEvent(charName,"CharUpdateSlow",0,giveWeapon);
-            dm.addCharEvent(charName,"CharInit",-1,giveWeapon);
+            dm.addCharEvent(charName,"CharInit",0,giveWeapon);
             weaponData.push(giveWeapon)
 
             /**如果禁用则删除 */
@@ -465,8 +458,8 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 ]},
                 effect:[{u_consume_item:item.id,count:1}]
             }
-            dm.addCharEvent(charName,"CharUpdateSlow",0,giveWeapon);
-            weaponData.push(giveWeapon)
+            dm.addCharEvent(charName,"CharUpdateSlow",0,removeWeapon);
+            weaponData.push(removeWeapon)
 
 
             //开关eoc
@@ -521,7 +514,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
     }
 
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",0,InitWeapon);
+    dm.addCharEvent(charName,"CharInit",10,InitWeapon);
     outData['weapon_talk_topic'] = [weaponTalkTopic,...weaponData];
     return weaponTalkTopicId;
 }

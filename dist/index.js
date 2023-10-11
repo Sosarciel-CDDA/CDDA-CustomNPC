@@ -24,12 +24,14 @@ const AnimStatus_1 = require("./AnimStatus");
 const utils_1 = require("@zwa73/utils");
 const CharSkill_1 = require("./CharSkill");
 const CharTalkTopic_1 = require("./CharTalkTopic");
+const CharCarry_1 = require("./CharCarry");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
     await (0, MergeImage_1.mergeImage)(dm, charName, false);
     await (0, AnimTool_1.createAnimTool)(dm, charName);
     await (0, CharClass_1.createCharClass)(dm, charName);
     await (0, CharEquip_1.createCharEquip)(dm, charName);
+    await (0, CharCarry_1.createCharCarry)(dm, charName);
     await (0, AnimStatus_1.createAnimStatus)(dm, charName);
     await (0, CharSkill_1.createCharSkill)(dm, charName);
     await (0, CharTalkTopic_1.createCharTalkTopic)(dm, charName);

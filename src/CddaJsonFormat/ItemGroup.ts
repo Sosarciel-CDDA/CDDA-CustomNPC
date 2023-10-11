@@ -20,9 +20,13 @@ export type ItemGroup = {
     subtype?: "collection"|"distribution",
     /**详细写法 */
     entries?: ItemGroupEntrie[];
-    /**快速物品列表 */
+    /**快速物品列表  
+     * 物品id 或者 [物品id,概率(100为100%)]
+     */
     items?:ItemGroupEntrieQuick[];
-    /**快速物品列表 */
+    /**快速物品列表  
+     * 物品id 或者 [物品id,概率(100为100%)]
+     */
     groups?:ItemGroupEntrieQuick[];
     /**从某个物品组复制 */
     "copy-from"?:ItemGroupID;

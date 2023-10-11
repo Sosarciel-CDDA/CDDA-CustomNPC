@@ -9,6 +9,7 @@ import { WeaponTypeID } from "../WeaponCategory";
 import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
 import { Tool, ToolID } from "./Tool";
+import { Magazine, MagazineID } from "./Magazine";
 
 
 
@@ -100,7 +101,7 @@ export type GenericBase = {
 	/**超过该体积杂志开始从物品中突出并增加额外的体积 */
 	magazine_well?:number;
 	/**每种弹药类型（如果有）的杂志类型，可用于重新加载该物品 */
-	magazines?: Magazines[];
+	magazines?: GenericMagazines[];
 	/**掉进火里会爆炸 */
 	explode_in_fire?: boolean;
 	/**爆炸数据 */
@@ -137,8 +138,8 @@ export type RelicData = {
 	}|InlineEnchantment)[];
 }
 
-/**弹夹 */
-export type Magazines = [
+/**内置弹夹 */
+export type GenericMagazines = [
 	/**弹药类型 */
 	AmmunitionTypeID,
 	/**具体弹药 默认为首个 */
@@ -184,9 +185,9 @@ export type ItemMaterial = MaterialID|{
 }
 
 /**任何物品ID */
-export type AnyItemID = GenericID|AmmoID|ArmorID|GunID|ToolID;
+export type AnyItemID = GenericID|AmmoID|ArmorID|GunID|ToolID|MagazineID;
 /**任何物品 */
-export type AnyItem = Generic|Ammo|Gun|Tool;
+export type AnyItem = Generic|Ammo|Gun|Tool|Magazine;
 
 /**预定义的物品类别 列表 */
 export const DefineItemCategoryList =[

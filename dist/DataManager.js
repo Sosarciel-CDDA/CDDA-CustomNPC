@@ -246,8 +246,8 @@ class DataManager {
                 vaildAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
-                baseWeaponFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
-                expVarID: `${charName}_exp`,
+                baseItemFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
+                baseCarryGroup: (0, ModDefine_1.genItemGroupID)(`${charName}_Carry`),
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
             };
             //角色事件eoc主体

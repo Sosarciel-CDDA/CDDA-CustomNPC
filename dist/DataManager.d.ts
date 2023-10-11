@@ -22,10 +22,10 @@ export type CharDefineData = Readonly<{
     baseArmorID: ArmorID;
     /**基础装备附魔ID */
     baseEnchID: EnchantmentID;
-    /**基础武器FlagID 用于分辨是否为角色武器 */
-    baseWeaponFlagID: FlagID;
-    /**经验变量ID */
-    expVarID: string;
+    /**基础武器FlagID 用于分辨是否为角色专用物品 */
+    baseItemFlagID: FlagID;
+    /**基础背包物品组 */
+    baseCarryGroup: ItemGroupID;
     /**主对话ID */
     talkTopicID: TalkTopicID;
 }>;

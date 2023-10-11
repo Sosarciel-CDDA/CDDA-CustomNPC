@@ -26,7 +26,7 @@ export type Ammo = CopyfromVar<{
     /**可选字段，指定本轮发射的单个射弹造成的伤害。
      * 如果存在，还必须指定 shot_count。
      */
-    shot_damage?: RangeDamage;
+    shot_damage?: RangeDamage | RangeDamage[];
     /**可选字段，指定单个射弹的额外分散度。
      * 仅当 shot_count 存在时才有意义。
      */

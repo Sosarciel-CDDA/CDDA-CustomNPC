@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList } from "CddaJsonFormat";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genEnchantmentID } from "./ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
@@ -11,6 +11,14 @@ import { JObject } from "@zwa73/utils";
 /**创建角色装备 */
 export async function createCharEquip(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
+
+
+
+    /**基础物品的识别flag */
+    const baseItemFlag:Flag={
+        type:"json_flag",
+        id:defineData.baseItemFlagID,
+    }
 
     /**构造附魔属性 */
     /**基础附魔 */
@@ -63,6 +71,32 @@ export async function createCharEquip(dm:DataManager,charName:string){
             enchList.push(fdLvlEnch);
         }
     }
+
+    //背包约束
+    let itemres = charConfig.carry?.map(carry=>
+        typeof carry.item == "string"? carry.item : undefined)
+        .filter(carry=>carry!=undefined) as AnyItemID[]|undefined;
+    if(itemres && itemres.length<=0) itemres = undefined;
+    const basePocket = {
+        rigid: true,
+        pocket_type: "CONTAINER",
+        max_contains_volume: "100 L",
+        max_contains_weight: "100 kg",
+        moves: 1,
+        fire_protection: true,
+        max_item_length: "1 km",
+        weight_multiplier: 0,
+        volume_multiplier: 0,
+    } as const;
+    const pocketList:PocketData[] = [{
+        ...basePocket,
+        flag_restriction:[defineData.baseItemFlagID],
+    }];
+    if(itemres) pocketList.push({
+        ...basePocket,
+        item_restriction:itemres,
+    })
+
     /**基础装备 */
     const baseArmor:Armor={
         type        : "ARMOR",
@@ -80,22 +114,9 @@ export async function createCharEquip(dm:DataManager,charName:string){
             "ZERO_WEIGHT"   ,//无重量体积
             "TARDIS"        ,//不会出售
             "PARTIAL_DEAF"  ,//降低音量到安全水平
+            defineData.baseItemFlagID
         ],
-        pocket_data : (charConfig.weapon
-            ? [{
-                rigid: true,
-                pocket_type: "CONTAINER",
-                max_contains_volume: "100 L",
-                max_contains_weight: "100 kg",
-                moves: 1,
-                fire_protection: true,
-                max_item_length: "1 km",
-                weight_multiplier: 0,
-                volume_multiplier: 0,
-                flag_restriction:[defineData.baseWeaponFlagID]
-                //item_restriction:charConfig.weapon.map(item=>item.id)
-            }]
-            : undefined),
+        pocket_data : pocketList,
     }
 
     /**基础变异 */
@@ -112,5 +133,5 @@ export async function createCharEquip(dm:DataManager,charName:string){
     }
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,baseEnch];
+    outData['equip'] = [baseMut,baseArmor,baseEnch,baseItemFlag];
 }

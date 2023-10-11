@@ -20,12 +20,16 @@ export type CharConfig = {
     base_skill?: Partial<Record<SkillID | "ALL", number>>;
     /**附魔属性 */
     ench_status?: Partial<Record<EnchStat, number | NumMathExp>>;
-    /**固定的武器 */
+    /**固定的武器
+     * 如果武器丢失会自动刷新
+     */
     weapon?: CharWeapon[];
     /**技能 */
     skill?: CharSkill[];
     /**强化项 */
     upgrade?: CharUpgrade[];
+    /**携带的物品 */
+    carry?: CharCarry[];
 };
 /**角色描述信息 */
 export type CharDesc = {
@@ -87,6 +91,21 @@ export type CharWeapon = {
     /**武器物品 */
     item: AnyItem;
     /**要求强化字段 [字段,强化等级] 或 字段名 */
+    require_field?: [string, number] | string;
+};
+/**角色携带物品 */
+export type CharCarry = {
+    /**物品 */
+    item: AnyItem | AnyItemID;
+    /**数量 默认1 */
+    count?: number;
+    /**初始数量 默认等同于count */
+    start_count?: number;
+    /**自动回复间隔 未定义则不回复
+     * 单位为60次刷新 即 CharUpdateSlow
+     */
+    recharge?: number;
+    /**自动回复要求的强化字段 [字段,强化等级] 或 字段名 */
     require_field?: [string, number] | string;
 };
 /**变量属性 */

@@ -9,8 +9,7 @@ import { GenericBase, GenericFlag } from "./Generic";
  */
 export type GunID = CddaID<"GUN">;
 
-/**枪械  
- */
+/**枪械 */
 export type Gun = CopyfromVar<{
     id:GunID;
 	type: "GUN";
@@ -72,8 +71,6 @@ export type Gun = CopyfromVar<{
     flags?: GunFlag[];
     /**子弹附加效果 */
     ammo_effects?: AmmoEffect[],
-    /**使用武器的最小力量值 */
-    min_strength?: number;
     /**重装时发出的声音 */
     reload_noise?: string;
     /**重装时发出的声音大小 */

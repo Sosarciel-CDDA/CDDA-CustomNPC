@@ -6,6 +6,11 @@ const CharConfig_1 = require("./CharConfig");
 /**创建角色装备 */
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    /**基础物品的识别flag */
+    const baseItemFlag = {
+        type: "json_flag",
+        id: defineData.baseItemFlagID,
+    };
     /**构造附魔属性 */
     /**基础附魔 */
     const baseEnch = {
@@ -60,6 +65,31 @@ async function createCharEquip(dm, charName) {
             enchList.push(fdLvlEnch);
         }
     }
+    //背包约束
+    let itemres = charConfig.carry?.map(carry => typeof carry.item == "string" ? carry.item : undefined)
+        .filter(carry => carry != undefined);
+    if (itemres && itemres.length <= 0)
+        itemres = undefined;
+    const basePocket = {
+        rigid: true,
+        pocket_type: "CONTAINER",
+        max_contains_volume: "100 L",
+        max_contains_weight: "100 kg",
+        moves: 1,
+        fire_protection: true,
+        max_item_length: "1 km",
+        weight_multiplier: 0,
+        volume_multiplier: 0,
+    };
+    const pocketList = [{
+            ...basePocket,
+            flag_restriction: [defineData.baseItemFlagID],
+        }];
+    if (itemres)
+        pocketList.push({
+            ...basePocket,
+            item_restriction: itemres,
+        });
     /**基础装备 */
     const baseArmor = {
         type: "ARMOR",
@@ -76,23 +106,10 @@ async function createCharEquip(dm, charName) {
             "INTEGRATED",
             "ZERO_WEIGHT",
             "TARDIS",
-            "PARTIAL_DEAF", //降低音量到安全水平
+            "PARTIAL_DEAF",
+            defineData.baseItemFlagID
         ],
-        pocket_data: (charConfig.weapon
-            ? [{
-                    rigid: true,
-                    pocket_type: "CONTAINER",
-                    max_contains_volume: "100 L",
-                    max_contains_weight: "100 kg",
-                    moves: 1,
-                    fire_protection: true,
-                    max_item_length: "1 km",
-                    weight_multiplier: 0,
-                    volume_multiplier: 0,
-                    flag_restriction: [defineData.baseWeaponFlagID]
-                    //item_restriction:charConfig.weapon.map(item=>item.id)
-                }]
-            : undefined),
+        pocket_data: pocketList,
     };
     /**基础变异 */
     const baseMut = {
@@ -107,6 +124,6 @@ async function createCharEquip(dm, charName) {
         ]
     };
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseEnch];
+    outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag];
 }
 exports.createCharEquip = createCharEquip;

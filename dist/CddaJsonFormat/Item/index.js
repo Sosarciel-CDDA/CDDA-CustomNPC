@@ -19,3 +19,4 @@ __exportStar(require("./Generic"), exports);
 __exportStar(require("./Ammo"), exports);
 __exportStar(require("./Gun"), exports);
 __exportStar(require("./Tool"), exports);
+__exportStar(require("./Magazine"), exports);

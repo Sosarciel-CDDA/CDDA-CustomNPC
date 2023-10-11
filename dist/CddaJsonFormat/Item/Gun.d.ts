@@ -6,8 +6,7 @@ import { GenericBase, GenericFlag } from "./Generic";
 /**GUN ID格式
  */
 export type GunID = CddaID<"GUN">;
-/**枪械
- */
+/**枪械 */
 export type Gun = CopyfromVar<{
     id: GunID;
     type: "GUN";
@@ -16,7 +15,7 @@ export type Gun = CopyfromVar<{
     /**接受重新加载的弹药类型 */
     ammo: AmmunitionTypeID[];
     /**发射时的远程伤害 */
-    ranged_damage?: RangeDamage;
+    ranged_damage?: RangeDamage | RangeDamage[];
     /**发射时的范围 */
     range?: number;
     /**枪的不准确度，以角度分钟 (MOA) 的百分之一为单位测量
@@ -69,8 +68,6 @@ export type Gun = CopyfromVar<{
     flags?: GunFlag[];
     /**子弹附加效果 */
     ammo_effects?: AmmoEffect[];
-    /**使用武器的最小力量值 */
-    min_strength?: number;
     /**重装时发出的声音 */
     reload_noise?: string;
     /**重装时发出的声音大小 */

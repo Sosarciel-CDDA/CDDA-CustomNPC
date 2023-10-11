@@ -63,9 +63,9 @@ export declare const ToolQualityTypeList: readonly ["SCREW", "DRILL"];
 export type ToolQualityType = typeof ToolQualityTypeList[number];
 /**工具品质 [调整值类型, 品质等级] */
 export type ToolQuality = [ToolQualityType, number];
-/**枪械可用的flag 列表 */
+/**工具可用的flag 列表 */
 export declare const ToolFlagList: readonly [];
-/**枪械可用的flag */
+/**工具可用的flag */
 export type ToolFlag = typeof ToolFlagList[number] | GenericFlag;
 /**
 ACT_ON_RANGED_HIT               该物品应在投掷或发射时激活，如果它在地面上生成，则立即得到处理。

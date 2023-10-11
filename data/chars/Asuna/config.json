@@ -10,52 +10,63 @@
 		"ALL": 4,
 		"pistol": 10
 	},
-    "weapon":[{
-		"item":{
-			"type": "GUN",
-			"copy-from": "m9",
-			"id": "AsunaM9",
-			"name": {"str_sp": "Asuna的 伯莱塔 M9A1 手枪"},
-			"description": "Asuna的 伯莱塔 M9A1 手枪",
-			"ammo": ["9mm"],
-			"relic_data": {
-				"charge_info": {
-					"recharge_type": "periodic",
-					"time": 1,
-					"regenerate_ammo": true
-				}
-			},
-			"pocket_data": [{
-				"pocket_type": "MAGAZINE",
-				"ammo_restriction": {"9mm": 15}
-			}],
-			"ammo_to_fire": 0,
-			"flags": ["NO_RELOAD","NO_UNLOAD"],
-			"valid_mod_locations": [],
-			"faults": [],
-			"modes": [
-				["MELEE"  ,"auto", 1 ],
-				["DEFAULT","auto", 1 ],
-				["AUTO"   ,"auto", 1 ]
-			]
+    "weapon":[
+		{
+			"item":{
+				"type": "GUN",
+				"copy-from": "m9",
+				"id": "AsunaM9",
+				"name": {"str_sp": "Asuna的 伯莱塔 M9A1 手枪"},
+				"description": "Asuna的 伯莱塔 M9A1 手枪",
+				"ammo": ["9mm"],
+				"pocket_data": [{
+					"pocket_type": "MAGAZINE_WELL",
+					"item_restriction": ["AsunaMag"]
+				}],
+				"flags": ["NO_UNLOAD"],
+				"valid_mod_locations": [],
+				"faults": [],
+				"modes": [
+					["MELEE"  ,"auto", 1 ],
+					["DEFAULT","auto", 1 ],
+					["AUTO"   ,"auto", 1 ]
+				]
+			}
+		},
+		{
+			"item":{
+				"type": "TOOL",
+				"copy-from": "knife_rm42",
+				"id": "AsunaKnife",
+				"name":{"str_sp": "Asuna的 战术匕首"},
+				"description": "Asuna的 战术匕首",
+				"to_hit":{
+					"grip": "weapon",
+					"length": "short",
+					"surface": "line",
+					"balance": "good"
+				},
+				"gunmod_data":{},
+				"flags": [ "DIAMOND" ]
+			}
 		}
-	},{
-		"item":{
-			"type": "TOOL",
-			"copy-from": "knife_rm42",
-			"id": "AsunaKnife",
-			"name":{"str_sp": "Asuna的 战术匕首"},
-			"description": "Asuna的 战术匕首",
-			"to_hit":{
-				"grip": "weapon",
-				"length": "short",
-				"surface": "line",
-				"balance": "good"
+	],
+	"carry": [
+		{
+			"item":{
+				"id":"AsunaMag",
+				"type": "MAGAZINE",
+				"copy-from":"m9mag",
+				"name": {"str_sp": "Asuna的 M9 15发弹匣"},
+				"description": "Asuna的 M9 15发弹匣",
+				"flags": ["MAG_DESTROY","NO_UNLOAD"],
+				"count": 15,
+				"default_ammo": "9mmP2"
 			},
-			"gunmod_data":{},
-			"flags": [ "DIAMOND" ]
+			"recharge": 1,
+			"count": 10
 		}
-	}],
+	],
 	"skill": [
 		{
 			"cast_condition":{

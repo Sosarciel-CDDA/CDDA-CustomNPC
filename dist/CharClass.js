@@ -17,7 +17,7 @@ async function createCharClass(dm, charName) {
         common: false,
         worn_override: StaticData_1.EMPTY_GROUP_ID,
         weapon_override: StaticData_1.EMPTY_GROUP_ID,
-        carry_override: StaticData_1.EMPTY_GROUP_ID,
+        carry_override: defineData.baseCarryGroup,
         skills: Object.entries(charConfig.base_skill || []).reduce((acc, item) => {
             if (item[1] == null)
                 return acc;

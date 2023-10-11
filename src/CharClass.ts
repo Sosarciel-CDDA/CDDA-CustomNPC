@@ -22,7 +22,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         common: false,
         worn_override:EMPTY_GROUP_ID,
         weapon_override:EMPTY_GROUP_ID,
-        carry_override:EMPTY_GROUP_ID,
+        carry_override:defineData.baseCarryGroup,
         skills:Object.entries(charConfig.base_skill||[]).reduce((acc,item)=>{
             if(item[1]==null) return acc;
             const skillid = item[0] as SkillID|"ALL";

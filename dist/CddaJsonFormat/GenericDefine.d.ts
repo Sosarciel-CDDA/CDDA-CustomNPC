@@ -61,6 +61,8 @@ export type CopyfromVar<T extends CopyfromAble> = (T & {
 export type Copyfrom<T extends CopyfromAble> = (Partial<Omit<T, "id" | "type">> & Pick<T, "id" | "type"> & {
     "copy-from": T["id"];
     "//"?: "copy";
+    "delete"?: Omit<T, "id" | "type">;
+    "extend"?: Omit<T, "id" | "type">;
 });
 /**用于辅助解析只能补全的类型
  * 输出后替换为 ^.*$ 的 string 匹配
