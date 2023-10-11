@@ -10,7 +10,7 @@ export type Ammo = CopyfromVar<{
     /**弹药类型 使用材质id */
     ammo_type: AmmunitionTypeID;
     /**远程伤害 */
-    damage?: RangeDamage;
+    damage?: RangeDamage | RangeDamage[];
     /**将武器的伤害乘以数量 (覆盖 damage ) */
     prop_damage?: number;
     /**开火范围 */
@@ -22,7 +22,12 @@ export type Ammo = CopyfromVar<{
     /**可选字段，指定该弹药每轮发射多个射弹，例如 shot
      * 如果存在 shot_damage，则还必须指定。
      */
-    shot_count?: number;
+    projectile_count?: number;
+    /**将枪支产生的射击量增加此数量。
+     * `"shot_counter": 5` 表示每次射击将计为 6 次射击(1 你实际执行的 + 5)
+     * 设计用于抑制器损坏以及可更换枪管等物品，但目前尚未在任何地方使用
+     */
+    shot_counter?: number;
     /**可选字段，指定本轮发射的单个射弹造成的伤害。
      * 如果存在，还必须指定 shot_count。
      */

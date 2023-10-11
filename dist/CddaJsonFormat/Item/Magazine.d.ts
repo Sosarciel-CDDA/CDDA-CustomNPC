@@ -14,7 +14,9 @@ export type Magazine = CopyfromVar<{
     capacity: number;
     /**弹匣包含的默认弹药量（为弹药带设置此值） */
     count?: number;
-    /**如果指定则覆盖默认弹药（可以为弹药带设置此项） */
+    /**如果指定则覆盖默认弹药（可以为弹药带设置此项）
+     * 仅控制 count 字段生成的子弹
+     */
     default_ammo?: AmmoID;
     /**将每单位弹药装入弹匣需要多长时间 */
     reload_time?: number;

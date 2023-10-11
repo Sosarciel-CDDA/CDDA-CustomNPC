@@ -7,44 +7,27 @@
         "int":10
     },
 	"base_skill": {
-		"ALL": 4
+		"ALL": 4,
+		"rifle": 10
 	},
     "weapon":[{
 		"item":{
 			"type": "GUN",
-			"id": "CNPC_GUN_AkasetWeapon",
+			"id": "AkasetLaserCannon",
+			"copy-from":"laser_cannon_xray",
 			"name": "Akaset的 激光炮",
 			"description": "Akaset的 激光炮",
-			"ammo": ["500"],
-			"relic_data": {
-				"charge_info": {
-					"recharge_type": "periodic",
-					"time": 10,
-					"regenerate_ammo": true
-				}
-			},
-			"pocket_data": [{
-				"pocket_type": "MAGAZINE",
-				"ammo_restriction": {
-					"500": 10
-				}
-			}],
-			"skill": "pistol",
-			"weight": "1700 g",
-			"volume": "617 ml",
-			"longest_side": "30 cm",
-			"symbol": ";",
-			"flags": [
-				"NO_RELOAD",
-				"NO_UNLOAD"
-			],
-			"range": 20,
-			"melee_damage": { "cut": 25,"bash": 6 },
+			"energy_drain": 0,
+			"flags":["NO_UNLOAD"],
 			"modes": [
-				["MELEE"  ,"auto", 1 ],
-				["DEFAULT","auto", 1 ],
-				["AUTO"   ,"auto", 1 ]
-			]
+				[ "DEFAULT", "pulse", 1 ],
+				[ "BURST"  , "2s sequence", 2 ],
+				[ "AUTO"   , "3s sequence", 3 ]
+			],
+			"ammo_effects": ["LASER"],
+			"valid_mod_locations": [],
+			"faults": [],
+			"heat_per_shot": 0
 		}
 	}],
 	"skill": [],

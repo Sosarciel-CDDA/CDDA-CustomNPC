@@ -58,12 +58,13 @@ export type CopyfromAble = {
 export type CopyfromVar<T extends CopyfromAble> = (T & {
     "//"?: "uncopy";
 }) | Copyfrom<T>;
-export type Copyfrom<T extends CopyfromAble> = (Partial<Omit<T, "id" | "type">> & Pick<T, "id" | "type"> & {
+/**copyfrom变体 */
+export type Copyfrom<T extends CopyfromAble> = Pick<T, "id" | "type"> & {
     "copy-from": T["id"];
     "//"?: "copy";
-    "delete"?: Omit<T, "id" | "type">;
-    "extend"?: Omit<T, "id" | "type">;
-});
+    delete?: Partial<Omit<T, "id" | "type">>;
+    extend?: Partial<Omit<T, "id" | "type">>;
+} & Partial<Omit<T, "id" | "type">>;
 /**用于辅助解析只能补全的类型
  * 输出后替换为 ^.*$ 的 string 匹配
  */
@@ -146,6 +147,13 @@ export type RangeDamage = {
     amount: number;
     /**穿甲值 */
     armor_penetration: number;
+    /**枪管伤害 */
+    barrels?: {
+        /**如果枪管小于等于此长度则应用此伤害 */
+        barrel_length: Length;
+        /**伤害 */
+        amount: number;
+    }[];
 };
 /**近战武器伤害 伤害类型 : 伤害值 不能为负数* */
 export type MeleeDamage = Partial<Record<DamageType, number>>;
@@ -155,29 +163,46 @@ export declare const DamageTypeList: readonly ["stab", "bash", "cut", "bullet", 
 export type DamageType = typeof DamageTypeList[number];
 /**爆炸 */
 export type Explosion = {
-    /**TNT 当量炸药的克数为单位测量爆炸威力，影响伤害和射程 */
+    /**TNT 当量炸药的克数为单位测量爆炸威力，影响伤害和射程
+     * 强制性；爆炸的力量，以TNT克数表示；管状炸弹约为300，手榴弹（无碎片）为240
+     */
     power: number;
-    /**每个爆炸方块保留了多少能量。 必须小于 1 且大于 0。 */
+    /**距离因子
+     * 爆炸衰减有多快，接近1意味着每个瓷砖损失的"力量"较少，
+     * 0.8意味着每个瓷砖损失20%的力量；默认0.75，值应大于0但小于1
+     */
     distance_factor?: number;
     /**爆炸可能产生的最大（听觉）噪音。 */
     max_noise?: number;
-    /**爆炸是否会留下火 */
+    /**爆炸是否会留下火
+     * 爆炸产生火焰，与其功率、距离和距离因子有关
+     */
     fire?: boolean;
-    /**破片数据 */
+    /**破片数据
+     * 为数字时则为壳体总质量，其余碎片变量设置为合理的默认值。
+     */
     shrapnel?: ShrapnelData;
 };
 /**破片数据
- * 为数字时 套管总质量，其余碎片变量设置为合理的默认值。
+ * 为数字时则为壳体总质量，其余碎片变量设置为合理的默认值。
  */
 export type ShrapnelData = {
-    /**套管总质量、套管/功率比决定破片速度。 */
+    /**壳体质量
+     * 壳体总质量，壳体/功率比决定碎片速度。
+     */
     casing_mass: number;
-    /**每个碎片的质量（以克为单位）。 大碎片击中更重，小碎片击中更频繁。 */
+    /**碎片质量
+     * 每个碎片的质量，以克为单位。大碎片打得更重，小碎片打得更频繁。
+     */
     fragment_mass: number;
-    /**在着陆点掉落物品的几率百分比。 */
+    /**恢复
+     * 在着陆点掉落物品的百分比机会。
+     */
     recovery?: number;
-    /**在着陆点掉落哪个物品。 */
-    drop?: string;
+    /**掉落
+     * 在着陆点掉落的物品
+     */
+    drop?: AnyItemID;
 } | number;
 /**物理状态 */
 export type Phase = "solid" | "gas" | "liquid" | "plasma" | "null";

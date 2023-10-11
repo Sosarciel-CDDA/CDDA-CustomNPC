@@ -152,7 +152,7 @@ export type ToHit = {
     balance: "clumsy" | "uneven" | "neutral" | "good";
 } | number;
 /**通用物品的flag列表 */
-export declare const GenericFlagList: readonly ["ACTIVATE_ON_PLACE", "SINGLE_USE", "ZERO_WEIGHT", "TARDIS", "TRADER_KEEP", "NO_RELOAD", "UNBREAKABLE", "DURABLE_MELEE"];
+export declare const GenericFlagList: readonly ["ACTIVATE_ON_PLACE", "SINGLE_USE", "ZERO_WEIGHT", "TARDIS", "TRADER_KEEP", "NO_RELOAD", "UNBREAKABLE", "DURABLE_MELEE", "NO_SALVAGE"];
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
 /**通用物品的flag */

@@ -12,9 +12,6 @@
             },{
                 "value": "PERCEPTION",
                 "multiply":0.3
-            },{
-                "value": "RANGE",
-                "multiply":1
             }]
         }]
     }

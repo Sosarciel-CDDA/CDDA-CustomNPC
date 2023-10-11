@@ -10,7 +10,8 @@ exports.GenericFlagList = [
     "TRADER_KEEP",
     "NO_RELOAD",
     "UNBREAKABLE",
-    "DURABLE_MELEE", //坚固的近战武器
+    "DURABLE_MELEE",
+    "NO_SALVAGE", //无法拆分
 ];
 /**预定义的物品类别 列表 */
 exports.DefineItemCategoryList = [

@@ -414,6 +414,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 "ACTIVATE_ON_PLACE"         ,//自动销毁
                 "TRADER_KEEP"               ,//不会出售
                 "UNBREAKABLE"               ,//不会损坏
+                "NO_SALVAGE"                ,//无法拆分
                 defineData.baseItemFlagID ,//基础flag
             );
             if(item.type=="GUN"){

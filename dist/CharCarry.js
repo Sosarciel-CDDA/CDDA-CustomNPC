@@ -17,7 +17,7 @@ async function createCharCarry(dm, charName) {
     };
     const carryData = [];
     for (const carry of charConfig.carry ?? []) {
-        const { item, count, recharge, require_field, start_count } = carry;
+        const { item, count, recharge, require_field, start_count, recharge_count } = carry;
         const itemID = typeof item == "string" ? item : item.id;
         //预处理物品
         if (typeof item != "string") {
@@ -29,6 +29,7 @@ async function createCharCarry(dm, charName) {
             item.flags?.push("ACTIVATE_ON_PLACE", //自动销毁
             "TRADER_KEEP", //不会出售
             "UNBREAKABLE", //不会损坏
+            "NO_SALVAGE", //无法拆分
             defineData.baseItemFlagID);
             item.countdown_interval = 1; //自动销毁
             carryData.push(item);
@@ -63,7 +64,7 @@ async function createCharCarry(dm, charName) {
                             eoc_type: "ACTIVATION",
                             id: (0, ModDefine_1.genEOCID)(`${charName}_Recharge_${itemID}_Sub`),
                             effect: [
-                                { u_spawn_item: itemID },
+                                { u_spawn_item: itemID, count: recharge_count ?? 1 },
                                 { math: [timerVar, "=", "0"] }
                             ],
                             condition: { math: [timerVar, ">=", recharge + ""] }

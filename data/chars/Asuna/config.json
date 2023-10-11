@@ -27,10 +27,10 @@
 				"valid_mod_locations": [],
 				"faults": [],
 				"modes": [
-					["MELEE"  ,"auto", 1 ],
-					["DEFAULT","auto", 1 ],
-					["AUTO"   ,"auto", 1 ]
-				]
+					["DEFAULT"	,"semi-auto",1],
+					["AUTO"		,"auto"		,6]
+				],
+				"range": 6
 			}
 		},
 		{

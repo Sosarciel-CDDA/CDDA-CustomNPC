@@ -371,6 +371,7 @@ async function createWeaponResp(dm, charName) {
             item.flags?.push("ACTIVATE_ON_PLACE", //自动销毁
             "TRADER_KEEP", //不会出售
             "UNBREAKABLE", //不会损坏
+            "NO_SALVAGE", //无法拆分
             defineData.baseItemFlagID);
             if (item.type == "GUN") {
                 item.flags?.push("NEEDS_NO_LUBE", //不需要润滑油

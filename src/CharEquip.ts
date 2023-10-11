@@ -114,6 +114,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
             "ZERO_WEIGHT"   ,//无重量体积
             "TARDIS"        ,//不会出售
             "PARTIAL_DEAF"  ,//降低音量到安全水平
+            "NO_SALVAGE"    ,//无法拆分
             defineData.baseItemFlagID
         ],
         pocket_data : pocketList,

@@ -107,6 +107,7 @@ async function createCharEquip(dm, charName) {
             "ZERO_WEIGHT",
             "TARDIS",
             "PARTIAL_DEAF",
+            "NO_SALVAGE",
             defineData.baseItemFlagID
         ],
         pocket_data: pocketList,

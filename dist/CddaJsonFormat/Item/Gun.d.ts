@@ -1,5 +1,5 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume, CddaID, CopyfromVar } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Length } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
@@ -56,6 +56,8 @@ export type Gun = CopyfromVar<{
     default_mods?: string[];
     /**锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值 */
     barrel_volume?: Volume;
+    /**枪管长度 */
+    barrel_length?: Length;
     /**枪械的有效位置以及该位置的插槽安装量 */
     valid_mod_locations?: VaildMod[];
     /**这把枪射击时产生的噪音量。
@@ -76,6 +78,10 @@ export type Gun = CopyfromVar<{
     faults?: string[];
     /**武器的处理； 更好的操控性意味着更少的后坐力 */
     handling?: number;
+    heat_per_shot?: undefined;
+    cooling_value?: undefined;
+    overheat_threshold?: undefined;
+    hurt_part_when_fired?: undefined;
 } & GenericBase>;
 /**开火模式 */
 export type FireMode = [
@@ -93,7 +99,7 @@ export type FireModeName = [
     "DEFAULT",
     "AUTO",
     "MELEE",
-    "BRUSH",
+    "BURST",
     "MULTI"
 ][number];
 /** 开火模式显示名 */
@@ -104,7 +110,10 @@ export type FireModeDisplayName = [
     "auto",
     "double",
     "multi",
-    `${number} rd.`
+    "high auto",
+    `${number} rd.`,
+    `${number}s sequence`,
+    `pulse`
 ][number];
 export type FireModeFlag = [
     "NPC_AVOID",

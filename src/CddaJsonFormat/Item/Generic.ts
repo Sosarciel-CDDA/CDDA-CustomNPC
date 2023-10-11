@@ -170,6 +170,7 @@ export const GenericFlagList = [
 	"NO_RELOAD"			, //无法重载
 	"UNBREAKABLE"		, //不会损坏
 	"DURABLE_MELEE"		, //坚固的近战武器
+	"NO_SALVAGE"		, //无法拆分
 ] as const;
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
