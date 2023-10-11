@@ -111,6 +111,8 @@ export type CharCarry = {
      * 单位为60次刷新 即 CharUpdateSlow
      */
     recharge?:number;
+    /**每次自动回复的数量 未设置则为1 可能会突破count上限 */
+    recharge_count?:number;
     /**自动回复要求的强化字段 [字段,强化等级] 或 字段名 */
     require_field?:[string,number]|string;
 }

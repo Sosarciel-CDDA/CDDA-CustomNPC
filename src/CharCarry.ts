@@ -23,7 +23,7 @@ export async function createCharCarry(dm:DataManager,charName:string){
     }
     const carryData:JObject[] = [];
     for(const carry of charConfig.carry??[]){
-        const {item,count,recharge,require_field,start_count} = carry;
+        const {item,count,recharge,require_field,start_count,recharge_count} = carry;
         const itemID = typeof item=="string"?item:item.id;
         //预处理物品
         if(typeof item != "string"){
@@ -71,7 +71,7 @@ export async function createCharCarry(dm:DataManager,charName:string){
                         eoc_type:"ACTIVATION",
                         id:genEOCID(`${charName}_Recharge_${itemID}_Sub`),
                         effect:[
-                            {u_spawn_item:itemID},
+                            {u_spawn_item:itemID,count:recharge_count??1},
                             {math:[timerVar,"=","0"]}
                         ],
                         condition:{math:[timerVar,">=",recharge+""]}
