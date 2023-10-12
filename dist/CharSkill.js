@@ -57,7 +57,7 @@ async function createCharSkill(dm, charName) {
         //替换变量字段
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
-        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field, effect } = skill;
+        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field, effect, require_weapon_flag, require_weapon_category } = skill;
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
@@ -114,16 +114,20 @@ async function createCharSkill(dm, charName) {
                     ? [require_field, 1] : require_field;
                 baseCond.push({ math: [`u_${fdarr[0]}`, ">=", fdarr[1] + ""] });
             }
-            //基本通用数据
-            const baseSkillData = {
+            const requireWeaponCond = [];
+            if (require_weapon_flag)
+                requireWeaponCond.push(...require_weapon_flag.map(id => ({ u_has_wielded_with_flag: id })));
+            if (require_weapon_category)
+                requireWeaponCond.push(...require_weapon_category.map(id => ({ u_has_wielded_with_flag: id })));
+            if (requireWeaponCond.length > 0)
+                baseCond.push({ or: requireWeaponCond });
+            //处理并加入输出
+            skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, {
                 skill,
                 TEffect,
                 baseCond,
-                spellCost,
                 castCondition,
-            };
-            //处理并加入输出
-            skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, baseSkillData));
+            }));
         }
         dm.addSharedRes("common_spell", spell.id, spell);
         //冷却事件

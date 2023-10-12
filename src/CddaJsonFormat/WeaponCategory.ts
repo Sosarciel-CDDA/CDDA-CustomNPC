@@ -31,6 +31,6 @@ export const DefineWeaponCategoryIDList = [
     "HAND_AXES"             , //手斧
 ] as const;
 /**预定义的武器类型 */
-export type DefineWeaponTypeID = typeof DefineWeaponCategoryIDList[number];
+export type DefineWeaponCategoryID = typeof DefineWeaponCategoryIDList[number];
 /**武器类型ID */
-export type WeaponTypeID = CddaID<"WPCY"> | DefineWeaponTypeID;
+export type WeaponCategoryID = CddaID<"WPCY"> | DefineWeaponCategoryID;

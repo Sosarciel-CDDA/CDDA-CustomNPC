@@ -24,7 +24,7 @@
 				[ "BURST"  , "2s sequence", 2 ],
 				[ "AUTO"   , "3s sequence", 3 ]
 			],
-			"ammo_effects": ["LASER"],
+			"ammo_effects": ["LASER","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
 			"heat_per_shot": 0

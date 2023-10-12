@@ -1,10 +1,11 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
-import { CON_SPELL_FLAG, genEOCID, genSpellID } from ".";
+import { AnyItemID, CON_SPELL_FLAG, FlagID, genEOCID, genSpellID } from ".";
 import { BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { TARGET_MON_ID } from "./StaticData/BaseMonster";
 import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "./Event";
+import { WeaponCategoryID } from "./CddaJsonFormat/WeaponCategory";
 
 
 /**技能选择目标类型 列表 */
@@ -59,6 +60,12 @@ export type CharSkill = {
     require_field?:[string,number]|string;
     /**释放成功后运行的效果 */
     effect?:EocEffect[];
+    /**需求的武器flag  
+     * 在角色配置中定义的 武器 会自动生成并添加同ID Flag  
+     */
+    require_weapon_flag?:FlagID[];
+    /**需求的武器分类 */
+    require_weapon_category?:WeaponCategoryID[];
 };
 
 /**技能的释放条件 */
@@ -141,7 +148,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
 
-        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,effect} = skill;
+        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,effect,require_weapon_flag,require_weapon_category} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
@@ -205,17 +212,23 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     ? [require_field,1] as const : require_field;
                 baseCond.push({math:[`u_${fdarr[0]}`,">=",fdarr[1]+""]});
             }
-            //基本通用数据
-            const baseSkillData = {
+            const requireWeaponCond:BoolObj[] = [];
+            if(require_weapon_flag)
+                requireWeaponCond.push(...require_weapon_flag.map(id=>
+                    ({u_has_wielded_with_flag:id})));
+            if(require_weapon_category)
+                requireWeaponCond.push(...require_weapon_category.map(id=>
+                    ({u_has_wielded_with_flag:id})));
+            if(requireWeaponCond.length>0)
+                baseCond.push({or:requireWeaponCond})
+
+            //处理并加入输出
+            skillDataList.push(...ProcMap[target??"auto"](dm,charName,{
                 skill,
                 TEffect,
                 baseCond,
-                spellCost,
                 castCondition,
-            }
-
-            //处理并加入输出
-            skillDataList.push(...ProcMap[target??"auto"](dm,charName,baseSkillData));
+            }));
         }
         dm.addSharedRes("common_spell",spell.id,spell);
         //冷却事件

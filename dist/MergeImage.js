@@ -9,6 +9,10 @@ async function mergeImage(dm, charName, forcePackage = true) {
     const { defineData, outData } = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName), "image");
     const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
+    //缓存目录
+    const tmpPath = path.join(imagePath, 'tmp');
+    //检测是否需要强制生成
+    const needPackage = forcePackage || !(await utils_1.UtilFT.pathExists(tmpPath));
     //检查是否有Idle动作
     if (info.Idle == null && Object.values(info).length >= 1)
         throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
@@ -24,7 +28,6 @@ async function mergeImage(dm, charName, forcePackage = true) {
         overlay_ordering: []
     };
     //处理动作
-    const tmpPath = path.join(imagePath, 'tmp');
     //删除缓存
     if (forcePackage)
         await fs.promises.rm(tmpPath, { recursive: true, force: true });
@@ -44,7 +47,8 @@ async function mergeImage(dm, charName, forcePackage = true) {
         const tmpMthPath = path.join(rawPath, `pngs_${animName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`);
         await utils_1.UtilFT.ensurePathExists(tmpMthPath, true);
         //复制数据到缓存
-        await fs.promises.cp(mtnPath, tmpMthPath, { recursive: true });
+        if (needPackage)
+            await fs.promises.cp(mtnPath, tmpMthPath, { recursive: true });
         const { interval, last_weight, format_regex, ...rest } = mtnInfo;
         //检查图片 创建动画数据
         const animages = (await fs.promises.readdir(tmpMthPath))
@@ -91,7 +95,7 @@ async function mergeImage(dm, charName, forcePackage = true) {
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
     const packageInfoPath = path.join(mergePath, 'tile_config.json');
     //如果不存在目标info文件或强制打包则进行打包
-    if (forcePackage || !(await utils_1.UtilFT.pathExists(packageInfoPath)))
+    if (needPackage)
         await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
     //写入 mod贴图设置 到角色文件夹
     const charAnimPath = path.join(dm.getOutCharPath(charName), 'anim');

@@ -1,5 +1,5 @@
 import { JObject } from "@zwa73/utils";
-import { AnyItem, AnyItemID, BoolObj, CNPC_FLAG, Eoc, EocEffect, Flag, ItemGroup, genEOCID, genFlagID, genTalkTopicID } from ".";
+import { AnyItem, AnyItemID, BoolObj, CNPC_FLAG, Eoc, EocEffect, Flag, FlagID, ItemGroup, genEOCID, genFlagID, genTalkTopicID } from ".";
 import { DynamicLine, Resp, TalkTopic } from "./CddaJsonFormat/TalkTopic";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
@@ -404,6 +404,12 @@ async function createWeaponResp(dm:DataManager,charName:string){
             const udisable = getTalkerDisableWeaponVar("u",item);
             const ndisable = getTalkerDisableWeaponVar("n",item);
 
+            //武器flag
+            const weapnFlag:Flag = {
+                type:"json_flag",
+                id:item.id as FlagID
+            }
+            weaponData.push(weapnFlag);
 
             //预处理
             item.price = 0;
@@ -415,7 +421,8 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 "TRADER_KEEP"               ,//不会出售
                 "UNBREAKABLE"               ,//不会损坏
                 "NO_SALVAGE"                ,//无法拆分
-                defineData.baseItemFlagID ,//基础flag
+                defineData.baseItemFlagID   ,//基础flag
+                weapnFlag.id                ,//武器flag
             );
             if(item.type=="GUN"){
                 item.flags?.push(

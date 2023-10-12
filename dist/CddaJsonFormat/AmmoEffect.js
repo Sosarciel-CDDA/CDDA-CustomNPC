@@ -1,2 +1,40 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefineAmmoEffectIDList = void 0;
+/**定义的子弹效果 列表 */
+exports.DefineAmmoEffectIDList = [
+    "NO_PENETRATE_OBSTACLES",
+    "BEANBAG",
+    "LARGE_BEANBAG",
+    "DRAW_AS_LINE",
+    "APPLY_SAP",
+    "BLINDS_EYES",
+    "BOUNCE",
+    "BURST",
+    "SPECIAL_COOKOFF",
+    "COOKOFF",
+    "BLACKPOWDER",
+    "HEAVY_HIT",
+    "INCENDIARY",
+    "IGNITE",
+    "JET",
+    "MATCHHEAD",
+    "MAGIC",
+    "MUZZLE_SMOKE",
+    "NEVER_MISFIRES",
+    "NO_DAMAGE_SCALING",
+    "NO_EMBED",
+    "NOGIB",
+    "NO_ITEM_DAMAGE",
+    "NON_FOULING",
+    "NO_OVERSHOOT",
+    "NPC_AVOID",
+    "NULL_SOURCE",
+    "PARALYZEPOISON",
+    "ROBOT_DAZZLE",
+    "RECOVER_X",
+    "RECYCLED",
+    "SHATTER_SELF",
+    "SHOT",
+    "WIDE", // 防止HARDTOSHOOT怪物标志产生任何效果；自动应用于带有`SHOT`标志的弹药或具有液态相的弹药。硬编码
+];

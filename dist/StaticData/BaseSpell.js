@@ -5,7 +5,7 @@ const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
 /**n格以内算作进入战斗 */
-exports.BATTLE_RANGE = 20;
+exports.BATTLE_RANGE = 30;
 /**n格以内酸作进入近战 */
 exports.MELEE_RANGE = 3;
 /**用于必定成功的控制法术的flags */

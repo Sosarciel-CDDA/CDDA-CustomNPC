@@ -4,6 +4,7 @@ import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";
 import { BodyPartID } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
+import { WeaponCategoryID } from "../WeaponCategory";
 
 
 
@@ -51,6 +52,7 @@ export type BoolOperateList = [
     BoolOperaCompStr                                    ,//比较两个字符串
     {math:[string,"=="|"!="|">="|"<="|">"|"<",string]}  ,//
     HasWieldFlag                                        ,//手中的物品有某个flag
+    HasWieldWeaponCategoty                              ,//手中的物品有某个武器分类
     HasItem                                             ,//携带/穿戴/持握/背包里有某个物品
     HasItems                                            ,//携带/穿戴/持握/背包里有N个某物品
     HasTrait                                            ,//有某个变异
@@ -109,6 +111,12 @@ export type HasWieldFlag = TalkerVar<{
     /**手中的物品有某个flag */
     has_wielded_with_flag:FlagID|StrObj;
 },"has_wielded_with_flag">;
+
+/**手中的物品有某个武器分类 */
+export type HasWieldWeaponCategoty = TalkerVar<{
+    /**手中的物品有某个武器分类 */
+    has_wielded_with_weapon_category:WeaponCategoryID|StrObj;
+},"has_wielded_with_weapon_category">;
 
 /**1/n的概率返回true */
 export type OneInChance = {

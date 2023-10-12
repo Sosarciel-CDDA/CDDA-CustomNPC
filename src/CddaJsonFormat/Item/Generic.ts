@@ -5,7 +5,7 @@ import { CddaID, Color, CopyfromVar, Explosion, Length, MeleeDamage, Phase, Pock
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
-import { WeaponTypeID } from "../WeaponCategory";
+import { WeaponCategoryID } from "../WeaponCategory";
 import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
 import { Tool, ToolID } from "./Tool";
@@ -89,7 +89,7 @@ export type GenericBase = {
 	/**材质 可用哪些材料修复 */
 	repairs_with?: AmmunitionTypeID[];
 	/**属于什么类型的武器 */
-	weapon_category?: WeaponTypeID[];
+	weapon_category?: WeaponCategoryID[];
 	/**作为近战武器的伤害 */
 	melee_damage?:MeleeDamage;
 	/**使用效果 */

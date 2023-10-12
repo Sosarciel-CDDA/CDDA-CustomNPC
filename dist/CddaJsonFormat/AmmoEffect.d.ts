@@ -1,7 +1,11 @@
 import { FieldID } from "./Field";
 import { CddaID, Explosion } from "./GenericDefine";
+/**定义的子弹效果 列表 */
+export declare const DefineAmmoEffectIDList: readonly ["NO_PENETRATE_OBSTACLES", "BEANBAG", "LARGE_BEANBAG", "DRAW_AS_LINE", "APPLY_SAP", "BLINDS_EYES", "BOUNCE", "BURST", "SPECIAL_COOKOFF", "COOKOFF", "BLACKPOWDER", "HEAVY_HIT", "INCENDIARY", "IGNITE", "JET", "MATCHHEAD", "MAGIC", "MUZZLE_SMOKE", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_EMBED", "NOGIB", "NO_ITEM_DAMAGE", "NON_FOULING", "NO_OVERSHOOT", "NPC_AVOID", "NULL_SOURCE", "PARALYZEPOISON", "ROBOT_DAZZLE", "RECOVER_X", "RECYCLED", "SHATTER_SELF", "SHOT", "WIDE"];
+/**定义的子弹效果 */
+export type DefineAmmoEffectID = typeof DefineAmmoEffectIDList[number];
 /**弹药效果ID */
-export type AmmoEffectID = CddaID<"AEFF">;
+export type AmmoEffectID = CddaID<"AEFF"> | DefineAmmoEffectID;
 /**弹药效果 */
 export type AmmoEffect = {
     /**效果ID */

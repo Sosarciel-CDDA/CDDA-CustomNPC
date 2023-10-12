@@ -30,7 +30,7 @@
 					["DEFAULT"	,"semi-auto",1],
 					["AUTO"		,"auto"		,6]
 				],
-				"range": 6
+				"range": 16
 			}
 		},
 		{
@@ -56,9 +56,9 @@
 			"item":{
 				"id":"AsunaMag",
 				"type": "MAGAZINE",
-				"copy-from":"m9mag",
-				"name": {"str_sp": "Asuna的 M9 15发弹匣"},
-				"description": "Asuna的 M9 15发弹匣",
+				"copy-from":"m9mag_18rd",
+				"name": {"str_sp": "Asuna的 M9 18发弹匣"},
+				"description": "Asuna的 M9 18发弹匣",
 				"flags": ["MAG_DESTROY","NO_UNLOAD"],
 				"count": 15,
 				"default_ammo": "9mmP2"
@@ -96,7 +96,8 @@
 			"effect":[
 				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_EvaporateFuture_cooldown"]}
 			],
-			"weight": 2
+			"weight": 2,
+			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
 			"cast_condition":{
@@ -117,7 +118,8 @@
 				"energy_source": "MANA",
 				"base_energy_cost":200
 			},
-			"weight": 1
+			"weight": 1,
+			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
 			"cast_condition":{
@@ -143,7 +145,8 @@
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},
-			"weight": 2
+			"weight": 2,
+			"require_weapon_flag": ["AsunaKnife"]
 		},
 		{
 			"cast_condition":{
@@ -169,7 +172,8 @@
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},
-			"weight": 1
+			"weight": 1,
+			"require_weapon_flag": ["AsunaKnife"]
 		}
 	],
 	"desc": {

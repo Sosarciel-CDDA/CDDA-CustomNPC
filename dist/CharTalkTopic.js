@@ -363,6 +363,12 @@ async function createWeaponResp(dm, charName) {
             const gdisable = getGlobalDisableWeaponVar(charName, item);
             const udisable = getTalkerDisableWeaponVar("u", item);
             const ndisable = getTalkerDisableWeaponVar("n", item);
+            //武器flag
+            const weapnFlag = {
+                type: "json_flag",
+                id: item.id
+            };
+            weaponData.push(weapnFlag);
             //预处理
             item.price = 0;
             item.price_postapoc = 0;
@@ -372,7 +378,8 @@ async function createWeaponResp(dm, charName) {
             "TRADER_KEEP", //不会出售
             "UNBREAKABLE", //不会损坏
             "NO_SALVAGE", //无法拆分
-            defineData.baseItemFlagID);
+            defineData.baseItemFlagID, //基础flag
+            weapnFlag.id);
             if (item.type == "GUN") {
                 item.flags?.push("NEEDS_NO_LUBE", //不需要润滑油
                 "NEVER_JAMS", //不会故障

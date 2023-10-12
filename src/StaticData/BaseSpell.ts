@@ -6,7 +6,7 @@ import { Spell } from "CddaJsonFormat";
 
 
 /**n格以内算作进入战斗 */
-export const BATTLE_RANGE = 20;
+export const BATTLE_RANGE = 30;
 /**n格以内酸作进入近战 */
 export const MELEE_RANGE = 3;
 

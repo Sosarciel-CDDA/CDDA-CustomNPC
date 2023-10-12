@@ -33,6 +33,12 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName),"image");
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
+
+    //缓存目录
+    const tmpPath = path.join(imagePath,'tmp');
+    //检测是否需要强制生成
+    const needPackage = forcePackage || !(await UtilFT.pathExists(tmpPath));
+
     //检查是否有Idle动作
     if(info.Idle==null && Object.values(info).length>=1) throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
 
@@ -48,7 +54,6 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
         overlay_ordering: []
     };
     //处理动作
-    const tmpPath = path.join(imagePath,'tmp');
     //删除缓存
     if(forcePackage)
         await fs.promises.rm(tmpPath, { recursive: true, force: true });
@@ -72,7 +77,8 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
         await UtilFT.ensurePathExists(tmpMthPath,true);
 
         //复制数据到缓存
-        await fs.promises.cp(mtnPath,tmpMthPath,{ recursive: true });
+        if(needPackage)
+            await fs.promises.cp(mtnPath,tmpMthPath,{ recursive: true });
         const {interval,last_weight,format_regex,...rest} = mtnInfo;
 
         //检查图片 创建动画数据
@@ -120,7 +126,7 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     await UtilFT.ensurePathExists(mergePath,true);
     const packageInfoPath = path.join(mergePath,'tile_config.json');
     //如果不存在目标info文件或强制打包则进行打包
-    if(forcePackage || !(await UtilFT.pathExists(packageInfoPath)))
+    if(needPackage)
         await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
 
     //写入 mod贴图设置 到角色文件夹

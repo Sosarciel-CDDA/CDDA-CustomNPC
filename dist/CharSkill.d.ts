@@ -1,7 +1,9 @@
+import { FlagID } from ".";
 import { BoolObj, EocEffect } from "./CddaJsonFormat/Eoc";
 import { Spell } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
 import { AnyCharEvenetType } from "./Event";
+import { WeaponCategoryID } from "./CddaJsonFormat/WeaponCategory";
 /**技能选择目标类型 列表 */
 declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_random"];
 /**技能选择目标类型 */
@@ -46,6 +48,12 @@ export type CharSkill = {
     require_field?: [string, number] | string;
     /**释放成功后运行的效果 */
     effect?: EocEffect[];
+    /**需求的武器flag
+     * 在角色配置中定义的 武器 会自动生成并添加同ID Flag
+     */
+    require_weapon_flag?: FlagID[];
+    /**需求的武器分类 */
+    require_weapon_category?: WeaponCategoryID[];
 };
 /**技能的释放条件 */
 export type CastCondition = {
