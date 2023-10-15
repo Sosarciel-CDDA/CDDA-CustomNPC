@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
 const ModDefine_1 = require("./ModDefine");
+const Skill_1 = require("./CddaJsonFormat/Skill");
 const StaticData_1 = require("./StaticData");
 /**创建角色职业和实例
  * @param charName 角色名
@@ -88,6 +89,19 @@ async function createCharClass(dm, charName) {
             },
         ],
     };
+    /**自动保存事件 */
+    const autoSave = {
+        type: "effect_on_condition",
+        id: (0, ModDefine_1.genEOCID)(`${charName}_SaveProcess`),
+        eoc_type: "ACTIVATION",
+        effect: [
+            ...Skill_1.DefineSkillList.map(item => {
+                const math = { math: [`${charName}_skill_${item}`, "=", `u_skill(${item})`] };
+                return math;
+            })
+        ]
+    };
+    dm.addCharEvent(charName, "CharUpdateSlow", 0, autoSave);
     /**初始化事件 */
     const charInitEoc = {
         type: "effect_on_condition",
@@ -95,6 +109,10 @@ async function createCharClass(dm, charName) {
         id: (0, ModDefine_1.genEOCID)(`${charName}_InitProcess`),
         effect: [
             { math: [`u_uid`, "=", `${charName}_uid`] },
+            ...Skill_1.DefineSkillList.map(item => {
+                const math = { math: [`u_skill(${item})`, "=", `${charName}_skill_${item}`] };
+                return math;
+            })
         ]
     };
     dm.addCharEvent(charName, "CharInit", 1000, charInitEoc);
@@ -117,6 +135,6 @@ async function createCharClass(dm, charName) {
         effect: []
     };
     dm.addCharEvent(charName, "CharDeath", -1000, charDeathEoc);
-    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charDeathEoc, charInitEoc, charRemoveEoc];
+    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charDeathEoc, autoSave, charInitEoc, charRemoveEoc];
 }
 exports.createCharClass = createCharClass;

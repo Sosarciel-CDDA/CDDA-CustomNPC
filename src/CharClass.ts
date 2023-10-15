@@ -1,7 +1,7 @@
-import { Armor, BodyPartList, Eoc, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, EocEffect, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
 import { DataManager } from "./DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "./ModDefine";
-import { SkillID } from "./CddaJsonFormat/Skill";
+import { DefineSkillList, SkillID } from "./CddaJsonFormat/Skill";
 import { EMPTY_GROUP_ID } from "./StaticData";
 
 
@@ -91,6 +91,22 @@ export async function createCharClass(dm:DataManager,charName:string){
 			},
 		],
 	};
+
+    /**自动保存事件 */
+    const autoSave:Eoc = {
+        type:"effect_on_condition",
+        id:genEOCID(`${charName}_SaveProcess`),
+        eoc_type:"ACTIVATION",
+        effect:[
+            ...DefineSkillList.map(item=>{
+                const math:EocEffect = {math:[`${charName}_skill_${item}`,"=",`u_skill(${item})`]};
+                return math;
+            })
+        ]
+    }
+    dm.addCharEvent(charName,"CharUpdateSlow",0,autoSave);
+
+
     /**初始化事件 */
     const charInitEoc:Eoc = {
         type:"effect_on_condition",
@@ -98,6 +114,10 @@ export async function createCharClass(dm:DataManager,charName:string){
         id:genEOCID(`${charName}_InitProcess`),
         effect:[
             {math:[`u_uid`,"=",`${charName}_uid`]},
+            ...DefineSkillList.map(item=>{
+                const math:EocEffect = {math:[`u_skill(${item})`,"=",`${charName}_skill_${item}`]};
+                return math;
+            })
         ]
     }
     dm.addCharEvent(charName,"CharInit",1000,charInitEoc);
@@ -122,5 +142,5 @@ export async function createCharClass(dm:DataManager,charName:string){
         effect:[]
     }
     dm.addCharEvent(charName,"CharDeath",-1000,charDeathEoc);
-    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc,charInitEoc,charRemoveEoc];
+    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc,autoSave,charInitEoc,charRemoveEoc];
 }

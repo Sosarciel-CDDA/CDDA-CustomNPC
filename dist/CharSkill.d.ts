@@ -10,6 +10,8 @@ declare const TargetTypeList: readonly ["auto", "random", "spell_target", "rever
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
+    /**技能名 */
+    name: string;
     /**技能的释放条件 */
     cast_condition: CastCondition | CastCondition[];
     /**权重 优先尝试触发高权重的spell 默认0 */
@@ -30,9 +32,6 @@ export type CharSkill = {
      * 如 {math:["u_fireball_cooldown"]}
      *
      * 可用 u_coCooldown 获得公共冷却时间
-     *
-     * `${法术名}_NPC` 格式的name在显示时 _NPC尾缀会被忽略
-     * 如 重击_NPC 将显示为 重击
      */
     spell: Spell;
     /**技能音效 */
@@ -43,6 +42,10 @@ export type CharSkill = {
         one_in_chance?: number;
         /**音量 1-128 默认100 */
         volume?: number;
+        /**声音冷却
+         * 每隔n次战斗刷新可触发
+         */
+        cooldown?: number;
     })[];
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?: [string, number] | string;

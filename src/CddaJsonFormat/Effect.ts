@@ -1,6 +1,6 @@
 import { ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
-import { BodyPartID, CddaID, Time } from "./GenericDefine";
+import { BodyPartID, CddaID, RatType, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";
 import { VitaminsID } from "./Vitamins";
 
@@ -57,11 +57,11 @@ export type Effect = {
      */
     part_descs?: true;
     /**效果评价 */
-    rating?: EffectRat;
+    rating?: RatType;
     /**效果被添加时产生的消息 */
-    apply_message?: string|[string,EffectRat][];
+    apply_message?: string|[string,RatType][];
     /**效果结束或移除时产生的消息 */
-    remove_message?: string|[string,EffectRat][];
+    remove_message?: string|[string,RatType][];
     /**默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果  
      * 如果为true玩家可以从怪物简介中查看到效果  
      */
@@ -129,7 +129,7 @@ export type Effect = {
      * [消息,效果评价][]  
      * 按效果强度应用不同成员  
      */
-    decay_messages?: [string,EffectRat][];
+    decay_messages?: [string,RatType][];
     /**这个效果是否只能应用于主肢体  
      * 默认false  
      */
@@ -138,11 +138,11 @@ export type Effect = {
      * 默认false  
      */
     pkill_addict_reduces?: boolean;
-    /**影响疼痛效果触发的机会  
+    /**大型/巨大 体型提高疼痛效果触发的机会  
      * 默认false  
      */
     pain_sizing?   : boolean;
-    /** 影响伤害效果触发的机会  
+    /**大型/巨大 体型提高伤害效果触发的机会  
      * 默认false  
      */
     hurt_sizing?   : boolean;
@@ -169,22 +169,14 @@ export type Effect = {
     limb_score_mods?:EffectLimbMod[];
     /**效果的基础调整 */
     base_mods?: EffectMod;
-    /**效果的诶个强度等级的额外调整 */
+    /**效果的每个强度等级的额外调整 */
     scaling_mods?: EffectMod;
     /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义  
      * 按效果强度应用不同成员  
      */
     enchantments?:ParamsEnchantment[];
 };
-/**效果评价 列表 */
-export const EffectRatList = [
-    "good"      ,//好
-    "neutral"   ,//中等
-    "bad"       ,//坏
-    "mixed"     ,//混合
-] as const;
-/**效果评价 */
-export type EffectRat = typeof EffectRatList[number];
+
 
 /**效果维生素修正 */
 export type EffectVitaminsMod ={

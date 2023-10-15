@@ -201,6 +201,7 @@ export const EnchMeleeValTypeList = [
     "ITEM_DAMAGE_HEAT"	        ,//
     "ITEM_DAMAGE_PURE"	        ,//
     "ITEM_DAMAGE_STAB"	        ,//
+    "ITEM_ATTACK_SPEED"	        ,//
 ] as const;
 /**附魔近战武器加值类型 */
 export type EnchMeleeValType = typeof EnchMeleeValTypeList[number];
@@ -215,7 +216,6 @@ export const EnchArmorValTypeList = [
     "ITEM_ARMOR_ELEC"	        ,//
     "ITEM_ARMOR_HEAT"	        ,//
     "ITEM_ARMOR_STAB"	        ,//
-    "ITEM_ATTACK_SPEED"	        ,//
 ] as const;
 /**附魔护甲加值类型 */
 export type EnchArmorValType = typeof EnchArmorValTypeList[number];

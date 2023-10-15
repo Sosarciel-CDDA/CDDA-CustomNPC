@@ -29,6 +29,7 @@ exports.CharEventTypeList = [
     "CharTryMeleeHit",
     "CharTryRangeHit",
     "CharTryHit",
+    "CharEnterBattle",
     ...exports.InteractiveCharEventList
 ];
 /**反转Talker的角色事件列表

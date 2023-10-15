@@ -5,8 +5,8 @@ import { saveStaticData } from "./StaticData";
 
 
 /**属性映射附魔 */
-export const STATUS_VAR_MAP_ENCHID = genEnchantmentID("StatusMap");
-export const StatusVarMap:Enchantment={
+const STATUS_VAR_MAP_ENCHID = genEnchantmentID("StatusMap");
+const StatusVarMap:Enchantment={
     id:STATUS_VAR_MAP_ENCHID,
     type:"enchantment",
     has:"WORN",

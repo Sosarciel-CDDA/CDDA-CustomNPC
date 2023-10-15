@@ -7,8 +7,9 @@
         "int":10
     },
 	"base_skill": {
-		"ALL": 4,
-		"pistol": 10
+		"ALL": 2,
+		"pistol": 4,
+		"gun": 4
 	},
     "weapon":[
 		{
@@ -24,6 +25,7 @@
 					"item_restriction": ["AsunaMag"]
 				}],
 				"flags": ["NO_UNLOAD"],
+				"min_cycle_recoil": 360,
 				"valid_mod_locations": [],
 				"faults": [],
 				"modes": [
@@ -69,12 +71,13 @@
 	],
 	"skill": [
 		{
+			"name": "蒸发未来",
 			"cast_condition":{
 				"hook": "CharCauseRangeHit"
 			},
 			"cooldown":30,
 			"audio":[
-				{"id":"EvaporateFuture", "one_in_chance":2},
+				{"id":"EvaporateFuture","cooldown": 180},
 				"EvaporateFutureSF","Hit"
 			],
 			"spell": {
@@ -87,7 +90,7 @@
 				},
 				"max_damage":999999,
 				"damage_type": "bullet",
-				"min_range":30,
+				"min_range":{"math": ["BATTLE_RANGE"]},
 				"min_aoe":1,
 				"shape": "cone",
 				"valid_targets": ["hostile","ground"],
@@ -100,6 +103,7 @@
 			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
+			"name": "精准狙击",
 			"cast_condition":{
 				"hook": "CharBattleUpdate",
 				"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}}
@@ -122,16 +126,17 @@
 			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
+			"name": "刀锋打击",
 			"cast_condition":{
 				"hook": "CharCauseMeleeHit"
 			},
 			"cooldown":30,
 			"audio":[
-				{"id":"BladeStrike", "one_in_chance":2},
+				{"id":"BladeStrike","cooldown": 180},
 				"BladeStrikeSF","Hit"
 			],
 			"spell": {
-				"id":"CNPC_SPELL_BladeStrike",
+				"id":"BladeStrike",
 				"type": "SPELL",
 				"name": "刀锋打击",
 				"description": "刀锋打击",
@@ -141,7 +146,7 @@
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
-				"min_range": 1,
+				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},
@@ -149,16 +154,17 @@
 			"require_weapon_flag": ["AsunaKnife"]
 		},
 		{
+			"name": "创伤之刃",
 			"cast_condition":{
 				"hook": "CharCauseMeleeHit"
 			},
 			"cooldown":10,
 			"audio":[
-				{"id":"BladeofTrauma", "one_in_chance":2},
+				{"id":"BladeofTrauma","cooldown": 180},
 				"BladeofTraumaSF","Hit"
 			],
 			"spell": {
-				"id":"CNPC_SPELL_BladeofTrauma",
+				"id":"BladeofTrauma",
 				"type": "SPELL",
 				"name": "创伤之刃",
 				"description": "创伤之刃",
@@ -168,7 +174,7 @@
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
-				"min_range": 1,
+				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},

@@ -1,4 +1,4 @@
-import { AmmunitionTypeID, SpellID } from "CddaJsonFormat";
+import { AmmunitionTypeID, BoolObj, Eoc, EocEffect, EocEffectList, SpellID } from "CddaJsonFormat";
 import { EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
 import { EffectID } from "./CddaJsonFormat/Effect";
 import { TalkTopicID } from "./CddaJsonFormat/TalkTopic";
@@ -70,4 +70,14 @@ export function genFlagID(id:string):FlagID{
 /**生成适用于此mod的 TalkTopic ID */
 export function genTalkTopicID(id:string):TalkTopicID{
     return `${MOD_PREFIX}_TALKTC_${id}`;
+}
+
+/**生成适用此mod的触发eoc */
+export function genActEoc(id:string,effect:EocEffect[],condition?:BoolObj):Eoc{
+    return {
+        type:"effect_on_condition",
+        id:genEOCID(id),
+        eoc_type:"ACTIVATION",
+        effect,condition
+    }
 }

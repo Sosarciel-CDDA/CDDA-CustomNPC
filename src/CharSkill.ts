@@ -1,5 +1,5 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
-import { AnyItemID, CON_SPELL_FLAG, FlagID, genEOCID, genSpellID } from ".";
+import { AnyItemID, CON_SPELL_FLAG, FlagID, genActEoc, genEOCID, genSpellID } from ".";
 import { BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
 import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
 import { DataManager } from "./DataManager";
@@ -22,6 +22,8 @@ const TargetTypeList = [
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
+    /**技能名 */
+    name:string;
     /**技能的释放条件 */
     cast_condition:CastCondition|CastCondition[];
     /**权重 优先尝试触发高权重的spell 默认0 */
@@ -42,9 +44,6 @@ export type CharSkill = {
      * 如 {math:["u_fireball_cooldown"]}  
      *   
      * 可用 u_coCooldown 获得公共冷却时间  
-     *   
-     * `${法术名}_NPC` 格式的name在显示时 _NPC尾缀会被忽略  
-     * 如 重击_NPC 将显示为 重击  
      */
     spell           :Spell,
     /**技能音效 */
@@ -55,6 +54,10 @@ export type CharSkill = {
         one_in_chance?:number,
         /**音量 1-128 默认100 */
         volume?:number,
+        /**声音冷却  
+         * 每隔n次战斗刷新可触发
+         */
+        cooldown?:number;
     })[],
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?:[string,number]|string;
@@ -129,15 +132,9 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const skillDataList:JObject[] = [];
 
     //全局冷却事件
-    const GCDEoc:Eoc={
-        type:"effect_on_condition",
-        id:genEOCID(`${charName}_CoCooldown`),
-        effect:[
-            {math:[gcdValName,"-=","1"]}
-        ],
-        condition:{math:[gcdValName,">","0"]},
-        eoc_type:"ACTIVATION",
-    }
+    const GCDEoc=genActEoc(`${charName}_CoCooldown`,
+        [{math:[gcdValName,"-=","1"]}],
+        {math:[gcdValName,">","0"]});
     dm.addCharEvent(charName,"CharUpdate",0,GCDEoc);
     skillDataList.push(GCDEoc);
 
@@ -174,14 +171,29 @@ export async function createCharSkill(dm:DataManager,charName:string){
             TEffect.push(...audio.map(audioObj=>{
                 if(typeof audioObj == "string")
                     return ({sound_effect:audioObj,id:charName,volume:100});
-
+                //冷却变量ID
+                const cdid = `${audioObj.id}_cooldown`;
+                if(audioObj.cooldown){
+                    //冷却
+                    const cdeoc=genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
+                    dm.addCharEvent(charName,"CharBattleUpdate",0,cdeoc);
+                    skillDataList.push(cdeoc);
+                    //初始化
+                    const initeoc=genActEoc(cdid+"_init",[{math:[cdid,"=","0"]}]);
+                    dm.addCharEvent(charName,"CharEnterBattle",0,initeoc);
+                    skillDataList.push(initeoc);
+                }
                 const effect:EocEffect = {
                     run_eocs:{
                         id:genEOCID(`${charName}_${audioObj.id}_Chance`),
                         eoc_type:"ACTIVATION",
-                        condition:{one_in_chance:audioObj.one_in_chance??1},
+                        condition:{and:[
+                            {one_in_chance:audioObj.one_in_chance??1},
+                            {math:[cdid,"<=","0"]}
+                        ]},
                         effect:[
-                            {sound_effect:audioObj.id,id:charName,volume:audioObj.volume??100}
+                            {sound_effect:audioObj.id,id:charName,volume:audioObj.volume??100},
+                            {math:[cdid,"=",(audioObj.cooldown??0)+""]}
                         ],
                     }
                 };
@@ -233,15 +245,9 @@ export async function createCharSkill(dm:DataManager,charName:string){
         dm.addSharedRes("common_spell",spell.id,spell);
         //冷却事件
         if(cooldown!=null){
-            const CDEoc:Eoc={
-                type:"effect_on_condition",
-                id:genEOCID(`${charName}_${spell.id}_cooldown`),
-                effect:[
-                    {math:[cdValName,"-=","1"]}
-                ],
-                condition:{math:[cdValName,">","0"]},
-                eoc_type:"ACTIVATION",
-            }
+            const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
+                [{math:[cdValName,"-=","1"]}],
+                {math:[cdValName,">","0"]})
             dm.addCharEvent(charName,"CharUpdate",0,CDEoc);
             skillDataList.push(CDEoc);
         }

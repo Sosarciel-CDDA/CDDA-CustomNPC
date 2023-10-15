@@ -125,11 +125,11 @@ export type Effect = {
      * 默认false
      */
     pkill_addict_reduces?: boolean;
-    /**影响疼痛效果触发的机会
+    /**大型/巨大 体型提高疼痛效果触发的机会
      * 默认false
      */
     pain_sizing?: boolean;
-    /** 影响伤害效果触发的机会
+    /**大型/巨大 体型提高伤害效果触发的机会
      * 默认false
      */
     hurt_sizing?: boolean;
@@ -156,7 +156,7 @@ export type Effect = {
     limb_score_mods?: EffectLimbMod[];
     /**效果的基础调整 */
     base_mods?: EffectMod;
-    /**效果的诶个强度等级的额外调整 */
+    /**效果的每个强度等级的额外调整 */
     scaling_mods?: EffectMod;
     /**此效果所应用的附魔列表 值可以是附魔 id 或附魔的内联定义
      * 按效果强度应用不同成员
@@ -218,6 +218,15 @@ export type EffectLimbMod = {
      */
     resist_scaling?: number;
 };
+/**
+ * X_amount       - 当效果被放置时，X的应用量。像应用消息一样，它只会在新效果上触发
+ * X_min          - 当滚动触发时，应用的X的最小量 “X_max” - 当滚动触发时，应用的X的最大量（没有条目意味着它每次都会给出精确的X_min，而不是rng(min, max)）
+ * X_min_val      - 效果将推动你到的最小值，0表示无上限！对于某些X不存在！
+ * X_max_val      - 效果将推动你到的最大值，0表示无上限！对于某些X不存在！
+ * X_chance       - X每次触发的基本概率，取决于 “X_chance_bot” 的确切公式
+ * X_chance_bot   - 如果这个不存在，那么触发概率是 (1 in “X_chance”)。如果这个存在，那么概率是 (“X_chance” in “X_chance_bot”)
+ * X_tick         - 每Y tick，效果滚动以触发X
+ */
 /**效果调整类型 列表
  * chance_bot 如果不存在，则触发机会为 1/X_chance
  * 如果确实存在，那么机会是 X_chance/X_chance_bot

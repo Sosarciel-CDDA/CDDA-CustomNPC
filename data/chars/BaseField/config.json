@@ -91,6 +91,25 @@
                 "multiply_MAX_STAMINA":0.06
             },
             "desc": "每级提高 6% 最大耐力, 2% 耐力回复速度"
+        },
+        {
+            "field": "防御",
+            "max_lvl": 10,
+            "require_resource": [
+                [["iv_mutagen_crustacean"],["iv_mutagen_spider"],["iv_mutagen_snail"]]
+            ],
+            "lvl_ench_status": {
+                "add_ARMOR_ACID"    :-1.5,
+                "add_ARMOR_BASH"    :-1.5,
+                "add_ARMOR_BIO"     :-1.5,
+                "add_ARMOR_BULLET"  :-1.5,
+                "add_ARMOR_COLD"    :-1.5,
+                "add_ARMOR_CUT"     :-1.5,
+                "add_ARMOR_ELEC"    :-1.5,
+                "add_ARMOR_HEAT"    :-1.5,
+                "add_ARMOR_STAB"    :-1.5
+            },
+            "desc": "每级提高 6% 最大耐力, 2% 耐力回复速度"
         }
     ]
 }

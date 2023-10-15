@@ -6,6 +6,18 @@ function print_global_val(varName){
 	//eobj( { u_message: {global_val:varName}})
 }
 
+//每次进入游戏时触发
+function CNPC_EOC_GameBeginEvent(){
+	eoc_type("EVENT");
+	required_event("game_begin");
+
+	//初始化变量
+	CNPC_EOC_InitVar();
+
+	//动态生成的 游戏开始时 事件
+	CNPC_EOC_GameBegin();
+}
+
 function CNPC_EOC_UpdateStat(){
 	eoc_type("ACTIVATION")
 	//print_global_val(Asuna_level);
@@ -50,6 +62,9 @@ function CNPC_EOC_TakesDamage(){
 	required_event("character_takes_damage");
 
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//自动伤痛分流
+		eobj({ "u_cast_spell": { "id": "pain_split" } })
+
 		//关键肢体生命值不足触发一次死亡前
 		if(or(u_hp('head')<=0,u_hp('torso')<=0)){
 			//触发 死亡前 事件
@@ -242,6 +257,13 @@ function CNPC_EOC_TryHitEvent(){
 	eoc_type("ACTIVATION")
 	//设置不在待机
 	u_notIdleOrMove=4;
+
+	//触发进入战斗
+	if(u_inBattle<=0){
+		//运行动态生成的 进入战斗 事件eoc
+		CNPC_EOC_CharEnterBattle()
+	}
+
 	//设置在战斗中
 	u_inBattle = 60;
 

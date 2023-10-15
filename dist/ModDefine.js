@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genTalkTopicID = exports.genFlagID = exports.genAmmuTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEffectID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
+exports.genActEoc = exports.genTalkTopicID = exports.genFlagID = exports.genAmmuTypeID = exports.genMonsterID = exports.genSpellID = exports.genNpcInstanceID = exports.genNpcClassID = exports.genMutationID = exports.genItemGroupID = exports.genEffectID = exports.genEOCID = exports.genAmmoID = exports.genGunID = exports.genGenericID = exports.genEnchantmentID = exports.genArmorID = exports.MOD_PREFIX = void 0;
 /**mod物品前缀 */
 exports.MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */
@@ -83,3 +83,13 @@ function genTalkTopicID(id) {
     return `${exports.MOD_PREFIX}_TALKTC_${id}`;
 }
 exports.genTalkTopicID = genTalkTopicID;
+/**生成适用此mod的触发eoc */
+function genActEoc(id, effect, condition) {
+    return {
+        type: "effect_on_condition",
+        id: genEOCID(id),
+        eoc_type: "ACTIVATION",
+        effect, condition
+    };
+}
+exports.genActEoc = genActEoc;

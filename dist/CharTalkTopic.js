@@ -244,7 +244,7 @@ async function createSkillResp(dm, charName) {
     const skillRespEocList = [];
     const dynLine = [];
     for (const skill of charConfig.skill ?? []) {
-        const { spell } = skill;
+        const { spell, name } = skill;
         const gstopVar = (0, CharSkill_1.getGlobalDisableSpellVar)(charName, spell);
         const nstopVar = (0, CharSkill_1.getDisableSpellVar)("n", spell);
         const ustopVar = (0, CharSkill_1.getDisableSpellVar)("u", spell);
@@ -267,8 +267,8 @@ async function createSkillResp(dm, charName) {
         const resp = {
             truefalsetext: {
                 condition: { math: [nstopVar, "==", "1"] },
-                true: `[已停用] ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}`,
-                false: `[已启用] ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}`,
+                true: `[已停用] ${name}`,
+                false: `[已启用] ${name}`,
             },
             effect: { run_eocs: eocid },
             topic: skillTalkTopicId,
@@ -281,8 +281,8 @@ async function createSkillResp(dm, charName) {
         skillRespList.push(resp);
         dynLine.push({
             math: [nstopVar, "==", "1"],
-            yes: `${charName} 不会使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}\n`,
-            no: `${charName} 会尝试使用 ${spell.name.replace(/(.+?)(_NPC|"")$/g, '$1')}\n`,
+            yes: `${charName} 不会使用 ${name}\n`,
+            no: `${charName} 会尝试使用 ${name}\n`,
         });
         //添加初始化
         InitSkill.effect?.push({ math: [ustopVar, "=", `${gstopVar}`] });

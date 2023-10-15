@@ -69,6 +69,7 @@
     ],
     "skill": [
         {
+            "name": "猫之优雅",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"and":[
@@ -97,6 +98,7 @@
             "require_field": "猫之优雅"
         },
         {
+            "name": "鹰眼",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"and":[
@@ -125,6 +127,7 @@
             "require_field": "鹰眼"
         },
         {
+            "name": "巨魔之力",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"and":[
@@ -153,6 +156,7 @@
             "require_field": "巨魔之力"
         },
         {
+            "name": "狐之狡黠",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"and":[
@@ -181,6 +185,7 @@
             "require_field": "狐之狡黠"
         },
         {
+            "name": "突触刺激",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"not":{"u_has_effect":"synaptic_stim"}}
@@ -204,6 +209,7 @@
             "require_field": "突触刺激"
         },
         {
+            "name": "祝福",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"not":{"npc_has_effect":"bless"}}
@@ -230,6 +236,7 @@
             "require_field": "祝福"
         },
         {
+            "name": "风行术",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"not":{"u_has_effect":"enchant_windrun"}}
@@ -254,6 +261,7 @@
             "require_field": "风行术"
         },
         {
+            "name": "朦胧术",
             "cast_condition":{
                 "hook": "CharBattleUpdate",
                 "condition": {"not":{"u_has_effect":"effect_obfuscating_aura"}}
@@ -277,6 +285,7 @@
             "require_field": "朦胧术"
         },
         {
+            "name": "治疗轻伤",
             "cast_condition":[{
                 "hook": "CharBattleUpdate",
                 "condition": {"or":[

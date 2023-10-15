@@ -1,0 +1,21 @@
+[
+    {
+        "type": "effect_type",
+        "id":"CNPC_EFF_IceShield",
+        "name": ["冰盾"],
+        "desc": ["冰盾"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "ARMOR_BASH",
+                "multiply":-0.2
+            },{
+                "value": "ARMOR_CUT",
+                "multiply":-0.2
+            },{
+                "value": "ARMOR_STAB",
+                "multiply":-0.2
+            }]
+        }]
+    }
+]

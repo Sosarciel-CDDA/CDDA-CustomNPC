@@ -275,6 +275,24 @@ export const StatusSimpleList = [
 /**属性简写 */
 export type StatusSimple = typeof StatusSimpleList[number];
 
+/**社交技能 列表 */
+export const SocialTypeList = [
+    "intimidate",//威胁
+    "lie"       ,//说谎
+    "persuade"  ,//说服
+] as const;
+/**社交技能 */
+export type SocialType = typeof SocialTypeList[number];
+
+/**效果评价 列表 */
+export const RatTypeList = [
+    "good"      ,//好
+    "neutral"   ,//中等
+    "bad"       ,//坏
+    "mixed"     ,//混合
+] as const;
+/**效果评价 */
+export type RatType = typeof RatTypeList[number];
 
 /**任何Cdda的Json */
 export type AnyCddaJson =AnyItem|Eoc|

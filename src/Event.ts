@@ -34,6 +34,7 @@ export const CharEventTypeList = [
     "CharTryMeleeHit"       ,//尝试近战攻击
     "CharTryRangeHit"       ,//尝试远程攻击
     "CharTryHit"            ,//尝试攻击
+    "CharEnterBattle"       ,//进入战斗
     ...InteractiveCharEventList
 ] as const;
 /**角色事件类型 */
@@ -61,7 +62,11 @@ export const AnyCharEventTypeList = [...CharEventTypeList,...ReverseCharEventTyp
 export type AnyCharEvenetType = typeof AnyCharEventTypeList[number];
 
 /**全局事件列表 */
-export const GlobalEvemtTypeList = ["PlayerUpdate",...AnyCharEventTypeList] as const;
+export const GlobalEvemtTypeList = [
+    "PlayerUpdate"  ,   //玩家刷新
+    "GameBegin"     ,   //每次进入游戏时
+    ...AnyCharEventTypeList
+] as const;
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 

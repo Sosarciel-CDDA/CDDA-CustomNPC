@@ -10,8 +10,8 @@
         },
         {
             "fileMatch": [
-                "data/chars/*/StaticData/*.json",
-                "data/StaticData/*.json"
+                "data/chars/*/StaticData/**/*.json",
+                "data/StaticData/**/*.json"
             ],
             "url": "./schema/AnyCddaJsonList.schema.json"
         }

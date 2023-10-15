@@ -41,15 +41,7 @@ async function createCharSkill(dm, charName) {
     const skills = (charConfig.skill ?? []).sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0));
     const skillDataList = [];
     //全局冷却事件
-    const GCDEoc = {
-        type: "effect_on_condition",
-        id: (0, _1.genEOCID)(`${charName}_CoCooldown`),
-        effect: [
-            { math: [gcdValName, "-=", "1"] }
-        ],
-        condition: { math: [gcdValName, ">", "0"] },
-        eoc_type: "ACTIVATION",
-    };
+    const GCDEoc = (0, _1.genActEoc)(`${charName}_CoCooldown`, [{ math: [gcdValName, "-=", "1"] }], { math: [gcdValName, ">", "0"] });
     dm.addCharEvent(charName, "CharUpdate", 0, GCDEoc);
     skillDataList.push(GCDEoc);
     //遍历技能
@@ -79,13 +71,29 @@ async function createCharSkill(dm, charName) {
             TEffect.push(...audio.map(audioObj => {
                 if (typeof audioObj == "string")
                     return ({ sound_effect: audioObj, id: charName, volume: 100 });
+                //冷却变量ID
+                const cdid = `${audioObj.id}_cooldown`;
+                if (audioObj.cooldown) {
+                    //冷却
+                    const cdeoc = (0, _1.genActEoc)(cdid, [{ math: [cdid, "-=", "1"] }], { math: [cdid, ">", "0"] });
+                    dm.addCharEvent(charName, "CharBattleUpdate", 0, cdeoc);
+                    skillDataList.push(cdeoc);
+                    //初始化
+                    const initeoc = (0, _1.genActEoc)(cdid + "_init", [{ math: [cdid, "=", "0"] }]);
+                    dm.addCharEvent(charName, "CharEnterBattle", 0, initeoc);
+                    skillDataList.push(initeoc);
+                }
                 const effect = {
                     run_eocs: {
                         id: (0, _1.genEOCID)(`${charName}_${audioObj.id}_Chance`),
                         eoc_type: "ACTIVATION",
-                        condition: { one_in_chance: audioObj.one_in_chance ?? 1 },
+                        condition: { and: [
+                                { one_in_chance: audioObj.one_in_chance ?? 1 },
+                                { math: [cdid, "<=", "0"] }
+                            ] },
                         effect: [
-                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume ?? 100 }
+                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume ?? 100 },
+                            { math: [cdid, "=", (audioObj.cooldown ?? 0) + ""] }
                         ],
                     }
                 };
@@ -132,15 +140,7 @@ async function createCharSkill(dm, charName) {
         dm.addSharedRes("common_spell", spell.id, spell);
         //冷却事件
         if (cooldown != null) {
-            const CDEoc = {
-                type: "effect_on_condition",
-                id: (0, _1.genEOCID)(`${charName}_${spell.id}_cooldown`),
-                effect: [
-                    { math: [cdValName, "-=", "1"] }
-                ],
-                condition: { math: [cdValName, ">", "0"] },
-                eoc_type: "ACTIVATION",
-            };
+            const CDEoc = (0, _1.genActEoc)(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
             dm.addCharEvent(charName, "CharUpdate", 0, CDEoc);
             skillDataList.push(CDEoc);
         }

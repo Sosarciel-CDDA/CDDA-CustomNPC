@@ -7,8 +7,9 @@
         "int":10
     },
 	"base_skill": {
-		"ALL": 4,
-		"rifle": 10
+		"ALL": 2,
+		"rifle": 4,
+		"gun": 4
 	},
     "weapon":[{
 		"item":{
@@ -32,7 +33,7 @@
 	}],
 	"skill": [],
 	"desc": {
-		"age": 17,
+		"age": 130,
 		"gender": "female",
 		"height": 158
 	}

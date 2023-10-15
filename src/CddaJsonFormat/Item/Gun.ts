@@ -34,7 +34,7 @@ export type Gun = CopyfromVar<{
 	durability?: number;
     /**发射黑火药弹药时，有 N 分之一的几率（每次射击）被堵塞（越高越好）。 可选，默认为 8 */
 	blackpowder_tolerance?: number;
-    /**枪每次攻击能够发射多次的最小弹药后坐力。 */
+    /**枪发射多颗子弹连射时的最小弹药后坐力。 */
 	min_cycle_recoil?: number;
     /**可以装载的最大弹药量 */
 	clip_size?: number;

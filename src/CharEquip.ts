@@ -118,6 +118,11 @@ export async function createCharEquip(dm:DataManager,charName:string){
             defineData.baseItemFlagID
         ],
         pocket_data : pocketList,
+        relic_data:{
+            passive_effects:[
+                ...[...enchList,baseEnch].map(ench=>({id:ench.id}))
+            ]
+        }
     }
 
     /**基础变异 */
@@ -128,9 +133,6 @@ export async function createCharEquip(dm:DataManager,charName:string){
         description     : `${charName}的基础变异`,
         points          : 0,
         integrated_armor: [defineData.baseArmorID],
-        enchantments:[
-            ...[...enchList,baseEnch].map(ench=>ench.id)
-        ]
     }
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
