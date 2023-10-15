@@ -25,7 +25,7 @@ export declare const AnyCharEventTypeList: readonly ["CharIdle", "CharMove", "Ch
 /**任何角色事件 */
 export type AnyCharEvenetType = typeof AnyCharEventTypeList[number];
 /**全局事件列表 */
-export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "CharIdle", "CharMove", "CharUpdate", "CharUpdateSlow", "CharInit", "CharBattleUpdate", "CharNonBattleUpdate", "CharDeath", "CharDeathPrev", "CharDeathAfter", "CharTryMeleeHit", "CharTryRangeHit", "CharTryHit", "CharEnterBattle", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharCauseMeleeHit", "CharCauseRangeHit", "CharCauseHit", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
+export declare const GlobalEvemtTypeList: readonly ["PlayerUpdate", "GameBegin", "CharIdle", "CharMove", "CharUpdate", "CharUpdateSlow", "CharInit", "CharBattleUpdate", "CharNonBattleUpdate", "CharDeath", "CharDeathPrev", "CharDeathAfter", "CharTryMeleeHit", "CharTryRangeHit", "CharTryHit", "CharEnterBattle", "CharTakeDamage", "CharTakeRangeDamage", "CharTakeMeleeDamage", "CharCauseMeleeHit", "CharCauseRangeHit", "CharCauseHit", "CharCauseDamage", "CharCauseMeleeDamage", "CharCauseRangeDamage"];
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 /**事件效果 */

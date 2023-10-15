@@ -8,3 +8,4 @@ export * from "./BaseItemGroup";
 export * from "./BaseEnch";
 export * from "./BaseEffect";
 export * from "./BaseMathFunction";
+export * from "./BaseEoc";

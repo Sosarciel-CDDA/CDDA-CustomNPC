@@ -111,6 +111,11 @@ async function createCharEquip(dm, charName) {
             defineData.baseItemFlagID
         ],
         pocket_data: pocketList,
+        relic_data: {
+            passive_effects: [
+                ...[...enchList, baseEnch].map(ench => ({ id: ench.id }))
+            ]
+        }
     };
     /**基础变异 */
     const baseMut = {
@@ -120,9 +125,6 @@ async function createCharEquip(dm, charName) {
         description: `${charName}的基础变异`,
         points: 0,
         integrated_armor: [defineData.baseArmorID],
-        enchantments: [
-            ...[...enchList, baseEnch].map(ench => ench.id)
-        ]
     };
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
     outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag];

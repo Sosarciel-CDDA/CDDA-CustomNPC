@@ -74,7 +74,7 @@ export type AmmoAoe = {
     size?: number;
     /**检查可通过性
      * 如果为false, 投射物能够穿透不可穿透的地形,
-     * 如果定义了穿透（如墙和窗户）；如果为true,
+     * 如果定义了穿透 (如墙和窗户)；如果为true,
      * 投射物不能穿透甚至一片玻璃；默认 false
      */
     check_passable?: boolean;

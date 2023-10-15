@@ -4,9 +4,9 @@ exports.BaseSpell = exports.CON_SPELL_FLAG = exports.MELEE_RANGE = exports.BATTL
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
-/**n格以内算作进入战斗 */
+/**n格以内算作进入战斗/远程攻击范围 */
 exports.BATTLE_RANGE = 30;
-/**n格以内酸作进入近战 */
+/**n格以内算作进入近战 */
 exports.MELEE_RANGE = 3;
 /**用于必定成功的控制法术的flags */
 exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];

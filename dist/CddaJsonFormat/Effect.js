@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EffectModTypeList = exports.EffectRatList = exports.DefineEffectIDList = void 0;
+exports.EffectModTypeList = exports.DefineEffectIDList = void 0;
 /**预定义的EffectID 列表 */
 exports.DefineEffectIDList = [
     "npc_run_away",
@@ -9,25 +9,18 @@ exports.DefineEffectIDList = [
     "stunned",
     "downed", //击倒
 ];
-/**效果评价 列表 */
-exports.EffectRatList = [
-    "good",
-    "neutral",
-    "bad",
-    "mixed", //混合
-];
 /**
- * X_amount       - 当效果被放置时，X的应用量。像应用消息一样，它只会在新效果上触发
- * X_min          - 当滚动触发时，应用的X的最小量 “X_max” - 当滚动触发时，应用的X的最大量（没有条目意味着它每次都会给出精确的X_min，而不是rng(min, max)）
- * X_min_val      - 效果将推动你到的最小值，0表示无上限！对于某些X不存在！
- * X_max_val      - 效果将推动你到的最大值，0表示无上限！对于某些X不存在！
- * X_chance       - X每次触发的基本概率，取决于 “X_chance_bot” 的确切公式
- * X_chance_bot   - 如果这个不存在，那么触发概率是 (1 in “X_chance”)。如果这个存在，那么概率是 (“X_chance” in “X_chance_bot”)
- * X_tick         - 每Y tick，效果滚动以触发X
+ * X_amount       - 当效果被放置时, X的应用量。像应用消息一样, 它只会在新效果上触发
+ * X_min          - 当滚动触发时, 应用的X的最小量 “X_max” - 当滚动触发时, 应用的X的最大量 (没有条目意味着它每次都会给出精确的X_min, 而不是rng(min, max))
+ * X_min_val      - 效果将推动你到的最小值, 0表示无上限！对于某些X不存在！
+ * X_max_val      - 效果将推动你到的最大值, 0表示无上限！对于某些X不存在！
+ * X_chance       - X每次触发的基本概率, 取决于 “X_chance_bot” 的确切公式
+ * X_chance_bot   - 如果这个不存在, 那么触发概率是 (1 in “X_chance”)。如果这个存在, 那么概率是 (“X_chance” in “X_chance_bot”)
+ * X_tick         - 每Y tick, 效果滚动以触发X
  */
 /**效果调整类型 列表
- * chance_bot 如果不存在，则触发机会为 1/X_chance
- * 如果确实存在，那么机会是 X_chance/X_chance_bot
+ * chance_bot 如果不存在, 则触发机会为 1/X_chance
+ * 如果确实存在, 那么机会是 X_chance/X_chance_bot
  */
 exports.EffectModTypeList = [
     "str_mod",
@@ -135,7 +128,7 @@ exports.EffectModTypeList = [
     "cough_chance",
     "cough_chance_bot",
     "cough_tick",
-    // 重要的是不要在突变中 vomit_chance 与 vomit_multiplier 交互，因此是硬编码的。 基本呕吐几率为强度/（基本呕吐几率 + 缩放呕吐几率）。
+    // 重要的是不要在突变中 vomit_chance 与 vomit_multiplier 交互, 因此是硬编码的。 基本呕吐几率为强度/ (基本呕吐几率 + 缩放呕吐几率)。
     "vomit_chance",
     "vomit_chance_bot",
     "vomit_tick",

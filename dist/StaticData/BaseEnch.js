@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseEnch = exports.StatMod = exports.STAT_MOD_ENCHID = exports.StatusVarMap = exports.STATUS_VAR_MAP_ENCHID = void 0;
+exports.BaseEnch = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const StaticData_1 = require("./StaticData");
 /**属性映射附魔 */
-exports.STATUS_VAR_MAP_ENCHID = (0, ModDefine_1.genEnchantmentID)("StatusMap");
-exports.StatusVarMap = {
-    id: exports.STATUS_VAR_MAP_ENCHID,
+const STATUS_VAR_MAP_ENCHID = (0, ModDefine_1.genEnchantmentID)("StatusMap");
+const StatusVarMap = {
+    id: STATUS_VAR_MAP_ENCHID,
     type: "enchantment",
     has: "WORN",
     condition: "ALWAYS",
@@ -35,5 +35,5 @@ exports.StatMod = {
             multiply: { math: ["(DamageMul(u_val('dexterity'))-1)/2"] }
         }]
 };
-exports.BaseEnch = [exports.StatusVarMap, exports.StatMod];
+exports.BaseEnch = [StatusVarMap, exports.StatMod];
 (0, StaticData_1.saveStaticData)('base_ench', exports.BaseEnch);

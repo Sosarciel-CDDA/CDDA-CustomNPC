@@ -18,7 +18,7 @@ type UAPlaceNpc = {
     npc_class_id: NpcClassID;
     /**生成时播报的消息 */
     summon_msg?: string;
-    /**将 npc 随机放置在玩家周围，如果 false：让玩家决定将其放置在哪里（默认值：false） */
+    /**将 npc 随机放置在玩家周围, 如果 false: 让玩家决定将其放置在哪里（默认值: false） */
     place_randomly?: boolean;
     /**该动作需要多少移动点 */
     moves?: number;

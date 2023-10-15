@@ -44,4 +44,8 @@ exports.ReverseCharEventTypeList = [
 /**任何角色事件 列表 */
 exports.AnyCharEventTypeList = [...exports.CharEventTypeList, ...exports.ReverseCharEventTypeList];
 /**全局事件列表 */
-exports.GlobalEvemtTypeList = ["PlayerUpdate", ...exports.AnyCharEventTypeList];
+exports.GlobalEvemtTypeList = [
+    "PlayerUpdate",
+    "GameBegin",
+    ...exports.AnyCharEventTypeList
+];

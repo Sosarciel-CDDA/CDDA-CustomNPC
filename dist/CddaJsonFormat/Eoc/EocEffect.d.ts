@@ -88,8 +88,8 @@ type SoundEffect = {
 type CastSpell = TalkerVar<{
     /**施法 */
     cast_spell: FakeSpell;
-    /**默认为 false；如果为 true，则允许您瞄准施放的法术，
-     * 否则将其施放于随机位置，就像RANDOM_TARGET使用了法术标志一样
+    /**默认为 false；如果为 true, 则允许您瞄准施放的法术,
+     * 否则将其施放于随机位置, 就像RANDOM_TARGET使用了法术标志一样
      * RANDOM_TARGET法术需要此项目为true才能正常索敌
      */
     targeted?: boolean;
@@ -115,9 +115,9 @@ type LocalVar = TalkerVar<{
     min_radius?: NumObj;
     /**在发起者周围 的最大半径 默认 0 */
     max_radius?: NumObj;
-    /**如果为 true，则仅选择室外值 默认为 false */
+    /**如果为 true, 则仅选择室外值 默认为 false */
     outdoor_only?: boolean;
-    /**如果使用，搜索将不是从u_或npc_位置执行，
+    /**如果使用, 搜索将不是从u_或npc_位置执行,
      * 而是从 执行mission_target。
      * 它使用allocate_mission_target语法
      */
@@ -128,7 +128,7 @@ type LocalVar = TalkerVar<{
     y_adjust?: NumObj;
     /**将结果的z值增加 */
     z_adjust?: NumObj;
-    /**如果为 true，则不将其累加到z级别，
+    /**如果为 true, 则不将其累加到z级别,
      * 而是用绝对值覆盖它:"z_adjust": 3将"z_override": true的值z转为3
      * 默认为 false
      */
@@ -156,24 +156,24 @@ type Message = TalkerVar<{
     /**默认中立；消息如何在日志中显示（通常是指颜色）；
      * 可以是良好（绿色）、中性（白色）、不良（红色）、
      * 混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、
-     * 爆头（紫色）、临界（黄色），放牧（蓝色）
+     * 爆头（紫色）、临界（黄色）, 放牧（蓝色）
      */
     type?: 'good' | 'neutral' | 'bad' | 'mixed' | 'warning' | 'info' | 'debug' | 'headshot' | 'critical' | 'grazing';
     /**如果为true 那么只会在用户没有聋时显示 */
     sound?: boolean;
     /**如果为true 且 sound为真 玩家在 地下/地下室 时难以听到 */
     outdoor_only?: boolean;
-    /**如果为 true，则效果会显示来自的随机片段u_message */
+    /**如果为 true, 则效果会显示来自的随机片段u_message */
     snippet?: boolean;
-    /**如果为 true，并且snippet为 true，它将连接讲话者和片段，
-     * 并且如果该讲话者使用的话，将始终提供相同的片段；要求片段设置 id
+    /**如果为 true, 并且snippet为 true, 它将连接讲话者和片段,
+     * 并且如果该讲话者使用的话, 将始终提供相同的片段；要求片段设置 id
      */
     same_snippet?: boolean;
-    /**如果为真，该消息将生成一个弹出窗口u_message */
+    /**如果为真, 该消息将生成一个弹出窗口u_message */
     popup?: boolean;
-    /**如果为 true，并且popup为 true，则弹出窗口将中断任何发送消息的活动 */
+    /**如果为 true, 并且popup为 true, 则弹出窗口将中断任何发送消息的活动 */
     popup_w_interrupt_query?: boolean;
-    /**默认为“中性”；distraction_type，用于中断，用于分心管理器
+    /**默认为“中性”；distraction_type, 用于中断, 用于分心管理器
      * 完整列表存在 inactivity_type.cpp
      */
     interrupt_type?: boolean;
@@ -194,11 +194,11 @@ type AddEffect = TalkerVar<{
 type SetHP = TalkerVar<{
     set_hp: NumObj;
     /**默认为 whole body 全身
-     * 如果使用，HP调整将仅应用于该身体部位
+     * 如果使用, HP调整将仅应用于该身体部位
      */
     target_part?: BodyPartParam;
     /**仅增加 默认false
-     * 如果属实，HP只能增加
+     * 如果属实, HP只能增加
      */
     only_increase?: boolean;
     /**只影响主要肢体 默认 false */

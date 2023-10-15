@@ -46,7 +46,7 @@ exports.SpellEffectList = [
     "timed_event",
     "translocate",
     "upgrade",
-    "vomit", //任何处于其范围内的生物都会立即呕吐，如果它能够这样做的话。
+    "vomit", //任何处于其范围内的生物都会立即呕吐, 如果它能够这样做的话。
 ];
 /**法术范围形状 列表*/
 exports.SpellShapeList = [
@@ -90,7 +90,7 @@ exports.SpellFlagList = [
     "TARGET_TELEPORT",
     "UNSAFE_TELEPORT",
     "VERBAL",
-    "WONDER", //这极大地改变了父法术的行为：法术本身不施放，但伤害和范围信息用于施放extra_effects。extra_effects将随机选择n个施放，其中n是法术当前的伤害（与RANDOM_DAMAGE旗帜叠加），施放法术的消息也会显示。如果不需要这个咒语的消息，请确保message它是一个空字符串。
+    "WONDER", //这极大地改变了父法术的行为: 法术本身不施放, 但伤害和范围信息用于施放extra_effects。extra_effects将随机选择n个施放, 其中n是法术当前的伤害 (与RANDOM_DAMAGE旗帜叠加), 施放法术的消息也会显示。如果不需要这个咒语的消息, 请确保message它是一个空字符串。
 ];
 /**法术能量池 列表 */
 exports.SpellEnergySourceList = [

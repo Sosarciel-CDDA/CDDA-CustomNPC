@@ -1,6 +1,6 @@
 import { ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
-import { BodyPartID, CddaID, Time } from "./GenericDefine";
+import { BodyPartID, CddaID, RatType, Time } from "./GenericDefine";
 import { MutationID } from "./Mutattion";
 import { VitaminsID } from "./Vitamins";
 /**预定义的EffectID 列表 */
@@ -14,19 +14,19 @@ export type EffectID = CddaID<"EFF"> | DefineEffectID;
 export type Effect = {
     type: "effect_type";
     id: EffectID;
-    /**用于后面的许多字段，默认为 1 */
+    /**用于后面的许多字段, 默认为 1 */
     max_intensity?: number;
     /**将累积效果的最大强度级别。
      * 其他强度级别只会增加持续时间。
      */
     max_effective_intensity?: number;
-    /**如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”，那么它将尝试使用正确的强度名称。
+    /**如果“max_intensity”> 1 并且“name”中的条目数>=“max_intensity”, 那么它将尝试使用正确的强度名称。
      * ["ABC","XYZ","123"]
-     * 在这种情况下，这意味着强度 1 将给出名称“ABC”，2 将给出“XYZ”，3 将给出“123”。
-     * 如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”，
-     * 则如果当前强度> 1，则将使用第一个条目，
-     * 后跟括号中的强度，即“ABC”，“ABC [2]”、“ABC [3]”。
-     * 如果所需的“名称”条目是空字符串（“”）或缺少“名称”，
+     * 在这种情况下, 这意味着强度 1 将给出名称“ABC”, 2 将给出“XYZ”, 3 将给出“123”。
+     * 如果“max_intensity”== 1或“name”中的条目数小于“max_intensity”,
+     * 则如果当前强度> 1, 则将使用第一个条目,
+     * 后跟括号中的强度, 即“ABC”, “ABC [2]”、“ABC [3]”。
+     * 如果所需的“名称”条目是空字符串 (“”)或缺少“名称”,
      * 则该效果将不会在状态屏幕中向玩家显示。
      * 按效果强度应用不同成员
      */
@@ -39,17 +39,17 @@ export type Effect = {
      * 按效果强度应用不同成员
      */
     reduced_desc?: string[];
-    /**如果“part_descs”== true，则描述前面带有“您的 X”，
-     * 其中 X 是身体部位名称，这意味着先前的描述将显示为“您的左臂 ABC”。
+    /**如果“part_descs”== true, 则描述前面带有“您的 X”,
+     * 其中 X 是身体部位名称, 这意味着先前的描述将显示为“您的左臂 ABC”。
      */
     part_descs?: true;
     /**效果评价 */
-    rating?: EffectRat;
+    rating?: RatType;
     /**效果被添加时产生的消息 */
-    apply_message?: string | [string, EffectRat][];
+    apply_message?: string | [string, RatType][];
     /**效果结束或移除时产生的消息 */
-    remove_message?: string | [string, EffectRat][];
-    /**默认 false；如果为 true，则当您检查另一个 NPC 或怪物时会显示该效果
+    remove_message?: string | [string, RatType][];
+    /**默认 false；如果为 true, 则当您检查另一个 NPC 或怪物时会显示该效果
      * 如果为true玩家可以从怪物简介中查看到效果
      */
     show_in_info?: boolean;
@@ -68,7 +68,7 @@ export type Effect = {
      */
     immune_bp_flags?: BodyPartID[];
     /**获得此效果时会移除这些效果
-     * 这里的任何值也会自动计入“blocks_effects”，无需在那里重复它们。
+     * 这里的任何值也会自动计入“blocks_effects”, 无需在那里重复它们。
      */
     removes_effects?: EffectID[];
     /**获得此效果时以下效果将会被免疫 */
@@ -97,9 +97,9 @@ export type Effect = {
     int_decay_tick?: number;
     /**在强度为0是是否移除效果 默认false */
     int_decay_remove?: false;
-    /**覆盖其他三个强度字段，
+    /**覆盖其他三个强度字段,
      * 并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字
-     * （因此从0到“int_dur_factor”是强度1）。
+     *  (因此从0到“int_dur_factor”是强度1)。
      */
     int_dur_factor?: number;
     /**这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。
@@ -116,7 +116,7 @@ export type Effect = {
      * [消息,效果评价][]
      * 按效果强度应用不同成员
      */
-    decay_messages?: [string, EffectRat][];
+    decay_messages?: [string, RatType][];
     /**这个效果是否只能应用于主肢体
      * 默认false
      */
@@ -163,10 +163,6 @@ export type Effect = {
      */
     enchantments?: ParamsEnchantment[];
 };
-/**效果评价 列表 */
-export declare const EffectRatList: readonly ["good", "neutral", "bad", "mixed"];
-/**效果评价 */
-export type EffectRat = typeof EffectRatList[number];
 /**效果维生素修正 */
 export type EffectVitaminsMod = {
     /**维生素ID */
@@ -219,17 +215,17 @@ export type EffectLimbMod = {
     resist_scaling?: number;
 };
 /**
- * X_amount       - 当效果被放置时，X的应用量。像应用消息一样，它只会在新效果上触发
- * X_min          - 当滚动触发时，应用的X的最小量 “X_max” - 当滚动触发时，应用的X的最大量（没有条目意味着它每次都会给出精确的X_min，而不是rng(min, max)）
- * X_min_val      - 效果将推动你到的最小值，0表示无上限！对于某些X不存在！
- * X_max_val      - 效果将推动你到的最大值，0表示无上限！对于某些X不存在！
- * X_chance       - X每次触发的基本概率，取决于 “X_chance_bot” 的确切公式
- * X_chance_bot   - 如果这个不存在，那么触发概率是 (1 in “X_chance”)。如果这个存在，那么概率是 (“X_chance” in “X_chance_bot”)
- * X_tick         - 每Y tick，效果滚动以触发X
+ * X_amount       - 当效果被放置时, X的应用量。像应用消息一样, 它只会在新效果上触发
+ * X_min          - 当滚动触发时, 应用的X的最小量 “X_max” - 当滚动触发时, 应用的X的最大量 (没有条目意味着它每次都会给出精确的X_min, 而不是rng(min, max))
+ * X_min_val      - 效果将推动你到的最小值, 0表示无上限！对于某些X不存在！
+ * X_max_val      - 效果将推动你到的最大值, 0表示无上限！对于某些X不存在！
+ * X_chance       - X每次触发的基本概率, 取决于 “X_chance_bot” 的确切公式
+ * X_chance_bot   - 如果这个不存在, 那么触发概率是 (1 in “X_chance”)。如果这个存在, 那么概率是 (“X_chance” in “X_chance_bot”)
+ * X_tick         - 每Y tick, 效果滚动以触发X
  */
 /**效果调整类型 列表
- * chance_bot 如果不存在，则触发机会为 1/X_chance
- * 如果确实存在，那么机会是 X_chance/X_chance_bot
+ * chance_bot 如果不存在, 则触发机会为 1/X_chance
+ * 如果确实存在, 那么机会是 X_chance/X_chance_bot
  */
 export declare const EffectModTypeList: readonly ["str_mod", "dex_mod", "per_mod", "int_mod", "speed_mod", "pain_amount", "pain_min", "pain_max", "pain_max_val", "pain_chance", "pain_chance_bot", "pain_tick", "hurt_amount", "hurt_min", "hurt_max", "hurt_chance", "hurt_chance_bot", "hurt_tick", "sleep_amount", "sleep_min", "sleep_max", "sleep_chance", "sleep_chance_bot", "sleep_tick", "pkill_amount", "pkill_min", "pkill_max", "pkill_max_val", "pkill_chance", "pkill_chance_bot", "pkill_tick", "stim_amount", "stim_min", "stim_max", "stim_min_val", "stim_max_val", "stim_chance", "stim_chance_bot", "stim_tick", "health_amount", "health_min", "health_max", "health_min_val", "health_max_val", "health_chance", "health_chance_bot", "health_tick", "h_mod_amount", "h_mod_min", "h_mod_max", "h_mod_min_val", "h_mod_max_val", "h_mod_chance", "h_mod_chance_bot", "h_mod_tick", "rad_amount", "rad_min", "rad_max", "rad_max_val", "rad_chance", "rad_chance_bot", "rad_tick", "hunger_amount", "hunger_min", "hunger_max", "hunger_min_val", "hunger_max_val", "hunger_chance", "hunger_chance_bot", "hunger_tick", "thirst_amount", "thirst_min", "thirst_max", "thirst_min_val", "thirst_max_val", "thirst_chance", "thirst_chance_bot", "thirst_tick", "perspiration_amount", "perspiration_min", "perspiration_max", "perspiration_min_val", "perspiration_max_val", "perspiration_chance", "perspiration_chance_bot", "perspiration_tick", "fatigue_amount", "fatigue_min", "fatigue_max", "fatigue_min_val", "fatigue_max_val", "fatigue_chance", "fatigue_chance_bot", "fatigue_tick", "stamina_amount", "stamina_min", "stamina_max", "stamina_min_val", "stamina_max_val", "stamina_chance", "stamina_chance_bot", "stamina_tick", "cough_chance", "cough_chance_bot", "cough_tick", "vomit_chance", "vomit_chance_bot", "vomit_tick", "healing_rate", "healing_head", "healing_torso", "dodge_mod", "hit_mod", "bash_mod"];
 /**效果调整类型
