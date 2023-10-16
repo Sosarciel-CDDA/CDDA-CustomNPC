@@ -2,73 +2,86 @@ import { EocEffect } from "CddaJsonFormat";
 
 
 
-/**角色与怪物互动的事件 列表  
+/**Cnpc角色与怪物互动的事件 列表  
  * u为角色 n为怪物
  */
-export const InteractiveCharEventList = [
-    "CharTakeDamage"        ,//受到任何伤害
-    "CharTakeRangeDamage"   ,//受到远程伤害
-    "CharTakeMeleeDamage"   ,//受到近战伤害
-    "CharCauseMeleeHit"     ,//近战攻击命中目标 并成功造成伤害
-    "CharCauseRangeHit"     ,//远程攻击命中目标 并成功造成伤害
-    "CharCauseHit"          ,//命中目标 并成功造成伤害
+export const CnpcInteractiveEventList = [
+    "CnpcCheckTakeDamage"       ,//在 检测法术中检测到 受到 任何伤害
+    "CnpcCheckTakeRangeDamage"  ,//在 检测法术中检测到 受到 远程伤害
+    "CnpcCheckTakeMeleeDamage"  ,//在 检测法术中检测到 受到 近战伤害
+    "CnpcCheckCauseMeleeHit"    ,//近战攻击命中目标 并成功造成伤害
+    "CnpcCheckCauseRangeHit"    ,//远程攻击命中目标 并成功造成伤害
+    "CnpcCheckCauseHit"         ,//命中目标 并成功造成伤害
 ] as const;
-/**角色与怪物互动的事件 */
-export type InteractiveCharEvent = typeof InteractiveCharEventList[number];
+/**Cnpc角色与怪物互动的事件 */
+export type CnpcInteractiveEvent = typeof CnpcInteractiveEventList[number];
 
-
-/**角色事件列表  
+/**任何角色通用的事件列表  
  * u为角色 n不存在
  */
-export const CharEventTypeList = [
-    "CharIdle"              ,//等待状态 刷新
-    "CharMove"              ,//移动状态 刷新
-    "CharUpdate"            ,//刷新
-    "CharUpdateSlow"        ,//慢速刷新 60刷新触发一次
-    "CharInit"              ,//被创建时
-    "CharBattleUpdate"      ,//进入战斗时 刷新
-    "CharNonBattleUpdate"   ,//非战斗时 刷新
-    "CharDeath"             ,//死亡
-    "CharDeathPrev"         ,//死亡前 回复生命可阻止死亡
-    "CharDeathAfter"        ,//死亡后
-    "CharTryMeleeHit"       ,//尝试近战攻击
-    "CharTryRangeHit"       ,//尝试远程攻击
-    "CharTryHit"            ,//尝试攻击
-    "CharEnterBattle"       ,//进入战斗
-    ...InteractiveCharEventList
+export const CommonEventTypeList = [ //暂时无效
+    "TryMeleeHit"           ,//尝试近战攻击
+    "TryRangeHit"           ,//尝试远程攻击
+    "TryHit"                ,//尝试攻击
 ] as const;
-/**角色事件类型 */
-export type CharEventType = typeof CharEventTypeList[number];
+/**任何角色通用的事件类型  
+ * u为角色 n不存在
+ */
+export type CommonEventType = typeof CommonEventTypeList[number];
+
+/**Cnpc角色事件列表  
+ * u为角色 n不存在
+ */
+export const CnpcEventTypeList = [
+    "CnpcIdle"                  ,//等待状态 刷新
+    "CnpcMove"                  ,//移动状态 刷新
+    "CnpcUpdate"                ,//刷新
+    "CnpcUpdateSlow"            ,//慢速刷新 60刷新触发一次
+    "CnpcInit"                  ,//被创建时
+    "CnpcBattleUpdate"          ,//进入战斗时 刷新
+    "CnpcNonBattleUpdate"       ,//非战斗时 刷新
+    "CnpcDeath"                 ,//死亡
+    "CnpcDeathPrev"             ,//死亡前 回复生命可阻止死亡
+    "CnpcDeathAfter"            ,//死亡后
+    "CnpcEnterBattle"           ,//进入战斗
+    "CnpcTryMeleeHit"           ,//尝试近战攻击
+    "CnpcTryRangeHit"           ,//尝试远程攻击
+    "CnpcTryHit"                ,//尝试攻击
+    ...CommonEventTypeList      ,
+    ...CnpcInteractiveEventList ,
+] as const;
+/**Cnpc角色事件类型 */
+export type CnpcEventType = typeof CnpcEventTypeList[number];
 
 
 
-/**反转Talker的角色事件列表  
+/**Cnpc角色的 反转Talker的角色事件列表  
  * 对应同名CauseDamage  
  * n为角色 u为受害者
  */
-export const ReverseCharEventTypeList = [
-    "CharCauseDamage"       ,
-    "CharCauseMeleeDamage"  ,
-    "CharCauseRangeDamage"  ,
+export const CnpcReverseEventTypeList = [
+    "CnpcCheckCauseDamage"       ,//在 检测法术中检测到 造成 任何伤害
+    "CnpcCheckCauseMeleeDamage"  ,//在 检测法术中检测到 造成 远程伤害
+    "CnpcCheckCauseRangeDamage"  ,//在 检测法术中检测到 造成 近战伤害
 ] as const;
-/**反转Talker的角色事件类型  
+/**Cnpc角色的 反转Talker的角色事件类型  
  * 对应同名CauseDamage  
  */
-export type ReverseCharEventType = typeof ReverseCharEventTypeList[number];
+export type CnpcReverseEventType = typeof CnpcReverseEventTypeList[number];
 
-/**任何角色事件 列表 */
-export const AnyCharEventTypeList = [...CharEventTypeList,...ReverseCharEventTypeList] as const;
-/**任何角色事件 */
-export type AnyCharEvenetType = typeof AnyCharEventTypeList[number];
+/**任何Cnpc角色事件 列表 */
+export const AnyCnpcEventTypeList = [...CnpcEventTypeList,...CnpcReverseEventTypeList] as const;
+/**任何Cnpc角色事件 */
+export type AnyCnpcEvenetType = typeof AnyCnpcEventTypeList[number];
 
-/**全局事件列表 */
-export const GlobalEvemtTypeList = [
-    "PlayerUpdate"  ,   //玩家刷新
-    "GameBegin"     ,   //每次进入游戏时
-    ...AnyCharEventTypeList
+/**全局的事件列表 */
+export const GlobalEventTypeList = [
+    "PlayerUpdate"          ,   //玩家刷新
+    "GameBegin"             ,   //每次进入游戏时
+    ...AnyCnpcEventTypeList
 ] as const;
 /**全局事件 */
-export type GlobalEventType = typeof GlobalEvemtTypeList[number];
+export type GlobalEventType = typeof GlobalEventTypeList[number];
 
 
 /**事件效果 */

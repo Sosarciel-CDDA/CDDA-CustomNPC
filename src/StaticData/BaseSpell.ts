@@ -142,17 +142,6 @@ export const BaseSpell:Spell[] = [
 		extra_effects: [{ id: genSpellID("TestConeSpell_DMG") }],
 		targeted_monster_ids: [TARGET_MON_ID],
 	},
-    {
-		type: "SPELL",
-		id: genSpellID("SpawnBaseNpc"),
-		name: "生成测试NPC",
-		description: "生成测试NPC",
-		flags: [...CON_SPELL_FLAG],
-		valid_targets: ["self"],
-		effect: "effect_on_condition",
-		effect_str: "CNPC_EOC_SpawnBaseNpc",
-		shape: "blast",
-	}
 ];
 
 

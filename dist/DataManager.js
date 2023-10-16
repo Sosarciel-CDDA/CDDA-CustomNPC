@@ -27,7 +27,7 @@ class DataManager {
         charTable: {},
         staticTable: {},
         sharedTable: {},
-        eventEocs: Event_1.GlobalEvemtTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
+        eventEocs: Event_1.GlobalEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
     //———————————————————— 初始化 ————————————————————//
     /**
@@ -250,9 +250,9 @@ class DataManager {
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
             };
             //角色事件eoc主体
-            const charEventEocs = Event_1.CharEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const charEventEocs = Event_1.CnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             //角色反转事件eoc主体
-            const reverseCharEventEocs = Event_1.ReverseCharEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const reverseCharEventEocs = Event_1.CnpcReverseEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
@@ -352,7 +352,7 @@ class DataManager {
                         eoc_type: "ACTIVATION",
                         id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                         effect: [...charEventList.map(event => event.effect)],
-                        condition: Event_1.CharEventTypeList.includes(etype) //判断是否为反转事件 并修改条件
+                        condition: Event_1.CnpcEventTypeList.includes(etype) //判断是否为反转事件 并修改条件
                             ? { and: [
                                     { u_has_trait: charData.defineData.baseMutID },
                                     ...(etype.includes("Death")

@@ -16,7 +16,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./StaticData"), exports);
 __exportStar(require("./modinfo"), exports);
-__exportStar(require("./HitEvent"), exports);
 __exportStar(require("./BaseSpell"), exports);
 __exportStar(require("./BaseNPC"), exports);
 __exportStar(require("./BaseTrait"), exports);
@@ -25,4 +24,3 @@ __exportStar(require("./BaseEnch"), exports);
 __exportStar(require("./BaseEffect"), exports);
 __exportStar(require("./BaseMathFunction"), exports);
 __exportStar(require("./BaseEoc"), exports);
-__exportStar(require("./TriggerEffect"), exports);

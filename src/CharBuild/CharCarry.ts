@@ -80,7 +80,7 @@ export async function createCharCarry(dm:DataManager,charName:string){
                 ],
                 condition:{and:[...cond]}
             }
-            dm.addCharEvent(charName,"CharUpdateSlow",0,rechargeEoc);
+            dm.addCharEvent(charName,"CnpcUpdateSlow",0,rechargeEoc);
             carryData.push(rechargeEoc);
         }
 

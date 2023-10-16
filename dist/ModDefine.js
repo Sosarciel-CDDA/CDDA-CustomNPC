@@ -83,11 +83,13 @@ function genTalkTopicID(id) {
     return `${exports.MOD_PREFIX}_TALKTC_${id}`;
 }
 exports.genTalkTopicID = genTalkTopicID;
-/**生成适用此mod的触发eoc */
-function genActEoc(id, effect, condition) {
+/**生成适用此mod的触发eoc
+ * @param forceId 强制使用原id
+*/
+function genActEoc(id, effect, condition, forceId = false) {
     return {
         type: "effect_on_condition",
-        id: genEOCID(id),
+        id: forceId ? id : genEOCID(id),
         eoc_type: "ACTIVATION",
         effect, condition
     };

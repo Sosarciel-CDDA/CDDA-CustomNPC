@@ -43,7 +43,7 @@ async function createCharSkill(dm, charName) {
     const skillDataList = [];
     //全局冷却事件
     const GCDEoc = (0, ModDefine_1.genActEoc)(`${charName}_CoCooldown`, [{ math: [gcdValName, "-=", "1"] }], { math: [gcdValName, ">", "0"] });
-    dm.addCharEvent(charName, "CharUpdate", 0, GCDEoc);
+    dm.addCharEvent(charName, "CnpcUpdate", 0, GCDEoc);
     skillDataList.push(GCDEoc);
     //遍历技能
     for (const skill of skills) {
@@ -77,11 +77,11 @@ async function createCharSkill(dm, charName) {
                 if (audioObj.cooldown) {
                     //冷却
                     const cdeoc = (0, ModDefine_1.genActEoc)(cdid, [{ math: [cdid, "-=", "1"] }], { math: [cdid, ">", "0"] });
-                    dm.addCharEvent(charName, "CharBattleUpdate", 0, cdeoc);
+                    dm.addCharEvent(charName, "CnpcBattleUpdate", 0, cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
                     const initeoc = (0, ModDefine_1.genActEoc)(cdid + "_init", [{ math: [cdid, "=", "0"] }]);
-                    dm.addCharEvent(charName, "CharEnterBattle", 0, initeoc);
+                    dm.addCharEvent(charName, "CnpcEnterBattle", 0, initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect = {
@@ -142,7 +142,7 @@ async function createCharSkill(dm, charName) {
         //冷却事件
         if (cooldown != null) {
             const CDEoc = (0, ModDefine_1.genActEoc)(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
-            dm.addCharEvent(charName, "CharUpdate", 0, CDEoc);
+            dm.addCharEvent(charName, "CnpcUpdate", 0, CDEoc);
             skillDataList.push(CDEoc);
         }
     }
@@ -279,7 +279,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.ReverseCharEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
@@ -313,7 +313,7 @@ function randomProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.ReverseCharEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
@@ -356,8 +356,8 @@ function reverse_hitProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.CharEventTypeList.includes(hook))
-        throw `翻转命中 所用的事件必须为 翻转事件: ${Event_1.ReverseCharEventTypeList}`;
+    if (Event_1.CnpcEventTypeList.includes(hook))
+        throw `翻转命中 所用的事件必须为 翻转事件: ${Event_1.CnpcReverseEventTypeList}`;
     dm.addReverseCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -438,7 +438,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
         condition: { and: [...unrbaseCond] },
     };
     //加入触发
-    if (Event_1.ReverseCharEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook))
         throw `翻转事件只能应用于翻转命中`;
     dm.addCharEvent(charName, hook, 0, castSelEoc);
     return [castEoc, castSelEoc, filterTargetSpell];
@@ -478,8 +478,8 @@ function direct_hitProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (!Event_1.InteractiveCharEventList.includes(hook))
-        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.InteractiveCharEventList}`;
+    if (!Event_1.CnpcInteractiveEventList.includes(hook))
+        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.CnpcInteractiveEventList}`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -501,8 +501,8 @@ function autoProc(dm, charName, baseSkillData) {
     if (isAllyTarget && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
     //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
-    if ((Event_1.ReverseCharEventTypeList.includes(hook) ||
-        Event_1.InteractiveCharEventList.includes(hook)) &&
+    if ((Event_1.CnpcReverseEventTypeList.includes(hook) ||
+        Event_1.CnpcInteractiveEventList.includes(hook)) &&
         isHostileTarget)
         return ProcMap.auto_hit(dm, charName, baseSkillData);
     //其他法术随机
@@ -511,9 +511,9 @@ function autoProc(dm, charName, baseSkillData) {
 function auto_hitProc(dm, charName, baseSkillData) {
     const { skill, castCondition } = baseSkillData;
     const { hook } = castCondition;
-    if (Event_1.ReverseCharEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook))
         return ProcMap.reverse_hit(dm, charName, baseSkillData);
-    if (Event_1.InteractiveCharEventList.includes(hook))
+    if (Event_1.CnpcInteractiveEventList.includes(hook))
         return ProcMap.direct_hit(dm, charName, baseSkillData);
-    throw `auto_hitProc 的hook 必须为 翻转事件:${Event_1.ReverseCharEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
+    throw `auto_hitProc 的hook 必须为 翻转事件:${Event_1.CnpcReverseEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
 }

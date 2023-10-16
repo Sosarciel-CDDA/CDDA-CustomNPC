@@ -3,7 +3,7 @@ import { genActEoc, genEOCID, genSpellID } from "../ModDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG } from "../StaticData";
-import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "../Event";
+import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "../Event";
 import { WeaponCategoryID } from "@src/CddaJsonFormat/WeaponCategory";
 import { TARGET_MON_ID } from "@src/StaticData/BaseMonster";
 
@@ -78,7 +78,7 @@ export type CastCondition={
      */
     condition?      :BoolObj,
     /**时机 */
-    hook            :AnyCharEvenetType,
+    hook            :AnyCnpcEvenetType,
     /**瞄准方式  
      * auto 为 根据施法目标自动选择;  
      *  
@@ -135,7 +135,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const GCDEoc=genActEoc(`${charName}_CoCooldown`,
         [{math:[gcdValName,"-=","1"]}],
         {math:[gcdValName,">","0"]});
-    dm.addCharEvent(charName,"CharUpdate",0,GCDEoc);
+    dm.addCharEvent(charName,"CnpcUpdate",0,GCDEoc);
     skillDataList.push(GCDEoc);
 
 
@@ -176,11 +176,11 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 if(audioObj.cooldown){
                     //冷却
                     const cdeoc=genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
-                    dm.addCharEvent(charName,"CharBattleUpdate",0,cdeoc);
+                    dm.addCharEvent(charName,"CnpcBattleUpdate",0,cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
                     const initeoc=genActEoc(cdid+"_init",[{math:[cdid,"=","0"]}]);
-                    dm.addCharEvent(charName,"CharEnterBattle",0,initeoc);
+                    dm.addCharEvent(charName,"CnpcEnterBattle",0,initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect:EocEffect = {
@@ -248,7 +248,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
                 [{math:[cdValName,"-=","1"]}],
                 {math:[cdValName,">","0"]})
-            dm.addCharEvent(charName,"CharUpdate",0,CDEoc);
+            dm.addCharEvent(charName,"CnpcUpdate",0,CDEoc);
             skillDataList.push(CDEoc);
         }
     }
@@ -409,9 +409,9 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
     }
 
     //加入触发
-    if(ReverseCharEventTypeList.includes(hook as any))
+    if(CnpcReverseEventTypeList.includes(hook as any))
         throw `翻转事件只能应用于翻转命中`
-    dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
+    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -446,9 +446,9 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
     }
 
     //加入触发
-    if(ReverseCharEventTypeList.includes(hook as any))
+    if(CnpcReverseEventTypeList.includes(hook as any))
         throw `翻转事件只能应用于翻转命中`
-    dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
+    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -496,9 +496,9 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     }
 
     //加入触发
-    if(CharEventTypeList.includes(hook as any))
-        throw `翻转命中 所用的事件必须为 翻转事件: ${ReverseCharEventTypeList}`
-    dm.addReverseCharEvent(charName,hook as ReverseCharEventType,0,castEoc);
+    if(CnpcEventTypeList.includes(hook as any))
+        throw `翻转命中 所用的事件必须为 翻转事件: ${CnpcReverseEventTypeList}`
+    dm.addReverseCharEvent(charName,hook as CnpcReverseEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -588,9 +588,9 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     }
 
     //加入触发
-    if(ReverseCharEventTypeList.includes(hook as any))
+    if(CnpcReverseEventTypeList.includes(hook as any))
         throw `翻转事件只能应用于翻转命中`
-    dm.addCharEvent(charName,hook as CharEventType,0,castSelEoc);
+    dm.addCharEvent(charName,hook as CnpcEventType,0,castSelEoc);
 
     return [castEoc,castSelEoc,filterTargetSpell];
 }
@@ -633,9 +633,9 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     }
 
     //加入触发
-    if(!InteractiveCharEventList.includes(hook as any))
-        throw `直接命中 所用的事件必须为 交互事件: ${InteractiveCharEventList}`
-    dm.addCharEvent(charName,hook as CharEventType,0,castEoc);
+    if(!CnpcInteractiveEventList.includes(hook as any))
+        throw `直接命中 所用的事件必须为 交互事件: ${CnpcInteractiveEventList}`
+    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -661,8 +661,8 @@ function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData
         return ProcMap.filter_random(dm,charName,baseSkillData);
 
     //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
-    if((ReverseCharEventTypeList.includes(hook as any)  ||
-        InteractiveCharEventList.includes(hook as any)) &&
+    if((CnpcReverseEventTypeList.includes(hook as any)  ||
+        CnpcInteractiveEventList.includes(hook as any)) &&
         isHostileTarget)
         return ProcMap.auto_hit(dm,charName,baseSkillData);
 
@@ -673,9 +673,9 @@ function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData
 function auto_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,castCondition} = baseSkillData;
     const {hook} = castCondition;
-    if(ReverseCharEventTypeList.includes(hook as any))
+    if(CnpcReverseEventTypeList.includes(hook as any))
         return ProcMap.reverse_hit(dm,charName,baseSkillData);
-    if(InteractiveCharEventList.includes(hook as any))
+    if(CnpcInteractiveEventList.includes(hook as any))
         return ProcMap.direct_hit(dm,charName,baseSkillData);
-    throw `auto_hitProc 的hook 必须为 翻转事件:${ReverseCharEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
+    throw `auto_hitProc 的hook 必须为 翻转事件:${CnpcReverseEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
 }

@@ -101,7 +101,7 @@ async function createCharClass(dm, charName) {
             })
         ]
     };
-    dm.addCharEvent(charName, "CharUpdateSlow", 0, autoSave);
+    dm.addCharEvent(charName, "CnpcUpdateSlow", 0, autoSave);
     /**初始化事件 */
     const charInitEoc = {
         type: "effect_on_condition",
@@ -115,7 +115,7 @@ async function createCharClass(dm, charName) {
             })
         ]
     };
-    dm.addCharEvent(charName, "CharInit", 1000, charInitEoc);
+    dm.addCharEvent(charName, "CnpcInit", 1000, charInitEoc);
     /**销毁事件 */
     const charRemoveEoc = {
         type: "effect_on_condition",
@@ -126,7 +126,7 @@ async function createCharClass(dm, charName) {
         ],
         condition: { math: ["u_uid", "!=", `${charName}_uid`] }
     };
-    dm.addCharEvent(charName, "CharUpdate", 0, charRemoveEoc);
+    dm.addCharEvent(charName, "CnpcUpdate", 0, charRemoveEoc);
     /**死亡事件 */
     const charDeathEoc = {
         type: "effect_on_condition",
@@ -134,7 +134,7 @@ async function createCharClass(dm, charName) {
         id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
         effect: []
     };
-    dm.addCharEvent(charName, "CharDeath", -1000, charDeathEoc);
+    dm.addCharEvent(charName, "CnpcDeath", -1000, charDeathEoc);
     outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charDeathEoc, autoSave, charInitEoc, charRemoveEoc];
 }
 exports.createCharClass = createCharClass;

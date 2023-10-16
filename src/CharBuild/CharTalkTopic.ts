@@ -183,8 +183,8 @@ async function createUpgResp(dm:DataManager,charName:string){
                 ]}
             }
 
-            dm.addCharEvent(charName,"CharUpdateSlow",0,mutEoc);
-            dm.addCharEvent(charName,"CharInit",0,mutEoc);
+            dm.addCharEvent(charName,"CnpcUpdateSlow",0,mutEoc);
+            dm.addCharEvent(charName,"CnpcInit",0,mutEoc);
             dm.addSharedRes("field_mut_eoc",mutEoc.id,mutEoc);
         }
 
@@ -248,7 +248,7 @@ async function createUpgResp(dm:DataManager,charName:string){
         }]
     }
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",10,InitUpgField);
+    dm.addCharEvent(charName,"CnpcInit",10,InitUpgField);
 
     outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList];
     return upgtopicid;
@@ -334,7 +334,7 @@ async function createSkillResp(dm:DataManager,charName:string){
     }
 
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",10,InitSkill);
+    dm.addCharEvent(charName,"CnpcInit",10,InitSkill);
     outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList,InitSkill];
     return skillTalkTopicId;
 }
@@ -451,8 +451,8 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 condition:{and:[...giveCond]},
                 effect:[{u_spawn_item:item.id}]
             }
-            dm.addCharEvent(charName,"CharUpdateSlow",0,giveWeapon);
-            dm.addCharEvent(charName,"CharInit",0,giveWeapon);
+            dm.addCharEvent(charName,"CnpcUpdateSlow",0,giveWeapon);
+            dm.addCharEvent(charName,"CnpcInit",0,giveWeapon);
             weaponData.push(giveWeapon)
 
             /**如果禁用则删除 */
@@ -466,7 +466,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 ]},
                 effect:[{u_consume_item:item.id,count:1}]
             }
-            dm.addCharEvent(charName,"CharUpdateSlow",0,removeWeapon);
+            dm.addCharEvent(charName,"CnpcUpdateSlow",0,removeWeapon);
             weaponData.push(removeWeapon)
 
 
@@ -522,7 +522,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
     }
 
     //注册初始化eoc
-    dm.addCharEvent(charName,"CharInit",10,InitWeapon);
+    dm.addCharEvent(charName,"CnpcInit",10,InitWeapon);
     outData['weapon_talk_topic'] = [weaponTalkTopic,...weaponData];
     return weaponTalkTopicId;
 }

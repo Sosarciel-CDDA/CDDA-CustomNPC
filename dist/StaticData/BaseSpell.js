@@ -140,16 +140,5 @@ exports.BaseSpell = [
         extra_effects: [{ id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG") }],
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
-    {
-        type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("SpawnBaseNpc"),
-        name: "生成测试NPC",
-        description: "生成测试NPC",
-        flags: [...exports.CON_SPELL_FLAG],
-        valid_targets: ["self"],
-        effect: "effect_on_condition",
-        effect_str: "CNPC_EOC_SpawnBaseNpc",
-        shape: "blast",
-    }
 ];
 (0, StaticData_1.saveStaticData)('base_spell', exports.BaseSpell);

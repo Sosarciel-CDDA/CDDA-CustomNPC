@@ -160,8 +160,8 @@ async function createUpgResp(dm, charName) {
                         { math: [ufield, ">=", mut.lvl + ""] }
                     ] }
             };
-            dm.addCharEvent(charName, "CharUpdateSlow", 0, mutEoc);
-            dm.addCharEvent(charName, "CharInit", 0, mutEoc);
+            dm.addCharEvent(charName, "CnpcUpdateSlow", 0, mutEoc);
+            dm.addCharEvent(charName, "CnpcInit", 0, mutEoc);
             dm.addSharedRes("field_mut_eoc", mutEoc.id, mutEoc);
         }
         //创建对应升级菜单路由选项
@@ -223,7 +223,7 @@ async function createUpgResp(dm, charName) {
             }]
     };
     //注册初始化eoc
-    dm.addCharEvent(charName, "CharInit", 10, InitUpgField);
+    dm.addCharEvent(charName, "CnpcInit", 10, InitUpgField);
     outData['upgrade_talk_topic'] = [InitUpgField, upgTalkTopic, ...upgEocList, ...upgTopicList];
     return upgtopicid;
 }
@@ -299,7 +299,7 @@ async function createSkillResp(dm, charName) {
             }]
     };
     //注册初始化eoc
-    dm.addCharEvent(charName, "CharInit", 10, InitSkill);
+    dm.addCharEvent(charName, "CnpcInit", 10, InitSkill);
     outData['skill_talk_topic'] = [skillTalkTopic, ...skillRespEocList, InitSkill];
     return skillTalkTopicId;
 }
@@ -402,8 +402,8 @@ async function createWeaponResp(dm, charName) {
                 condition: { and: [...giveCond] },
                 effect: [{ u_spawn_item: item.id }]
             };
-            dm.addCharEvent(charName, "CharUpdateSlow", 0, giveWeapon);
-            dm.addCharEvent(charName, "CharInit", 0, giveWeapon);
+            dm.addCharEvent(charName, "CnpcUpdateSlow", 0, giveWeapon);
+            dm.addCharEvent(charName, "CnpcInit", 0, giveWeapon);
             weaponData.push(giveWeapon);
             /**如果禁用则删除 */
             const removeWeapon = {
@@ -416,7 +416,7 @@ async function createWeaponResp(dm, charName) {
                     ] },
                 effect: [{ u_consume_item: item.id, count: 1 }]
             };
-            dm.addCharEvent(charName, "CharUpdateSlow", 0, removeWeapon);
+            dm.addCharEvent(charName, "CnpcUpdateSlow", 0, removeWeapon);
             weaponData.push(removeWeapon);
             //开关eoc
             const eoc = {
@@ -463,7 +463,7 @@ async function createWeaponResp(dm, charName) {
             }]
     };
     //注册初始化eoc
-    dm.addCharEvent(charName, "CharInit", 10, InitWeapon);
+    dm.addCharEvent(charName, "CnpcInit", 10, InitWeapon);
     outData['weapon_talk_topic'] = [weaponTalkTopic, ...weaponData];
     return weaponTalkTopicId;
 }

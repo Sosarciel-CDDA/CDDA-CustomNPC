@@ -4,7 +4,7 @@ import { CharDefineData, DataManager } from "../DataManager";
 import * as path from 'path';
 import { Eoc } from "CddaJsonFormat";
 import { genEOCID } from "ModDefine";
-import { CharEventType } from "Event";
+import { CnpcEventType } from "Event";
 
 
 
@@ -49,11 +49,11 @@ export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:A
 export async function createAnimStatus(dm:DataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
     const eocList:Eoc[] = [];
-    const animEventMap:Record<AnimType,CharEventType|undefined>={
-        Move:"CharMove",
-        Attack:"CharCauseHit",
-        Idle:"CharIdle",
-        //Death:"CharDeath",
+    const animEventMap:Record<AnimType,CnpcEventType|undefined>={
+        Move:"CnpcMove",
+        Attack:"CnpcTryHit",
+        Idle:"CnpcIdle",
+        //Death:"CnpcDeath",
     }
     //添加切换动画
     for(const mtnName in animEventMap){

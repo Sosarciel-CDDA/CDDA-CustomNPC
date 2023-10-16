@@ -72,11 +72,13 @@ export function genTalkTopicID(id:string):TalkTopicID{
     return `${MOD_PREFIX}_TALKTC_${id}`;
 }
 
-/**生成适用此mod的触发eoc */
-export function genActEoc(id:string,effect:EocEffect[],condition?:BoolObj):Eoc{
+/**生成适用此mod的触发eoc 
+ * @param forceId 强制使用原id
+*/
+export function genActEoc(id:string,effect:EocEffect[],condition?:BoolObj,forceId:boolean=false):Eoc{
     return {
         type:"effect_on_condition",
-        id:genEOCID(id),
+        id: forceId? id as any:genEOCID(id),
         eoc_type:"ACTIVATION",
         effect,condition
     }

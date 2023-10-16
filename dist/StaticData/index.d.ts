@@ -1,6 +1,5 @@
 export * from "./StaticData";
 export * from "./modinfo";
-export * from "./HitEvent";
 export * from "./BaseSpell";
 export * from "./BaseNPC";
 export * from "./BaseTrait";
@@ -9,4 +8,3 @@ export * from "./BaseEnch";
 export * from "./BaseEffect";
 export * from "./BaseMathFunction";
 export * from "./BaseEoc";
-export * from './TriggerEffect';

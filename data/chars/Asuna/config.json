@@ -73,7 +73,7 @@
 		{
 			"name": "蒸发未来",
 			"cast_condition":{
-				"hook": "CharCauseRangeHit"
+				"hook": "CnpcCheckCauseRangeHit"
 			},
 			"cooldown":30,
 			"audio":[
@@ -105,7 +105,7 @@
 		{
 			"name": "精准狙击",
 			"cast_condition":{
-				"hook": "CharBattleUpdate",
+				"hook": "CnpcBattleUpdate",
 				"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}}
 			},
 			"audio":["Snipe","SnipeSF"],
@@ -128,7 +128,7 @@
 		{
 			"name": "刀锋打击",
 			"cast_condition":{
-				"hook": "CharCauseMeleeHit"
+				"hook": "CnpcCheckCauseMeleeHit"
 			},
 			"cooldown":30,
 			"audio":[
@@ -156,7 +156,7 @@
 		{
 			"name": "创伤之刃",
 			"cast_condition":{
-				"hook": "CharCauseMeleeHit"
+				"hook": "CnpcCheckCauseMeleeHit"
 			},
 			"cooldown":10,
 			"audio":[

@@ -36,5 +36,7 @@ export declare function genAmmuTypeID(id: string): AmmunitionTypeID;
 export declare function genFlagID(id: string): FlagID;
 /**生成适用于此mod的 TalkTopic ID */
 export declare function genTalkTopicID(id: string): TalkTopicID;
-/**生成适用此mod的触发eoc */
-export declare function genActEoc(id: string, effect: EocEffect[], condition?: BoolObj): Eoc;
+/**生成适用此mod的触发eoc
+ * @param forceId 强制使用原id
+*/
+export declare function genActEoc(id: string, effect: EocEffect[], condition?: BoolObj, forceId?: boolean): Eoc;

@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'CddaJsonFormat';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CharEventTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEventTypeList, ReverseCharEventType } from 'Event';
+import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType, CnpcReverseEventTypeList, CnpcReverseEventType } from 'Event';
 
 
 
@@ -44,11 +44,11 @@ type CharData = {
     /**输出的角色Eoc事件 u为角色 npc为未定义  
      * id为 `${charName}_${etype}`  
      */
-    charEventEocs:Record<CharEventType,EventEffect[]>;
+    charEventEocs:Record<CnpcEventType,EventEffect[]>;
     /**输出的对象反转的角色Eoc事件 u为目标 npc为角色  
      * id为 `${charName}_${etype}`  
      */
-    reverseCharEventEocs:Record<ReverseCharEventType,EventEffect[]>;
+    reverseCharEventEocs:Record<CnpcReverseEventType,EventEffect[]>;
     /**角色设定 */
     charConfig:CharConfig;
 }
@@ -102,7 +102,7 @@ export class DataManager{
         charTable:{},
         staticTable:{},
         sharedTable:{},
-        eventEocs:GlobalEvemtTypeList.reduce((acc,etype)=>
+        eventEocs:GlobalEventTypeList.reduce((acc,etype)=>
             ({...acc,[etype]:[]}),{} as Record<GlobalEventType,EventEffect[]>)
     }
 
@@ -342,12 +342,12 @@ export class DataManager{
             }
 
             //角色事件eoc主体
-            const charEventEocs = CharEventTypeList.reduce((acc,etype)=>(
-                {...acc,[etype]:[]}),{} as Record<CharEventType,EventEffect[]>)
+            const charEventEocs = CnpcEventTypeList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CnpcEventType,EventEffect[]>)
 
             //角色反转事件eoc主体
-            const reverseCharEventEocs = ReverseCharEventTypeList.reduce((acc,etype)=>(
-                {...acc,[etype]:[]}),{} as Record<ReverseCharEventType,EventEffect[]>)
+            const reverseCharEventEocs = CnpcReverseEventTypeList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CnpcReverseEventType,EventEffect[]>)
 
             this.dataTable.charTable[charName] = {
                 defineData,
@@ -370,7 +370,7 @@ export class DataManager{
     /**添加 eoc的ID引用到 角色事件  
      * u为角色 npc为未定义  
      */
-    addCharEvent(charName:string,etype:CharEventType,weight:number,...events:Eoc[]){
+    addCharEvent(charName:string,etype:CnpcEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
@@ -378,7 +378,7 @@ export class DataManager{
     /**添加 eoc的ID引用到 反转角色事件  
      * u为目标 npc为角色  
      */
-    addReverseCharEvent(charName:string,etype:ReverseCharEventType,weight:number,...events:Eoc[]){
+    addReverseCharEvent(charName:string,etype:CnpcReverseEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
@@ -450,7 +450,7 @@ export class DataManager{
             const charEventEocs:Eoc[]=[];
             //遍历事件类型
             for(const etypeStr in charEventMap){
-                const etype = etypeStr as (CharEventType|ReverseCharEventType);
+                const etype = etypeStr as (CnpcEventType|CnpcReverseEventType);
                 //降序排序事件
                 const charEventList = charEventMap[etype].sort((a,b)=>b.weight-a.weight);
                 //至少有一个角色事件才会创建
@@ -461,7 +461,7 @@ export class DataManager{
                         eoc_type:"ACTIVATION",
                         id:genEOCID(`${charName}_${etype}`),
                         effect:[...charEventList.map(event=>event.effect)],
-                        condition:CharEventTypeList.includes(etype as CharEventType)//判断是否为反转事件 并修改条件
+                        condition:CnpcEventTypeList.includes(etype as CnpcEventType)//判断是否为反转事件 并修改条件
                             ? {and:[
                                 {u_has_trait:charData.defineData.baseMutID},
                                 ...(etype.includes("Death")

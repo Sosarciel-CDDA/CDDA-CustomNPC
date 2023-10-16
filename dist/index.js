@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = exports.buildChar = void 0;
 const DataManager_1 = require("./DataManager");
-const AnimStatus_1 = require("./CharBuild/AnimStatus");
 const utils_1 = require("@zwa73/utils");
 const CharBuild_1 = require("./CharBuild");
 async function buildChar(dm, charName) {
@@ -12,7 +11,7 @@ async function buildChar(dm, charName) {
     await (0, CharBuild_1.createCharClass)(dm, charName);
     await (0, CharBuild_1.createCharEquip)(dm, charName);
     await (0, CharBuild_1.createCharCarry)(dm, charName);
-    await (0, AnimStatus_1.createAnimStatus)(dm, charName);
+    await (0, CharBuild_1.createAnimStatus)(dm, charName);
     await (0, CharBuild_1.createCharSkill)(dm, charName);
     await (0, CharBuild_1.createCharTalkTopic)(dm, charName);
 }

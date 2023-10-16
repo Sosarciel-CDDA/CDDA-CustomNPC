@@ -1,6 +1,6 @@
 import { Spell, FlagID, BoolObj, EocEffect } from "../CddaJsonFormat";
 import { DataManager } from "../DataManager";
-import { AnyCharEvenetType } from "../Event";
+import { AnyCnpcEvenetType } from "../Event";
 import { WeaponCategoryID } from "../CddaJsonFormat/WeaponCategory";
 /**技能选择目标类型 列表 */
 declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_random"];
@@ -63,7 +63,7 @@ export type CastCondition = {
      */
     condition?: BoolObj;
     /**时机 */
-    hook: AnyCharEvenetType;
+    hook: AnyCnpcEvenetType;
     /**瞄准方式
      * auto 为 根据施法目标自动选择;
      *
