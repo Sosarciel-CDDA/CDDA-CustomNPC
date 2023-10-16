@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
-import { DataManager } from './DataManager';
+import { DataManager } from '../DataManager';
 
 
 

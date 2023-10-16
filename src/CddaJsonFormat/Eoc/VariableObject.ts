@@ -1,4 +1,4 @@
-import { MutationID } from "../Mutattion";
+import { MutationID } from "../Mutation";
 import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";

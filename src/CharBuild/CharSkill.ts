@@ -1,11 +1,11 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
-import { AnyItemID, CON_SPELL_FLAG, FlagID, genActEoc, genEOCID, genSpellID } from ".";
-import { BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj } from "./CddaJsonFormat/Eoc";
-import { Spell, SpellEnergySource, SpellID } from "./CddaJsonFormat/Spell";
-import { DataManager } from "./DataManager";
-import { TARGET_MON_ID } from "./StaticData/BaseMonster";
-import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "./Event";
-import { WeaponCategoryID } from "./CddaJsonFormat/WeaponCategory";
+import { genActEoc, genEOCID, genSpellID } from "../ModDefine";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj} from "CddaJsonFormat";
+import { DataManager } from "../DataManager";
+import { CON_SPELL_FLAG } from "../StaticData";
+import { CharEventTypeList, CharEventType, InteractiveCharEventList, ReverseCharEventTypeList, ReverseCharEventType, AnyCharEvenetType } from "../Event";
+import { WeaponCategoryID } from "@src/CddaJsonFormat/WeaponCategory";
+import { TARGET_MON_ID } from "@src/StaticData/BaseMonster";
 
 
 /**技能选择目标类型 列表 */

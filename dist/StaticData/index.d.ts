@@ -9,3 +9,4 @@ export * from "./BaseEnch";
 export * from "./BaseEffect";
 export * from "./BaseMathFunction";
 export * from "./BaseEoc";
+export * from './TriggerEffect';

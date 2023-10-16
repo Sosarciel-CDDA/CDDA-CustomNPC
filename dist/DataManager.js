@@ -5,9 +5,8 @@ const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
-const AnimTool_1 = require("./AnimTool");
 const ModDefine_1 = require("./ModDefine");
-const CharConfig_1 = require("./CharConfig");
+const CharBuild_1 = require("./CharBuild");
 const Event_1 = require("./Event");
 /**数据管理器 */
 class DataManager {
@@ -225,17 +224,17 @@ class DataManager {
     async getCharData(charName) {
         //初始化基础数据
         if (this.dataTable.charTable[charName] == null) {
-            const animData = AnimTool_1.AnimTypeList.map(animType => ({
+            const animData = CharBuild_1.AnimTypeList.map(animType => ({
                 animType: animType,
-                animName: (0, AnimTool_1.formatAnimName)(charName, animType),
-                mutID: (0, ModDefine_1.genMutationID)((0, AnimTool_1.formatAnimName)(charName, animType)),
-                armorID: (0, ModDefine_1.genArmorID)((0, AnimTool_1.formatAnimName)(charName, animType)),
-                itemGroupID: (0, ModDefine_1.genItemGroupID)((0, AnimTool_1.formatAnimName)(charName, animType)),
+                animName: (0, CharBuild_1.formatAnimName)(charName, animType),
+                mutID: (0, ModDefine_1.genMutationID)((0, CharBuild_1.formatAnimName)(charName, animType)),
+                armorID: (0, ModDefine_1.genArmorID)((0, CharBuild_1.formatAnimName)(charName, animType)),
+                itemGroupID: (0, ModDefine_1.genItemGroupID)((0, CharBuild_1.formatAnimName)(charName, animType)),
             })).reduce((acc, curr) => {
                 acc[curr.animType] = curr;
                 return acc;
             }, {});
-            const charConfig = await (0, CharConfig_1.loadCharConfig)(this, charName);
+            const charConfig = await (0, CharBuild_1.loadCharConfig)(this, charName);
             console.log(charConfig);
             const defineData = {
                 charName: charName,
@@ -290,7 +289,7 @@ class DataManager {
     getOutCharPath(charName) {
         return path.join(this.outPath, 'chars', charName);
     }
-    /**添加共享资源 */
+    /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
     addSharedRes(filepath, key, val) {
         if (this.dataTable.sharedTable[filepath] == null)
             this.dataTable.sharedTable[filepath] = {};
@@ -320,10 +319,10 @@ class DataManager {
         fs.promises.cp(staticDataPath, this.outPath, { recursive: true });
         //导出js静态数据
         const staticData = this.dataTable.staticTable;
-        for (let key in staticData) {
-            let obj = staticData[key];
+        for (let filePath in staticData) {
+            let obj = staticData[filePath];
             //await
-            this.saveToFile(key, obj);
+            this.saveToFile(filePath, obj);
         }
         //导出共用资源
         for (const filePath in this.dataTable.sharedTable)

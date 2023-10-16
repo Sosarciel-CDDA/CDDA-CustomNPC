@@ -1,6 +1,6 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData } from "CddaJsonFormat";
-import { DataManager } from "./DataManager";
-import { genEOCID, genEnchantmentID } from "./ModDefine";
+import { DataManager } from "../DataManager";
+import { genEOCID, genEnchantmentID } from "ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 

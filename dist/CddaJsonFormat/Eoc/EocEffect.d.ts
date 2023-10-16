@@ -1,6 +1,6 @@
 import { FakeSpell } from "../Enchantment";
 import { AnyItemID } from "../Item";
-import { MutationID } from "../Mutattion";
+import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { EocID, InlineEoc, TalkerVar } from "./Eoc";

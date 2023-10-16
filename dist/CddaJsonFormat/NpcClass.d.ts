@@ -1,7 +1,7 @@
 import { NpcNumObj } from "./Eoc";
 import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
-import { MutationID } from "./Mutattion";
+import { MutationID } from "./Mutation";
 import { SkillID } from "./Skill";
 /**NpcClass ID格式
  */

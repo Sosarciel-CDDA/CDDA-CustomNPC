@@ -62,7 +62,7 @@
             "field": "自愈",
             "max_lvl": 10,
             "require_resource": [
-                [["iv_mutagen_slime"],["iv_mutagen_troglobite"]]
+                [["iv_mutagen_slime"],["iv_mutagen_troglobite"],["iv_mutagen_chimera"]]
             ],
             "lvl_ench_status": {
                 "multiply_REGEN_HP":0.2
@@ -73,7 +73,7 @@
             "field": "生命",
             "max_lvl": 10,
             "require_resource": [
-                [["iv_mutagen_ursine"],["iv_mutagen_cattle"]]
+                [["iv_mutagen_ursine"],["iv_mutagen_cattle"],["iv_mutagen_chimera"]]
             ],
             "lvl_ench_status": {
                 "multiply_MAX_HP":0.1
@@ -109,7 +109,7 @@
                 "add_ARMOR_HEAT"    :-1.5,
                 "add_ARMOR_STAB"    :-1.5
             },
-            "desc": "每级提高 6% 最大耐力, 2% 耐力回复速度"
+            "desc": "每级提高 1.5 全伤害减免"
         }
     ]
 }

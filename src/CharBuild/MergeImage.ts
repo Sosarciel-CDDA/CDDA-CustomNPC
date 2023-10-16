@@ -1,9 +1,9 @@
-import { DataManager } from "./DataManager";
+import { DataManager } from "../DataManager";
 import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { OverlayOrdering } from "./CddaJsonFormat/OverlayOrdering";
+import { OverlayOrdering } from "CddaJsonFormat";
 
 
 

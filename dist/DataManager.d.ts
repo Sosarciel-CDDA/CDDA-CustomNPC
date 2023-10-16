@@ -1,8 +1,7 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
-import { AnimType } from './AnimTool';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, AnyCddaJson } from './CddaJsonFormat';
 import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
-import { CharConfig } from './CharConfig';
+import { CharConfig, AnimType } from './CharBuild';
 import { CharEventType, EventEffect, GlobalEventType, ReverseCharEventType } from './Event';
 /**角色定义数据 */
 export type CharDefineData = Readonly<{
@@ -123,7 +122,7 @@ export declare class DataManager {
     getCharPath(charName: string): string;
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
-    /**添加共享资源 */
+    /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
     addSharedRes(filepath: string, key: string, val: JObject): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;

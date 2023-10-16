@@ -1,7 +1,7 @@
 import { BodyPartID, Time, CddaID } from "./GenericDefine";
 import { SpellID } from "./Spell";
 import { EmitID } from "./Emit";
-import { MutationID } from "./Mutattion";
+import { MutationID } from "./Mutation";
 import { EffectID } from "./Effect";
 import { BoolObj, NumObj } from "./Eoc";
 /**附魔ID

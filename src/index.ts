@@ -1,13 +1,7 @@
 import { DataManager } from "./DataManager";
-import { mergeImage } from "./MergeImage";
-import { createCharClass } from "./CharClass";
-import { createAnimTool } from "./AnimTool";
-import { createCharEquip } from "./CharEquip";
-import { createAnimStatus } from "./AnimStatus";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
-import { createCharSkill } from "./CharSkill";
-import { createCharTalkTopic } from "./CharTalkTopic";
-import { createCharCarry } from "./CharCarry";
+import { StaticDataMap } from "./StaticData";
+import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeImage } from "./CharBuild";
 
 
 
@@ -37,8 +31,3 @@ export async function main(){
 
 
 main();
-
-
-export * from "./StaticData";
-export * from "./CddaJsonFormat";
-export * from './ModDefine';

@@ -1,7 +1,7 @@
 import { JArray, JObject, JToken } from "@zwa73/utils";
 import { FakeSpell } from "../Enchantment";
 import { AnyItemID } from "../Item";
-import { MutationID } from "../Mutattion";
+import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { Eoc, EocID, InlineEoc, TalkerVar } from "./Eoc";

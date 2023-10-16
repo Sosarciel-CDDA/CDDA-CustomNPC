@@ -1,7 +1,7 @@
 import { ParamsEnchantment } from "./Enchantment";
 import { FlagID } from "./Flag";
 import { BodyPartID, CddaID, RatType, Time } from "./GenericDefine";
-import { MutationID } from "./Mutattion";
+import { MutationID } from "./Mutation";
 import { VitaminsID } from "./Vitamins";
 
 

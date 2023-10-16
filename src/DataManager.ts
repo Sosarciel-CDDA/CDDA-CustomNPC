@@ -1,13 +1,11 @@
 import * as path from 'path';
 import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
-import { StaticDataMap } from './StaticData';
-import { AnimType, AnimTypeList, formatAnimName } from './AnimTool';
-import { genArmorID, genEOCID, genEnchantmentID as genEnchantmentID, genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from './ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj } from 'CddaJsonFormat';
-import { TalkTopicID } from './CddaJsonFormat/TalkTopic';
-import { CharConfig, loadCharConfig } from './CharConfig';
-import { CharEventTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEventTypeList, ReverseCharEventType } from './Event';
+import { StaticDataMap } from 'StaticData';
+import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'CddaJsonFormat';
+import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
+import { CharEventTypeList, CharEventType, EventEffect, GlobalEvemtTypeList, GlobalEventType, ReverseCharEventTypeList, ReverseCharEventType } from 'Event';
 
 
 
@@ -393,7 +391,7 @@ export class DataManager{
     getOutCharPath(charName:string){
         return path.join(this.outPath,'chars',charName);
     }
-    /**添加共享资源 */
+    /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
     addSharedRes(filepath:string,key:string,val:JObject){
         if(this.dataTable.sharedTable[filepath]==null)
             this.dataTable.sharedTable[filepath]={};
@@ -427,10 +425,10 @@ export class DataManager{
 
         //导出js静态数据
         const staticData = this.dataTable.staticTable;
-        for(let key in staticData){
-            let obj = staticData[key];
+        for(let filePath in staticData){
+            let obj = staticData[filePath];
             //await
-            this.saveToFile(key,obj);
+            this.saveToFile(filePath,obj);
         }
 
         //导出共用资源
