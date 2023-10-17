@@ -122,7 +122,9 @@ export declare class DataManager {
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(filepath: string, key: string, val: JObject): void;
+    addSharedRes(key: string, val: JObject, ...filepaths: string[]): void;
+    /**添加静态资源 */
+    addStaticData(arr: JObject[], ...filePaths: string[]): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;
     /**输出数据到主目录 */

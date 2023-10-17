@@ -15,4 +15,4 @@ exports.InitVar = {
     ]
 };
 exports.BaseEoc = [exports.InitVar];
-(0, StaticData_1.saveStaticData)("base_eoc", exports.BaseEoc);
+(0, StaticData_1.saveStaticData)(exports.BaseEoc, 'static_resource', "base_eoc");

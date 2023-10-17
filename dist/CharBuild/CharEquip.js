@@ -57,11 +57,11 @@ async function createCharEquip(dm, charName) {
             })
         };
         if ((0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status).length > 0) {
-            dm.addSharedRes("common_ench", fdBaseEnch.id, fdBaseEnch);
+            dm.addSharedRes(fdBaseEnch.id, fdBaseEnch, "common_resource", "common_ench");
             enchList.push(fdBaseEnch);
         }
         if ((0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status).length > 0) {
-            dm.addSharedRes("common_ench", fdLvlEnch.id, fdLvlEnch);
+            dm.addSharedRes(fdLvlEnch.id, fdLvlEnch, "common_resource", "common_ench");
             enchList.push(fdLvlEnch);
         }
     }

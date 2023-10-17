@@ -4,6 +4,7 @@ exports.main = exports.buildChar = void 0;
 const DataManager_1 = require("./DataManager");
 const utils_1 = require("@zwa73/utils");
 const CharBuild_1 = require("./CharBuild");
+const CommonBuild_1 = require("./CommonBuild");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
     await (0, CharBuild_1.mergeImage)(dm, charName, false);
@@ -18,6 +19,7 @@ async function buildChar(dm, charName) {
 exports.buildChar = buildChar;
 async function main() {
     const dm = await DataManager_1.DataManager.create();
+    await (0, CommonBuild_1.createTest)(dm);
     const plist = [];
     for (let charName of dm.charList)
         plist.push(buildChar(dm, charName));

@@ -14,4 +14,4 @@ exports.modinfo = [
         "dependencies": ["dda", "aftershock", "magiclysm"]
     }
 ];
-(0, StaticData_1.saveStaticData)('modinfo', exports.modinfo);
+(0, StaticData_1.saveStaticData)(exports.modinfo, 'modinfo');

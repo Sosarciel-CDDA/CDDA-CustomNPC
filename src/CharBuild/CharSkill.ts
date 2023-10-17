@@ -242,7 +242,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 castCondition,
             }));
         }
-        dm.addSharedRes("common_spell",spell.id,spell);
+        dm.addSharedRes(spell.id,spell,"common_resource","common_spell");
         //冷却事件
         if(cooldown!=null){
             const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
@@ -384,7 +384,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         shape,max_level,
         extra_effects:[{id:spell.id}],
     }
-    dm.addSharedRes("common_spell_assist",selTargetSpell.id,selTargetSpell);
+    dm.addSharedRes(selTargetSpell.id,selTargetSpell,"common_resource","common_spell_assist");
 
     //创建施法EOC
     const castEoc:Eoc={
@@ -466,7 +466,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
+    dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
     //翻转u与n
     baseCond = revTalker(baseCond);
@@ -513,7 +513,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
+    dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
     //翻转u与n
     const unrbaseCond = UtilFunc.deepClone(baseCond);
@@ -606,7 +606,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist",rspell.id,rspell);
+    dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
 
     //创建翻转的施法EOC

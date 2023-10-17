@@ -21,4 +21,4 @@ const BaseNpcInstance = {
     chat: "TALK_DONE",
 };
 exports.BaseNpc = [BaseNpcClass, BaseNpcInstance];
-(0, StaticData_1.saveStaticData)('base_npc', exports.BaseNpc);
+(0, StaticData_1.saveStaticData)(exports.BaseNpc, 'static_resource', 'base_npc');

@@ -145,4 +145,4 @@ export const BaseSpell:Spell[] = [
 ];
 
 
-saveStaticData('base_spell',BaseSpell);
+saveStaticData(BaseSpell,'static_resource','base_spell');

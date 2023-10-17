@@ -93,8 +93,9 @@ function CNPC_EOC_EGB(){
 function CNPC_EOC_ETD(){
 	eoc_type("EVENT");
 	required_event("character_takes_damage");
+	CNPC_EOC_CommonTakeDamageEvent()
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcTakesDamage()
+		CNPC_EOC_CnpcTakeDamageEvent()
 }
 //近战攻击事件
 function CNPC_EOC_EMAC(){
@@ -139,14 +140,21 @@ function CNPC_EOC_EGU(){
 	global(true);
 	run_for_npcs(true);
 
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcGlobalUpdateEvent();
+	//通用刷新 如果含有已经死亡标记则不触发
+	if(u_isDeath!=1)
+		CNPC_EOC_CommonGlobalUpdateEvent();
+
+	//Cnpc角色刷新
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		//如果含有已经死亡标记则不触发
+		if(u_isDeath==1){
+			//触发动态生成的 Cnpc角色死亡后 事件
+			CNPC_EOC_CnpcDeathAfter();
+			eobj({"run_eoc_with":"CNPC_EOC_DeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
+		}else CNPC_EOC_CnpcGlobalUpdateEvent();
+	}
 	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果不是cnpc单位则添加替代素体
-
-	//添加属性增强变异
-	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
-		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
 }
 //玩家刷新
 function CNPC_EOC_EPU(){
@@ -174,10 +182,31 @@ function CNPC_EOC_EPU(){
 //近战攻击主Eoc
 function CNPC_EOC_CommonMeleeHitEvent(){
 	eoc_type("ACTIVATION")
+	//触发动态生成的 尝试近战攻击 事件
+	CNPC_EOC_TryMeleeHit();
+	CNPC_EOC_TryHit();
 }
 //远程攻击主Eoc
 function CNPC_EOC_CommonRangeHitEvent(){
 	eoc_type("ACTIVATION")
+	//触发动态生成的 尝试远程攻击 事件
+	CNPC_EOC_TryRangeHit();
+	CNPC_EOC_TryHit();
+}
+//受到攻击攻击主Eoc
+function CNPC_EOC_CommonTakeDamageEvent(){
+	eoc_type("ACTIVATION")
+	//触发动态生成的 受到伤害 事件
+	CNPC_EOC_TakeDamage();
+}
+//全局刷新事件主Eoc
+function CNPC_EOC_CommonGlobalUpdateEvent(){
+	eoc_type("ACTIVATION")
+	//添加属性增强变异
+	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
+		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
+	//触发动态生成的 刷新 事件
+	CNPC_EOC_Update();
 }
 
 
@@ -185,7 +214,7 @@ function CNPC_EOC_CommonRangeHitEvent(){
 
 //———————————————————— Cnpc事件处理 ————————————————————//
 //Cnpc角色受伤事件
-function CNPC_EOC_CnpcTakesDamage(){
+function CNPC_EOC_CnpcTakeDamageEvent(){
 	eoc_type("ACTIVATION");
 
 	//自动伤痛分流
@@ -247,25 +276,6 @@ function CNPC_EOC_CnpcTryHitEvent(){
 
 	//设置在战斗中
 	u_inBattle = 60;
-
-	//触发动态生成的 Cnpc角色尝试攻击 事件eoc
-	CNPC_EOC_CnpcTryHit()
-}
-//Cnpc角色尝试近战攻击触发的Eoc
-function CNPC_EOC_CnpcTryMeleeHitEvent(){
-	eoc_type("ACTIVATION")
-	//通用尝试攻击事件
-	CNPC_EOC_CnpcTryHitEvent()
-	//触发动态生成的 Cnpc角色尝试近战攻击 事件eoc
-	CNPC_EOC_CnpcTryMeleeHit()
-}
-//Cnpc角色尝试远程攻击触发的Eoc
-function CNPC_EOC_CnpcTryRangeHitEvent(){
-	eoc_type("ACTIVATION")
-	//通用尝试攻击事件
-	CNPC_EOC_CnpcTryHitEvent()
-	//触发动态生成的 Cnpc角色尝试远程攻击 事件eoc
-	CNPC_EOC_CnpcTryRangeHit()
 }
 
 //Cnpc角色攻击检测命中触发的eoc
@@ -280,7 +290,7 @@ function CNPC_EOC_CheckCauseHitEvent(){
 function CNPC_EOC_CnpcMeleeHitEvent(){
 	eoc_type("ACTIVATION")
 	//尝试攻击
-	CNPC_EOC_CnpcTryMeleeHitEvent()
+	CNPC_EOC_CnpcTryHitEvent()
 
 	//释放检测血量法术判断是否击中目标
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Melee"}})
@@ -310,7 +320,7 @@ function CNPC_EOC_CheckCauseMeleeHitEvent(){
 function CNPC_EOC_CnpcRangeHitEvent(){
 	eoc_type("ACTIVATION")
 	//尝试攻击
-	CNPC_EOC_CnpcTryRangeHitEvent()
+	CNPC_EOC_CnpcTryHitEvent()
 
 	//释放检测血量法术判断是否击中目标
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Range"}})
@@ -340,87 +350,78 @@ function CNPC_EOC_CheckCauseRangeHitEvent(){
 function CNPC_EOC_CnpcGlobalUpdateEvent(){
 	eoc_type("ACTIVATION")
 
-	//如果已经死亡则不触发循环
-	if(u_isDeath==1){
-		//触发动态生成的 死亡后 事件
-		CNPC_EOC_CnpcDeathAfter();
-		eobj({"run_eoc_with":"CNPC_EOC_DeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
-	}else{
-		//初始化
-		if(u_isInit!=1){
-			//添加用于防止逃跑的勇气效果
-			eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
-			//触发动态生成的 初始化 事件eoc
-			CNPC_EOC_CnpcInit();
-			u_isInit=1;
-		}
-
-		//刷新属性
-		//CNPC_EOC_UpdateStat();
-		//触发动态生成的 Cnpc刷新 事件eoc
-		CNPC_EOC_CnpcUpdate();
-
-		//低速刷新
-		u_update_count=u_update_count+1;
-		if(u_update_count>60){
-			//触发动态生成的 cnpc慢速刷新 事件eoc
-			CNPC_EOC_CnpcUpdateSlow();
-			u_update_count=0;
-		}
-
-		//附近有怪物 u_search_radius 无效
-		//if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
-		if(u_inBattle>0){
-			//触发战斗中
-			//初始化怪物血量
-			eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
-			//触发动态生成的 cnpc战斗刷新 事件eoc
-			CNPC_EOC_CnpcBattleUpdate();
-			u_inBattle=u_inBattle-1;
-		}else{
-			//触发非战斗中
-			//触发动态生成的 cnpc非战斗刷新 事件eoc
-			CNPC_EOC_CnpcNonBattleUpdate();
-		}
-
-
-		//通过比较 loc字符串 检测移动
-		eobj({
-			"set_string_var": { "u_val": "u_char_preloc" },
-			"target_var": { "global_val": "char_preloc" }
-		})
-		if(eobj({
-			"compare_string": [
-				{ "global_val": "char_preloc" },
-				{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
-			]
-		})){
-			//设置在待机
-			u_onMove=0;
-		} else{
-			//设置在移动
-			u_onMove=1;
-		}
-		//更新 loc字符串
-		eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
-
-		//如果不在做其他短时动作
-		if(u_notIdleOrMove<=0){
-			u_notIdleOrMove=0;
-			//触发移动事件
-			if(u_onMove>=1){
-				//触发动态生成的 cnpc移动 事件eoc
-				CNPC_EOC_CnpcMove();
-			}else{//触发待机
-				//触发动态生成的 cnpc待机 事件eoc
-				CNPC_EOC_CnpcIdle();
-			}
-		}
-		u_notIdleOrMove=u_notIdleOrMove-1;
-
-		if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
-			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
+	//初始化
+	if(u_isInit!=1){
+		//添加用于防止逃跑的勇气效果
+		eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
+		//触发动态生成的 初始化 事件eoc
+		CNPC_EOC_CnpcInit();
+		u_isInit=1;
 	}
+
+	//触发动态生成的 Cnpc刷新 事件eoc
+	CNPC_EOC_CnpcUpdate();
+
+	//低速刷新
+	u_update_count=u_update_count+1;
+	if(u_update_count>60){
+		//触发动态生成的 cnpc慢速刷新 事件eoc
+		CNPC_EOC_CnpcUpdateSlow();
+		u_update_count=0;
+	}
+
+	//附近有怪物 u_search_radius 无效
+	//if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
+	if(u_inBattle>0){
+		//触发战斗中
+		//初始化怪物血量
+		eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+		//触发动态生成的 cnpc战斗刷新 事件eoc
+		CNPC_EOC_CnpcBattleUpdate();
+		u_inBattle=u_inBattle-1;
+	}else{
+		//触发非战斗中
+		//触发动态生成的 cnpc非战斗刷新 事件eoc
+		CNPC_EOC_CnpcNonBattleUpdate();
+	}
+
+
+	//通过比较 loc字符串 检测移动
+	eobj({
+		"set_string_var": { "u_val": "u_char_preloc" },
+		"target_var": { "global_val": "char_preloc" }
+	})
+	if(eobj({
+		"compare_string": [
+			{ "global_val": "char_preloc" },
+			{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
+		]
+	})){
+		//设置在待机
+		u_onMove=0;
+	} else{
+		//设置在移动
+		u_onMove=1;
+	}
+	//更新 loc字符串
+	eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
+
+	//如果不在做其他短时动作
+	if(u_notIdleOrMove<=0){
+		u_notIdleOrMove=0;
+		//触发移动事件
+		if(u_onMove>=1){
+			//触发动态生成的 cnpc移动 事件eoc
+			CNPC_EOC_CnpcMove();
+		}else{//触发待机
+			//触发动态生成的 cnpc待机 事件eoc
+			CNPC_EOC_CnpcIdle();
+		}
+	}
+	u_notIdleOrMove=u_notIdleOrMove-1;
+
+	if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
+		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
 }
 
 //死亡后处理

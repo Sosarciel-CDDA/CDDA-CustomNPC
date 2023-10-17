@@ -51,7 +51,7 @@ export async function createAnimStatus(dm:DataManager,charName:string){
     const eocList:Eoc[] = [];
     const animEventMap:Record<AnimType,CnpcEventType|undefined>={
         Move:"CnpcMove",
-        Attack:"CnpcTryHit",
+        Attack:"TryHit",
         Idle:"CnpcIdle",
         //Death:"CnpcDeath",
     }

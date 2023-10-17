@@ -62,4 +62,4 @@ const StatMod:Mutation={
 }
 
 export const BaseTrait=[CnpcFlagMut,CnpcBaseBody,BaseBodyOrdering,NoAnim,StatMod];
-saveStaticData('base_trait',BaseTrait);
+saveStaticData(BaseTrait,'static_resource','base_trait');

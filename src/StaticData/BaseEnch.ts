@@ -38,4 +38,4 @@ export const StatMod:Enchantment={
 
 export const BaseEnch = [StatusVarMap,StatMod];
 
-saveStaticData('base_ench',BaseEnch);
+saveStaticData(BaseEnch,'static_resource','base_ench');

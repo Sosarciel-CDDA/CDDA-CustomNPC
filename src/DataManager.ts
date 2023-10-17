@@ -392,7 +392,8 @@ export class DataManager{
         return path.join(this.outPath,'chars',charName);
     }
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(filepath:string,key:string,val:JObject){
+    addSharedRes(key:string,val:JObject,...filepaths:string[]){
+        const filepath = path.join(...filepaths);
         if(this.dataTable.sharedTable[filepath]==null)
             this.dataTable.sharedTable[filepath]={};
         const table = this.dataTable.sharedTable[filepath];
@@ -402,6 +403,10 @@ export class DataManager{
             if(JSON.stringify(oval)!=JSON.stringify(val))
                 console.log(`addSharedRes 出现了一个不相同的数据 \n原数据:${JSON.stringify(oval)}\n新数据:${JSON.stringify(val)}`);
         }
+    }
+    /**添加静态资源 */
+    addStaticData(arr:JObject[],...filePaths:string[]){
+        this.dataTable.staticTable[path.join(...filePaths)] = arr;
     }
 
 

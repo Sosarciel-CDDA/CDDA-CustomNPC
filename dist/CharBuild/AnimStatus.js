@@ -48,7 +48,7 @@ async function createAnimStatus(dm, charName) {
     const eocList = [];
     const animEventMap = {
         Move: "CnpcMove",
-        Attack: "CnpcTryHit",
+        Attack: "TryHit",
         Idle: "CnpcIdle",
         //Death:"CnpcDeath",
     };

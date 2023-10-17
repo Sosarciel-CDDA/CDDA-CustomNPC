@@ -40,6 +40,7 @@ export type EocEffectList = [
     LocalVar                                        ,//获取坐标
     Message                                         ,//发送消息
     AddEffect                                       ,//添加效果
+    LoseEffect                                      ,//添加效果
     SetHP                                           ,//设置生命值
 ];
 /**运行Eoc */
@@ -185,17 +186,23 @@ type Message = TalkerVar<{
 
 /**添加效果 */
 type AddEffect = TalkerVar<{
-    add_effect: EffectID;
-    /**添加的时间 默认 0 */
-    duration?: Time;
+    add_effect: EffectID|StrObj;
+    /**添加的时间 */
+    duration: Time;
     /**默认为 whole body 全身 */
     target_part?:BodyPartParam;
-    /**效果强度 默认 0 */
+    /**效果强度 默认 0
+     * 负数强度不产生效果
+     */
     intensity?:NumObj;
     /**是否强制添加忽略豁免 默认 false */
     force?:boolean;
 },"add_effect">;
 
+/**失去效果 */
+type LoseEffect = TalkerVar<{
+    lose_effect: EffectID|StrObj;
+},"lose_effect">;
 
 
 /**设置生命 */

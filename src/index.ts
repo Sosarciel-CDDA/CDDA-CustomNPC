@@ -2,6 +2,7 @@ import { DataManager } from "./DataManager";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeImage } from "./CharBuild";
+import { createTest } from "./CommonBuild";
 
 
 
@@ -21,6 +22,9 @@ export async function buildChar(dm:DataManager,charName:string){
 
 export async function main(){
     const dm = await DataManager.create();
+
+    await createTest(dm);
+
     const plist:Promise<void>[] = []
     for(let charName of dm.charList)
         plist.push(buildChar(dm,charName));

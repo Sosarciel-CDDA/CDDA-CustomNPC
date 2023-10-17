@@ -162,7 +162,7 @@ async function createUpgResp(dm, charName) {
             };
             dm.addCharEvent(charName, "CnpcUpdateSlow", 0, mutEoc);
             dm.addCharEvent(charName, "CnpcInit", 0, mutEoc);
-            dm.addSharedRes("field_mut_eoc", mutEoc.id, mutEoc);
+            dm.addSharedRes(mutEoc.id, mutEoc, "common_resource", "field_mut_eoc");
         }
         //创建对应升级菜单路由选项
         const resptext = `${upgObj.field} 当前等级:<npc_val:${upgObj.field}>`;

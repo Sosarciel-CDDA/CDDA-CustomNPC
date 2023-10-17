@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveStaticData = exports.StaticDataMap = void 0;
+const path = require("path");
 exports.StaticDataMap = {};
 /**保存静态数据 */
-async function saveStaticData(filePath, data) {
+async function saveStaticData(data, ...filePaths) {
     //const filePath = path.join(StaticDataPath,name);
     //await UtilFT.writeJSONFile(filePath,data);
     //console.log(filePath+" 写入完成")
-    exports.StaticDataMap[filePath] = data;
+    exports.StaticDataMap[path.join(...filePaths)] = data;
 }
 exports.saveStaticData = saveStaticData;

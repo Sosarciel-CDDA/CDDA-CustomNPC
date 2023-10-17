@@ -12,4 +12,4 @@ export const modinfo = [
 		"dependencies": ["dda","aftershock","magiclysm"]
 	}
 ]
-saveStaticData('modinfo',modinfo);
+saveStaticData(modinfo,'modinfo');

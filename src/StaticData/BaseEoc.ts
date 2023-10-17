@@ -20,4 +20,4 @@ export const InitVar:Eoc={
 
 export const BaseEoc = [InitVar];
 
-saveStaticData("base_eoc",BaseEoc);
+saveStaticData(BaseEoc,'static_resource',"base_eoc");

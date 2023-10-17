@@ -14,4 +14,4 @@ export const EmptyGroup:ItemGroup={
     items:[],
 }
 export const BaseItemGroup = [EmptyGroup];
-saveStaticData("base_item_group",BaseItemGroup);
+saveStaticData(BaseItemGroup,'static_resource',"base_item_group");

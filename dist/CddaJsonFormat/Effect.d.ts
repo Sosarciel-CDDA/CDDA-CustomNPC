@@ -73,7 +73,7 @@ export type Effect = {
     removes_effects?: EffectID[];
     /**获得此效果时以下效果将会被免疫 */
     blocks_effects?: EffectID[];
-    /**效果的持续时间 默认365 d */
+    /**效果的最大持续时间 默认365 d */
     max_duration?: Time;
     /**在已有效果的情况下再次添加效果时
      * 所增加时间的修正值
@@ -86,20 +86,25 @@ export type Effect = {
      * 默认 0
      */
     int_add_val?: number;
-    /**每经过int_decay_tick 的时间后
+    /**强度衰减量
+     * 每经过int_decay_tick 的时间后
      * 效果强度将会调整此数值
      * 默认-1
      */
     int_decay_step?: number;
-    /**效果做出自然增减的间隔 秒
+    /**强度衰减间隔
+     * 效果做出自然增减的间隔 秒
      * 默认0 即不会改变
      */
     int_decay_tick?: number;
-    /**在强度为0是是否移除效果 默认false */
-    int_decay_remove?: false;
-    /**覆盖其他三个强度字段,
-     * 并强制强度为定义为强度=持续时间/“int_dur_factor”向上舍入的数字
-     *  (因此从0到“int_dur_factor”是强度1)。
+    /**强度衰减移除
+     * 在强度衰减为0时移除效果
+     * 默认false */
+    int_decay_remove?: boolean;
+    /**时间强度系数
+     * 覆盖其他三个强度字段,
+     * 并强制强度为定义为 强度=持续时间/int_dur_factor 向上舍入的数字
+     * (因此从0到“int_dur_factor”是强度1)。
      */
     int_dur_factor?: number;
     /**这允许或禁止在“效果”选项卡中给定效果的名称旁边显示强度值。

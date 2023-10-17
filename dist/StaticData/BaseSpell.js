@@ -141,4 +141,4 @@ exports.BaseSpell = [
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
 ];
-(0, StaticData_1.saveStaticData)('base_spell', exports.BaseSpell);
+(0, StaticData_1.saveStaticData)(exports.BaseSpell, 'static_resource', 'base_spell');

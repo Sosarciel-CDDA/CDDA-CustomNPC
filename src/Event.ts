@@ -19,10 +19,12 @@ export type CnpcInteractiveEvent = typeof CnpcInteractiveEventList[number];
 /**任何角色通用的事件列表  
  * u为角色 n不存在
  */
-export const CommonEventTypeList = [ //暂时无效
+export const CommonEventTypeList = [
+    "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
     "TryMeleeHit"           ,//尝试近战攻击
     "TryRangeHit"           ,//尝试远程攻击
     "TryHit"                ,//尝试攻击
+    "TakeDamage"            ,//受到伤害
 ] as const;
 /**任何角色通用的事件类型  
  * u为角色 n不存在
@@ -44,9 +46,6 @@ export const CnpcEventTypeList = [
     "CnpcDeathPrev"             ,//死亡前 回复生命可阻止死亡
     "CnpcDeathAfter"            ,//死亡后
     "CnpcEnterBattle"           ,//进入战斗
-    "CnpcTryMeleeHit"           ,//尝试近战攻击
-    "CnpcTryRangeHit"           ,//尝试远程攻击
-    "CnpcTryHit"                ,//尝试攻击
     ...CommonEventTypeList      ,
     ...CnpcInteractiveEventList ,
 ] as const;

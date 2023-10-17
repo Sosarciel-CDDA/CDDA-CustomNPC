@@ -41,4 +41,4 @@ export const LvlExp:MathFunction={
 }
 
 export const BaseMathFunction = [CalcDamage,DamageMul,Log10,LvlExp];
-saveStaticData("base_math_function",BaseMathFunction);
+saveStaticData(BaseMathFunction,'static_resource',"base_math_function");

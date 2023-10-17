@@ -29,4 +29,4 @@ const Target = {
     }
 };
 exports.BaseMonster = [Target];
-(0, StaticData_1.saveStaticData)("base_monster", exports.BaseMonster);
+(0, StaticData_1.saveStaticData)(exports.BaseMonster, 'static_resource', "base_monster");

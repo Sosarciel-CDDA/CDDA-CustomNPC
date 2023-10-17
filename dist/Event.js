@@ -16,9 +16,11 @@ exports.CnpcInteractiveEventList = [
  * u为角色 n不存在
  */
 exports.CommonEventTypeList = [
-//"TryMeleeHit"           ,//尝试近战攻击
-//"TryRangeHit"           ,//尝试远程攻击
-//"TryHit"                ,//尝试攻击
+    "Update",
+    "TryMeleeHit",
+    "TryRangeHit",
+    "TryHit",
+    "TakeDamage", //受到伤害
 ];
 /**Cnpc角色事件列表
  * u为角色 n不存在
@@ -35,9 +37,6 @@ exports.CnpcEventTypeList = [
     "CnpcDeathPrev",
     "CnpcDeathAfter",
     "CnpcEnterBattle",
-    "CnpcTryMeleeHit",
-    "CnpcTryRangeHit",
-    "CnpcTryHit",
     ...exports.CommonEventTypeList,
     ...exports.CnpcInteractiveEventList,
 ];

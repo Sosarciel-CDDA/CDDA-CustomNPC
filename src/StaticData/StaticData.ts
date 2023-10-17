@@ -1,12 +1,12 @@
 import {JArray, JObject, JToken,UtilFT} from '@zwa73/utils'
-
+import * as path from 'path';
 
 export const StaticDataMap:Record<string,JArray>={};
 /**保存静态数据 */
-export async function saveStaticData(filePath:string,data:JArray){
+export async function saveStaticData(data:JArray,...filePaths:string[]){
     //const filePath = path.join(StaticDataPath,name);
     //await UtilFT.writeJSONFile(filePath,data);
     //console.log(filePath+" 写入完成")
-    StaticDataMap[filePath]=data;
+    StaticDataMap[path.join(...filePaths)]=data;
 }
 

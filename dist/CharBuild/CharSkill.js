@@ -138,7 +138,7 @@ async function createCharSkill(dm, charName) {
                 castCondition,
             }));
         }
-        dm.addSharedRes("common_spell", spell.id, spell);
+        dm.addSharedRes(spell.id, spell, "common_resource", "common_spell");
         //冷却事件
         if (cooldown != null) {
             const CDEoc = (0, ModDefine_1.genActEoc)(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
@@ -256,7 +256,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
         shape, max_level,
         extra_effects: [{ id: spell.id }],
     };
-    dm.addSharedRes("common_spell_assist", selTargetSpell.id, selTargetSpell);
+    dm.addSharedRes(selTargetSpell.id, selTargetSpell, "common_resource", "common_spell_assist");
     //创建施法EOC
     const castEoc = {
         type: "effect_on_condition",
@@ -329,7 +329,7 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist", rspell.id, rspell);
+    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
@@ -370,7 +370,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist", rspell.id, rspell);
+    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //翻转u与n
     const unrbaseCond = utils_1.UtilFunc.deepClone(baseCond);
     if (castCondition.condition)
@@ -454,7 +454,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
     const rspell = revSpell(spell);
     //解析伤害字符串
     const dmgPreEff = fixRevSpellDmg(rspell);
-    dm.addSharedRes("common_spell_assist", rspell.id, rspell);
+    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
