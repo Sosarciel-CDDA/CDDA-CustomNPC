@@ -5,6 +5,7 @@ const DataManager_1 = require("./DataManager");
 const utils_1 = require("@zwa73/utils");
 const CharBuild_1 = require("./CharBuild");
 const CommonBuild_1 = require("./CommonBuild");
+const TriggerEffect_1 = require("./CommonBuild/TriggerEffect");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
     await (0, CharBuild_1.mergeImage)(dm, charName, false);
@@ -20,6 +21,7 @@ exports.buildChar = buildChar;
 async function main() {
     const dm = await DataManager_1.DataManager.create();
     await (0, CommonBuild_1.createTest)(dm);
+    await (0, TriggerEffect_1.createTriggerEffect)(dm);
     const plist = [];
     for (let charName of dm.charList)
         plist.push(buildChar(dm, charName));

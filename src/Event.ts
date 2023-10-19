@@ -25,6 +25,8 @@ export const CommonEventTypeList = [
     "TryRangeHit"           ,//尝试远程攻击
     "TryHit"                ,//尝试攻击
     "TakeDamage"            ,//受到伤害
+    "CauseMeleeHit"         ,//近战攻击命中
+    "MissMeleeHit"          ,//近战攻击未命中
 ] as const;
 /**任何角色通用的事件类型  
  * u为角色 n不存在

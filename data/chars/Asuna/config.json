@@ -75,10 +75,10 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseRangeHit"
 			},
-			"cooldown":30,
+			"cooldown":60,
 			"audio":[
 				{"id":"EvaporateFuture","cooldown": 180},
-				"EvaporateFutureSF","Hit"
+				"EvaporateFutureSF","BaseAudio:BashHit"
 			],
 			"spell": {
 				"id":"EvaporateFuture",
@@ -96,7 +96,7 @@
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},
-			"effect":[
+			"after_effect":[
 				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_EvaporateFuture_cooldown"]}
 			],
 			"weight": 2,
@@ -130,10 +130,10 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseMeleeHit"
 			},
-			"cooldown":30,
+			"cooldown":60,
 			"audio":[
 				{"id":"BladeStrike","cooldown": 180},
-				"BladeStrikeSF","Hit"
+				"BladeStrikeSF","BaseAudio:BashHit"
 			],
 			"spell": {
 				"id":"BladeStrike",
@@ -158,10 +158,10 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseMeleeHit"
 			},
-			"cooldown":10,
+			"cooldown":15,
 			"audio":[
 				{"id":"BladeofTrauma","cooldown": 180},
-				"BladeofTraumaSF","Hit"
+				"BladeofTraumaSF","BaseAudio:BashHit"
 			],
 			"spell": {
 				"id":"BladeofTrauma",

@@ -5,12 +5,15 @@ import { MutationID } from "./Mutation";
 import { EffectID } from "./Effect";
 import { BoolObj, NumObj } from "./Eoc";
 
-/**附魔ID  
- */
+/**附魔ID */
 export type EnchantmentID = CddaID<"ENCH">;
 /**附魔 */
 export type Enchantment = {
 	type: "enchantment";
+    /**附魔的说明 */
+    description?:string;
+    /**附魔的名称 */
+    name?:string;
 	id: EnchantmentID;
     /**物品在什么位置时启用 */
 	has?: EnchConHas;

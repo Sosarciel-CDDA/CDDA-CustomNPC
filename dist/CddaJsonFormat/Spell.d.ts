@@ -132,7 +132,7 @@ export declare const SpellTargetList: readonly ["hostile", "ground", "self", "al
 /**法术有效目标 */
 export type SpellTarget = typeof SpellTargetList[number];
 /**法术效果 列表 */
-export declare const SpellEffectList: readonly ["area_pull", "area_push", "attack", "banishment", "bash", "charm_monster", "dash", "directed_push", "effect_on_condition", "emit", "explosion", "flashbang", "fungalize", "guilt", "map", "mod_moves", "morale", "mutate", "noise", "pain_split", "pull_target", "recover_energy", "remove_effect", "remove_field", "revive", "short_range_telepor", "slime_split", "spawn_item", "summon", "summon_vehicle", "targeted_polymorph", "ter_transform", "timed_event", "translocate", "upgrade", "vomit"];
+export declare const SpellEffectList: readonly ["area_pull", "area_push", "attack", "banishment", "bash", "charm_monster", "dash", "directed_push", "effect_on_condition", "emit", "explosion", "flashbang", "fungalize", "guilt", "map", "mod_moves", "morale", "mutate", "noise", "pain_split", "pull_target", "recover_energy", "remove_effect", "remove_field", "revive", "short_range_teleport", "slime_split", "spawn_item", "summon", "summon_vehicle", "targeted_polymorph", "ter_transform", "timed_event", "translocate", "upgrade", "vomit"];
 /**法术效果 */
 export type SpellEffect = typeof SpellEffectList[number];
 /**法术范围形状 列表*/

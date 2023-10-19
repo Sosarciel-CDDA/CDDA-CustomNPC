@@ -1,11 +1,9 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
-import { genActEoc, genEOCID, genSpellID } from "../ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj} from "CddaJsonFormat";
+import { genActEoc, genEOCID, genSpellID } from "ModDefine";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
-import { CON_SPELL_FLAG } from "../StaticData";
-import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "../Event";
-import { WeaponCategoryID } from "@src/CddaJsonFormat/WeaponCategory";
-import { TARGET_MON_ID } from "@src/StaticData/BaseMonster";
+import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
+import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "Event";
 
 
 /**技能选择目标类型 列表 */
@@ -62,13 +60,17 @@ export type CharSkill = {
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?:[string,number]|string;
     /**释放成功后运行的效果 */
-    effect?:EocEffect[];
+    after_effect?:EocEffect[];
+    /**尝试释放时就运行的效果 */
+    before_effect?:EocEffect[];
     /**需求的武器flag  
      * 在角色配置中定义的 武器 会自动生成并添加同ID Flag  
      */
     require_weapon_flag?:FlagID[];
     /**需求的武器分类 */
     require_weapon_category?:WeaponCategoryID[];
+    /**需求无武器/完全徒手 */
+    require_unarmed?:boolean;
 };
 
 /**技能的释放条件 */
@@ -95,7 +97,7 @@ export type CastCondition={
      *  
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  
      *   
-     * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 适用于队友buff;  
+     * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  
      *  
      * 默认为auto  
      * 若允许多个CastCondition 请指定具体type  
@@ -114,6 +116,18 @@ export function getGlobalDisableSpellVar(charName:string,spell:Spell){
 /**使某个技能停止使用的变量 */
 export function getDisableSpellVar(talker:"u"|"n",spell:Spell){
     return `${talker}_${spell.id}_disable`;
+}
+/**解析音频id */
+function parseAudioString(charName:string,str:string,volume:number=100){
+    let soundName = charName;
+    let varName = str;
+    if(str.includes(":")){
+        const match = str.match(/.+:.+/);
+        if(match==null) throw `parseAudioString 解析错误 字符串:${str}`;
+        soundName = match[1];
+        varName = match[2];
+    }
+    return {sound_effect:varName,id:soundName,volume};
 }
 
 //法术消耗变量类型映射
@@ -145,7 +159,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
 
-        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,effect,require_weapon_flag,require_weapon_category} = skill;
+        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,after_effect,before_effect,require_weapon_flag,require_weapon_category,require_unarmed} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
@@ -170,7 +184,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         if(audio){
             TEffect.push(...audio.map(audioObj=>{
                 if(typeof audioObj == "string")
-                    return ({sound_effect:audioObj,id:charName,volume:100});
+                    return parseAudioString(charName,audioObj);
                 //冷却变量ID
                 const cdid = `${audioObj.id}_cooldown`;
                 if(audioObj.cooldown){
@@ -192,7 +206,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                             {math:[cdid,"<=","0"]}
                         ]},
                         effect:[
-                            {sound_effect:audioObj.id,id:charName,volume:audioObj.volume??100},
+                            parseAudioString(charName,audioObj.id,audioObj.volume),
                             {math:[cdid,"=",(audioObj.cooldown??0)+""]}
                         ],
                     }
@@ -200,8 +214,13 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 return effect;
             }));
         }
-        if(effect)
-            TEffect.push(...effect);
+        if(after_effect)
+            TEffect.push(...after_effect);
+
+        //计算准备效果
+        const PreEffect:EocEffect[] = [];
+        if(before_effect)
+            PreEffect.push(...before_effect)
 
         //遍历释放条件
         const ccs = Array.isArray(cast_condition)
@@ -224,6 +243,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     ? [require_field,1] as const : require_field;
                 baseCond.push({math:[`u_${fdarr[0]}`,">=",fdarr[1]+""]});
             }
+            //对所有武器要求进行 或 处理
             const requireWeaponCond:BoolObj[] = [];
             if(require_weapon_flag)
                 requireWeaponCond.push(...require_weapon_flag.map(id=>
@@ -231,6 +251,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
             if(require_weapon_category)
                 requireWeaponCond.push(...require_weapon_category.map(id=>
                     ({u_has_wielded_with_flag:id})));
+            if(require_weapon_category)
+                requireWeaponCond.push({not:"u_has_weapon"});
             if(requireWeaponCond.length>0)
                 baseCond.push({or:requireWeaponCond})
 
@@ -238,6 +260,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             skillDataList.push(...ProcMap[target??"auto"](dm,charName,{
                 skill,
                 TEffect,
+                PreEffect,
                 baseCond,
                 castCondition,
             }));
@@ -275,6 +298,8 @@ type BaseSkillCastData=Readonly<{
     baseCond:BoolObj[];
     /**基础成功eoc效果 */
     TEffect:EocEffect[];
+    /**基础准备释放Eoc */
+    PreEffect:EocEffect[];
     /**释放条件 */
     castCondition: CastCondition;
 }>
@@ -294,6 +319,11 @@ function revTalker(obj:JToken):any{
 
     str = str.replace(/tmpnpctmp_/g, 'npc_');
     str = str.replace(/tmpntmp_/g, 'n_');
+
+    //修正无参条件
+    const npcond = NoParamTalkerCondList.join('|');
+    const regex = new RegExp(`"n_(${npcond})"`,'g');
+    str = str.replace(regex,`"npc_$1"`);
     return JSON.parse(str);
 }
 /**翻转法术 */
@@ -329,12 +359,12 @@ function fixRevSpellDmg(spell:Spell):EocEffect[]{
     const dmgvar = `${spell.id}_reverse_dmg`;
     if(spell.min_damage){
         spell.min_damage = {math:[dmgvar]};
-        spell.max_damage = 999999;
+        spell.max_damage = SPELL_MAX_DAMAGE;
     }
     const dotvar = `${spell.id}_reverse_dot`;
     if(spell.min_dot){
         spell.min_dot = {math:[dotvar]};
-        spell.max_dot = 999999;
+        spell.max_dot = SPELL_MAX_DAMAGE;
     }
     const durvar = `${spell.id}_reverse_dur`;
     if(spell.min_duration){
@@ -358,7 +388,7 @@ function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
 
 
 function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
@@ -392,6 +422,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         id:genCastEocID(charName,spell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
+            ...PreEffect,
             {
                 u_cast_spell:{
                     id:selTargetSpell.id,
@@ -417,7 +448,7 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
 }
 
 function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
@@ -429,6 +460,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
         id:genCastEocID(charName,spell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
+            ...PreEffect,
             {
                 u_cast_spell:{
                     id:spell.id,
@@ -456,7 +488,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
 
 
 function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    let {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    let {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
@@ -471,6 +503,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
+    PreEffect = revTalker(PreEffect);
 
     //创建翻转的施法EOC
     const castEoc:Eoc={
@@ -478,6 +511,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
         id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
+            ...PreEffect,
             ...dmgPreEff,//预先计算伤害
             {
                 u_cast_spell:{
@@ -504,7 +538,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
 }
 
 function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    let {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    let {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     const ccuid = castCondUid(castCondition);
@@ -520,6 +554,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     if(castCondition.condition) baseCond.push(castCondition.condition);
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
+    PreEffect = revTalker(PreEffect);
 
     //命中id
     const fhitvar = `${rspell.id}_hasTarget`;
@@ -530,6 +565,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
         id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
+            ...PreEffect,
             ...dmgPreEff,//预先计算伤害
             {
                 u_cast_spell:{
@@ -596,7 +632,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
 }
 
 function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
@@ -615,6 +651,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
         id:genCastEocID(charName,rspell,ccuid),
         eoc_type:"ACTIVATION",
         effect:[
+            ...PreEffect,
             ...dmgPreEff,//预先计算伤害
             {
                 npc_cast_spell:{

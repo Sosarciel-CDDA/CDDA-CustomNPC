@@ -3,6 +3,7 @@ import { CddaID } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutation";
 import { SkillID } from "./Skill";
+import { SpellID } from "./Spell";
 /**NpcClass ID格式
  */
 export type NpcClassID = CddaID<"NPCCLS">;
@@ -50,6 +51,16 @@ export type NpcClass = {
     restock_interval?: `${string} days`;
     /**基础变异 */
     traits?: Traits;
+    /**基础法术 */
+    spells?: Spells;
+    /**变异方向
+     * Mutation rounds can be specified as follows:
+     * "mutation_rounds": {
+     *   "ANY" : { "constant": 1 },
+     *   "INSECT" : { "rng": [1, 3] }
+     * }
+     */
+    mutation_rounds?: MutationRounds;
 };
 type ShopItemGroup = [
     {
@@ -86,10 +97,15 @@ type ShopPriceRules = [
     }
 ];
 type Traits = ({
-    "group": string;
+    group: string;
 } | {
-    "trait": MutationID;
-})[];
+    trait: MutationID;
+} | [MutationID, number])[];
+type Spells = {
+    id: SpellID;
+    level: number;
+}[];
+type MutationRounds = Partial<Record<"ANY", NpcNumObj>>;
 /**npc职业的基础技能 */
 export type NPCClassBaseSkill = {
     /**目标技能 ALL为全部 */

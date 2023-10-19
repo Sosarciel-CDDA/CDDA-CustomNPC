@@ -36,7 +36,7 @@ exports.SpellEffectList = [
     "remove_effect",
     "remove_field",
     "revive",
-    "short_range_telepor",
+    "short_range_teleport",
     "slime_split",
     "spawn_item",
     "summon",
@@ -46,7 +46,7 @@ exports.SpellEffectList = [
     "timed_event",
     "translocate",
     "upgrade",
-    "vomit", //任何处于其范围内的生物都会立即呕吐, 如果它能够这样做的话。
+    "vomit", // 其aoe内的任何生物都会立即呕吐，如果它能够这样做。
 ];
 /**法术范围形状 列表*/
 exports.SpellShapeList = [

@@ -35,6 +35,20 @@ export const StatMod:Enchantment={
         multiply:{math:["(DamageMul(u_val('dexterity'))-1)/2"]}
     }]
 }
+/**无痛附魔 */
+export const NO_PAIN_ENCHID = genEnchantmentID("NoPain");
+export const NoPain:Enchantment={
+    id:NO_PAIN_ENCHID,
+    type:"enchantment",
+    condition:"ALWAYS",
+    values:[{
+        value:"PAIN",
+        multiply:-1
+    },{
+        value:"PAIN_REMOVE",
+        add:1000
+    }]
+}
 
 export const BaseEnch = [StatusVarMap,StatMod];
 

@@ -18,6 +18,8 @@ class DataManager {
     charPath;
     /**角色列表 */
     charList;
+    /**虚拟角色列表 */
+    virtualCharList;
     /**build设置 */
     buildSetting = null;
     /**游戏数据 */
@@ -42,6 +44,7 @@ class DataManager {
         this.dataPath = dataPath || this.dataPath;
         this.charPath = path.join(this.dataPath, 'chars');
         //创建角色列表
+        this.virtualCharList = [];
         this.charList = fs.readdirSync(this.charPath).filter(fileName => {
             const filePath = this.getCharPath(fileName);
             if (!fs.statSync(filePath).isDirectory())
@@ -49,8 +52,10 @@ class DataManager {
             const configFile = path.join(filePath, "config.json");
             if (!utils_1.UtilFT.pathExistsSync(configFile))
                 return false;
-            if (utils_1.UtilFT.loadJSONFileSync(configFile).virtual === true)
+            if (utils_1.UtilFT.loadJSONFileSync(configFile).virtual === true) {
+                this.virtualCharList.push(fileName);
                 return false;
+            }
             return true;
         });
     }
@@ -168,12 +173,14 @@ class DataManager {
         const soundPath = path.join(bs.game_path, 'data', 'sound', bs.target_soundpack, 'cnpc');
         await fs.promises.rm(soundPath, { recursive: true, force: true });
         //遍历角色
-        for (const charName of dm.charList) {
+        const allchar = [...dm.charList, ...dm.virtualCharList];
+        for (const charName of allchar) {
             //确认角色输出文件夹
             const charOutAudioFolder = path.join(soundPath, charName);
             await utils_1.UtilFT.ensurePathExists(charOutAudioFolder, true);
             //遍历并找出所有音效文件夹
             const charAudioFolderPath = path.join(dm.getCharPath(charName), 'audio');
+            await utils_1.UtilFT.ensurePathExists(charAudioFolderPath, true);
             const charAudioList = (await fs.promises.readdir(charAudioFolderPath))
                 .filter(fileName => fs.statSync(path.join(charAudioFolderPath, fileName)).isDirectory());
             //复制音效文件夹到输出
@@ -303,8 +310,8 @@ class DataManager {
         }
     }
     /**添加静态资源 */
-    addStaticData(arr, ...filePaths) {
-        this.dataTable.staticTable[path.join(...filePaths)] = arr;
+    addStaticData(arr, filePath, ...filePaths) {
+        this.dataTable.staticTable[path.join(filePath, ...filePaths)] = arr;
     }
     //———————————————————— 输出 ————————————————————//
     /**输出数据到角色目录 */

@@ -456,15 +456,19 @@ async function createWeaponResp(dm:DataManager,charName:string){
             weaponData.push(giveWeapon)
 
             /**如果禁用则删除 */
+            const rmweocid = genEOCID(`${charName}_RemoveWeapon_${item.id}`);
             const removeWeapon:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
-                id:genEOCID(`${charName}_RemoveWeapon_${item.id}`),
+                id:rmweocid,
                 condition:{and:[
                     { u_has_item: item.id },
                     {math:[udisable,"==","1"]}
                 ]},
-                effect:[{u_consume_item:item.id,count:1}]
+                effect:[
+                    {u_consume_item:item.id,count:1},
+                    {run_eocs:rmweocid}
+                ]
             }
             dm.addCharEvent(charName,"CnpcUpdateSlow",0,removeWeapon);
             weaponData.push(removeWeapon)

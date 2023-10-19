@@ -93,6 +93,8 @@ export class DataManager{
     charPath:string;
     /**角色列表 */
     charList:string[];
+    /**虚拟角色列表 */
+    virtualCharList:string[];
     /**build设置 */
     buildSetting:BuildSetting = null as any;
     /**游戏数据 */
@@ -125,12 +127,16 @@ export class DataManager{
         this.charPath = path.join(this.dataPath,'chars');
 
         //创建角色列表
+        this.virtualCharList = [];
         this.charList = fs.readdirSync(this.charPath).filter(fileName=>{
             const filePath = this.getCharPath(fileName);
             if(!fs.statSync(filePath).isDirectory()) return false;
             const configFile = path.join(filePath,"config.json");
             if(!UtilFT.pathExistsSync(configFile)) return false;
-            if(UtilFT.loadJSONFileSync(configFile).virtual === true) return false;
+            if(UtilFT.loadJSONFileSync(configFile).virtual === true){
+                this.virtualCharList.push(fileName);
+                return false;
+            }
             return true;
         });
     }
@@ -249,13 +255,15 @@ export class DataManager{
         await fs.promises.rm(soundPath, { recursive: true, force: true });
 
         //遍历角色
-        for(const charName of dm.charList){
+        const allchar = [...dm.charList,...dm.virtualCharList];
+        for(const charName of allchar){
             //确认角色输出文件夹
             const charOutAudioFolder = path.join(soundPath,charName);
             await UtilFT.ensurePathExists(charOutAudioFolder,true);
 
             //遍历并找出所有音效文件夹
             const charAudioFolderPath = path.join(dm.getCharPath(charName),'audio');
+            await UtilFT.ensurePathExists(charAudioFolderPath,true);
             const charAudioList = (await fs.promises.readdir(charAudioFolderPath))
                 .filter(fileName=> fs.statSync(path.join(charAudioFolderPath,fileName)).isDirectory());
 
@@ -405,8 +413,8 @@ export class DataManager{
         }
     }
     /**添加静态资源 */
-    addStaticData(arr:JObject[],...filePaths:string[]){
-        this.dataTable.staticTable[path.join(...filePaths)] = arr;
+    addStaticData(arr:JObject[],filePath:string,...filePaths:string[]){
+        this.dataTable.staticTable[path.join(filePath,...filePaths)] = arr;
     }
 
 

@@ -2,9 +2,10 @@ import { MutationID } from "../Mutation";
 import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";
-import { BodyPartID } from "../GenericDefine";
+import { BodyPartID, Time } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
 import { WeaponCategoryID } from "../WeaponCategory";
+import { VarComment } from "./EocEffect";
 /**数字对象 */
 export type NumObj = NumOperateList[number];
 /**Eoc数字对象操作符 */
@@ -45,6 +46,8 @@ export type NumOperaMul = {
 export type NumMathExp = {
     math: [string];
 };
+/**比较运算符 */
+type CompareOpera = "==" | "!=" | ">=" | "<=" | ">" | "<";
 /**Eoc条件对象 */
 export type BoolObj = BoolOperateList[number];
 /**Eoc条件对象操作符 */
@@ -54,7 +57,7 @@ export type BoolOperateList = [
     BoolOperaAnd,
     BoolOperaCompStr,
     {
-        math: [string, "==" | "!=" | ">=" | "<=" | ">" | "<", string];
+        math: [string, CompareOpera, string];
     },
     HasWieldFlag,
     HasWieldWeaponCategoty,
@@ -63,20 +66,21 @@ export type BoolOperateList = [
     HasTrait,
     HasEffect,
     OneInChance,
-    NoParamCond
+    NoParamCond,
+    CompareTime,
+    HasStrVar,
+    HasTimeVar
 ];
 /**无参条件 */
 export type NoParamCond = [
-    "u_female",
-    "u_male",
-    "npc_female",
-    "npc_male",
-    "u_can_drop_weapon",
-    "u_is_alive",
-    "npc_is_alive"
+    NoParamTalkerCond
 ][number];
+/**双Talker无参条件列表 */
+export declare const NoParamTalkerCondList: readonly ["female", "male", "can_drop_weapon", "is_alive", "has_weapon"];
+/**双Talker无参条件 */
+export type NoParamTalkerCond = `${`u_` | `npc_`}${typeof NoParamTalkerCondList[number]}`;
 /**有某个效果 */
-export type HasEffect = TalkerVar<{
+type HasEffect = TalkerVar<{
     /**有某个效果
      * 武术static_buffs可以通过形式来检查mabuff:buff_id
      */
@@ -86,13 +90,27 @@ export type HasEffect = TalkerVar<{
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
 }, "has_effect">;
+/**有某个文本变量 */
+type HasStrVar = TalkerVar<{
+    /**有某个文本变量 */
+    has_var: string;
+    /**要求的内容 */
+    value: StrObj;
+}, "has_var"> & VarComment;
+/**有某个时间变量 */
+type HasTimeVar = TalkerVar<{
+    /**有某个时间变量 */
+    has_var: string;
+    /**表示是时间变量 */
+    time: true;
+}, "has_var"> & VarComment;
 /**携带/穿戴/持握/背包里有某个物品 */
-export type HasItem = TalkerVar<{
+type HasItem = TalkerVar<{
     /**携带/穿戴/持握/背包里有某个物品 */
     has_item: AnyItemID | StrObj;
 }, "has_item">;
 /**包里有N个某物品 */
-export type HasItems = TalkerVar<{
+type HasItems = TalkerVar<{
     /**包里有N个某物品 */
     has_items: {
         /**目标物品 */
@@ -102,35 +120,55 @@ export type HasItems = TalkerVar<{
     };
 }, "has_items">;
 /**有某个变异 */
-export type HasTrait = TalkerVar<{
+type HasTrait = TalkerVar<{
     /**有某个变异 */
     has_trait: MutationID | StrObj;
 }, "has_trait">;
 /**手中的物品有某个flag */
-export type HasWieldFlag = TalkerVar<{
+type HasWieldFlag = TalkerVar<{
     /**手中的物品有某个flag */
     has_wielded_with_flag: FlagID | StrObj;
 }, "has_wielded_with_flag">;
 /**手中的物品有某个武器分类 */
-export type HasWieldWeaponCategoty = TalkerVar<{
+type HasWieldWeaponCategoty = TalkerVar<{
     /**手中的物品有某个武器分类 */
     has_wielded_with_weapon_category: WeaponCategoryID | StrObj;
 }, "has_wielded_with_weapon_category">;
 /**1/n的概率返回true */
-export type OneInChance = {
+type OneInChance = {
     /**1/n的概率返回true */
     one_in_chance: NumObj;
 };
+/**获取 时间变量自创建以来经过的时间 并比较 */
+type CompareTime = TalkerVar<{
+    compare_time_since_var: string;
+    /**变量的 type 注释 */
+    type?: string;
+    /**变量的 context 注释 */
+    context?: string;
+    /**操作符 */
+    op: CompareOpera;
+    /**比较的时间 */
+    time: Time;
+}, "compare_time_since_var">;
+/**非操作 */
 export type BoolOperaNot = {
+    /**非操作 */
     not: BoolObj;
 };
+/**或操作 */
 export type BoolOperaOr = {
+    /**或操作 */
     or: BoolObj[];
 };
+/**与操作 */
 export type BoolOperaAnd = {
+    /**与操作 */
     and: BoolObj[];
 };
+/**比较字符串是否相等 */
 export type BoolOperaCompStr = {
+    /**比较字符串是否相等 */
     compare_string: [AnyObj, AnyObj];
 };
 /**Eoc字符串对象 */
@@ -171,3 +209,4 @@ export type GenericObjOperateList = [
 export type GenericObj = GenericObjOperateList[number];
 /**位置Obj */
 export type LocObj = GenericObj;
+export {};

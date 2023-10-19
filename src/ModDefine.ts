@@ -1,7 +1,8 @@
-import { AmmunitionTypeID, BoolObj, Eoc, EocEffect, EocEffectList, SpellID } from "CddaJsonFormat";
-import { EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID } from "CddaJsonFormat";
-import { EffectID } from "./CddaJsonFormat/Effect";
-import { TalkTopicID } from "./CddaJsonFormat/TalkTopic";
+import {
+    AmmunitionTypeID, BoolObj, Eoc, EocEffect, EocEffectList, SpellID,
+    EffectID, TalkTopicID, EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,
+    ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID
+} from "CddaJsonFormat";
 
 
 /**mod物品前缀 */

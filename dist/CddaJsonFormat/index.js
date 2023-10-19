@@ -34,3 +34,4 @@ __exportStar(require("./MathFuncion"), exports);
 __exportStar(require("./Skill"), exports);
 __exportStar(require("./WeaponCategory"), exports);
 __exportStar(require("./TalkTopic"), exports);
+__exportStar(require("./Effect"), exports);

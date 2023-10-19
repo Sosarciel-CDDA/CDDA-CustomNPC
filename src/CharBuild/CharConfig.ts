@@ -24,6 +24,8 @@ export type CharConfig = {
     base_status?:Record<StatusSimple,number>;
     /**基础技能 */
     base_skill?:Partial<Record<SkillID|"ALL",number>>;
+    /**基础变异 */
+    base_mutation?:MutationID[];
     /**附魔属性 */
     ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
     /**固定的武器  
@@ -192,6 +194,7 @@ function extendCharConfig(target:JObject,...sources:JObject[]):JObject{
     let out:JObject = {};
     for(const obj of sources){
         for(const key in obj){
+            if(key=="extends") continue;
             const value = obj[key];
             if(Array.isArray(value)){
                 out[key] = out[key]==null

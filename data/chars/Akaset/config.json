@@ -31,7 +31,31 @@
 			"heat_per_shot": 0
 		}
 	}],
-	"skill": [],
+	"skill": [
+		{
+			"cast_condition":{
+				"hook": "CnpcBattleUpdate"
+			},
+			"audio":[
+				{"id":"FrostShield","cooldown": 180},
+				"FrostShieldSF"
+			],
+			"cooldown":60,
+			"name": "霜盾",
+			"spell": {
+				"id":"FrostShield",
+				"type": "SPELL",
+				"name": "霜盾",
+				"description": "为周围友军添加霜盾效果",
+				"valid_targets": ["ally"],
+				"shape": "blast",
+				"min_aoe": {"math": ["BATTLE_RANGE"]},
+				"effect": "effect_on_condition",
+				"effect_str": "FrostShield_AddEffect"
+			},
+			"before_effect": [{"math": ["FrostShield_count","=","2"]}]
+		}
+	],
 	"desc": {
 		"age": 130,
 		"gender": "female",

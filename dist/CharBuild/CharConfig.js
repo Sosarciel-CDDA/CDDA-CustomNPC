@@ -69,6 +69,8 @@ function extendCharConfig(target, ...sources) {
     let out = {};
     for (const obj of sources) {
         for (const key in obj) {
+            if (key == "extends")
+                continue;
             const value = obj[key];
             if (Array.isArray(value)) {
                 out[key] = out[key] == null

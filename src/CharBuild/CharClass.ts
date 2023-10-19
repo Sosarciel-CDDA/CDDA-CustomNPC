@@ -35,6 +35,8 @@ export async function createCharClass(dm:DataManager,charName:string){
         traits:[
             { "trait": genMutationID("CnpcFlag") },
             { "trait": defineData.baseMutID },
+            ...(charConfig.base_mutation??[])
+                .map(mut=>({trait:mut})),
             ...(defineData.vaildAnim.length>=1
             ? [{ "trait": defineData.animData.Idle.mutID },{"trait":"TOUGH_FEET" as MutationID}]
             : [{ "trait": genMutationID("NoAnim") }])]
@@ -128,7 +130,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         eoc_type:"ACTIVATION",
         id:genEOCID(`${charName}_RemoveProcess`),
         effect:[
-            {run_eocs:"CNPC_EOC_DeathProcess"}
+            {run_eocs:"CNPC_EOC_CnpcDeathProcess"}
         ],
         condition:{math:["u_uid","!=",`${charName}_uid`]}
     }

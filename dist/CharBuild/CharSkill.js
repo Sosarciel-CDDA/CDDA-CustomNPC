@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
 const utils_1 = require("@zwa73/utils");
 const ModDefine_1 = require("../ModDefine");
+const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const StaticData_1 = require("../StaticData");
 const Event_1 = require("../Event");
-const BaseMonster_1 = require("../StaticData/BaseMonster");
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
     "auto",
@@ -28,6 +28,19 @@ function getDisableSpellVar(talker, spell) {
     return `${talker}_${spell.id}_disable`;
 }
 exports.getDisableSpellVar = getDisableSpellVar;
+/**解析音频id */
+function parseAudioString(charName, str, volume = 100) {
+    let soundName = charName;
+    let varName = str;
+    if (str.includes(":")) {
+        const match = str.match(/.+:.+/);
+        if (match == null)
+            throw `parseAudioString 解析错误 字符串:${str}`;
+        soundName = match[1];
+        varName = match[2];
+    }
+    return { sound_effect: varName, id: soundName, volume };
+}
 //法术消耗变量类型映射
 const costMap = {
     "BIONIC": "u_val('power')",
@@ -50,7 +63,7 @@ async function createCharSkill(dm, charName) {
         //替换变量字段
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
-        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field, effect, require_weapon_flag, require_weapon_category } = skill;
+        const { cast_condition, spell, cooldown, common_cooldown, audio, require_field, after_effect, before_effect, require_weapon_flag, require_weapon_category, require_unarmed } = skill;
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
@@ -71,7 +84,7 @@ async function createCharSkill(dm, charName) {
         if (audio) {
             TEffect.push(...audio.map(audioObj => {
                 if (typeof audioObj == "string")
-                    return ({ sound_effect: audioObj, id: charName, volume: 100 });
+                    return parseAudioString(charName, audioObj);
                 //冷却变量ID
                 const cdid = `${audioObj.id}_cooldown`;
                 if (audioObj.cooldown) {
@@ -93,7 +106,7 @@ async function createCharSkill(dm, charName) {
                                 { math: [cdid, "<=", "0"] }
                             ] },
                         effect: [
-                            { sound_effect: audioObj.id, id: charName, volume: audioObj.volume ?? 100 },
+                            parseAudioString(charName, audioObj.id, audioObj.volume),
                             { math: [cdid, "=", (audioObj.cooldown ?? 0) + ""] }
                         ],
                     }
@@ -101,8 +114,12 @@ async function createCharSkill(dm, charName) {
                 return effect;
             }));
         }
-        if (effect)
-            TEffect.push(...effect);
+        if (after_effect)
+            TEffect.push(...after_effect);
+        //计算准备效果
+        const PreEffect = [];
+        if (before_effect)
+            PreEffect.push(...before_effect);
         //遍历释放条件
         const ccs = Array.isArray(cast_condition)
             ? cast_condition
@@ -123,17 +140,21 @@ async function createCharSkill(dm, charName) {
                     ? [require_field, 1] : require_field;
                 baseCond.push({ math: [`u_${fdarr[0]}`, ">=", fdarr[1] + ""] });
             }
+            //对所有武器要求进行 或 处理
             const requireWeaponCond = [];
             if (require_weapon_flag)
                 requireWeaponCond.push(...require_weapon_flag.map(id => ({ u_has_wielded_with_flag: id })));
             if (require_weapon_category)
                 requireWeaponCond.push(...require_weapon_category.map(id => ({ u_has_wielded_with_flag: id })));
+            if (require_weapon_category)
+                requireWeaponCond.push({ not: "u_has_weapon" });
             if (requireWeaponCond.length > 0)
                 baseCond.push({ or: requireWeaponCond });
             //处理并加入输出
             skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, {
                 skill,
                 TEffect,
+                PreEffect,
                 baseCond,
                 castCondition,
             }));
@@ -172,6 +193,10 @@ function revTalker(obj) {
     str = str.replace(/(?<!\w)n_/g, 'u_');
     str = str.replace(/tmpnpctmp_/g, 'npc_');
     str = str.replace(/tmpntmp_/g, 'n_');
+    //修正无参条件
+    const npcond = CddaJsonFormat_1.NoParamTalkerCondList.join('|');
+    const regex = new RegExp(`"n_(${npcond})"`, 'g');
+    str = str.replace(regex, `"npc_$1"`);
     return JSON.parse(str);
 }
 /**翻转法术 */
@@ -207,12 +232,12 @@ function fixRevSpellDmg(spell) {
     const dmgvar = `${spell.id}_reverse_dmg`;
     if (spell.min_damage) {
         spell.min_damage = { math: [dmgvar] };
-        spell.max_damage = 999999;
+        spell.max_damage = StaticData_1.SPELL_MAX_DAMAGE;
     }
     const dotvar = `${spell.id}_reverse_dot`;
     if (spell.min_dot) {
         spell.min_dot = { math: [dotvar] };
-        spell.max_dot = 999999;
+        spell.max_dot = StaticData_1.SPELL_MAX_DAMAGE;
     }
     const durvar = `${spell.id}_reverse_dur`;
     if (spell.min_duration) {
@@ -232,7 +257,7 @@ function genTrueEocID(charName, spell, ccuid) {
     return (0, ModDefine_1.genEOCID)(`${charName}_${spell.id}TrueEoc_${ccuid}`);
 }
 function spell_targetProc(dm, charName, baseSkillData) {
-    const { skill, baseCond, TEffect, castCondition } = baseSkillData;
+    const { skill, baseCond, TEffect, castCondition, PreEffect } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     if (castCondition.condition)
@@ -250,7 +275,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
         min_damage: 1,
         max_damage: 1,
         valid_targets: ["hostile"],
-        targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
+        targeted_monster_ids: [StaticData_1.TARGET_MON_ID],
         min_aoe, max_aoe, aoe_increment,
         min_range, max_range, range_increment,
         shape, max_level,
@@ -263,6 +288,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
         id: genCastEocID(charName, spell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
+            ...PreEffect,
             {
                 u_cast_spell: {
                     id: selTargetSpell.id,
@@ -285,7 +311,7 @@ function spell_targetProc(dm, charName, baseSkillData) {
     return [castEoc];
 }
 function randomProc(dm, charName, baseSkillData) {
-    const { skill, baseCond, TEffect, castCondition } = baseSkillData;
+    const { skill, baseCond, TEffect, castCondition, PreEffect } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     if (castCondition.condition)
@@ -297,6 +323,7 @@ function randomProc(dm, charName, baseSkillData) {
         id: genCastEocID(charName, spell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
+            ...PreEffect,
             {
                 u_cast_spell: {
                     id: spell.id,
@@ -319,7 +346,7 @@ function randomProc(dm, charName, baseSkillData) {
     return [castEoc];
 }
 function reverse_hitProc(dm, charName, baseSkillData) {
-    let { skill, baseCond, TEffect, castCondition } = baseSkillData;
+    let { skill, baseCond, TEffect, castCondition, PreEffect } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     if (castCondition.condition)
@@ -333,12 +360,14 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
+    PreEffect = revTalker(PreEffect);
     //创建翻转的施法EOC
     const castEoc = {
         type: "effect_on_condition",
         id: genCastEocID(charName, rspell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
+            ...PreEffect,
             ...dmgPreEff,
             {
                 u_cast_spell: {
@@ -362,7 +391,7 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     return [castEoc];
 }
 function filter_randomProc(dm, charName, baseSkillData) {
-    let { skill, baseCond, TEffect, castCondition } = baseSkillData;
+    let { skill, baseCond, TEffect, castCondition, PreEffect } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     const ccuid = castCondUid(castCondition);
@@ -377,6 +406,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
         baseCond.push(castCondition.condition);
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
+    PreEffect = revTalker(PreEffect);
     //命中id
     const fhitvar = `${rspell.id}_hasTarget`;
     //创建翻转的施法EOC
@@ -385,6 +415,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
         id: genCastEocID(charName, rspell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
+            ...PreEffect,
             ...dmgPreEff,
             {
                 u_cast_spell: {
@@ -444,7 +475,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
     return [castEoc, castSelEoc, filterTargetSpell];
 }
 function direct_hitProc(dm, charName, baseSkillData) {
-    const { skill, baseCond, TEffect, castCondition } = baseSkillData;
+    const { skill, baseCond, TEffect, castCondition, PreEffect } = baseSkillData;
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     if (castCondition.condition)
@@ -461,6 +492,7 @@ function direct_hitProc(dm, charName, baseSkillData) {
         id: genCastEocID(charName, rspell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
+            ...PreEffect,
             ...dmgPreEff,
             {
                 npc_cast_spell: {

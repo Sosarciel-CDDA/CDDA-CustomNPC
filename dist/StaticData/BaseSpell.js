@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.CON_SPELL_FLAG = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
+exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
@@ -8,6 +8,8 @@ const ModDefine_1 = require("../ModDefine");
 exports.BATTLE_RANGE = 30;
 /**n格以内算作进入近战 */
 exports.MELEE_RANGE = 3;
+/**最大法术伤害 */
+exports.SPELL_MAX_DAMAGE = 10000000;
 /**用于必定成功的控制法术的flags */
 exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];
 exports.BaseSpell = [

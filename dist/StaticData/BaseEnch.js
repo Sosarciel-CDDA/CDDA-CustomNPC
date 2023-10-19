@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseEnch = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
+exports.BaseEnch = exports.NoPain = exports.NO_PAIN_ENCHID = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const StaticData_1 = require("./StaticData");
@@ -33,6 +33,20 @@ exports.StatMod = {
         }, {
             value: "SPEED",
             multiply: { math: ["(DamageMul(u_val('dexterity'))-1)/2"] }
+        }]
+};
+/**无痛附魔 */
+exports.NO_PAIN_ENCHID = (0, ModDefine_1.genEnchantmentID)("NoPain");
+exports.NoPain = {
+    id: exports.NO_PAIN_ENCHID,
+    type: "enchantment",
+    condition: "ALWAYS",
+    values: [{
+            value: "PAIN",
+            multiply: -1
+        }, {
+            value: "PAIN_REMOVE",
+            add: 1000
         }]
 };
 exports.BaseEnch = [StatusVarMap, exports.StatMod];

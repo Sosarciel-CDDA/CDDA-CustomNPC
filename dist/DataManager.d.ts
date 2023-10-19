@@ -81,6 +81,8 @@ export declare class DataManager {
     charPath: string;
     /**角色列表 */
     charList: string[];
+    /**虚拟角色列表 */
+    virtualCharList: string[];
     /**build设置 */
     buildSetting: BuildSetting;
     /**游戏数据 */
@@ -124,7 +126,7 @@ export declare class DataManager {
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
     addSharedRes(key: string, val: JObject, ...filepaths: string[]): void;
     /**添加静态资源 */
-    addStaticData(arr: JObject[], ...filePaths: string[]): void;
+    addStaticData(arr: JObject[], filePath: string, ...filePaths: string[]): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;
     /**输出数据到主目录 */

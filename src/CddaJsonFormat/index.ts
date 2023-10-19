@@ -18,3 +18,4 @@ export * from './MathFuncion';
 export * from './Skill';
 export * from './WeaponCategory';
 export * from './TalkTopic';
+export * from './Effect';

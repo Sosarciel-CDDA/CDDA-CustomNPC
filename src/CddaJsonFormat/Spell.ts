@@ -148,42 +148,42 @@ export type SpellTarget = typeof SpellTargetList[number];
 
 /**法术效果 列表 */
 export const SpellEffectList = [
-    "area_pull"             , //将其 AOE拉valid_targets向目标位置。目前, 拉动距离设置为 1 (请参阅directed_push)。
-    "area_push"             , //将valid_targets其 AOE 推离目标位置。目前, 推送距离设置为 1 (请参阅directed_push)。
-    "attack"                , //valid_targets对其范围造成伤害, 并对effect_str目标施加指定效果。破坏地形使用bash。
-    "banishment"            , //杀死MONSTER范围内的任何人以伤害生命值。任何溢出的生命值均取自施法者；如果它超过施法者的生命值, 法术就会失败。
-    "bash"                  , //猛击目标地形。使用 Damage() 作为 bash 的强度。
-    "charm_monster"         , //魅惑生命值低于伤害 ()的怪物, 持续时间大约为 ()。
-    "dash"                  , //向前冲至射程内并击中目标的圆锥形目标。
-    "directed_push"         , //将valid_targetsaoe 推离目标位置, 距离为 Damage()。相反, 负值会拉动。
-    "effect_on_condition"   , //在所有有效目标上运行effect_on_conditionfrom 。effect_strEOC将以玩家为中心, NPC作为施法者。
-    "emit"                  , //emit在目标处造成。
-    "explosion"             , //引起以目标为中心的爆炸。使用 Damage() 计算功率和因子 aoe()/10。
-    "flashbang"             , //导致闪光弹效果以目标为中心。使用 Damage() 计算功率和因子 aoe()/10。
-    "fungalize"             , //使目标真菌化。
-    "guilt"                 , //目标会产生负罪感, 就好像它杀死了施法者一样。
-    "map"                   , //绘制以玩家为中心、以 aoe() 为半径的覆盖图。
-    "mod_moves"             , //向目标添加 Damage() 移动。负值会“冻结”一段时间。
-    "morale"                , //为范围内的 NPC 或化身提供士气效果。使用 Damage() 作为值。 decay_start是持续时间 ()/ 10。
-    "mutate"                , //改变目标。如果effect_str已定义, 则向该类别变异, 而不是随机选择。如果MUTATE_TRAIT使用该标志, 则允许effect_str成为特定特征。Damage() / 100 是突变成功的百分比 (10000 代表 100.00%)。
-    "noise"                 , //对目标造成伤害 ()噪音量。注: 噪声可以用sound_type、sound_description、sound_ambient、sound_id和进一步描述sound_variant。
-    "pain_split"            , //平衡你所有四肢的伤害。
-    "pull_target"           , //尝试将目标沿直线拉向施法者。如果路径被无法通行的家具或地形阻挡, 则效果失败。
-    "recover_energy"        , //恢复相当于法术伤害的能量源。能量源在、、或中定义, effect_str并且可以是其中之一。BIONICFATIGUEPAINMANASTAMINA
-    "remove_effect"         , //移除effect_str范围内所有生物的效果。
-    "remove_field"          , //移除effect_straoe 中的一个字段。如果移除的场为 , 则根据场密度导致不同强度的远程辉光和潜在的隐形传态fd_fatigue。
-    "revive"                , //像僵尸死灵法师一样复活怪物。怪物必须有REVIVES旗帜。
-    "short_range_telepor"   , //将玩家传送到具有 AOE 变化的随机范围空间。另请参见TARGET_TELEPORT和UNSAFE_TELEPORT标志。
-    "slime_split"           , //粘液根据质量分裂成两个大的或普通的粘液。注意: 针对mon_blob-类型敌人进行硬编码, 检查怪物death_function+法术summon组合。
-    "spawn_item"            , //生成一个物品, 该物品将在其持续时间结束时消失。默认持续时间为 0。
-    "summon"                , //召唤 aMONSTER或monstergroup来自effect_str该召唤物的召唤将在其持续时间结束时消失。默认持续时间为 0。另请参见SPAWN_WITH_DEATH_DROPS标志。
-    "summon_vehicle"        , //vehicle召唤出的aeffect_str将在其持续时间结束时消失。默认持续时间为 0。
-    "targeted_polymorph"    , //如果目标怪物的生命值低于该法术的伤害, 则该怪物将永久转变为MONSTER指定的怪物。effect_str如果effect_str留空, 目标将随机转变为具有相似难度等级的怪物。或者, 该POLYMORPH_GROUP标志可用于从 中选取加权 ID monstergroup。玩家和 NPC 免疫该法术效果。
-    "ter_transform"         , //改变范围内的地形和家具。aoe 中任意一点发生变化的几率是 1/ (伤害)。是effect_str的 ID ter_furn_transform。
-    "timed_event"           , //仅向玩家添加定时事件。有效的定时事件有: amigara, artifact_light, dim, help, robot_attack, roots_die, spawn_wyrms, temple_flood, temple_open, temple_spawn, wanted。 注意: 这只是为工件主动效果添加的。支持有限, 使用风险自负。
-    "translocate"           , //打开一个窗口, 允许施法者选择要传送到的易位门。
-    "upgrade"               , //立即升级一个目标MONSTER。
-    "vomit"                 , //任何处于其范围内的生物都会立即呕吐, 如果它能够这样做的话。
+    "area_pull"             , // 将其范围内的valid_targets拉向目标位置。目前，拉动距离设置为1（参见directed_push）。
+    "area_push"             , // 将其范围内的valid_targets从目标位置推开。目前，推动距离设置为1（参见directed_push）。
+    "attack"                , // 对其范围内的valid_targets造成伤害，并将名为effect的effect_str应用于目标。要对地形造成伤害，请使用bash。
+    "banishment"            , // 杀死范围内的任何MONSTER，直到伤害hp。任何溢出的hp都会从施法者那里拿走；如果超过施法者的hp，法术就会失败。
+    "bash"                  , // 在目标处猛击地形。使用damage()作为猛击的力度。
+    "charm_monster"         , // 魅惑一个hp小于damage()的怪物，大约持续duration()。
+    "dash"                  , // 向前冲刺到范围，并在目标处击中锥形目标。
+    "directed_push"         , // 将aoe中的valid_targets从目标位置推开，距离为damage()。负值表示拉动。
+    "effect_on_condition"   , // 在所有有效目标上运行来自effect_str的effect_on_condition。EOC将以玩家为中心，以NPC为施法者。
+    "emit"                  , // 在目标处产生发射。
+    "explosion"             , // 在目标中心引发爆炸。使用damage()作为功率和因子aoe()/10。
+    "flashbang"             , // 在目标中心产生闪光弹效果。使用damage()作为功率和因子aoe()/10。
+    "fungalize"             , // 使目标变成真菌。
+    "guilt"                 , // 目标得到罪恶感，就好像它杀了施法者一样。
+    "map"                   , // 映射出以玩家为中心的overmap，半径为aoe()。
+    "mod_moves"             , // 为目标添加damage()移动。负值表示“冻结”那段时间。
+    "morale"                , // 给aoe内的NPC或头像一个士气效果。使用damage()作为值。decay_start是duration()/10。
+    "mutate"                , // 变异目标。如果定义了effect_str，则向该类别变异，而不是随机选择。如果使用了MUTATE_TRAIT标志，则允许effect_str是一个特定的特性。Damage()/100是突变成功的百分比（10000表示100.00%）。
+    "noise"                 , // 在目标处产生damage()量的噪音。注意：噪音可以进一步描述为sound_type、sound_description、sound_ambient、sound_id和sound_variant。
+    "pain_split"            , // 平均分配你所有肢体的伤害。
+    "pull_target"           , // 尝试将目标直线拉向施法者。如果路径被无法通过的家具或地形阻挡，效果就会失败。
+    "recover_energy"        , // 恢复等于法术伤害的能源源。能源源在effect_str中定义，可以是BIONIC、FATIGUE、PAIN、MANA或STAMINA之一。
+    "remove_effect"         , // 从aoe内所有生物身上移除effect_str效果。
+    "remove_field"          , // 在aoe内移除effect_str字段。如果移除的字段是fd_fatigue，则会根据字段密度产生不同强度的teleglow，并可能发生传送。
+    "revive"                , // 像僵尸巫师一样复活一个怪物。怪物必须有REVIVES标志。
+    "short_range_teleport"  , // 将玩家随机传送到范围内的空间，有aoe变化。另请参见TARGET_TELEPORT和UNSAFE_TELEPORT标志。
+    "slime_split"           , // 黏液根据质量分裂成两个大的或正常的黏液。注意：硬编码为mon_blob类型的敌人，检查怪物死亡函数+法术召唤组合。
+    "spawn_item"            , // 生成一个物品，该物品在其持续时间结束时会消失。默认持续时间为0。
+    "summon"                , // 从effect_str召唤一个MONSTER或monstergroup，它将在其持续时间结束时消失。默认持续时间为0。另请参见SPAWN_WITH_DEATH_DROPS标志。
+    "summon_vehicle"        , // 从effect_str召唤一个车辆，它将在其持续时间结束时消失。默认持续时间为0。
+    "targeted_polymorph"    , // 一个被定向的怪物被永久转化为由effect_str指定的MONSTER，如果它的HP小于法术的伤害。如果effect_str为空，则目标将变形成一个难度等级相似的随机怪物。或者，可以使用POLYMORPH_GROUP标志从monstergroup中选择一个加权ID。玩家和NPC对这种法术效果免疫。
+    "ter_transform"         , // 转换其aoe中的地形和家具。aoe中的任何一点改变的机会是1 / (damage)。effect_str是ter_furn_transform的ID。
+    "timed_event"           , // 只向玩家添加一个定时事件。有效的定时事件有：amigara、artifact_light、dim、help、robot_attack、roots_die、spawn_wyrms、temple_flood、temple_open、temple_spawn、wanted。注意：这只是为了神器活动效果而添加的。支持有限，使用风险自负。
+    "translocate"           , // 打开一个窗口，允许施法者选择一个传送门进行传送。
+    "upgrade"               , // 立即升级目标MONSTER。
+    "vomit"                 , // 其aoe内的任何生物都会立即呕吐，如果它能够这样做。
 ] as const;
 /**法术效果 */
 export type SpellEffect = typeof SpellEffectList[number];

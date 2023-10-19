@@ -4,6 +4,12 @@
 
 //———————————————————— 其他 ————————————————————//
 
+function u_print(text){
+	eoc_type("ACTIVATION")
+	eobj( { u_message: text+"" })
+	//eobj( { u_message: {global_val:varName}})
+}
+
 function print_global_val(varName){
 	eoc_type("ACTIVATION")
 	eobj( { u_message: "全局变量 "+varName+" 当前的值为 : <global_val:"+varName+">" })
@@ -77,6 +83,7 @@ function CNPC_EOC_CheckCurrHP_Range(){
 
 
 
+
 //———————————————————— 基础事件路由 ————————————————————//
 //每次进入游戏时事件
 function CNPC_EOC_EGB(){
@@ -93,6 +100,10 @@ function CNPC_EOC_EGB(){
 function CNPC_EOC_ETD(){
 	eoc_type("EVENT");
 	required_event("character_takes_damage");
+	/*
+	{ "character", character_id }
+	{ "damage", int }
+	*/
 	CNPC_EOC_CommonTakeDamageEvent()
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 		CNPC_EOC_CnpcTakeDamageEvent()
@@ -101,6 +112,13 @@ function CNPC_EOC_ETD(){
 function CNPC_EOC_EMAC(){
 	eoc_type("EVENT");
 	required_event("character_melee_attacks_character");
+	/*
+	{ "attacker", character_id },
+	{ "weapon", itype_id },
+	{ "hits", bool },
+	{ "victim", character_id },
+	{ "victim_name", string },
+	*/
 	CNPC_EOC_CommonMeleeHitEvent();
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 		CNPC_EOC_CnpcMeleeHitEvent();
@@ -108,6 +126,12 @@ function CNPC_EOC_EMAC(){
 function CNPC_EOC_EMAM(){
 	eoc_type("EVENT");
 	required_event("character_melee_attacks_monster");
+	/*
+	{ "attacker", character_id },
+	{ "weapon", itype_id },
+	{ "hits", bool },
+	{ "victim_type", mtype_id },
+	*/
 	CNPC_EOC_CommonMeleeHitEvent();
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 		CNPC_EOC_CnpcMeleeHitEvent();
@@ -116,6 +140,12 @@ function CNPC_EOC_EMAM(){
 function CNPC_EOC_ERAC(){
 	eoc_type("EVENT");
 	required_event("character_ranged_attacks_character");
+	/*
+	{ "attacker", character_id },
+	{ "weapon", itype_id },
+	{ "victim", character_id },
+	{ "victim_name", string },
+	*/
 	CNPC_EOC_CommonRangeHitEvent();
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 		CNPC_EOC_CnpcRangeHitEvent();
@@ -123,6 +153,11 @@ function CNPC_EOC_ERAC(){
 function CNPC_EOC_ERAM(){
 	eoc_type("EVENT");
 	required_event("character_ranged_attacks_monster");
+	/*
+	{ "attacker", character_id },
+	{ "weapon", itype_id },
+	{ "victim_type", mtype_id },
+	*/
 	CNPC_EOC_CommonRangeHitEvent();
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 		CNPC_EOC_CnpcRangeHitEvent();
@@ -175,6 +210,12 @@ function CNPC_EOC_EPU(){
 	//触发动态生成的 玩家刷新 事件eoc
 	CNPC_EOC_PlayerUpdate();
 }
+//NPC死亡事件
+function CNPC_EOC_NPC_DEATH(){
+	eoc_type("NPC_DEATH");
+	//NPC_DEATH调用 run_eoc_with 无法正确设置 beta talker
+	//固不使用作为触发
+}
 
 
 
@@ -185,6 +226,10 @@ function CNPC_EOC_CommonMeleeHitEvent(){
 	//触发动态生成的 尝试近战攻击 事件
 	CNPC_EOC_TryMeleeHit();
 	CNPC_EOC_TryHit();
+	if(_hits==1)
+		CNPC_EOC_CauseMeleeHit();
+	else
+		CNPC_EOC_MissMeleeHit();
 }
 //远程攻击主Eoc
 function CNPC_EOC_CommonRangeHitEvent(){

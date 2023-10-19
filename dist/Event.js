@@ -20,7 +20,9 @@ exports.CommonEventTypeList = [
     "TryMeleeHit",
     "TryRangeHit",
     "TryHit",
-    "TakeDamage", //受到伤害
+    "TakeDamage",
+    "CauseMeleeHit",
+    "MissMeleeHit", //近战攻击未命中
 ];
 /**Cnpc角色事件列表
  * u为角色 n不存在

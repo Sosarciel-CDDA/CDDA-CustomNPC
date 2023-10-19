@@ -41,7 +41,10 @@ export type EocEffectList = [
     Message,
     AddEffect,
     LoseEffect,
-    SetHP
+    SetHP,
+    AddStrVar,
+    AddTimeVar,
+    AddRandStrVar
 ];
 /**运行Eoc */
 type RunEoc = {
@@ -197,6 +200,35 @@ type AddEffect = TalkerVar<{
 type LoseEffect = TalkerVar<{
     lose_effect: EffectID | StrObj;
 }, "lose_effect">;
+/**变量操作的注释用字段
+ * { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
+ * 等价于
+ * {math: [ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]}
+ */
+export type VarComment = {
+    /**注释用字段 type */
+    type?: string;
+    /**注释用字段 context */
+    context?: string;
+};
+/**添加文本变量 */
+type AddStrVar = TalkerVar<{
+    add_var: string;
+    /**变量值 */
+    value: string;
+}, "add_var"> & VarComment;
+/**添加时间变量 */
+type AddTimeVar = TalkerVar<{
+    add_var: string;
+    /**时间变量 将当前时间存于变量中 */
+    time: true;
+}, "add_var"> & VarComment;
+/**添加随机文本变量 */
+type AddRandStrVar = TalkerVar<{
+    add_var: string;
+    /**可能的变量值 */
+    possible_values: string[];
+}, "add_var"> & VarComment;
 /**设置生命 */
 type SetHP = TalkerVar<{
     set_hp: NumObj;

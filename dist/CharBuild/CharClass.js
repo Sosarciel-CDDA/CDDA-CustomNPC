@@ -32,6 +32,8 @@ async function createCharClass(dm, charName) {
         traits: [
             { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") },
             { "trait": defineData.baseMutID },
+            ...(charConfig.base_mutation ?? [])
+                .map(mut => ({ trait: mut })),
             ...(defineData.vaildAnim.length >= 1
                 ? [{ "trait": defineData.animData.Idle.mutID }, { "trait": "TOUGH_FEET" }]
                 : [{ "trait": (0, ModDefine_1.genMutationID)("NoAnim") }])
@@ -122,7 +124,7 @@ async function createCharClass(dm, charName) {
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${charName}_RemoveProcess`),
         effect: [
-            { run_eocs: "CNPC_EOC_DeathProcess" }
+            { run_eocs: "CNPC_EOC_CnpcDeathProcess" }
         ],
         condition: { math: ["u_uid", "!=", `${charName}_uid`] }
     };

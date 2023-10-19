@@ -9,6 +9,8 @@ import { Spell } from "CddaJsonFormat";
 export const BATTLE_RANGE = 30;
 /**n格以内算作进入近战 */
 export const MELEE_RANGE = 3;
+/**最大法术伤害 */
+export const SPELL_MAX_DAMAGE = 10000000;
 
 /**用于必定成功的控制法术的flags */
 export const CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL","NO_EXPLOSION_SFX"] as const;

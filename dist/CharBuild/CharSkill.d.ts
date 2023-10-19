@@ -1,7 +1,6 @@
-import { Spell, FlagID, BoolObj, EocEffect } from "../CddaJsonFormat";
+import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "../CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
-import { WeaponCategoryID } from "../CddaJsonFormat/WeaponCategory";
 /**技能选择目标类型 列表 */
 declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_random"];
 /**技能选择目标类型 */
@@ -48,13 +47,17 @@ export type CharSkill = {
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?: [string, number] | string;
     /**释放成功后运行的效果 */
-    effect?: EocEffect[];
+    after_effect?: EocEffect[];
+    /**尝试释放时就运行的效果 */
+    before_effect?: EocEffect[];
     /**需求的武器flag
      * 在角色配置中定义的 武器 会自动生成并添加同ID Flag
      */
     require_weapon_flag?: FlagID[];
     /**需求的武器分类 */
     require_weapon_category?: WeaponCategoryID[];
+    /**需求无武器/完全徒手 */
+    require_unarmed?: boolean;
 };
 /**技能的释放条件 */
 export type CastCondition = {
@@ -80,7 +83,7 @@ export type CastCondition = {
      *
      * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
      *
-     * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 适用于队友buff;
+     * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
      *
      * 默认为auto
      * 若允许多个CastCondition 请指定具体type
