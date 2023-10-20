@@ -50,10 +50,17 @@
 				"valid_targets": ["ally"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
-				"effect": "effect_on_condition",
-				"effect_str": "FrostShield_AddEffect"
+				"effect": "attack"
 			},
-			"before_effect": [{"math": ["FrostShield_count","=","2"]}]
+			"spec_effect": [
+				{
+					"type": "AddEffect",
+					"intensity":2,
+					"duration":90,
+					"effect_id":"FrostShield",
+					"is_stack": true
+				}
+			]
 		},
 		{
 			"name": "雷霆轰击",
@@ -77,7 +84,7 @@
 				"damage_type": "electric",
 				"shape": "blast",
 				"min_range": {"math": ["BATTLE_RANGE"]},
-				"valid_targets": ["hostile","ground","self"],
+				"valid_targets": ["hostile","ground"],
 				"effect": "attack"
 			},
 			"weight": 1,

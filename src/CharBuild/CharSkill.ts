@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID} from "CddaJsonFormat";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "Event";
@@ -48,7 +48,9 @@ export type CharSkill = {
      * 将会随主spell一起解析  
      * 作为spell的extra_effects加入  
      */
-    extra_effects?  :Spell[];
+    extra_effect?  :Spell[];
+    /**特殊的子效果 */
+    spec_effect?   :SpecEffect[];
     /**技能音效 */
     audio?          :(string|{
         /**音效变体ID */
@@ -83,9 +85,9 @@ export type CastCondition={
     /**释放条件 若允许多个条件请使用{or:[]}  
      * 相同的hook与target将覆盖  
      */
-    condition?      :BoolObj,
+    condition?      :BoolObj;
     /**时机 */
-    hook            :AnyCnpcEvenetType,
+    hook            :AnyCnpcEvenetType;
     /**瞄准方式  
      * auto 为 根据施法目标自动选择;  
      *  
@@ -110,6 +112,132 @@ export type CastCondition={
      */
     target?         :TargetType;
 }
+
+/**特殊的字效果 */
+type SpecEffect = RunEoc|AddEffect;
+/**添加效果 */
+type AddEffect = {
+    /**生成一个添加效果的子法术 */
+    type:"AddEffect";
+    /**效果ID */
+    effect_id:EffectID;
+    /**效果强度 */
+    intensity: NumObj;
+    /**持续时间 数字为秒 */
+    duration: Time|NumObj;
+    /**添加效果后的额外效果 */
+    effect?:EocEffect[];
+    /**是否叠加强度 默认覆盖 */
+    is_stack?:boolean;
+}
+/**以受害者为 u_ 运行EOC */
+type RunEoc = {
+    /**生成一个运行的子法术 */
+    type:"RunEoc";
+    /**运行的Eoc */
+    eoc:ParamsEoc;
+    /**自动生成eoc并运行 */
+    effect?         :EocEffect[];
+    /**自动生成的eoc的运行条件 */
+    condition?      :BoolObj;
+}
+
+/**特殊效果的处理表 */
+const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect)=>void>={
+    AddEffect   :processAddEffect   ,
+    RunEoc      :processRunEoc      ,
+}
+
+
+function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect){
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+    const {spell,one_in_chance} = skill;
+    spec = spec as AddEffect;
+
+    const intVar = `${spell.id}_${spec.effect_id}_AddEffect_intensity`;
+    PreEffect.push({math:[intVar,"=",parseNumObj(spec.intensity)]})
+    let fixdur = spec.duration;
+    if(typeof fixdur!="string" && typeof fixdur!="number"){
+        const durVar = `${spell.id}_${spec.effect_id}_AddEffect_duration`;
+        PreEffect.push({math:[durVar,"=",parseNumObj(fixdur)]});
+        fixdur = {math:[durVar]};
+    }
+
+    const addEoc:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${spell.id}_${spec.effect_id}_AddEffect`),
+        eoc_type:"ACTIVATION",
+        effect:[
+            spec.is_stack==true
+            ? {u_add_effect:spec.effect_id,duration:fixdur,intensity:{math:[`u_effect_intensity('${spec.effect_id}') + ${intVar}`]}}
+            : {u_add_effect:spec.effect_id,duration:fixdur,intensity:{math:[intVar]}},
+            ...spec.effect??[]
+        ]
+    }
+    dm.addSharedRes(addEoc.id,addEoc,"common_resource","common_spell_assist");
+
+    const {min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species} = spell;
+
+    extraEffects.push({
+        type:"SPELL",
+        id:genSpellID(`${spell.id}_${spec.effect_id}_AddEffect`),
+        effect:"effect_on_condition",
+        effect_str:addEoc.id,
+        name:spell.name+"_AddEffect",
+        description:spell.name+"的添加效果子法术",
+        min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species
+    })
+};
+function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect){
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+    const {spell,one_in_chance} = skill;
+    spec=spec as RunEoc;
+
+    const runEoc:Eoc={
+        type:"effect_on_condition",
+        id:genEOCID(`${spell.id}_RunEoc`),
+        eoc_type:"ACTIVATION",
+        effect:[]
+    }
+    if(spec.eoc!=undefined)
+        runEoc.effect?.push({run_eocs:spec.eoc});
+    if(spec.effect!=undefined){
+        let inline:InlineEoc={
+            id:genEOCID(`${spell.id}_RunEoc_inline`),
+            eoc_type:"ACTIVATION",
+            effect:spec.effect,
+        }
+        if(spec.condition!=undefined)
+            inline.condition=spec.condition;
+        runEoc.effect?.push({run_eocs:inline})
+    }
+    dm.addSharedRes(runEoc.id,runEoc,"common_resource","common_spell_assist");
+
+    const {min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species} = spell;
+
+    extraEffects.push({
+        type:"SPELL",
+        id:genSpellID(`${spell.id}_RunEoc`),
+        effect:"effect_on_condition",
+        effect_str:runEoc.id,
+        name:spell.name+"_AddEffect",
+        description:spell.name+"的添加效果子法术",
+        min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species
+    })
+};
+
 
 //全局冷却字段名
 const gcdValName = `u_coCooldown`;
@@ -164,7 +292,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
 
-        const {cast_condition,spell,extra_effects,cooldown,common_cooldown,audio,require_field,after_effect,before_effect,require_weapon_flag,require_weapon_category,require_unarmed} = skill;
+        const {cast_condition,spell,extra_effect,cooldown,common_cooldown,audio,require_field,after_effect,before_effect,require_weapon_flag,require_weapon_category,require_unarmed,spec_effect} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
@@ -175,7 +303,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             : undefined;
 
         //修正子法术
-        const extraEffects = extra_effects??[];
+        const extraEffects = extra_effect??[];
 
         //生成冷却变量名
         const cdValName = `u_${spell.id}_cooldown`;
@@ -258,20 +386,23 @@ export async function createCharSkill(dm:DataManager,charName:string){
             if(require_weapon_category)
                 requireWeaponCond.push(...require_weapon_category.map(id=>
                     ({u_has_wielded_with_flag:id})));
-            if(require_weapon_category)
+            if(require_unarmed)
                 requireWeaponCond.push({not:"u_has_weapon"});
             if(requireWeaponCond.length>0)
                 baseCond.push({or:requireWeaponCond})
 
             //处理并加入输出
-            skillDataList.push(...ProcMap[target??"auto"](dm,charName,{
+            const dat:BaseSkillCastData = {
                 skill,
                 TEffect,
                 PreEffect,
                 baseCond,
                 castCondition,
                 extraEffects,
-            }));
+            }
+            for(const spec of spec_effect??[])
+                SpecProcMap[spec.type](dm,charName,dat,spec)
+            skillDataList.push(...ProcMap[target??"auto"](dm,charName,dat));
         }
         dm.addSharedRes(spell.id,spell,"common_resource","common_spell");
         for(const exspell of extraEffects)
@@ -347,10 +478,9 @@ function hitselfSpell(spell:Spell):Spell{
         rspell.valid_targets.push("self");
     return rspell;
 }
-/**解析伤害字符串 */
-function parseNumObj(spell:Spell,field:keyof Spell){
+/**解析NumObj为math表达式 */
+function parseNumObj(value:any){
     let strExp = `0`;
-    const value = spell[field];
     if(value!==undefined){
         if(typeof value == "number")
             strExp = value+"";
@@ -360,13 +490,17 @@ function parseNumObj(spell:Spell,field:keyof Spell){
     }
     return strExp;
 }
+/**解析法术伤害字符串 */
+function parseSpellNumObj(spell:Spell,field:keyof Spell){
+    return parseNumObj(spell[field]);
+}
 /**将法术数据转为全局变量
  * 返回 预先计算全局变量的effect
  */
 function fixSpellDmg(spell:Spell):EocEffect[]{
-    const dmgstr = parseNumObj(spell,"min_damage");
-    const dotstr = parseNumObj(spell,"min_dot");
-    const durstr = parseNumObj(spell,"min_duration");
+    const dmgstr = parseSpellNumObj(spell,"min_damage");
+    const dotstr = parseSpellNumObj(spell,"min_dot");
+    const durstr = parseSpellNumObj(spell,"min_duration");
 
     const dmgvar = `${spell.id}_dmg`;
     if(spell.min_damage){
@@ -518,6 +652,7 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
 
+
     //复制法术
     const rspell = hitselfSpell(spell);
     //解析伤害字符串
@@ -525,6 +660,10 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
     //加入子效果
+    if(extraEffects.length>0){
+        spell.extra_effects=spell.extra_effects??[];
+        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+    }
     for(const exspell of extraEffects){
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects=rspell.extra_effects??[];
@@ -585,6 +724,10 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
     //加入子效果
+    if(extraEffects.length>0){
+        spell.extra_effects=spell.extra_effects??[];
+        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+    }
     for(const exspell of extraEffects){
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects=rspell.extra_effects??[];
@@ -690,6 +833,10 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
     //加入子效果
+    if(extraEffects.length>0){
+        spell.extra_effects=spell.extra_effects??[];
+        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+    }
     for(const exspell of extraEffects){
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects=rspell.extra_effects??[];
