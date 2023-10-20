@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const ModDefine_1 = require("../ModDefine");
 const CharConfig_1 = require("./CharConfig");
+const StaticData_1 = require("../StaticData");
 /**创建角色装备 */
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
@@ -108,12 +109,15 @@ async function createCharEquip(dm, charName) {
             "TARDIS",
             "PARTIAL_DEAF",
             "NO_SALVAGE",
+            "ALLOWS_NATURAL_ATTACKS",
+            "PADDED",
             defineData.baseItemFlagID
         ],
         pocket_data: pocketList,
         relic_data: {
             passive_effects: [
-                ...[...enchList, baseEnch].map(ench => ({ id: ench.id }))
+                ...[...enchList, baseEnch].map(ench => ({ id: ench.id })),
+                { id: StaticData_1.NO_PAIN_ENCHID }
             ]
         }
     };
@@ -125,6 +129,9 @@ async function createCharEquip(dm, charName) {
         description: `${charName}的基础变异`,
         points: 0,
         integrated_armor: [defineData.baseArmorID],
+        valid: false,
+        purifiable: false,
+        player_display: false,
     };
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
     outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag];

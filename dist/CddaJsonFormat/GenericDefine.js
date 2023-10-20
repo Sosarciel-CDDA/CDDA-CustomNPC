@@ -2,7 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RatTypeList = exports.SocialTypeList = exports.StatusSimpleList = exports.StatusList = exports.DefineDamageTypeList = exports.DefineMonFactionList = exports.DefineNpcFactionList = exports.BodyPartList = exports.ColorList = void 0;
 /**可用的颜色列表 */
-exports.ColorList = ["blue", "white", "brown", "dark_gray"];
+exports.ColorList = [
+    "black",
+    "red",
+    "green",
+    "brown",
+    "blue",
+    "magenta",
+    "cyan",
+    "light_gray",
+    "dark_gray",
+    "light_red",
+    "light_green",
+    "yellow",
+    "light_blue",
+    "pink",
+    "light_cyan",
+    "white",
+];
 /**必要的肢体组 */
 const VitalBPList = [
     "torso",

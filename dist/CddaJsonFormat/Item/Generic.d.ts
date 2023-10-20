@@ -151,12 +151,16 @@ export type ToHit = {
     /**项目的余额值 */
     balance: "clumsy" | "uneven" | "neutral" | "good";
 } | number;
+/**武器Flag 列表 */
+export declare const WeaponFlagList: readonly ["ALLOWS_BODY_BLOCK", "ALWAYS_TWOHAND", "BIONIC_WEAPON", "DIAMOND", "MESSY", "NO_CVD", "NO_RELOAD", "NO_UNWIELD", "NONCONDUCTIVE", "POLEARM", "REACH_ATTACK", "REACH3", "SHEATH_AXE", "SHEATH_GOLF", "SHEATH_KNIFE", "SHEATH_SWORD", "SPEAR", "WHIP"];
+/**武器Flag */
+export type WeaponFlag = typeof WeaponFlagList[number];
 /**通用物品的flag列表 */
 export declare const GenericFlagList: readonly ["ACTIVATE_ON_PLACE", "SINGLE_USE", "ZERO_WEIGHT", "TARDIS", "TRADER_KEEP", "NO_RELOAD", "UNBREAKABLE", "DURABLE_MELEE", "NO_SALVAGE"];
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
 /**通用物品的flag */
-export type GenericFlag = DefineGenericFlag | FlagID;
+export type GenericFlag = DefineGenericFlag | WeaponFlag | FlagID;
 /**物品的材质 字符串时为材质类型 */
 export type ItemMaterial = MaterialID | {
     /**材质类型 */
@@ -331,7 +335,7 @@ WATER_DISSOLVE				物品溶解在水中。
 ZERO_WEIGHT					通常重量为零的物品会产生错误。使用此标志来指示零权重是故意的并抑制该错误。
  */
 /**
-ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体格挡 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
 ALWAYS_TWOHAND		物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
 BIONIC_WEAPON		无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
 DIAMOND				金刚石涂层使切割和穿刺伤害增加 30%。

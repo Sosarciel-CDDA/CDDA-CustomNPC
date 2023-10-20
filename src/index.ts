@@ -2,8 +2,7 @@ import { DataManager } from "./DataManager";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeImage } from "./CharBuild";
-import { createTest } from "./CommonBuild";
-import { createTriggerEffect } from "./CommonBuild/TriggerEffect";
+import { createCommonItem, createTest,createTriggerEffect } from "./CommonBuild";
 
 
 
@@ -26,7 +25,7 @@ export async function main(){
 
     await createTest(dm);
     await createTriggerEffect(dm);
-
+    await createCommonItem(dm);
     const plist:Promise<void>[] = []
     for(let charName of dm.charList)
         plist.push(buildChar(dm,charName));

@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc} from "CddaJsonFormat";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "Event";
@@ -143,38 +143,44 @@ type RunEoc = {
 }
 
 /**特殊效果的处理表 */
-const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect)=>void>={
+const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number)=>void>={
     AddEffect   :processAddEffect   ,
     RunEoc      :processRunEoc      ,
 }
 
 
-function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect){
+function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec = spec as AddEffect;
 
-    const intVar = `${spell.id}_${spec.effect_id}_AddEffect_intensity`;
+    const mainid = `${spell.id}_${index}_AddEffect`;
+
+    const intVar = `${mainid}_intensity`;
     PreEffect.push({math:[intVar,"=",parseNumObj(spec.intensity)]})
     let fixdur = spec.duration;
     if(typeof fixdur!="string" && typeof fixdur!="number"){
-        const durVar = `${spell.id}_${spec.effect_id}_AddEffect_duration`;
+        const durVar = `${mainid}_duration`;
         PreEffect.push({math:[durVar,"=",parseNumObj(fixdur)]});
         fixdur = {math:[durVar]};
     }
 
     const addEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${spell.id}_${spec.effect_id}_AddEffect`),
+        id:genEOCID(mainid),
         eoc_type:"ACTIVATION",
         effect:[
             spec.is_stack==true
-            ? {u_add_effect:spec.effect_id,duration:fixdur,intensity:{math:[`u_effect_intensity('${spec.effect_id}') + ${intVar}`]}}
+            ? {u_add_effect:spec.effect_id,duration:fixdur,intensity:{math:[`max(u_effect_intensity('${spec.effect_id}'),0) + ${intVar}`]}}
             : {u_add_effect:spec.effect_id,duration:fixdur,intensity:{math:[intVar]}},
             ...spec.effect??[]
         ]
     }
     dm.addSharedRes(addEoc.id,addEoc,"common_resource","common_spell_assist");
+
+    const flags:SpellFlag[] = [...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
 
     const {min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
@@ -183,25 +189,27 @@ function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkill
 
     extraEffects.push({
         type:"SPELL",
-        id:genSpellID(`${spell.id}_${spec.effect_id}_AddEffect`),
+        id:genSpellID(mainid),
         effect:"effect_on_condition",
         effect_str:addEoc.id,
-        name:spell.name+"_AddEffect",
+        name:`${spell.name}_${index}_AddEffect`,
         description:spell.name+"的添加效果子法术",
         min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape,valid_targets,
-        targeted_monster_ids,targeted_monster_species
+        targeted_monster_ids,targeted_monster_species,flags
     })
 };
-function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect){
+function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec=spec as RunEoc;
 
+    const mainid = `${spell.id}_${index}_RunEoc`;
+
     const runEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(`${spell.id}_RunEoc`),
+        id:genEOCID(mainid),
         eoc_type:"ACTIVATION",
         effect:[]
     }
@@ -209,7 +217,7 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCas
         runEoc.effect?.push({run_eocs:spec.eoc});
     if(spec.effect!=undefined){
         let inline:InlineEoc={
-            id:genEOCID(`${spell.id}_RunEoc_inline`),
+            id:genEOCID(`${mainid}_inline`),
             eoc_type:"ACTIVATION",
             effect:spec.effect,
         }
@@ -219,6 +227,10 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCas
     }
     dm.addSharedRes(runEoc.id,runEoc,"common_resource","common_spell_assist");
 
+    const flags:SpellFlag[] = [...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
+
     const {min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape,valid_targets,
@@ -226,15 +238,15 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCas
 
     extraEffects.push({
         type:"SPELL",
-        id:genSpellID(`${spell.id}_RunEoc`),
+        id:genSpellID(mainid),
         effect:"effect_on_condition",
         effect_str:runEoc.id,
-        name:spell.name+"_AddEffect",
-        description:spell.name+"的添加效果子法术",
+        name:`${spell.name}_${index}_RunEoc`,
+        description:spell.name+"运行Eoc子法术",
         min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape,valid_targets,
-        targeted_monster_ids,targeted_monster_species
+        targeted_monster_ids,targeted_monster_species,flags
     })
 };
 
@@ -400,8 +412,9 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 castCondition,
                 extraEffects,
             }
+            let specindex = 0;
             for(const spec of spec_effect??[])
-                SpecProcMap[spec.type](dm,charName,dat,spec)
+                SpecProcMap[spec.type](dm,charName,dat,spec,specindex++);
             skillDataList.push(...ProcMap[target??"auto"](dm,charName,dat));
         }
         dm.addSharedRes(spell.id,spell,"common_resource","common_spell");
@@ -547,6 +560,9 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
     }
 
     //创建瞄准法术标靶的辅助索敌法术
+    const flags:SpellFlag[] = ["WONDER","RANDOM_TARGET",...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
     const {min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape} = spell;
@@ -556,14 +572,13 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         name:spell.name+"_索敌",
         description:`${spell.name}的辅助索敌法术`,
         effect:"attack",
-        flags:["WONDER","RANDOM_TARGET",...CON_SPELL_FLAG],
         min_damage: 1,
         max_damage: 1,
         valid_targets:["hostile"],
         targeted_monster_ids:[TARGET_MON_ID],
         min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
-        shape,max_level,
+        shape,max_level,flags,
         extra_effects:[{id:spell.id}],
     }
     dm.addSharedRes(selTargetSpell.id,selTargetSpell,"common_resource","common_spell_assist");
@@ -776,6 +791,9 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
 
 
     //创建筛选目标的辅助索敌法术
+    const flags:SpellFlag[] = [...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
     const {min_range,max_range,range_increment,
         max_level,valid_targets,targeted_monster_ids} = spell;
     const filterTargetSpell:Spell = {
@@ -785,7 +803,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
         description:`${rspell.name}的筛选索敌法术`,
         effect:"effect_on_condition",
         effect_str:castEoc.id,
-        flags:[...CON_SPELL_FLAG],
+        flags,
         shape:"blast",
         min_aoe:min_range,
         max_aoe:max_range,
@@ -889,18 +907,22 @@ function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData
     const isAoe = (spell.min_aoe!=null && spell.min_aoe!=0) ||
         (spell.aoe_increment!=null && spell.aoe_increment!=0);
 
-    //aoe敌对目标法术将使用法术标靶
-    if(isHostileTarget && isAoe)
+    //有释放范围
+    const hasRange = (spell.min_range!=null && spell.min_range!=0) ||
+        (spell.range_increment!=null && spell.range_increment!=0);
+
+    //aoe 有范围 敌对目标 法术将使用法术标靶
+    if(isHostileTarget && isAoe && hasRange)
         return ProcMap.spell_target(dm,charName,baseSkillData);
 
-    //友方条件目标法术适用筛选命中
-    if(isAllyTarget && castCondition.condition!=undefined)
+    //有范围 有条件 友方目标 法术适用筛选命中
+    if(isAllyTarget && hasRange && castCondition.condition!=undefined)
         return ProcMap.filter_random(dm,charName,baseSkillData);
 
-    //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
+    //非aoe hook为互动事件 敌对目标 法术将直接命中
     if((CnpcReverseEventTypeList.includes(hook as any)  ||
         CnpcInteractiveEventList.includes(hook as any)) &&
-        isHostileTarget)
+        isHostileTarget && !isAoe)
         return ProcMap.auto_hit(dm,charName,baseSkillData);
 
     //其他法术随机

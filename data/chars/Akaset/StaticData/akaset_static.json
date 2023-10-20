@@ -1,20 +1,27 @@
 [
     {
         "type": "effect_type",
-        "id":"CNPC_EFF_IceShield",
-        "name": ["冰盾"],
-        "desc": ["冰盾"],
+        "id":"FrostArmor",
+        "name": ["霜甲"],
+        "desc": ["降低 4 点, 并减免 20% 钝击, 切割, 刺击, 子弹 伤害"],
         "enchantments": [{
             "condition":"ALWAYS",
             "values": [{
                 "value": "ARMOR_BASH",
-                "multiply":-0.2
+                "multiply":-0.2,
+                "add":-4
             },{
                 "value": "ARMOR_CUT",
-                "multiply":-0.2
+                "multiply":-0.2,
+                "add":-4
             },{
                 "value": "ARMOR_STAB",
-                "multiply":-0.2
+                "multiply":-0.2,
+                "add":-4
+            },{
+                "value": "ARMOR_BULLET",
+                "multiply":-0.2,
+                "add":-4
             }]
         }]
     }

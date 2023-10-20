@@ -6,9 +6,9 @@ import { SPELL_MAX_DAMAGE } from "StaticData";
 
 
 
-export function createTriggerEffect(dm:DataManager){
-    FrostShield(dm);
-    Electrify(dm);
+export async function createTriggerEffect(dm:DataManager){
+    await FrostShield(dm);
+    await Electrify(dm);
 }
 
 const TEFF_DUR = '60 s';
@@ -48,7 +48,7 @@ function FrostShield(dm:DataManager){
         type:"effect_type",
         id: effid,
         name:["霜盾"],
-        desc:["受到攻击时会无视伤害，且击退周围并冻结敌人一回合"],
+        desc:["受到攻击时会无视伤害, 并击退且冻结周围敌人。"],
         max_intensity:TEFF_MAX,
         max_duration:TEFF_DUR,
         enchantments:[{

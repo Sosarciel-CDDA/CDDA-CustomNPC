@@ -51,7 +51,7 @@ const StatMod = {
     type: "mutation",
     id: exports.STAT_MOD_MUTID,
     name: "属性强化",
-    description: "使力量提供额外的近战伤害倍率，感知提供远程伤害加值与倍率，敏捷提供速度倍率。",
+    description: "使力量提供额外的近战伤害倍率, 感知提供远程伤害加值与倍率, 敏捷提供速度倍率。",
     purifiable: false,
     valid: false,
     player_display: false,

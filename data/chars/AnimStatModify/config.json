@@ -1,0 +1,10 @@
+
+{
+    "virtual": true,
+    "ench_status": {
+        "add_ITEM_ARMOR_BASH"   :4,
+        "add_ITEM_ARMOR_CUT"    :4,
+        "add_ITEM_ARMOR_STAB"   :4,
+        "add_ITEM_ARMOR_BULLET" :4
+    }
+}

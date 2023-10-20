@@ -29,7 +29,24 @@ export type Price = number|`${number} ${"USD"|"cent"|"kUSD"}`;
 /**时间 PERMANENT 为永久 */
 export type Time = number|`${number} ${"s"|"m"|"h"|"d"}`|"PERMANENT";
 /**可用的颜色列表 */
-export const ColorList = ["blue","white","brown","dark_gray"] as const;
+export const ColorList = [
+    "black"         ,
+    "red"           ,
+    "green"         ,
+    "brown"         ,
+    "blue"          ,
+    "magenta"       ,
+    "cyan"          ,
+    "light_gray"    ,
+    "dark_gray"     ,
+    "light_red"     ,
+    "light_green"   ,
+    "yellow"        ,
+    "light_blue"    ,
+    "pink"          ,
+    "light_cyan"    ,
+    "white"         ,
+] as const;
 /**可用的颜色 */
 export type Color = typeof ColorList[number];
 

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTest = void 0;
 const UtilGener_1 = require("./UtilGener");
 const ModDefine_1 = require("../ModDefine");
-function createTest(dm) {
+async function createTest(dm) {
     let outData = [];
     const effid = (0, ModDefine_1.genEffectID)("TestEff");
     const eff = {

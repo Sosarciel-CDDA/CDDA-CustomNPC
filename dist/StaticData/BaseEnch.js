@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseEnch = exports.NoPain = exports.NO_PAIN_ENCHID = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
+exports.BaseEnch = exports.RangeModify = exports.MeleeModify = exports.DefenseModify = exports.NoPain = exports.NO_PAIN_ENCHID = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const StaticData_1 = require("./StaticData");
@@ -49,5 +49,46 @@ exports.NoPain = {
             add: 1000
         }]
 };
-exports.BaseEnch = [StatusVarMap, exports.StatMod];
+/**防御附魔 */
+exports.DefenseModify = {
+    type: "enchantment",
+    id: "DefenseModify",
+    name: "防御修正",
+    description: "降低 30% 所有伤害, 30% 的概率无视所有伤害。",
+    condition: "ALWAYS",
+    has: "WIELD",
+    values: [
+        { value: "FORCEFIELD", add: 0.3 },
+        { value: "ARMOR_BASH", multiply: -0.3 },
+        { value: "ARMOR_CUT", multiply: -0.3 },
+        { value: "ARMOR_STAB", multiply: -0.3 },
+        { value: "ARMOR_BULLET", multiply: -0.3 },
+        { value: "ARMOR_HEAT", multiply: -0.3 },
+        { value: "ARMOR_COLD", multiply: -0.3 },
+        { value: "ARMOR_ELEC", multiply: -0.3 },
+        { value: "ARMOR_ACID", multiply: -0.3 },
+        { value: "ARMOR_BIO", multiply: -0.3 }
+    ]
+};
+/**近战伤害附魔 */
+exports.MeleeModify = {
+    type: "enchantment",
+    id: "MeleeModify",
+    name: "近战修正",
+    description: "提升 30% 的力量。",
+    condition: "ALWAYS",
+    has: "WIELD",
+    values: [{ value: "STRENGTH", multiply: 0.3 }]
+};
+/**远程伤害附魔 */
+exports.RangeModify = {
+    type: "enchantment",
+    id: "RangeModify",
+    name: "远程修正",
+    description: "提升 30% 的感知。",
+    condition: "ALWAYS",
+    has: "WIELD",
+    values: [{ value: "PERCEPTION", multiply: 0.3 }]
+};
+exports.BaseEnch = [StatusVarMap, exports.StatMod, exports.NoPain, exports.DefenseModify, exports.MeleeModify, exports.RangeModify];
 (0, StaticData_1.saveStaticData)(exports.BaseEnch, 'static_resource', 'base_ench');

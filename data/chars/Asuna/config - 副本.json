@@ -74,7 +74,7 @@
 				"name": "蒸发未来",
 				"description": "蒸发未来",
 				"min_damage":{
-					"math": ["CalcDamage(100, u_val('perception'))*3.6"]
+					"math": ["CalcDamage(30, u_val('perception'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "bullet",
@@ -104,7 +104,7 @@
 				"name": "刀锋打击",
 				"description": "刀锋打击",
 				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*3.6"]
+					"math": ["CalcDamage(30, u_val('strength'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
@@ -130,7 +130,7 @@
 				"name": "创伤之刃",
 				"description": "创伤之刃",
 				"min_damage":{
-					"math": ["CalcDamage(31, u_val('strength'))*1.8"]
+					"math": ["CalcDamage(30, u_val('strength'))*1.8"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",

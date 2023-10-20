@@ -160,6 +160,32 @@ export type ToHit ={
 
 
 
+/**武器Flag 列表 */
+export const WeaponFlagList = [
+	"ALLOWS_BODY_BLOCK"	,//即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+	"ALWAYS_TWOHAND"	,//物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
+	"BIONIC_WEAPON"		,//无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
+	"DIAMOND"			,//金刚石涂层使切割和穿刺伤害增加 30%。
+	"MESSY"				,//制浆时会造成更多混乱。
+	"NO_CVD"			,//物品永远不能与 CVD 机器一起使用。
+	"NO_RELOAD"			,//物品永远无法重新装载 (即使具有有效的弹药类型)。
+	"NO_UNWIELD"		,//无法解开该物品。使用仿生学的假武器和工具将自动添加此标志。
+	"NONCONDUCTIVE"		,//由于某些特征 (手柄或整个物品的非导电材料), 该物品不导电, 因此可以安全地用于对抗以电力为主题的怪物, 而没有回击的风险。对面CONDUCTIVE。
+	"POLEARM"			,//该物品近距离时很笨拙, 会对相邻目标造成 70% 的正常伤害。应与REACH_ATTACK. 像长矛这样的简单的穿刺武器不应该得到这个旗帜。
+	"REACH_ATTACK"		,//允许在 2 格距离内进行近战攻击。
+	"REACH3"			,//允许在 3 格距离内进行近战攻击。
+	"SHEATH_AXE"		,//物品可以装在斧鞘中。
+	"SHEATH_GOLF"		,//物品可以装在高尔夫球袋中。
+	"SHEATH_KNIFE"		,//物品可以套在刀套中, 适用于中小型刀具 (容量不大于2)。
+	"SHEATH_SWORD"		,//物品可以装在剑鞘中。
+	"SPEAR"				,//当进行攻击时, THIN_OBSTACLE地形不会成为障碍。应与REACH_ATTACK.
+	//"UNARMED_WEAPON"	,//挥舞该物品进行战斗仍然算作徒手战斗。
+	"WHIP"				,//有一定几率解除对手的武装。
+] as const;
+/**武器Flag */
+export type WeaponFlag = typeof WeaponFlagList[number];
+
+
 /**通用物品的flag列表 */
 export const GenericFlagList = [
 	"ACTIVATE_ON_PLACE"	, //放置时激活
@@ -175,7 +201,7 @@ export const GenericFlagList = [
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
 /**通用物品的flag */
-export type GenericFlag = DefineGenericFlag|FlagID;
+export type GenericFlag = DefineGenericFlag|WeaponFlag|FlagID;
 
 /**物品的材质 字符串时为材质类型 */
 export type ItemMaterial = MaterialID|{
@@ -395,7 +421,7 @@ ZERO_WEIGHT					通常重量为零的物品会产生错误。使用此标志来�
 
 //近战武器
 /**
-ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体格挡 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
 ALWAYS_TWOHAND		物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
 BIONIC_WEAPON		无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
 DIAMOND				金刚石涂层使切割和穿刺伤害增加 30%。

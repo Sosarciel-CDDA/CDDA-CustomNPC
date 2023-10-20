@@ -1,5 +1,5 @@
 {
-	"extends": ["BaseField","BaseSkill"],
+	"extends": ["BaseField","BaseSkill","AnimStatModify"],
     "base_status":{
         "str":12,
         "dex":10,
@@ -9,7 +9,9 @@
 	"base_skill": {
 		"ALL": 2,
 		"rifle": 4,
-		"gun": 4
+		"gun": 4,
+		"melee": 4,
+		"bashing": 4
 	},
     "weapon":[{
 		"item":{
@@ -25,10 +27,44 @@
 				[ "BURST"  , "2s sequence", 2 ],
 				[ "AUTO"   , "3s sequence", 3 ]
 			],
+			"relic_data": {
+				"passive_effects": [{"id":"RangeModify"}]
+			},
 			"ammo_effects": ["LASER","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
 			"heat_per_shot": 0
+		}
+	},{
+		"item":{
+			"id":"AkasetGauntlet",
+			"type": "TOOL",
+			"relic_data": {
+				"passive_effects": [{
+					"has": "WIELD",
+					"condition": "ALWAYS",
+					"values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+					"name": "Ice Fists",
+					"description": "Strikes from this weapon can freeze targets solid."
+				},{"id":"DefenseModify"}]
+			},
+			"description": "Akaset的 冰冻手套",
+			"name": "Akaset的 冰冻手套",
+			"to_hit":{
+				"surface": "every",
+				"balance": "good",
+				"grip": "weapon",
+				"length": "hand"
+			},
+			"symbol": "[",
+			"color": "light_cyan",
+			"weight": "3778 g",
+			"volume": "2 L",
+			"melee_damage": { "bash": 50 },
+			"techniques": [ "WBLOCK_3", "BRUTAL", "AFS_PRESSURE_CRUNCH", "WIDE" ],
+			"weapon_category": ["CLAWS"],
+			"material": [ "superalloy" ],
+			"flags": ["ALLOWS_BODY_BLOCK","NONCONDUCTIVE"]
 		}
 	}],
 	"skill": [
@@ -46,21 +82,57 @@
 				"id":"FrostShield",
 				"type": "SPELL",
 				"name": "霜盾",
-				"description": "为周围友军添加霜盾效果",
-				"valid_targets": ["ally"],
+				"description": "为自己及周围友军添加 霜甲 效果, 为周围友军添加 霜盾 效果, 持续90秒。",
+				"valid_targets": ["ally","self"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
-				"effect": "attack"
+				"effect": "attack",
+				"effect_str": "FrostArmor",
+				"min_duration": 9000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","IGNORE_WALLS"]
 			},
+			"after_effect": [
+				{"u_lose_effect":"FrostShield"}
+			],
 			"spec_effect": [
 				{
 					"type": "AddEffect",
 					"intensity":2,
 					"duration":90,
-					"effect_id":"FrostShield",
-					"is_stack": true
+					"effect_id":"FrostShield"
 				}
-			]
+			],
+			"require_weapon_flag": ["AkasetGauntlet"]
+		},
+		{
+			"cast_condition":{
+				"hook": "TryMeleeHit"
+			},
+			"audio":[
+				{"id":"BarrageIceSpike","cooldown": 180},
+				"BarrageIceSpikeSF","BaseAudio:IceHit"
+			],
+			"cooldown":15,
+			"name": "弹幕冰刺",
+			"spell": {
+				"id":"BarrageIceSpike",
+				"type": "SPELL",
+				"name": "弹幕冰刺",
+				"description": "对周围敌人造成 0.7*感知 的伤害, 并击倒 2 秒。",
+				"valid_targets": ["hostile","ground"],
+				"shape": "blast",
+				"min_aoe": 5,
+				"effect": "attack",
+				"effect_str": "downed",
+				"damage_type": "cold",
+				"min_damage":{
+					"math": ["CalcDamage(30, u_val('perception'))*0.7"]
+				},
+				"max_damage":999999,
+				"min_duration": 200,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
 			"name": "雷霆轰击",
@@ -78,14 +150,15 @@
 				"name": "雷霆轰击",
 				"description": "雷霆轰击",
 				"min_damage":{
-					"math": ["CalcDamage(27, u_val('perception'))*1.8"]
+					"math": ["CalcDamage(30, u_val('perception'))*1.8"]
 				},
 				"max_damage":999999,
 				"damage_type": "electric",
 				"shape": "blast",
 				"min_range": {"math": ["BATTLE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
+				"effect": "attack",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"weight": 1,
 			"require_weapon_flag": ["AkasetLaserCannon"]

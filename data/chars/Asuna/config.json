@@ -1,5 +1,5 @@
 {
-	"extends": ["BaseField","BaseSkill"],
+	"extends": ["BaseField","BaseSkill","AnimStatModify"],
     "base_status":{
         "str":10,
         "dex":12,
@@ -9,7 +9,9 @@
 	"base_skill": {
 		"ALL": 2,
 		"pistol": 4,
-		"gun": 4
+		"gun": 4,
+		"melee": 4,
+		"stabbing": 4
 	},
     "weapon":[
 		{
@@ -24,7 +26,10 @@
 					"pocket_type": "MAGAZINE_WELL",
 					"item_restriction": ["AsunaMag"]
 				}],
-				"flags": ["NO_UNLOAD"],
+				"relic_data": {
+					"passive_effects": [{"id":"RangeModify"}]
+				},
+				"flags": ["NO_UNLOAD","ALLOWS_BODY_BLOCK"],
 				"min_cycle_recoil": 360,
 				"valid_mod_locations": [],
 				"faults": [],
@@ -42,6 +47,9 @@
 				"id": "AsunaKnife",
 				"name":{"str_sp": "Asuna的 战术匕首"},
 				"description": "Asuna的 战术匕首",
+				"relic_data": {
+					"passive_effects": [{"id":"MeleeModify"}]
+				},
 				"to_hit":{
 					"grip": "weapon",
 					"length": "short",
@@ -49,7 +57,7 @@
 					"balance": "good"
 				},
 				"gunmod_data":{},
-				"flags": [ "DIAMOND" ]
+				"flags": [ "DIAMOND","ALLOWS_BODY_BLOCK" ]
 			}
 		}
 	],
@@ -86,7 +94,7 @@
 				"name": "蒸发未来",
 				"description": "蒸发未来",
 				"min_damage":{
-					"math": ["CalcDamage(26, u_val('perception'))*3.6"]
+					"math": ["CalcDamage(30, u_val('perception'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "bullet",
@@ -94,7 +102,8 @@
 				"min_aoe":1,
 				"shape": "cone",
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
+				"effect": "attack",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"after_effect":[
 				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1) > 0.5 ? 0 : u_EvaporateFuture_cooldown"]}
@@ -120,7 +129,8 @@
 				"shape": "blast",
 				"min_duration": 18000,
 				"energy_source": "MANA",
-				"base_energy_cost":200
+				"base_energy_cost":200,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"weight": 1,
 			"require_weapon_flag": ["AsunaM9"]
@@ -141,14 +151,15 @@
 				"name": "刀锋打击",
 				"description": "刀锋打击",
 				"min_damage":{
-					"math": ["CalcDamage(27, u_val('strength'))*3.6"]
+					"math": ["CalcDamage(30, u_val('strength'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
 				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
+				"effect": "attack",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"weight": 2,
 			"require_weapon_flag": ["AsunaKnife"]
@@ -169,14 +180,15 @@
 				"name": "创伤之刃",
 				"description": "创伤之刃",
 				"min_damage":{
-					"math": ["CalcDamage(27, u_val('strength'))*1.8"]
+					"math": ["CalcDamage(30, u_val('strength'))*1.8"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
 				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
-				"effect": "attack"
+				"effect": "attack",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"weight": 1,
 			"require_weapon_flag": ["AsunaKnife"]

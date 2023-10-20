@@ -4,9 +4,9 @@ exports.createTriggerEffect = void 0;
 const ModDefine_1 = require("../ModDefine");
 const UtilGener_1 = require("./UtilGener");
 const StaticData_1 = require("../StaticData");
-function createTriggerEffect(dm) {
-    FrostShield(dm);
-    Electrify(dm);
+async function createTriggerEffect(dm) {
+    await FrostShield(dm);
+    await Electrify(dm);
 }
 exports.createTriggerEffect = createTriggerEffect;
 const TEFF_DUR = '60 s';
@@ -45,7 +45,7 @@ function FrostShield(dm) {
         type: "effect_type",
         id: effid,
         name: ["霜盾"],
-        desc: ["受到攻击时会无视伤害，且击退周围并冻结敌人一回合"],
+        desc: ["受到攻击时会无视伤害, 并击退且冻结周围敌人。"],
         max_intensity: TEFF_MAX,
         max_duration: TEFF_DUR,
         enchantments: [{

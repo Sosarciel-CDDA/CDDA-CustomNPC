@@ -3,6 +3,7 @@ import { DataManager } from "../DataManager";
 import { genEOCID, genEnchantmentID } from "ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
+import { NO_PAIN_ENCHID } from "StaticData";
 
 
 
@@ -108,19 +109,22 @@ export async function createCharEquip(dm:DataManager,charName:string){
         volume      : 0,
         symbol      : "O",
         flags       : [
-            "PERSONAL"      ,//个人层
-            "UNBREAKABLE"   ,//不会损坏
-            "INTEGRATED"    ,//自体护甲
-            "ZERO_WEIGHT"   ,//无重量体积
-            "TARDIS"        ,//不会出售
-            "PARTIAL_DEAF"  ,//降低音量到安全水平
-            "NO_SALVAGE"    ,//无法拆分
+            "PERSONAL"              ,//个人层
+            "UNBREAKABLE"           ,//不会损坏
+            "INTEGRATED"            ,//自体护甲
+            "ZERO_WEIGHT"           ,//无重量体积
+            "TARDIS"                ,//不会出售
+            "PARTIAL_DEAF"          ,//降低音量到安全水平
+            "NO_SALVAGE"            ,//无法拆分
+            "ALLOWS_NATURAL_ATTACKS",//不会妨碍特殊攻击
+            "PADDED"				,//有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
             defineData.baseItemFlagID
         ],
         pocket_data : pocketList,
         relic_data:{
             passive_effects:[
-                ...[...enchList,baseEnch].map(ench=>({id:ench.id}))
+                ...[...enchList,baseEnch].map(ench=>({id:ench.id})),
+                {id:NO_PAIN_ENCHID}
             ]
         }
     }
@@ -133,6 +137,9 @@ export async function createCharEquip(dm:DataManager,charName:string){
         description     : `${charName}的基础变异`,
         points          : 0,
         integrated_armor: [defineData.baseArmorID],
+        valid:false,
+        purifiable:false,
+        player_display:false,
     }
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);

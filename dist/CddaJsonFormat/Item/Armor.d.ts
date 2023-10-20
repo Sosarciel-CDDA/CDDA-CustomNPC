@@ -37,11 +37,13 @@ export type ArmorData = {
     /**层级 */
     layers?: ArmorLayer[];
 };
-/**装甲图层显示优先级 从低到高 AURA显示在最外层 */
+/**装甲图层显示优先级/装甲层级
+ * 从低到高 AURA显示在最外层
+ */
 export declare const ArmorLayerList: readonly ["PERSONAL", "SKINTIGHT", "NORMAL", "WAIST", "OUTER", "BELTED", "AURA"];
 /**装甲图层 */
 export type ArmorLayer = typeof ArmorLayerList[number];
-export declare const ArmorFlagList: readonly ["INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "OUTER", "PARTIAL_DEAF"];
+export declare const ArmorFlagList: readonly ["INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "PARTIAL_DEAF", "PADDED"];
 export type ArmorFlag = typeof ArmorFlagList[number] | ArmorLayer | GenericFlag;
 /**
 ABLATIVE_CHAINMAIL_ARMS             物品可以与链甲盔甲一起佩戴, 而不会受到负担惩罚；特别可以放入带有此标志限制的盔甲口袋中

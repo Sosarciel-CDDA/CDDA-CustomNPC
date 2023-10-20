@@ -1,6 +1,6 @@
 import { Effect, EffectID } from "../CddaJsonFormat/Effect";
 import { DataManager } from "../DataManager";
-import { BoolObj, Eoc, EocEffect, Time } from "../CddaJsonFormat";
+import { Armor, BoolObj, Eoc, EocEffect, Mutation, Time } from "../CddaJsonFormat";
 import { CommonEventType } from "../Event";
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
@@ -21,3 +21,7 @@ export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: 
  * @param eocEffects 额外效果
  */
 export declare function genAddEffEoc(effectID: EffectID, duration: Time, eocEffects?: EocEffect[]): Eoc;
+/**修改护甲 并生成添加护甲的变异
+ * ID为`${armor.id}_MUT`
+ */
+export declare function genArmorMut(armor: Armor): Mutation;

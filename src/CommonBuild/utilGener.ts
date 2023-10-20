@@ -1,9 +1,9 @@
 import { Effect, EffectID } from "@src/CddaJsonFormat/Effect";
 import { DataManager } from "@src/DataManager";
 import { UtilFunc } from "@zwa73/utils";
-import { BoolObj, Eoc, EocEffect, Spell, Time } from "CddaJsonFormat";
+import { Armor, BoolObj, Eoc, EocEffect, Mutation, MutationID, Spell, Time } from "CddaJsonFormat";
 import { CommonEventType, GlobalEventType } from "Event";
-import { genActEoc, genEOCID } from "ModDefine";
+import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 
 
 
@@ -66,4 +66,37 @@ export function genAddEffEoc(effectID:EffectID,duration:Time, eocEffects?:EocEff
         ...eocEffects??[]
     ],undefined,true);
     return effecteoc;
+}
+
+/**修改护甲 并生成添加护甲的变异 
+ * ID为`${armor.id}_MUT`
+ */
+export function genArmorMut(armor:Armor){
+    armor.flags?.push(
+        "UNBREAKABLE"           ,//不会损坏
+        "INTEGRATED"            ,//自体护甲
+        "ZERO_WEIGHT"           ,//无重量体积
+        "TARDIS"                ,//不会出售
+        "PARTIAL_DEAF"          ,//降低音量到安全水平
+        "NO_SALVAGE"            ,//无法拆分
+        "ALLOWS_NATURAL_ATTACKS",//不会妨碍特殊攻击
+        "PADDED"				,//有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
+    )
+    armor.weight=0;
+    armor.volume=0;
+    let fixname = armor.name;
+    if(typeof fixname != "string")
+        fixname = fixname?.str_sp??fixname?.str_pl??fixname?.str??fixname?.ctxt;
+    const mut:Mutation={
+        id:`${armor.id}_MUT` as MutationID,
+        type:"mutation",
+        name:fixname+" 的附带变异",
+        description:fixname+" 的附带变异",
+        points:0,
+        valid:false,
+        purifiable:false,
+        player_display:false,
+        integrated_armor:[armor.id]
+    }
+    return mut;
 }

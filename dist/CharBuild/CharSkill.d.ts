@@ -1,4 +1,4 @@
-import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "../CddaJsonFormat";
+import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, Time, ParamsEoc } from "../CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
 /**技能选择目标类型 列表 */
@@ -35,7 +35,9 @@ export type CharSkill = {
      * 将会随主spell一起解析
      * 作为spell的extra_effects加入
      */
-    extra_effects?: Spell[];
+    extra_effect?: Spell[];
+    /**特殊的子效果 */
+    spec_effect?: SpecEffect[];
     /**技能音效 */
     audio?: (string | {
         /**音效变体ID */
@@ -95,6 +97,34 @@ export type CastCondition = {
      * 相同的hook与target(包括auto或未指定)将覆盖
      */
     target?: TargetType;
+};
+/**特殊的字效果 */
+type SpecEffect = RunEoc | AddEffect;
+/**添加效果 */
+type AddEffect = {
+    /**生成一个添加效果的子法术 */
+    type: "AddEffect";
+    /**效果ID */
+    effect_id: EffectID;
+    /**效果强度 */
+    intensity: NumObj;
+    /**持续时间 数字为秒 */
+    duration: Time | NumObj;
+    /**添加效果后的额外效果 */
+    effect?: EocEffect[];
+    /**是否叠加强度 默认覆盖 */
+    is_stack?: boolean;
+};
+/**以受害者为 u_ 运行EOC */
+type RunEoc = {
+    /**生成一个运行的子法术 */
+    type: "RunEoc";
+    /**运行的Eoc */
+    eoc: ParamsEoc;
+    /**自动生成eoc并运行 */
+    effect?: EocEffect[];
+    /**自动生成的eoc的运行条件 */
+    condition?: BoolObj;
 };
 /**使某个技能停止使用的全局变量 */
 export declare function getGlobalDisableSpellVar(charName: string, spell: Spell): string;

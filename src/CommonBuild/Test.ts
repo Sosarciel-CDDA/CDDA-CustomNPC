@@ -5,7 +5,7 @@ import { genEffectID, genSpellID } from "ModDefine";
 import { Effect, Spell } from "CddaJsonFormat";
 
 
-export function createTest(dm:DataManager){
+export async function createTest(dm:DataManager){
     let outData:JObject[] = [];
 
     const effid = genEffectID("TestEff");

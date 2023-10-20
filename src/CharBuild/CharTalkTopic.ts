@@ -452,6 +452,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 effect:[{u_spawn_item:item.id}]
             }
             dm.addCharEvent(charName,"CnpcUpdateSlow",0,giveWeapon);
+            dm.addCharEvent(charName,"CnpcBattleUpdate",0,giveWeapon);
             dm.addCharEvent(charName,"CnpcInit",0,giveWeapon);
             weaponData.push(giveWeapon)
 

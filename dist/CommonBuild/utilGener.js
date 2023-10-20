@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genAddEffEoc = exports.genTriggerEffect = void 0;
+exports.genArmorMut = exports.genAddEffEoc = exports.genTriggerEffect = void 0;
 const ModDefine_1 = require("../ModDefine");
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
@@ -59,3 +59,34 @@ function genAddEffEoc(effectID, duration, eocEffects) {
     return effecteoc;
 }
 exports.genAddEffEoc = genAddEffEoc;
+/**修改护甲 并生成添加护甲的变异
+ * ID为`${armor.id}_MUT`
+ */
+function genArmorMut(armor) {
+    armor.flags?.push("UNBREAKABLE", //不会损坏
+    "INTEGRATED", //自体护甲
+    "ZERO_WEIGHT", //无重量体积
+    "TARDIS", //不会出售
+    "PARTIAL_DEAF", //降低音量到安全水平
+    "NO_SALVAGE", //无法拆分
+    "ALLOWS_NATURAL_ATTACKS", //不会妨碍特殊攻击
+    "PADDED");
+    armor.weight = 0;
+    armor.volume = 0;
+    let fixname = armor.name;
+    if (typeof fixname != "string")
+        fixname = fixname?.str_sp ?? fixname?.str_pl ?? fixname?.str ?? fixname?.ctxt;
+    const mut = {
+        id: `${armor.id}_MUT`,
+        type: "mutation",
+        name: fixname + " 的附带变异",
+        description: fixname + " 的附带变异",
+        points: 0,
+        valid: false,
+        purifiable: false,
+        player_display: false,
+        integrated_armor: [armor.id]
+    };
+    return mut;
+}
+exports.genArmorMut = genArmorMut;

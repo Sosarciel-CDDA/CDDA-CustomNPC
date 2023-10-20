@@ -1,6 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefineItemCategoryList = exports.GenericFlagList = void 0;
+exports.DefineItemCategoryList = exports.GenericFlagList = exports.WeaponFlagList = void 0;
+/**武器Flag 列表 */
+exports.WeaponFlagList = [
+    "ALLOWS_BODY_BLOCK",
+    "ALWAYS_TWOHAND",
+    "BIONIC_WEAPON",
+    "DIAMOND",
+    "MESSY",
+    "NO_CVD",
+    "NO_RELOAD",
+    "NO_UNWIELD",
+    "NONCONDUCTIVE",
+    "POLEARM",
+    "REACH_ATTACK",
+    "REACH3",
+    "SHEATH_AXE",
+    "SHEATH_GOLF",
+    "SHEATH_KNIFE",
+    "SHEATH_SWORD",
+    "SPEAR",
+    //"UNARMED_WEAPON"	,//挥舞该物品进行战斗仍然算作徒手战斗。
+    "WHIP", //有一定几率解除对手的武装。
+];
 /**通用物品的flag列表 */
 exports.GenericFlagList = [
     "ACTIVATE_ON_PLACE",
@@ -208,7 +230,7 @@ ZERO_WEIGHT					通常重量为零的物品会产生错误。使用此标志来�
  */
 //近战武器
 /**
-ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+ALLOWS_BODY_BLOCK	即使在挥舞带有旗帜的物品时也可以触发身体格挡 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
 ALWAYS_TWOHAND		物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
 BIONIC_WEAPON		无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
 DIAMOND				金刚石涂层使切割和穿刺伤害增加 30%。

@@ -16,6 +16,96 @@ const TargetTypeList = [
     "auto_hit",
     "filter_random", //筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
 ];
+/**特殊效果的处理表 */
+const SpecProcMap = {
+    AddEffect: processAddEffect,
+    RunEoc: processRunEoc,
+};
+function processAddEffect(dm, charName, baseSkillData, spec, index) {
+    const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
+    const { spell, one_in_chance } = skill;
+    spec = spec;
+    const mainid = `${spell.id}_${index}_AddEffect`;
+    const intVar = `${mainid}_intensity`;
+    PreEffect.push({ math: [intVar, "=", parseNumObj(spec.intensity)] });
+    let fixdur = spec.duration;
+    if (typeof fixdur != "string" && typeof fixdur != "number") {
+        const durVar = `${mainid}_duration`;
+        PreEffect.push({ math: [durVar, "=", parseNumObj(fixdur)] });
+        fixdur = { math: [durVar] };
+    }
+    const addEoc = {
+        type: "effect_on_condition",
+        id: (0, ModDefine_1.genEOCID)(mainid),
+        eoc_type: "ACTIVATION",
+        effect: [
+            spec.is_stack == true
+                ? { u_add_effect: spec.effect_id, duration: fixdur, intensity: { math: [`max(u_effect_intensity('${spec.effect_id}'),0) + ${intVar}`] } }
+                : { u_add_effect: spec.effect_id, duration: fixdur, intensity: { math: [intVar] } },
+            ...spec.effect ?? []
+        ]
+    };
+    dm.addSharedRes(addEoc.id, addEoc, "common_resource", "common_spell_assist");
+    const flags = [...StaticData_1.CON_SPELL_FLAG];
+    if (spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS");
+    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
+    extraEffects.push({
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(mainid),
+        effect: "effect_on_condition",
+        effect_str: addEoc.id,
+        name: `${spell.name}_${index}_AddEffect`,
+        description: spell.name + "的添加效果子法术",
+        min_aoe, max_aoe, aoe_increment,
+        min_range, max_range, range_increment,
+        max_level, shape, valid_targets,
+        targeted_monster_ids, targeted_monster_species, flags
+    });
+}
+;
+function processRunEoc(dm, charName, baseSkillData, spec, index) {
+    const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
+    const { spell, one_in_chance } = skill;
+    spec = spec;
+    const mainid = `${spell.id}_${index}_RunEoc`;
+    const runEoc = {
+        type: "effect_on_condition",
+        id: (0, ModDefine_1.genEOCID)(mainid),
+        eoc_type: "ACTIVATION",
+        effect: []
+    };
+    if (spec.eoc != undefined)
+        runEoc.effect?.push({ run_eocs: spec.eoc });
+    if (spec.effect != undefined) {
+        let inline = {
+            id: (0, ModDefine_1.genEOCID)(`${mainid}_inline`),
+            eoc_type: "ACTIVATION",
+            effect: spec.effect,
+        };
+        if (spec.condition != undefined)
+            inline.condition = spec.condition;
+        runEoc.effect?.push({ run_eocs: inline });
+    }
+    dm.addSharedRes(runEoc.id, runEoc, "common_resource", "common_spell_assist");
+    const flags = [...StaticData_1.CON_SPELL_FLAG];
+    if (spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS");
+    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
+    extraEffects.push({
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(mainid),
+        effect: "effect_on_condition",
+        effect_str: runEoc.id,
+        name: `${spell.name}_${index}_RunEoc`,
+        description: spell.name + "运行Eoc子法术",
+        min_aoe, max_aoe, aoe_increment,
+        min_range, max_range, range_increment,
+        max_level, shape, valid_targets,
+        targeted_monster_ids, targeted_monster_species, flags
+    });
+}
+;
 //全局冷却字段名
 const gcdValName = `u_coCooldown`;
 /**使某个技能停止使用的全局变量 */
@@ -63,7 +153,7 @@ async function createCharSkill(dm, charName) {
         //替换变量字段
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
-        const { cast_condition, spell, extra_effects, cooldown, common_cooldown, audio, require_field, after_effect, before_effect, require_weapon_flag, require_weapon_category, require_unarmed } = skill;
+        const { cast_condition, spell, extra_effect, cooldown, common_cooldown, audio, require_field, after_effect, before_effect, require_weapon_flag, require_weapon_category, require_unarmed, spec_effect } = skill;
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost ?? 0}+${spell.energy_increment ?? 0}*` +
             `u_val('spell_level', 'spell: ${spell.id}'),${spell.final_energy_cost ?? 999999})`;
@@ -72,7 +162,7 @@ async function createCharSkill(dm, charName) {
             ? costMap[spell.energy_source]
             : undefined;
         //修正子法术
-        const extraEffects = extra_effects ?? [];
+        const extraEffects = extra_effect ?? [];
         //生成冷却变量名
         const cdValName = `u_${spell.id}_cooldown`;
         //计算成功效果
@@ -148,19 +238,23 @@ async function createCharSkill(dm, charName) {
                 requireWeaponCond.push(...require_weapon_flag.map(id => ({ u_has_wielded_with_flag: id })));
             if (require_weapon_category)
                 requireWeaponCond.push(...require_weapon_category.map(id => ({ u_has_wielded_with_flag: id })));
-            if (require_weapon_category)
+            if (require_unarmed)
                 requireWeaponCond.push({ not: "u_has_weapon" });
             if (requireWeaponCond.length > 0)
                 baseCond.push({ or: requireWeaponCond });
             //处理并加入输出
-            skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, {
+            const dat = {
                 skill,
                 TEffect,
                 PreEffect,
                 baseCond,
                 castCondition,
                 extraEffects,
-            }));
+            };
+            let specindex = 0;
+            for (const spec of spec_effect ?? [])
+                SpecProcMap[spec.type](dm, charName, dat, spec, specindex++);
+            skillDataList.push(...ProcMap[target ?? "auto"](dm, charName, dat));
         }
         dm.addSharedRes(spell.id, spell, "common_resource", "common_spell");
         for (const exspell of extraEffects)
@@ -213,10 +307,9 @@ function hitselfSpell(spell) {
         rspell.valid_targets.push("self");
     return rspell;
 }
-/**解析伤害字符串 */
-function parseNumObj(spell, field) {
+/**解析NumObj为math表达式 */
+function parseNumObj(value) {
     let strExp = `0`;
-    const value = spell[field];
     if (value !== undefined) {
         if (typeof value == "number")
             strExp = value + "";
@@ -227,13 +320,17 @@ function parseNumObj(spell, field) {
     }
     return strExp;
 }
+/**解析法术伤害字符串 */
+function parseSpellNumObj(spell, field) {
+    return parseNumObj(spell[field]);
+}
 /**将法术数据转为全局变量
  * 返回 预先计算全局变量的effect
  */
 function fixSpellDmg(spell) {
-    const dmgstr = parseNumObj(spell, "min_damage");
-    const dotstr = parseNumObj(spell, "min_dot");
-    const durstr = parseNumObj(spell, "min_duration");
+    const dmgstr = parseSpellNumObj(spell, "min_damage");
+    const dotstr = parseSpellNumObj(spell, "min_dot");
+    const durstr = parseSpellNumObj(spell, "min_duration");
     const dmgvar = `${spell.id}_dmg`;
     if (spell.min_damage) {
         spell.min_damage = { math: [dmgvar] };
@@ -274,6 +371,9 @@ function spell_targetProc(dm, charName, baseSkillData) {
         spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
     }
     //创建瞄准法术标靶的辅助索敌法术
+    const flags = ["WONDER", "RANDOM_TARGET", ...StaticData_1.CON_SPELL_FLAG];
+    if (spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS");
     const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape } = spell;
     const selTargetSpell = {
         id: (0, ModDefine_1.genSpellID)(`${spell.id}_SelTarget`),
@@ -281,14 +381,13 @@ function spell_targetProc(dm, charName, baseSkillData) {
         name: spell.name + "_索敌",
         description: `${spell.name}的辅助索敌法术`,
         effect: "attack",
-        flags: ["WONDER", "RANDOM_TARGET", ...StaticData_1.CON_SPELL_FLAG],
         min_damage: 1,
         max_damage: 1,
         valid_targets: ["hostile"],
         targeted_monster_ids: [StaticData_1.TARGET_MON_ID],
         min_aoe, max_aoe, aoe_increment,
         min_range, max_range, range_increment,
-        shape, max_level,
+        shape, max_level, flags,
         extra_effects: [{ id: spell.id }],
     };
     dm.addSharedRes(selTargetSpell.id, selTargetSpell, "common_resource", "common_spell_assist");
@@ -373,6 +472,10 @@ function reverse_hitProc(dm, charName, baseSkillData) {
     let dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //加入子效果
+    if (extraEffects.length > 0) {
+        spell.extra_effects = spell.extra_effects ?? [];
+        spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
+    }
     for (const exspell of extraEffects) {
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects = rspell.extra_effects ?? [];
@@ -425,6 +528,10 @@ function filter_randomProc(dm, charName, baseSkillData) {
     let dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //加入子效果
+    if (extraEffects.length > 0) {
+        spell.extra_effects = spell.extra_effects ?? [];
+        spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
+    }
     for (const exspell of extraEffects) {
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects = rspell.extra_effects ?? [];
@@ -469,6 +576,9 @@ function filter_randomProc(dm, charName, baseSkillData) {
             ] },
     };
     //创建筛选目标的辅助索敌法术
+    const flags = [...StaticData_1.CON_SPELL_FLAG];
+    if (spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS");
     const { min_range, max_range, range_increment, max_level, valid_targets, targeted_monster_ids } = spell;
     const filterTargetSpell = {
         id: (0, ModDefine_1.genSpellID)(`${charName}_${rspell.id}_FilterTarget_${ccuid}`),
@@ -477,7 +587,7 @@ function filter_randomProc(dm, charName, baseSkillData) {
         description: `${rspell.name}的筛选索敌法术`,
         effect: "effect_on_condition",
         effect_str: castEoc.id,
-        flags: [...StaticData_1.CON_SPELL_FLAG],
+        flags,
         shape: "blast",
         min_aoe: min_range,
         max_aoe: max_range,
@@ -520,6 +630,10 @@ function direct_hitProc(dm, charName, baseSkillData) {
     const dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //加入子效果
+    if (extraEffects.length > 0) {
+        spell.extra_effects = spell.extra_effects ?? [];
+        spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
+    }
     for (const exspell of extraEffects) {
         const rexspell = hitselfSpell(exspell);
         rspell.extra_effects = rspell.extra_effects ?? [];
@@ -567,16 +681,19 @@ function autoProc(dm, charName, baseSkillData) {
     //是Aoe法术
     const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
         (spell.aoe_increment != null && spell.aoe_increment != 0);
-    //aoe敌对目标法术将使用法术标靶
-    if (isHostileTarget && isAoe)
+    //有释放范围
+    const hasRange = (spell.min_range != null && spell.min_range != 0) ||
+        (spell.range_increment != null && spell.range_increment != 0);
+    //aoe 有范围 敌对目标 法术将使用法术标靶
+    if (isHostileTarget && isAoe && hasRange)
         return ProcMap.spell_target(dm, charName, baseSkillData);
-    //友方条件目标法术适用筛选命中
-    if (isAllyTarget && castCondition.condition != undefined)
+    //有范围 有条件 友方目标 法术适用筛选命中
+    if (isAllyTarget && hasRange && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
-    //非aoe 且 hook为互动事件的的敌对目标法术 将直接命中
+    //非aoe hook为互动事件 敌对目标 法术将直接命中
     if ((Event_1.CnpcReverseEventTypeList.includes(hook) ||
         Event_1.CnpcInteractiveEventList.includes(hook)) &&
-        isHostileTarget)
+        isHostileTarget && !isAoe)
         return ProcMap.auto_hit(dm, charName, baseSkillData);
     //其他法术随机
     return ProcMap.random(dm, charName, baseSkillData);

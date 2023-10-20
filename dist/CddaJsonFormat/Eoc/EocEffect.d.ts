@@ -185,8 +185,10 @@ type Message = TalkerVar<{
 /**添加效果 */
 type AddEffect = TalkerVar<{
     add_effect: EffectID | StrObj;
-    /**添加的时间 */
-    duration: Time;
+    /**添加的时间
+     * 数字为秒
+     */
+    duration: Time | NumObj;
     /**默认为 whole body 全身 */
     target_part?: BodyPartParam;
     /**效果强度 默认 0

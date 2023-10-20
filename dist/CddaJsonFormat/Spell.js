@@ -46,7 +46,7 @@ exports.SpellEffectList = [
     "timed_event",
     "translocate",
     "upgrade",
-    "vomit", // 其aoe内的任何生物都会立即呕吐，如果它能够这样做。
+    "vomit", // 其aoe内的任何生物都会立即呕吐, 如果它能够这样做。
 ];
 /**法术范围形状 列表*/
 exports.SpellShapeList = [
