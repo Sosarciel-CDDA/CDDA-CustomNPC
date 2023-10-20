@@ -31,6 +31,11 @@ export type CharSkill = {
      * 可用 u_coCooldown 获得公共冷却时间
      */
     spell: Spell;
+    /**子法术
+     * 将会随主spell一起解析
+     * 作为spell的extra_effects加入
+     */
+    extra_effects?: Spell[];
     /**技能音效 */
     audio?: (string | {
         /**音效变体ID */

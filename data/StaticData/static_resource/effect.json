@@ -4,15 +4,19 @@
         "type": "effect_type",
         "id": "CNPC_EFF_wound",
         "name": [ "创伤" ],
-        "desc": [ "一道逐渐扩大的创伤正在蚕食你的躯体。" ],
+        "desc": [ "每秒受到 创伤层数 点伤害\n每轮一道逐渐扩大的创伤正在蚕食你的躯体。" ],
         "remove_message": "创伤停止了扩大。",
         "rating": "bad",
         "max_intensity": 1000,
+        "max_duration": "60 s",
         "int_add_val": 1,
+        "base_mods": {
+            "hurt_min": [ 1 ],
+            "hurt_tick": [ 100 ]
+        },
         "scaling_mods": {
             "hurt_min": [ 1 ],
-            "hurt_max": [ 2 ],
-            "hurt_tick": [ 10 ]
+            "hurt_tick": [ 100 ]
         }
     }
 ]

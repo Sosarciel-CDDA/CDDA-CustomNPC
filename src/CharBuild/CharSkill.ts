@@ -25,15 +25,15 @@ export type CharSkill = {
     /**技能的释放条件 */
     cast_condition:CastCondition|CastCondition[];
     /**权重 优先尝试触发高权重的spell 默认0 */
-    weight?         :number,
+    weight?         :number;
     /**概率 有1/chance的几率使用这个技能 默认1 */
-    one_in_chance?  :number,
+    one_in_chance?  :number;
     /**冷却时间 单位为每次CharUpdate 默认0 */
-    cooldown?       :number,
+    cooldown?       :number;
     /**共同冷却时间 影响所有技能的释放 单位为每次CharUpdate 默认1  
      * 一个高权重0共同冷却的技能意味着可以同时触发  
      */
-    common_cooldown?:number,
+    common_cooldown?:number;
     /**法术效果  
      * 可用 `u_${字段}` 或 `${角色名}_${字段}` 表示 当前/某个角色 的字段变量  
      * 如 min_damage: {math:["u_重击 * 10 + Asuna_重击"]}  
@@ -43,7 +43,12 @@ export type CharSkill = {
      *   
      * 可用 u_coCooldown 获得公共冷却时间  
      */
-    spell           :Spell,
+    spell           :Spell;
+    /**子法术  
+     * 将会随主spell一起解析  
+     * 作为spell的extra_effects加入  
+     */
+    extra_effects?  :Spell[];
     /**技能音效 */
     audio?          :(string|{
         /**音效变体ID */
@@ -56,7 +61,7 @@ export type CharSkill = {
          * 每隔n次战斗刷新可触发
          */
         cooldown?:number;
-    })[],
+    })[];
     /**要求强化字段 [字段,强化等级] 或 字段名 */
     require_field?:[string,number]|string;
     /**释放成功后运行的效果 */
@@ -122,7 +127,7 @@ function parseAudioString(charName:string,str:string,volume:number=100){
     let soundName = charName;
     let varName = str;
     if(str.includes(":")){
-        const match = str.match(/.+:.+/);
+        const match = str.match(/(.+):(.+)/);
         if(match==null) throw `parseAudioString 解析错误 字符串:${str}`;
         soundName = match[1];
         varName = match[2];
@@ -159,7 +164,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         //skill.spell = JSON.parse(JSON.stringify(skill.spell)
         //    .replace(/(\{\{.*?\}\})/g,(match,p1)=>getFieldVarID(p1)));
 
-        const {cast_condition,spell,cooldown,common_cooldown,audio,require_field,after_effect,before_effect,require_weapon_flag,require_weapon_category,require_unarmed} = skill;
+        const {cast_condition,spell,extra_effects,cooldown,common_cooldown,audio,require_field,after_effect,before_effect,require_weapon_flag,require_weapon_category,require_unarmed} = skill;
 
         //法术消耗字符串
         const spellCost = `min(${spell.base_energy_cost??0}+${spell.energy_increment??0}*`+
@@ -169,6 +174,8 @@ export async function createCharSkill(dm:DataManager,charName:string){
             ? costMap[spell.energy_source]
             : undefined;
 
+        //修正子法术
+        const extraEffects = extra_effects??[];
 
         //生成冷却变量名
         const cdValName = `u_${spell.id}_cooldown`;
@@ -263,9 +270,12 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 PreEffect,
                 baseCond,
                 castCondition,
+                extraEffects,
             }));
         }
         dm.addSharedRes(spell.id,spell,"common_resource","common_spell");
+        for(const exspell of extraEffects)
+            dm.addSharedRes(exspell.id,exspell,"common_resource","common_spell");
         //冷却事件
         if(cooldown!=null){
             const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
@@ -301,7 +311,9 @@ type BaseSkillCastData=Readonly<{
     /**基础准备释放Eoc */
     PreEffect:EocEffect[];
     /**释放条件 */
-    castCondition: CastCondition;
+    castCondition:CastCondition;
+    /**子法术 */
+    extraEffects:Spell[];
 }>
 
 //获取施法方式的uid
@@ -326,11 +338,11 @@ function revTalker(obj:JToken):any{
     str = str.replace(regex,`"npc_$1"`);
     return JSON.parse(str);
 }
-/**翻转法术 */
-function revSpell(spell:Spell):Spell{
+/**命中自身的法术变体 */
+function hitselfSpell(spell:Spell):Spell{
     const rspell = UtilFunc.deepClone(spell);
-    rspell.name = `${spell.name}_reverse`;
-    rspell.id = `${rspell.id}_reverse` as SpellID;
+    rspell.name = `${spell.name}_hitself`;
+    rspell.id = `${rspell.id}_hitself` as SpellID;
     if(!rspell.valid_targets.includes("self"))
         rspell.valid_targets.push("self");
     return rspell;
@@ -348,25 +360,25 @@ function parseNumObj(spell:Spell,field:keyof Spell){
     }
     return strExp;
 }
-/**将翻转法术数据转为全局变量
+/**将法术数据转为全局变量
  * 返回 预先计算全局变量的effect
  */
-function fixRevSpellDmg(spell:Spell):EocEffect[]{
+function fixSpellDmg(spell:Spell):EocEffect[]{
     const dmgstr = parseNumObj(spell,"min_damage");
     const dotstr = parseNumObj(spell,"min_dot");
     const durstr = parseNumObj(spell,"min_duration");
 
-    const dmgvar = `${spell.id}_reverse_dmg`;
+    const dmgvar = `${spell.id}_dmg`;
     if(spell.min_damage){
         spell.min_damage = {math:[dmgvar]};
         spell.max_damage = SPELL_MAX_DAMAGE;
     }
-    const dotvar = `${spell.id}_reverse_dot`;
+    const dotvar = `${spell.id}_dot`;
     if(spell.min_dot){
         spell.min_dot = {math:[dotvar]};
         spell.max_dot = SPELL_MAX_DAMAGE;
     }
-    const durvar = `${spell.id}_reverse_dur`;
+    const durvar = `${spell.id}_dur`;
     if(spell.min_duration){
         spell.min_duration = {math:[durvar]};
         spell.max_duration = 999999;
@@ -388,11 +400,17 @@ function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
 
 
 function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
+
+    //加入子效果
+    if(extraEffects.length>0){
+        spell.extra_effects=spell.extra_effects??[];
+        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+    }
 
     //创建瞄准法术标靶的辅助索敌法术
     const {min_aoe,max_aoe,aoe_increment,
@@ -448,11 +466,17 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
 }
 
 function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
+
+    //加入子效果
+    if(extraEffects.length>0){
+        spell.extra_effects=spell.extra_effects??[];
+        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+    }
 
     //创建施法EOC
     const castEoc:Eoc={
@@ -488,22 +512,33 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
 
 
 function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    let {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
+    let {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(spell);
+    const rspell = hitselfSpell(spell);
     //解析伤害字符串
-    const dmgPreEff = fixRevSpellDmg(rspell);
+    let dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
+
+    //加入子效果
+    for(const exspell of extraEffects){
+        const rexspell = hitselfSpell(exspell);
+        rspell.extra_effects=rspell.extra_effects??[];
+        rspell.extra_effects.push({id:rexspell.id});
+        dmgPreEff.push(...fixSpellDmg(rexspell))
+        dm.addSharedRes(rexspell.id,rexspell,"common_resource","common_spell_assist");
+    }
+
 
     //翻转u与n
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
     PreEffect = revTalker(PreEffect);
+    dmgPreEff = revTalker(dmgPreEff);
 
     //创建翻转的施法EOC
     const castEoc:Eoc={
@@ -538,16 +573,25 @@ function reverse_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillC
 }
 
 function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    let {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
+    let {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(spell);
+    const rspell = hitselfSpell(spell);
     //解析伤害字符串
-    const dmgPreEff = fixRevSpellDmg(rspell);
+    let dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
+
+    //加入子效果
+    for(const exspell of extraEffects){
+        const rexspell = hitselfSpell(exspell);
+        rspell.extra_effects=rspell.extra_effects??[];
+        rspell.extra_effects.push({id:rexspell.id});
+        dmgPreEff.push(...fixSpellDmg(rexspell));
+        dm.addSharedRes(rexspell.id,rexspell,"common_resource","common_spell_assist");
+    }
 
     //翻转u与n
     const unrbaseCond = UtilFunc.deepClone(baseCond);
@@ -555,6 +599,7 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     baseCond = revTalker(baseCond);
     TEffect = revTalker(TEffect);
     PreEffect = revTalker(PreEffect);
+    dmgPreEff =revTalker(dmgPreEff);
 
     //命中id
     const fhitvar = `${rspell.id}_hasTarget`;
@@ -632,18 +677,26 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
 }
 
 function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
-    const {skill,baseCond,TEffect,castCondition,PreEffect} = baseSkillData;
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
 
     //复制法术
-    const rspell = revSpell(spell);
+    const rspell = hitselfSpell(spell);
     //解析伤害字符串
-    const dmgPreEff = fixRevSpellDmg(rspell);
+    const dmgPreEff = fixSpellDmg(rspell);
     dm.addSharedRes(rspell.id,rspell,"common_resource","common_spell_assist");
 
+    //加入子效果
+    for(const exspell of extraEffects){
+        const rexspell = hitselfSpell(exspell);
+        rspell.extra_effects=rspell.extra_effects??[];
+        rspell.extra_effects.push({id:rexspell.id});
+        dmgPreEff.push(...fixSpellDmg(rexspell));
+        dm.addSharedRes(rexspell.id,rexspell,"common_resource","common_spell_assist");
+    }
 
     //创建翻转的施法EOC
     const castEoc:Eoc={

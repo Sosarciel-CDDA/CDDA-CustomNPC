@@ -9,7 +9,7 @@ function createTriggerEffect(dm) {
     Electrify(dm);
 }
 exports.createTriggerEffect = createTriggerEffect;
-const TEFF_DUR = 120;
+const TEFF_DUR = '60 s';
 const TEFF_MAX = 100000;
 //霜盾
 function FrostShield(dm) {
@@ -73,10 +73,24 @@ function Electrify(dm) {
         name: "感电触发伤害",
         description: "感电触发伤害",
         effect: "attack",
-        min_damage: { math: [`u_effect_intensity('${effid}')`] },
+        min_damage: { math: [`u_effect_intensity('${effid}')*100`] },
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         valid_targets: ["self"],
         shape: "blast",
+        damage_type: "electric",
+    };
+    const ench = {
+        type: "enchantment",
+        id: (0, ModDefine_1.genEnchantmentID)(`${effid}_Ench`),
+        condition: "ALWAYS",
+        intermittent_activation: {
+            effects: [{
+                    frequency: "1 s",
+                    spell_effects: [
+                        { id: tspell.id, hit_self: true }
+                    ]
+                }]
+        }
     };
     const eff = {
         type: "effect_type",
@@ -85,11 +99,42 @@ function Electrify(dm) {
         desc: ["每次受到感电效果时, 受到一次相当于感电层数的伤害, 每次触发后感电层数减半"],
         max_intensity: TEFF_MAX,
         max_duration: TEFF_DUR,
+        enchantments: [ench.id]
+    };
+    const mainEoc = (0, UtilGener_1.genAddEffEoc)(effid, TEFF_DUR, [
+        //{u_cast_spell:{id:tspell.id,hit_self:true}},
+        //{u_add_effect:effid,intensity:{math:[`u_effect_intensity('${effid}')/2`]},duration:TEFF_DUR},
+        { sound_effect: "ElectHit", id: "BaseAudio", volume: 100 }
+    ]);
+    dm.addStaticData([tspell, ench, eff, mainEoc], "common_resource", "trigger_effect", "Electrify");
+}
+//创伤
+function Trauma(dm) {
+    const effid = "Trauma";
+    const tspell = {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger`),
+        name: "创伤触发伤害",
+        description: "创伤触发伤害",
+        effect: "attack",
+        min_damage: { math: [`u_effect_intensity('${effid}')`] },
+        max_damage: StaticData_1.SPELL_MAX_DAMAGE,
+        valid_targets: ["self"],
+        shape: "blast",
+        damage_type: "cut",
+    };
+    const eff = {
+        type: "effect_type",
+        id: effid,
+        name: ["创伤"],
+        desc: ["每次受到创伤效果时, 受到一次相当于创伤层数的伤害, 每次触发后创伤层数减半"],
+        max_intensity: TEFF_MAX,
+        max_duration: TEFF_DUR,
     };
     const mainEoc = (0, UtilGener_1.genAddEffEoc)(effid, TEFF_DUR, [
         { u_cast_spell: { id: tspell.id, hit_self: true } },
         { u_add_effect: effid, intensity: { math: [`u_effect_intensity('${effid}')/2`] }, duration: TEFF_DUR },
         { sound_effect: "ElectHit", id: "BaseAudio", volume: 100 }
     ]);
-    dm.addStaticData([tspell, eff, mainEoc], "common_resource", "trigger_effect", "Electrify");
+    dm.addStaticData([tspell, eff, mainEoc], "common_resource", "trigger_effect", "Trauma");
 }

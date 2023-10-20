@@ -54,6 +54,34 @@
 				"effect_str": "FrostShield_AddEffect"
 			},
 			"before_effect": [{"math": ["FrostShield_count","=","2"]}]
+		},
+		{
+			"name": "雷霆轰击",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseRangeDamage"
+			},
+			"cooldown":15,
+			"audio":[
+				{"id":"ElectricStrike","cooldown": 180},
+				"ElectricStrikeSF","BaseAudio:ElectHit"
+			],
+			"spell": {
+				"id":"ElectricStrike",
+				"type": "SPELL",
+				"name": "雷霆轰击",
+				"description": "雷霆轰击",
+				"min_damage":{
+					"math": ["CalcDamage(27, u_val('perception'))*1.8"]
+				},
+				"max_damage":999999,
+				"damage_type": "electric",
+				"shape": "blast",
+				"min_range": {"math": ["BATTLE_RANGE"]},
+				"valid_targets": ["hostile","ground","self"],
+				"effect": "attack"
+			},
+			"weight": 1,
+			"require_weapon_flag": ["AkasetLaserCannon"]
 		}
 	],
 	"desc": {

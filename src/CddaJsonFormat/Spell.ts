@@ -23,6 +23,8 @@ export type Spell = {
 	valid_targets: SpellTarget[];
     /**如果法术可以对生物释放 有效的怪物ID */
     targeted_monster_ids?:MonsterID[];
+    /**如果法术可以对生物释放 有效的怪物特殊标签 */
+    targeted_monster_species?:string[];
     /**法术效果类型 */
 	effect: SpellEffect;
     /**法术效果子类型  
