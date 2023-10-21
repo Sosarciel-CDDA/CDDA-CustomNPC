@@ -2,7 +2,7 @@ import { JObject } from "@zwa73/utils";
 import { AmmunitionType } from "./AmmiunitionType";
 import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
-import { Eoc, StrObj } from "./Eoc";
+import { Eoc, StrObj, StrObjExStr } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
 import { AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
@@ -118,8 +118,11 @@ export type SchemaString = `${string}SchemaString`;
 export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number]|CustBP;
-/**目标肢体参数 whole body为全身 */
-export type BodyPartParam = BodyPartID|"RANDOM"|"whole body"| Exclude<StrObj,string>;
+/**目标肢体参数  
+ * whole body为全身  
+ * RANDOM为随机  
+ */
+export type BodyPartParam = BodyPartID|"RANDOM"|"whole body"| StrObjExStr;
 
 /**npc阵营 列表 */
 export const DefineNpcFactionList = [

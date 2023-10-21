@@ -187,7 +187,10 @@ export type BoolOperaCompStr = {
 
 
 
-
+/**Eoc字符串对象
+ * 排除string
+ */
+export type StrObjExStr = Exclude<StrObj,string>;
 /**Eoc字符串对象 */
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */

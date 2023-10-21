@@ -5,7 +5,7 @@ import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { Eoc, EocID, InlineEoc, TalkerVar } from "./Eoc";
-import { BoolObj, GenericObj, GenericObjOperateList, LocObj, NumObj, StrObj } from "./VariableObject";
+import { BoolObj, GenericObj, GenericObjOperateList, LocObj, NumObj, StrObj, StrObjExStr } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartID, BodyPartParam, Time } from "../GenericDefine";
 
@@ -189,7 +189,7 @@ type Message = TalkerVar<{
 
 /**添加效果 */
 type AddEffect = TalkerVar<{
-    add_effect: EffectID|StrObj;
+    add_effect: EffectID|StrObjExStr;
     /**添加的时间
      * 数字为秒
      */
@@ -206,7 +206,7 @@ type AddEffect = TalkerVar<{
 
 /**失去效果 */
 type LoseEffect = TalkerVar<{
-    lose_effect: EffectID|StrObj;
+    lose_effect: EffectID|StrObjExStr;
 },"lose_effect">;
 
 /**变量操作的注释用字段  
@@ -260,7 +260,7 @@ type SetHP = TalkerVar<{
 },"set_hp">;
 
 /**参数Eoc */
-export type ParamsEoc = (EocID|StrObj|InlineEoc)|(EocID|StrObj|InlineEoc)[];
+export type ParamsEoc = (EocID|StrObjExStr|InlineEoc)|(EocID|StrObjExStr|InlineEoc)[];
 
 
 
