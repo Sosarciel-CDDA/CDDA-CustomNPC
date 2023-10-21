@@ -46,7 +46,8 @@ const definitions = schema["definitions"] as Record<string,JObject>;
 for(const typeName in definitions){
     const schema = definitions[typeName];
     //展开所有object与忽略检测的类型
-    if(schema.type != "object" && !witoutType.includes(typeName)) continue;
+    if(schema.type != "object" && schema.type != undefined && !witoutType.includes(typeName)) continue;
+    if((/^.+_[0-9]/).test(typeName) || (/^{./).test(typeName)) continue;
     UtilFT.writeJSONFile(path.join(process.cwd(),"schema",`${typeName}.schema.json`),{
         "$schema": "http://json-schema.org/draft-07/schema#",
         "$ref": `schemas.json#/definitions/${typeName}`

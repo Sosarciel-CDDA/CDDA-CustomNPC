@@ -3,7 +3,8 @@
         "type": "effect_type",
         "id":"FrostArmor",
         "name": ["霜甲"],
-        "desc": ["降低 4 点, 并减免 20% 钝击, 切割, 刺击, 子弹 伤害"],
+        "desc": ["降低 4 点, 并减免 20% 钝击, 切割, 刺击, 子弹 伤害, 不会被抓住。"],
+        "removes_effects": ["grabbed"],
         "enchantments": [{
             "condition":"ALWAYS",
             "values": [{

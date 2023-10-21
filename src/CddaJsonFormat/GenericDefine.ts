@@ -2,9 +2,9 @@ import { JObject } from "@zwa73/utils";
 import { AmmunitionType } from "./AmmiunitionType";
 import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
-import { Eoc, StrObj, StrObjExStr } from "./Eoc";
+import { Eoc, IDObj, StrObj } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
-import { AmmoID, AnyItem, AnyItemID } from "./Item";
+import { AmmoEffect, AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
 import { MathFunction } from "./MathFuncion";
 import { Monster } from "./Monster";
@@ -53,23 +53,24 @@ export type Color = typeof ColorList[number];
 
 
 /**必要的肢体组 */
-const VitalBPList = [
+export const VitalBPList = [
     "torso" ,
     "head"  ,
 ] as const;
 /**必要的肢体 */
 export type VitalBP = typeof VitalBPList[number];
 
-/**四肢组 */
-const LimbBPList = [
+/**四肢/主要肢体组 */
+export const LimbBPList = [
     "leg_l" , "leg_r" ,
     "arm_l" , "arm_r" ,
+    ...VitalBPList    ,
 ] as const;
-/**四肢 */
+/**四肢/主要肢体 */
 export type LimbBP = typeof LimbBPList[number];
 
 /**子肢体组 */
-const SubBPList = [
+export const SubBPList = [
     "foot_l", "foot_r",
     "hand_l", "hand_r",
 ] as const;
@@ -115,14 +116,14 @@ export type Copyfrom<T extends CopyfromAble> =
 export type SchemaString = `${string}SchemaString`;
 
 /**组肢体 */
-export const BodyPartList = [...VitalBPList,...LimbBPList,...SubBPList] as const;
+export const BodyPartList = [...LimbBPList,...SubBPList] as const;
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number]|CustBP;
 /**目标肢体参数  
  * whole body为全身  
  * RANDOM为随机  
  */
-export type BodyPartParam = BodyPartID|"RANDOM"|"whole body"| StrObjExStr;
+export type BodyPartParam = IDObj<BodyPartID>|"RANDOM"|"whole body";
 
 /**npc阵营 列表 */
 export const DefineNpcFactionList = [
@@ -338,6 +339,6 @@ export type RatType = typeof RatTypeList[number];
 export type AnyCddaJson =AnyItem|Eoc|
     AmmunitionType|Enchantment|Flag|ItemGroup|Monster|
     NpcClass|NpcInstance|OverlayOrdering|SoundEffect|
-    Effect|Spell|MathFunction;
+    Effect|Spell|MathFunction|AmmoEffect;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];

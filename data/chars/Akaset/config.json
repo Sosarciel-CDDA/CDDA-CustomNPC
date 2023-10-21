@@ -79,13 +79,13 @@
 				"id":"FrostShield",
 				"type": "SPELL",
 				"name": "霜盾",
-				"description": "为自己及周围友军添加 霜甲 效果, 为周围友军添加 霜盾 效果, 持续90秒。",
+				"description": "为自己及周围友军添加 霜甲 效果, 为周围友军添加 霜盾 效果, 持续180秒。",
 				"valid_targets": ["ally","self"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
 				"effect": "attack",
 				"effect_str": "FrostArmor",
-				"min_duration": 9000,
+				"min_duration": 18000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","IGNORE_WALLS"]
 			},
 			"after_effect": [

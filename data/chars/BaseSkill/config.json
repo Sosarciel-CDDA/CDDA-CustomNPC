@@ -65,6 +65,13 @@
                 [[{"id":"spell_scroll_light_healing","not_consume": true}]]
             ],
             "desc": "让角色学会 法术 : 治疗轻伤"
+        },
+        {
+            "field": "伤痛分流",
+            "require_resource": [
+                [[{"id":"spell_scroll_pain_split","not_consume": true}]]
+            ],
+            "desc": "让角色学会 法术 : 伤痛分流"
         }
     ],
     "skill": [
@@ -318,6 +325,43 @@
             },
             "require_field": "治疗轻伤",
             "weight": -1
+        },
+        {
+            "name": "伤痛分流",
+            "cast_condition":[{
+                "hook": "CnpcBattleUpdate",
+                "condition": {"and":[
+                    {"math":["MaxHp()-MinHp()",">","max(AvgHp()/2, 10)"]},
+                    {"or":[
+                        {"math":["u_hp('torso')","<=","u_hp_max('torso')/3"]},
+                        {"math":["u_hp('head')" ,"<=","u_hp_max('head')/3" ]}
+                    ]}
+                ]}
+            },{
+                "hook": "CnpcUpdateSlow",
+                "condition": {"and":[
+                    {"math":["MaxHp()-MinHp()",">","max(AvgHp()/2, 10)"]},
+                    {"or":[
+                        {"math":["u_hp('torso')","<=","u_hp_max('torso')/3"]},
+                        {"math":["u_hp('head')" ,"<=","u_hp_max('head')/3" ]}
+                    ]}
+                ]}
+            }],
+            "spell": {
+                "id": "CNPC_SPELL_pain_split",
+                "type": "SPELL",
+                "name": "伤痛分流_NPC",
+                "description": "Evens out damage among your limbs.",
+                "valid_targets": [ "self" ],
+                "effect": "pain_split",
+                "shape": "blast",
+                "base_casting_time": 100,
+                "base_energy_cost": 800,
+                "energy_source": "MANA",
+                "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+                "difficulty": 4
+            },
+            "require_field": "伤痛分流"
         }
     ]
 }

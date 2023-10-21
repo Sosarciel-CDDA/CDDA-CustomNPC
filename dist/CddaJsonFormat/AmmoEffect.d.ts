@@ -11,7 +11,7 @@ export type AmmoEffect = {
     /**效果ID */
     id: AmmoEffectID;
     /**类型 */
-    type: string;
+    type: "ammo_effect";
     /**命中区域
      * 这个地块附着物将在投射物命中的瓷砖上产生
      */

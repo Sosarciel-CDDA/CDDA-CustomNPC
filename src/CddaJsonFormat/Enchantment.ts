@@ -129,7 +129,7 @@ export const EnchGenericValTypeList = [
     "ATTACK_NOISE"	            ,//影响近战攻击时发出的噪音量。
     "ATTACK_SPEED"	            ,//影响物品的攻击速度, 即使它不是你所使用的物品。
     "BIONIC_POWER"	            ,//
-    "BONUS_BLOCK"	            ,//影响您可以执行的块数。
+    "BONUS_BLOCK"	            ,//影响您可以执行的格挡次数。
     "BONUS_DODGE"	            ,//影响你可以执行的闪避次数。
     "CARRY_WEIGHT"	            ,//影响玩家可以携带的总重量。"add": 1000增加 1 公斤的携带重量。
     "COMBAT_CATCHUP"	        ,//影响你重新学习战斗技能的速度 (乘数)

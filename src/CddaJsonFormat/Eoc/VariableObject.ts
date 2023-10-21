@@ -187,10 +187,8 @@ export type BoolOperaCompStr = {
 
 
 
-/**Eoc字符串对象
- * 排除string
- */
-export type StrObjExStr = Exclude<StrObj,string>;
+/**专用于某种ID的字符串对象  */
+export type IDObj<T extends string> = Exclude<StrObj,string>|T;
 /**Eoc字符串对象 */
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */
@@ -215,7 +213,7 @@ export type GenericObjOperateList = [
     { u_val: string }       ,//alpha talker的变量
     { npc_val: string }     ,//beta talker的变量
     { context_val: string } ,//上下文变量 存于对话中的变量
-    { var_val : string }    ,//获得某个个上下文变量的值 然后以值作为 全局/角色变量名 获得全局/角色值
+    { var_val : string }    ,//获得某个上下文变量的值 然后以值作为 全局/角色变量名 获得全局/角色值
 ];
 /**通用Obj操作符 */
 export type GenericObj = GenericObjOperateList[number];

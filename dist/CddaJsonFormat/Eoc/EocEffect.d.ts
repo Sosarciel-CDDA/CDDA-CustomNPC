@@ -4,7 +4,7 @@ import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { EocID, InlineEoc, TalkerVar } from "./Eoc";
-import { LocObj, NumObj, StrObj } from "./VariableObject";
+import { IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartParam, Time } from "../GenericDefine";
 /**Eoc效果 */
@@ -184,7 +184,7 @@ type Message = TalkerVar<{
 }, "message">;
 /**添加效果 */
 type AddEffect = TalkerVar<{
-    add_effect: EffectID | StrObj;
+    add_effect: IDObj<EffectID>;
     /**添加的时间
      * 数字为秒
      */
@@ -200,7 +200,7 @@ type AddEffect = TalkerVar<{
 }, "add_effect">;
 /**失去效果 */
 type LoseEffect = TalkerVar<{
-    lose_effect: EffectID | StrObj;
+    lose_effect: IDObj<EffectID>;
 }, "lose_effect">;
 /**变量操作的注释用字段
  * { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
@@ -250,7 +250,7 @@ type SetHP = TalkerVar<{
     max?: boolean;
 }, "set_hp">;
 /**参数Eoc */
-export type ParamsEoc = (EocID | StrObj | InlineEoc) | (EocID | StrObj | InlineEoc)[];
+export type ParamsEoc = (IDObj<EocID> | InlineEoc) | (IDObj<EocID> | InlineEoc)[];
 /**分配任务目标 assign_mission_target
  * MISSIONS_JSON.md
  */

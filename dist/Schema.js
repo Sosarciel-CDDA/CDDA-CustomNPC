@@ -42,7 +42,9 @@ const definitions = schema["definitions"];
 for (const typeName in definitions) {
     const schema = definitions[typeName];
     //展开所有object与忽略检测的类型
-    if (schema.type != "object" && !witoutType.includes(typeName))
+    if (schema.type != "object" && schema.type != undefined && !witoutType.includes(typeName))
+        continue;
+    if ((/^.+_[0-9]/).test(typeName) || (/^{./).test(typeName))
         continue;
     utils_1.UtilFT.writeJSONFile(path.join(process.cwd(), "schema", `${typeName}.schema.json`), {
         "$schema": "http://json-schema.org/draft-07/schema#",

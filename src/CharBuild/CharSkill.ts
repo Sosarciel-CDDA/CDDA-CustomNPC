@@ -278,7 +278,7 @@ function parseAudioString(charName:string,str:string,volume:number=100){
 //法术消耗变量类型映射
 const costMap:Record<SpellEnergySource,string|undefined>={
     "BIONIC" : "u_val('power')",
-    "HP"     : "u_hp()",
+    "HP"     : "u_hp('torso')",
     "MANA"   : "u_val('mana')",
     "STAMINA": "u_val('stamina')",
     "NONE"   : undefined,

@@ -7,7 +7,8 @@ exports.DefineEffectIDList = [
     "npc_suspend",
     "incorporeal",
     "stunned",
-    "downed", //击倒
+    "downed",
+    "grabbed", //被抓住
 ];
 /**
  * X_amount       - 当效果被放置时, X的应用量。像应用消息一样, 它只会在新效果上触发

@@ -134,7 +134,7 @@ function parseAudioString(charName, str, volume = 100) {
 //法术消耗变量类型映射
 const costMap = {
     "BIONIC": "u_val('power')",
-    "HP": "u_hp()",
+    "HP": "u_hp('torso')",
     "MANA": "u_val('mana')",
     "STAMINA": "u_val('stamina')",
     "NONE": undefined,

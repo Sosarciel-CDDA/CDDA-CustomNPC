@@ -15,6 +15,7 @@ export const DefineEffectIDList = [
     "incorporeal"   ,//无形体 让所有穿戴物品掉落
     "stunned"       ,//眩晕
     "downed"        ,//击倒
+    "grabbed"       ,//被抓住
 ] as const;
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];

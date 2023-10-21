@@ -171,6 +171,8 @@ export type BoolOperaCompStr = {
     /**比较字符串是否相等 */
     compare_string: [AnyObj, AnyObj];
 };
+/**专用于某种ID的字符串对象  */
+export type IDObj<T extends string> = Exclude<StrObj, string> | T;
 /**Eoc字符串对象 */
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */

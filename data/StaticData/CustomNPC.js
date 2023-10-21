@@ -20,7 +20,7 @@ function CNPC_EOC_UpdateStat(){
 	eoc_type("ACTIVATION")
 	//print_global_val(Asuna_level);
 	//recurrence("1 s");
-	//print_global_val(mag3);
+
 	//print_global_val(mag1);
 	//print_global_val(mag2);
 	/**
@@ -195,7 +195,7 @@ function CNPC_EOC_EGU(){
 function CNPC_EOC_EPU(){
 	recurrence(1);
 	//刷新属性
-	//CNPC_EOC_UpdateStat();
+	CNPC_EOC_UpdateStat();
 
 	//记录坐标
 	eobj({"u_location_variable":{"global_val":"avatar_loc"}});
@@ -263,8 +263,13 @@ function CNPC_EOC_CnpcTakeDamageEvent(){
 	eoc_type("ACTIVATION");
 
 	//自动伤痛分流
-	eobj({ "u_cast_spell": { "id": "pain_split" } })
+	//eobj({ "u_cast_spell": { "id": "pain_split" } })
 
+	//检测死亡
+	CNPC_EOC_CheckDeath();
+}
+//Cnpc角色检测死亡
+function CNPC_EOC_CheckDeath(){
 	//关键肢体生命值不足触发一次死亡前
 	if(or(u_hp('head')<=0,u_hp('torso')<=0)){
 		//触发动态生成的 Cnpc角色死亡前 事件

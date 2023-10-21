@@ -1,9 +1,9 @@
 import { AmmunitionType } from "./AmmiunitionType";
 import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
-import { Eoc, StrObj } from "./Eoc";
+import { Eoc, IDObj } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
-import { AmmoID, AnyItem, AnyItemID } from "./Item";
+import { AmmoEffect, AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
 import { MathFunction } from "./MathFuncion";
 import { Monster } from "./Monster";
@@ -32,15 +32,15 @@ export declare const ColorList: readonly ["black", "red", "green", "brown", "blu
 /**可用的颜色 */
 export type Color = typeof ColorList[number];
 /**必要的肢体组 */
-declare const VitalBPList: readonly ["torso", "head"];
+export declare const VitalBPList: readonly ["torso", "head"];
 /**必要的肢体 */
 export type VitalBP = typeof VitalBPList[number];
-/**四肢组 */
-declare const LimbBPList: readonly ["leg_l", "leg_r", "arm_l", "arm_r"];
-/**四肢 */
+/**四肢/主要肢体组 */
+export declare const LimbBPList: readonly ["leg_l", "leg_r", "arm_l", "arm_r", "torso", "head"];
+/**四肢/主要肢体 */
 export type LimbBP = typeof LimbBPList[number];
 /**子肢体组 */
-declare const SubBPList: readonly ["foot_l", "foot_r", "hand_l", "hand_r"];
+export declare const SubBPList: readonly ["foot_l", "foot_r", "hand_l", "hand_r"];
 /**子肢体 */
 export type SubBP = typeof SubBPList[number];
 /**自定义的肢体
@@ -79,11 +79,14 @@ export type Copyfrom<T extends CopyfromAble> = Pick<T, "id" | "type"> & {
  */
 export type SchemaString = `${string}SchemaString`;
 /**组肢体 */
-export declare const BodyPartList: readonly ["torso", "head", "leg_l", "leg_r", "arm_l", "arm_r", "foot_l", "foot_r", "hand_l", "hand_r"];
+export declare const BodyPartList: readonly ["leg_l", "leg_r", "arm_l", "arm_r", "torso", "head", "foot_l", "foot_r", "hand_l", "hand_r"];
 /**肢体 */
 export type BodyPartID = typeof BodyPartList[number] | CustBP;
-/**目标肢体参数 whole body为全身 */
-export type BodyPartParam = BodyPartID | "RANDOM" | "whole body" | Exclude<StrObj, string>;
+/**目标肢体参数
+ * whole body为全身
+ * RANDOM为随机
+ */
+export type BodyPartParam = IDObj<BodyPartID> | "RANDOM" | "whole body";
 /**npc阵营 列表 */
 export declare const DefineNpcFactionList: readonly ["your_followers", "no_faction"];
 /**npc阵营 */
@@ -234,7 +237,6 @@ export declare const RatTypeList: readonly ["good", "neutral", "bad", "mixed"];
 /**效果评价 */
 export type RatType = typeof RatTypeList[number];
 /**任何Cdda的Json */
-export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction;
+export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction | AmmoEffect;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];
-export {};

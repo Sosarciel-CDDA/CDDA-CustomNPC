@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test",
-    "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks"
+    "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks --aliasRefs"
   },
   "author": "zwa73",
   "license": "ISC",

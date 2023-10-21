@@ -109,21 +109,19 @@
 			"name": "精准狙击",
 			"cast_condition":{
 				"hook": "CnpcBattleUpdate",
-				"condition":{"not":{"u_has_effect":"CNPC_EFF_Snipe"}}
+				"condition":{"not":{"u_has_effect":"PreciseSnipe"}}
 			},
-			"audio":["Snipe","SnipeSF"],
+			"audio":["PreciseSnipe","PreciseSnipeSF"],
 			"spell": {
 				"type": "SPELL",
-				"id":"CNPC_SPELL_Snipe",
+				"id":"PreciseSnipe",
 				"name": "精准狙击",
 				"description": "感知*1.3 分散度*0, 持续180秒。",
 				"effect": "attack",
 				"valid_targets": ["self"],
-				"effect_str": "CNPC_EFF_Snipe",
+				"effect_str": "PreciseSnipe",
 				"shape": "blast",
 				"min_duration": 18000,
-				"energy_source": "MANA",
-				"base_energy_cost":200,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"weight": 2,

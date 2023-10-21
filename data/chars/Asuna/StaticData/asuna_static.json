@@ -1,7 +1,7 @@
 [
     {
         "type": "effect_type",
-        "id":"CNPC_EFF_Snipe",
+        "id":"PreciseSnipe",
         "name": ["精准狙击"],
         "desc": ["精准狙击"],
         "enchantments": [{

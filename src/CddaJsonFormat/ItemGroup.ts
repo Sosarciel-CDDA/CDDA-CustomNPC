@@ -72,12 +72,12 @@ type ItemGroupEntrieOpt = Partial<{
      * 不检查它们是否可以放入项目中。  
      * 这允许水, 其中包含一本书, 其中包含一个钢架, 其中包含一具尸体。  
      */
-    "contents-item": string|string[];
+    "contents-item": AnyItemID|AnyItemID[];
     /**添加为创建项目的内容。  
      * 不检查它们是否可以放入项目中。  
      * 这允许水, 其中包含一本书, 其中包含一个钢架, 其中包含一具尸体。  
      */
-    "contents-group": string|string[];
+    "contents-group": ItemGroupID|ItemGroupID[];
     "ammo-item": string,
     "ammo-group": string,
     "container-group": string,
@@ -96,7 +96,7 @@ type ItemGroutEvent = "none"|"new_year"|"easter"|
 /** 物品/物品组快速定义 取决于键
  * 物品id 或者 [物品id,概率(100为100%)]  
  */
-export type ItemGroupEntrieQuick = string|[string,number];
+export type ItemGroupEntrieQuick = AnyItemID|[AnyItemID,number];
 
 /**内联物品组 */
 export type InlineItemGroup = Omit<ItemGroup,"id"|"type">;

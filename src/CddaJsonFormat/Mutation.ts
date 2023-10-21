@@ -3,6 +3,7 @@ import { BoolObj, EocID } from "./Eoc";
 import { FlagID } from "./Flag";
 import { BodyPartID, CddaID, RatType, SocialType } from "./GenericDefine";
 import { AnyItemID, ArmorID, GunID } from "./Item";
+import { MaterialID } from "./Material";
 import { MonsterID } from "./Monster";
 import { SpellID } from "./Spell";
 
@@ -159,7 +160,7 @@ export type Mutation = {
 	/**被你激怒的物种列表以及多少, 负值代表平静 (默认值: 空) */
 	anger_relations?: [string, number][];
 	/**可食用材料列表 (默认值: 空) */
-	can_only_eat?: string[];
+	can_only_eat?: MaterialID[];
 	/**你受限于的`MED`列表, 包括变异剂、血清、阿司匹林、绷带等 (默认值: 空) */
 	can_only_heal_with?: AnyItemID[];
 	/**只对你有效的`MED`列表。查看`CANT_HEAL_EVERYONE`标志项 (默认值: 空) */
