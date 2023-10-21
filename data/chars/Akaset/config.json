@@ -1,10 +1,10 @@
 {
-	"extends": ["BaseField","BaseSkill","AnimStatModify"],
+	"extends": ["BaseField","BaseSkill","BaseVar","AnimStatModify"],
     "base_status":{
         "str":12,
-        "dex":10,
+        "dex":12,
         "per":12,
-        "int":10
+        "int":12
     },
 	"base_skill": {
 		"ALL": 2,
@@ -27,9 +27,6 @@
 				[ "BURST"  , "2s sequence", 2 ],
 				[ "AUTO"   , "3s sequence", 3 ]
 			],
-			"relic_data": {
-				"passive_effects": [{"id":"RangeModify"}]
-			},
 			"ammo_effects": ["LASER","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
@@ -46,7 +43,7 @@
 					"values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
 					"name": "Ice Fists",
 					"description": "Strikes from this weapon can freeze targets solid."
-				},{"id":"DefenseModify"}]
+				}]
 			},
 			"description": "Akaset的 冰冻手套",
 			"name": "Akaset的 冰冻手套",
@@ -102,6 +99,7 @@
 					"effect_id":"FrostShield"
 				}
 			],
+			"weight": 2,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
@@ -118,7 +116,7 @@
 				"id":"BarrageIceSpike",
 				"type": "SPELL",
 				"name": "弹幕冰刺",
-				"description": "对周围敌人造成 0.7*感知 的伤害, 并击倒 2 秒。",
+				"description": "对周围敌人造成 0.7*感知系数 的伤害, 并击倒 2 秒。",
 				"valid_targets": ["hostile","ground"],
 				"shape": "blast",
 				"min_aoe": 5,
@@ -126,18 +124,19 @@
 				"effect_str": "downed",
 				"damage_type": "cold",
 				"min_damage":{
-					"math": ["CalcDamage(30, u_val('perception'))*0.7"]
+					"math": ["CalcDamage(u_base_damage, u_val('perception'))*0.7"]
 				},
 				"max_damage":999999,
 				"min_duration": 200,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"weight": 1,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
 			"name": "雷霆轰击",
 			"cast_condition":{
-				"hook": "CnpcCheckCauseRangeDamage"
+				"hook": "CnpcCheckCauseRangeHit"
 			},
 			"cooldown":15,
 			"audio":[
@@ -148,13 +147,14 @@
 				"id":"ElectricStrike",
 				"type": "SPELL",
 				"name": "雷霆轰击",
-				"description": "雷霆轰击",
+				"description": "对一条线上的敌人造成 1.1*感知系数 的伤害。",
 				"min_damage":{
-					"math": ["CalcDamage(30, u_val('perception'))*1.8"]
+					"math": ["CalcDamage(u_base_damage, u_val('perception'))*1.1"]
 				},
 				"max_damage":999999,
 				"damage_type": "electric",
-				"shape": "blast",
+				"min_aoe":1,
+				"shape": "cone",
 				"min_range": {"math": ["BATTLE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
@@ -165,7 +165,7 @@
 		}
 	],
 	"desc": {
-		"age": 130,
+		"age": 310,
 		"gender": "female",
 		"height": 158
 	}

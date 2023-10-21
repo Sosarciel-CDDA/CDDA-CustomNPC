@@ -1,6 +1,6 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData } from "CddaJsonFormat";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
-import { genEOCID, genEnchantmentID } from "ModDefine";
+import { genActEoc, genEOCID, genEnchantmentID } from "ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 import { NO_PAIN_ENCHID } from "StaticData";
@@ -13,6 +13,7 @@ import { NO_PAIN_ENCHID } from "StaticData";
 export async function createCharEquip(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
+    const outs:JObject[]=[];
 
 
     /**基础物品的识别flag */
@@ -142,6 +143,18 @@ export async function createCharEquip(dm:DataManager,charName:string){
         player_display:false,
     }
 
+    /**基础变量 */
+    if(charConfig.base_var){
+        const initBaseVarEoc=genActEoc(`${charName}_InitBaseVar`,[
+            ...Object.entries(charConfig.base_var).map(entry=>{
+                const eff:EocEffect = {math:[entry[0],"=",entry[1]+""]}
+                return eff;
+            })
+        ])
+        dm.addCharEvent(charName,"CnpcInit",0,initBaseVarEoc);
+        outs.push(initBaseVarEoc);
+    }
+
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut,baseArmor,baseEnch,baseItemFlag];
+    outData['equip'] = [baseMut,baseArmor,baseEnch,baseItemFlag,...outs];
 }

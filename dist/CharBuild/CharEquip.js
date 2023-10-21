@@ -7,6 +7,7 @@ const StaticData_1 = require("../StaticData");
 /**创建角色装备 */
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    const outs = [];
     /**基础物品的识别flag */
     const baseItemFlag = {
         type: "json_flag",
@@ -133,7 +134,18 @@ async function createCharEquip(dm, charName) {
         purifiable: false,
         player_display: false,
     };
+    /**基础变量 */
+    if (charConfig.base_var) {
+        const initBaseVarEoc = (0, ModDefine_1.genActEoc)(`${charName}_InitBaseVar`, [
+            ...Object.entries(charConfig.base_var).map(entry => {
+                const eff = { math: [entry[0], "=", entry[1] + ""] };
+                return eff;
+            })
+        ]);
+        dm.addCharEvent(charName, "CnpcInit", 0, initBaseVarEoc);
+        outs.push(initBaseVarEoc);
+    }
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag];
+    outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs];
 }
 exports.createCharEquip = createCharEquip;

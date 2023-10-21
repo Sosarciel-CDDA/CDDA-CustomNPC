@@ -414,8 +414,10 @@ function spell_targetProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
+        console.log(skill);
         throw `翻转事件只能应用于翻转命中`;
+    }
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -454,8 +456,10 @@ function randomProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
+        console.log(skill);
         throw `翻转事件只能应用于翻转命中`;
+    }
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -612,8 +616,10 @@ function filter_randomProc(dm, charName, baseSkillData) {
         condition: { and: [...unrbaseCond] },
     };
     //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook))
+    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
+        console.log(skill);
         throw `翻转事件只能应用于翻转命中`;
+    }
     dm.addCharEvent(charName, hook, 0, castSelEoc);
     return [castEoc, castSelEoc, filterTargetSpell];
 }

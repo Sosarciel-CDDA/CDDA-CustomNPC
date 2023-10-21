@@ -25,7 +25,7 @@ exports.StatMod = {
     condition: "ALWAYS",
     values: [{
             value: "RANGED_DAMAGE",
-            add: { math: ["u_val('perception')"] },
+            //add:{math:["u_val('perception')"]},
             multiply: { math: ["DamageMul(u_val('perception'))-1"] }
         }, {
             value: "MELEE_DAMAGE",
@@ -88,7 +88,7 @@ exports.RangeModify = {
     description: "提升 30% 的感知。",
     condition: "ALWAYS",
     has: "WIELD",
-    values: [{ value: "PERCEPTION", multiply: 0.3 }]
+    values: [{ value: "PERCEPTION", multiply: 33.3 }]
 };
 exports.BaseEnch = [StatusVarMap, exports.StatMod, exports.NoPain, exports.DefenseModify, exports.MeleeModify, exports.RangeModify];
 (0, StaticData_1.saveStaticData)(exports.BaseEnch, 'static_resource', 'base_ench');

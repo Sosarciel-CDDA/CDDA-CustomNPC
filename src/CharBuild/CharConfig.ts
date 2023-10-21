@@ -20,10 +20,26 @@ export type CharConfig = {
     virtual?:boolean;
     /**描述信息 */
     desc?:CharDesc;
-    /**基础属性 */
+    /**基础属性  
+     * 最低4 最高14  
+     * 04-12 每级 1  
+     * 12-14 每级 2  
+    */
     base_status?:Record<StatusSimple,number>;
-    /**基础技能 */
+    /**基础技能  
+     * 00->02 1  
+     * 02->03 1  
+     * 03->04 2  
+     * 04->05 2  
+     * 05->06 3  
+     * 06->07 3  
+     * 07->08 4  
+     * 08->09 4  
+     * 09->10 5  
+     */
     base_skill?:Partial<Record<SkillID|"ALL",number>>;
+    /**基础变量 将会直接在初始化时应用 */
+    base_var?  :Record<string,number>;
     /**基础变异 */
     base_mutation?:MutationID[];
     /**附魔属性 */

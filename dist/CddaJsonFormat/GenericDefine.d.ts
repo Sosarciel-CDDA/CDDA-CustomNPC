@@ -12,6 +12,7 @@ import { NpcInstance } from "./NpcInstance";
 import { OverlayOrdering } from "./OverlayOrdering";
 import { SoundEffect } from "./SoundEffect";
 import { Spell } from "./Spell";
+import { MaterialID } from "./Material";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -62,8 +63,16 @@ export type CopyfromVar<T extends CopyfromAble> = (T & {
 export type Copyfrom<T extends CopyfromAble> = Pick<T, "id" | "type"> & {
     "copy-from": T["id"];
     "//"?: "copy";
+    /**删除原物品的某些元素 */
     delete?: Partial<Omit<T, "id" | "type">>;
+    /**扩展原物品的某些元素 */
     extend?: Partial<Omit<T, "id" | "type">>;
+    /**在原物品的某些元素上做数值调整 */
+    relative?: Partial<Omit<T, "id" | "type">>;
+    /**在原物品的某些元素上做数值倍率调整 */
+    proportional?: Partial<Omit<T, "id" | "type">>;
+    /**将原物品的某些材质替换 原材质:替换材质 */
+    replace_materials?: Record<MaterialID, MaterialID>;
 } & Partial<Omit<T, "id" | "type">>;
 /**用于辅助解析只能补全的类型
  * 输出后替换为 ^.*$ 的 string 匹配

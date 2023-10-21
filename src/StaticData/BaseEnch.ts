@@ -25,7 +25,7 @@ export const StatMod:Enchantment={
     condition:"ALWAYS",
     values:[{
         value:"RANGED_DAMAGE",
-        add:{math:["u_val('perception')"]},
+        //add:{math:["u_val('perception')"]},
         multiply:{math:["DamageMul(u_val('perception'))-1"]}
     },{
         value:"MELEE_DAMAGE",
@@ -89,7 +89,7 @@ export const RangeModify:Enchantment={
     description:"提升 30% 的感知。",
     condition:"ALWAYS",
     has:"WIELD",
-    values:[{value:"PERCEPTION", multiply:0.3}]
+    values:[{value:"PERCEPTION", multiply:33.3}]
 }
 
 export const BaseEnch = [StatusVarMap,StatMod,NoPain,DefenseModify,MeleeModify,RangeModify];
