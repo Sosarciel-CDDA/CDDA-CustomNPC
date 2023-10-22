@@ -62,7 +62,7 @@ export function genMonsterID(id:string):MonsterID{
 }
 /**生成适用于此mod的 材质类型 ID */
 export function genAmmuTypeID(id:string):AmmunitionTypeID{
-    return `${MOD_PREFIX}_AMMUT_${id}`;
+    return `${MOD_PREFIX}_AMMUNIT_${id}`;
 }
 /**生成适用于此mod的 FLAG ID */
 export function genFlagID(id:string):FlagID{

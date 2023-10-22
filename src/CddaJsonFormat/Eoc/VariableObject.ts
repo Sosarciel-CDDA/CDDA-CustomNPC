@@ -48,22 +48,22 @@ type CompareOpera = "=="|"!="|">="|"<="|">"|"<";
 export type BoolObj = BoolOperateList[number];
 /**Eoc条件对象操作符 */
 export type BoolOperateList = [
-    BoolOperaNot                                        ,//非
-    BoolOperaOr                                         ,//或
-    BoolOperaAnd                                        ,//与
-    BoolOperaCompStr                                    ,//比较两个字符串
-    {math:[string,CompareOpera,string]}                 ,//
-    HasWieldFlag                                        ,//手中的物品有某个flag
-    HasWieldWeaponCategoty                              ,//手中的物品有某个武器分类
-    HasItem                                             ,//携带/穿戴/持握/背包里有某个物品
-    HasItems                                            ,//携带/穿戴/持握/背包里有N个某物品
-    HasTrait                                            ,//有某个变异
-    HasEffect                                           ,//有某个效果
-    OneInChance                                         ,//1/n的概率返回true
-    NoParamCond                                         ,//无参条件
-    CompareTime                                         ,//比较时间变量
-    HasStrVar                                           ,//有某个变量
-    HasTimeVar                                          ,//有某个变量
+    BoolOperaNot            ,//非
+    BoolOperaOr             ,//或
+    BoolOperaAnd            ,//与
+    BoolOperaCompStr        ,//比较两个字符串
+    MathCompareExp          ,//
+    HasWieldFlag            ,//手中的物品有某个flag
+    HasWieldWeaponCategoty  ,//手中的物品有某个武器分类
+    HasItem                 ,//携带/穿戴/持握/背包里有某个物品
+    HasItems                ,//携带/穿戴/持握/背包里有N个某物品
+    HasTrait                ,//有某个变异
+    HasEffect               ,//有某个效果
+    OneInChance             ,//1/n的概率返回true
+    NoParamCond             ,//无参条件
+    CompareTime             ,//比较时间变量
+    HasStrVar               ,//有某个变量
+    HasTimeVar              ,//有某个变量
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -79,6 +79,11 @@ export const NoParamTalkerCondList = [
 ] as const;
 /**双Talker无参条件 */
 export type NoParamTalkerCond = `${`u_`|`npc_`}${typeof NoParamTalkerCondList[number]}`
+
+/**math比较表达式 */
+type MathCompareExp = {
+    math:[string,CompareOpera,string]
+};
 
 /**有某个效果 */
 type HasEffect = TalkerVar<{

@@ -8,6 +8,8 @@ import { Eoc, EocID, InlineEoc, TalkerVar } from "./Eoc";
 import { BoolObj, GenericObj, GenericObjOperateList, IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartID, BodyPartParam, Time } from "../GenericDefine";
+import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
+import { ItemGroupID } from "../ItemGroup";
 
 
 
@@ -22,30 +24,45 @@ import { BodyPartID, BodyPartParam, Time } from "../GenericDefine";
 export type EocEffect = EocEffectList[number];
 /**Eoc效果表 */
 export type EocEffectList = [
-    {math:[string,"="|"+="|"-="|"*="|"/=",string]}  ,//
-    {u_lose_trait:MutationID}                       ,//失去某个变异
-    RunEoc                                          ,//运行Eoc
-    QueueEoc                                        ,//延迟运行Eoc
-    RunEocWith                                      ,//
-    {u_add_trait:MutationID}                        ,//获得某个变异
-    {u_consume_item: AnyItemID,count: number }      ,//使用/扣除 count 个物品
-    "drop_weapon"                                   ,//丢下手持物品 仅限npc
-    SpawnNpc                                        ,//生成npc
-    {u_spawn_item:AnyItemID}                        ,//生成物品
+    MathAssignExp       ,//
+    RunEoc              ,//运行Eoc
+    QueueEoc            ,//延迟运行Eoc
+    RunEocWith          ,//
+    LoseTrait           ,//失去变异
+    AddTrait            ,//获得变异
+    ConsumeItem         ,//使用/扣除 count 个物品
+    RemoveItem          ,//删除物品
+    SpawnItem           ,//生成物品
+    SpawnNpc            ,//生成npc
+    SoundEffect         ,//播放声音
+    CastSpell           ,//施法
+    Teleport            ,//传送
+    LocalVar            ,//获取坐标
+    Message             ,//发送消息
+    AddEffect           ,//添加效果
+    LoseEffect          ,//添加效果
+    SetHP               ,//设置生命值
+    AddStrVar           ,//添加文本变量
+    AddTimeVar          ,//添加时间变量
+    AddRandStrVar       ,//添加随机文本变量
+    NoParamEffect       ,//无参效果
+    AssingMission       ,//添加任务
+    RemoveActionMission ,//移除任务
+    FinishMission       ,//完成任务
+];
+
+/**无参效果 */
+export type NoParamEffect = [
     "follow_only"                                   ,//让npc跟随玩家
     "leave"                                         ,//让npc停止跟随玩家并离开追随者阵营
-    SoundEffect                                     ,//播放声音
-    CastSpell                                       ,//施法
-    Teleport                                        ,//传送
-    LocalVar                                        ,//获取坐标
-    Message                                         ,//发送消息
-    AddEffect                                       ,//添加效果
-    LoseEffect                                      ,//添加效果
-    SetHP                                           ,//设置生命值
-    AddStrVar                                       ,//添加文本变量
-    AddTimeVar                                      ,//添加时间变量
-    AddRandStrVar                                   ,//添加随机文本变量
-];
+    "drop_weapon"                                   ,//丢下手持物品 仅限npc
+][number];
+
+/**math赋值表达式 */
+type MathAssignExp = {
+    math:[string,"="|"+="|"-="|"*="|"/=",string]
+};
+
 /**运行Eoc */
 type RunEoc = {
     /**运行Eoc */
@@ -128,7 +145,7 @@ type LocalVar = TalkerVar<{
      * 而是从 执行mission_target。  
      * 它使用allocate_mission_target语法  
      */
-    target_params?: MissionTarget;
+    target_params?: AssignMissionTarget;
     /**将结果的x值增加 */
     x_adjust?:NumObj;
     /**将结果的y值增加 */
@@ -239,7 +256,6 @@ type AddRandStrVar = TalkerVar<{
     possible_values:string[];
 },"add_var">&VarComment;
 
-
 /**设置生命 */
 type SetHP = TalkerVar<{
     set_hp: NumObj;
@@ -259,12 +275,64 @@ type SetHP = TalkerVar<{
     max?:boolean;
 },"set_hp">;
 
+/**失去变异 */
+type LoseTrait = TalkerVar<{
+    lose_trait:IDObj<MutationID>
+},"lose_trait">;
+/**获得变异 */
+type AddTrait = TalkerVar<{
+    add_trait:IDObj<MutationID>
+},"add_trait">;
+
+/**生成物品 */
+type SpawnItem = TalkerVar<{
+    spawn_item:IDObj<AnyItemID>|IDObj<ItemGroupID>;
+    /**数量 */
+    count?:NumObj;
+    /**容器 */
+    container?:IDObj<AnyItemID>;
+    /**使用物品组 */
+    use_item_group?:boolean;
+    /**不显示消息 */
+    suppress_message?:boolean;
+},"spawn_item">
+
+/**使用物品 */
+type ConsumeItem = TalkerVar<{
+    consume_item: IDObj<AnyItemID>;
+    /**数量 */
+    count?: NumObj;
+    /**充能数量 */
+    charges?:NumObj;
+    /**为true时将显示消息给予npc物品 */
+    popup?:boolean;
+},"consume_item">;
+
+/**删除物品 */
+type RemoveItem = TalkerVar<{
+    remove_item_with: IDObj<AnyItemID>;
+},"remove_item_with">;
+
+/**给玩家添加任务 */
+type AssingMission = {
+    /**给玩家添加目标ID任务 */
+    assign_mission:IDObj<MissionDefinitionID>;
+}
+/**将从玩家的活动任务列表中删除任务而不失败。 */
+type RemoveActionMission = {
+    /**给玩家删除目标ID任务 */
+    remove_active_mission:IDObj<MissionDefinitionID>;
+}
+/**使玩家完成任务 */
+type FinishMission = {
+    /**使玩家完成目标ID任务 */
+    finish_mission:IDObj<MissionDefinitionID>;
+    /**不为true则视为失败 */
+    success?:boolean;
+    /**完成相当于step值的任务步骤 */
+    step?:number;
+}
+
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID>|InlineEoc)|(IDObj<EocID>|InlineEoc)[];
 
-
-
-/**分配任务目标 assign_mission_target  
- * MISSIONS_JSON.md  
- */
-export type MissionTarget = null;
