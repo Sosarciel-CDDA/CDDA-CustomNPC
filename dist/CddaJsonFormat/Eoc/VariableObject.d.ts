@@ -56,9 +56,7 @@ export type BoolOperateList = [
     BoolOperaOr,
     BoolOperaAnd,
     BoolOperaCompStr,
-    {
-        math: [string, CompareOpera, string];
-    },
+    MathCompareExp,
     HasWieldFlag,
     HasWieldWeaponCategoty,
     HasItem,
@@ -79,6 +77,10 @@ export type NoParamCond = [
 export declare const NoParamTalkerCondList: readonly ["female", "male", "can_drop_weapon", "is_alive", "has_weapon"];
 /**双Talker无参条件 */
 export type NoParamTalkerCond = `${`u_` | `npc_`}${typeof NoParamTalkerCondList[number]}`;
+/**math比较表达式 */
+type MathCompareExp = {
+    math: [string, CompareOpera, string];
+};
 /**有某个效果 */
 type HasEffect = TalkerVar<{
     /**有某个效果

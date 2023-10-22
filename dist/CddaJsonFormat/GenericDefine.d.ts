@@ -13,6 +13,7 @@ import { OverlayOrdering } from "./OverlayOrdering";
 import { SoundEffect } from "./SoundEffect";
 import { Spell } from "./Spell";
 import { MaterialID } from "./Material";
+import { MissionDefinition } from "./MissionDefinition";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -237,6 +238,6 @@ export declare const RatTypeList: readonly ["good", "neutral", "bad", "mixed"];
 /**效果评价 */
 export type RatType = typeof RatTypeList[number];
 /**任何Cdda的Json */
-export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction | AmmoEffect;
+export type AnyCddaJson = AnyItem | Eoc | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction | AmmoEffect | MissionDefinition;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];

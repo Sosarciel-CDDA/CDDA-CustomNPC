@@ -7,33 +7,23 @@ import { EocID, InlineEoc, TalkerVar } from "./Eoc";
 import { IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartParam, Time } from "../GenericDefine";
+import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
+import { ItemGroupID } from "../ItemGroup";
 /**Eoc效果 */
 export type EocEffect = EocEffectList[number];
 /**Eoc效果表 */
 export type EocEffectList = [
-    {
-        math: [string, "=" | "+=" | "-=" | "*=" | "/=", string];
-    },
-    {
-        u_lose_trait: MutationID;
-    },
+    MathAssignExp,
     RunEoc,
     QueueEoc,
+    EocSelector,
     RunEocWith,
-    {
-        u_add_trait: MutationID;
-    },
-    {
-        u_consume_item: AnyItemID;
-        count: number;
-    },
-    "drop_weapon",
+    LoseTrait,
+    AddTrait,
+    ConsumeItem,
+    RemoveItem,
+    SpawnItem,
     SpawnNpc,
-    {
-        u_spawn_item: AnyItemID;
-    },
-    "follow_only",
-    "leave",
     SoundEffect,
     CastSpell,
     Teleport,
@@ -44,8 +34,22 @@ export type EocEffectList = [
     SetHP,
     AddStrVar,
     AddTimeVar,
-    AddRandStrVar
+    AddRandStrVar,
+    NoParamEffect,
+    AssingMission,
+    RemoveActionMission,
+    FinishMission
 ];
+/**无参效果 */
+export type NoParamEffect = [
+    "follow_only",
+    "leave",
+    "drop_weapon"
+][number];
+/**math赋值表达式 */
+type MathAssignExp = {
+    math: [string, "=" | "+=" | "-=" | "*=" | "/=", string];
+};
 /**运行Eoc */
 type RunEoc = {
     /**运行Eoc */
@@ -65,6 +69,25 @@ type RunEocWith = {
     variables?: Record<string, string>;
     /**将loc所在位置的单位作为beta talker */
     beta_loc?: LocObj;
+};
+/**Eoc选项 */
+type EocSelector = {
+    /**根据选择运行提供的EocID */
+    run_eoc_selector: IDObj<EocID>[];
+    /**提供的上下文参数表 变量名:值 */
+    variables?: Record<string, string>;
+    /**每个选项的名称 */
+    names?: StrObj[];
+    /**每个选项的介绍 */
+    descriptions?: string[];
+    /**每个选项的键 */
+    keys?: string[];
+    /**整体选项的标题 */
+    title?: string;
+    /**为true时对应Eoc的条件如果不满足 则直接隐藏
+     * 默认false 显示无法选择
+     */
+    hide_failing?: boolean;
 };
 /**生成Npc */
 type SpawnNpc = TalkerVar<{
@@ -125,7 +148,7 @@ type LocalVar = TalkerVar<{
      * 而是从 执行mission_target。
      * 它使用allocate_mission_target语法
      */
-    target_params?: MissionTarget;
+    target_params?: AssignMissionTarget;
     /**将结果的x值增加 */
     x_adjust?: NumObj;
     /**将结果的y值增加 */
@@ -249,10 +272,59 @@ type SetHP = TalkerVar<{
     /**忽略数值 设置为满值 默认 false */
     max?: boolean;
 }, "set_hp">;
+/**失去变异 */
+type LoseTrait = TalkerVar<{
+    lose_trait: IDObj<MutationID>;
+}, "lose_trait">;
+/**获得变异 */
+type AddTrait = TalkerVar<{
+    add_trait: IDObj<MutationID>;
+}, "add_trait">;
+/**生成物品 */
+type SpawnItem = TalkerVar<{
+    spawn_item: IDObj<AnyItemID> | IDObj<ItemGroupID>;
+    /**数量 */
+    count?: NumObj;
+    /**容器 */
+    container?: IDObj<AnyItemID>;
+    /**使用物品组 */
+    use_item_group?: boolean;
+    /**不显示消息 */
+    suppress_message?: boolean;
+}, "spawn_item">;
+/**使用物品 */
+type ConsumeItem = TalkerVar<{
+    consume_item: IDObj<AnyItemID>;
+    /**数量 */
+    count?: NumObj;
+    /**充能数量 */
+    charges?: NumObj;
+    /**为true时将显示消息给予npc物品 */
+    popup?: boolean;
+}, "consume_item">;
+/**删除物品 */
+type RemoveItem = TalkerVar<{
+    remove_item_with: IDObj<AnyItemID>;
+}, "remove_item_with">;
+/**给玩家添加任务 */
+type AssingMission = {
+    /**给玩家添加目标ID任务 */
+    assign_mission: IDObj<MissionDefinitionID>;
+};
+/**将从玩家的活动任务列表中删除任务而不失败。 */
+type RemoveActionMission = {
+    /**给玩家删除目标ID任务 */
+    remove_active_mission: IDObj<MissionDefinitionID>;
+};
+/**使玩家完成任务 */
+type FinishMission = {
+    /**使玩家完成目标ID任务 */
+    finish_mission: IDObj<MissionDefinitionID>;
+    /**不为true则视为失败 */
+    success?: boolean;
+    /**完成相当于step值的任务步骤 */
+    step?: number;
+};
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID> | InlineEoc) | (IDObj<EocID> | InlineEoc)[];
-/**分配任务目标 assign_mission_target
- * MISSIONS_JSON.md
- */
-export type MissionTarget = null;
 export {};

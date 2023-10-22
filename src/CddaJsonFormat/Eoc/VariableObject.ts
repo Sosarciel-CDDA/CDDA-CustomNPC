@@ -64,6 +64,7 @@ export type BoolOperateList = [
     CompareTime             ,//比较时间变量
     HasStrVar               ,//有某个变量
     HasTimeVar              ,//有某个变量
+    ModIsLoad               ,//某个mod是否加载
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -151,6 +152,12 @@ type HasWieldWeaponCategoty = TalkerVar<{
 type OneInChance = {
     /**1/n的概率返回true */
     one_in_chance: NumObj
+}
+
+/**某个mod是否加载 */
+type ModIsLoad = {
+    /**目标mod的ID */
+    mod_is_loaded: string;
 }
 
 /**获取 时间变量自创建以来经过的时间 并比较 */

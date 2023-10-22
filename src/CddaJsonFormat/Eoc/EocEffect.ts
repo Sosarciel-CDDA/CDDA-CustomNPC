@@ -27,6 +27,7 @@ export type EocEffectList = [
     MathAssignExp       ,//
     RunEoc              ,//运行Eoc
     QueueEoc            ,//延迟运行Eoc
+    EocSelector         ,//Eoc选项
     RunEocWith          ,//
     LoseTrait           ,//失去变异
     AddTrait            ,//获得变异
@@ -83,6 +84,25 @@ type RunEocWith = {
     /**将loc所在位置的单位作为beta talker */
     beta_loc? : LocObj;
 };
+/**Eoc选项 */
+type EocSelector = {
+    /**根据选择运行提供的EocID */
+    run_eoc_selector:IDObj<EocID>[];
+    /**提供的上下文参数表 变量名:值 */
+    variables? : Record<string,string>;
+    /**每个选项的名称 */
+    names?:StrObj[];
+    /**每个选项的介绍 */
+    descriptions?:string[];
+    /**每个选项的键 */
+    keys?:string[];
+    /**整体选项的标题 */
+    title?:string;
+    /**为true时对应Eoc的条件如果不满足 则直接隐藏  
+     * 默认false 显示无法选择
+     */
+    hide_failing?:boolean;
+}
 
 /**生成Npc */
 type SpawnNpc = TalkerVar<{

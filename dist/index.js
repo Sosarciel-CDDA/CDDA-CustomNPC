@@ -5,6 +5,7 @@ const DataManager_1 = require("./DataManager");
 const utils_1 = require("@zwa73/utils");
 const CharBuild_1 = require("./CharBuild");
 const CommonBuild_1 = require("./CommonBuild");
+const PathfindingSpell_1 = require("./CommonBuild/PathfindingSpell");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
     await (0, CharBuild_1.mergeImage)(dm, charName, false);
@@ -22,6 +23,7 @@ async function main() {
     await (0, CommonBuild_1.createTest)(dm);
     await (0, CommonBuild_1.createTriggerEffect)(dm);
     await (0, CommonBuild_1.createCommonItem)(dm);
+    await (0, PathfindingSpell_1.createPathfindingSpell)(dm);
     const plist = [];
     for (let charName of dm.charList)
         plist.push(buildChar(dm, charName));

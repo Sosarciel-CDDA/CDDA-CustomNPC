@@ -19,23 +19,23 @@ export type MissionDefinition = {
     /**任务目标 */
 	goal: MissionGoal;
     /**任务难度 */
-	difficulty?: number;
-    /**如果任务目标可选数量，其数量为value */
-	value?: number;
+	difficulty: number;
+    /**未知 */
+	value: number;
     /**如果目标是寻找道具，目标的道具ID */
 	item?: AnyItemID;
     /**可选布尔值，默认为 false。 如果为 true，  
      * 则此任务完成后，它将不会显示在已完成的任务或失败的任务列表中。  
      */
-	invisible_on_complete: false;
+	invisible_on_complete?: boolean;
     /**任务开始的效果 */
-	start: MissionEffect;
+	start?: MissionEffect;
     /**任务结束的效果 */
-    end: MissionEffect;
+    end?: MissionEffect;
     /**任务来源 */
 	origins: MissionOrigin[];
     /**下一段任务 */
-	followup: MissionDefinitionID;
+	followup?: MissionDefinitionID;
     /**任务对话文本 */
 	dialogue: MissionDialog;
 };
@@ -94,6 +94,18 @@ type MissionDialog = {
     /**如果玩家报告任务失败，NPC 的反应 */
     failure     : string;
 };
+/**空的任务对话字典 */
+export const EmptyMissionDialog:MissionDialog = {
+    describe	: "",
+    offer	    : "",
+    accepted	: "",
+    rejected	: "",
+    advice	    : "",
+    inquire	    : "",
+    success	    : "",
+    success_lie : "",
+    failure     : "",
+} as const;
 
 /**任务效果 */
 type MissionEffect = {
@@ -106,7 +118,7 @@ type MissionEffect = {
 /**寻找大地图目标 */
 export type AssignMissionTarget = {
     /**将被选为目标的覆盖图地形的 ID */
-    om_terrain: IDObj<OvermapTerrainID>;
+    om_terrain?: IDObj<OvermapTerrainID>;
     /**与 om_terrain 一起使用的匹配规则。默认为TYPE */
     om_terrain_match_type?:OMTMatchType;
     /**包含覆盖图地形的覆盖图特殊 ID */
@@ -114,15 +126,15 @@ export type AssignMissionTarget = {
     /**要查找的覆盖地图地形的 ID，如果om_terrain找不到则替换。*/
     om_terrain_replace?:IDObj<OvermapTerrainID>;
     /**要显示的覆盖地图地形坐标中的半径。 */
-    reveal_radius?:NumObj;
+    reveal_radius:NumObj;
     /**如果属实，那om_terrain肯定已经被看到了。 */
-    must_see:boolean;
+    must_see?:boolean;
     /**如果属实，那么om_terrain一定还没有被看到。 */
     cant_see?:boolean;
     /**如果为 true，则使用随机匹配​​。如果为 false，则使用最接近的om_terrain */
     random?:boolean;
     /**在覆盖地图地形坐标中寻找匹配的范围om_terrain。 */
-    search_range?:NumObj;
+    search_range:NumObj;
     /**覆盖地图地形坐标中的范围。此范围内的实例om_terrain将被忽略。 */
     min_distance?:NumObj;
     /**从 NPC 的当前位置（而不是玩家的当前位置）开始搜索。 */

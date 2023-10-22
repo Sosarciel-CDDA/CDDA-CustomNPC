@@ -3,6 +3,7 @@ import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeImage } from "./CharBuild";
 import { createCommonItem, createTest,createTriggerEffect } from "./CommonBuild";
+import { createPathfindingSpell } from "./CommonBuild/PathfindingSpell";
 
 
 
@@ -26,6 +27,7 @@ export async function main(){
     await createTest(dm);
     await createTriggerEffect(dm);
     await createCommonItem(dm);
+    await createPathfindingSpell(dm);
     const plist:Promise<void>[] = []
     for(let charName of dm.charList)
         plist.push(buildChar(dm,charName));

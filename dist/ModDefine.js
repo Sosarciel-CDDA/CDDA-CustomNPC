@@ -70,7 +70,7 @@ function genMonsterID(id) {
 exports.genMonsterID = genMonsterID;
 /**生成适用于此mod的 材质类型 ID */
 function genAmmuTypeID(id) {
-    return `${exports.MOD_PREFIX}_AMMUT_${id}`;
+    return `${exports.MOD_PREFIX}_AMMUNIT_${id}`;
 }
 exports.genAmmuTypeID = genAmmuTypeID;
 /**生成适用于此mod的 FLAG ID */
