@@ -4,9 +4,12 @@ import { FieldID } from "./Field";
 import { BodyPartID, CddaID, DamageType } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 import { MonsterID } from "./Monster";
-/**法术ID
- */
-export type SpellID = CddaID<"SPELL">;
+/**预定义的法术ID 列表 */
+export declare const DefineSpellIDList: readonly ["AO_CLOSE_TEAR", "pain_split"];
+/**预定义的法术ID */
+export type DefineSpellID = typeof DefineSpellIDList[number];
+/**法术ID  */
+export type SpellID = CddaID<"SPELL"> | DefineSpellID;
 /**法术 */
 export type Spell = {
     id: SpellID;

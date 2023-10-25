@@ -30,7 +30,7 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
     const mainTalkTopic:TalkTopic={
         type:"talk_topic",
         id:defineData.talkTopicID,
-        dynamic_line:"...",
+        dynamic_line:"&",
         responses:[{
             text : "[强化]我想提升你的能力。",
             topic: await createUpgResp(dm,charName)
@@ -339,16 +339,6 @@ async function createSkillResp(dm:DataManager,charName:string){
     return skillTalkTopicId;
 }
 
-
-/**使某个武器停止使用的全局变量 */
-export function getGlobalDisableWeaponVar(charName:string,item:AnyItem){
-    return `${charName}_${item.id}_disable`;
-}
-/**使某个武器停止使用的变量 */
-export function getTalkerDisableWeaponVar(talker:"u"|"n",item:AnyItem){
-    return `${talker}_${item.id}_disable`;
-}
-
 /**创建武器对话 */
 async function createWeaponResp(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
@@ -390,19 +380,29 @@ async function createWeaponResp(dm:DataManager,charName:string){
     //baseWeaponFlag.push(dropOtherWeapon);
 
 
+
     /**基础武器 */
     const baseWeapons = charConfig.weapon;
     const weaponResp:Resp[] = [];
     if(baseWeapons){
-        //console.log(baseWeapons)
+        /**武器enable id表 */
+        const enableList:string[] = [];
+        for(const baseWeapon of baseWeapons){
+            const {item} = baseWeapon;
+            const genable = `${charName}_${item.id}_enable`;
+            const nenable = `n_${item.id}_enable`;
+            enableList.push(genable,nenable);
+        }
+
+        /**处理武器 */
         for(const baseWeapon of baseWeapons){
             const {item,require_field} = baseWeapon;
             const fixrequire = typeof require_field == "string"
                 ? [require_field,1] as const
                 : require_field;
-            const gdisable = getGlobalDisableWeaponVar(charName,item);
-            const udisable = getTalkerDisableWeaponVar("u",item);
-            const ndisable = getTalkerDisableWeaponVar("n",item);
+            const genable = `${charName}_${item.id}_enable`;
+            const uenable = `u_${item.id}_enable`;
+            const nenable = `n_${item.id}_enable`;
 
             //武器flag
             const weapnFlag:Flag = {
@@ -439,7 +439,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
             //给予条件
             const giveCond:BoolObj[] = [
                 {not:{ u_has_item: item.id }},
-                {math:[udisable,"!=","1"]}
+                {math:[uenable,"==","1"]}
             ];
             if(fixrequire)
                 giveCond.push({math:[getTalkerFieldVarID("u",fixrequire[0]),">=",fixrequire[1]+""]})
@@ -451,7 +451,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 condition:{and:[...giveCond]},
                 effect:[{u_spawn_item:item.id}]
             }
-            dm.addCharEvent(charName,"CnpcUpdateSlow",0,giveWeapon);
+            dm.addCharEvent(charName,"CnpcUpdateSlow"  ,0,giveWeapon);
             dm.addCharEvent(charName,"CnpcBattleUpdate",0,giveWeapon);
             dm.addCharEvent(charName,"CnpcInit",0,giveWeapon);
             weaponData.push(giveWeapon)
@@ -464,40 +464,42 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 id:rmweocid,
                 condition:{and:[
                     { u_has_item: item.id },
-                    {math:[udisable,"==","1"]}
+                    {math:[uenable,"!=","1"]}
                 ]},
                 effect:[
                     {u_consume_item:item.id,count:1},
                     {run_eocs:rmweocid}
                 ]
             }
-            dm.addCharEvent(charName,"CnpcUpdateSlow",0,removeWeapon);
+            dm.addCharEvent(charName,"CnpcBattleUpdate",0,removeWeapon);
+            dm.addCharEvent(charName,"CnpcUpdateSlow"  ,0,removeWeapon);
             weaponData.push(removeWeapon)
 
 
             //开关eoc
             const eoc:Eoc={
                 type:"effect_on_condition",
-                id:genEOCID(`${gdisable}_switch`),
+                id:genEOCID(`${genable}_switch`),
                 eoc_type:"ACTIVATION",
                 effect:[
-                    {math:[gdisable,"=","0"]},
-                    {math:[ndisable,"=","0"]},
+                    {math:[genable,"=","0"]},
+                    {math:[nenable,"=","0"]},
                 ],
                 false_effect:[
-                    {math:[gdisable,"=","1"]},
-                    {math:[ndisable,"=","1"]},
+                    ...enableList.map(enid=>({math:[enid,"=","0"]}) as EocEffect),
+                    {math:[genable,"=","1"]},
+                    {math:[nenable,"=","1"]},
                 ],
-                condition:{math:[ndisable,"==","1"]},
+                condition:{math:[nenable,"==","1"]},
             }
             weaponData.push(eoc)
 
             //选项
             const resp:Resp={
                 truefalsetext:{
-                    condition:{math:[ndisable,"==","1"]},
-                    true:`[已停用] <item_name:${item.id}>`,
-                    false:`[已启用] <item_name:${item.id}>`,
+                    condition:{math:[nenable,"==","1"]},
+                    true:`[已启用] <item_name:${item.id}>`,
+                    false:`[已停用] <item_name:${item.id}>`,
                 },
                 effect:{run_eocs:eoc.id},
                 topic:weaponTalkTopicId,
@@ -506,11 +508,24 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 resp.condition = {math:[getTalkerFieldVarID("n",fixrequire[0]),">=",`${fixrequire[1]}`]}
             weaponResp.push(resp);
 
-
-
             //添加初始化
-            InitWeapon.effect?.push({math:[udisable,"=",`${gdisable}`]});
+            InitWeapon.effect?.push({math:[uenable,"=",`${genable}`]});
         }
+
+        /**默认启用第一个武器 */
+        const DefEnableWeapon:Eoc={
+            type:"effect_on_condition",
+            id:genEOCID(`${charName}_DefEnableWeapon`),
+            eoc_type:"ACTIVATION",
+            effect:[
+                {math:[enableList[0],"=","1"]},
+                {math:[enableList[1],"=","1"]}
+            ],
+            condition:{and:[...enableList.map(enid=>({math:[enid,"!=","1"]}) as BoolObj)]}
+        }
+        weaponData.push(DefEnableWeapon);
+        //注册初始化eoc
+        dm.addCharEvent(charName,"CnpcInit",10,InitWeapon);
     }
 
 
@@ -518,7 +533,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
     const weaponTalkTopic:TalkTopic={
         type:"talk_topic",
         id:weaponTalkTopicId,
-        dynamic_line:"&",
+        dynamic_line:"&同时只能启用一种武器",
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses:[...weaponResp,{
             text:"[继续]走吧。",

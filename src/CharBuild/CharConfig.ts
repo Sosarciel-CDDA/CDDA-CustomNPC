@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
 import { DataManager } from '../DataManager';
@@ -137,7 +137,7 @@ export type CharCarry = {
 
 
 /**变量属性 */
-export type EnchStat = `${"add"|"multiply"}_${EnchGenericValType|EnchArmorValType}`;
+export type EnchStat = `${"add"|"multiply"}_${EnchValType}`;
 /**变量属性表 */
 export type EnchStatTable = Partial<Record<EnchStat,NumObj>>;
 /**解析变量属性Obj */

@@ -1,5 +1,5 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, AnyCddaJson, TalkTopicID } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID } from './CddaJsonFormat';
 import { CharConfig, AnimType } from './CharBuild';
 import { CnpcEventType, EventEffect, GlobalEventType, CnpcReverseEventType } from './Event';
 /**角色定义数据 */
@@ -26,6 +26,8 @@ export type CharDefineData = Readonly<{
     baseCarryGroup: ItemGroupID;
     /**主对话ID */
     talkTopicID: TalkTopicID;
+    /**卡片ID */
+    cardID: GenericID;
 }>;
 /**角色数据 */
 type CharData = {

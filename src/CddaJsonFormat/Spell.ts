@@ -7,10 +7,16 @@ import { MonsterID } from "./Monster";
 
 
 
+/**预定义的法术ID 列表 */
+export const DefineSpellIDList = [
+    "AO_CLOSE_TEAR" ,//神器关闭裂隙
+    "pain_split"    ,//伤痛分流
+] as const;
+/**预定义的法术ID */
+export type DefineSpellID = typeof DefineSpellIDList[number];
 
-/**法术ID  
- */
-export type SpellID = CddaID<"SPELL">;
+/**法术ID  */
+export type SpellID = CddaID<"SPELL">|DefineSpellID;
 
 
 /**法术 */

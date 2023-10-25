@@ -1,4 +1,4 @@
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "../CddaJsonFormat";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "../CddaJsonFormat";
 import { CharSkill } from "./CharSkill";
 import { DataManager } from '../DataManager';
 /**动态读取的角色设定 */
@@ -129,7 +129,7 @@ export type CharCarry = {
     require_field?: [string, number] | string;
 };
 /**变量属性 */
-export type EnchStat = `${"add" | "multiply"}_${EnchGenericValType | EnchArmorValType}`;
+export type EnchStat = `${"add" | "multiply"}_${EnchValType}`;
 /**变量属性表 */
 export type EnchStatTable = Partial<Record<EnchStat, NumObj>>;
 /**解析变量属性Obj */

@@ -2,7 +2,34 @@ import { MathFunction, MathFunctionID } from "CddaJsonFormat";
 import { saveStaticData } from "./StaticData";
 
 
-/**属性附加伤害计算  
+
+/**暴击伤害  
+ * function(基础伤害,暴击率,暴击伤害)  
+ * 暴击伤害为1, 暴击时造成200%伤害  
+ */
+const CritDamage:MathFunction={
+    type:"jmath_function",
+    id:"CritDamage" as MathFunctionID,
+    num_args: 3,
+    return:"_0 + (_0 * (rng(0, 1) < _1 ? _2 : 0))",
+}
+
+/**感知伤害 */
+const PerDamage:MathFunction={
+    type:"jmath_function",
+    id:"PerDamage" as MathFunctionID,
+    num_args: 1,
+    return:"CalcDamage(_0 , u_val('perception'))",
+}
+/**力量伤害 */
+const StrDamage:MathFunction={
+    type:"jmath_function",
+    id:"StrDamage" as MathFunctionID,
+    num_args: 1,
+    return:"CalcDamage(_0 , u_val('strength'))",
+}
+
+/**属性伤害计算  
  * (基础伤害+属性加值)*属性倍率  
  * function(基础伤害,关键属性)  
  */
@@ -102,5 +129,5 @@ const SpellExpDiff:MathFunction={
     "return": "SpellExp(_0 + 1) - SpellExp(_0)"
 }
 
-export const BaseMathFunction = [CalcDamage,DamageMul,Log10,Pow2,LvlExp,SpellExpDiff,SpellExp,SumHp,AvgHp,MinHp,MaxHp];
+export const BaseMathFunction = [CalcDamage,DamageMul,Log10,Pow2,LvlExp,SpellExpDiff,SpellExp,SumHp,AvgHp,MinHp,MaxHp,PerDamage,StrDamage,CritDamage];
 saveStaticData(BaseMathFunction,'static_resource',"base_math_function");

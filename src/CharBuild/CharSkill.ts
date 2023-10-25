@@ -2,7 +2,7 @@ import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
-import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
+import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "Event";
 
 
@@ -333,7 +333,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 if(typeof audioObj == "string")
                     return parseAudioString(charName,audioObj);
                 //冷却变量ID
-                const cdid = `${audioObj.id}_cooldown`;
+                const cdid = `audio_${audioObj.id}_cooldown`;
                 if(audioObj.cooldown){
                     //冷却
                     const cdeoc=genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
@@ -363,6 +363,13 @@ export async function createCharSkill(dm:DataManager,charName:string){
         }
         if(after_effect)
             TEffect.push(...after_effect);
+        if(spell.base_casting_time){
+            const ct = parseSpellNumObj(spell,"base_casting_time");
+            TEffect.push(
+                {math:[SPELL_CT_MODMOVE_VAR,"=",ct]},
+                {u_cast_spell:{id:SPELL_CT_MODMOVE,hit_self:true}}
+            );
+        }
 
         //计算准备效果
         const PreEffect:EocEffect[] = [];
@@ -397,7 +404,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                     ({u_has_wielded_with_flag:id})));
             if(require_weapon_category)
                 requireWeaponCond.push(...require_weapon_category.map(id=>
-                    ({u_has_wielded_with_flag:id})));
+                    ({u_has_wielded_with_weapon_category:id})));
             if(require_unarmed)
                 requireWeaponCond.push({not:"u_has_weapon"});
             if(requireWeaponCond.length>0)
@@ -528,7 +535,7 @@ function fixSpellDmg(spell:Spell):EocEffect[]{
     const durvar = `${spell.id}_dur`;
     if(spell.min_duration){
         spell.min_duration = {math:[durvar]};
-        spell.max_duration = 999999;
+        spell.max_duration = SPELL_MAX_DAMAGE;
     }
 
     return [

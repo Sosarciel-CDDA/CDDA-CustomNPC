@@ -414,7 +414,7 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 
 	//低速刷新
 	u_update_count=u_update_count+1;
-	if(u_update_count>60){
+	if(u_update_count>=60){
 		//触发动态生成的 cnpc慢速刷新 事件eoc
 		CNPC_EOC_CnpcUpdateSlow();
 		u_update_count=0;

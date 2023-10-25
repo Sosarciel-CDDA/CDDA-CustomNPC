@@ -1,10 +1,12 @@
 import { CddaID } from "./GenericDefine";
 import { AnyItemID } from "./Item/Generic";
-/**ItemGroup ID格式
- */
-export type ItemGroupID = CddaID<"ITEMGP">;
-/**ItemGroup
- */
+/**预定义的物品组ID */
+export declare const DefineItemGroupIDList: readonly ["bionics", "afs_common_biomaterial_scrapgroup", "afs_advanced_biomaterial_scrapgroup", "afs_common_circuitry_scrapgroup", "afs_advanced_circuitry_scrapgroup", "afs_common_energy_storage_scrapgroup", "afs_advanced_energy_storage_scrapgroup", "afs_common_heat_scrapgroup", "afs_advanced_heat_scrapgroup", "afs_common_magnet_scrapgroup", "afs_advanced_magnet_scrapgroup", "afs_common_material_scrapgroup", "afs_advanced_material_scrapgroup", "afs_common_neural_io_scrapgroup", "afs_advanced_neural_io_scrapgroup", "afs_advanced_optics_scrapgroup"];
+/**预定义的物品组 */
+export type DefineItemGroupID = typeof DefineItemGroupIDList[number];
+/**ItemGroup ID格式  */
+export type ItemGroupID = CddaID<"ITEMGP"> | DefineItemGroupID;
+/**ItemGroup  */
 export type ItemGroup = {
     type: "item_group";
     id: ItemGroupID;
@@ -19,11 +21,11 @@ export type ItemGroup = {
     /**快速物品列表
      * 物品id 或者 [物品id,概率(100为100%)]
      */
-    items?: ItemGroupEntrieQuick[];
+    items?: ItemEntrieQuick[];
     /**快速物品列表
-     * 物品id 或者 [物品id,概率(100为100%)]
+     * 物品组id 或者 [物品组id,概率(100为100%)]
      */
-    groups?: ItemGroupEntrieQuick[];
+    groups?: GroupEntrieQuick[];
     /**从某个物品组复制 */
     "copy-from"?: ItemGroupID;
     /**扩展元素 */
@@ -91,10 +93,14 @@ type ItemGroupEntrieOpt = Partial<{
 }>;
 /**可用的生成时间点 */
 type ItemGroutEvent = "none" | "new_year" | "easter" | "independence_day" | "halloween" | "thanksgiving" | "christmas";
-/** 物品/物品组快速定义 取决于键
+/**物品快速定义
  * 物品id 或者 [物品id,概率(100为100%)]
  */
-export type ItemGroupEntrieQuick = AnyItemID | [AnyItemID, number];
+export type ItemEntrieQuick = AnyItemID | [AnyItemID, number] | ItemGroupEntrie;
+/**物品组快速定义
+ * 物品组id 或者 [物品组id,概率(100为100%)]
+ */
+export type GroupEntrieQuick = ItemGroupID | [ItemGroupID, number] | ItemGroupEntrie;
 /**内联物品组 */
 export type InlineItemGroup = Omit<ItemGroup, "id" | "type">;
 export {};

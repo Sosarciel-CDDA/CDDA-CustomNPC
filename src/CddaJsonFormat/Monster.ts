@@ -1,3 +1,4 @@
+import { FakeSpell } from "./Enchantment";
 import { CddaID, Color, DefineMonFaction, DefineNpcFaction, Volume, Weight } from "./GenericDefine";
 import { InlineItemGroup, ItemGroupID } from "./ItemGroup";
 import { MaterialID } from "./Material";
@@ -52,8 +53,9 @@ export type Monster = {
 	harvest?: string;
     /**死亡效果 */
 	death_function?: {
-		corpse_type: "NO_CORPSE";
+		corpse_type?: "NO_CORPSE";
 		message?:string;
+		effect?:FakeSpell;
 	};
 	/**死亡掉落物品组 */
 	death_drops?:ItemGroupID|InlineItemGroup;

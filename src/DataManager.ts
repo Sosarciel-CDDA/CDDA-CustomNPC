@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
-import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
+import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'CddaJsonFormat';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
 import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType, CnpcReverseEventTypeList, CnpcReverseEventType } from 'Event';
@@ -32,7 +32,9 @@ export type CharDefineData=Readonly<{
     /**基础背包物品组 */
     baseCarryGroup:ItemGroupID;
     /**主对话ID */
-    talkTopicID     :TalkTopicID;
+    talkTopicID   :TalkTopicID;
+    /**卡片ID */
+    cardID        :GenericID;
 }>;
 
 /**角色数据 */
@@ -200,6 +202,9 @@ export class DataManager{
             //替换目录名
             if(fileObj.file)
                 fileObj.file = path.join('..','..','..','gfx',bs.target_gfxpack,fileObj.file);
+            fileObj.iso = undefined;
+            fileObj.retract_dist_min = undefined;
+            fileObj.retract_dist_max = undefined;
             //替换tiles
             fileObj.tiles = tilesList.filter(tilesObj => {
                 if(tilesObj.id=="npc_female"){
@@ -347,6 +352,7 @@ export class DataManager{
                 baseItemFlagID      : genFlagID(`${charName}_WeaponFlag`),
                 baseCarryGroup      : genItemGroupID(`${charName}_Carry`),
                 talkTopicID         : genTalkTopicID(charName),
+                cardID              : genGenericID(`${charName}_Card`),
             }
 
             //角色事件eoc主体

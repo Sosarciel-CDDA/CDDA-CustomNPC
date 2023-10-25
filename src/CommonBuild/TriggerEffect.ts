@@ -9,6 +9,8 @@ import { SPELL_MAX_DAMAGE } from "StaticData";
 export async function createTriggerEffect(dm:DataManager){
     await FrostShield(dm);
     await Electrify(dm);
+    await Trauma(dm);
+    await EmergencyFreeze(dm);
 }
 
 const TEFF_DUR = '60 s';
@@ -64,8 +66,7 @@ function FrostShield(dm:DataManager){
         {u_cast_spell:{id:tspell.id}},
         {sound_effect:"IceHit",id:"BaseAudio",volume:100}
     ],TEFF_DUR,undefined,"1 s");
-    const mainEoc = genAddEffEoc(effid,TEFF_DUR);
-    dm.addStaticData([tex,tspell,eff,teoc,mainEoc],"common_resource","trigger_effect","FrostShield");
+    dm.addStaticData([tex,tspell,eff,teoc],"common_resource","trigger_effect","FrostShield");
 }
 
 //感电
@@ -105,12 +106,7 @@ function Electrify(dm:DataManager){
         max_duration:TEFF_DUR,
         enchantments:[ench.id]
     }
-    const mainEoc = genAddEffEoc(effid,TEFF_DUR,[
-        //{u_cast_spell:{id:tspell.id,hit_self:true}},
-        //{u_add_effect:effid,intensity:{math:[`u_effect_intensity('${effid}')/2`]},duration:TEFF_DUR},
-        {sound_effect:"ElectHit",id:"BaseAudio",volume:100}
-    ]);
-    dm.addStaticData([tspell,ench,eff,mainEoc],"common_resource","trigger_effect","Electrify");
+    dm.addStaticData([tspell,ench,eff],"common_resource","trigger_effect","Electrify");
 }
 
 //创伤
@@ -132,14 +128,65 @@ function Trauma(dm:DataManager){
         type:"effect_type",
         id: effid,
         name:["创伤"],
-        desc:["每次受到创伤效果时, 受到一次相当于创伤层数的伤害, 每次触发后创伤层数减半"],
+        desc:["每秒受到一次相当于 创伤层数 的伤害。"],
+        apply_message:"一道伤口正在蚕食着你的躯体",
+        base_mods: {
+            hurt_min: [1],
+            hurt_tick: [100]
+        },
+        scaling_mods: {
+            hurt_min: [1]
+        },
         max_intensity:TEFF_MAX,
         max_duration:TEFF_DUR,
     }
-    const mainEoc = genAddEffEoc(effid,TEFF_DUR,[
-        {u_cast_spell:{id:tspell.id,hit_self:true}},
-        {u_add_effect:effid,intensity:{math:[`u_effect_intensity('${effid}')/2`]},duration:TEFF_DUR},
-        {sound_effect:"ElectHit",id:"BaseAudio",volume:100}
-    ]);
-    dm.addStaticData([tspell,eff,mainEoc],"common_resource","trigger_effect","Trauma");
+    dm.addStaticData([tspell,eff],"common_resource","trigger_effect","Trauma");
+}
+
+//紧急冻结
+function EmergencyFreeze(dm:DataManager){
+    const taoe = 5;
+    const effid = "EmergencyFreeze" as EffectID;
+    const tex:Spell={
+        type:"SPELL",
+        id:genSpellID(`${effid}_Trigger1`),
+        name:"紧急冻结推动",
+        description:"紧急冻结推动",
+        effect:"area_push",
+        min_aoe:taoe,
+        max_aoe:taoe,
+        valid_targets:["hostile"],
+        shape:"blast",
+        flags:["SILENT","NO_EXPLOSION_SFX"]
+    }
+    const tspell:Spell={
+        type:"SPELL",
+        id:genSpellID(`${effid}_Trigger2`),
+        name:"紧急冻结触发冻结",
+        description:"紧急冻结触发冻结",
+        effect:"mod_moves",
+        min_damage:-1000,
+        max_damage:-1000,
+        min_aoe:taoe,
+        max_aoe:taoe,
+        valid_targets:["hostile"],
+        shape:"blast",
+        extra_effects: [{id:tex.id},{id:tex.id},{id:tex.id},{id:tex.id},{id:tex.id}]
+    }
+    const eff:Effect = {
+        type:"effect_type",
+        id: effid,
+        name:["紧急冻结"],
+        desc:["即将死亡时会将血量完全恢复至于20%, 并击退且冻结周围敌人。"],
+        max_intensity:1
+    }
+    const teoc = genTriggerEffect(dm,eff,"CnpcDeathPrev",[
+        {u_cast_spell:{id:tex.id}},
+        {u_cast_spell:{id:tspell.id}},
+        {u_cast_spell:{id: "pain_split" } },
+        {math:[`u_hp()`,"=",`u_hp('torso') + u_hp_max('torso')*0.2`]},
+        {math:[ "u_pain()", "=", "0" ] },
+        {sound_effect:"IceHit",id:"BaseAudio",volume:100}
+    ],"PERMANENT");
+    dm.addStaticData([tex,tspell,eff,teoc],"common_resource","trigger_effect","EmergencyFreeze");
 }

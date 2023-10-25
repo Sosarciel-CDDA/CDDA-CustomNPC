@@ -6,6 +6,8 @@ import { BodyPartID, Time } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
 import { WeaponCategoryID } from "../WeaponCategory";
 import { VarComment } from "./EocEffect";
+import { MissionDefinitionID } from "../MissionDefinition";
+import { FieldID } from "../Field";
 /**数字对象 */
 export type NumObj = NumOperateList[number];
 /**Eoc数字对象操作符 */
@@ -67,7 +69,10 @@ export type BoolOperateList = [
     NoParamCond,
     CompareTime,
     HasStrVar,
-    HasTimeVar
+    HasTimeVar,
+    ModIsLoad,
+    HasMission,
+    IsInField
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -86,7 +91,7 @@ type HasEffect = TalkerVar<{
     /**有某个效果
      * 武术static_buffs可以通过形式来检查mabuff:buff_id
      */
-    has_effect: EffectID | StrObj;
+    has_effect: IDObj<EffectID>;
     /**要求的效果强度 */
     intensity?: NumObj;
     /**检查哪个肢体 */
@@ -109,14 +114,14 @@ type HasTimeVar = TalkerVar<{
 /**携带/穿戴/持握/背包里有某个物品 */
 type HasItem = TalkerVar<{
     /**携带/穿戴/持握/背包里有某个物品 */
-    has_item: AnyItemID | StrObj;
+    has_item: IDObj<AnyItemID>;
 }, "has_item">;
 /**包里有N个某物品 */
 type HasItems = TalkerVar<{
     /**包里有N个某物品 */
     has_items: {
         /**目标物品 */
-        item: AnyItemID | StrObj;
+        item: IDObj<AnyItemID>;
         /**要求数量 */
         count: NumObj;
     };
@@ -124,23 +129,38 @@ type HasItems = TalkerVar<{
 /**有某个变异 */
 type HasTrait = TalkerVar<{
     /**有某个变异 */
-    has_trait: MutationID | StrObj;
+    has_trait: IDObj<MutationID>;
 }, "has_trait">;
 /**手中的物品有某个flag */
 type HasWieldFlag = TalkerVar<{
     /**手中的物品有某个flag */
-    has_wielded_with_flag: FlagID | StrObj;
+    has_wielded_with_flag: IDObj<FlagID>;
 }, "has_wielded_with_flag">;
 /**手中的物品有某个武器分类 */
 type HasWieldWeaponCategoty = TalkerVar<{
     /**手中的物品有某个武器分类 */
-    has_wielded_with_weapon_category: WeaponCategoryID | StrObj;
+    has_wielded_with_weapon_category: IDObj<WeaponCategoryID>;
 }, "has_wielded_with_weapon_category">;
+/**站在某个地块附着物上 */
+type IsInField = TalkerVar<{
+    /**手中的物品有某个武器分类 */
+    is_in_field: IDObj<FieldID>;
+}, "is_in_field">;
 /**1/n的概率返回true */
 type OneInChance = {
     /**1/n的概率返回true */
     one_in_chance: NumObj;
 };
+/**某个mod是否加载 */
+type ModIsLoad = {
+    /**目标mod的ID */
+    mod_is_loaded: string;
+};
+/**有某个任务 */
+type HasMission = TalkerVar<{
+    /**有某个任务 */
+    has_mission: IDObj<MissionDefinitionID>;
+}, "has_mission">;
 /**获取 时间变量自创建以来经过的时间 并比较 */
 type CompareTime = TalkerVar<{
     compare_time_since_var: string;

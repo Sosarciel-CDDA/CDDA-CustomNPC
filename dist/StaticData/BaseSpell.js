@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
+exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_CT_MODMOVE_VAR = exports.SPELL_CT_MODMOVE = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
@@ -10,6 +10,10 @@ exports.BATTLE_RANGE = 30;
 exports.MELEE_RANGE = 3;
 /**最大法术伤害 */
 exports.SPELL_MAX_DAMAGE = 10000000;
+/**施法后摇法术ID */
+exports.SPELL_CT_MODMOVE = (0, ModDefine_1.genSpellID)(`CastTimeModMove`);
+/**施法后摇变量 */
+exports.SPELL_CT_MODMOVE_VAR = 'casttime_modmove';
 /**用于必定成功的控制法术的flags */
 exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];
 exports.BaseSpell = [
@@ -141,6 +145,18 @@ exports.BaseSpell = [
         base_casting_time: 100,
         extra_effects: [{ id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG") }],
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
+    },
+    {
+        id: exports.SPELL_CT_MODMOVE,
+        type: "SPELL",
+        name: "施法后摇",
+        description: "施法后摇",
+        effect: "mod_moves",
+        shape: "blast",
+        valid_targets: ["self"],
+        flags: [...exports.CON_SPELL_FLAG],
+        min_damage: { math: [`0-${exports.SPELL_CT_MODMOVE_VAR}`] },
+        max_damage: { math: [`0-${exports.SPELL_CT_MODMOVE_VAR}`] },
     },
 ];
 (0, StaticData_1.saveStaticData)(exports.BaseSpell, 'static_resource', 'base_spell');

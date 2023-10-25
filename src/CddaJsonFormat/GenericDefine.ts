@@ -15,6 +15,7 @@ import { SoundEffect } from "./SoundEffect";
 import { Spell } from "./Spell";
 import { MaterialID } from "./Material";
 import { MissionDefinition } from "./MissionDefinition";
+import { Mutation } from "./Mutation";
 
 /**重量 */
 export type Weight = number|`${number} ${"kg"|"g"}`;
@@ -337,7 +338,7 @@ export const RatTypeList = [
 export type RatType = typeof RatTypeList[number];
 
 /**任何Cdda的Json */
-export type AnyCddaJson =AnyItem|Eoc|
+export type AnyCddaJson =AnyItem|Eoc|Mutation|
     AmmunitionType|Enchantment|Flag|ItemGroup|Monster|
     NpcClass|NpcInstance|OverlayOrdering|SoundEffect|
     Effect|Spell|MathFunction|AmmoEffect|MissionDefinition;

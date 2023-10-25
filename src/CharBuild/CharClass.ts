@@ -60,6 +60,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         gender  :charConfig.desc?.gender,
         death_eocs:["CNPC_EOC_NPC_DEATH"], //设置事件字段
     }
+
     /**生成器ID */
     const spawnerId = `${charName}_Spawner`;
     /**生成器 */
@@ -93,6 +94,47 @@ export async function createCharClass(dm:DataManager,charName:string){
 			},
 		],
 	};
+
+    //卡片冷却变量
+    const cardcdvar = `${charName}_cooldown`;
+    /**卡片EOC */
+    const charCardEoc: Eoc = {
+		type: "effect_on_condition",
+        eoc_type:"ACTIVATION",
+		id: genEOCID(`${charName}_Card_Eoc`),
+		effect: [
+            {u_add_var:cardcdvar,time:true},
+            {math:[`${charName}_uid`,"+=","1"]},
+			{
+                u_spawn_npc: defineData.instanceID,
+				real_count: 1,
+				min_radius: 1,
+				max_radius: 1,
+			},
+		],
+        condition:{or:[
+            {u_compare_time_since_var:cardcdvar,op:">=",time:"1 d"},
+            {not:{u_has_var:cardcdvar,time:true}}
+        ]},
+        false_effect:[{u_message:"卡片没什么反应, 等一会再试吧……"}]
+	};
+    /**卡片 */
+    const charCard:Generic={
+        type:"GENERIC",
+        id:defineData.cardID,
+        name:`${charName} 卡片`,
+        description:`召唤 ${charName}`,
+        use_action:{
+            type:"effect_on_conditions",
+            description:`召唤 ${charName}`,
+            effect_on_conditions:[charCardEoc.id],
+        },
+        flags:["UNBREAKABLE"],
+        weight:1,
+        volume:1,
+        symbol: ",",
+        looks_like: "memory_card"
+    }
 
     /**自动保存事件 */
     const autoSave:Eoc = {
@@ -144,5 +186,5 @@ export async function createCharClass(dm:DataManager,charName:string){
         effect:[]
     }
     dm.addCharEvent(charName,"CnpcDeath",-1000,charDeathEoc);
-    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charDeathEoc,autoSave,charInitEoc,charRemoveEoc];
+    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charCardEoc,charCard,charDeathEoc,autoSave,charInitEoc,charRemoveEoc];
 }

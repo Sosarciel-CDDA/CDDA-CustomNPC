@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SpellSoundTypeList = exports.SpellEnergySourceList = exports.SpellFlagList = exports.SpellShapeList = exports.SpellEffectList = exports.SpellTargetList = void 0;
+exports.SpellSoundTypeList = exports.SpellEnergySourceList = exports.SpellFlagList = exports.SpellShapeList = exports.SpellEffectList = exports.SpellTargetList = exports.DefineSpellIDList = void 0;
+/**预定义的法术ID 列表 */
+exports.DefineSpellIDList = [
+    "AO_CLOSE_TEAR",
+    "pain_split", //伤痛分流
+];
 /**法术有效目标 列表 */
 exports.SpellTargetList = [
     "hostile",

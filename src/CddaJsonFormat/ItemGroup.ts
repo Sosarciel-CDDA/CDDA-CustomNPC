@@ -2,13 +2,31 @@ import { CddaID } from "./GenericDefine";
 import { AnyItemID } from "./Item/Generic";
 
 
+/**预定义的物品组ID */
+export const DefineItemGroupIDList = [
+    "bionics"                               ,//任何cbm
+    "afs_common_biomaterial_scrapgroup"     ,//afs材料
+    "afs_advanced_biomaterial_scrapgroup"   ,
+    "afs_common_circuitry_scrapgroup"       ,
+    "afs_advanced_circuitry_scrapgroup"     ,
+    "afs_common_energy_storage_scrapgroup"  ,
+    "afs_advanced_energy_storage_scrapgroup",
+    "afs_common_heat_scrapgroup"            ,
+    "afs_advanced_heat_scrapgroup"          ,
+    "afs_common_magnet_scrapgroup"          ,
+    "afs_advanced_magnet_scrapgroup"        ,
+    "afs_common_material_scrapgroup"        ,
+    "afs_advanced_material_scrapgroup"      ,
+    "afs_common_neural_io_scrapgroup"       ,
+    "afs_advanced_neural_io_scrapgroup"     ,
+    "afs_advanced_optics_scrapgroup"        ,
+] as const;
+/**预定义的物品组 */
+export type DefineItemGroupID = typeof DefineItemGroupIDList[number];
 
-
-/**ItemGroup ID格式  
- */
-export type ItemGroupID = CddaID<"ITEMGP">;
-/**ItemGroup  
- */
+/**ItemGroup ID格式  */
+export type ItemGroupID = CddaID<"ITEMGP">|DefineItemGroupID;
+/**ItemGroup  */
 export type ItemGroup = {
     type: "item_group",
     id: ItemGroupID,
@@ -23,18 +41,19 @@ export type ItemGroup = {
     /**快速物品列表  
      * 物品id 或者 [物品id,概率(100为100%)]
      */
-    items?:ItemGroupEntrieQuick[];
+    items?:ItemEntrieQuick[];
     /**快速物品列表  
-     * 物品id 或者 [物品id,概率(100为100%)]
+     * 物品组id 或者 [物品组id,概率(100为100%)]
      */
-    groups?:ItemGroupEntrieQuick[];
+    groups?:GroupEntrieQuick[];
     /**从某个物品组复制 */
     "copy-from"?:ItemGroupID;
     /**扩展元素 */
     extend?:Pick<ItemGroup,"entries"|"items"|"groups">;
 }
 /**一项Entry */
-type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|ItemGroupEntrieDist|ItemGroupEntrieColl)&ItemGroupEntrieOpt;
+type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|
+    ItemGroupEntrieDist|ItemGroupEntrieColl)&ItemGroupEntrieOpt;
 /**物品Entry */
 type ItemGroupEntrieItem = {
     /**物品ID */
@@ -62,7 +81,7 @@ type ItemGroupEntrieOpt = Partial<{
     count: number|number[];
     "count-min": number;
     "count-max": number;
-    /**仅设置最小值而不是最大值将使游戏根据容器或弹药/弹匣容量计算最大费用。
+    /**仅设置最小值而不是最大值将使游戏根据容器或弹药/弹匣容量计算最大费用。  
      * 将 max 设置得太高会将其减少到最大容量。当设置 max 时, 不设置 min 会将其设置为 0。  
      */
     charges: number|number[]
@@ -93,10 +112,15 @@ type ItemGroupEntrieOpt = Partial<{
 type ItemGroutEvent = "none"|"new_year"|"easter"|
 "independence_day"|"halloween"|"thanksgiving"|"christmas";
 
-/** 物品/物品组快速定义 取决于键
+/**物品快速定义  
  * 物品id 或者 [物品id,概率(100为100%)]  
  */
-export type ItemGroupEntrieQuick = AnyItemID|[AnyItemID,number];
+export type ItemEntrieQuick = AnyItemID|[AnyItemID,number]|ItemGroupEntrie;
+
+/**物品组快速定义  
+ * 物品组id 或者 [物品组id,概率(100为100%)]  
+ */
+export type GroupEntrieQuick = ItemGroupID|[ItemGroupID,number]|ItemGroupEntrie;
 
 /**内联物品组 */
 export type InlineItemGroup = Omit<ItemGroup,"id"|"type">;

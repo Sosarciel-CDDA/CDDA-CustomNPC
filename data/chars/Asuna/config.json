@@ -77,7 +77,6 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseRangeHit"
 			},
-			"cooldown":60,
 			"audio":[
 				{"id":"EvaporateFuture","cooldown": 180},
 				"EvaporateFutureSF","BaseAudio:BashHit"
@@ -88,20 +87,22 @@
 				"name": "蒸发未来",
 				"description": "对一条线上的敌人造成 2.1*感知系数 的伤害。",
 				"min_damage":{
-					"math": ["CalcDamage(u_base_damage, u_val('perception'))*2.1"]
+					"math": ["CalcDamage(u_damage, u_val('perception'))*2.1"]
 				},
 				"max_damage":999999,
 				"damage_type": "bullet",
 				"min_range":{"math": ["BATTLE_RANGE"]},
 				"min_aoe":1,
 				"shape": "cone",
+				"base_casting_time":100,
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"after_effect":[
-				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1)*u_EvaporateFuture_cooldown - u_EvaporateFuture_cooldown*0.75"]}
+				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1)*u_EvaporateFuture_cooldown"]}
 			],
+			"cooldown":64,
 			"weight": 1,
 			"require_weapon_flag": ["AsunaM9"]
 		},
@@ -116,15 +117,39 @@
 				"type": "SPELL",
 				"id":"PreciseSnipe",
 				"name": "精准狙击",
-				"description": "感知*1.3 分散度*0, 持续180秒。",
+				"description": "为自身添加 精准狙击 效果 持续 120 秒。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "PreciseSnipe",
 				"shape": "blast",
-				"min_duration": 18000,
+				"base_casting_time":100,
+				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"cooldown":16,
 			"weight": 2,
+			"require_weapon_flag": ["AsunaM9"]
+		},
+		{
+			"name": "作战指挥",
+			"cast_condition":{
+				"hook": "CnpcBattleUpdate",
+				"condition":{"not":{"u_has_effect":"CombatCommand"}}
+			},
+			"spell": {
+				"type": "SPELL",
+				"id":"CombatCommand",
+				"name": "作战指挥",
+				"description": "为自身添加 作战指挥 效果, 持续 120 秒。",
+				"effect": "attack",
+				"valid_targets": ["self"],
+				"effect_str": "CombatCommand",
+				"shape": "blast",
+				"min_duration": 12000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"common_cooldown": 0,
+			"weight": 10,
 			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
@@ -132,7 +157,7 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseMeleeHit"
 			},
-			"cooldown":60,
+			"cooldown":64,
 			"audio":[
 				{"id":"BladeStrike","cooldown": 180},
 				"BladeStrikeSF","BaseAudio:BashHit"
@@ -143,36 +168,7 @@
 				"name": "刀锋打击",
 				"description": "刀锋打击",
 				"min_damage":{
-					"math": ["CalcDamage(u_base_damage, u_val('strength'))*3.6"]
-				},
-				"max_damage":999999,
-				"damage_type": "cut",
-				"shape": "blast",
-				"min_range": {"math": ["MELEE_RANGE"]},
-				"valid_targets": ["hostile","ground"],
-				"effect": "attack",
-				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
-			},
-			"weight": 2,
-			"require_weapon_flag": ["AsunaKnife"]
-		},
-		{
-			"name": "创伤之刃",
-			"cast_condition":{
-				"hook": "CnpcCheckCauseMeleeHit"
-			},
-			"cooldown":15,
-			"audio":[
-				{"id":"BladeofTrauma","cooldown": 180},
-				"BladeofTraumaSF","BaseAudio:BashHit"
-			],
-			"spell": {
-				"id":"BladeofTrauma",
-				"type": "SPELL",
-				"name": "创伤之刃",
-				"description": "创伤之刃",
-				"min_damage":{
-					"math": ["CalcDamage(u_base_damage, u_val('strength'))*1.8"]
+					"math": ["CalcDamage(u_damage, u_val('strength'))*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
@@ -184,8 +180,120 @@
 			},
 			"weight": 1,
 			"require_weapon_flag": ["AsunaKnife"]
+		},
+		{
+			"name": "情报破译",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseMeleeHit",
+				"condition":{"not":{"npc_has_effect":"IntelligenceDeciphered"}}
+			},
+			"cooldown":24,
+			"audio":[
+				"IntelligenceDecipheredSF"
+			],
+			"spell": {
+				"id":"IntelligenceDeciphered",
+				"type": "SPELL",
+				"name": "情报破译",
+				"description": "使目标获得: 受到40%额外 斩击/钝击/刺击/射击 伤害, 持续 60 秒。",
+				"shape": "blast",
+				"min_range": {"math": ["MELEE_RANGE"]},
+				"valid_targets": ["hostile"],
+				"effect": "attack",
+				"effect_str": "IntelligenceDeciphered",
+				"min_duration":60,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"weight": 2,
+			"require_weapon_flag": ["AsunaKnife"]
+		},
+		{
+			"name": "创伤之刃",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseMeleeHit"
+			},
+			"audio":[
+				{"id":"BladeofTrauma","cooldown": 180},
+				"BladeofTraumaSF","BaseAudio:BashHit"
+			],
+			"spell": {
+				"id":"BladeofTrauma",
+				"type": "SPELL",
+				"name": "创伤之刃",
+				"description": "对目标造成 1.8*力量系数 的伤害, 并叠加 敏捷系数 的 创伤 效果。",
+				"min_damage":{
+					"math": ["CalcDamage(u_damage, u_val('strength'))*1.8"]
+				},
+				"max_damage":999999,
+				"damage_type": "cut",
+				"shape": "blast",
+				"min_range": {"math": ["MELEE_RANGE"]},
+				"valid_targets": ["hostile","ground"],
+				"effect": "attack",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"spec_effect": [{
+				"type": "AddEffect",
+				"effect_id":"Trauma",
+				"is_stack": true,
+				"duration": 10,
+				"intensity":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')))"]}
+			}],
+			"cooldown":16,
+			"weight": 2,
+			"require_weapon_flag": ["AsunaKnife"]
+		},
+		{
+			"name": "战场先锋",
+			"cast_condition":[{
+				"hook": "CnpcBattleUpdate",
+				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
+			},{
+				"hook": "CnpcUpdateSlow",
+				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
+			}],
+			"spell": {
+				"type": "SPELL",
+				"id":"BattlefieldVanguard",
+				"name": "战场先锋",
+				"description": "为自身添加 战场先锋 效果, 持续 120 秒。",
+				"effect": "attack",
+				"valid_targets": ["self"],
+				"effect_str": "BattlefieldVanguard",
+				"shape": "blast",
+				"min_duration": 12000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
+			},
+			"common_cooldown": 0,
+			"weight": 10
+		},
+		{
+			"name": "弱点重创",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseHit"
+			},
+			"spell": {
+				"type": "SPELL",
+				"id":"WeaknessHit",
+				"name": "弱点重创",
+				"description": "任何一次成功的攻击都会使目标叠加 敏捷系数*0.05 层, 持续 10 秒的 创伤 效果。",
+				"effect": "attack",
+				"valid_targets": ["hostile"],
+				"shape": "blast",
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
+			},
+			"spec_effect": [{
+				"type": "AddEffect",
+				"effect_id":"Trauma",
+				"is_stack": true,
+				"duration": 10,
+				"intensity":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')))"]}
+			}],
+			"common_cooldown": 0,
+			"weight": 10
 		}
 	],
+	"base_mutation": [],
 	"desc": {
 		"age": 17,
 		"gender": "female",

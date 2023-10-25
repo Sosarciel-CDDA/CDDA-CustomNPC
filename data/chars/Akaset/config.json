@@ -66,6 +66,7 @@
 	}],
 	"skill": [
 		{
+			"name": "霜盾",
 			"cast_condition":{
 				"hook": "CnpcBattleUpdate"
 			},
@@ -73,36 +74,55 @@
 				{"id":"FrostShield","cooldown": 180},
 				"FrostShieldSF"
 			],
-			"cooldown":60,
-			"name": "霜盾",
 			"spell": {
 				"id":"FrostShield",
 				"type": "SPELL",
 				"name": "霜盾",
-				"description": "为自己及周围友军添加 霜甲 效果, 为周围友军添加 霜盾 效果, 持续180秒。",
-				"valid_targets": ["ally","self"],
+				"description": "为周围友军添加 霜盾 效果, 持续 120 秒。",
+				"valid_targets": ["ally"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
 				"effect": "attack",
-				"effect_str": "FrostArmor",
-				"min_duration": 18000,
+				"base_casting_time": 100,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","IGNORE_WALLS"]
 			},
-			"after_effect": [
-				{"u_lose_effect":"FrostShield"}
-			],
 			"spec_effect": [
 				{
 					"type": "AddEffect",
 					"intensity":2,
-					"duration":90,
+					"duration":120,
 					"effect_id":"FrostShield"
 				}
 			],
+			"cooldown":64,
 			"weight": 2,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
+			"name": "情报分析",
+			"cast_condition":{
+				"hook": "CnpcBattleUpdate"
+			},
+			"spell": {
+				"id":"IntelligenceAnalysis",
+				"type": "SPELL",
+				"name": "情报分析",
+				"description": "为自己及周围友军添加 情报分析 效果, 持续 120 秒。",
+				"valid_targets": ["ally","self"],
+				"shape": "blast",
+				"min_aoe": {"math": ["BATTLE_RANGE"]},
+				"effect": "attack",
+				"effect_str": "IntelligenceAnalysis",
+				"min_duration": 12000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","IGNORE_WALLS","NO_EXPLOSION_SFX"]
+			},
+			"cooldown":16,
+			"common_cooldown": 0,
+			"weight": 10,
+			"require_weapon_flag": ["AkasetGauntlet"]
+		},
+		{
+			"name": "弹幕冰刺",
 			"cast_condition":{
 				"hook": "TryMeleeHit"
 			},
@@ -110,26 +130,26 @@
 				{"id":"BarrageIceSpike","cooldown": 180},
 				"BarrageIceSpikeSF","BaseAudio:IceHit"
 			],
-			"cooldown":15,
-			"name": "弹幕冰刺",
 			"spell": {
 				"id":"BarrageIceSpike",
 				"type": "SPELL",
 				"name": "弹幕冰刺",
-				"description": "对周围敌人造成 0.7*感知系数 的伤害, 并击倒 2 秒。",
+				"description": "对周围敌人造成 0.7*力量系数 的伤害, 并击倒 2 秒。",
 				"valid_targets": ["hostile","ground"],
 				"shape": "blast",
-				"min_aoe": 5,
+				"min_aoe": 10,
 				"effect": "attack",
 				"effect_str": "downed",
 				"damage_type": "cold",
 				"min_damage":{
-					"math": ["CalcDamage(u_base_damage, u_val('perception'))*0.7"]
+					"math": ["CalcDamage(u_damage, u_val('strength'))*0.7"]
 				},
 				"max_damage":999999,
 				"min_duration": 200,
+				"base_casting_time": 100,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"cooldown":24,
 			"weight": 1,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
@@ -138,7 +158,7 @@
 			"cast_condition":{
 				"hook": "CnpcCheckCauseRangeHit"
 			},
-			"cooldown":15,
+			"cooldown":16,
 			"audio":[
 				{"id":"ElectricStrike","cooldown": 180},
 				"ElectricStrikeSF","BaseAudio:ElectHit"
@@ -149,12 +169,13 @@
 				"name": "雷霆轰击",
 				"description": "对一条线上的敌人造成 1.1*感知系数 的伤害。",
 				"min_damage":{
-					"math": ["CalcDamage(u_base_damage, u_val('perception'))*1.1"]
+					"math": ["CalcDamage(u_damage, u_val('perception'))*1.1"]
 				},
 				"max_damage":999999,
 				"damage_type": "electric",
 				"min_aoe":1,
 				"shape": "cone",
+				"base_casting_time": 100,
 				"min_range": {"math": ["BATTLE_RANGE"]},
 				"valid_targets": ["hostile","ground"],
 				"effect": "attack",
@@ -162,6 +183,87 @@
 			},
 			"weight": 1,
 			"require_weapon_flag": ["AkasetLaserCannon"]
+		},
+		{
+			"name": "离子风暴",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseRangeHit"
+			},
+			"audio":[
+				"IonStormSF","BaseAudio:ElectHit"
+			],
+			"spell": {
+				"id":"IonStorm",
+				"type": "SPELL",
+				"name": "离子风暴",
+				"description": "对周围敌人造成 1.1*感知系数 的伤害, 并为其添加 离子风暴 效果, 持续 60 秒。",
+				"valid_targets": ["hostile","ground"],
+				"shape": "blast",
+				"min_aoe": 10,
+				"base_casting_time": 100,
+				"min_range": {"math": ["BATTLE_RANGE"]},
+				"effect": "attack",
+				"effect_str": "IonStorm",
+				"damage_type": "electric",
+				"min_damage":{
+					"math": ["CalcDamage(u_damage, u_val('perception'))*1.1"]
+				},
+				"max_damage":999999,
+				"min_duration": 6000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"cooldown":24,
+			"weight": 1,
+			"require_weapon_flag": ["AkasetGauntlet"]
+		},
+		{
+			"name": "功率强化",
+			"cast_condition":[{
+				"hook": "CnpcBattleUpdate",
+				"condition":{"not":{"u_has_effect":"PowerBoost"}}
+			},{
+				"hook": "CnpcUpdateSlow",
+				"condition":{"not":{"u_has_effect":"PowerBoost"}}
+			}],
+			"spell": {
+				"type": "SPELL",
+				"id":"PowerBoost",
+				"name": "功率强化",
+				"description": "为自身添加 功率强化 效果, 持续 120 秒。",
+				"effect": "attack",
+				"valid_targets": ["self"],
+				"effect_str": "PowerBoost",
+				"shape": "blast",
+				"min_duration": 12000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
+			},
+			"common_cooldown": 0,
+			"weight": 10
+		},
+		{
+			"name": "紧急冻结",
+			"cast_condition":[{
+				"hook": "CnpcBattleUpdate",
+				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
+			},{
+				"hook": "CnpcUpdateSlow",
+				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
+			}],
+			"spell": {
+				"type": "SPELL",
+				"id":"EmergencyFreeze",
+				"name": "紧急冻结",
+				"description": "为自身添加 紧急冻结 效果, 持续时间24小时, 冷却 3600 回合。",
+				"effect": "attack",
+				"valid_targets": ["self"],
+				"effect_str": "EmergencyFreeze",
+				"shape": "blast",
+				"min_duration": 86400000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
+			},
+			"common_cooldown": 0,
+			"cooldown": 3600,
+			"weight": 10
 		}
 	],
 	"desc": {

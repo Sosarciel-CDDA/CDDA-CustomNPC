@@ -1,9 +1,9 @@
 [
     {
         "type": "effect_type",
-        "id":"FrostArmor",
-        "name": ["霜甲"],
-        "desc": ["降低 4 点, 并减免 20% 钝击, 切割, 刺击, 子弹 伤害, 不会被抓住。"],
+        "id":"IntelligenceAnalysis",
+        "name": ["情报分析"],
+        "desc": ["降低 4 点, 并减免 20% 钝击/斩击/刺击/射击 伤害, 增加10%近战与远程伤害, 不会被抓住。"],
         "removes_effects": ["grabbed"],
         "enchantments": [{
             "condition":"ALWAYS",
@@ -23,6 +23,53 @@
                 "value": "ARMOR_BULLET",
                 "multiply":-0.2,
                 "add":-4
+            },{
+                "value": "MELEE_DAMAGE",
+                "multiply":0.1
+            },{
+                "value": "RANGED_DAMAGE",
+                "multiply":0.1
+            }]
+        }]
+    },
+    {
+        "type": "effect_type",
+        "id":"IonStorm",
+        "name": ["离子风暴"],
+        "desc": ["受到20%额外 火焰/电击/寒冷/酸液/生化 伤害"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "EXTRA_ACID",
+                "multiply": 0.2
+            },{
+                "value": "EXTRA_BIO",
+                "multiply": 0.2
+            },{
+                "value": "EXTRA_COLD",
+                "multiply": 0.2
+            },{
+                "value": "EXTRA_ELEC",
+                "multiply": 0.2
+            },{
+                "value": "EXTRA_HEAT",
+                "multiply": 0.2
+            }]
+        }]
+    },
+    {
+        "type": "effect_type",
+        "id":"PowerBoost",
+        "name": ["功率强化"],
+        "desc": ["力量与感知+30%"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "PERCEPTION",
+                "multiply":0.3
+            },{
+                "value": "STRENGTH",
+                "multiply":0.3
             }]
         }]
     }

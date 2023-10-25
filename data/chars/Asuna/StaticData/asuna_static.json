@@ -3,15 +3,66 @@
         "type": "effect_type",
         "id":"PreciseSnipe",
         "name": ["精准狙击"],
-        "desc": ["精准狙击"],
+        "desc": ["远程伤害+50%, 分散度*0"],
         "enchantments": [{
             "condition":"ALWAYS",
             "values": [{
                 "value": "WEAPON_DISPERSION",
                 "multiply":-1
             },{
+                "value": "RANGED_DAMAGE",
+                "multiply":0.5
+            }]
+        }]
+    },
+    {
+        "type": "effect_type",
+        "id":"CombatCommand",
+        "name": ["作战指挥"],
+        "desc": ["感知+30%"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
                 "value": "PERCEPTION",
                 "multiply":0.3
+            }]
+        }]
+    },
+    {
+        "type": "effect_type",
+        "id":"BattlefieldVanguard",
+        "name": ["战场先锋"],
+        "desc": ["远程与近战伤害+30%"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "MELEE_DAMAGE",
+                "multiply":0.3
+            },{
+                "value": "RANGED_DAMAGE",
+                "multiply":0.3
+            }]
+        }]
+    },
+    {
+        "type": "effect_type",
+        "id":"IntelligenceDeciphered",
+        "name": ["情报破译"],
+        "desc": ["受到30%额外 斩击/钝击/刺击/射击 伤害"],
+        "enchantments": [{
+            "condition":"ALWAYS",
+            "values": [{
+                "value": "EXTRA_BASH",
+                "multiply": 0.3
+            },{
+                "value": "EXTRA_BULLET",
+                "multiply": 0.3
+            },{
+                "value": "EXTRA_CUT",
+                "multiply": 0.3
+            },{
+                "value": "EXTRA_STAB",
+                "multiply": 0.3
             }]
         }]
     }

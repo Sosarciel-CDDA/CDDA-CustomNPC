@@ -2,6 +2,8 @@
 {
     "virtual": true,
     "base_var": {
-        "u_base_damage":30
+        "u_damage":30,
+        "u_critical_chance":5,
+        "u_critical_damage":0.5
     }
 }

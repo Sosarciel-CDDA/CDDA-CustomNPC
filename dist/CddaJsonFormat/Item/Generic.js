@@ -1,6 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DefineItemCategoryList = exports.GenericFlagList = exports.WeaponFlagList = void 0;
+exports.DefineItemCategoryList = exports.GenericFlagList = exports.WeaponFlagList = exports.DefineGenericIDList = void 0;
+/**预定义的通用物品 列表 */
+exports.DefineGenericIDList = [
+    "afs_biomaterial_1",
+    "afs_biomaterial_2",
+    "afs_biomaterial_3",
+    "afs_biomaterial_4",
+    "afs_biomaterial_5",
+    "afs_circuitry_1",
+    "afs_circuitry_2",
+    "afs_circuitry_3",
+    "afs_circuitry_4",
+    "afs_circuitry_5",
+    "afs_energy_storage_1",
+    "afs_energy_storage_2",
+    "afs_energy_storage_3",
+    "afs_energy_storage_4",
+    "afs_energy_storage_5",
+    "afs_heat_2_salvage",
+    "afs_heat_1",
+    "afs_heat_2",
+    "afs_heat_3",
+    "afs_heat_4",
+    "afs_heat_5",
+    "afs_magnet_1",
+    "afs_magnet_2",
+    "afs_magnet_3",
+    "afs_magnet_4",
+    "afs_material_1",
+    "afs_material_2",
+    "afs_material_3",
+    "afs_material_4",
+    "afs_material_5",
+    "afs_neural_io_1",
+    "afs_neural_io_2",
+    "afs_neural_io_3",
+    "afs_neural_io_4",
+    "afs_neural_io_5",
+    "afs_optics_3",
+    "afs_optics_4",
+];
 /**武器Flag 列表 */
 exports.WeaponFlagList = [
     "ALLOWS_BODY_BLOCK",

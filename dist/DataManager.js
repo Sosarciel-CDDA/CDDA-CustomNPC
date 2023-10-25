@@ -120,6 +120,9 @@ class DataManager {
             //替换目录名
             if (fileObj.file)
                 fileObj.file = path.join('..', '..', '..', 'gfx', bs.target_gfxpack, fileObj.file);
+            fileObj.iso = undefined;
+            fileObj.retract_dist_min = undefined;
+            fileObj.retract_dist_max = undefined;
             //替换tiles
             fileObj.tiles = tilesList.filter(tilesObj => {
                 if (tilesObj.id == "npc_female") {
@@ -255,6 +258,7 @@ class DataManager {
                 baseItemFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
                 baseCarryGroup: (0, ModDefine_1.genItemGroupID)(`${charName}_Carry`),
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
+                cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
             };
             //角色事件eoc主体
             const charEventEocs = Event_1.CnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});

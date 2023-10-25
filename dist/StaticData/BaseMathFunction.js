@@ -2,7 +2,31 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseMathFunction = void 0;
 const StaticData_1 = require("./StaticData");
-/**属性附加伤害计算
+/**暴击伤害
+ * function(基础伤害,暴击率,暴击伤害)
+ * 暴击伤害为1, 暴击时造成200%伤害
+ */
+const CritDamage = {
+    type: "jmath_function",
+    id: "CritDamage",
+    num_args: 3,
+    return: "_0 + (_0 * (rng(0, 1) < _1 ? _2 : 0))",
+};
+/**感知伤害 */
+const PerDamage = {
+    type: "jmath_function",
+    id: "PerDamage",
+    num_args: 1,
+    return: "CalcDamage(_0 , u_val('perception'))",
+};
+/**力量伤害 */
+const StrDamage = {
+    type: "jmath_function",
+    id: "StrDamage",
+    num_args: 1,
+    return: "CalcDamage(_0 , u_val('strength'))",
+};
+/**属性伤害计算
  * (基础伤害+属性加值)*属性倍率
  * function(基础伤害,关键属性)
  */
@@ -98,5 +122,5 @@ const SpellExpDiff = {
     "num_args": 1,
     "return": "SpellExp(_0 + 1) - SpellExp(_0)"
 };
-exports.BaseMathFunction = [CalcDamage, DamageMul, Log10, Pow2, LvlExp, SpellExpDiff, SpellExp, SumHp, AvgHp, MinHp, MaxHp];
+exports.BaseMathFunction = [CalcDamage, DamageMul, Log10, Pow2, LvlExp, SpellExpDiff, SpellExp, SumHp, AvgHp, MinHp, MaxHp, PerDamage, StrDamage, CritDamage];
 (0, StaticData_1.saveStaticData)(exports.BaseMathFunction, 'static_resource', "base_math_function");

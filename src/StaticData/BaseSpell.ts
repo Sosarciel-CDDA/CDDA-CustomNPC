@@ -11,6 +11,11 @@ export const BATTLE_RANGE = 30;
 export const MELEE_RANGE = 3;
 /**最大法术伤害 */
 export const SPELL_MAX_DAMAGE = 10000000;
+/**施法后摇法术ID */
+export const SPELL_CT_MODMOVE = genSpellID(`CastTimeModMove`);
+/**施法后摇变量 */
+export const SPELL_CT_MODMOVE_VAR = 'casttime_modmove';
+
 
 /**用于必定成功的控制法术的flags */
 export const CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL","NO_EXPLOSION_SFX"] as const;
@@ -143,6 +148,18 @@ export const BaseSpell:Spell[] = [
 		base_casting_time: 100,
 		extra_effects: [{ id: genSpellID("TestConeSpell_DMG") }],
 		targeted_monster_ids: [TARGET_MON_ID],
+	},
+	{
+		id: SPELL_CT_MODMOVE,
+		type: "SPELL",
+		name: "施法后摇",
+		description: "施法后摇",
+		effect: "mod_moves",
+		shape: "blast",
+		valid_targets: ["self"],
+		flags: [...CON_SPELL_FLAG],
+		min_damage: {math:[`0-${SPELL_CT_MODMOVE_VAR}`]},
+		max_damage: {math:[`0-${SPELL_CT_MODMOVE_VAR}`]},
 	},
 ];
 
