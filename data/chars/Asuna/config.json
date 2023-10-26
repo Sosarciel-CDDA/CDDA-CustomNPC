@@ -117,7 +117,7 @@
 				"type": "SPELL",
 				"id":"PreciseSnipe",
 				"name": "精准狙击",
-				"description": "为自身添加 精准狙击 效果 持续 120 秒。",
+				"description": "为自身添加 120 秒 精准狙击 效果。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "PreciseSnipe",
@@ -140,7 +140,7 @@
 				"type": "SPELL",
 				"id":"CombatCommand",
 				"name": "作战指挥",
-				"description": "为自身添加 作战指挥 效果, 持续 120 秒。",
+				"description": "为自身添加 120 秒 作战指挥 效果。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "CombatCommand",
@@ -159,14 +159,14 @@
 			},
 			"cooldown":64,
 			"audio":[
-				{"id":"BladeStrike","cooldown": 180},
+				{"id":"BladeStrike_","cooldown": 180},
 				"BladeStrikeSF","BaseAudio:BashHit"
 			],
 			"spell": {
 				"id":"BladeStrike",
 				"type": "SPELL",
 				"name": "刀锋打击",
-				"description": "刀锋打击",
+				"description": "对目标造成 1.8*力量系数 的伤害, 并造成 10 撕裂伤害。",
 				"min_damage":{
 					"math": ["CalcDamage(u_damage, u_val('strength'))*3.6"]
 				},
@@ -178,6 +178,11 @@
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"spec_effect": [{
+				"type": "ExtDamage",
+				"damage_type":"Laceration",
+				"count": 10
+			}],
 			"weight": 1,
 			"require_weapon_flag": ["AsunaKnife"]
 		},
@@ -195,7 +200,7 @@
 				"id":"IntelligenceDeciphered",
 				"type": "SPELL",
 				"name": "情报破译",
-				"description": "使目标获得: 受到40%额外 斩击/钝击/刺击/射击 伤害, 持续 60 秒。",
+				"description": "为目标添加 60 秒 情报破译 效果。",
 				"shape": "blast",
 				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile"],
@@ -220,7 +225,7 @@
 				"id":"BladeofTrauma",
 				"type": "SPELL",
 				"name": "创伤之刃",
-				"description": "对目标造成 1.8*力量系数 的伤害, 并叠加 敏捷系数 的 创伤 效果。",
+				"description": "对目标造成 1.8*力量系数 的伤害, 并造成 敏捷系数*0.3 创伤伤害。",
 				"min_damage":{
 					"math": ["CalcDamage(u_damage, u_val('strength'))*1.8"]
 				},
@@ -233,11 +238,9 @@
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"spec_effect": [{
-				"type": "AddEffect",
-				"effect_id":"Trauma",
-				"is_stack": true,
-				"duration": 10,
-				"intensity":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')))"]}
+				"type": "ExtDamage",
+				"damage_type":"Trauma",
+				"count": {"math": ["CalcDamage(u_damage, u_val('dexterity')) * 0.3"]}
 			}],
 			"cooldown":16,
 			"weight": 2,
@@ -256,7 +259,7 @@
 				"type": "SPELL",
 				"id":"BattlefieldVanguard",
 				"name": "战场先锋",
-				"description": "为自身添加 战场先锋 效果, 持续 120 秒。",
+				"description": "为自身添加 120 秒 战场先锋 效果。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "BattlefieldVanguard",
@@ -276,19 +279,15 @@
 				"type": "SPELL",
 				"id":"WeaknessHit",
 				"name": "弱点重创",
-				"description": "任何一次成功的攻击都会使目标叠加 敏捷系数*0.05 层, 持续 10 秒的 创伤 效果。",
+				"description": "任何一次成功的攻击都会额外造成 敏捷系数*0.02 的 创伤伤害。",
 				"effect": "attack",
+				"damage_type":"Trauma",
+				"min_damage":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')) * 0.02)"]},
+				"max_damage":999999,
 				"valid_targets": ["hostile"],
 				"shape": "blast",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
 			},
-			"spec_effect": [{
-				"type": "AddEffect",
-				"effect_id":"Trauma",
-				"is_stack": true,
-				"duration": 10,
-				"intensity":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')))"]}
-			}],
 			"common_cooldown": 0,
 			"weight": 10
 		}

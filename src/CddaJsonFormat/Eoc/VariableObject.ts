@@ -20,6 +20,7 @@ export type NumOperateList = [
     GenericObjOperateList[number]       ,//
     number                              ,//
     NumMathExp                          ,//
+    Arithmetic                          ,//
 ]
 
 /**npc属性技能专用的数字对象 */
@@ -41,7 +42,11 @@ export type NumOperaSum     = {sum: NpcNumObj[] };
 export type NumOperaMul     = {mul: NpcNumObj[] };
 /**Math数字表达式 */
 export type NumMathExp = {math:[string]};
+/**算术表达式 */
+export type Arithmetic = {arithmetic:(CalcOpera|NumObj)[]}
 
+/**计算运算符 */
+type CalcOpera = "+"|"-"|"*"|"/";
 
 /**比较运算符 */
 type CompareOpera = "=="|"!="|">="|"<="|">"|"<";

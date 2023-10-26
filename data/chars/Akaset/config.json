@@ -78,7 +78,7 @@
 				"id":"FrostShield",
 				"type": "SPELL",
 				"name": "霜盾",
-				"description": "为周围友军添加 霜盾 效果, 持续 120 秒。",
+				"description": "为周围友军添加 120 秒 霜盾 效果。",
 				"valid_targets": ["ally"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
@@ -107,7 +107,7 @@
 				"id":"IntelligenceAnalysis",
 				"type": "SPELL",
 				"name": "情报分析",
-				"description": "为自己及周围友军添加 情报分析 效果, 持续 120 秒。",
+				"description": "为自己及周围友军添加 120 秒 情报分析 效果。",
 				"valid_targets": ["ally","self"],
 				"shape": "blast",
 				"min_aoe": {"math": ["BATTLE_RANGE"]},
@@ -167,7 +167,7 @@
 				"id":"ElectricStrike",
 				"type": "SPELL",
 				"name": "雷霆轰击",
-				"description": "对一条线上的敌人造成 1.1*感知系数 的伤害。",
+				"description": "对一条线上的敌人造成 1.1*感知系数 的伤害, 并造成 感知系数 的 感电伤害。",
 				"min_damage":{
 					"math": ["CalcDamage(u_damage, u_val('perception'))*1.1"]
 				},
@@ -181,6 +181,11 @@
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"spec_effect": [{
+				"type": "ExtDamage",
+				"damage_type":"Electrify",
+				"count": {"math": ["CalcDamage(u_damage, u_val('perception'))"]}
+			}],
 			"weight": 1,
 			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
@@ -196,7 +201,7 @@
 				"id":"IonStorm",
 				"type": "SPELL",
 				"name": "离子风暴",
-				"description": "对周围敌人造成 1.1*感知系数 的伤害, 并为其添加 离子风暴 效果, 持续 60 秒。",
+				"description": "对目标点周围敌人造成 1.1*感知系数 的伤害, 造成 10 点 放电伤害, 并为其添加 60 秒 离子风暴 效果。",
 				"valid_targets": ["hostile","ground"],
 				"shape": "blast",
 				"min_aoe": 10,
@@ -212,8 +217,51 @@
 				"min_duration": 6000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
+			"spec_effect": [{
+				"type": "ExtDamage",
+				"damage_type":"Discharge",
+				"count": 10
+			}],
 			"cooldown":24,
 			"weight": 1,
+			"require_weapon_flag": ["AkasetGauntlet"]
+		},
+		{
+			"name": "TD光束",
+			"cast_condition":{
+				"hook": "CnpcCheckCauseRangeHit"
+			},
+			"audio":[
+				{"id":"ThunderDischargeBeam","cooldown": 180},
+				"ThunderDischargeBeamSF","BaseAudio:ElectHit"
+			],
+			"spell": {
+				"id":"ThunderDischargeBeam",
+				"type": "SPELL",
+				"name": "TD光束",
+				"description": "对目标点周围敌人造成 1.6*感知系数 的伤害, 为其添加 60 秒 串流 效果, 并造成 感知系数 的 感电伤害。",
+				"valid_targets": ["hostile","ground"],
+				"shape": "blast",
+				"min_aoe": 10,
+				"base_casting_time": 100,
+				"min_range": {"math": ["BATTLE_RANGE"]},
+				"effect": "attack",
+				"effect_str": "Serial",
+				"damage_type": "electric",
+				"min_damage":{
+					"math": ["CalcDamage(u_damage, u_val('perception'))*1.6"]
+				},
+				"max_damage":999999,
+				"min_duration": 6000,
+				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
+			},
+			"spec_effect": [{
+				"type": "ExtDamage",
+				"damage_type":"Electrify",
+				"count": {"math": ["CalcDamage(u_damage, u_val('perception'))"]}
+			}],
+			"cooldown":64,
+			"weight": 2,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
@@ -229,7 +277,7 @@
 				"type": "SPELL",
 				"id":"PowerBoost",
 				"name": "功率强化",
-				"description": "为自身添加 功率强化 效果, 持续 120 秒。",
+				"description": "为自身添加 120 秒 功率强化 效果。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "PowerBoost",
@@ -243,9 +291,6 @@
 		{
 			"name": "紧急冻结",
 			"cast_condition":[{
-				"hook": "CnpcBattleUpdate",
-				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
-			},{
 				"hook": "CnpcUpdateSlow",
 				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
 			}],
@@ -253,7 +298,7 @@
 				"type": "SPELL",
 				"id":"EmergencyFreeze",
 				"name": "紧急冻结",
-				"description": "为自身添加 紧急冻结 效果, 持续时间24小时, 冷却 3600 回合。",
+				"description": "非战斗状态下, 为自身添加 24小时 紧急冻结 效果, 冷却 3600 回合。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "EmergencyFreeze",

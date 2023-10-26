@@ -1,7 +1,7 @@
 import { Effect, EffectID } from "@src/CddaJsonFormat/Effect";
 import { DataManager } from "@src/DataManager";
 import { UtilFunc } from "@zwa73/utils";
-import { Armor, BoolObj, Eoc, EocEffect, Mutation, MutationID, Spell, Time } from "CddaJsonFormat";
+import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time } from "CddaJsonFormat";
 import { AnyCnpcEvenetType, CommonEventType, GlobalEventType } from "Event";
 import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 
@@ -13,15 +13,22 @@ import { genActEoc, genEOCID, genMutationID } from "ModDefine";
  * @param dm 管理器
  * @param effect 效果实例
  * @param hook 触发时机
- * @param eocEffects 触发效果
+ * @param mode 衰减类型
+ * @param eocEffects 触发衰减前的效果
  * @param duration 触发后重置的持续时间
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-export function genTriggerEffect(dm:DataManager,effect:Effect,hook:GlobalEventType,
+export function genTriggerEffect(dm:DataManager,effect:Effect,hook:GlobalEventType,mode:"/2"|"-1"|"none",
     eocEffects:EocEffect[],duration:Time,condition?:BoolObj,cooldown:Time=0){
     if(typeof cooldown == "number") cooldown = `${cooldown} s`;
     effect.int_decay_remove = true;
+
+    const fixMode:EocEffect[] = [];
+    if(mode=="-1")
+        fixMode.push({u_add_effect:effect.id,intensity:{math:[`u_effect_intensity('${effect.id}')-1`]},duration})
+    else if(mode=="/2")
+        fixMode.push({u_add_effect:effect.id,intensity:{math:[`u_effect_intensity('${effect.id}')/2`]},duration})
 
     const timevarId = `${effect.id}_Timer`
     const eocid = `${effect.id}_Trigger`;
@@ -33,9 +40,7 @@ export function genTriggerEffect(dm:DataManager,effect:Effect,hook:GlobalEventTy
             eoc_type:"ACTIVATION",
             condition:{math:[`u_effect_intensity('${effect.id}')`,"<=","1"]},
             effect:[{u_lose_effect:effect.id}],
-            false_effect:[
-                {u_add_effect:effect.id,intensity:{math:[`u_effect_intensity('${effect.id}')-1`]},duration},
-            ]
+            false_effect:fixMode
         }}
     ],{and:[
         {u_has_effect:effect.id},
@@ -99,4 +104,12 @@ export function genArmorMut(armor:Armor){
         integrated_armor:[armor.id]
     }
     return mut;
+}
+
+/**根据伤害生成一个DamageInfoOrder */
+export function genDIO(dt:DamageType):DamageInfoOrder{
+    return {
+        id: dt.id,
+        type:"damage_info_order"
+    }
 }

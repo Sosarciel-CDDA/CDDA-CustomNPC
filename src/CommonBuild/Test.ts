@@ -15,7 +15,7 @@ export async function createTest(dm:DataManager){
         name:["测试触发效果"],
         max_intensity:1000,
     }
-    outData.push(genTriggerEffect(dm,eff,"TakeDamage",[],120));
+    outData.push(genTriggerEffect(dm,eff,"TakeDamage","-1",[],120));
     outData.push(eff);
 
     const eoc = genAddEffEoc(effid,120);

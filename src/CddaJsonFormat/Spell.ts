@@ -1,7 +1,8 @@
+import { DamageTypeID } from "./DameType";
 import { FakeSpell } from "./Enchantment";
 import { NumObj } from "./Eoc";
 import { FieldID } from "./Field";
-import { BodyPartID, CddaID, DamageType } from "./GenericDefine";
+import { BodyPartID, CddaID } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 import { MonsterID } from "./Monster";
 
@@ -83,7 +84,7 @@ export type Spell = {
     /**法术的伤害类型  
      * 伤害法术必须定义伤害类型  
      */
-    damage_type?:DamageType;
+    damage_type?:DamageTypeID;
     /**初始法术aoe范围 */
 	min_aoe?: NumObj;
     /**极限法术aoe范围 */

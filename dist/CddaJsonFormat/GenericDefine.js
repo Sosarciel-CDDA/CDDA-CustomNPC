@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RatTypeList = exports.SocialTypeList = exports.StatusSimpleList = exports.StatusList = exports.DefineDamageTypeList = exports.DefineMonFactionList = exports.DefineNpcFactionList = exports.BodyPartList = exports.SubBPList = exports.LimbBPList = exports.VitalBPList = exports.ColorList = void 0;
+exports.RatTypeList = exports.SocialTypeList = exports.StatusSimpleList = exports.StatusList = exports.DefineMonFactionList = exports.DefineNpcFactionList = exports.BodyPartList = exports.SubBPList = exports.LimbBPList = exports.VitalBPList = exports.ColorList = void 0;
 /**可用的颜色列表 */
 exports.ColorList = [
     "black",
@@ -49,28 +49,6 @@ exports.DefineMonFactionList = [
     "human",
     "zombie",
     "passive_machine",
-];
-/**预定义的伤害类型 列表 */
-exports.DefineDamageTypeList = [
-    "stab",
-    "bash",
-    "cut",
-    "bullet",
-    "acid",
-    "electric",
-    "heat",
-    "cold",
-    "biological",
-    "pure",
-    "afs_plasma",
-    "xe_cold_iron_cut_damage",
-    "xe_cold_iron_cut_damage",
-    "xe_cold_iron_bash_damage",
-    "xe_cold_iron_stab_damage",
-    "psi_telekinetic_damage",
-    "psi_telepathic_damage",
-    "psi_teleporter_teleporting_damage",
-    "psi_enervation_damage",
 ];
 /**属性 列表 */
 exports.StatusList = [

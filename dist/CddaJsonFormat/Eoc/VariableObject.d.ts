@@ -14,7 +14,8 @@ export type NumObj = NumOperateList[number];
 export type NumOperateList = [
     GenericObjOperateList[number],
     number,
-    NumMathExp
+    NumMathExp,
+    Arithmetic
 ];
 /**npc属性技能专用的数字对象 */
 export type NpcNumObj = NpcNumOperateList[number];
@@ -48,6 +49,12 @@ export type NumOperaMul = {
 export type NumMathExp = {
     math: [string];
 };
+/**算术表达式 */
+export type Arithmetic = {
+    arithmetic: (CalcOpera | NumObj)[];
+};
+/**计算运算符 */
+type CalcOpera = "+" | "-" | "*" | "/";
 /**比较运算符 */
 type CompareOpera = "==" | "!=" | ">=" | "<=" | ">" | "<";
 /**Eoc条件对象 */

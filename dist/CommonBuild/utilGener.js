@@ -1,21 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.genArmorMut = exports.genAddEffEoc = exports.genTriggerEffect = void 0;
+exports.genDIO = exports.genArmorMut = exports.genAddEffEoc = exports.genTriggerEffect = void 0;
 const ModDefine_1 = require("../ModDefine");
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
  * @param dm 管理器
  * @param effect 效果实例
  * @param hook 触发时机
- * @param eocEffects 触发效果
+ * @param mode 衰减类型
+ * @param eocEffects 触发衰减前的效果
  * @param duration 触发后重置的持续时间
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-function genTriggerEffect(dm, effect, hook, eocEffects, duration, condition, cooldown = 0) {
+function genTriggerEffect(dm, effect, hook, mode, eocEffects, duration, condition, cooldown = 0) {
     if (typeof cooldown == "number")
         cooldown = `${cooldown} s`;
     effect.int_decay_remove = true;
+    const fixMode = [];
+    if (mode == "-1")
+        fixMode.push({ u_add_effect: effect.id, intensity: { math: [`u_effect_intensity('${effect.id}')-1`] }, duration });
+    else if (mode == "/2")
+        fixMode.push({ u_add_effect: effect.id, intensity: { math: [`u_effect_intensity('${effect.id}')/2`] }, duration });
     const timevarId = `${effect.id}_Timer`;
     const eocid = `${effect.id}_Trigger`;
     const triggerEoc = (0, ModDefine_1.genActEoc)(eocid, [
@@ -26,9 +32,7 @@ function genTriggerEffect(dm, effect, hook, eocEffects, duration, condition, coo
                 eoc_type: "ACTIVATION",
                 condition: { math: [`u_effect_intensity('${effect.id}')`, "<=", "1"] },
                 effect: [{ u_lose_effect: effect.id }],
-                false_effect: [
-                    { u_add_effect: effect.id, intensity: { math: [`u_effect_intensity('${effect.id}')-1`] }, duration },
-                ]
+                false_effect: fixMode
             } }
     ], { and: [
             { u_has_effect: effect.id },
@@ -90,3 +94,11 @@ function genArmorMut(armor) {
     return mut;
 }
 exports.genArmorMut = genArmorMut;
+/**根据伤害生成一个DamageInfoOrder */
+function genDIO(dt) {
+    return {
+        id: dt.id,
+        type: "damage_info_order"
+    };
+}
+exports.genDIO = genDIO;

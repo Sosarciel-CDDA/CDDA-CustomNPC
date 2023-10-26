@@ -1,4 +1,4 @@
-import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, Time, ParamsEoc } from "../CddaJsonFormat";
+import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, Time, ParamsEoc, DamageTypeID } from "../CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
 /**技能选择目标类型 列表 */
@@ -99,7 +99,7 @@ export type CastCondition = {
     target?: TargetType;
 };
 /**特殊的字效果 */
-type SpecEffect = RunEoc | AddEffect;
+type SpecEffect = RunEoc | AddEffect | ExtDamage;
 /**添加效果 */
 type AddEffect = {
     /**生成一个添加效果的子法术 */
@@ -125,6 +125,12 @@ type RunEoc = {
     effect?: EocEffect[];
     /**自动生成的eoc的运行条件 */
     condition?: BoolObj;
+};
+/**额外造成某种类型的伤害 */
+type ExtDamage = {
+    type: "ExtDamage";
+    count: NumObj;
+    damage_type: DamageTypeID;
 };
 /**使某个技能停止使用的全局变量 */
 export declare function getGlobalDisableSpellVar(charName: string, spell: Spell): string;

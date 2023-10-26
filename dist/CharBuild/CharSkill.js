@@ -20,6 +20,7 @@ const TargetTypeList = [
 const SpecProcMap = {
     AddEffect: processAddEffect,
     RunEoc: processRunEoc,
+    ExtDamage: processExtDamage,
 };
 function processAddEffect(dm, charName, baseSkillData, spec, index) {
     const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
@@ -99,6 +100,30 @@ function processRunEoc(dm, charName, baseSkillData, spec, index) {
         effect_str: runEoc.id,
         name: `${spell.name}_${index}_RunEoc`,
         description: spell.name + "运行Eoc子法术",
+        min_aoe, max_aoe, aoe_increment,
+        min_range, max_range, range_increment,
+        max_level, shape, valid_targets,
+        targeted_monster_ids, targeted_monster_species, flags
+    });
+}
+;
+function processExtDamage(dm, charName, baseSkillData, spec, index) {
+    const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
+    const { spell, one_in_chance } = skill;
+    spec = spec;
+    const mainid = `${spell.id}_${index}_ExtDamage`;
+    const flags = [...StaticData_1.CON_SPELL_FLAG];
+    if (spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS");
+    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
+    extraEffects.push({
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(mainid),
+        effect: "attack",
+        name: `${spell.name}_${index}_ExtDamage`,
+        description: spell.name + "额外伤害子法术",
+        min_damage: { math: [parseNumObj(spec.count)] },
+        damage_type: spec.damage_type,
         min_aoe, max_aoe, aoe_increment,
         min_range, max_range, range_increment,
         max_level, shape, valid_targets,

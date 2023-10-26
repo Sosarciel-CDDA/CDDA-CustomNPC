@@ -12,7 +12,7 @@ async function createTest(dm) {
         name: ["测试触发效果"],
         max_intensity: 1000,
     };
-    outData.push((0, UtilGener_1.genTriggerEffect)(dm, eff, "TakeDamage", [], 120));
+    outData.push((0, UtilGener_1.genTriggerEffect)(dm, eff, "TakeDamage", "-1", [], 120));
     outData.push(eff);
     const eoc = (0, UtilGener_1.genAddEffEoc)(effid, 120);
     const spell = {

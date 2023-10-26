@@ -16,6 +16,7 @@ import { Spell } from "./Spell";
 import { MaterialID } from "./Material";
 import { MissionDefinition } from "./MissionDefinition";
 import { Mutation } from "./Mutation";
+import { DamageInfoOrder, DamageType, DamageTypeID } from "./DameType";
 
 /**重量 */
 export type Weight = number|`${number} ${"kg"|"g"}`;
@@ -206,7 +207,7 @@ export type PocketData = {
 /**远程武器伤害 */
 export type RangeDamage = {
     /**伤害类型 */
-    damage_type: DamageType;
+    damage_type: DamageTypeID;
     /**伤害值 */
     amount: number;
     /**穿甲值 */
@@ -220,34 +221,7 @@ export type RangeDamage = {
     }[]
 }
 /**近战武器伤害 伤害类型 : 伤害值 不能为负数* */
-export type MeleeDamage = Partial<Record<DamageType,number>>;
-
-/**预定义的伤害类型 列表 */
-export const DefineDamageTypeList = [
-    "stab"      ,
-    "bash"      ,
-    "cut"       ,
-    "bullet"    ,
-    "acid"      ,
-    "electric"  ,
-    "heat"      ,
-    "cold"      ,
-    "biological",
-    "pure"      ,
-    "afs_plasma",
-    "xe_cold_iron_cut_damage"           ,
-    "xe_cold_iron_cut_damage"           ,
-    "xe_cold_iron_bash_damage"          ,
-    "xe_cold_iron_stab_damage"          ,
-    "psi_telekinetic_damage"            ,
-    "psi_telepathic_damage"             ,
-    "psi_teleporter_teleporting_damage" ,
-    "psi_enervation_damage"             ,
-] as const;
-/**预定义的伤害类型 */
-export type DefineDamageType = typeof DefineDamageTypeList[number];
-/**伤害类型 */
-export type DamageType = DefineDamageType;
+export type MeleeDamage = Partial<Record<DamageTypeID,number>>;
 
 
 /**爆炸 */
@@ -338,7 +312,7 @@ export const RatTypeList = [
 export type RatType = typeof RatTypeList[number];
 
 /**任何Cdda的Json */
-export type AnyCddaJson =AnyItem|Eoc|Mutation|
+export type AnyCddaJson =AnyItem|Eoc|Mutation|DamageType|DamageInfoOrder|
     AmmunitionType|Enchantment|Flag|ItemGroup|Monster|
     NpcClass|NpcInstance|OverlayOrdering|SoundEffect|
     Effect|Spell|MathFunction|AmmoEffect|MissionDefinition;

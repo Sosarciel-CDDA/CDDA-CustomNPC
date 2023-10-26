@@ -1,15 +1,18 @@
 import { DataManager } from "@src/DataManager";
-import { Effect, EffectID, Enchantment, Spell } from "CddaJsonFormat";
+import { DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocID, Spell } from "CddaJsonFormat";
 import { genEOCID, genEffectID, genEnchantmentID, genSpellID } from "ModDefine";
-import { genAddEffEoc, genTriggerEffect } from "./UtilGener";
+import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
 import { SPELL_MAX_DAMAGE } from "StaticData";
 
-
-
+/**回复收到的伤害 */
+//const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
+const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
 export async function createTriggerEffect(dm:DataManager){
     await FrostShield(dm);
     await Electrify(dm);
+    await Discharge(dm);
     await Trauma(dm);
+    await Laceration(dm);
     await EmergencyFreeze(dm);
 }
 
@@ -61,7 +64,7 @@ function FrostShield(dm:DataManager){
             }]
         }]
     }
-    const teoc = genTriggerEffect(dm,eff,"TakeDamage",[
+    const teoc = genTriggerEffect(dm,eff,"TakeDamage","-1",[
         {u_cast_spell:{id:tex.id}},
         {u_cast_spell:{id:tspell.id}},
         {sound_effect:"IceHit",id:"BaseAudio",volume:100}
@@ -69,49 +72,93 @@ function FrostShield(dm:DataManager){
     dm.addStaticData([tex,tspell,eff,teoc],"common_resource","trigger_effect","FrostShield");
 }
 
+
 //感电
 function Electrify(dm:DataManager){
     const effid = "Electrify" as EffectID;
+    const extid = "Serial" as EffectID;
+    const dur = "60 s";
+    const eff:Effect = {
+        type:"effect_type",
+        id: effid,
+        name:["感电"],
+        desc:[`可被 放电 伤害激发, 造成相当于 放电伤害*感电层数 的电击伤害。`],
+        max_intensity:TEFF_MAX,
+        max_duration:dur
+    }
+    const onDmgEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${effid}_OnDamage`),
+        effect:[
+            regenDmg,
+            {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') + (_total_damage * n_effect_intensity('${extid}')>0? 2 : 1)`]}},
+        ]
+    }
+    const dt:DamageType = {
+        id: effid as DamageTypeID,
+        type: "damage_type",
+        name: "感电",
+        physical: false,
+        magic_color: "yellow",
+        derived_from:["electric",1],
+        ondamage_eocs: [ onDmgEoc.id ]
+    }
+    //串流
+    const exteff:Effect = {
+        type:"effect_type",
+        id: extid,
+        name:["串流"],
+        desc:["感电 叠加的层数翻倍。"],
+        max_intensity:1,
+        max_duration:dur
+    }
+    dm.addStaticData([eff,onDmgEoc,dt,exteff,genDIO(dt)],"common_resource","trigger_effect","Electrify");
+}
+
+//放电
+function Discharge(dm:DataManager){
+    const effid = "Discharge" as EffectID;
+    const dmgeffid = "Electrify" as EffectID;
     const tspell:Spell={
         type:"SPELL",
         id:genSpellID(`${effid}_Trigger`),
-        name:"感电触发伤害",
-        description:"感电触发伤害",
+        name:"放电感电触发伤害",
+        description:"放电感电触发伤害",
         effect:"attack",
-        min_damage:{math:[`u_effect_intensity('${effid}')*100`]},
+        min_damage:{math:[`u_effect_intensity('${dmgeffid}') * tmpDischargeDmg`]},
         max_damage:SPELL_MAX_DAMAGE,
         valid_targets:["self"],
         shape:"blast",
         damage_type:"electric",
     }
-    const ench:Enchantment={
-        type:"enchantment",
-        id:genEnchantmentID(`${effid}_Ench`),
-        condition:"ALWAYS",
-        intermittent_activation:{
-            effects:[{
-                frequency:"1 s",
-                spell_effects:[
-                    {id:tspell.id,hit_self:true}
-                ]
-            }]
-        }
+    const onDmgEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${effid}_OnDamage`),
+        effect:[
+            regenDmg,
+            {math:["tmpDischargeDmg","=","_total_damage/10"]},
+            {npc_cast_spell:{id:tspell.id,hit_self:true}},
+            {npc_lose_effect:dmgeffid},
+        ]
     }
-    const eff:Effect = {
-        type:"effect_type",
-        id: effid,
-        name:["感电"],
-        desc:["每次受到感电效果时, 受到一次相当于感电层数的伤害, 每次触发后感电层数减半"],
-        max_intensity:TEFF_MAX,
-        max_duration:TEFF_DUR,
-        enchantments:[ench.id]
+    const dt:DamageType = {
+        id: effid as DamageTypeID,
+        type: "damage_type",
+        name: "放电",
+        physical: false,
+        magic_color: "yellow",
+        ondamage_eocs: [ onDmgEoc.id ]
     }
-    dm.addStaticData([tspell,ench,eff],"common_resource","trigger_effect","Electrify");
+    dm.addStaticData([onDmgEoc,dt,tspell,genDIO(dt)],"common_resource","trigger_effect","Discharge");
 }
 
 //创伤
 function Trauma(dm:DataManager){
     const effid = "Trauma" as EffectID;
+    const stackcount = TEFF_MAX;
+    const dur = "10 s";
     const tspell:Spell={
         type:"SPELL",
         id:genSpellID(`${effid}_Trigger`),
@@ -128,7 +175,7 @@ function Trauma(dm:DataManager){
         type:"effect_type",
         id: effid,
         name:["创伤"],
-        desc:["每秒受到一次相当于 创伤层数 的伤害。"],
+        desc:[`每秒受到一次相当于 创伤层数 的伤害。`],
         apply_message:"一道伤口正在蚕食着你的躯体",
         base_mods: {
             hurt_min: [1],
@@ -137,10 +184,64 @@ function Trauma(dm:DataManager){
         scaling_mods: {
             hurt_min: [1]
         },
-        max_intensity:TEFF_MAX,
-        max_duration:TEFF_DUR,
+        max_intensity:stackcount,
+        max_duration:dur,
     }
-    dm.addStaticData([tspell,eff],"common_resource","trigger_effect","Trauma");
+    const onDmgEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${effid}_OnDamage`),
+        effect:[
+            regenDmg,
+            {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') + _total_damage`]}}
+        ]
+    }
+    const dt:DamageType = {
+        id: effid as DamageTypeID,
+        type: "damage_type",
+        name: "创伤",
+        physical: false,
+        magic_color: "white",
+        derived_from:["cut",1],
+        ondamage_eocs: [ onDmgEoc.id ]
+    }
+    dm.addStaticData([tspell,eff,onDmgEoc,dt,genDIO(dt)],"common_resource","trigger_effect","Trauma");
+}
+
+//撕裂
+function Laceration(dm:DataManager){
+    const effid = "Laceration" as EffectID;
+    const tspell:Spell={
+        type:"SPELL",
+        id:genSpellID(`${effid}_Trigger`),
+        name:"撕裂创伤触发伤害",
+        description:"撕裂创伤触发伤害",
+        effect:"attack",
+        min_damage:{math:[`u_effect_intensity('${effid}') * tmpLacerationDmg`]},
+        max_damage:SPELL_MAX_DAMAGE,
+        valid_targets:["self"],
+        shape:"blast",
+        damage_type:"cut",
+    }
+    const onDmgEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${effid}_OnDamage`),
+        effect:[
+            regenDmg,
+            {math:["tmpLacerationDmg","=","_total_damage/10"]},
+            {npc_cast_spell:{id:tspell.id,hit_self:true}},
+        ]
+    }
+    const dt:DamageType = {
+        id: effid as DamageTypeID,
+        type: "damage_type",
+        name: "撕裂",
+        physical: false,
+        magic_color: "white",
+        ondamage_eocs: [ onDmgEoc.id ]
+    }
+    dm.addStaticData([onDmgEoc,dt,tspell,genDIO(dt)],"common_resource","trigger_effect","Laceration");
 }
 
 //紧急冻结
@@ -173,20 +274,45 @@ function EmergencyFreeze(dm:DataManager){
         shape:"blast",
         extra_effects: [{id:tex.id},{id:tex.id},{id:tex.id},{id:tex.id},{id:tex.id}]
     }
+    const freeze:Effect={
+        type:"effect_type",
+        id:genEffectID(`${effid}_Trigger3_Freeze`),
+        name:["冰封"],
+        desc:["无视所有伤害"],
+        enchantments:[{
+            condition:"ALWAYS",
+            values:[{
+                value:"FORCEFIELD",
+                add:1
+            }]
+        }]
+    }
+    const tfreeze:Spell={
+        type:"SPELL",
+        id:genSpellID(`${effid}_Trigger3`),
+        name:"紧急冻结无敌",
+        description:"紧急冻结无敌",
+        effect:"attack",
+        effect_str:freeze.id,
+        min_duration:800,
+        valid_targets:["self"],
+        shape:"blast",
+        flags:["SILENT","NO_EXPLOSION_SFX"]
+    }
     const eff:Effect = {
         type:"effect_type",
         id: effid,
         name:["紧急冻结"],
-        desc:["即将死亡时会将血量完全恢复至于20%, 并击退且冻结周围敌人。"],
+        desc:["即将死亡时会将血量完全恢复, 无敌8秒, 并击退且冻结周围敌人。"],
         max_intensity:1
     }
-    const teoc = genTriggerEffect(dm,eff,"CnpcDeathPrev",[
+    const teoc = genTriggerEffect(dm,eff,"CnpcDeathPrev","-1",[
         {u_cast_spell:{id:tex.id}},
         {u_cast_spell:{id:tspell.id}},
-        {u_cast_spell:{id: "pain_split" } },
-        {math:[`u_hp()`,"=",`u_hp('torso') + u_hp_max('torso')*0.2`]},
+        {u_cast_spell:{id:tfreeze.id}},
+        {u_set_hp:1000,max:true},
         {math:[ "u_pain()", "=", "0" ] },
         {sound_effect:"IceHit",id:"BaseAudio",volume:100}
     ],"PERMANENT");
-    dm.addStaticData([tex,tspell,eff,teoc],"common_resource","trigger_effect","EmergencyFreeze");
+    dm.addStaticData([tex,tspell,tfreeze,freeze,eff,teoc],"common_resource","trigger_effect","EmergencyFreeze");
 }

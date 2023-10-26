@@ -11,7 +11,7 @@ import { VitaminsID } from "./Vitamins";
 /**预定义的EffectID 列表 */
 export const DefineEffectIDList = [
     "npc_run_away"  ,//npc的AI标签,让NPC开始逃跑
-    "npc_suspend"   ,//npc的AI表情,暂停AI
+    "npc_suspend"   ,//npc的AI标签,暂停AI
     "incorporeal"   ,//无形体 让所有穿戴物品掉落
     "stunned"       ,//眩晕
     "downed"        ,//击倒

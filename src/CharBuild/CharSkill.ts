@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag} from "CddaJsonFormat";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, CnpcReverseEventTypeList, CnpcReverseEventType, AnyCnpcEvenetType } from "Event";
@@ -114,7 +114,7 @@ export type CastCondition={
 }
 
 /**特殊的字效果 */
-type SpecEffect = RunEoc|AddEffect;
+type SpecEffect = RunEoc|AddEffect|ExtDamage;
 /**添加效果 */
 type AddEffect = {
     /**生成一个添加效果的子法术 */
@@ -141,11 +141,18 @@ type RunEoc = {
     /**自动生成的eoc的运行条件 */
     condition?      :BoolObj;
 }
+/**额外造成某种类型的伤害 */
+type ExtDamage = {
+    type: "ExtDamage";
+    count: NumObj;
+    damage_type: DamageTypeID;
+}
 
 /**特殊效果的处理表 */
 const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number)=>void>={
     AddEffect   :processAddEffect   ,
     RunEoc      :processRunEoc      ,
+    ExtDamage   :processExtDamage   ,
 }
 
 
@@ -243,6 +250,36 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCas
         effect_str:runEoc.id,
         name:`${spell.name}_${index}_RunEoc`,
         description:spell.name+"运行Eoc子法术",
+        min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species,flags
+    })
+};
+function processExtDamage(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+    const {spell,one_in_chance} = skill;
+    spec=spec as ExtDamage;
+
+    const mainid = `${spell.id}_${index}_ExtDamage`;
+
+    const flags:SpellFlag[] = [...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
+
+    const {min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape,valid_targets,
+        targeted_monster_ids,targeted_monster_species} = spell;
+
+    extraEffects.push({
+        type:"SPELL",
+        id:genSpellID(mainid),
+        effect:"attack",
+        name:`${spell.name}_${index}_ExtDamage`,
+        description:spell.name+"额外伤害子法术",
+        min_damage:{math:[parseNumObj(spec.count)]},
+        damage_type:spec.damage_type,
         min_aoe,max_aoe,aoe_increment,
         min_range,max_range,range_increment,
         max_level,shape,valid_targets,
