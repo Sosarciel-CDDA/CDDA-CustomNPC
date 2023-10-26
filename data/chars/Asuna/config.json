@@ -32,7 +32,7 @@
 				"faults": [],
 				"modes": [
 					["DEFAULT"	,"semi-auto",1],
-					["AUTO"		,"auto"		,6]
+					["AUTO"		,"auto"		,3]
 				],
 				"range": 16
 			}

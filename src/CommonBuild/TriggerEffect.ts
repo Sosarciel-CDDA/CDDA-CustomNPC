@@ -6,7 +6,8 @@ import { SPELL_MAX_DAMAGE } from "StaticData";
 
 /**回复收到的伤害 */
 //const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
-const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
+//const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
+
 export async function createTriggerEffect(dm:DataManager){
     await FrostShield(dm);
     await Electrify(dm);
@@ -84,22 +85,26 @@ function Electrify(dm:DataManager){
         name:["感电"],
         desc:[`可被 放电 伤害激发, 造成相当于 放电伤害*感电层数 的电击伤害。`],
         max_intensity:TEFF_MAX,
-        max_duration:dur
+        max_duration:dur,
+        show_in_info:true,
     }
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
-            regenDmg,
-            {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') + (_total_damage * n_effect_intensity('${extid}')>0? 2 : 1)`]}},
+            //regenDmg,
+            {
+                npc_add_effect:effid,
+                duration:dur,
+                intensity:{math:[`n_effect_intensity('${effid}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`]}
+            },
         ]
     }
     const dt:DamageType = {
         id: effid as DamageTypeID,
         type: "damage_type",
         name: "感电",
-        physical: false,
         magic_color: "yellow",
         derived_from:["electric",1],
         ondamage_eocs: [ onDmgEoc.id ]
@@ -109,9 +114,10 @@ function Electrify(dm:DataManager){
         type:"effect_type",
         id: extid,
         name:["串流"],
-        desc:["感电 叠加的层数翻倍。"],
+        desc:["感电 叠加的层数变为 4 倍。"],
         max_intensity:1,
-        max_duration:dur
+        max_duration:dur,
+        show_in_info:true,
     }
     dm.addStaticData([eff,onDmgEoc,dt,exteff,genDIO(dt)],"common_resource","trigger_effect","Electrify");
 }
@@ -137,7 +143,7 @@ function Discharge(dm:DataManager){
         eoc_type:"ACTIVATION",
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
-            regenDmg,
+            //regenDmg,
             {math:["tmpDischargeDmg","=","_total_damage/10"]},
             {npc_cast_spell:{id:tspell.id,hit_self:true}},
             {npc_lose_effect:dmgeffid},
@@ -147,9 +153,9 @@ function Discharge(dm:DataManager){
         id: effid as DamageTypeID,
         type: "damage_type",
         name: "放电",
-        physical: false,
         magic_color: "yellow",
-        ondamage_eocs: [ onDmgEoc.id ]
+        ondamage_eocs: [ onDmgEoc.id ],
+        no_resist:true
     }
     dm.addStaticData([onDmgEoc,dt,tspell,genDIO(dt)],"common_resource","trigger_effect","Discharge");
 }
@@ -186,13 +192,14 @@ function Trauma(dm:DataManager){
         },
         max_intensity:stackcount,
         max_duration:dur,
+        show_in_info:true,
     }
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
-            regenDmg,
+            //regenDmg,
             {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') + _total_damage`]}}
         ]
     }
@@ -200,10 +207,11 @@ function Trauma(dm:DataManager){
         id: effid as DamageTypeID,
         type: "damage_type",
         name: "创伤",
-        physical: false,
+        physical: true,
         magic_color: "white",
         derived_from:["cut",1],
-        ondamage_eocs: [ onDmgEoc.id ]
+        ondamage_eocs: [ onDmgEoc.id ],
+        edged:true,
     }
     dm.addStaticData([tspell,eff,onDmgEoc,dt,genDIO(dt)],"common_resource","trigger_effect","Trauma");
 }
@@ -228,7 +236,7 @@ function Laceration(dm:DataManager){
         eoc_type:"ACTIVATION",
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
-            regenDmg,
+            //regenDmg,
             {math:["tmpLacerationDmg","=","_total_damage/10"]},
             {npc_cast_spell:{id:tspell.id,hit_self:true}},
         ]
@@ -237,9 +245,9 @@ function Laceration(dm:DataManager){
         id: effid as DamageTypeID,
         type: "damage_type",
         name: "撕裂",
-        physical: false,
         magic_color: "white",
-        ondamage_eocs: [ onDmgEoc.id ]
+        ondamage_eocs: [ onDmgEoc.id ],
+        no_resist:true,
     }
     dm.addStaticData([onDmgEoc,dt,tspell,genDIO(dt)],"common_resource","trigger_effect","Laceration");
 }

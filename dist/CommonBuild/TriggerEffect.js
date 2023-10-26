@@ -6,7 +6,7 @@ const UtilGener_1 = require("./UtilGener");
 const StaticData_1 = require("../StaticData");
 /**回复收到的伤害 */
 //const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
-const regenDmg = { math: ["n_hp(_bp)", "+=", "_damage_taken"] };
+//const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
 async function createTriggerEffect(dm) {
     await FrostShield(dm);
     await Electrify(dm);
@@ -81,22 +81,26 @@ function Electrify(dm) {
         name: ["感电"],
         desc: [`可被 放电 伤害激发, 造成相当于 放电伤害*感电层数 的电击伤害。`],
         max_intensity: TEFF_MAX,
-        max_duration: dur
+        max_duration: dur,
+        show_in_info: true,
     };
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
-            regenDmg,
-            { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') + (_total_damage * n_effect_intensity('${extid}')>0? 2 : 1)`] } },
+            //regenDmg,
+            {
+                npc_add_effect: effid,
+                duration: dur,
+                intensity: { math: [`n_effect_intensity('${effid}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`] }
+            },
         ]
     };
     const dt = {
         id: effid,
         type: "damage_type",
         name: "感电",
-        physical: false,
         magic_color: "yellow",
         derived_from: ["electric", 1],
         ondamage_eocs: [onDmgEoc.id]
@@ -106,9 +110,10 @@ function Electrify(dm) {
         type: "effect_type",
         id: extid,
         name: ["串流"],
-        desc: ["感电 叠加的层数翻倍。"],
+        desc: ["感电 叠加的层数变为 4 倍。"],
         max_intensity: 1,
-        max_duration: dur
+        max_duration: dur,
+        show_in_info: true,
     };
     dm.addStaticData([eff, onDmgEoc, dt, exteff, (0, UtilGener_1.genDIO)(dt)], "common_resource", "trigger_effect", "Electrify");
 }
@@ -133,7 +138,7 @@ function Discharge(dm) {
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
-            regenDmg,
+            //regenDmg,
             { math: ["tmpDischargeDmg", "=", "_total_damage/10"] },
             { npc_cast_spell: { id: tspell.id, hit_self: true } },
             { npc_lose_effect: dmgeffid },
@@ -143,9 +148,9 @@ function Discharge(dm) {
         id: effid,
         type: "damage_type",
         name: "放电",
-        physical: false,
         magic_color: "yellow",
-        ondamage_eocs: [onDmgEoc.id]
+        ondamage_eocs: [onDmgEoc.id],
+        no_resist: true
     };
     dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "trigger_effect", "Discharge");
 }
@@ -181,13 +186,14 @@ function Trauma(dm) {
         },
         max_intensity: stackcount,
         max_duration: dur,
+        show_in_info: true,
     };
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
-            regenDmg,
+            //regenDmg,
             { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') + _total_damage`] } }
         ]
     };
@@ -195,10 +201,11 @@ function Trauma(dm) {
         id: effid,
         type: "damage_type",
         name: "创伤",
-        physical: false,
+        physical: true,
         magic_color: "white",
         derived_from: ["cut", 1],
-        ondamage_eocs: [onDmgEoc.id]
+        ondamage_eocs: [onDmgEoc.id],
+        edged: true,
     };
     dm.addStaticData([tspell, eff, onDmgEoc, dt, (0, UtilGener_1.genDIO)(dt)], "common_resource", "trigger_effect", "Trauma");
 }
@@ -222,7 +229,7 @@ function Laceration(dm) {
         eoc_type: "ACTIVATION",
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
-            regenDmg,
+            //regenDmg,
             { math: ["tmpLacerationDmg", "=", "_total_damage/10"] },
             { npc_cast_spell: { id: tspell.id, hit_self: true } },
         ]
@@ -231,9 +238,9 @@ function Laceration(dm) {
         id: effid,
         type: "damage_type",
         name: "撕裂",
-        physical: false,
         magic_color: "white",
-        ondamage_eocs: [onDmgEoc.id]
+        ondamage_eocs: [onDmgEoc.id],
+        no_resist: true,
     };
     dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "trigger_effect", "Laceration");
 }

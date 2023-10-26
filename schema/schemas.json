@@ -33,7 +33,7 @@
 			"description": "添加效果"
 		},
 		"AddEffect_1": {
-			"$ref": "#/definitions/__type_84"
+			"$ref": "#/definitions/__type_86"
 		},
 		"AddRandStrVar": {
 			"anyOf": [
@@ -265,7 +265,7 @@
 										},
 										{
 											"items": {
-												"$ref": "#/definitions/__type_46",
+												"$ref": "#/definitions/__type_47",
 												"description": "远程武器伤害"
 											},
 											"type": "array"
@@ -909,7 +909,7 @@
 			"type": "object"
 		},
 		"AmmunitionType": {
-			"$ref": "#/definitions/__type_79"
+			"$ref": "#/definitions/__type_81"
 		},
 		"AmmunitionTypeID": {
 			"anyOf": [
@@ -1052,6 +1052,10 @@
 				{
 					"$ref": "#/definitions/DamageType",
 					"description": "伤害类型"
+				},
+				{
+					"$ref": "#/definitions/DamageInfoOrder",
+					"description": "伤害信息顺序"
 				},
 				{
 					"allOf": [
@@ -10475,7 +10479,7 @@
 			"type": "array"
 		},
 		"BuildSetting": {
-			"$ref": "#/definitions/__type_102"
+			"$ref": "#/definitions/__type_104"
 		},
 		"CalcOpera": {
 			"description": "计算运算符",
@@ -10488,7 +10492,7 @@
 			"type": "string"
 		},
 		"CastCondition": {
-			"$ref": "#/definitions/__type_82"
+			"$ref": "#/definitions/__type_84"
 		},
 		"CastSpell": {
 			"anyOf": [
@@ -13091,7 +13095,7 @@
 			"type": "object"
 		},
 		"CharConfig": {
-			"$ref": "#/definitions/__type_97"
+			"$ref": "#/definitions/__type_99"
 		},
 		"CharData": {
 			"description": "角色数据",
@@ -13278,10 +13282,10 @@
 			"description": "角色描述信息"
 		},
 		"CharDesc_1": {
-			"$ref": "#/definitions/__type_87"
+			"$ref": "#/definitions/__type_89"
 		},
 		"CharSkill": {
-			"$ref": "#/definitions/__type_86"
+			"$ref": "#/definitions/__type_88"
 		},
 		"CharUpgrade": {
 			"description": "角色强化项",
@@ -14263,7 +14267,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_57"
+					"$ref": "#/definitions/__type_58"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14363,7 +14367,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_59"
+					"$ref": "#/definitions/__type_60"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14422,7 +14426,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_60"
+					"$ref": "#/definitions/__type_61"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14481,7 +14485,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_61"
+					"$ref": "#/definitions/__type_62"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14582,7 +14586,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_62"
+					"$ref": "#/definitions/__type_63"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14641,7 +14645,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_63"
+					"$ref": "#/definitions/__type_64"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14690,7 +14694,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_64"
+					"$ref": "#/definitions/__type_65"
 				}
 			],
 			"description": "copyfrom变体"
@@ -14712,8 +14716,11 @@
 			],
 			"description": "自定义的肢体"
 		},
+		"DamageInfoOrder": {
+			"$ref": "#/definitions/__type_80"
+		},
 		"DamageType": {
-			"$ref": "#/definitions/__type_78"
+			"$ref": "#/definitions/__type_79"
 		},
 		"DamageTypeID": {
 			"anyOf": [
@@ -14850,7 +14857,7 @@
 			"type": "object"
 		},
 		"DataTable": {
-			"$ref": "#/definitions/__type_104"
+			"$ref": "#/definitions/__type_106"
 		},
 		"DefineAmmoEffectID": {
 			"enum": [
@@ -15134,6 +15141,13 @@
 				"SPEARS"
 			],
 			"type": "string"
+		},
+		"DmgInfo": {
+			"$ref": "#/definitions/DmgInfo_1",
+			"description": "确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+		},
+		"DmgInfo_1": {
+			"$ref": "#/definitions/__type_44"
 		},
 		"DynamicLine": {
 			"anyOf": [
@@ -18906,7 +18920,7 @@
 			"type": "array"
 		},
 		"Effect": {
-			"$ref": "#/definitions/__type_71"
+			"$ref": "#/definitions/__type_72"
 		},
 		"EffectID": {
 			"anyOf": [
@@ -33045,7 +33059,7 @@
 			"type": "string"
 		},
 		"Enchantment": {
-			"$ref": "#/definitions/__type_70"
+			"$ref": "#/definitions/__type_71"
 		},
 		"EnchantmentID": {
 			"anyOf": [
@@ -33097,7 +33111,7 @@
 			"description": "能量"
 		},
 		"Eoc": {
-			"$ref": "#/definitions/__type_77"
+			"$ref": "#/definitions/__type_78"
 		},
 		"EocCond": {
 			"anyOf": [
@@ -35257,14 +35271,14 @@
 			"type": "object"
 		},
 		"Explosion": {
-			"$ref": "#/definitions/__type_51"
+			"$ref": "#/definitions/__type_52"
 		},
 		"Explosion_1": {
 			"$ref": "#/definitions/Explosion",
 			"description": "爆炸"
 		},
 		"ExtDamage": {
-			"$ref": "#/definitions/__type_85"
+			"$ref": "#/definitions/__type_87"
 		},
 		"FakeSpell": {
 			"$ref": "#/definitions/FakeSpell_1",
@@ -35439,7 +35453,7 @@
 			"type": "string"
 		},
 		"Flag": {
-			"$ref": "#/definitions/__type_69"
+			"$ref": "#/definitions/__type_70"
 		},
 		"FlagID": {
 			"anyOf": [
@@ -35463,10 +35477,10 @@
 			"description": "燃料数据"
 		},
 		"FuelData_1": {
-			"$ref": "#/definitions/__type_45"
+			"$ref": "#/definitions/__type_46"
 		},
 		"GameData": {
-			"$ref": "#/definitions/__type_103"
+			"$ref": "#/definitions/__type_105"
 		},
 		"Generic": {
 			"anyOf": [
@@ -39365,7 +39379,7 @@
 			"description": "物品快速定义  \n物品id 或者 [物品id,概率(100为100%)]"
 		},
 		"ItemGroup": {
-			"$ref": "#/definitions/__type_66"
+			"$ref": "#/definitions/__type_67"
 		},
 		"ItemGroupEntrie": {
 			"anyOf": [
@@ -40516,7 +40530,7 @@
 			"$ref": "#/definitions/__type_12"
 		},
 		"MathFunction": {
-			"$ref": "#/definitions/__type_80"
+			"$ref": "#/definitions/__type_82"
 		},
 		"MathFunctionID": {
 			"anyOf": [
@@ -40571,7 +40585,7 @@
 			"description": "发送消息"
 		},
 		"MissionDefinition": {
-			"$ref": "#/definitions/__type_76"
+			"$ref": "#/definitions/__type_77"
 		},
 		"MissionDefinitionID": {
 			"anyOf": [
@@ -40653,7 +40667,7 @@
 			"$ref": "#/definitions/__type_14"
 		},
 		"Monster": {
-			"$ref": "#/definitions/__type_67"
+			"$ref": "#/definitions/__type_68"
 		},
 		"MonsterFlag": {
 			"enum": [
@@ -40713,7 +40727,7 @@
 			"type": "object"
 		},
 		"Mutation": {
-			"$ref": "#/definitions/__type_72"
+			"$ref": "#/definitions/__type_73"
 		},
 		"MutationID": {
 			"anyOf": [
@@ -40875,7 +40889,7 @@
 			"type": "number"
 		},
 		"NpcClass": {
-			"$ref": "#/definitions/__type_73"
+			"$ref": "#/definitions/__type_74"
 		},
 		"NpcClassID": {
 			"anyOf": [
@@ -40903,7 +40917,7 @@
 			"type": "string"
 		},
 		"NpcInstance": {
-			"$ref": "#/definitions/__type_74"
+			"$ref": "#/definitions/__type_75"
 		},
 		"NpcInstanceID": {
 			"anyOf": [
@@ -41793,7 +41807,7 @@
 			]
 		},
 		"OverlayOrdering": {
-			"$ref": "#/definitions/__type_81"
+			"$ref": "#/definitions/__type_83"
 		},
 		"OvermapTerrainID": {
 			"anyOf": [
@@ -42429,31 +42443,31 @@
 			"$ref": "#/definitions/Partial_11"
 		},
 		"Partial_11": {
-			"$ref": "#/definitions/__type_54"
+			"$ref": "#/definitions/__type_55"
 		},
 		"Partial_12": {
 			"$ref": "#/definitions/Partial_13"
 		},
 		"Partial_13": {
-			"$ref": "#/definitions/__type_55"
+			"$ref": "#/definitions/__type_56"
 		},
 		"Partial_14": {
 			"$ref": "#/definitions/Partial_15"
 		},
 		"Partial_15": {
-			"$ref": "#/definitions/__type_57"
+			"$ref": "#/definitions/__type_58"
 		},
 		"Partial_16": {
 			"$ref": "#/definitions/Partial_17"
 		},
 		"Partial_17": {
-			"$ref": "#/definitions/__type_59"
+			"$ref": "#/definitions/__type_60"
 		},
 		"Partial_18": {
 			"$ref": "#/definitions/Partial_19"
 		},
 		"Partial_19": {
-			"$ref": "#/definitions/__type_60"
+			"$ref": "#/definitions/__type_61"
 		},
 		"Partial_2": {
 			"$ref": "#/definitions/__type_6"
@@ -42462,31 +42476,31 @@
 			"$ref": "#/definitions/Partial_21"
 		},
 		"Partial_21": {
-			"$ref": "#/definitions/__type_61"
+			"$ref": "#/definitions/__type_62"
 		},
 		"Partial_22": {
 			"$ref": "#/definitions/Partial_23"
 		},
 		"Partial_23": {
-			"$ref": "#/definitions/__type_62"
+			"$ref": "#/definitions/__type_63"
 		},
 		"Partial_24": {
 			"$ref": "#/definitions/Partial_25"
 		},
 		"Partial_25": {
-			"$ref": "#/definitions/__type_63"
+			"$ref": "#/definitions/__type_64"
 		},
 		"Partial_26": {
 			"$ref": "#/definitions/Partial_27"
 		},
 		"Partial_27": {
-			"$ref": "#/definitions/__type_64"
+			"$ref": "#/definitions/__type_65"
 		},
 		"Partial_28": {
 			"$ref": "#/definitions/Partial_29"
 		},
 		"Partial_29": {
-			"$ref": "#/definitions/__type_65"
+			"$ref": "#/definitions/__type_66"
 		},
 		"Partial_3": {
 			"$ref": "#/definitions/Partial_4"
@@ -42495,13 +42509,13 @@
 			"$ref": "#/definitions/Partial_31"
 		},
 		"Partial_31": {
-			"$ref": "#/definitions/__type_89"
+			"$ref": "#/definitions/__type_91"
 		},
 		"Partial_32": {
 			"$ref": "#/definitions/Partial_33"
 		},
 		"Partial_33": {
-			"$ref": "#/definitions/__type_91"
+			"$ref": "#/definitions/__type_93"
 		},
 		"Partial_4": {
 			"$ref": "#/definitions/__type_15"
@@ -42519,7 +42533,7 @@
 			"$ref": "#/definitions/__type_41"
 		},
 		"Partial_9": {
-			"$ref": "#/definitions/__type_47"
+			"$ref": "#/definitions/__type_48"
 		},
 		"Phase": {
 			"description": "物理状态",
@@ -42841,7 +42855,7 @@
 			"$ref": "#/definitions/__type_30"
 		},
 		"RangeDamage": {
-			"$ref": "#/definitions/__type_46"
+			"$ref": "#/definitions/__type_47"
 		},
 		"RatMessage": {
 			"$ref": "#/definitions/__type_17"
@@ -42869,55 +42883,55 @@
 			"$ref": "#/definitions/__type_32"
 		},
 		"Record_10": {
-			"$ref": "#/definitions/__type_94"
-		},
-		"Record_11": {
-			"$ref": "#/definitions/__type_95"
-		},
-		"Record_12": {
 			"$ref": "#/definitions/__type_96"
 		},
-		"Record_13": {
+		"Record_11": {
+			"$ref": "#/definitions/__type_97"
+		},
+		"Record_12": {
 			"$ref": "#/definitions/__type_98"
 		},
-		"Record_14": {
-			"$ref": "#/definitions/__type_99"
-		},
-		"Record_15": {
+		"Record_13": {
 			"$ref": "#/definitions/__type_100"
 		},
-		"Record_16": {
+		"Record_14": {
 			"$ref": "#/definitions/__type_101"
 		},
+		"Record_15": {
+			"$ref": "#/definitions/__type_102"
+		},
+		"Record_16": {
+			"$ref": "#/definitions/__type_103"
+		},
 		"Record_2": {
-			"$ref": "#/definitions/__type_44"
+			"$ref": "#/definitions/__type_45"
 		},
 		"Record_3": {
 			"$ref": "#/definitions/Record_4"
 		},
 		"Record_4": {
-			"$ref": "#/definitions/__type_58"
+			"$ref": "#/definitions/__type_59"
 		},
 		"Record_5": {
 			"$ref": "#/definitions/Record_6"
 		},
 		"Record_6": {
-			"$ref": "#/definitions/__type_88"
+			"$ref": "#/definitions/__type_90"
 		},
 		"Record_7": {
 			"$ref": "#/definitions/Record_8"
 		},
 		"Record_8": {
-			"$ref": "#/definitions/__type_90"
+			"$ref": "#/definitions/__type_92"
 		},
 		"Record_9": {
-			"$ref": "#/definitions/__type_93"
+			"$ref": "#/definitions/__type_95"
 		},
 		"RelicData": {
 			"$ref": "#/definitions/RelicData_1"
 		},
 		"RelicData_1": {
-			"$ref": "#/definitions/__type_56"
+			"$ref": "#/definitions/__type_57"
 		},
 		"RemoveActionMission": {
 			"$ref": "#/definitions/__type_37"
@@ -42954,7 +42968,7 @@
 			"description": "删除物品"
 		},
 		"RequireResource": {
-			"$ref": "#/definitions/__type_92"
+			"$ref": "#/definitions/__type_94"
 		},
 		"Resp": {
 			"anyOf": [
@@ -43334,7 +43348,7 @@
 			"$ref": "#/definitions/__type_33"
 		},
 		"RunEoc_1": {
-			"$ref": "#/definitions/__type_83"
+			"$ref": "#/definitions/__type_85"
 		},
 		"SchemaString": {
 			"description": "用于辅助解析只能补全的类型  \n输出后替换为 ^.*$ 的 string 匹配",
@@ -43699,7 +43713,7 @@
 			"description": "音效变体ID"
 		},
 		"SoundEffect_1": {
-			"$ref": "#/definitions/__type_75"
+			"$ref": "#/definitions/__type_76"
 		},
 		"SpawnItem": {
 			"anyOf": [
@@ -43784,7 +43798,7 @@
 			"description": "特殊的字效果"
 		},
 		"Spell": {
-			"$ref": "#/definitions/__type_68"
+			"$ref": "#/definitions/__type_69"
 		},
 		"SpellEffect": {
 			"description": "法术效果",
@@ -45835,19 +45849,19 @@
 			"description": "将BoolObj转换为适用于TalkTopic的条件"
 		},
 		"UACastSpell": {
-			"$ref": "#/definitions/__type_53"
+			"$ref": "#/definitions/__type_54"
 		},
 		"UAExplosion": {
-			"$ref": "#/definitions/__type_50"
+			"$ref": "#/definitions/__type_51"
 		},
 		"UALearnSpell": {
-			"$ref": "#/definitions/__type_52"
+			"$ref": "#/definitions/__type_53"
 		},
 		"UAPlaceNpc": {
-			"$ref": "#/definitions/__type_48"
+			"$ref": "#/definitions/__type_49"
 		},
 		"UARunEoc": {
-			"$ref": "#/definitions/__type_49"
+			"$ref": "#/definitions/__type_50"
 		},
 		"UseAction": {
 			"anyOf": [
@@ -46521,9 +46535,657 @@
 			"type": "object"
 		},
 		"__type_101": {
+			"properties": {
+				"CauseMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseMeleeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseRangeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckCauseRangeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckTakeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckTakeMeleeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcCheckTakeRangeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcDeath": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcDeathAfter": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcDeathPrev": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcEnterBattle": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcIdle": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcInit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcMove": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcNonBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcUpdateSlow": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"GameBegin": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"MissMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"PlayerUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"TakeDamage": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"TryHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"TryMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"TryRangeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"Update": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"CauseMeleeHit",
+				"CnpcBattleUpdate",
+				"CnpcCheckCauseDamage",
+				"CnpcCheckCauseHit",
+				"CnpcCheckCauseMeleeDamage",
+				"CnpcCheckCauseMeleeHit",
+				"CnpcCheckCauseRangeDamage",
+				"CnpcCheckCauseRangeHit",
+				"CnpcCheckTakeDamage",
+				"CnpcCheckTakeMeleeDamage",
+				"CnpcCheckTakeRangeDamage",
+				"CnpcDeath",
+				"CnpcDeathAfter",
+				"CnpcDeathPrev",
+				"CnpcEnterBattle",
+				"CnpcIdle",
+				"CnpcInit",
+				"CnpcMove",
+				"CnpcNonBattleUpdate",
+				"CnpcUpdate",
+				"CnpcUpdateSlow",
+				"GameBegin",
+				"MissMeleeHit",
+				"PlayerUpdate",
+				"TakeDamage",
+				"TryHit",
+				"TryMeleeHit",
+				"TryRangeHit",
+				"Update"
+			],
 			"type": "object"
 		},
 		"__type_102": {
+			"type": "object"
+		},
+		"__type_103": {
+			"type": "object"
+		},
+		"__type_104": {
 			"description": "build配置",
 			"properties": {
 				"game_path": {
@@ -46546,7 +47208,7 @@
 			],
 			"type": "object"
 		},
-		"__type_103": {
+		"__type_105": {
 			"description": "游戏数据",
 			"properties": {
 				"game_json": {
@@ -46560,7 +47222,7 @@
 			},
 			"type": "object"
 		},
-		"__type_104": {
+		"__type_106": {
 			"description": "主资源表",
 			"properties": {
 				"charTable": {
@@ -52061,6 +52723,20 @@
 			"type": "object"
 		},
 		"__type_44": {
+			"description": "确定在物品信息的指定部分中此伤害类型的顺序和可见性",
+			"properties": {
+				"order": {
+					"description": "确定在此部分中将其显示在伤害类型列表的何处",
+					"type": "number"
+				},
+				"show_type": {
+					"description": "确定是否在此部分显示此伤害类型",
+					"type": "boolean"
+				}
+			},
+			"type": "object"
+		},
+		"__type_45": {
 			"properties": {
 				"acid": {
 					"type": "number"
@@ -52139,7 +52815,7 @@
 			],
 			"type": "object"
 		},
-		"__type_45": {
+		"__type_46": {
 			"description": "燃料数据",
 			"properties": {
 				"energy": {
@@ -52189,7 +52865,7 @@
 			],
 			"type": "object"
 		},
-		"__type_46": {
+		"__type_47": {
 			"description": "远程武器伤害",
 			"properties": {
 				"amount": {
@@ -52233,7 +52909,7 @@
 			],
 			"type": "object"
 		},
-		"__type_47": {
+		"__type_48": {
 			"properties": {
 				"acid": {
 					"type": "number"
@@ -52292,7 +52968,7 @@
 			},
 			"type": "object"
 		},
-		"__type_48": {
+		"__type_49": {
 			"description": "放置NPC",
 			"properties": {
 				"moves": {
@@ -52323,33 +52999,6 @@
 			},
 			"required": [
 				"npc_class_id",
-				"type"
-			],
-			"type": "object"
-		},
-		"__type_49": {
-			"description": "运行Eoc",
-			"properties": {
-				"description": {
-					"description": "说明",
-					"type": "string"
-				},
-				"effect_on_conditions": {
-					"description": "eoc列表",
-					"items": {
-						"$ref": "#/definitions/EocID"
-					},
-					"type": "array"
-				},
-				"type": {
-					"const": "effect_on_conditions",
-					"description": "执行某个ECO",
-					"type": "string"
-				}
-			},
-			"required": [
-				"description",
-				"effect_on_conditions",
 				"type"
 			],
 			"type": "object"
@@ -52500,6 +53149,33 @@
 			"type": "object"
 		},
 		"__type_50": {
+			"description": "运行Eoc",
+			"properties": {
+				"description": {
+					"description": "说明",
+					"type": "string"
+				},
+				"effect_on_conditions": {
+					"description": "eoc列表",
+					"items": {
+						"$ref": "#/definitions/EocID"
+					},
+					"type": "array"
+				},
+				"type": {
+					"const": "effect_on_conditions",
+					"description": "执行某个ECO",
+					"type": "string"
+				}
+			},
+			"required": [
+				"description",
+				"effect_on_conditions",
+				"type"
+			],
+			"type": "object"
+		},
+		"__type_51": {
 			"description": "产生爆炸",
 			"properties": {
 				"do_flashbang": {
@@ -52558,7 +53234,7 @@
 			],
 			"type": "object"
 		},
-		"__type_51": {
+		"__type_52": {
 			"description": "爆炸",
 			"properties": {
 				"distance_factor": {
@@ -52587,7 +53263,7 @@
 			],
 			"type": "object"
 		},
-		"__type_52": {
+		"__type_53": {
 			"description": "学习法术",
 			"properties": {
 				"spells": {
@@ -52609,7 +53285,7 @@
 			],
 			"type": "object"
 		},
-		"__type_53": {
+		"__type_54": {
 			"description": "施法",
 			"properties": {
 				"level": {
@@ -52641,10 +53317,10 @@
 			],
 			"type": "object"
 		},
-		"__type_54": {
+		"__type_55": {
 			"type": "object"
 		},
-		"__type_55": {
+		"__type_56": {
 			"properties": {
 				"ablative": {
 					"description": "默认 false。 如果属实, 该物品包含一个烧蚀板。 确保在可以添加的车牌类型上包含 flag_restriction。",
@@ -52763,7 +53439,7 @@
 			},
 			"type": "object"
 		},
-		"__type_56": {
+		"__type_57": {
 			"properties": {
 				"charge_info": {
 					"description": "自动充能",
@@ -52822,7 +53498,7 @@
 			},
 			"type": "object"
 		},
-		"__type_57": {
+		"__type_58": {
 			"properties": {
 				"ammo_type": {
 					"$ref": "#/definitions/AmmunitionTypeID_1",
@@ -53257,565 +53933,7 @@
 			},
 			"type": "object"
 		},
-		"__type_58": {
-			"type": "object"
-		},
 		"__type_59": {
-			"properties": {
-				"ammo": {
-					"description": "接受重新加载的弹药类型",
-					"items": {
-						"$ref": "#/definitions/AmmunitionTypeID"
-					},
-					"type": "array"
-				},
-				"ammo_effects": {
-					"description": "子弹附加效果",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"ammo_to_fire": {
-					"description": "使用的弹药量 默认1",
-					"type": "number"
-				},
-				"ascii_picture": {
-					"description": "用于该项目的 asci_art 的 ID",
-					"type": "string"
-				},
-				"barrel_length": {
-					"$ref": "#/definitions/Length_1",
-					"description": "枪管长度"
-				},
-				"barrel_volume": {
-					"$ref": "#/definitions/Volume_1",
-					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
-				},
-				"blackpowder_tolerance": {
-					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
-					"type": "number"
-				},
-				"built_in_mods": {
-					"description": "将使用不可拆卸标签集成到武器中的模组数组",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"category": {
-					"$ref": "#/definitions/ItemCategotyID",
-					"description": "物品分类"
-				},
-				"clip_size": {
-					"description": "可以装载的最大弹药量",
-					"type": "number"
-				},
-				"color": {
-					"$ref": "#/definitions/Color",
-					"description": "颜色"
-				},
-				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
-				},
-				"countdown_action": {
-					"$ref": "#/definitions/UseAction",
-					"description": "定时激活的动作"
-				},
-				"countdown_interval": {
-					"$ref": "#/definitions/Time",
-					"description": "定时激活 一旦定时器的持续时间过去, 就会\"countdown_action\"执行"
-				},
-				"default_mods": {
-					"description": "将在生成时添加到武器的 mod 数组",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"degradation_multiplier": {
-					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
-					"type": "number"
-				},
-				"description": {
-					"description": "描述",
-					"type": "string"
-				},
-				"dispersion": {
-					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
-					"type": "number"
-				},
-				"durability": {
-					"description": "抵抗损坏/生锈, 也决定了失火几率",
-					"type": "number"
-				},
-				"energy_drain": {
-					"$ref": "#/definitions/Energy_1",
-					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
-				},
-				"explode_in_fire": {
-					"description": "掉进火里会爆炸",
-					"type": "boolean"
-				},
-				"explosion": {
-					"$ref": "#/definitions/Explosion_1",
-					"description": "爆炸数据"
-				},
-				"faults": {
-					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"flags": {
-					"description": "枪械的flag",
-					"items": {
-						"$ref": "#/definitions/GunFlag"
-					},
-					"type": "array"
-				},
-				"handling": {
-					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
-					"type": "number"
-				},
-				"insulation": {
-					"description": "(可选, 默认 = 1)如果是容器或车辆部件, 它应为内容物提供多少绝缘程度",
-					"type": "number"
-				},
-				"integral_volume": {
-					"$ref": "#/definitions/Volume_1",
-					"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如, 集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
-				},
-				"integral_weight": {
-					"$ref": "#/definitions/Weight_1",
-					"description": "当物品集成到另一个物品中时  \n例如, 集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
-				},
-				"longest_side": {
-					"$ref": "#/definitions/Length_1",
-					"description": "最长物品尺寸的长度。 默认为体积的立方根"
-				},
-				"looks_like": {
-					"description": "提示图块集, 如果该项目没有图块 使用looks_like图块",
-					"type": "string"
-				},
-				"loudness": {
-					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
-					"type": "number"
-				},
-				"magazine_well": {
-					"description": "超过该体积杂志开始从物品中突出并增加额外的体积",
-					"type": "number"
-				},
-				"magazines": {
-					"description": "每种弹药类型 (如果有)的杂志类型, 可用于重新加载该物品",
-					"items": {
-						"description": "内置弹夹",
-						"items": [
-							{
-								"$ref": "#/definitions/AmmunitionTypeID"
-							},
-							{
-								"additionalItems": {
-									"$ref": "#/definitions/AmmoID"
-								},
-								"items": [
-									{
-										"$ref": "#/definitions/AmmoID"
-									}
-								],
-								"minItems": 1,
-								"type": "array"
-							}
-						],
-						"maxItems": 2,
-						"minItems": 2,
-						"type": "array"
-					},
-					"type": "array"
-				},
-				"material": {
-					"description": "材质",
-					"items": {
-						"$ref": "#/definitions/ItemMaterial"
-					},
-					"type": "array"
-				},
-				"melee_damage": {
-					"$ref": "#/definitions/MeleeDamage",
-					"description": "作为近战武器的伤害"
-				},
-				"min_cycle_recoil": {
-					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
-					"type": "number"
-				},
-				"min_dexterity": {
-					"description": "最小敏捷需求",
-					"type": "number"
-				},
-				"min_intelligence": {
-					"description": "最小智力需求",
-					"type": "number"
-				},
-				"min_perception": {
-					"description": "最小感知需求",
-					"type": "number"
-				},
-				"min_strength": {
-					"description": "最小力量需求",
-					"type": "number"
-				},
-				"modes": {
-					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
-					"items": {
-						"description": "开火模式",
-						"items": [
-							{
-								"enum": [
-									"AUTO",
-									"BURST",
-									"DEFAULT",
-									"MELEE",
-									"MULTI"
-								],
-								"type": "string"
-							},
-							{
-								"anyOf": [
-									{
-										"pattern": "^[0-9]* rd.$",
-										"type": "string"
-									},
-									{
-										"pattern": "^[0-9]*s sequence$",
-										"type": "string"
-									},
-									{
-										"enum": [
-											"auto",
-											"double",
-											"high auto",
-											"multi",
-											"pulse",
-											"revolver",
-											"semi-auto",
-											"single"
-										],
-										"type": "string"
-									}
-								]
-							},
-							{
-								"type": "number"
-							},
-							{
-								"anyOf": [
-									{
-										"items": {
-											"enum": [
-												"MELEE",
-												"NPC_AVOID",
-												"SIMULTANEOUS"
-											],
-											"type": "string"
-										},
-										"type": "array"
-									},
-									{
-										"enum": [
-											"MELEE",
-											"NPC_AVOID",
-											"SIMULTANEOUS"
-										],
-										"type": "string"
-									}
-								]
-							}
-						],
-						"maxItems": 4,
-						"minItems": 3,
-						"type": "array"
-					},
-					"type": "array"
-				},
-				"name": {
-					"anyOf": [
-						{
-							"properties": {
-								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
-								},
-								"str": {
-									"description": "单数名",
-									"type": "string"
-								},
-								"str_pl": {
-									"description": "复数名",
-									"type": "string"
-								},
-								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
-								}
-							},
-							"type": "object"
-						},
-						{
-							"type": "string"
-						}
-					],
-					"description": "物品显示名"
-				},
-				"phase": {
-					"$ref": "#/definitions/Phase",
-					"description": "默认的状态 默认为固态"
-				},
-				"pocket_data": {
-					"description": "口袋数据",
-					"items": {
-						"description": "容器",
-						"properties": {
-							"ablative": {
-								"description": "默认 false。 如果属实, 该物品包含一个烧蚀板。 确保在可以添加的车牌类型上包含 flag_restriction。",
-								"type": "boolean"
-							},
-							"airtight": {
-								"description": "默认 false。 如果属实, 可能含有气体。",
-								"type": "boolean"
-							},
-							"ammo_restriction": {
-								"$ref": "#/definitions/Partial_10",
-								"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密, 以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型, 每种弹药类型的数量不同, 并且容器只能容纳一种类型 (截至目前)。 如果省略它, 它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
-							},
-							"fire_protection": {
-								"description": "默认 false。 如果属实, 口袋可以保护里面的物品在扔进火里时不会爆炸。",
-								"type": "boolean"
-							},
-							"flag_restriction": {
-								"description": "只有当物品具有与这些标志之一匹配的标志时, 才能将其放入此口袋中。",
-								"items": {
-									"$ref": "#/definitions/FlagID"
-								},
-								"type": "array"
-							},
-							"forbidden": {
-								"description": "默认 false。 如果属实, 则玩家无法使用该口袋",
-								"type": "boolean"
-							},
-							"holster": {
-								"description": "默认 false。 如果为 true, 则只能将一堆物品放入此口袋内, 如果该物品不是 count_by_charges, 则只能放置一件物品。",
-								"type": "boolean"
-							},
-							"inherits_flags": {
-								"description": "如果口袋继承了标志, 则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。",
-								"type": "boolean"
-							},
-							"item_restriction": {
-								"description": "只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。",
-								"items": {
-									"$ref": "#/definitions/AnyItemID"
-								},
-								"type": "array"
-							},
-							"magazine_well": {
-								"$ref": "#/definitions/Volume_1",
-								"description": "在口袋开始膨胀之前可以放置物品的空间量。 仅当rigid = false 时才有效。"
-							},
-							"material_restriction": {
-								"description": "有主要由该材料制成的物品才能进入。",
-								"items": {
-									"type": "string"
-								},
-								"type": "array"
-							},
-							"max_contains_volume": {
-								"$ref": "#/definitions/Volume_1",
-								"description": "此口袋可以容纳的最大体积, 所有包含的物品的总和"
-							},
-							"max_contains_weight": {
-								"$ref": "#/definitions/Weight_1",
-								"description": "此口袋可以容纳的最大重量, 所有容器物品的总重量"
-							},
-							"max_item_length": {
-								"$ref": "#/definitions/Length_1",
-								"description": "可放入此口袋的物品的最大长度 (按其最长边)。 默认值为假设体积为立方体的对角线开口长度 (cube_root(vol)*square_root(2))"
-							},
-							"max_item_volume": {
-								"$ref": "#/definitions/Volume_1",
-								"description": "可通过开口放入此口袋的物品的最大体积"
-							},
-							"min_item_volume": {
-								"$ref": "#/definitions/Volume_1",
-								"description": "可放入此口袋的物品的最小体积。 小于此尺寸的物品不能放入口袋中"
-							},
-							"moves": {
-								"description": "表示在最佳条件下从口袋中取出物品所需的移动次数。",
-								"type": "number"
-							},
-							"open_container": {
-								"description": "默认 false。 如果为 true, 则如果将此物品放入另一个物品中, 该口袋中的物品将会溢出",
-								"type": "boolean"
-							},
-							"pocket_type": {
-								"description": "容器或弹夹",
-								"enum": [
-									"CONTAINER",
-									"MAGAZINE",
-									"MAGAZINE_WELL"
-								],
-								"type": "string"
-							},
-							"rigid": {
-								"description": "默认 false。 如果为 true, 则该口袋的大小是固定的, 并且在填充时不会扩展。 玻璃罐是刚性的, 而塑料袋则不是。",
-								"type": "boolean"
-							},
-							"sealed_data": {
-								"$ref": "#/definitions/Partial_12",
-								"description": "如果口袋有 sealed_data, 则在物品生成时它将被密封。 口袋的密封版本将覆盖相同数据类型的未密封版本"
-							},
-							"spoil_multiplier": {
-								"description": "腐坏速度乘数 将物品放入此口袋中如何影响损坏。 小于1.0, 物品保存时间更长； 0.0 将无限期保留",
-								"type": "number"
-							},
-							"volume_multiplier": {
-								"description": "体积乘数 该口袋中的物品内部体积小于外部体积。 可用于有助于组织特定内容的容器, 例如用于管道胶带的纸板卷",
-								"type": "number"
-							},
-							"watertight": {
-								"description": "默认 false。 如果属实, 可能含有液体。",
-								"type": "boolean"
-							},
-							"weight_multiplier": {
-								"description": "重量乘数 个口袋里的物品神奇地内部重量比外部重量轻 原版中的任何东西都不应该有一个weight_multiplier",
-								"type": "number"
-							}
-						},
-						"required": [
-							"pocket_type"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"price": {
-					"$ref": "#/definitions/Price",
-					"description": "物品价格"
-				},
-				"price_postapoc": {
-					"$ref": "#/definitions/Price",
-					"description": "大灾变后的物品价格"
-				},
-				"range": {
-					"description": "发射时的范围",
-					"type": "number"
-				},
-				"ranged_damage": {
-					"anyOf": [
-						{
-							"$ref": "#/definitions/RangeDamage",
-							"description": "远程武器伤害"
-						},
-						{
-							"items": {
-								"$ref": "#/definitions/RangeDamage",
-								"description": "远程武器伤害"
-							},
-							"type": "array"
-						}
-					],
-					"description": "发射时的远程伤害"
-				},
-				"recoil": {
-					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
-					"type": "number"
-				},
-				"relic_data": {
-					"$ref": "#/definitions/RelicData",
-					"description": "附魔数据"
-				},
-				"reload": {
-					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
-					"type": "number"
-				},
-				"reload_noise": {
-					"description": "重装时发出的声音",
-					"type": "string"
-				},
-				"reload_noise_volume": {
-					"description": "重装时发出的声音大小",
-					"type": "number"
-				},
-				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
-				},
-				"repairs_with": {
-					"description": "材质 可用哪些材料修复",
-					"items": {
-						"$ref": "#/definitions/AmmunitionTypeID"
-					},
-					"type": "array"
-				},
-				"rigid": {
-					"description": "对于非刚性物品体积 (以及磨损物品负担)与内容成比例增加",
-					"type": "boolean"
-				},
-				"sight_dispersion": {
-					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
-					"type": "number"
-				},
-				"skill": {
-					"$ref": "#/definitions/SkillID_1",
-					"description": "用于射击的技能"
-				},
-				"symbol": {
-					"description": "ascii显示符号",
-					"type": "string"
-				},
-				"to_hit": {
-					"$ref": "#/definitions/ToHit",
-					"description": "命中数据"
-				},
-				"use_action": {
-					"$ref": "#/definitions/UseAction",
-					"description": "使用效果"
-				},
-				"valid_mod_locations": {
-					"description": "枪械的有效位置以及该位置的插槽安装量",
-					"items": {
-						"description": "有效枪械组件",
-						"items": [
-							{
-								"type": "string"
-							},
-							{
-								"type": "number"
-							}
-						],
-						"maxItems": 2,
-						"minItems": 2,
-						"type": "array"
-					},
-					"type": "array"
-				},
-				"volume": {
-					"$ref": "#/definitions/Volume_1",
-					"description": "体积 0体积物品需要添加 ZERO_WEIGHT标签"
-				},
-				"weapon_category": {
-					"description": "属于什么类型的武器",
-					"items": {
-						"$ref": "#/definitions/WeaponCategoryID"
-					},
-					"type": "array"
-				},
-				"weight": {
-					"$ref": "#/definitions/Weight_1",
-					"description": "重量 0重量物品需要添加 ZERO_WEIGHT标签"
-				}
-			},
 			"type": "object"
 		},
 		"__type_6": {
@@ -54510,6 +54628,564 @@
 		"__type_60": {
 			"properties": {
 				"ammo": {
+					"description": "接受重新加载的弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"ammo_effects": {
+					"description": "子弹附加效果",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"ammo_to_fire": {
+					"description": "使用的弹药量 默认1",
+					"type": "number"
+				},
+				"ascii_picture": {
+					"description": "用于该项目的 asci_art 的 ID",
+					"type": "string"
+				},
+				"barrel_length": {
+					"$ref": "#/definitions/Length_1",
+					"description": "枪管长度"
+				},
+				"barrel_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
+				},
+				"blackpowder_tolerance": {
+					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
+					"type": "number"
+				},
+				"built_in_mods": {
+					"description": "将使用不可拆卸标签集成到武器中的模组数组",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"category": {
+					"$ref": "#/definitions/ItemCategotyID",
+					"description": "物品分类"
+				},
+				"clip_size": {
+					"description": "可以装载的最大弹药量",
+					"type": "number"
+				},
+				"color": {
+					"$ref": "#/definitions/Color",
+					"description": "颜色"
+				},
+				"container": {
+					"description": "该项目应在哪个容器 (如果有)中生成",
+					"type": "string"
+				},
+				"countdown_action": {
+					"$ref": "#/definitions/UseAction",
+					"description": "定时激活的动作"
+				},
+				"countdown_interval": {
+					"$ref": "#/definitions/Time",
+					"description": "定时激活 一旦定时器的持续时间过去, 就会\"countdown_action\"执行"
+				},
+				"default_mods": {
+					"description": "将在生成时添加到武器的 mod 数组",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"degradation_multiplier": {
+					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
+					"type": "number"
+				},
+				"description": {
+					"description": "描述",
+					"type": "string"
+				},
+				"dispersion": {
+					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
+					"type": "number"
+				},
+				"durability": {
+					"description": "抵抗损坏/生锈, 也决定了失火几率",
+					"type": "number"
+				},
+				"energy_drain": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
+				},
+				"explode_in_fire": {
+					"description": "掉进火里会爆炸",
+					"type": "boolean"
+				},
+				"explosion": {
+					"$ref": "#/definitions/Explosion_1",
+					"description": "爆炸数据"
+				},
+				"faults": {
+					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"flags": {
+					"description": "枪械的flag",
+					"items": {
+						"$ref": "#/definitions/GunFlag"
+					},
+					"type": "array"
+				},
+				"handling": {
+					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
+					"type": "number"
+				},
+				"insulation": {
+					"description": "(可选, 默认 = 1)如果是容器或车辆部件, 它应为内容物提供多少绝缘程度",
+					"type": "number"
+				},
+				"integral_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如, 集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
+				},
+				"integral_weight": {
+					"$ref": "#/definitions/Weight_1",
+					"description": "当物品集成到另一个物品中时  \n例如, 集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
+				},
+				"longest_side": {
+					"$ref": "#/definitions/Length_1",
+					"description": "最长物品尺寸的长度。 默认为体积的立方根"
+				},
+				"looks_like": {
+					"description": "提示图块集, 如果该项目没有图块 使用looks_like图块",
+					"type": "string"
+				},
+				"loudness": {
+					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
+					"type": "number"
+				},
+				"magazine_well": {
+					"description": "超过该体积杂志开始从物品中突出并增加额外的体积",
+					"type": "number"
+				},
+				"magazines": {
+					"description": "每种弹药类型 (如果有)的杂志类型, 可用于重新加载该物品",
+					"items": {
+						"description": "内置弹夹",
+						"items": [
+							{
+								"$ref": "#/definitions/AmmunitionTypeID"
+							},
+							{
+								"additionalItems": {
+									"$ref": "#/definitions/AmmoID"
+								},
+								"items": [
+									{
+										"$ref": "#/definitions/AmmoID"
+									}
+								],
+								"minItems": 1,
+								"type": "array"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"material": {
+					"description": "材质",
+					"items": {
+						"$ref": "#/definitions/ItemMaterial"
+					},
+					"type": "array"
+				},
+				"melee_damage": {
+					"$ref": "#/definitions/MeleeDamage",
+					"description": "作为近战武器的伤害"
+				},
+				"min_cycle_recoil": {
+					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
+					"type": "number"
+				},
+				"min_dexterity": {
+					"description": "最小敏捷需求",
+					"type": "number"
+				},
+				"min_intelligence": {
+					"description": "最小智力需求",
+					"type": "number"
+				},
+				"min_perception": {
+					"description": "最小感知需求",
+					"type": "number"
+				},
+				"min_strength": {
+					"description": "最小力量需求",
+					"type": "number"
+				},
+				"modes": {
+					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"name": {
+					"anyOf": [
+						{
+							"properties": {
+								"ctxt": {
+									"description": "翻译上下文",
+									"type": "string"
+								},
+								"str": {
+									"description": "单数名",
+									"type": "string"
+								},
+								"str_pl": {
+									"description": "复数名",
+									"type": "string"
+								},
+								"str_sp": {
+									"description": "单复数共用名",
+									"type": "string"
+								}
+							},
+							"type": "object"
+						},
+						{
+							"type": "string"
+						}
+					],
+					"description": "物品显示名"
+				},
+				"phase": {
+					"$ref": "#/definitions/Phase",
+					"description": "默认的状态 默认为固态"
+				},
+				"pocket_data": {
+					"description": "口袋数据",
+					"items": {
+						"description": "容器",
+						"properties": {
+							"ablative": {
+								"description": "默认 false。 如果属实, 该物品包含一个烧蚀板。 确保在可以添加的车牌类型上包含 flag_restriction。",
+								"type": "boolean"
+							},
+							"airtight": {
+								"description": "默认 false。 如果属实, 可能含有气体。",
+								"type": "boolean"
+							},
+							"ammo_restriction": {
+								"$ref": "#/definitions/Partial_10",
+								"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密, 以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型, 每种弹药类型的数量不同, 并且容器只能容纳一种类型 (截至目前)。 如果省略它, 它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+							},
+							"fire_protection": {
+								"description": "默认 false。 如果属实, 口袋可以保护里面的物品在扔进火里时不会爆炸。",
+								"type": "boolean"
+							},
+							"flag_restriction": {
+								"description": "只有当物品具有与这些标志之一匹配的标志时, 才能将其放入此口袋中。",
+								"items": {
+									"$ref": "#/definitions/FlagID"
+								},
+								"type": "array"
+							},
+							"forbidden": {
+								"description": "默认 false。 如果属实, 则玩家无法使用该口袋",
+								"type": "boolean"
+							},
+							"holster": {
+								"description": "默认 false。 如果为 true, 则只能将一堆物品放入此口袋内, 如果该物品不是 count_by_charges, 则只能放置一件物品。",
+								"type": "boolean"
+							},
+							"inherits_flags": {
+								"description": "如果口袋继承了标志, 则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。",
+								"type": "boolean"
+							},
+							"item_restriction": {
+								"description": "只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。",
+								"items": {
+									"$ref": "#/definitions/AnyItemID"
+								},
+								"type": "array"
+							},
+							"magazine_well": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "在口袋开始膨胀之前可以放置物品的空间量。 仅当rigid = false 时才有效。"
+							},
+							"material_restriction": {
+								"description": "有主要由该材料制成的物品才能进入。",
+								"items": {
+									"type": "string"
+								},
+								"type": "array"
+							},
+							"max_contains_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "此口袋可以容纳的最大体积, 所有包含的物品的总和"
+							},
+							"max_contains_weight": {
+								"$ref": "#/definitions/Weight_1",
+								"description": "此口袋可以容纳的最大重量, 所有容器物品的总重量"
+							},
+							"max_item_length": {
+								"$ref": "#/definitions/Length_1",
+								"description": "可放入此口袋的物品的最大长度 (按其最长边)。 默认值为假设体积为立方体的对角线开口长度 (cube_root(vol)*square_root(2))"
+							},
+							"max_item_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "可通过开口放入此口袋的物品的最大体积"
+							},
+							"min_item_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "可放入此口袋的物品的最小体积。 小于此尺寸的物品不能放入口袋中"
+							},
+							"moves": {
+								"description": "表示在最佳条件下从口袋中取出物品所需的移动次数。",
+								"type": "number"
+							},
+							"open_container": {
+								"description": "默认 false。 如果为 true, 则如果将此物品放入另一个物品中, 该口袋中的物品将会溢出",
+								"type": "boolean"
+							},
+							"pocket_type": {
+								"description": "容器或弹夹",
+								"enum": [
+									"CONTAINER",
+									"MAGAZINE",
+									"MAGAZINE_WELL"
+								],
+								"type": "string"
+							},
+							"rigid": {
+								"description": "默认 false。 如果为 true, 则该口袋的大小是固定的, 并且在填充时不会扩展。 玻璃罐是刚性的, 而塑料袋则不是。",
+								"type": "boolean"
+							},
+							"sealed_data": {
+								"$ref": "#/definitions/Partial_12",
+								"description": "如果口袋有 sealed_data, 则在物品生成时它将被密封。 口袋的密封版本将覆盖相同数据类型的未密封版本"
+							},
+							"spoil_multiplier": {
+								"description": "腐坏速度乘数 将物品放入此口袋中如何影响损坏。 小于1.0, 物品保存时间更长； 0.0 将无限期保留",
+								"type": "number"
+							},
+							"volume_multiplier": {
+								"description": "体积乘数 该口袋中的物品内部体积小于外部体积。 可用于有助于组织特定内容的容器, 例如用于管道胶带的纸板卷",
+								"type": "number"
+							},
+							"watertight": {
+								"description": "默认 false。 如果属实, 可能含有液体。",
+								"type": "boolean"
+							},
+							"weight_multiplier": {
+								"description": "重量乘数 个口袋里的物品神奇地内部重量比外部重量轻 原版中的任何东西都不应该有一个weight_multiplier",
+								"type": "number"
+							}
+						},
+						"required": [
+							"pocket_type"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"price": {
+					"$ref": "#/definitions/Price",
+					"description": "物品价格"
+				},
+				"price_postapoc": {
+					"$ref": "#/definitions/Price",
+					"description": "大灾变后的物品价格"
+				},
+				"range": {
+					"description": "发射时的范围",
+					"type": "number"
+				},
+				"ranged_damage": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/RangeDamage",
+							"description": "远程武器伤害"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/RangeDamage",
+								"description": "远程武器伤害"
+							},
+							"type": "array"
+						}
+					],
+					"description": "发射时的远程伤害"
+				},
+				"recoil": {
+					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
+					"type": "number"
+				},
+				"relic_data": {
+					"$ref": "#/definitions/RelicData",
+					"description": "附魔数据"
+				},
+				"reload": {
+					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
+					"type": "number"
+				},
+				"reload_noise": {
+					"description": "重装时发出的声音",
+					"type": "string"
+				},
+				"reload_noise_volume": {
+					"description": "重装时发出的声音大小",
+					"type": "number"
+				},
+				"repairs_like": {
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
+					"type": "string"
+				},
+				"repairs_with": {
+					"description": "材质 可用哪些材料修复",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"rigid": {
+					"description": "对于非刚性物品体积 (以及磨损物品负担)与内容成比例增加",
+					"type": "boolean"
+				},
+				"sight_dispersion": {
+					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
+					"type": "number"
+				},
+				"skill": {
+					"$ref": "#/definitions/SkillID_1",
+					"description": "用于射击的技能"
+				},
+				"symbol": {
+					"description": "ascii显示符号",
+					"type": "string"
+				},
+				"to_hit": {
+					"$ref": "#/definitions/ToHit",
+					"description": "命中数据"
+				},
+				"use_action": {
+					"$ref": "#/definitions/UseAction",
+					"description": "使用效果"
+				},
+				"valid_mod_locations": {
+					"description": "枪械的有效位置以及该位置的插槽安装量",
+					"items": {
+						"description": "有效枪械组件",
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "体积 0体积物品需要添加 ZERO_WEIGHT标签"
+				},
+				"weapon_category": {
+					"description": "属于什么类型的武器",
+					"items": {
+						"$ref": "#/definitions/WeaponCategoryID"
+					},
+					"type": "array"
+				},
+				"weight": {
+					"$ref": "#/definitions/Weight_1",
+					"description": "重量 0重量物品需要添加 ZERO_WEIGHT标签"
+				}
+			},
+			"type": "object"
+		},
+		"__type_61": {
+			"properties": {
+				"ammo": {
 					"description": "用于装弹的弹药类型",
 					"items": {
 						"$ref": "#/definitions/AmmunitionTypeID"
@@ -54965,7 +55641,7 @@
 			},
 			"type": "object"
 		},
-		"__type_61": {
+		"__type_62": {
 			"properties": {
 				"ammo_type": {
 					"description": "该弹匣可以装载哪些类型的弹药",
@@ -55336,7 +56012,7 @@
 			},
 			"type": "object"
 		},
-		"__type_62": {
+		"__type_63": {
 			"properties": {
 				"ascii_picture": {
 					"description": "用于该项目的 asci_art 的 ID",
@@ -55679,7 +56355,7 @@
 			},
 			"type": "object"
 		},
-		"__type_63": {
+		"__type_64": {
 			"properties": {
 				"armor": {
 					"description": "护甲数据 必须设置覆盖层",
@@ -56125,13 +56801,13 @@
 			},
 			"type": "object"
 		},
-		"__type_64": {
-			"type": "object"
-		},
 		"__type_65": {
 			"type": "object"
 		},
 		"__type_66": {
+			"type": "object"
+		},
+		"__type_67": {
 			"description": "ItemGroup",
 			"properties": {
 				"copy-from": {
@@ -56185,7 +56861,7 @@
 			],
 			"type": "object"
 		},
-		"__type_67": {
+		"__type_68": {
 			"description": "怪物",
 			"properties": {
 				"aggression": {
@@ -56373,7 +57049,7 @@
 			],
 			"type": "object"
 		},
-		"__type_68": {
+		"__type_69": {
 			"description": "法术",
 			"properties": {
 				"accuracy_increment": {
@@ -56683,23 +57359,6 @@
 			],
 			"type": "object"
 		},
-		"__type_69": {
-			"description": "一个自定义的Flag",
-			"properties": {
-				"id": {
-					"$ref": "#/definitions/FlagID"
-				},
-				"type": {
-					"const": "json_flag",
-					"type": "string"
-				}
-			},
-			"required": [
-				"id",
-				"type"
-			],
-			"type": "object"
-		},
 		"__type_7": {
 			"description": "内联匿名附魔",
 			"properties": {
@@ -56865,6 +57524,23 @@
 			"type": "object"
 		},
 		"__type_70": {
+			"description": "一个自定义的Flag",
+			"properties": {
+				"id": {
+					"$ref": "#/definitions/FlagID"
+				},
+				"type": {
+					"const": "json_flag",
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"type"
+			],
+			"type": "object"
+		},
+		"__type_71": {
 			"description": "附魔",
 			"properties": {
 				"condition": {
@@ -57037,7 +57713,7 @@
 			],
 			"type": "object"
 		},
-		"__type_71": {
+		"__type_72": {
 			"description": "效果",
 			"properties": {
 				"apply_memorial_log": {
@@ -57464,7 +58140,7 @@
 			],
 			"type": "object"
 		},
-		"__type_72": {
+		"__type_73": {
 			"description": "变异",
 			"properties": {
 				"activated_eocs": {
@@ -58122,7 +58798,7 @@
 			],
 			"type": "object"
 		},
-		"__type_73": {
+		"__type_74": {
 			"properties": {
 				"bonus_dex": {
 					"$ref": "#/definitions/NpcNumObj",
@@ -58284,7 +58960,7 @@
 			],
 			"type": "object"
 		},
-		"__type_74": {
+		"__type_75": {
 			"description": "Npc实例",
 			"properties": {
 				"age": {
@@ -58390,7 +59066,7 @@
 			],
 			"type": "object"
 		},
-		"__type_75": {
+		"__type_76": {
 			"description": "音效",
 			"properties": {
 				"files": {
@@ -58444,7 +59120,7 @@
 			],
 			"type": "object"
 		},
-		"__type_76": {
+		"__type_77": {
 			"description": "任务定义",
 			"properties": {
 				"description": {
@@ -58526,7 +59202,7 @@
 			],
 			"type": "object"
 		},
-		"__type_77": {
+		"__type_78": {
 			"description": "EOC",
 			"properties": {
 				"condition": {
@@ -59673,7 +60349,7 @@
 			],
 			"type": "object"
 		},
-		"__type_78": {
+		"__type_79": {
 			"description": "伤害类型",
 			"properties": {
 				"derived_from": {
@@ -59777,7 +60453,71 @@
 			],
 			"type": "object"
 		},
-		"__type_79": {
+		"__type_8": {
+			"description": "非操作",
+			"properties": {
+				"not": {
+					"$ref": "#/definitions/BoolObj",
+					"description": "非操作"
+				}
+			},
+			"required": [
+				"not"
+			],
+			"type": "object"
+		},
+		"__type_80": {
+			"description": "伤害信息顺序",
+			"properties": {
+				"ablative_info": {
+					"$ref": "#/definitions/DmgInfo",
+					"description": "(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+				},
+				"bionic_info": {
+					"$ref": "#/definitions/DmgInfo",
+					"description": "(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+				},
+				"id": {
+					"$ref": "#/definitions/DamageTypeID_1",
+					"description": "唯一标识符，必须对应一个已存在的 damage_type"
+				},
+				"info_display": {
+					"description": "(可选) 确定在保护值中显示此伤害类型的详细程度。有效值为 \"detailed\"，\"basic\" 和 \"none\" (默认为 \"none\")",
+					"enum": [
+						"basic",
+						"detailed",
+						"none"
+					],
+					"type": "string"
+				},
+				"melee_combat_info": {
+					"$ref": "#/definitions/DmgInfo",
+					"description": "(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+				},
+				"pet_prot_info": {
+					"$ref": "#/definitions/DmgInfo",
+					"description": "(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+				},
+				"protection_info": {
+					"$ref": "#/definitions/DmgInfo",
+					"description": "(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性"
+				},
+				"type": {
+					"const": "damage_info_order",
+					"type": "string"
+				},
+				"verb": {
+					"description": "(可选) 描述如何应用此伤害类型的动词（例如：\"bashing\"）。在物品信息的近战部分使用",
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"type"
+			],
+			"type": "object"
+		},
+		"__type_81": {
 			"description": "弹药类型",
 			"properties": {
 				"default": {
@@ -59805,20 +60545,7 @@
 			],
 			"type": "object"
 		},
-		"__type_8": {
-			"description": "非操作",
-			"properties": {
-				"not": {
-					"$ref": "#/definitions/BoolObj",
-					"description": "非操作"
-				}
-			},
-			"required": [
-				"not"
-			],
-			"type": "object"
-		},
-		"__type_80": {
+		"__type_82": {
 			"description": "数学函数",
 			"properties": {
 				"id": {
@@ -59845,7 +60572,7 @@
 			],
 			"type": "object"
 		},
-		"__type_81": {
+		"__type_83": {
 			"description": "县市层级",
 			"properties": {
 				"overlay_ordering": {
@@ -59883,7 +60610,7 @@
 			],
 			"type": "object"
 		},
-		"__type_82": {
+		"__type_84": {
 			"description": "技能的释放条件",
 			"properties": {
 				"condition": {
@@ -59904,7 +60631,7 @@
 			],
 			"type": "object"
 		},
-		"__type_83": {
+		"__type_85": {
 			"description": "以受害者为 u_ 运行EOC",
 			"properties": {
 				"condition": {
@@ -60479,7 +61206,7 @@
 			],
 			"type": "object"
 		},
-		"__type_84": {
+		"__type_86": {
 			"description": "添加效果",
 			"properties": {
 				"duration": {
@@ -61151,7 +61878,7 @@
 			],
 			"type": "object"
 		},
-		"__type_85": {
+		"__type_87": {
 			"description": "额外造成某种类型的伤害",
 			"properties": {
 				"count": {
@@ -61172,7 +61899,7 @@
 			],
 			"type": "object"
 		},
-		"__type_86": {
+		"__type_88": {
 			"description": "角色技能",
 			"properties": {
 				"after_effect": {
@@ -62416,7 +63143,7 @@
 			],
 			"type": "object"
 		},
-		"__type_87": {
+		"__type_89": {
 			"description": "角色描述信息",
 			"properties": {
 				"age": {
@@ -62429,118 +63156,6 @@
 				},
 				"height": {
 					"description": "身高",
-					"type": "number"
-				}
-			},
-			"type": "object"
-		},
-		"__type_88": {
-			"properties": {
-				"dex": {
-					"type": "number"
-				},
-				"int": {
-					"type": "number"
-				},
-				"per": {
-					"type": "number"
-				},
-				"str": {
-					"type": "number"
-				}
-			},
-			"required": [
-				"dex",
-				"int",
-				"per",
-				"str"
-			],
-			"type": "object"
-		},
-		"__type_89": {
-			"properties": {
-				"ALL": {
-					"type": "number"
-				},
-				"archery": {
-					"type": "number"
-				},
-				"bashing": {
-					"type": "number"
-				},
-				"chemistry": {
-					"type": "number"
-				},
-				"computer": {
-					"type": "number"
-				},
-				"cooking": {
-					"type": "number"
-				},
-				"cutting": {
-					"type": "number"
-				},
-				"dodge": {
-					"type": "number"
-				},
-				"driving": {
-					"type": "number"
-				},
-				"electronics": {
-					"type": "number"
-				},
-				"fabrication": {
-					"type": "number"
-				},
-				"firstaid": {
-					"type": "number"
-				},
-				"gun": {
-					"type": "number"
-				},
-				"launcher": {
-					"type": "number"
-				},
-				"mechanics": {
-					"type": "number"
-				},
-				"melee": {
-					"type": "number"
-				},
-				"pistol": {
-					"type": "number"
-				},
-				"rifle": {
-					"type": "number"
-				},
-				"shotgun": {
-					"type": "number"
-				},
-				"smg": {
-					"type": "number"
-				},
-				"speech": {
-					"type": "number"
-				},
-				"stabbing": {
-					"type": "number"
-				},
-				"survival": {
-					"type": "number"
-				},
-				"swimming": {
-					"type": "number"
-				},
-				"tailor": {
-					"type": "number"
-				},
-				"throw": {
-					"type": "number"
-				},
-				"traps": {
-					"type": "number"
-				},
-				"unarmed": {
 					"type": "number"
 				}
 			},
@@ -62949,9 +63564,121 @@
 			"type": "object"
 		},
 		"__type_90": {
+			"properties": {
+				"dex": {
+					"type": "number"
+				},
+				"int": {
+					"type": "number"
+				},
+				"per": {
+					"type": "number"
+				},
+				"str": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"dex",
+				"int",
+				"per",
+				"str"
+			],
 			"type": "object"
 		},
 		"__type_91": {
+			"properties": {
+				"ALL": {
+					"type": "number"
+				},
+				"archery": {
+					"type": "number"
+				},
+				"bashing": {
+					"type": "number"
+				},
+				"chemistry": {
+					"type": "number"
+				},
+				"computer": {
+					"type": "number"
+				},
+				"cooking": {
+					"type": "number"
+				},
+				"cutting": {
+					"type": "number"
+				},
+				"dodge": {
+					"type": "number"
+				},
+				"driving": {
+					"type": "number"
+				},
+				"electronics": {
+					"type": "number"
+				},
+				"fabrication": {
+					"type": "number"
+				},
+				"firstaid": {
+					"type": "number"
+				},
+				"gun": {
+					"type": "number"
+				},
+				"launcher": {
+					"type": "number"
+				},
+				"mechanics": {
+					"type": "number"
+				},
+				"melee": {
+					"type": "number"
+				},
+				"pistol": {
+					"type": "number"
+				},
+				"rifle": {
+					"type": "number"
+				},
+				"shotgun": {
+					"type": "number"
+				},
+				"smg": {
+					"type": "number"
+				},
+				"speech": {
+					"type": "number"
+				},
+				"stabbing": {
+					"type": "number"
+				},
+				"survival": {
+					"type": "number"
+				},
+				"swimming": {
+					"type": "number"
+				},
+				"tailor": {
+					"type": "number"
+				},
+				"throw": {
+					"type": "number"
+				},
+				"traps": {
+					"type": "number"
+				},
+				"unarmed": {
+					"type": "number"
+				}
+			},
+			"type": "object"
+		},
+		"__type_92": {
+			"type": "object"
+		},
+		"__type_93": {
 			"properties": {
 				"add_ARMOR_ACID": {
 					"anyOf": [
@@ -65002,7 +65729,7 @@
 			},
 			"type": "object"
 		},
-		"__type_92": {
+		"__type_94": {
 			"description": "要求的资源",
 			"properties": {
 				"count": {
@@ -65023,7 +65750,7 @@
 			],
 			"type": "object"
 		},
-		"__type_93": {
+		"__type_95": {
 			"properties": {
 				"Attack": {
 					"properties": {
@@ -65129,10 +65856,10 @@
 			],
 			"type": "object"
 		},
-		"__type_94": {
+		"__type_96": {
 			"type": "object"
 		},
-		"__type_95": {
+		"__type_97": {
 			"properties": {
 				"CauseMeleeHit": {
 					"items": {
@@ -65667,7 +66394,7 @@
 			],
 			"type": "object"
 		},
-		"__type_96": {
+		"__type_98": {
 			"properties": {
 				"CnpcCheckCauseDamage": {
 					"items": {
@@ -65740,7 +66467,7 @@
 			],
 			"type": "object"
 		},
-		"__type_97": {
+		"__type_99": {
 			"description": "动态读取的角色设定",
 			"properties": {
 				"base_mutation": {
@@ -68329,7 +69056,7 @@
 				"skill": {
 					"description": "技能",
 					"items": {
-						"$ref": "#/definitions/__type_86",
+						"$ref": "#/definitions/__type_88",
 						"description": "角色技能"
 					},
 					"type": "array"
@@ -69114,654 +69841,6 @@
 					"type": "array"
 				}
 			},
-			"type": "object"
-		},
-		"__type_98": {
-			"type": "object"
-		},
-		"__type_99": {
-			"properties": {
-				"CauseMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcBattleUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseMeleeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseRangeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseRangeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeMeleeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeRangeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcDeath": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcDeathAfter": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcDeathPrev": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcEnterBattle": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcIdle": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcInit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcMove": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcNonBattleUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcUpdateSlow": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"GameBegin": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"MissMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"PlayerUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"TakeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"TryHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"TryMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"TryRangeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"Update": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"CauseMeleeHit",
-				"CnpcBattleUpdate",
-				"CnpcCheckCauseDamage",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeDamage",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeDamage",
-				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
-				"CnpcDeath",
-				"CnpcDeathAfter",
-				"CnpcDeathPrev",
-				"CnpcEnterBattle",
-				"CnpcIdle",
-				"CnpcInit",
-				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcUpdate",
-				"CnpcUpdateSlow",
-				"GameBegin",
-				"MissMeleeHit",
-				"PlayerUpdate",
-				"TakeDamage",
-				"TryHit",
-				"TryMeleeHit",
-				"TryRangeHit",
-				"Update"
-			],
 			"type": "object"
 		},
 		"{[Pin`npc_${K}`]:B[K];}": {

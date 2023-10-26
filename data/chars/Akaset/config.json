@@ -18,16 +18,20 @@
 			"type": "GUN",
 			"id": "AkasetLaserCannon",
 			"copy-from":"laser_cannon_xray",
+			"ranged_damage": {
+				"damage_type": "electric",
+				"amount": 40,
+				"armor_penetration": 30
+			},
 			"name": "Akaset的 激光炮",
 			"description": "Akaset的 激光炮",
 			"energy_drain": 0,
 			"flags":["NO_UNLOAD"],
 			"modes": [
 				[ "DEFAULT", "pulse", 1 ],
-				[ "BURST"  , "2s sequence", 2 ],
-				[ "AUTO"   , "3s sequence", 3 ]
+				[ "AUTO"   , "2s sequence", 2 ]
 			],
-			"ammo_effects": ["LASER","DRAW_AS_LINE"],
+			"ammo_effects": ["LIGHTNING","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
 			"heat_per_shot": 0
@@ -167,12 +171,12 @@
 				"id":"ElectricStrike",
 				"type": "SPELL",
 				"name": "雷霆轰击",
-				"description": "对一条线上的敌人造成 1.1*感知系数 的伤害, 并造成 感知系数 的 感电伤害。",
+				"description": "对一条线上的敌人造成 1.1*感知系数 的 感电伤害。",
 				"min_damage":{
 					"math": ["CalcDamage(u_damage, u_val('perception'))*1.1"]
 				},
 				"max_damage":999999,
-				"damage_type": "electric",
+				"damage_type": "Electrify",
 				"min_aoe":1,
 				"shape": "cone",
 				"base_casting_time": 100,
@@ -181,12 +185,7 @@
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"spec_effect": [{
-				"type": "ExtDamage",
-				"damage_type":"Electrify",
-				"count": {"math": ["CalcDamage(u_damage, u_val('perception'))"]}
-			}],
-			"weight": 1,
+			"weight": 2,
 			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
@@ -224,7 +223,7 @@
 			}],
 			"cooldown":24,
 			"weight": 1,
-			"require_weapon_flag": ["AkasetGauntlet"]
+			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
 			"name": "TD光束",
@@ -239,7 +238,7 @@
 				"id":"ThunderDischargeBeam",
 				"type": "SPELL",
 				"name": "TD光束",
-				"description": "对目标点周围敌人造成 1.6*感知系数 的伤害, 为其添加 60 秒 串流 效果, 并造成 感知系数 的 感电伤害。",
+				"description": "对目标点周围敌人造成 0.6*感知系数 的伤害, 为其添加 60 秒 串流 效果, 并造成 感知系数 的 感电伤害。",
 				"valid_targets": ["hostile","ground"],
 				"shape": "blast",
 				"min_aoe": 10,
@@ -261,8 +260,8 @@
 				"count": {"math": ["CalcDamage(u_damage, u_val('perception'))"]}
 			}],
 			"cooldown":64,
-			"weight": 2,
-			"require_weapon_flag": ["AkasetGauntlet"]
+			"weight": 3,
+			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
 			"name": "功率强化",
@@ -291,6 +290,9 @@
 		{
 			"name": "紧急冻结",
 			"cast_condition":[{
+				"hook": "CnpcBattleUpdate",
+				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
+			},{
 				"hook": "CnpcUpdateSlow",
 				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
 			}],
@@ -298,7 +300,7 @@
 				"type": "SPELL",
 				"id":"EmergencyFreeze",
 				"name": "紧急冻结",
-				"description": "非战斗状态下, 为自身添加 24小时 紧急冻结 效果, 冷却 3600 回合。",
+				"description": "为自身添加 24小时 紧急冻结 效果, 冷却 3600 回合。",
 				"effect": "attack",
 				"valid_targets": ["self"],
 				"effect_str": "EmergencyFreeze",
