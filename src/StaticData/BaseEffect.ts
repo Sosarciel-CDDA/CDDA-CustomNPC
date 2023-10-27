@@ -7,7 +7,7 @@ import { saveStaticData } from "./StaticData";
 
 
 /**取消逃跑效果 */
-export const Courage:Effect={
+const Courage:Effect={
     type:"effect_type",
     id:genEffectID("Courage"),
     name:["勇气"],
@@ -15,6 +15,6 @@ export const Courage:Effect={
     removes_effects:["npc_run_away"],
 }
 
-export const BaseEffect = [Courage];
+const BaseEffect = [Courage];
 
 saveStaticData(BaseEffect,'static_resource',"base_effect");

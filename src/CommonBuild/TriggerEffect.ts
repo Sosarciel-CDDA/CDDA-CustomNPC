@@ -18,7 +18,7 @@ export async function createTriggerEffect(dm:DataManager){
 }
 
 const TEFF_DUR = '60 s';
-const TEFF_MAX = 100000;
+const TEFF_MAX = 1000000;
 
 //霜盾
 function FrostShield(dm:DataManager){
@@ -94,19 +94,21 @@ function Electrify(dm:DataManager){
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
             //regenDmg,
+            {u_message:"感电触发 <context_val:total_damage> <context_val:damage_taken>"},
             {
                 npc_add_effect:effid,
                 duration:dur,
                 intensity:{math:[`n_effect_intensity('${effid}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`]}
             },
-        ]
+        ],
+        condition:{math:["_total_damage",">","0"]}
     }
     const dt:DamageType = {
         id: effid as DamageTypeID,
         type: "damage_type",
         name: "感电",
         magic_color: "yellow",
-        derived_from:["electric",1],
+        derived_from:["electric",0],
         ondamage_eocs: [ onDmgEoc.id ]
     }
     //串流
@@ -144,10 +146,12 @@ function Discharge(dm:DataManager){
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
             //regenDmg,
+            {u_message:"放电触发 <context_val:total_damage> <context_val:damage_taken>"},
             {math:["tmpDischargeDmg","=","_total_damage/10"]},
             {npc_cast_spell:{id:tspell.id,hit_self:true}},
             {npc_lose_effect:dmgeffid},
-        ]
+        ],
+        condition:{math:["_total_damage",">","0"]}
     }
     const dt:DamageType = {
         id: effid as DamageTypeID,
@@ -163,8 +167,9 @@ function Discharge(dm:DataManager){
 //创伤
 function Trauma(dm:DataManager){
     const effid = "Trauma" as EffectID;
+    const extid = "HeavyTrauma" as EffectID;
     const stackcount = TEFF_MAX;
-    const dur = "10 s";
+    const dur = "15 s";
     const tspell:Spell={
         type:"SPELL",
         id:genSpellID(`${effid}_Trigger`),
@@ -175,7 +180,7 @@ function Trauma(dm:DataManager){
         max_damage:SPELL_MAX_DAMAGE,
         valid_targets:["self"],
         shape:"blast",
-        damage_type:"cut",
+        damage_type:"stab",
     }
     const eff:Effect = {
         type:"effect_type",
@@ -185,7 +190,7 @@ function Trauma(dm:DataManager){
         apply_message:"一道伤口正在蚕食着你的躯体",
         base_mods: {
             hurt_min: [1],
-            hurt_tick: [100]
+            hurt_tick: [1]
         },
         scaling_mods: {
             hurt_min: [1]
@@ -200,8 +205,10 @@ function Trauma(dm:DataManager){
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
             //regenDmg,
-            {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') + _total_damage`]}}
-        ]
+            {u_message:"创伤触发 <context_val:total_damage> <context_val:damage_taken>"},
+            {npc_add_effect:effid,duration:dur,intensity:{math:[`n_effect_intensity('${effid}') +  (_total_damage * (n_effect_intensity('${extid}')>0? 1.5 : 1))`]}}
+        ],
+        condition:{math:["_total_damage",">","0"]}
     }
     const dt:DamageType = {
         id: effid as DamageTypeID,
@@ -209,11 +216,21 @@ function Trauma(dm:DataManager){
         name: "创伤",
         physical: true,
         magic_color: "white",
-        derived_from:["cut",1],
+        derived_from:["stab",0],
         ondamage_eocs: [ onDmgEoc.id ],
         edged:true,
     }
-    dm.addStaticData([tspell,eff,onDmgEoc,dt,genDIO(dt)],"common_resource","trigger_effect","Trauma");
+    //串流
+    const exteff:Effect = {
+        type:"effect_type",
+        id: extid,
+        name:["重创"],
+        desc:["创伤 叠加的层数变为 1.5 倍。"],
+        max_intensity:1,
+        max_duration:dur,
+        show_in_info:true,
+    }
+    dm.addStaticData([tspell,eff,onDmgEoc,dt,genDIO(dt),exteff],"common_resource","trigger_effect","Trauma");
 }
 
 //撕裂
@@ -229,7 +246,7 @@ function Laceration(dm:DataManager){
         max_damage:SPELL_MAX_DAMAGE,
         valid_targets:["self"],
         shape:"blast",
-        damage_type:"cut",
+        damage_type:"stab",
     }
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
@@ -237,9 +254,11 @@ function Laceration(dm:DataManager){
         id:genEOCID(`${effid}_OnDamage`),
         effect:[
             //regenDmg,
+            {u_message:"撕裂触发 <context_val:total_damage> <context_val:damage_taken>"},
             {math:["tmpLacerationDmg","=","_total_damage/10"]},
             {npc_cast_spell:{id:tspell.id,hit_self:true}},
-        ]
+        ],
+        condition:{math:["_total_damage",">","0"]}
     }
     const dt:DamageType = {
         id: effid as DamageTypeID,

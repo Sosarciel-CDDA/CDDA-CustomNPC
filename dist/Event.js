@@ -5,9 +5,6 @@ exports.GlobalEventTypeList = exports.AnyCnpcEventTypeList = exports.CnpcReverse
  * u为角色 n为怪物
  */
 exports.CnpcInteractiveEventList = [
-    "CnpcCheckTakeDamage",
-    "CnpcCheckTakeRangeDamage",
-    "CnpcCheckTakeMeleeDamage",
     "CnpcCheckCauseMeleeHit",
     "CnpcCheckCauseRangeHit",
     "CnpcCheckCauseHit", //命中目标 并成功造成伤害
@@ -47,9 +44,9 @@ exports.CnpcEventTypeList = [
  * n为角色 u为受害者
  */
 exports.CnpcReverseEventTypeList = [
-    "CnpcCheckCauseDamage",
-    "CnpcCheckCauseMeleeDamage",
-    "CnpcCheckCauseRangeDamage", //在 检测法术中检测到 造成 近战伤害
+    "CnpcCheckTakeHit",
+    "CnpcCheckTakeMeleeHit",
+    "CnpcCheckTakeRangeHit", //在 检测法术中检测到 造成 近战伤害
 ];
 /**任何Cnpc角色事件 列表 */
 exports.AnyCnpcEventTypeList = [...exports.CnpcEventTypeList, ...exports.CnpcReverseEventTypeList];

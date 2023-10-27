@@ -386,12 +386,15 @@ async function createWeaponResp(dm:DataManager,charName:string){
     const weaponResp:Resp[] = [];
     if(baseWeapons){
         /**武器enable id表 */
+        const uEnableList:string[] = [];
         const enableList:string[] = [];
         for(const baseWeapon of baseWeapons){
             const {item} = baseWeapon;
             const genable = `${charName}_${item.id}_enable`;
             const nenable = `n_${item.id}_enable`;
+            const uenable = `u_${item.id}_enable`;
             enableList.push(genable,nenable);
+            uEnableList.push(genable,uenable);
         }
 
         /**处理武器 */
@@ -518,14 +521,14 @@ async function createWeaponResp(dm:DataManager,charName:string){
             id:genEOCID(`${charName}_DefEnableWeapon`),
             eoc_type:"ACTIVATION",
             effect:[
-                {math:[enableList[0],"=","1"]},
-                {math:[enableList[1],"=","1"]}
+                {math:[uEnableList[0],"=","1"]},
+                {math:[uEnableList[1],"=","1"]}
             ],
-            condition:{and:[...enableList.map(enid=>({math:[enid,"!=","1"]}) as BoolObj)]}
+            condition:{and:[...uEnableList.map(enid=>({math:[enid,"!=","1"]}) as BoolObj)]}
         }
         weaponData.push(DefEnableWeapon);
         //注册初始化eoc
-        dm.addCharEvent(charName,"CnpcInit",10,InitWeapon);
+        dm.addCharEvent(charName,"CnpcInit",10,DefEnableWeapon);
     }
 
 

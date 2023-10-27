@@ -25,3 +25,4 @@ __exportStar(require("./BaseEffect"), exports);
 __exportStar(require("./BaseMathFunction"), exports);
 __exportStar(require("./BaseEoc"), exports);
 __exportStar(require("./BaseMonster"), exports);
+__exportStar(require("./BaseDamageType"), exports);

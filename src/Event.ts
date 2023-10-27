@@ -6,9 +6,6 @@ import { EocEffect } from "CddaJsonFormat";
  * u为角色 n为怪物
  */
 export const CnpcInteractiveEventList = [
-    "CnpcCheckTakeDamage"       ,//在 检测法术中检测到 受到 任何伤害
-    "CnpcCheckTakeRangeDamage"  ,//在 检测法术中检测到 受到 远程伤害
-    "CnpcCheckTakeMeleeDamage"  ,//在 检测法术中检测到 受到 近战伤害
     "CnpcCheckCauseMeleeHit"    ,//近战攻击命中目标 并成功造成伤害
     "CnpcCheckCauseRangeHit"    ,//远程攻击命中目标 并成功造成伤害
     "CnpcCheckCauseHit"         ,//命中目标 并成功造成伤害
@@ -61,9 +58,9 @@ export type CnpcEventType = typeof CnpcEventTypeList[number];
  * n为角色 u为受害者
  */
 export const CnpcReverseEventTypeList = [
-    "CnpcCheckCauseDamage"       ,//在 检测法术中检测到 造成 任何伤害
-    "CnpcCheckCauseMeleeDamage"  ,//在 检测法术中检测到 造成 远程伤害
-    "CnpcCheckCauseRangeDamage"  ,//在 检测法术中检测到 造成 近战伤害
+    "CnpcCheckTakeHit"       ,//在 检测法术中检测到 造成 任何伤害
+    "CnpcCheckTakeMeleeHit"  ,//在 检测法术中检测到 造成 远程伤害
+    "CnpcCheckTakeRangeHit"  ,//在 检测法术中检测到 造成 近战伤害
 ] as const;
 /**Cnpc角色的 反转Talker的角色事件类型  
  * 对应同名CauseDamage  

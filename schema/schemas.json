@@ -3433,15 +3433,12 @@
 			"enum": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseDamage",
 				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeDamage",
 				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeDamage",
 				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
+				"CnpcCheckTakeHit",
+				"CnpcCheckTakeMeleeHit",
+				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -14007,9 +14004,6 @@
 				"CnpcCheckCauseHit",
 				"CnpcCheckCauseMeleeHit",
 				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -14033,18 +14027,15 @@
 			"enum": [
 				"CnpcCheckCauseHit",
 				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage"
+				"CnpcCheckCauseRangeHit"
 			],
 			"type": "string"
 		},
 		"CnpcReverseEventType": {
 			"enum": [
-				"CnpcCheckCauseDamage",
-				"CnpcCheckCauseMeleeDamage",
-				"CnpcCheckCauseRangeDamage"
+				"CnpcCheckTakeHit",
+				"CnpcCheckTakeMeleeHit",
+				"CnpcCheckTakeRangeHit"
 			],
 			"type": "string"
 		},
@@ -36487,15 +36478,12 @@
 			"enum": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseDamage",
 				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeDamage",
 				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeDamage",
 				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
+				"CnpcCheckTakeHit",
+				"CnpcCheckTakeMeleeHit",
+				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -46584,69 +46572,6 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckTakeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeMeleeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeRangeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcDeath": {
 					"items": {
 						"description": "事件效果",
@@ -46990,9 +46915,6 @@
 				"CnpcCheckCauseHit",
 				"CnpcCheckCauseMeleeHit",
 				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -47014,7 +46936,7 @@
 		},
 		"__type_101": {
 			"properties": {
-				"CnpcCheckCauseDamage": {
+				"CnpcCheckTakeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -47035,7 +46957,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckCauseMeleeDamage": {
+				"CnpcCheckTakeMeleeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -47056,7 +46978,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckCauseRangeDamage": {
+				"CnpcCheckTakeRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -47079,9 +47001,9 @@
 				}
 			},
 			"required": [
-				"CnpcCheckCauseDamage",
-				"CnpcCheckCauseMeleeDamage",
-				"CnpcCheckCauseRangeDamage"
+				"CnpcCheckTakeHit",
+				"CnpcCheckTakeMeleeHit",
+				"CnpcCheckTakeRangeHit"
 			],
 			"type": "object"
 		},
@@ -50508,49 +50430,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckCauseDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcCheckCauseHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseMeleeDamage": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -50592,27 +50472,6 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckCauseRangeDamage": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcCheckCauseRangeHit": {
 					"items": {
 						"description": "事件效果",
@@ -50634,7 +50493,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckTakeDamage": {
+				"CnpcCheckTakeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -50655,7 +50514,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckTakeMeleeDamage": {
+				"CnpcCheckTakeMeleeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -50676,7 +50535,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckTakeRangeDamage": {
+				"CnpcCheckTakeRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -51079,15 +50938,12 @@
 			"required": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseDamage",
 				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeDamage",
 				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeDamage",
 				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeDamage",
-				"CnpcCheckTakeMeleeDamage",
-				"CnpcCheckTakeRangeDamage",
+				"CnpcCheckTakeHit",
+				"CnpcCheckTakeMeleeHit",
+				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -57076,7 +56932,6 @@
 			},
 			"required": [
 				"amount",
-				"armor_penetration",
 				"damage_type"
 			],
 			"type": "object"

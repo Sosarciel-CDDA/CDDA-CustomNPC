@@ -345,12 +345,15 @@ async function createWeaponResp(dm, charName) {
     const weaponResp = [];
     if (baseWeapons) {
         /**武器enable id表 */
+        const uEnableList = [];
         const enableList = [];
         for (const baseWeapon of baseWeapons) {
             const { item } = baseWeapon;
             const genable = `${charName}_${item.id}_enable`;
             const nenable = `n_${item.id}_enable`;
+            const uenable = `u_${item.id}_enable`;
             enableList.push(genable, nenable);
+            uEnableList.push(genable, uenable);
         }
         /**处理武器 */
         for (const baseWeapon of baseWeapons) {
@@ -461,14 +464,14 @@ async function createWeaponResp(dm, charName) {
             id: (0, ModDefine_1.genEOCID)(`${charName}_DefEnableWeapon`),
             eoc_type: "ACTIVATION",
             effect: [
-                { math: [enableList[0], "=", "1"] },
-                { math: [enableList[1], "=", "1"] }
+                { math: [uEnableList[0], "=", "1"] },
+                { math: [uEnableList[1], "=", "1"] }
             ],
-            condition: { and: [...enableList.map(enid => ({ math: [enid, "!=", "1"] }))] }
+            condition: { and: [...uEnableList.map(enid => ({ math: [enid, "!=", "1"] }))] }
         };
         weaponData.push(DefEnableWeapon);
         //注册初始化eoc
-        dm.addCharEvent(charName, "CnpcInit", 10, InitWeapon);
+        dm.addCharEvent(charName, "CnpcInit", 10, DefEnableWeapon);
     }
     //武器主对话
     const weaponTalkTopic = {

@@ -162,7 +162,7 @@ export type RangeDamage = {
     /**伤害值 */
     amount: number;
     /**穿甲值 */
-    armor_penetration: number;
+    armor_penetration?: number;
     /**枪管伤害 */
     barrels?: {
         /**如果枪管小于等于此长度则应用此伤害 */

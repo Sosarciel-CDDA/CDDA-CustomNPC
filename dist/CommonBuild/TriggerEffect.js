@@ -90,19 +90,21 @@ function Electrify(dm) {
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
             //regenDmg,
+            { u_message: "感电触发 <context_val:total_damage> <context_val:damage_taken>" },
             {
                 npc_add_effect: effid,
                 duration: dur,
                 intensity: { math: [`n_effect_intensity('${effid}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`] }
             },
-        ]
+        ],
+        condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
         id: effid,
         type: "damage_type",
         name: "感电",
         magic_color: "yellow",
-        derived_from: ["electric", 1],
+        derived_from: ["electric", 0],
         ondamage_eocs: [onDmgEoc.id]
     };
     //串流
@@ -139,10 +141,12 @@ function Discharge(dm) {
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
             //regenDmg,
+            { u_message: "放电触发 <context_val:total_damage> <context_val:damage_taken>" },
             { math: ["tmpDischargeDmg", "=", "_total_damage/10"] },
             { npc_cast_spell: { id: tspell.id, hit_self: true } },
             { npc_lose_effect: dmgeffid },
-        ]
+        ],
+        condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
         id: effid,
@@ -158,7 +162,7 @@ function Discharge(dm) {
 function Trauma(dm) {
     const effid = "Trauma";
     const stackcount = TEFF_MAX;
-    const dur = "10 s";
+    const dur = "15 s";
     const tspell = {
         type: "SPELL",
         id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger`),
@@ -169,7 +173,7 @@ function Trauma(dm) {
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         valid_targets: ["self"],
         shape: "blast",
-        damage_type: "cut",
+        damage_type: "stab",
     };
     const eff = {
         type: "effect_type",
@@ -179,7 +183,7 @@ function Trauma(dm) {
         apply_message: "一道伤口正在蚕食着你的躯体",
         base_mods: {
             hurt_min: [1],
-            hurt_tick: [100]
+            hurt_tick: [1]
         },
         scaling_mods: {
             hurt_min: [1]
@@ -194,8 +198,10 @@ function Trauma(dm) {
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
             //regenDmg,
+            { u_message: "创伤触发 <context_val:total_damage> <context_val:damage_taken>" },
             { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') + _total_damage`] } }
-        ]
+        ],
+        condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
         id: effid,
@@ -203,7 +209,8 @@ function Trauma(dm) {
         name: "创伤",
         physical: true,
         magic_color: "white",
-        derived_from: ["cut", 1],
+        derived_from: ["stab", 0],
+        melee_only: true,
         ondamage_eocs: [onDmgEoc.id],
         edged: true,
     };
@@ -222,7 +229,7 @@ function Laceration(dm) {
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         valid_targets: ["self"],
         shape: "blast",
-        damage_type: "cut",
+        damage_type: "stab",
     };
     const onDmgEoc = {
         type: "effect_on_condition",
@@ -230,9 +237,11 @@ function Laceration(dm) {
         id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
         effect: [
             //regenDmg,
+            { u_message: "撕裂触发 <context_val:total_damage> <context_val:damage_taken>" },
             { math: ["tmpLacerationDmg", "=", "_total_damage/10"] },
             { npc_cast_spell: { id: tspell.id, hit_self: true } },
-        ]
+        ],
+        condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
         id: effid,

@@ -9,3 +9,4 @@ export * from "./BaseEffect";
 export * from "./BaseMathFunction";
 export * from "./BaseEoc";
 export * from "./BaseMonster";
+export * from "./BaseDamageType";
