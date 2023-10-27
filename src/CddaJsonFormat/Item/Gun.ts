@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
+import { AmmoEffectID } from "../AmmoEffect";
 import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Length } from "../GenericDefine";
 import { SkillID } from "../Skill";
-import { AmmoEffect } from "./Ammo";
 import { GenericBase, GenericFlag } from "./Generic";
 
 
@@ -72,7 +72,7 @@ export type Gun = CopyfromVar<{
     /**枪械的flag */
     flags?: GunFlag[];
     /**子弹附加效果 */
-    ammo_effects?: AmmoEffect[],
+    ammo_effects?: AmmoEffectID[],
     /**重装时发出的声音 */
     reload_noise?: string;
     /**重装时发出的声音大小 */

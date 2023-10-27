@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Power as Capacity } from "../GenericDefine";
 import { SkillID } from "../Skill";
-import { AmmoEffect, AmmoID } from "./Ammo";
+import { AmmoID } from "./Ammo";
 import { AnyItemID, GenericBase, GenericFlag } from "./Generic";
 
 

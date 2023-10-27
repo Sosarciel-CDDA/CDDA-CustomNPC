@@ -3,7 +3,7 @@ import { Effect } from "./Effect";
 import { Enchantment } from "./Enchantment";
 import { Eoc, IDObj } from "./Eoc";
 import { Flag, FlagID } from "./Flag";
-import { AmmoEffect, AmmoID, AnyItem, AnyItemID } from "./Item";
+import { AmmoID, AnyItem, AnyItemID } from "./Item";
 import { ItemGroup } from "./ItemGroup";
 import { MathFunction } from "./MathFuncion";
 import { Monster } from "./Monster";
@@ -16,6 +16,7 @@ import { MaterialID } from "./Material";
 import { MissionDefinition } from "./MissionDefinition";
 import { Mutation } from "./Mutation";
 import { DamageInfoOrder, DamageType, DamageTypeID } from "./DameType";
+import { AmmoEffect } from "./AmmoEffect";
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */

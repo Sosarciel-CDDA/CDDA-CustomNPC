@@ -18,11 +18,15 @@
 			"type": "GUN",
 			"id": "AkasetLaserCannon",
 			"copy-from":"laser_cannon_xray",
-			"ranged_damage": {
+			"ranged_damage": [{
 				"damage_type": "electric",
-				"amount": 40,
-				"armor_penetration": 30
-			},
+				"amount": 20,
+				"armor_penetration": 50
+			},{
+				"damage_type": "heat",
+				"amount": 20,
+				"armor_penetration": 50
+			}],
 			"name": "Akaset的 激光炮",
 			"description": "Akaset的 激光炮",
 			"energy_drain": 0,
@@ -31,7 +35,7 @@
 				[ "DEFAULT", "pulse", 1 ],
 				[ "AUTO"   , "2s sequence", 2 ]
 			],
-			"ammo_effects": ["LIGHTNING","DRAW_AS_LINE"],
+			"ammo_effects": ["LIGHTNING_LINE","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
 			"heat_per_shot": 0

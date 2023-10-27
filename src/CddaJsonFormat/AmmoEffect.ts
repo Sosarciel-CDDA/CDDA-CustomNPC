@@ -1,7 +1,6 @@
 import { FieldID } from "./Field";
 import { CddaID, Explosion } from "./GenericDefine";
 
-
 /**定义的子弹效果 列表 */
 export const DefineAmmoEffectIDList = [
     "NO_PENETRATE_OBSTACLES", // 防止投射物穿过带有障碍物的瓷砖, 如链条围栏或梳妆台。硬编码

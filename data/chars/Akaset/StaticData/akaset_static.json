@@ -37,6 +37,7 @@
         "id":"IonStorm",
         "name": ["离子风暴"],
         "desc": ["受到20%额外 火焰/电击/寒冷/酸液/生化 伤害"],
+        "show_in_info": true,
         "enchantments": [{
             "condition":"ALWAYS",
             "values": [{
@@ -72,5 +73,15 @@
                 "multiply":0.3
             }]
         }]
+    },
+    {
+        "id": "LIGHTNING_LINE",
+        "type": "ammo_effect",
+        "trail": {
+            "field_type": "fd_electricity",
+            "intensity_min": 1,
+            "intensity_max": 2,
+            "chance": 50
+        }
     }
 ]
