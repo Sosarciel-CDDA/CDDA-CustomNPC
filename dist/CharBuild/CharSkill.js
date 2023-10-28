@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
-const utils_1 = require("@zwa73/utils");
 const ModDefine_1 = require("../ModDefine");
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const StaticData_1 = require("../StaticData");
@@ -11,9 +10,7 @@ const TargetTypeList = [
     "auto",
     "random",
     "spell_target",
-    "reverse_hit",
     "direct_hit",
-    "auto_hit",
     "filter_random", //筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
 ];
 /**特殊效果的处理表 */
@@ -304,9 +301,7 @@ const ProcMap = {
     "auto": autoProc,
     "random": randomProc,
     "spell_target": spell_targetProc,
-    "reverse_hit": reverse_hitProc,
     "direct_hit": direct_hitProc,
-    "auto_hit": auto_hitProc,
     "filter_random": filter_randomProc,
 };
 //获取施法方式的uid
@@ -328,15 +323,6 @@ function revTalker(obj) {
     str = str.replace(regex, `"npc_$1"`);
     return JSON.parse(str);
 }
-/**命中自身的法术变体 */
-function hitselfSpell(spell) {
-    const rspell = utils_1.UtilFunc.deepClone(spell);
-    rspell.name = `${spell.name}_hitself`;
-    rspell.id = `${rspell.id}_hitself`;
-    if (!rspell.valid_targets.includes("self"))
-        rspell.valid_targets.push("self");
-    return rspell;
-}
 /**解析NumObj为math表达式 */
 function parseNumObj(value) {
     let strExp = `0`;
@@ -353,34 +339,6 @@ function parseNumObj(value) {
 /**解析法术伤害字符串 */
 function parseSpellNumObj(spell, field) {
     return parseNumObj(spell[field]);
-}
-/**将法术数据转为全局变量
- * 返回 预先计算全局变量的effect
- */
-function fixSpellDmg(spell) {
-    const dmgstr = parseSpellNumObj(spell, "min_damage");
-    const dotstr = parseSpellNumObj(spell, "min_dot");
-    const durstr = parseSpellNumObj(spell, "min_duration");
-    const dmgvar = `${spell.id}_dmg`;
-    if (spell.min_damage) {
-        spell.min_damage = { math: [dmgvar] };
-        spell.max_damage = StaticData_1.SPELL_MAX_DAMAGE;
-    }
-    const dotvar = `${spell.id}_dot`;
-    if (spell.min_dot) {
-        spell.min_dot = { math: [dotvar] };
-        spell.max_dot = StaticData_1.SPELL_MAX_DAMAGE;
-    }
-    const durvar = `${spell.id}_dur`;
-    if (spell.min_duration) {
-        spell.min_duration = { math: [durvar] };
-        spell.max_duration = StaticData_1.SPELL_MAX_DAMAGE;
-    }
-    return [
-        { math: [dmgvar, `=`, dmgstr] },
-        { math: [dotvar, `=`, dotstr] },
-        { math: [durvar, `=`, durstr] },
-    ];
 }
 function genCastEocID(charName, spell, ccuid) {
     return (0, ModDefine_1.genEOCID)(`${charName}_Cast${spell.id}_${ccuid}`);
@@ -443,11 +401,6 @@ function spell_targetProc(dm, charName, baseSkillData) {
         ],
         condition: { and: [...baseCond] },
     };
-    //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
-        console.log(skill);
-        throw `翻转事件只能应用于翻转命中`;
-    }
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -485,70 +438,7 @@ function randomProc(dm, charName, baseSkillData) {
         ],
         condition: { and: [...baseCond] },
     };
-    //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
-        console.log(skill);
-        throw `翻转事件只能应用于翻转命中`;
-    }
     dm.addCharEvent(charName, hook, 0, castEoc);
-    return [castEoc];
-}
-function reverse_hitProc(dm, charName, baseSkillData) {
-    let { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
-    const { spell, one_in_chance } = skill;
-    const { hook } = castCondition;
-    if (castCondition.condition)
-        baseCond.push(castCondition.condition);
-    const ccuid = castCondUid(castCondition);
-    //复制法术
-    const rspell = hitselfSpell(spell);
-    //解析伤害字符串
-    let dmgPreEff = fixSpellDmg(rspell);
-    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
-    //加入子效果
-    if (extraEffects.length > 0) {
-        spell.extra_effects = spell.extra_effects ?? [];
-        spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
-    }
-    for (const exspell of extraEffects) {
-        const rexspell = hitselfSpell(exspell);
-        rspell.extra_effects = rspell.extra_effects ?? [];
-        rspell.extra_effects.push({ id: rexspell.id });
-        dmgPreEff.push(...fixSpellDmg(rexspell));
-        dm.addSharedRes(rexspell.id, rexspell, "common_resource", "common_spell_assist");
-    }
-    //翻转u与n
-    baseCond = revTalker(baseCond);
-    TEffect = revTalker(TEffect);
-    PreEffect = revTalker(PreEffect);
-    dmgPreEff = revTalker(dmgPreEff);
-    //创建翻转的施法EOC
-    const castEoc = {
-        type: "effect_on_condition",
-        id: genCastEocID(charName, rspell, ccuid),
-        eoc_type: "ACTIVATION",
-        effect: [
-            ...PreEffect,
-            ...dmgPreEff,
-            {
-                u_cast_spell: {
-                    id: rspell.id,
-                    once_in: one_in_chance,
-                    hit_self: true //如果是翻转事件则需命中自身
-                },
-                true_eocs: {
-                    id: genTrueEocID(charName, rspell, ccuid),
-                    effect: [...TEffect],
-                    eoc_type: "ACTIVATION",
-                }
-            }
-        ],
-        condition: { and: [...baseCond] },
-    };
-    //加入触发
-    if (Event_1.CnpcEventTypeList.includes(hook))
-        throw `翻转命中 所用的事件必须为 翻转事件: ${Event_1.CnpcReverseEventTypeList}`;
-    dm.addReverseCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
 function filter_randomProc(dm, charName, baseSkillData) {
@@ -556,58 +446,50 @@ function filter_randomProc(dm, charName, baseSkillData) {
     const { spell, one_in_chance } = skill;
     const { hook } = castCondition;
     const ccuid = castCondUid(castCondition);
-    //复制法术
-    const rspell = hitselfSpell(spell);
-    //解析伤害字符串
-    let dmgPreEff = fixSpellDmg(rspell);
-    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
+    //设置翻转条件
+    const filterCond = revTalker(castCondition.condition);
     //加入子效果
     if (extraEffects.length > 0) {
         spell.extra_effects = spell.extra_effects ?? [];
         spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
     }
-    for (const exspell of extraEffects) {
-        const rexspell = hitselfSpell(exspell);
-        rspell.extra_effects = rspell.extra_effects ?? [];
-        rspell.extra_effects.push({ id: rexspell.id });
-        dmgPreEff.push(...fixSpellDmg(rexspell));
-        dm.addSharedRes(rexspell.id, rexspell, "common_resource", "common_spell_assist");
-    }
-    //翻转u与n
-    const unrbaseCond = utils_1.UtilFunc.deepClone(baseCond);
-    if (castCondition.condition)
-        baseCond.push(castCondition.condition);
-    baseCond = revTalker(baseCond);
-    TEffect = revTalker(TEffect);
-    PreEffect = revTalker(PreEffect);
-    dmgPreEff = revTalker(dmgPreEff);
     //命中id
-    const fhitvar = `${rspell.id}_hasTarget`;
-    //创建翻转的施法EOC
+    const fhitvar = `${spell.id}_hasTarget`;
+    //创建施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: genCastEocID(charName, rspell, ccuid),
+        id: genCastEocID(charName, spell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
             ...PreEffect,
-            ...dmgPreEff,
             {
                 u_cast_spell: {
-                    id: rspell.id,
+                    id: spell.id,
                     once_in: one_in_chance,
-                    hit_self: true //如果是翻转事件则需命中自身
                 },
                 true_eocs: {
-                    id: genTrueEocID(charName, rspell, ccuid),
-                    effect: [...TEffect, { math: [fhitvar, "=", "1"] }],
+                    id: genTrueEocID(charName, spell, ccuid),
+                    effect: [...TEffect],
                     eoc_type: "ACTIVATION",
-                }
+                },
+                loc: { global_val: "tmp_loc" }
             }
         ],
+        condition: { math: [fhitvar, "!=", "0"] },
+    };
+    //创建记录坐标Eoc
+    const locEoc = {
+        id: (0, ModDefine_1.genEOCID)(`${spell.id}_RecordLoc`),
+        type: "effect_on_condition",
+        eoc_type: "ACTIVATION",
+        effect: [
+            { math: [fhitvar, "=", "1"] },
+            { npc_location_variable: { global_val: "tmp_loc" } },
+        ],
         condition: { and: [
-                ...baseCond,
+                filterCond,
                 { math: [fhitvar, "!=", "1"] },
-            ] },
+            ] }
     };
     //创建筛选目标的辅助索敌法术
     const flags = [...StaticData_1.CON_SPELL_FLAG];
@@ -615,12 +497,12 @@ function filter_randomProc(dm, charName, baseSkillData) {
         flags.push("IGNORE_WALLS");
     const { min_range, max_range, range_increment, max_level, valid_targets, targeted_monster_ids } = spell;
     const filterTargetSpell = {
-        id: (0, ModDefine_1.genSpellID)(`${charName}_${rspell.id}_FilterTarget_${ccuid}`),
+        id: (0, ModDefine_1.genSpellID)(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
         type: "SPELL",
-        name: rspell.name + "_筛选索敌",
-        description: `${rspell.name}的筛选索敌法术`,
+        name: spell.name + "_筛选索敌",
+        description: `${spell.name}的筛选索敌法术`,
         effect: "effect_on_condition",
-        effect_str: castEoc.id,
+        effect_str: locEoc.id,
         flags,
         shape: "blast",
         min_aoe: min_range,
@@ -635,21 +517,12 @@ function filter_randomProc(dm, charName, baseSkillData) {
         id: (0, ModDefine_1.genEOCID)(`Cast${filterTargetSpell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
-            {
-                u_cast_spell: {
-                    id: filterTargetSpell.id,
-                    once_in: one_in_chance,
-                }
-            },
+            { u_cast_spell: { id: filterTargetSpell.id, once_in: one_in_chance, } },
+            { run_eocs: castEoc.id },
             { math: [fhitvar, "=", "0"] }
         ],
-        condition: { and: [...unrbaseCond] },
+        condition: { and: [...baseCond] },
     };
-    //加入触发
-    if (Event_1.CnpcReverseEventTypeList.includes(hook)) {
-        console.log(skill);
-        throw `翻转事件只能应用于翻转命中`;
-    }
     dm.addCharEvent(charName, hook, 0, castSelEoc);
     return [castEoc, castSelEoc, filterTargetSpell];
 }
@@ -660,42 +533,30 @@ function direct_hitProc(dm, charName, baseSkillData) {
     if (castCondition.condition)
         baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
-    //复制法术
-    const rspell = hitselfSpell(spell);
-    //解析伤害字符串
-    const dmgPreEff = fixSpellDmg(rspell);
-    dm.addSharedRes(rspell.id, rspell, "common_resource", "common_spell_assist");
     //加入子效果
     if (extraEffects.length > 0) {
         spell.extra_effects = spell.extra_effects ?? [];
         spell.extra_effects.push(...extraEffects.map(spell => ({ id: spell.id })));
     }
-    for (const exspell of extraEffects) {
-        const rexspell = hitselfSpell(exspell);
-        rspell.extra_effects = rspell.extra_effects ?? [];
-        rspell.extra_effects.push({ id: rexspell.id });
-        dmgPreEff.push(...fixSpellDmg(rexspell));
-        dm.addSharedRes(rexspell.id, rexspell, "common_resource", "common_spell_assist");
-    }
-    //创建翻转的施法EOC
+    //创建施法EOC
     const castEoc = {
         type: "effect_on_condition",
-        id: genCastEocID(charName, rspell, ccuid),
+        id: genCastEocID(charName, spell, ccuid),
         eoc_type: "ACTIVATION",
         effect: [
             ...PreEffect,
-            ...dmgPreEff,
+            { npc_location_variable: { global_val: "tmp_loc" } },
             {
-                npc_cast_spell: {
-                    id: rspell.id,
-                    once_in: one_in_chance,
-                    hit_self: true //如果是翻转事件则需命中自身
+                u_cast_spell: {
+                    id: spell.id,
+                    once_in: one_in_chance
                 },
                 true_eocs: {
-                    id: genTrueEocID(charName, rspell, ccuid),
+                    id: genTrueEocID(charName, spell, ccuid),
                     effect: [...TEffect],
                     eoc_type: "ACTIVATION",
-                }
+                },
+                loc: { global_val: "tmp_loc" }
             }
         ],
         condition: { and: [...baseCond] },
@@ -714,32 +575,18 @@ function autoProc(dm, charName, baseSkillData) {
     //是敌对目标法术
     const isHostileTarget = spell.valid_targets.includes("hostile");
     const isAllyTarget = spell.valid_targets.includes("ally");
-    //是Aoe法术
-    const isAoe = (spell.min_aoe != null && spell.min_aoe != 0) ||
-        (spell.aoe_increment != null && spell.aoe_increment != 0);
     //有释放范围
     const hasRange = (spell.min_range != null && spell.min_range != 0) ||
         (spell.range_increment != null && spell.range_increment != 0);
     //aoe 有范围 敌对目标 法术将使用法术标靶
-    if (isHostileTarget && isAoe && hasRange)
-        return ProcMap.spell_target(dm, charName, baseSkillData);
+    //if(isHostileTarget && isAoe && hasRange)
+    //    return ProcMap.spell_target(dm,charName,baseSkillData);
     //有范围 有条件 友方目标 法术适用筛选命中
     if (isAllyTarget && hasRange && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
-    //非aoe hook为互动事件 敌对目标 法术将直接命中
-    if ((Event_1.CnpcReverseEventTypeList.includes(hook) ||
-        Event_1.CnpcInteractiveEventList.includes(hook)) &&
-        isHostileTarget && !isAoe)
-        return ProcMap.auto_hit(dm, charName, baseSkillData);
+    //hook为互动事件 敌对目标 法术将直接命中
+    if ((Event_1.CnpcInteractiveEventList.includes(hook)) && isHostileTarget)
+        return ProcMap.direct_hit(dm, charName, baseSkillData);
     //其他法术随机
     return ProcMap.random(dm, charName, baseSkillData);
-}
-function auto_hitProc(dm, charName, baseSkillData) {
-    const { skill, castCondition } = baseSkillData;
-    const { hook } = castCondition;
-    if (Event_1.CnpcReverseEventTypeList.includes(hook))
-        return ProcMap.reverse_hit(dm, charName, baseSkillData);
-    if (Event_1.CnpcInteractiveEventList.includes(hook))
-        return ProcMap.direct_hit(dm, charName, baseSkillData);
-    throw `auto_hitProc 的hook 必须为 翻转事件:${Event_1.CnpcReverseEventTypeList}\n或互动事件:&{InteractiveCharEventList}`;
 }

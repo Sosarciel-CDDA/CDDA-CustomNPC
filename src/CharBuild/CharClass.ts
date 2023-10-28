@@ -58,7 +58,6 @@ export async function createCharClass(dm:DataManager,charName:string){
         height  :charConfig.desc?.height,
         age     :charConfig.desc?.age   ,
         gender  :charConfig.desc?.gender,
-        death_eocs:["CNPC_EOC_NPC_DEATH"], //设置事件字段
     }
 
     /**生成器ID */
@@ -67,7 +66,7 @@ export async function createCharClass(dm:DataManager,charName:string){
     const charSpawner:Generic={
         type:"GENERIC",
         id:genGenericID(spawnerId),
-        name:`${charName}生成器`,
+        name:{str_sp:`${charName} 生成器`},
         description:`生成一个${charName}`,
         use_action:{
             type:"effect_on_conditions",
@@ -122,7 +121,7 @@ export async function createCharClass(dm:DataManager,charName:string){
     const charCard:Generic={
         type:"GENERIC",
         id:defineData.cardID,
-        name:`${charName} 卡片`,
+        name:{str_sp:`${charName} 卡片`},
         description:`召唤 ${charName}`,
         use_action:{
             type:"effect_on_conditions",

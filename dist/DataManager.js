@@ -262,12 +262,9 @@ class DataManager {
             };
             //角色事件eoc主体
             const charEventEocs = Event_1.CnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
-            //角色反转事件eoc主体
-            const reverseCharEventEocs = Event_1.CnpcReverseEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
-                reverseCharEventEocs,
                 charConfig,
                 outData: {},
             };
@@ -285,12 +282,6 @@ class DataManager {
      */
     addCharEvent(charName, etype, weight, ...events) {
         this.dataTable.charTable[charName].charEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
-    }
-    /**添加 eoc的ID引用到 反转角色事件
-     * u为目标 npc为角色
-     */
-    addReverseCharEvent(charName, etype, weight, ...events) {
-        this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -353,7 +344,7 @@ class DataManager {
                 this.saveToCharFile(charName, key, obj);
             }
             //导出角色EOC
-            const charEventMap = Object.assign({}, charData.charEventEocs, charData.reverseCharEventEocs);
+            const charEventMap = Object.assign({}, charData.charEventEocs);
             const charEventEocs = [];
             //遍历事件类型
             for (const etypeStr in charEventMap) {

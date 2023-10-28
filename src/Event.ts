@@ -2,33 +2,49 @@ import { EocEffect } from "CddaJsonFormat";
 
 
 
-/**Cnpc角色与怪物互动的事件 列表  
+/**任何角色的交互事件 列表  
  * u为角色 n为怪物
  */
-export const CnpcInteractiveEventList = [
-    "CnpcCheckCauseMeleeHit"    ,//近战攻击命中目标 并成功造成伤害
-    "CnpcCheckCauseRangeHit"    ,//远程攻击命中目标 并成功造成伤害
-    "CnpcCheckCauseHit"         ,//命中目标 并成功造成伤害
+export const CommonInteractiveEventTypeList = [
+    "TryMeleeHit"           ,//尝试近战攻击
+    "TryRangeHit"           ,//尝试远程攻击
+    "TryHit"                ,//尝试攻击
+    "CauseMeleeHit"         ,//近战攻击命中
+    "MissMeleeHit"          ,//近战攻击未命中
 ] as const;
-/**Cnpc角色与怪物互动的事件 */
-export type CnpcInteractiveEvent = typeof CnpcInteractiveEventList[number];
+/**任何角色的交互事件  
+ * u为角色 n为怪物
+ */
+export type CommonInteractiveEventType = typeof CommonEventTypeList[number];
 
-/**任何角色通用的事件列表  
+/**任何角色通用的事件 列表  
  * u为角色 n不存在
  */
 export const CommonEventTypeList = [
     "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
-    "TryMeleeHit"           ,//尝试近战攻击
-    "TryRangeHit"           ,//尝试远程攻击
-    "TryHit"                ,//尝试攻击
     "TakeDamage"            ,//受到伤害
-    "CauseMeleeHit"         ,//近战攻击命中
-    "MissMeleeHit"          ,//近战攻击未命中
+    "Death"                 ,//死亡
+    ...CommonInteractiveEventTypeList,
 ] as const;
+
 /**任何角色通用的事件类型  
  * u为角色 n不存在
  */
 export type CommonEventType = typeof CommonEventTypeList[number];
+
+/**Cnpc角色与怪物互动的事件 列表  
+ * u为角色 n为怪物
+ */
+export const CnpcInteractiveEventList = [
+    "CnpcTryMeleeHit"           ,//Cnpc角色 尝试近战攻击    会创建法术标靶
+    "CnpcTryRangeHit"           ,//Cnpc角色 尝试远程攻击    会创建法术标靶
+    "CnpcTryHit"                ,//Cnpc角色 尝试攻击        会创建法术标靶
+    ...CommonInteractiveEventTypeList,
+] as const;
+/**Cnpc角色与怪物互动的事件 */
+export type CnpcInteractiveEvent = typeof CnpcInteractiveEventList[number];
+
+
 
 /**Cnpc角色事件列表  
  * u为角色 n不存在
@@ -52,23 +68,8 @@ export const CnpcEventTypeList = [
 export type CnpcEventType = typeof CnpcEventTypeList[number];
 
 
-
-/**Cnpc角色的 反转Talker的角色事件列表  
- * 对应同名CauseDamage  
- * n为角色 u为受害者
- */
-export const CnpcReverseEventTypeList = [
-    "CnpcCheckTakeHit"       ,//在 检测法术中检测到 造成 任何伤害
-    "CnpcCheckTakeMeleeHit"  ,//在 检测法术中检测到 造成 远程伤害
-    "CnpcCheckTakeRangeHit"  ,//在 检测法术中检测到 造成 近战伤害
-] as const;
-/**Cnpc角色的 反转Talker的角色事件类型  
- * 对应同名CauseDamage  
- */
-export type CnpcReverseEventType = typeof CnpcReverseEventTypeList[number];
-
 /**任何Cnpc角色事件 列表 */
-export const AnyCnpcEventTypeList = [...CnpcEventTypeList,...CnpcReverseEventTypeList] as const;
+export const AnyCnpcEventTypeList = [...CnpcEventTypeList] as const;
 /**任何Cnpc角色事件 */
 export type AnyCnpcEvenetType = typeof AnyCnpcEventTypeList[number];
 

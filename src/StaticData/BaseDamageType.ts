@@ -31,6 +31,6 @@ const RangeCheckIO:DamageInfoOrder={
     id:RangeCheck.id
 }
 
-export const BaseDamageType = [MeleeCheck,MeleeCheckIO,RangeCheck,RangeCheckIO];
+export const BaseDamageType = [];
 
 saveStaticData(BaseDamageType,'static_resource',"base_damage_type");

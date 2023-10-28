@@ -26,5 +26,5 @@ const RangeCheckIO = {
     type: "damage_info_order",
     id: RangeCheck.id
 };
-exports.BaseDamageType = [MeleeCheck, MeleeCheckIO, RangeCheck, RangeCheckIO];
+exports.BaseDamageType = [];
 (0, StaticData_1.saveStaticData)(exports.BaseDamageType, 'static_resource', "base_damage_type");

@@ -1,2 +1,1 @@
-import { DamageInfoOrder, DamageType } from "../CddaJsonFormat";
-export declare const BaseDamageType: (DamageType | DamageInfoOrder)[];
+export declare const BaseDamageType: never[];

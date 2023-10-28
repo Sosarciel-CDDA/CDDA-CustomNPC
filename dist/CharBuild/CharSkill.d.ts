@@ -2,7 +2,7 @@ import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, 
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
 /**技能选择目标类型 列表 */
-declare const TargetTypeList: readonly ["auto", "random", "spell_target", "reverse_hit", "direct_hit", "auto_hit", "filter_random"];
+declare const TargetTypeList: readonly ["auto", "random", "spell_target", "direct_hit", "filter_random"];
 /**技能选择目标类型 */
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
@@ -81,14 +81,8 @@ export type CastCondition = {
      *
      * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
      *
-     * direct_hit 为 直接命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
+     * direct_hit 为 直接命中交互单位 适用于任何目标技能
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
-     *
-     * reverse_hit 为 翻转命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能
-     * hook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage
-     * 除 reverse_hit 外无法使用翻转事件;
-     *
-     * auto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;
      *
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
      *

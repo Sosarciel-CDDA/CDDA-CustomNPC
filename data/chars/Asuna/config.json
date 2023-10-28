@@ -26,10 +26,6 @@
 					"pocket_type": "MAGAZINE_WELL",
 					"item_restriction": ["AsunaMag"]
 				}],
-				"ranged_damage":{
-					"damage_type":"RangeCheck",
-					"amount": 1
-				},
 				"flags": ["NO_UNLOAD","ALLOWS_BODY_BLOCK"],
 				"min_cycle_recoil": 360,
 				"valid_mod_locations": [],
@@ -46,10 +42,6 @@
 				"type": "TOOL",
 				"copy-from": "knife_rm42",
 				"id": "AsunaKnife",
-				"melee_damage": {
-					"stab": 27,
-					"MeleeCheck": 1
-				},
 				"name":{"str_sp": "Asuna的 战术匕首"},
 				"description": "Asuna的 战术匕首",
 				"to_hit":{
@@ -82,7 +74,7 @@
 	"skill": [
 		{
 			"name": "蒸发未来",
-			"cast_condition":{"hook": "CnpcCheckCauseRangeHit"},
+			"cast_condition":{"hook": "TryHit"},
 			"audio":[
 				{"id":"EvaporateFuture","cooldown": 180},
 				"EvaporateFutureSF","BaseAudio:BashHit"
@@ -158,7 +150,7 @@
 		},
 		{
 			"name": "刀锋打击",
-			"cast_condition":{"hook": "CnpcCheckCauseMeleeHit"},
+			"cast_condition":{"hook": "TryMeleeHit"},
 			"cooldown":64,
 			"audio":[
 				{"id":"BladeStrike_","cooldown": 180},
@@ -193,7 +185,7 @@
 		{
 			"name": "情报破译",
 			"cast_condition":{
-				"hook": "CnpcCheckCauseMeleeHit",
+				"hook": "TryMeleeHit",
 				"condition":{"not":{"npc_has_effect":"IntelligenceDeciphered"}}
 			},
 			"cooldown":24,
@@ -219,7 +211,7 @@
 		{
 			"name": "创伤之刃",
 			"cast_condition":{
-				"hook": "CnpcCheckCauseMeleeHit"
+				"hook": "TryMeleeHit"
 			},
 			"audio":[
 				{"id":"BladeofTrauma","cooldown": 180},
@@ -276,7 +268,7 @@
 		},
 		{
 			"name": "弱点重创",
-			"cast_condition":{"hook": "CnpcCheckCauseHit"},
+			"cast_condition":{"hook": "TryHit"},
 			"spell": {
 				"type": "SPELL",
 				"id":"WeaknessHit",

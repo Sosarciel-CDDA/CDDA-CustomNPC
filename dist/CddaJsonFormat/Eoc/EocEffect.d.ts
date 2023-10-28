@@ -44,8 +44,13 @@ export type EocEffectList = [
 export type NoParamEffect = [
     "follow_only",
     "leave",
-    "drop_weapon"
+    "drop_weapon",
+    NoParamTalkerEffect
 ][number];
+/**双Talker无参效果表 */
+export declare const NoParamTalkerEffectList: readonly ["prevent_death"];
+/**双Talker无参效果 */
+export type NoParamTalkerEffect = `${`u_` | `npc_`}${typeof NoParamTalkerEffectList[number]}`;
 /**math赋值表达式 */
 type MathAssignExp = {
     math: [string, "=" | "+=" | "-=" | "*=" | "/=", string];
@@ -124,6 +129,8 @@ type CastSpell = TalkerVar<{
     true_eocs?: ParamsEoc;
     /**施法失败后运行的eoc */
     false_eocs?: ParamsEoc;
+    /**施法目标位置 */
+    loc?: LocObj;
 }, "cast_spell">;
 /**传送 */
 type Teleport = TalkerVar<{

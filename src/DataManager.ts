@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'CddaJsonFormat';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType, CnpcReverseEventTypeList, CnpcReverseEventType } from 'Event';
+import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType } from 'Event';
 
 
 
@@ -47,10 +47,6 @@ type CharData = {
      * id为 `${charName}_${etype}`  
      */
     charEventEocs:Record<CnpcEventType,EventEffect[]>;
-    /**输出的对象反转的角色Eoc事件 u为目标 npc为角色  
-     * id为 `${charName}_${etype}`  
-     */
-    reverseCharEventEocs:Record<CnpcReverseEventType,EventEffect[]>;
     /**角色设定 */
     charConfig:CharConfig;
 }
@@ -359,14 +355,9 @@ export class DataManager{
             const charEventEocs = CnpcEventTypeList.reduce((acc,etype)=>(
                 {...acc,[etype]:[]}),{} as Record<CnpcEventType,EventEffect[]>)
 
-            //角色反转事件eoc主体
-            const reverseCharEventEocs = CnpcReverseEventTypeList.reduce((acc,etype)=>(
-                {...acc,[etype]:[]}),{} as Record<CnpcReverseEventType,EventEffect[]>)
-
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
-                reverseCharEventEocs,
                 charConfig,
                 outData:{},
             }
@@ -386,14 +377,6 @@ export class DataManager{
      */
     addCharEvent(charName:string,etype:CnpcEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].push(
-            ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
-        );
-    }
-    /**添加 eoc的ID引用到 反转角色事件  
-     * u为目标 npc为角色  
-     */
-    addReverseCharEvent(charName:string,etype:CnpcReverseEventType,weight:number,...events:Eoc[]){
-        this.dataTable.charTable[charName].reverseCharEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
@@ -465,11 +448,11 @@ export class DataManager{
                 this.saveToCharFile(charName,key,obj);
             }
             //导出角色EOC
-            const charEventMap = Object.assign({},charData.charEventEocs,charData.reverseCharEventEocs);
+            const charEventMap = Object.assign({},charData.charEventEocs);
             const charEventEocs:Eoc[]=[];
             //遍历事件类型
             for(const etypeStr in charEventMap){
-                const etype = etypeStr as (CnpcEventType|CnpcReverseEventType);
+                const etype = etypeStr as (CnpcEventType);
                 //降序排序事件
                 const charEventList = charEventMap[etype].sort((a,b)=>b.weight-a.weight);
                 //至少有一个角色事件才会创建

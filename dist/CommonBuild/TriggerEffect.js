@@ -326,10 +326,11 @@ function EmergencyFreeze(dm) {
         max_intensity: 1
     };
     const teoc = (0, UtilGener_1.genTriggerEffect)(dm, eff, "CnpcDeathPrev", "-1", [
+        "u_prevent_death",
+        { u_set_hp: 1000, max: true },
         { u_cast_spell: { id: tex.id } },
         { u_cast_spell: { id: tspell.id } },
         { u_cast_spell: { id: tfreeze.id } },
-        { u_set_hp: 1000, max: true },
         { math: ["u_pain()", "=", "0"] },
         { sound_effect: "IceHit", id: "BaseAudio", volume: 100 }
     ], "PERMANENT");

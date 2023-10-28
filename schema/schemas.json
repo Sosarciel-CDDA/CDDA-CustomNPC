@@ -3433,12 +3433,6 @@
 			"enum": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeHit",
-				"CnpcCheckTakeMeleeHit",
-				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -3447,6 +3441,9 @@
 				"CnpcInit",
 				"CnpcMove",
 				"CnpcNonBattleUpdate",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"MissMeleeHit",
@@ -8055,7 +8052,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -8068,7 +8065,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -8607,7 +8604,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -8620,7 +8617,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -10422,7 +10419,7 @@
 			"type": "array"
 		},
 		"BuildSetting": {
-			"$ref": "#/definitions/__type_107"
+			"$ref": "#/definitions/__type_106"
 		},
 		"CalcOpera": {
 			"description": "计算运算符",
@@ -10442,7 +10439,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -10455,7 +10452,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -10483,7 +10480,7 @@
 					"$ref": "#/definitions/ReadonlyArray"
 				},
 				"_table": {
-					"$ref": "#/definitions/Record_16"
+					"$ref": "#/definitions/Record_15"
 				}
 			},
 			"required": [
@@ -13038,7 +13035,7 @@
 			"type": "object"
 		},
 		"CharConfig": {
-			"$ref": "#/definitions/__type_102"
+			"$ref": "#/definitions/__type_101"
 		},
 		"CharData": {
 			"description": "角色数据",
@@ -13130,18 +13127,13 @@
 				"outData": {
 					"$ref": "#/definitions/Record_10",
 					"description": "输出数据"
-				},
-				"reverseCharEventEocs": {
-					"$ref": "#/definitions/Record_12",
-					"description": "输出的对象反转的角色Eoc事件 u为目标 npc为角色  \nid为 `${charName}_${etype}`"
 				}
 			},
 			"required": [
 				"charConfig",
 				"charEventEocs",
 				"defineData",
-				"outData",
-				"reverseCharEventEocs"
+				"outData"
 			],
 			"type": "object"
 		},
@@ -13424,7 +13416,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -13437,7 +13429,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -14001,9 +13993,6 @@
 			"enum": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -14012,6 +14001,9 @@
 				"CnpcInit",
 				"CnpcMove",
 				"CnpcNonBattleUpdate",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"MissMeleeHit",
@@ -14025,17 +14017,14 @@
 		},
 		"CnpcInteractiveEvent": {
 			"enum": [
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit"
-			],
-			"type": "string"
-		},
-		"CnpcReverseEventType": {
-			"enum": [
-				"CnpcCheckTakeHit",
-				"CnpcCheckTakeMeleeHit",
-				"CnpcCheckTakeRangeHit"
+				"CauseMeleeHit",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
+				"MissMeleeHit",
+				"TryHit",
+				"TryMeleeHit",
+				"TryRangeHit"
 			],
 			"type": "string"
 		},
@@ -14062,6 +14051,18 @@
 			"type": "string"
 		},
 		"CommonEventType": {
+			"enum": [
+				"CauseMeleeHit",
+				"MissMeleeHit",
+				"TakeDamage",
+				"TryHit",
+				"TryMeleeHit",
+				"TryRangeHit",
+				"Update"
+			],
+			"type": "string"
+		},
+		"CommonInteractiveEventType": {
 			"enum": [
 				"CauseMeleeHit",
 				"MissMeleeHit",
@@ -14794,7 +14795,7 @@
 			"type": "object"
 		},
 		"DataTable": {
-			"$ref": "#/definitions/__type_109"
+			"$ref": "#/definitions/__type_108"
 		},
 		"DefineAmmoEffectID": {
 			"enum": [
@@ -14997,6 +14998,24 @@
 				"afs_common_material_scrapgroup",
 				"afs_common_neural_io_scrapgroup",
 				"bionics"
+			],
+			"type": "string"
+		},
+		"DefineLimbScoreID": {
+			"enum": [
+				"balance",
+				"block",
+				"breathing",
+				"crawl",
+				"footing",
+				"grip",
+				"lift",
+				"manip",
+				"movement_speed",
+				"night_vis",
+				"reaction",
+				"swim",
+				"vision"
 			],
 			"type": "string"
 		},
@@ -34155,7 +34174,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -34168,7 +34187,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -34804,7 +34823,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -34817,7 +34836,7 @@
 				{
 					"allOf": [
 						{
-							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+							"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 						},
 						{
 							"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -35417,7 +35436,7 @@
 			"$ref": "#/definitions/__type_46"
 		},
 		"GameData": {
-			"$ref": "#/definitions/__type_108"
+			"$ref": "#/definitions/__type_107"
 		},
 		"Generic": {
 			"anyOf": [
@@ -36478,12 +36497,6 @@
 			"enum": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeHit",
-				"CnpcCheckTakeMeleeHit",
-				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -36492,6 +36505,9 @@
 				"CnpcInit",
 				"CnpcMove",
 				"CnpcNonBattleUpdate",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"GameBegin",
@@ -39645,6 +39661,73 @@
 			],
 			"type": "string"
 		},
+		"LimbScore": {
+			"description": "肢体分数",
+			"properties": {
+				"affected_by_encumb": {
+					"description": "(可选，默认为 true) 确定此肢体得分是否受角色的肢体负担影响。负担越重 => 得分越低",
+					"type": "boolean"
+				},
+				"affected_by_wounds": {
+					"description": "(可选，默认为 true) 确定此肢体得分是否受角色的肢体健康影响。肢体健康越低 => 得分越低",
+					"type": "boolean"
+				},
+				"id": {
+					"$ref": "#/definitions/LimbScoreID",
+					"description": "标识此肢体得分"
+				},
+				"name": {
+					"description": "必填。定义将在用户界面中显示的此肢体得分的可翻译名称",
+					"type": "string"
+				},
+				"type": {
+					"const": "limb_score",
+					"description": "类型：始终为 \"limb_score\"",
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"name",
+				"type"
+			],
+			"type": "object"
+		},
+		"LimbScoreID": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^LS_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_LS_.*$",
+					"type": "string"
+				},
+				{
+					"enum": [
+						"balance",
+						"block",
+						"breathing",
+						"crawl",
+						"footing",
+						"grip",
+						"lift",
+						"manip",
+						"movement_speed",
+						"night_vis",
+						"reaction",
+						"swim",
+						"vision"
+					],
+					"type": "string"
+				}
+			],
+			"description": "肢体分数ID"
+		},
 		"LocObj": {
 			"anyOf": [
 				{
@@ -40556,6 +40639,10 @@
 			"description": "任务定义ID"
 		},
 		"MissionDialog": {
+			"$ref": "#/definitions/MissionDialog_1",
+			"description": "任务对话字典"
+		},
+		"MissionDialog_1": {
 			"$ref": "#/definitions/__type_43"
 		},
 		"MissionEffect": {
@@ -41396,11 +41483,15 @@
 			],
 			"type": "object"
 		},
-		"Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">": {
+		"Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">": {
 			"properties": {
 				"false_eocs": {
 					"$ref": "#/definitions/ParamsEoc_1",
 					"description": "施法失败后运行的eoc"
+				},
+				"loc": {
+					"$ref": "#/definitions/LocObj",
+					"description": "施法目标位置"
 				},
 				"targeted": {
 					"description": "默认为 false；如果为 true, 则允许您瞄准施放的法术,   \n否则将其施放于随机位置, 就像RANDOM_TARGET使用了法术标志一样  \nRANDOM_TARGET法术需要此项目为true才能正常索敌",
@@ -42823,7 +42914,7 @@
 			"$ref": "#/definitions/__type_100"
 		},
 		"Record_12": {
-			"$ref": "#/definitions/__type_101"
+			"$ref": "#/definitions/__type_102"
 		},
 		"Record_13": {
 			"$ref": "#/definitions/__type_103"
@@ -42833,9 +42924,6 @@
 		},
 		"Record_15": {
 			"$ref": "#/definitions/__type_105"
-		},
-		"Record_16": {
-			"$ref": "#/definitions/__type_106"
 		},
 		"Record_2": {
 			"$ref": "#/definitions/__type_45"
@@ -44561,11 +44649,9 @@
 			"description": "技能选择目标类型",
 			"enum": [
 				"auto",
-				"auto_hit",
 				"direct_hit",
 				"filter_random",
 				"random",
-				"reverse_hit",
 				"spell_target"
 			],
 			"type": "string"
@@ -46509,69 +46595,6 @@
 					},
 					"type": "array"
 				},
-				"CnpcCheckCauseHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseRangeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcDeath": {
 					"items": {
 						"description": "事件效果",
@@ -46720,6 +46743,69 @@
 					"type": "array"
 				},
 				"CnpcNonBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -46912,9 +46998,6 @@
 			"required": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -46923,6 +47006,9 @@
 				"CnpcInit",
 				"CnpcMove",
 				"CnpcNonBattleUpdate",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"MissMeleeHit",
@@ -46935,79 +47021,6 @@
 			"type": "object"
 		},
 		"__type_101": {
-			"properties": {
-				"CnpcCheckTakeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeRangeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				}
-			},
-			"required": [
-				"CnpcCheckTakeHit",
-				"CnpcCheckTakeMeleeHit",
-				"CnpcCheckTakeRangeHit"
-			],
-			"type": "object"
-		},
-		"__type_102": {
 			"description": "动态读取的角色设定",
 			"properties": {
 				"base_mutation": {
@@ -49797,7 +49810,7 @@
 										{
 											"allOf": [
 												{
-													"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+													"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 												},
 												{
 													"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -49810,7 +49823,7 @@
 										{
 											"allOf": [
 												{
-													"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+													"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 												},
 												{
 													"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -50383,10 +50396,10 @@
 			},
 			"type": "object"
 		},
-		"__type_103": {
+		"__type_102": {
 			"type": "object"
 		},
-		"__type_104": {
+		"__type_103": {
 			"properties": {
 				"CauseMeleeHit": {
 					"items": {
@@ -50410,132 +50423,6 @@
 					"type": "array"
 				},
 				"CnpcBattleUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckCauseRangeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcCheckTakeRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -50704,6 +50591,69 @@
 					"type": "array"
 				},
 				"CnpcNonBattleUpdate": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"CnpcTryRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -50938,12 +50888,6 @@
 			"required": [
 				"CauseMeleeHit",
 				"CnpcBattleUpdate",
-				"CnpcCheckCauseHit",
-				"CnpcCheckCauseMeleeHit",
-				"CnpcCheckCauseRangeHit",
-				"CnpcCheckTakeHit",
-				"CnpcCheckTakeMeleeHit",
-				"CnpcCheckTakeRangeHit",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
@@ -50952,6 +50896,9 @@
 				"CnpcInit",
 				"CnpcMove",
 				"CnpcNonBattleUpdate",
+				"CnpcTryHit",
+				"CnpcTryMeleeHit",
+				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"GameBegin",
@@ -50965,13 +50912,13 @@
 			],
 			"type": "object"
 		},
+		"__type_104": {
+			"type": "object"
+		},
 		"__type_105": {
 			"type": "object"
 		},
 		"__type_106": {
-			"type": "object"
-		},
-		"__type_107": {
 			"description": "build配置",
 			"properties": {
 				"game_path": {
@@ -50994,7 +50941,7 @@
 			],
 			"type": "object"
 		},
-		"__type_108": {
+		"__type_107": {
 			"description": "游戏数据",
 			"properties": {
 				"game_json": {
@@ -51008,19 +50955,19 @@
 			},
 			"type": "object"
 		},
-		"__type_109": {
+		"__type_108": {
 			"description": "主资源表",
 			"properties": {
 				"charTable": {
-					"$ref": "#/definitions/Record_13",
+					"$ref": "#/definitions/Record_12",
 					"description": "输出的角色数据表"
 				},
 				"eventEocs": {
-					"$ref": "#/definitions/Record_14",
+					"$ref": "#/definitions/Record_13",
 					"description": "输出的Eoc事件"
 				},
 				"sharedTable": {
-					"$ref": "#/definitions/Record_15",
+					"$ref": "#/definitions/Record_14",
 					"description": "共用资源表"
 				},
 				"staticTable": {
@@ -52719,7 +52666,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -52732,7 +52679,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -53275,7 +53222,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -53288,7 +53235,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -54385,7 +54332,7 @@
 						{
 							"allOf": [
 								{
-									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 								},
 								{
 									"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -54398,7 +54345,7 @@
 						{
 							"allOf": [
 								{
-									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 								},
 								{
 									"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -54924,7 +54871,7 @@
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 											},
 											{
 												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -54937,7 +54884,7 @@
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 											},
 											{
 												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -55537,7 +55484,7 @@
 						{
 							"allOf": [
 								{
-									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 								},
 								{
 									"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -55550,7 +55497,7 @@
 						{
 							"allOf": [
 								{
-									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+									"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 								},
 								{
 									"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -56076,7 +56023,7 @@
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 											},
 											{
 												"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -56089,7 +56036,7 @@
 									{
 										"allOf": [
 											{
-												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+												"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 											},
 											{
 												"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -62982,7 +62929,7 @@
 				},
 				"dialogue": {
 					"$ref": "#/definitions/MissionDialog",
-					"description": "任务对话文本"
+					"description": "任务对话文本\n如果是npc来源的任务必须设置"
 				},
 				"difficulty": {
 					"description": "任务难度",
@@ -63044,12 +62991,10 @@
 			},
 			"required": [
 				"description",
-				"dialogue",
 				"difficulty",
 				"goal",
 				"id",
 				"name",
-				"origins",
 				"type",
 				"value"
 			],
@@ -63266,7 +63211,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -63279,7 +63224,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -63822,7 +63767,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -63835,7 +63780,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -64523,7 +64468,7 @@
 				},
 				"target": {
 					"$ref": "#/definitions/TargetType",
-					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nreverse_hit 为 翻转命中交互单位 使目标使用此法术攻击自己 适用于单体目标技能  \nhook 必须为翻转事件 CharCauseDamage | CharCauseMeleeDamage | CharCauseRangeDamage  \n除 reverse_hit 外无法使用翻转事件;  \n\nauto_hit 为根据hook在 reverse_hit direct_hit 之间自动判断;  \n \nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
 				}
 			},
 			"required": [
@@ -64725,7 +64670,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -64738,7 +64683,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -65387,7 +65332,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -65400,7 +65345,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -66391,7 +66336,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -66404,7 +66349,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -66978,7 +66923,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{npc_cast_spell:FakeSpell;}"
@@ -66991,7 +66936,7 @@
 							{
 								"allOf": [
 									{
-										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;},\"cast_spell\">"
+										"$ref": "#/definitions/Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">"
 									},
 									{
 										"$ref": "#/definitions/{u_cast_spell:FakeSpell;}"
@@ -69758,6 +69703,57 @@
 		},
 		"__type_99": {
 			"type": "object"
+		},
+		"list": {
+			"items": [
+				{
+					"const": "limb_score",
+					"type": "string"
+				},
+				{
+					"const": "limb_score_op",
+					"type": "string"
+				},
+				{
+					"const": "limb_type",
+					"type": "string"
+				},
+				{
+					"const": "override_encumb",
+					"type": "string"
+				},
+				{
+					"const": "override_wounds",
+					"type": "string"
+				},
+				{
+					"const": "min",
+					"type": "string"
+				},
+				{
+					"const": "max",
+					"type": "string"
+				},
+				{
+					"const": "nominator",
+					"type": "string"
+				},
+				{
+					"const": "denominator",
+					"type": "string"
+				},
+				{
+					"const": "subtract",
+					"type": "string"
+				},
+				{
+					"const": "builtin",
+					"type": "string"
+				}
+			],
+			"maxItems": 11,
+			"minItems": 11,
+			"type": "array"
 		},
 		"{[Pin`npc_${K}`]:B[K];}": {
 			"type": "object"

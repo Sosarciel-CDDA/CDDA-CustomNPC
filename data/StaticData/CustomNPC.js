@@ -65,8 +65,6 @@ function CNPC_EOC_ETD(){
 	{ "damage", int }
 	*/
 	CNPC_EOC_CommonTakeDamageEvent()
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcTakeDamageEvent()
 }
 //近战攻击事件
 function CNPC_EOC_EMAC(){
@@ -170,11 +168,16 @@ function CNPC_EOC_EPU(){
 	//触发动态生成的 玩家刷新 事件eoc
 	CNPC_EOC_PlayerUpdate();
 }
-//NPC死亡事件
-function CNPC_EOC_NPC_DEATH(){
-	eoc_type("NPC_DEATH");
-	//NPC_DEATH调用 run_eoc_with 无法正确设置 beta talker
-	//固不使用作为触发
+//角色死亡
+function CNPC_EOC_ED(){
+	eoc_type("EVENT");
+	required_event("character_dies");
+	//{ "character", character_id },
+	if(u_isDeath != 1){
+		CNPC_EOC_CommonDeathEvent();
+		if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
+			CNPC_EOC_CnpcDeathEvent();
+	}
 }
 
 
@@ -213,32 +216,34 @@ function CNPC_EOC_CommonGlobalUpdateEvent(){
 	//触发动态生成的 刷新 事件
 	CNPC_EOC_Update();
 }
+//死亡主EOC
+function CNPC_EOC_CommonDeathEvent(){
+	eoc_type("ACTIVATION");
+	//触发动态生成的 死亡 事件
+	CNPC_EOC_Death();
+}
 
 
 
 
 //———————————————————— Cnpc事件处理 ————————————————————//
-//Cnpc角色受伤事件
-function CNPC_EOC_CnpcTakeDamageEvent(){
+//CNPC死亡事件
+function CNPC_EOC_CnpcDeathEvent(){
 	eoc_type("ACTIVATION");
-
-	//检测死亡
-	CNPC_EOC_CheckDeath();
-}
-//Cnpc角色检测死亡
-function CNPC_EOC_CheckDeath(){
-	//关键肢体生命值不足触发一次死亡前
-	if(or(u_hp('head')<=0,u_hp('torso')<=0)){
-		//触发动态生成的 Cnpc角色死亡前 事件
-		CNPC_EOC_CnpcDeathPrev();
-	}
+	//触发动态生成的 Cnpc角色死亡前 事件
+	CNPC_EOC_CnpcDeathPrev();
 	//关键肢体生命值不足则判断为死亡
 	if(or(u_hp('head')<=0,u_hp('torso')<=0))
 		CNPC_EOC_CnpcDeathProcess()
+	else
+		eobj("u_prevent_death")//阻止死亡
 }
 //Cnpc角色受伤死亡处理
 function CNPC_EOC_CnpcDeathProcess(){
 	eoc_type("ACTIVATION")
+
+	eobj("u_prevent_death")//阻止死亡
+
 	//触发动态生成的 Cnpc角色死亡时 事件
 	CNPC_EOC_CnpcDeath();
 
@@ -281,55 +286,30 @@ function CNPC_EOC_CnpcTryHitEvent(){
 
 	//设置在战斗中
 	u_inBattle = 60;
+
+	//触发动态生成的 尝试攻击 事件
+	CNPC_EOC_CnpcTryHit();
 }
 //Cnpc角色近战攻击主Eoc
 function CNPC_EOC_CnpcMeleeHitEvent(){
 	eoc_type("ACTIVATION")
-	//尝试攻击
-	CNPC_EOC_CnpcTryHitEvent()
+	//产生法术标靶
+	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+	//通用攻击
+	CNPC_EOC_CnpcTryHitEvent();
+	//触发动态生成的 尝试远程攻击 事件
+	CNPC_EOC_CnpcTryRangeHit();
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 //Cnpc角色远程攻击主Eoc
 function CNPC_EOC_CnpcRangeHitEvent(){
 	eoc_type("ACTIVATION")
-	//尝试攻击
-	CNPC_EOC_CnpcTryHitEvent()
-}
-
-//Cnpc角色近战/远程攻击 造成MeleeCheck/RangeCheck伤害 触发的Eoc
-function CNPC_EOC_CheckCauseHitEvent(){
-	eoc_type("ACTIVATION")
-
 	//产生法术标靶
 	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
-	//触发动态生成的 Cnpc角色检测到造成攻击 事件eoc
-	CNPC_EOC_CnpcCheckCauseHit()
-	//触发动态生成的 Cnpc角色检测到受到攻击 事件eoc
-	CNPC_EOC_CnpcCheckTakeHit()
-}
-
-//Cnpc角色近战攻击 造成MeleeCheck伤害 触发的Eoc
-function CNPC_EOC_CheckCauseMeleeHitEvent(){
-	eoc_type("ACTIVATION")
-	condition(_total_damage>0)
-	//通用伤害事件
-	CNPC_EOC_CheckCauseHitEvent()
-	//触发动态生成的 Cnpc角色检测到造成近战攻击 事件eoc
-	CNPC_EOC_CnpcCheckCauseMeleeHit()
-	//触发动态生成的 Cnpc角色检测到受到近战攻击 事件eoc
-	CNPC_EOC_CnpcCheckTakeMeleeHit()
-	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
-}
-
-//Cnpc角色远程攻击 造成RangeCheck伤害 触发的Eoc
-function CNPC_EOC_CheckCauseRangeHitEvent(){
-	eoc_type("ACTIVATION")
-	condition(_total_damage>0)
-	//通用伤害事件
-	CNPC_EOC_CheckCauseHitEvent()
-	//触发动态生成的 Cnpc角色检测到造成远程攻击 事件eoc
-	CNPC_EOC_CnpcCheckCauseRangeHit()
-	//触发动态生成的 Cnpc角色检测到受到远程攻击 事件eoc
-	CNPC_EOC_CnpcCheckTakeRangeHit()
+	//通用攻击
+	CNPC_EOC_CnpcTryHitEvent();
+	//触发动态生成的 尝试近战攻击 事件
+	CNPC_EOC_CnpcTryMeleeHit();
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 

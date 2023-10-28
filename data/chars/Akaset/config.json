@@ -26,9 +26,6 @@
 				"damage_type": "heat",
 				"amount": 20,
 				"armor_penetration": 50
-			},{
-				"damage_type": "RangeCheck",
-				"amount": 1
 			}],
 			"name": "Akaset的 激光炮",
 			"description": "Akaset的 激光炮",
@@ -38,7 +35,7 @@
 				[ "DEFAULT", "pulse", 1 ],
 				[ "AUTO"   , "2s sequence", 2 ]
 			],
-			"ammo_effects": ["LIGHTNING_LINE","DRAW_AS_LINE"],
+			"ammo_effects": ["LIGHTNING_Akaset","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
 			"faults": [],
 			"heat_per_shot": 0
@@ -69,8 +66,7 @@
 			"weight": "3778 g",
 			"volume": "2 L",
 			"melee_damage": {
-				"bash": 50,
-				"MeleeCheck":1
+				"bash": 50
 			},
 			"techniques": [ "WBLOCK_3", "BRUTAL", "AFS_PRESSURE_CRUNCH", "WIDE" ],
 			"weapon_category": ["CLAWS"],
@@ -169,7 +165,7 @@
 		},
 		{
 			"name": "雷霆轰击",
-			"cast_condition":{"hook": "CnpcCheckCauseRangeHit"},
+			"cast_condition":{"hook": "TryHit"},
 			"cooldown":16,
 			"audio":[
 				{"id":"ElectricStrike","cooldown": 180},
@@ -196,7 +192,7 @@
 		},
 		{
 			"name": "离子风暴",
-			"cast_condition":{"hook": "CnpcCheckCauseRangeHit"},
+			"cast_condition":{"hook": "TryHit"},
 			"audio":["IonStormSF","BaseAudio:ElectHit"],
 			"spell": {
 				"id":"IonStorm",
@@ -228,7 +224,7 @@
 		{
 			"name": "TD光束",
 			"cast_condition":{
-				"hook": "CnpcCheckCauseRangeHit"
+				"hook": "TryHit"
 			},
 			"audio":[
 				{"id":"ThunderDischargeBeam","cooldown": 180},
