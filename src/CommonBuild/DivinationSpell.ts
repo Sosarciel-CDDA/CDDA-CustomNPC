@@ -134,7 +134,7 @@ const OMNameIDMap:OMNameMap={
     "城堡要塞"            : { om_terrain:"fort_1a"                       , om_special:"Bastion Fort"              },
     "地堡商店"            : { om_terrain:"bunker_shop_g"                 , om_special:"bunker shop"               },
     "地堡加油站"          : { om_terrain:"s_gas_g0"                      , om_special:"gas station bunker"        },
-    "疗养院"              : { om_terrain:"nursing_home"                , om_special:"nursing_home"                , om_terrain_match_type:"PREFIX"},
+    "疗养院"              : { om_terrain:"nursing_home"                  , om_special:"nursing_home"              , om_terrain_match_type:"PREFIX"},
     "退休社区"            : { om_terrain:"retirement_community_1"        , om_special:"retirement_community"      },
     "农场用品店"          : { om_terrain:"farm_supply_1"                 , om_special:"Farm Supply Store"         },
     "洗劫一空的农场用品店": { om_terrain:"farm_supply_looted_1"          , om_special:"Farm Supply Store Looted"  },
@@ -218,8 +218,7 @@ export async function createDivinationSpell(dm:DataManager){
             description:`${sname}标记了 ${global_unique?"唯一一个":"一个未知的"} ${omname}`,
             id:`${sid}_mission_${misid}` as MissionDefinitionID,
             goal:"MGOAL_GO_TO",
-            dialogue:EmptyMissionDialog,
-            origins:["ORIGIN_ANY_NPC"],
+            //dialogue:EmptyMissionDialog,
             invisible_on_complete:true,
             start:{
                 assign_mission_target:{

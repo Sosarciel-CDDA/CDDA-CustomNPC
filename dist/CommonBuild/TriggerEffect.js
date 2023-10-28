@@ -17,7 +17,7 @@ async function createTriggerEffect(dm) {
 }
 exports.createTriggerEffect = createTriggerEffect;
 const TEFF_DUR = '60 s';
-const TEFF_MAX = 100000;
+const TEFF_MAX = 1000000;
 //霜盾
 function FrostShield(dm) {
     const taoe = 3;
@@ -161,6 +161,7 @@ function Discharge(dm) {
 //创伤
 function Trauma(dm) {
     const effid = "Trauma";
+    const extid = "HeavyTrauma";
     const stackcount = TEFF_MAX;
     const dur = "15 s";
     const tspell = {
@@ -199,7 +200,7 @@ function Trauma(dm) {
         effect: [
             //regenDmg,
             { u_message: "创伤触发 <context_val:total_damage> <context_val:damage_taken>" },
-            { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') + _total_damage`] } }
+            { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') +  (_total_damage * (n_effect_intensity('${extid}')>0? 1.5 : 1))`] } }
         ],
         condition: { math: ["_total_damage", ">", "0"] }
     };
@@ -210,11 +211,20 @@ function Trauma(dm) {
         physical: true,
         magic_color: "white",
         derived_from: ["stab", 0],
-        melee_only: true,
         ondamage_eocs: [onDmgEoc.id],
         edged: true,
     };
-    dm.addStaticData([tspell, eff, onDmgEoc, dt, (0, UtilGener_1.genDIO)(dt)], "common_resource", "trigger_effect", "Trauma");
+    //串流
+    const exteff = {
+        type: "effect_type",
+        id: extid,
+        name: ["重创"],
+        desc: ["创伤 叠加的层数变为 1.5 倍。"],
+        max_intensity: 1,
+        max_duration: dur,
+        show_in_info: true,
+    };
+    dm.addStaticData([tspell, eff, onDmgEoc, dt, (0, UtilGener_1.genDIO)(dt), exteff], "common_resource", "trigger_effect", "Trauma");
 }
 //撕裂
 function Laceration(dm) {

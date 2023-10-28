@@ -30,11 +30,11 @@ export type MissionDefinition = {
     /**任务结束的效果 */
     end?: MissionEffect;
     /**任务来源 */
-    origins: MissionOrigin[];
+    origins?: MissionOrigin[];
     /**下一段任务 */
     followup?: MissionDefinitionID;
     /**任务对话文本 */
-    dialogue: MissionDialog;
+    dialogue?: MissionDialog;
 };
 /**任务目标 列表*/
 declare const MissionGoalList: readonly ["MGOAL_GO_TO", "MGOAL_GO_TO_TYPE", "MGOAL_COMPUTER_TOGGLE", "MGOAL_FIND_ITEM", "MGOAL_FIND_ANY_ITEM", "MGOAL_FIND_MONSTER", "MGOAL_FIND_NPC", "MGOAL_TALK_TO_NPC", "MGOAL_RECRUIT_NPC", "MGOAL_RECRUIT_NPC_CLASS", "MGOAL_ASSASSINATE", "MGOAL_KILL_MONSTER", "MGOAL_KILL_MONSTERS", "MGOAL_KILL_MONSTER_TYPE", "MGOAL_KILL_MONSTER_SPEC", "MGOAL_CONDITION"];

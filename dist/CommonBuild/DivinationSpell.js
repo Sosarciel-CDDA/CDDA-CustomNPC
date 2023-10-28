@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDivinationSpell = void 0;
-const MissionDefinition_1 = require("../CddaJsonFormat/MissionDefinition");
 const OMNameIDMap = {
     //生物
     "蚁巢": { om_terrain: "anthill", om_special: "anthill" },
@@ -183,8 +182,7 @@ async function createDivinationSpell(dm) {
             description: `${sname}标记了 ${global_unique ? "唯一一个" : "一个未知的"} ${omname}`,
             id: `${sid}_mission_${misid}`,
             goal: "MGOAL_GO_TO",
-            dialogue: MissionDefinition_1.EmptyMissionDialog,
-            origins: ["ORIGIN_ANY_NPC"],
+            //dialogue:EmptyMissionDialog,
             invisible_on_complete: true,
             start: {
                 assign_mission_target: {

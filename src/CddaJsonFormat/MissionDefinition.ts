@@ -33,11 +33,13 @@ export type MissionDefinition = {
     /**任务结束的效果 */
     end?: MissionEffect;
     /**任务来源 */
-	origins: MissionOrigin[];
+	origins?: MissionOrigin[];
     /**下一段任务 */
 	followup?: MissionDefinitionID;
-    /**任务对话文本 */
-	dialogue: MissionDialog;
+    /**任务对话文本
+     * 如果是npc来源的任务必须设置
+     */
+	dialogue?: MissionDialog;
 };
 
 /**任务目标 列表*/
