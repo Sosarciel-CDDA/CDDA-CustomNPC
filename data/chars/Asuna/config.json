@@ -185,7 +185,8 @@
 		{
 			"name": "情报破译",
 			"cast_condition":{
-				"hook": "TryMeleeHit",
+				"hook": "CnpcBattleUpdate",
+				"target": "filter_random",
 				"condition":{"not":{"npc_has_effect":"IntelligenceDeciphered"}}
 			},
 			"cooldown":24,

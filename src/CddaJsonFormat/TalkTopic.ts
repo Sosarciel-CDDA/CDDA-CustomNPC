@@ -6,8 +6,7 @@ import { AnyItemID, ItemCategotyID } from "./Item";
 
 
 
-/**TalkTopic ID格式  
- */
+/**TalkTopic ID格式 */
 export type TalkTopicID = DefineTopic|CddaID<"TALKTC">;
 
 

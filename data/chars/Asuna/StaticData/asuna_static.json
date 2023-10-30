@@ -49,22 +49,6 @@
         "id":"IntelligenceDeciphered",
         "name": ["情报破译"],
         "desc": ["受到30%额外 斩击/钝击/刺击/射击 伤害"],
-        "show_in_info": true,
-        "enchantments": [{
-            "condition":"ALWAYS",
-            "values": [{
-                "value": "EXTRA_BASH",
-                "multiply": 0.3
-            },{
-                "value": "EXTRA_BULLET",
-                "multiply": 0.3
-            },{
-                "value": "EXTRA_CUT",
-                "multiply": 0.3
-            },{
-                "value": "EXTRA_STAB",
-                "multiply": 0.3
-            }]
-        }]
+        "show_in_info": true
     }
 ]

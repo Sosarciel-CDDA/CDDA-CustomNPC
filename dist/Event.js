@@ -17,6 +17,7 @@ exports.CommonInteractiveEventTypeList = [
 exports.CommonEventTypeList = [
     "Update",
     "TakeDamage",
+    "Death",
     ...exports.CommonInteractiveEventTypeList,
 ];
 /**Cnpc角色与怪物互动的事件 列表
