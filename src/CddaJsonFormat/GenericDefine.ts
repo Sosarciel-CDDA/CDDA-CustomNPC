@@ -19,6 +19,9 @@ import { Mutation } from "./Mutation";
 import { DamageInfoOrder, DamageType, DamageTypeID } from "./DameType";
 import { AmmoEffect } from "./AmmoEffect";
 
+/**描述性文本 */
+export type DescText = string;
+
 /**重量 */
 export type Weight = number|`${number} ${"kg"|"g"}`;
 /**体积 */
@@ -197,7 +200,7 @@ export type PocketData = {
     /**只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。 */
 	item_restriction?: AnyItemID[];
     /**有主要由该材料制成的物品才能进入。 */
-	material_restriction?: string[];
+	material_restriction?: MaterialID[];
 	/**如果口袋有 sealed_data, 则在物品生成时它将被密封。 口袋的密封版本将覆盖相同数据类型的未密封版本  */
 	sealed_data?: Partial<PocketData>;
     /**如果口袋继承了标志, 则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。 */

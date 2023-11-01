@@ -1,5 +1,5 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
-import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Power as Capacity } from "../GenericDefine";
+import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Power as Capacity, DescText } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { GenericBase, GenericFlag } from "./Generic";
 
@@ -46,7 +46,7 @@ export type Tool = CopyfromVar<{
     /**充能消耗后转化为物品 */
 	revert_to?: ToolID;
     /**revert_to 触发时产生的信息 */
-	revert_msg?: string;
+	revert_msg?: DescText;
     /**该工具与其他工具具有相同的功能 */
 	sub?: ToolID;
     /**变体 */

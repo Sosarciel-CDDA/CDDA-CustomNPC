@@ -1,5 +1,5 @@
 import { NpcNumObj, NumObj } from "./Eoc";
-import { CddaID } from "./GenericDefine";
+import { CddaID, DescText } from "./GenericDefine";
 import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutation";
 import { SkillID } from "./Skill";
@@ -16,8 +16,8 @@ export type NpcClassID = CddaID<"NPCCLS">;
 export type NpcClass = {
     type: "npc_class";
     id: NpcClassID;
-    name: string ;
-    job_description: string;
+    name: DescText ;
+    job_description: DescText;
     /**false意味着这个NPC职业不会随机生成。  
      * 如果未指定, 则默认为 。true  
      */
@@ -54,7 +54,7 @@ export type NpcClass = {
     /**可选为此店主定义黑名单 */
     shopkeeper_blacklist?: string;
     /**默认值为 6 天 */
-    restock_interval?: `${string} days`;
+    restock_interval?: `${number} days`;
     /**基础变异 */
     traits?: Traits;
     /**基础法术 */

@@ -134,7 +134,7 @@ export type AmmoTrail = {
     /**地块附着物类型  
      * 将产生的地块附着物；默认 "fd_null"  
      */
-    field_type?: string;
+    field_type?: FieldID;
     /**最小强度  
      * 地块附着物的最小强度；默认 0  
      */

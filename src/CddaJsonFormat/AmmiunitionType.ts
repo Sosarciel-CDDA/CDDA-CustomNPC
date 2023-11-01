@@ -1,4 +1,4 @@
-import { CddaID } from "./GenericDefine";
+import { CddaID, DescText } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 
 
@@ -16,7 +16,7 @@ export type AmmunitionType = {
     /**唯一ID */
 	id: AmmunitionTypeID;
     /**弹药名称 */
-	name: string;
+	name: DescText;
     /**弹药的默认物品ID */
 	default: AnyItemID;
 };

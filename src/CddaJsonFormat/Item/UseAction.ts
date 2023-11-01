@@ -1,5 +1,6 @@
 import { EocID } from "../Eoc";
-import { Color, Explosion } from "../GenericDefine";
+import { FieldID } from "../Field";
+import { Color, DescText, Explosion } from "../GenericDefine";
 import { NpcClassID } from "../NpcClass";
 import { SpellID } from "../Spell";
 
@@ -18,7 +19,7 @@ type UAPlaceNpc = {
 	/**npc职业ID */
 	npc_class_id: NpcClassID;
 	/**生成时播报的消息 */
-	summon_msg?: string;
+	summon_msg?: DescText;
 	/**将 npc 随机放置在玩家周围, 如果 false: 让玩家决定将其放置在哪里（默认值: false） */
 	place_randomly?: boolean;
 	/**该动作需要多少移动点 */
@@ -31,7 +32,7 @@ type UARunEoc = {
 	/**执行某个ECO */
 	type: "effect_on_conditions";
 	/**说明 */
-	description: string;
+	description: DescText;
 	/**eoc列表 */
 	effect_on_conditions: EocID[];
 }
@@ -52,7 +53,7 @@ type UAExplosion = {
 	/**产生的地形效果的传播半径 */
 	fields_radius?: number;
 	/**产生的地形效果 */
-	fields_type?: string;
+	fields_type?: FieldID;
 	/**产生的地形效果的最小强度 */
 	fields_min_intensity?: number;
 	/**产生的地形效果的最大强度 */

@@ -2,9 +2,10 @@ import { DamageTypeID } from "./DameType";
 import { FakeSpell } from "./Enchantment";
 import { NumObj } from "./Eoc";
 import { FieldID } from "./Field";
-import { BodyPartID, CddaID } from "./GenericDefine";
+import { BodyPartID, CddaID, DescText } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 import { MonsterID } from "./Monster";
+import { SoundEffectID, SoundEffectVariantID } from "./SoundEffect";
 
 
 
@@ -24,8 +25,8 @@ export type SpellID = CddaID<"SPELL">|DefineSpellID;
 export type Spell = {
 	id: SpellID;
 	type: "SPELL";
-	name: string;
-	description: string;
+	name: DescText;
+	description: DescText;
     /**有效的目标类型 */
 	valid_targets: SpellTarget[];
     /**如果法术可以对生物释放 有效的怪物ID */
@@ -130,13 +131,13 @@ export type Spell = {
     /**法术产生的声音类型 */
 	sound_type?: SpellSoundType;
     /**发书产生的声音描述 起效于"You hear %s" 默认为 "an explosion" */
-	sound_description?: string;
+	sound_description?: DescText;
     /**视为环境声音 */
 	sound_ambient?: boolean;
     /**声音ID */
-	sound_id?: string;
+	sound_id?: SoundEffectID;
     /**声音变体ID */
-	sound_variant?: string;
+	sound_variant?: SoundEffectVariantID;
     /**当列表内所有法术到达指定等级时学会此法术  
      * Record<(SpellID)法术ID : (NumObj)需求等级>  
      */

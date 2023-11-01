@@ -1,5 +1,5 @@
 import { JArray, JObject } from "@zwa73/utils";
-import { CddaID } from "./GenericDefine";
+import { CddaID, DescText } from "./GenericDefine";
 import { BoolObj, BoolOperateList, Eoc, EocEffect, NoParamCond } from "./Eoc";
 import { SkillID } from "./Skill";
 import { AnyItemID, ItemCategotyID } from "./Item";
@@ -60,7 +60,7 @@ type RespBase = {
 	 * 这会删除输出文本周围的引号, 表示显示文本的描述性性质,   
 	 * 使用 \" 转义双引号来指示实际对话的开始。  
  	 */
-	text?: string;
+	text?: DescText;
 	/**对某个条件进行判断 并给出不同的文本  
 	 * 代替 text 字段  
 	 */
@@ -68,9 +68,9 @@ type RespBase = {
 		/**条件 */
 		condition: BoolObj;
 		/**条件为真时的text */
-		true: string;
+		true: DescText;
 		/**条件为假时的text */
-		false: string;
+		false: DescText;
 	};
 	/**是一个选项回复 默认false  
 	 * 仅显示第一个带有"switch": true、和有效条件的响应  
@@ -87,7 +87,7 @@ type RespBase = {
 	/**回复的条件不满足时仍然显示选项 但采用此字段而非text  
 	 * 玩家的文本回复/选项显示文本
 	 */
-	failure_explanation?: string;
+	failure_explanation?: DescText;
 	/**回复的条件不满足时 选择此选项将跳转到的对话 */
 	failure_topic?: TalkTopicID,
 }
@@ -186,7 +186,7 @@ export type DynamicLine = DynmaicLineOpera[number][]|DynmaicLineOpera[number];
 
 /**动态回复构造器操作符 */
 export type DynmaicLineOpera = [
-	string				,
+	DescText			,
 	NpcSexResp			,//根据Npc性别产生不同对话
 	AvatarSexResp		,//根据玩家性别产生不同对话
 	Concatenate			,//拼接回复

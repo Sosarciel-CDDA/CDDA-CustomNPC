@@ -1,5 +1,5 @@
 import { EocEffect, IDObj, LocObj, NumObj, StrObj } from "./Eoc";
-import { CddaID } from "./GenericDefine";
+import { CddaID, DescText } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 import { OverMapSpecialID } from "./OvermapSpecial";
 import { OvermapTerrainID } from "./OvermapTerrain";
@@ -13,9 +13,9 @@ export type MissionDefinition = {
 	id: MissionDefinitionID;
 	type: "mission_definition";
     /**任务名 */
-	name: string;
+	name: DescText;
     /**任务说明 */
-	description: string;
+	description: DescText;
     /**任务目标 */
 	goal: MissionGoal;
     /**任务难度 */
@@ -78,23 +78,23 @@ type MissionOrigin = typeof MissionOriginList[number];
 /**任务对话字典 */
 type MissionDialog = {
     /**NPC 对任务的总体描述 */
-    describe	: string;
+    describe	: DescText;
     /**当玩家选择该任务时给出的任务细节 */
-    offer	    : string;
+    offer	    : DescText;
     /**玩家接受任务后 NPC 的反应 */
-    accepted	: string;
+    accepted	: DescText;
     /**玩家拒绝任务时NPC的反应 */
-    rejected	: string;
+    rejected	: DescText;
     /**如果玩家询问如何完成任务的建议，他们会听到以下内容 */
-    advice	    : string;
+    advice	    : DescText;
     /**如果 NPC 询问玩家任务进展如何，则使用此选项 */
-    inquire	    : string;
+    inquire	    : DescText;
     /**NPC 对任务成功报告的回应 */
-    success	    : string;
+    success	    : DescText;
     /**如果 NPC 发现玩家在任务成功的问题上撒谎，他们会做出什么反应 */
-    success_lie : string;
+    success_lie : DescText;
     /**如果玩家报告任务失败，NPC 的反应 */
-    failure     : string;
+    failure     : DescText;
 };
 /**空的任务对话字典 */
 export const EmptyMissionDialog:MissionDialog = {

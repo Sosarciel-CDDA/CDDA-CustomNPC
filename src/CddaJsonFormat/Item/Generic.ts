@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { EnchantmentID, InlineEnchantment } from "../Enchantment";
 import { FlagID } from "../Flag";
-import { CddaID, Color, CopyfromVar, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
+import { CddaID, Color, CopyfromVar, DescText, Explosion, Length, MeleeDamage, Phase, PocketData, Price, Time, Volume, Weight } from "../GenericDefine";
 import { Ammo, AmmoID } from "./Ammo";
 import { ArmorID } from "./Armor";
 import { Gun, GunID } from "./Gun";
@@ -70,26 +70,26 @@ export type GenericBase = {
 	/**物品唯一ID */
 	id: string;
 	/**物品显示名 */
-	name: string|{
+	name: DescText|{
 		/**单数名 */
-		str?:string;
+		str?:DescText;
 		/**复数名 */
-		str_pl?:string;
+		str_pl?:DescText;
 		/**单复数共用名 */
-		str_sp?:string;
+		str_sp?:DescText;
 		/**翻译上下文 */
-		ctxt?:string;
+		ctxt?:DescText;
 	};
 	/**物品分类 */
 	category?:ItemCategotyID;
 	/**该项目应在哪个容器 (如果有)中生成 */
-	container?:string;
+	container?:AnyItemID;
 	/**如果该物品没有配方, 则修复该物品时等同于配方 */
-	repairs_like?: string,
+	repairs_like?: AnyItemID,
 	/**提示图块集, 如果该项目没有图块 使用looks_like图块 */
 	looks_like?: string,
 	/**描述 */
-	description: string;
+	description: DescText;
 	/**用于该项目的 asci_art 的 ID */
 	ascii_picture?:string;
 	/**默认的状态 默认为固态 */

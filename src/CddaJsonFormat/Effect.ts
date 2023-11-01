@@ -1,6 +1,8 @@
 import { ParamsEnchantment } from "./Enchantment";
+import { EocID } from "./Eoc";
 import { FlagID } from "./Flag";
-import { BodyPartID, CddaID, RatType, Time } from "./GenericDefine";
+import { BodyPartID, CddaID, DescText, RatType, Time } from "./GenericDefine";
+import { LimbScoreID } from "./LimbScore";
 import { MutationID } from "./Mutation";
 import { VitaminsID } from "./Vitamins";
 
@@ -44,15 +46,15 @@ export type Effect = {
      * 则该效果将不会在状态屏幕中向玩家显示。  
      * 按效果强度应用不同成员  
      */
-    name?: string[];
+    name?: DescText[];
     /**同name  
      * 按效果强度应用不同成员  
      */
-    desc?: string[];
+    desc?: DescText[];
     /**被抵抗时产生的描述  
      * 按效果强度应用不同成员  
      */
-    reduced_desc?: string[];
+    reduced_desc?: DescText[];
     /**如果“part_descs”== true, 则描述前面带有“您的 X”,   
      * 其中 X 是身体部位名称, 这意味着先前的描述将显示为“您的左臂 ABC”。  
      */
@@ -60,17 +62,17 @@ export type Effect = {
     /**效果评价 */
     rating?: RatType;
     /**效果被添加时产生的消息 */
-    apply_message?: string|[string,RatType][];
+    apply_message?: DescText|[DescText,RatType][];
     /**效果结束或移除时产生的消息 */
-    remove_message?: string|[string,RatType][];
+    remove_message?: DescText|[DescText,RatType][];
     /**默认 false；如果为 true, 则当您检查另一个 NPC 或怪物时会显示该效果  
      * 如果为true玩家可以从怪物简介中查看到效果  
      */
     show_in_info?:boolean;
     /**效果被添加时产生的log */
-    apply_memorial_log? : string;
+    apply_memorial_log? : DescText;
     /**效果被移除时产生的log */
-    remove_memorial_log?: string;
+    remove_memorial_log?: DescText;
     /**可 抵抗 此效果的变异 */
     resist_traits?: MutationID;
     /**可 抵抗 此效果的效果 */
@@ -130,12 +132,12 @@ export type Effect = {
      * [消息,发送此消息的权重][]  
      * 按效果强度应用不同成员  
      */
-    miss_messages?: [string,number][];
+    miss_messages?: [DescText,number][];
     /**效果产生自然调整时产生的消息  
      * [消息,效果评价][]  
      * 按效果强度应用不同成员  
      */
-    decay_messages?: [string,RatType][];
+    decay_messages?: [DescText,RatType][];
     /**这个效果是否只能应用于主肢体  
      * 默认false  
      */
@@ -168,7 +170,7 @@ export type Effect = {
      */
     chance_kill_resist?: [number,number][];
     /**因此效果而死亡时产生的消息 */
-    death_msg?: string;
+    death_msg?: DescText;
     /**因此效果而死亡时产生的事件 */
     death_event?: string;
     /**效果肢体能力修正 */
@@ -181,6 +183,8 @@ export type Effect = {
      * 按效果强度应用不同成员  
      */
     enchantments?:ParamsEnchantment[];
+    /**拥有此效果时进行血液分析可得出的说明 */
+    blood_analysis_description: DescText;
 };
 
 
@@ -221,7 +225,7 @@ export type EffectVitaminsMod ={
 /**效果肢体能力修正 */
 export type EffectLimbMod ={
     /**目标能力 */
-    limb_score: string,
+    limb_score: LimbScoreID,
     /**乘数调整值 默认1 */
     modifier?: number,
     /**在玩家 抵抗 此效果时  

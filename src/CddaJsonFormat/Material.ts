@@ -1,5 +1,5 @@
 import { DamageTypeID } from "./DameType";
-import { CddaID, Energy, Volume } from "./GenericDefine";
+import { CddaID, DescText, Energy, Volume } from "./GenericDefine";
 
 
 
@@ -14,7 +14,7 @@ export type MaterialID = CddaID<"MATE">;
 export type Material = {
 	type: "material";
 	id: MaterialID;
-	name: string;
+	name: DescText;
     /**密度 影响车辆碰撞损坏, 较致密的零件比较不致密的零件更具优势。 */
 	density: number;
     /**材料未冷冻时的比热 (J/(g K))。默认 4.186 - 水。 */

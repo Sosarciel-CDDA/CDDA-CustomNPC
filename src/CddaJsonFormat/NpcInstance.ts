@@ -1,5 +1,5 @@
 import { EocID } from "./Eoc";
-import { CddaID, DefineNpcFaction } from "./GenericDefine";
+import { CddaID, DefineNpcFaction, DescText } from "./GenericDefine";
 import { NpcClassID } from "./NpcClass";
 import { TalkTopicID } from "./TalkTopic";
 
@@ -14,9 +14,9 @@ export type NpcInstance = {
     type: "npc";
     id: NpcInstanceID;
     /**独特名称 */
-    name_unique?:string;
+    name_unique?:DescText;
     /**名称后缀 */
-    name_suffix?: string;
+    name_suffix?:DescText;
     /**职业 */
     class: NpcClassID;
     /**初始态度 */

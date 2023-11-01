@@ -49,6 +49,9 @@
         "id":"IntelligenceDeciphered",
         "name": ["情报破译"],
         "desc": ["受到30%额外 斩击/钝击/刺击/射击 伤害"],
-        "show_in_info": true
+        "show_in_info": true,
+        "base_mods": {
+            "dodge_mod": [-10]
+        }
     }
 ]
