@@ -378,8 +378,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -394,8 +394,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -492,20 +492,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -574,7 +574,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -660,8 +660,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -968,6 +968,10 @@
 					"description": "怪物"
 				},
 				{
+					"$ref": "#/definitions/SoundEffect_1",
+					"description": "音效"
+				},
+				{
 					"$ref": "#/definitions/Spell",
 					"description": "法术"
 				},
@@ -981,10 +985,6 @@
 				{
 					"$ref": "#/definitions/NpcInstance",
 					"description": "Npc实例"
-				},
-				{
-					"$ref": "#/definitions/SoundEffect_1",
-					"description": "音效"
 				},
 				{
 					"$ref": "#/definitions/MissionDefinition",
@@ -1139,8 +1139,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -1155,8 +1155,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -1253,20 +1253,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -1335,7 +1335,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -1421,8 +1421,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -1745,8 +1745,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -1761,8 +1761,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -1859,20 +1859,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -1941,7 +1941,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -2027,8 +2027,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -2191,8 +2191,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"description": "revert_to 触发时产生的信息",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "revert_to 触发时产生的信息"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -2249,8 +2249,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -2265,8 +2265,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -2363,20 +2363,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -2445,7 +2445,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -2531,8 +2531,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -2668,8 +2668,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -2684,8 +2684,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -2782,20 +2782,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -2864,7 +2864,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -2950,8 +2950,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -3057,8 +3057,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -3073,8 +3073,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -3171,20 +3171,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -3253,7 +3253,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -3339,8 +3339,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -3591,8 +3591,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -3607,8 +3607,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -3705,20 +3705,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -3787,7 +3787,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -3873,8 +3873,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -4197,8 +4197,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -4213,8 +4213,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -4311,20 +4311,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -4393,7 +4393,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -4479,8 +4479,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -4643,8 +4643,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"description": "revert_to 触发时产生的信息",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "revert_to 触发时产生的信息"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -4701,8 +4701,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -4717,8 +4717,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -4815,20 +4815,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -4897,7 +4897,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -4983,8 +4983,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -5120,8 +5120,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -5136,8 +5136,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -5234,20 +5234,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -5316,7 +5316,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -5402,8 +5402,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -5509,8 +5509,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -5525,8 +5525,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -5623,20 +5623,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -5705,7 +5705,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -5791,8 +5791,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -7191,8 +7191,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -7207,8 +7207,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -7305,20 +7305,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -7387,7 +7387,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -7473,8 +7473,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -10688,8 +10688,8 @@
 											"description": "颜色"
 										},
 										"container": {
-											"description": "该项目应在哪个容器 (如果有)中生成",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "该项目应在哪个容器 (如果有)中生成"
 										},
 										"countdown_action": {
 											"$ref": "#/definitions/UseAction",
@@ -10704,8 +10704,8 @@
 											"type": "number"
 										},
 										"description": {
-											"description": "描述",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "描述"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -10802,20 +10802,20 @@
 												{
 													"properties": {
 														"ctxt": {
-															"description": "翻译上下文",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "翻译上下文"
 														},
 														"str": {
-															"description": "单数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单数名"
 														},
 														"str_pl": {
-															"description": "复数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "复数名"
 														},
 														"str_sp": {
-															"description": "单复数共用名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单复数共用名"
 														}
 													},
 													"type": "object"
@@ -10884,7 +10884,7 @@
 													"material_restriction": {
 														"description": "有主要由该材料制成的物品才能进入。",
 														"items": {
-															"type": "string"
+															"$ref": "#/definitions/MaterialID"
 														},
 														"type": "array"
 													},
@@ -10970,8 +10970,8 @@
 											"description": "附魔数据"
 										},
 										"repairs_like": {
-											"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 										},
 										"repairs_with": {
 											"description": "材质 可用哪些材料修复",
@@ -11294,8 +11294,8 @@
 											"description": "颜色"
 										},
 										"container": {
-											"description": "该项目应在哪个容器 (如果有)中生成",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "该项目应在哪个容器 (如果有)中生成"
 										},
 										"countdown_action": {
 											"$ref": "#/definitions/UseAction",
@@ -11310,8 +11310,8 @@
 											"type": "number"
 										},
 										"description": {
-											"description": "描述",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "描述"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -11408,20 +11408,20 @@
 												{
 													"properties": {
 														"ctxt": {
-															"description": "翻译上下文",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "翻译上下文"
 														},
 														"str": {
-															"description": "单数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单数名"
 														},
 														"str_pl": {
-															"description": "复数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "复数名"
 														},
 														"str_sp": {
-															"description": "单复数共用名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单复数共用名"
 														}
 													},
 													"type": "object"
@@ -11490,7 +11490,7 @@
 													"material_restriction": {
 														"description": "有主要由该材料制成的物品才能进入。",
 														"items": {
-															"type": "string"
+															"$ref": "#/definitions/MaterialID"
 														},
 														"type": "array"
 													},
@@ -11576,8 +11576,8 @@
 											"description": "附魔数据"
 										},
 										"repairs_like": {
-											"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 										},
 										"repairs_with": {
 											"description": "材质 可用哪些材料修复",
@@ -11740,8 +11740,8 @@
 											"type": "array"
 										},
 										"revert_msg": {
-											"description": "revert_to 触发时产生的信息",
-											"type": "string"
+											"$ref": "#/definitions/DescText_1",
+											"description": "revert_to 触发时产生的信息"
 										},
 										"revert_to": {
 											"$ref": "#/definitions/ToolID_1",
@@ -11798,8 +11798,8 @@
 											"description": "颜色"
 										},
 										"container": {
-											"description": "该项目应在哪个容器 (如果有)中生成",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "该项目应在哪个容器 (如果有)中生成"
 										},
 										"countdown_action": {
 											"$ref": "#/definitions/UseAction",
@@ -11814,8 +11814,8 @@
 											"type": "number"
 										},
 										"description": {
-											"description": "描述",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "描述"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -11912,20 +11912,20 @@
 												{
 													"properties": {
 														"ctxt": {
-															"description": "翻译上下文",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "翻译上下文"
 														},
 														"str": {
-															"description": "单数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单数名"
 														},
 														"str_pl": {
-															"description": "复数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "复数名"
 														},
 														"str_sp": {
-															"description": "单复数共用名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单复数共用名"
 														}
 													},
 													"type": "object"
@@ -11994,7 +11994,7 @@
 													"material_restriction": {
 														"description": "有主要由该材料制成的物品才能进入。",
 														"items": {
-															"type": "string"
+															"$ref": "#/definitions/MaterialID"
 														},
 														"type": "array"
 													},
@@ -12080,8 +12080,8 @@
 											"description": "附魔数据"
 										},
 										"repairs_like": {
-											"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 										},
 										"repairs_with": {
 											"description": "材质 可用哪些材料修复",
@@ -12217,8 +12217,8 @@
 											"description": "颜色"
 										},
 										"container": {
-											"description": "该项目应在哪个容器 (如果有)中生成",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "该项目应在哪个容器 (如果有)中生成"
 										},
 										"countdown_action": {
 											"$ref": "#/definitions/UseAction",
@@ -12233,8 +12233,8 @@
 											"type": "number"
 										},
 										"description": {
-											"description": "描述",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "描述"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -12331,20 +12331,20 @@
 												{
 													"properties": {
 														"ctxt": {
-															"description": "翻译上下文",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "翻译上下文"
 														},
 														"str": {
-															"description": "单数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单数名"
 														},
 														"str_pl": {
-															"description": "复数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "复数名"
 														},
 														"str_sp": {
-															"description": "单复数共用名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单复数共用名"
 														}
 													},
 													"type": "object"
@@ -12413,7 +12413,7 @@
 													"material_restriction": {
 														"description": "有主要由该材料制成的物品才能进入。",
 														"items": {
-															"type": "string"
+															"$ref": "#/definitions/MaterialID"
 														},
 														"type": "array"
 													},
@@ -12499,8 +12499,8 @@
 											"description": "附魔数据"
 										},
 										"repairs_like": {
-											"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 										},
 										"repairs_with": {
 											"description": "材质 可用哪些材料修复",
@@ -12606,8 +12606,8 @@
 											"description": "颜色"
 										},
 										"container": {
-											"description": "该项目应在哪个容器 (如果有)中生成",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "该项目应在哪个容器 (如果有)中生成"
 										},
 										"countdown_action": {
 											"$ref": "#/definitions/UseAction",
@@ -12622,8 +12622,8 @@
 											"type": "number"
 										},
 										"description": {
-											"description": "描述",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "描述"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -12720,20 +12720,20 @@
 												{
 													"properties": {
 														"ctxt": {
-															"description": "翻译上下文",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "翻译上下文"
 														},
 														"str": {
-															"description": "单数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单数名"
 														},
 														"str_pl": {
-															"description": "复数名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "复数名"
 														},
 														"str_sp": {
-															"description": "单复数共用名",
-															"type": "string"
+															"$ref": "#/definitions/DescText_1",
+															"description": "单复数共用名"
 														}
 													},
 													"type": "object"
@@ -12802,7 +12802,7 @@
 													"material_restriction": {
 														"description": "有主要由该材料制成的物品才能进入。",
 														"items": {
-															"type": "string"
+															"$ref": "#/definitions/MaterialID"
 														},
 														"type": "array"
 													},
@@ -12888,8 +12888,8 @@
 											"description": "附魔数据"
 										},
 										"repairs_like": {
-											"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-											"type": "string"
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 										},
 										"repairs_with": {
 											"description": "材质 可用哪些材料修复",
@@ -15106,6 +15106,14 @@
 				"SHORT_SWORDS",
 				"SPEARS"
 			],
+			"type": "string"
+		},
+		"DescText": {
+			"description": "描述性文本",
+			"type": "string"
+		},
+		"DescText_1": {
+			"description": "描述性文本",
 			"type": "string"
 		},
 		"DmgInfo": {
@@ -18920,8 +18928,8 @@
 			"description": "效果肢体能力修正",
 			"properties": {
 				"limb_score": {
-					"description": "目标能力",
-					"type": "string"
+					"$ref": "#/definitions/LimbScoreID",
+					"description": "目标能力"
 				},
 				"modifier": {
 					"description": "乘数调整值 默认1",
@@ -35496,8 +35504,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -35512,8 +35520,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -35610,20 +35618,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -35692,7 +35700,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -35778,8 +35786,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -35864,8 +35872,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"countdown_action": {
 					"$ref": "#/definitions/UseAction",
@@ -35880,8 +35888,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "描述"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -35978,20 +35986,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -36060,7 +36068,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -36146,8 +36154,8 @@
 					"description": "附魔数据"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -36932,8 +36940,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -36948,8 +36956,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -37046,20 +37054,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -37128,7 +37136,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -37214,8 +37222,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -39694,8 +39702,8 @@
 					"description": "标识此肢体得分"
 				},
 				"name": {
-					"description": "必填。定义将在用户界面中显示的此肢体得分的可翻译名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "必填。定义将在用户界面中显示的此肢体得分的可翻译名称"
 				},
 				"type": {
 					"const": "limb_score",
@@ -39970,8 +39978,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -39986,8 +39994,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -40084,20 +40092,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -40166,7 +40174,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -40252,8 +40260,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -40471,7 +40479,7 @@
 					"type": "number"
 				},
 				"name": {
-					"type": "string"
+					"$ref": "#/definitions/DescText"
 				},
 				"reinforces": {
 					"description": "是否强化？",
@@ -41380,7 +41388,7 @@
 			"type": "object"
 		},
 		"Mutation": {
-			"$ref": "#/definitions/__type_81"
+			"$ref": "#/definitions/__type_82"
 		},
 		"MutationID": {
 			"anyOf": [
@@ -41551,7 +41559,7 @@
 			"type": "number"
 		},
 		"NpcClass": {
-			"$ref": "#/definitions/__type_82"
+			"$ref": "#/definitions/__type_83"
 		},
 		"NpcClassID": {
 			"anyOf": [
@@ -41579,7 +41587,7 @@
 			"type": "string"
 		},
 		"NpcInstance": {
-			"$ref": "#/definitions/__type_83"
+			"$ref": "#/definitions/__type_84"
 		},
 		"NpcInstanceID": {
 			"anyOf": [
@@ -43476,7 +43484,7 @@
 				"material_restriction": {
 					"description": "有主要由该材料制成的物品才能进入。",
 					"items": {
-						"type": "string"
+						"$ref": "#/definitions/MaterialID"
 					},
 					"type": "array"
 				},
@@ -43737,8 +43745,8 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
 								},
 								"failure_topic": {
 									"$ref": "#/definitions/TalkTopicID_1",
@@ -43749,8 +43757,8 @@
 									"type": "boolean"
 								},
 								"text": {
-									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
 								},
 								"truefalsetext": {
 									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -43760,12 +43768,12 @@
 											"description": "条件"
 										},
 										"false": {
-											"description": "条件为假时的text",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "条件为假时的text"
 										},
 										"true": {
-											"description": "条件为真时的text",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "条件为真时的text"
 										}
 									},
 									"required": [
@@ -43867,8 +43875,8 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
 								},
 								"failure_topic": {
 									"$ref": "#/definitions/TalkTopicID_1",
@@ -43879,8 +43887,8 @@
 									"type": "boolean"
 								},
 								"text": {
-									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
 								},
 								"truefalsetext": {
 									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -43890,12 +43898,12 @@
 											"description": "条件"
 										},
 										"false": {
-											"description": "条件为假时的text",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "条件为假时的text"
 										},
 										"true": {
-											"description": "条件为真时的text",
-											"type": "string"
+											"$ref": "#/definitions/DescText",
+											"description": "条件为真时的text"
 										}
 									},
 									"required": [
@@ -43925,8 +43933,8 @@
 					"type": "boolean"
 				},
 				"failure_explanation": {
-					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
 				},
 				"failure_topic": {
 					"$ref": "#/definitions/TalkTopicID_1",
@@ -43937,8 +43945,8 @@
 					"type": "boolean"
 				},
 				"text": {
-					"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
 				},
 				"truefalsetext": {
 					"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -43948,12 +43956,12 @@
 							"description": "条件"
 						},
 						"false": {
-							"description": "条件为假时的text",
-							"type": "string"
+							"$ref": "#/definitions/DescText",
+							"description": "条件为假时的text"
 						},
 						"true": {
-							"description": "条件为真时的text",
-							"type": "string"
+							"$ref": "#/definitions/DescText",
+							"description": "条件为真时的text"
 						}
 					},
 					"required": [
@@ -44429,6 +44437,23 @@
 			],
 			"description": "音效ID"
 		},
+		"SoundEffectID_1": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^SE_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_SE_.*$",
+					"type": "string"
+				}
+			],
+			"description": "音效ID"
+		},
 		"SoundEffectVariantID": {
 			"anyOf": [
 				{
@@ -44446,8 +44471,25 @@
 			],
 			"description": "音效变体ID"
 		},
+		"SoundEffectVariantID_1": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^SEV_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_SEV_.*$",
+					"type": "string"
+				}
+			],
+			"description": "音效变体ID"
+		},
 		"SoundEffect_1": {
-			"$ref": "#/definitions/__type_84"
+			"$ref": "#/definitions/__type_80"
 		},
 		"SpawnItem": {
 			"anyOf": [
@@ -44532,7 +44574,7 @@
 			"description": "特殊的字效果"
 		},
 		"Spell": {
-			"$ref": "#/definitions/__type_80"
+			"$ref": "#/definitions/__type_81"
 		},
 		"SpellEffect": {
 			"description": "法术效果",
@@ -45647,8 +45689,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"description": "revert_to 触发时产生的信息",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "revert_to 触发时产生的信息"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -45705,8 +45747,8 @@
 									"description": "颜色"
 								},
 								"container": {
-									"description": "该项目应在哪个容器 (如果有)中生成",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "该项目应在哪个容器 (如果有)中生成"
 								},
 								"countdown_action": {
 									"$ref": "#/definitions/UseAction",
@@ -45721,8 +45763,8 @@
 									"type": "number"
 								},
 								"description": {
-									"description": "描述",
-									"type": "string"
+									"$ref": "#/definitions/DescText",
+									"description": "描述"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -45819,20 +45861,20 @@
 										{
 											"properties": {
 												"ctxt": {
-													"description": "翻译上下文",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "翻译上下文"
 												},
 												"str": {
-													"description": "单数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单数名"
 												},
 												"str_pl": {
-													"description": "复数名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "复数名"
 												},
 												"str_sp": {
-													"description": "单复数共用名",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "单复数共用名"
 												}
 											},
 											"type": "object"
@@ -45901,7 +45943,7 @@
 											"material_restriction": {
 												"description": "有主要由该材料制成的物品才能进入。",
 												"items": {
-													"type": "string"
+													"$ref": "#/definitions/MaterialID"
 												},
 												"type": "array"
 											},
@@ -45987,8 +46029,8 @@
 									"description": "附魔数据"
 								},
 								"repairs_like": {
-									"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-									"type": "string"
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 								},
 								"repairs_with": {
 									"description": "材质 可用哪些材料修复",
@@ -47502,8 +47544,8 @@
 					"description": "启用条件"
 				},
 				"description": {
-					"description": "附魔的说明",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "附魔的说明"
 				},
 				"emitter": {
 					"$ref": "#/definitions/EmitID",
@@ -47552,16 +47594,16 @@
 								"description": "最大法术等级"
 							},
 							"message": {
-								"description": "释放时的消息",
-								"type": "string"
+								"$ref": "#/definitions/DescText_1",
+								"description": "释放时的消息"
 							},
 							"min_level": {
 								"$ref": "#/definitions/NumObj",
 								"description": "最小法术等级"
 							},
 							"npc_message": {
-								"description": "npc释放时的消息",
-								"type": "string"
+								"$ref": "#/definitions/DescText_1",
+								"description": "npc释放时的消息"
 							},
 							"once_in": {
 								"$ref": "#/definitions/NumObj",
@@ -47593,16 +47635,16 @@
 								"description": "最大法术等级"
 							},
 							"message": {
-								"description": "释放时的消息",
-								"type": "string"
+								"$ref": "#/definitions/DescText_1",
+								"description": "释放时的消息"
 							},
 							"min_level": {
 								"$ref": "#/definitions/NumObj",
 								"description": "最小法术等级"
 							},
 							"npc_message": {
-								"description": "npc释放时的消息",
-								"type": "string"
+								"$ref": "#/definitions/DescText_1",
+								"description": "npc释放时的消息"
 							},
 							"once_in": {
 								"$ref": "#/definitions/NumObj",
@@ -47645,16 +47687,16 @@
 													"description": "最大法术等级"
 												},
 												"message": {
-													"description": "释放时的消息",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "释放时的消息"
 												},
 												"min_level": {
 													"$ref": "#/definitions/NumObj",
 													"description": "最小法术等级"
 												},
 												"npc_message": {
-													"description": "npc释放时的消息",
-													"type": "string"
+													"$ref": "#/definitions/DescText_1",
+													"description": "npc释放时的消息"
 												},
 												"once_in": {
 													"$ref": "#/definitions/NumObj",
@@ -47723,8 +47765,8 @@
 					"type": "array"
 				},
 				"name": {
-					"description": "附魔的名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "附魔的名称"
 				},
 				"values": {
 					"description": "附魔的数值增幅",
@@ -50752,8 +50794,8 @@
 														"description": "颜色"
 													},
 													"container": {
-														"description": "该项目应在哪个容器 (如果有)中生成",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "该项目应在哪个容器 (如果有)中生成"
 													},
 													"countdown_action": {
 														"$ref": "#/definitions/UseAction",
@@ -50768,8 +50810,8 @@
 														"type": "number"
 													},
 													"description": {
-														"description": "描述",
-														"type": "string"
+														"$ref": "#/definitions/DescText",
+														"description": "描述"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -50866,20 +50908,20 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"description": "翻译上下文",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"description": "单数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"description": "复数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"description": "单复数共用名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单复数共用名"
 																	}
 																},
 																"type": "object"
@@ -50948,7 +50990,7 @@
 																"material_restriction": {
 																	"description": "有主要由该材料制成的物品才能进入。",
 																	"items": {
-																		"type": "string"
+																		"$ref": "#/definitions/MaterialID"
 																	},
 																	"type": "array"
 																},
@@ -51034,8 +51076,8 @@
 														"description": "附魔数据"
 													},
 													"repairs_like": {
-														"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 													},
 													"repairs_with": {
 														"description": "材质 可用哪些材料修复",
@@ -51358,8 +51400,8 @@
 														"description": "颜色"
 													},
 													"container": {
-														"description": "该项目应在哪个容器 (如果有)中生成",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "该项目应在哪个容器 (如果有)中生成"
 													},
 													"countdown_action": {
 														"$ref": "#/definitions/UseAction",
@@ -51374,8 +51416,8 @@
 														"type": "number"
 													},
 													"description": {
-														"description": "描述",
-														"type": "string"
+														"$ref": "#/definitions/DescText",
+														"description": "描述"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -51472,20 +51514,20 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"description": "翻译上下文",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"description": "单数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"description": "复数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"description": "单复数共用名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单复数共用名"
 																	}
 																},
 																"type": "object"
@@ -51554,7 +51596,7 @@
 																"material_restriction": {
 																	"description": "有主要由该材料制成的物品才能进入。",
 																	"items": {
-																		"type": "string"
+																		"$ref": "#/definitions/MaterialID"
 																	},
 																	"type": "array"
 																},
@@ -51640,8 +51682,8 @@
 														"description": "附魔数据"
 													},
 													"repairs_like": {
-														"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 													},
 													"repairs_with": {
 														"description": "材质 可用哪些材料修复",
@@ -51804,8 +51846,8 @@
 														"type": "array"
 													},
 													"revert_msg": {
-														"description": "revert_to 触发时产生的信息",
-														"type": "string"
+														"$ref": "#/definitions/DescText_1",
+														"description": "revert_to 触发时产生的信息"
 													},
 													"revert_to": {
 														"$ref": "#/definitions/ToolID_1",
@@ -51862,8 +51904,8 @@
 														"description": "颜色"
 													},
 													"container": {
-														"description": "该项目应在哪个容器 (如果有)中生成",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "该项目应在哪个容器 (如果有)中生成"
 													},
 													"countdown_action": {
 														"$ref": "#/definitions/UseAction",
@@ -51878,8 +51920,8 @@
 														"type": "number"
 													},
 													"description": {
-														"description": "描述",
-														"type": "string"
+														"$ref": "#/definitions/DescText",
+														"description": "描述"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -51976,20 +52018,20 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"description": "翻译上下文",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"description": "单数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"description": "复数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"description": "单复数共用名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单复数共用名"
 																	}
 																},
 																"type": "object"
@@ -52058,7 +52100,7 @@
 																"material_restriction": {
 																	"description": "有主要由该材料制成的物品才能进入。",
 																	"items": {
-																		"type": "string"
+																		"$ref": "#/definitions/MaterialID"
 																	},
 																	"type": "array"
 																},
@@ -52144,8 +52186,8 @@
 														"description": "附魔数据"
 													},
 													"repairs_like": {
-														"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 													},
 													"repairs_with": {
 														"description": "材质 可用哪些材料修复",
@@ -52281,8 +52323,8 @@
 														"description": "颜色"
 													},
 													"container": {
-														"description": "该项目应在哪个容器 (如果有)中生成",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "该项目应在哪个容器 (如果有)中生成"
 													},
 													"countdown_action": {
 														"$ref": "#/definitions/UseAction",
@@ -52297,8 +52339,8 @@
 														"type": "number"
 													},
 													"description": {
-														"description": "描述",
-														"type": "string"
+														"$ref": "#/definitions/DescText",
+														"description": "描述"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -52395,20 +52437,20 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"description": "翻译上下文",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"description": "单数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"description": "复数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"description": "单复数共用名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单复数共用名"
 																	}
 																},
 																"type": "object"
@@ -52477,7 +52519,7 @@
 																"material_restriction": {
 																	"description": "有主要由该材料制成的物品才能进入。",
 																	"items": {
-																		"type": "string"
+																		"$ref": "#/definitions/MaterialID"
 																	},
 																	"type": "array"
 																},
@@ -52563,8 +52605,8 @@
 														"description": "附魔数据"
 													},
 													"repairs_like": {
-														"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 													},
 													"repairs_with": {
 														"description": "材质 可用哪些材料修复",
@@ -52670,8 +52712,8 @@
 														"description": "颜色"
 													},
 													"container": {
-														"description": "该项目应在哪个容器 (如果有)中生成",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "该项目应在哪个容器 (如果有)中生成"
 													},
 													"countdown_action": {
 														"$ref": "#/definitions/UseAction",
@@ -52686,8 +52728,8 @@
 														"type": "number"
 													},
 													"description": {
-														"description": "描述",
-														"type": "string"
+														"$ref": "#/definitions/DescText",
+														"description": "描述"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -52784,20 +52826,20 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"description": "翻译上下文",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"description": "单数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"description": "复数名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"description": "单复数共用名",
-																		"type": "string"
+																		"$ref": "#/definitions/DescText_1",
+																		"description": "单复数共用名"
 																	}
 																},
 																"type": "object"
@@ -52866,7 +52908,7 @@
 																"material_restriction": {
 																	"description": "有主要由该材料制成的物品才能进入。",
 																	"items": {
-																		"type": "string"
+																		"$ref": "#/definitions/MaterialID"
 																	},
 																	"type": "array"
 																},
@@ -52952,8 +52994,8 @@
 														"description": "附魔数据"
 													},
 													"repairs_like": {
-														"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-														"type": "string"
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 													},
 													"repairs_with": {
 														"description": "材质 可用哪些材料修复",
@@ -55876,8 +55918,8 @@
 					"type": "array"
 				},
 				"title": {
-					"description": "整体选项的标题",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "整体选项的标题"
 				},
 				"variables": {
 					"$ref": "#/definitions/Record",
@@ -57692,16 +57734,16 @@
 					"description": "最大法术等级"
 				},
 				"message": {
-					"description": "释放时的消息",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "释放时的消息"
 				},
 				"min_level": {
 					"$ref": "#/definitions/NumObj",
 					"description": "最小法术等级"
 				},
 				"npc_message": {
-					"description": "npc释放时的消息",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "npc释放时的消息"
 				},
 				"once_in": {
 					"$ref": "#/definitions/NumObj",
@@ -58206,8 +58248,8 @@
 					"description": "评价类型"
 				},
 				"text": {
-					"description": "消息文本",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "消息文本"
 				}
 			},
 			"required": [
@@ -60013,40 +60055,40 @@
 			"description": "任务对话字典",
 			"properties": {
 				"accepted": {
-					"description": "玩家接受任务后 NPC 的反应",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "玩家接受任务后 NPC 的反应"
 				},
 				"advice": {
-					"description": "如果玩家询问如何完成任务的建议，他们会听到以下内容",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "如果玩家询问如何完成任务的建议，他们会听到以下内容"
 				},
 				"describe": {
-					"description": "NPC 对任务的总体描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "NPC 对任务的总体描述"
 				},
 				"failure": {
-					"description": "如果玩家报告任务失败，NPC 的反应",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "如果玩家报告任务失败，NPC 的反应"
 				},
 				"inquire": {
-					"description": "如果 NPC 询问玩家任务进展如何，则使用此选项",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "如果 NPC 询问玩家任务进展如何，则使用此选项"
 				},
 				"offer": {
-					"description": "当玩家选择该任务时给出的任务细节",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "当玩家选择该任务时给出的任务细节"
 				},
 				"rejected": {
-					"description": "玩家拒绝任务时NPC的反应",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "玩家拒绝任务时NPC的反应"
 				},
 				"success": {
-					"description": "NPC 对任务成功报告的回应",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "NPC 对任务成功报告的回应"
 				},
 				"success_lie": {
-					"description": "如果 NPC 发现玩家在任务成功的问题上撒谎，他们会做出什么反应",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "如果 NPC 发现玩家在任务成功的问题上撒谎，他们会做出什么反应"
 				}
 			},
 			"required": [
@@ -60180,8 +60222,8 @@
 					"type": "number"
 				},
 				"field_type": {
-					"description": "地块附着物类型  \n将产生的地块附着物；默认 \"fd_null\"",
-					"type": "string"
+					"$ref": "#/definitions/FieldID_1",
+					"description": "地块附着物类型  \n将产生的地块附着物；默认 \"fd_null\""
 				},
 				"intensity_max": {
 					"description": "最大强度  \n地块附着物的最大强度；默认 0",
@@ -60345,8 +60387,8 @@
 					"type": "number"
 				},
 				"summon_msg": {
-					"description": "生成时播报的消息",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "生成时播报的消息"
 				},
 				"type": {
 					"const": "place_npc",
@@ -60364,8 +60406,8 @@
 			"description": "运行Eoc",
 			"properties": {
 				"description": {
-					"description": "说明",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "说明"
 				},
 				"effect_on_conditions": {
 					"description": "eoc列表",
@@ -60825,8 +60867,8 @@
 					"type": "number"
 				},
 				"fields_type": {
-					"description": "产生的地形效果",
-					"type": "string"
+					"$ref": "#/definitions/FieldID_1",
+					"description": "产生的地形效果"
 				},
 				"flashbang_player_immune": {
 					"description": "玩家是否免疫闪光弹效果",
@@ -60956,7 +60998,7 @@
 				"material_restriction": {
 					"description": "有主要由该材料制成的物品才能进入。",
 					"items": {
-						"type": "string"
+						"$ref": "#/definitions/MaterialID"
 					},
 					"type": "array"
 				},
@@ -61102,8 +61144,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"count": {
 					"description": "一次生成的数量",
@@ -61138,8 +61180,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"dispersion": {
 					"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
@@ -61254,20 +61296,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -61336,7 +61378,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -61442,8 +61484,8 @@
 					"description": "附魔数据"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -61577,8 +61619,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"countdown_action": {
 					"$ref": "#/definitions/UseAction",
@@ -61600,8 +61642,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"dispersion": {
 					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
@@ -61805,20 +61847,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -61887,7 +61929,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -62009,8 +62051,8 @@
 					"type": "number"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -62131,8 +62173,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"countdown_action": {
 					"$ref": "#/definitions/UseAction",
@@ -62147,8 +62189,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -62260,20 +62302,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -62342,7 +62384,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -62461,8 +62503,8 @@
 					"description": "附魔数据"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -62472,8 +62514,8 @@
 					"type": "array"
 				},
 				"revert_msg": {
-					"description": "revert_to 触发时产生的信息",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "revert_to 触发时产生的信息"
 				},
 				"revert_to": {
 					"$ref": "#/definitions/ToolID_1",
@@ -63466,8 +63508,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"count": {
 					"description": "弹匣包含的默认弹药量 (为弹药带设置此值)",
@@ -63490,8 +63532,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -63595,20 +63637,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -63677,7 +63719,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -63767,8 +63809,8 @@
 					"type": "number"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -63826,8 +63868,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"countdown_action": {
 					"$ref": "#/definitions/UseAction",
@@ -63842,8 +63884,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -63942,20 +63984,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -64024,7 +64066,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -64110,8 +64152,8 @@
 					"description": "附魔数据"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -64264,8 +64306,8 @@
 					"description": "颜色"
 				},
 				"container": {
-					"description": "该项目应在哪个容器 (如果有)中生成",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
 				},
 				"countdown_action": {
 					"$ref": "#/definitions/UseAction",
@@ -64280,8 +64322,8 @@
 					"type": "number"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
 				},
 				"environmental_protection": {
 					"description": "环境保护",
@@ -64384,20 +64426,20 @@
 						{
 							"properties": {
 								"ctxt": {
-									"description": "翻译上下文",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
 								},
 								"str": {
-									"description": "单数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
 								},
 								"str_pl": {
-									"description": "复数名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
 								},
 								"str_sp": {
-									"description": "单复数共用名",
-									"type": "string"
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
 								}
 							},
 							"type": "object"
@@ -64466,7 +64508,7 @@
 							"material_restriction": {
 								"description": "有主要由该材料制成的物品才能进入。",
 								"items": {
-									"type": "string"
+									"$ref": "#/definitions/MaterialID"
 								},
 								"type": "array"
 							},
@@ -64552,8 +64594,8 @@
 					"description": "附魔数据"
 				},
 				"repairs_like": {
-					"description": "如果该物品没有配方, 则修复该物品时等同于配方",
-					"type": "string"
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
 				},
 				"repairs_with": {
 					"description": "材质 可用哪些材料修复",
@@ -64631,8 +64673,8 @@
 					"description": "启用条件"
 				},
 				"description": {
-					"description": "附魔的说明",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "附魔的说明"
 				},
 				"emitter": {
 					"$ref": "#/definitions/EmitID",
@@ -64680,7 +64722,8 @@
 					"type": "array"
 				},
 				"id": {
-					"$ref": "#/definitions/EnchantmentID"
+					"$ref": "#/definitions/EnchantmentID",
+					"description": "附魔唯一ID"
 				},
 				"intermittent_activation": {
 					"description": "定时触发的效果",
@@ -64756,8 +64799,8 @@
 					"type": "array"
 				},
 				"name": {
-					"description": "附魔的名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "附魔的名称"
 				},
 				"type": {
 					"const": "enchantment",
@@ -64800,8 +64843,8 @@
 			"description": "效果",
 			"properties": {
 				"apply_memorial_log": {
-					"description": "效果被添加时产生的log",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "效果被添加时产生的log"
 				},
 				"apply_message": {
 					"anyOf": [
@@ -64844,6 +64887,10 @@
 					},
 					"type": "array"
 				},
+				"blood_analysis_description": {
+					"$ref": "#/definitions/DescText_1",
+					"description": "拥有此效果时进行血液分析可得出的说明"
+				},
 				"chance_kill": {
 					"description": "每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
 					"items": {
@@ -64883,8 +64930,8 @@
 					"type": "string"
 				},
 				"death_msg": {
-					"description": "因此效果而死亡时产生的消息",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "因此效果而死亡时产生的消息"
 				},
 				"decay_messages": {
 					"description": "效果产生自然调整时产生的消息  \n[消息,效果评价][]  \n按效果强度应用不同成员",
@@ -64978,8 +65025,8 @@
 						"description": "效果肢体能力修正",
 						"properties": {
 							"limb_score": {
-								"description": "目标能力",
-								"type": "string"
+								"$ref": "#/definitions/LimbScoreID",
+								"description": "目标能力"
 							},
 							"modifier": {
 								"description": "乘数调整值 默认1",
@@ -65070,8 +65117,8 @@
 					"type": "array"
 				},
 				"remove_memorial_log": {
-					"description": "效果被移除时产生的log",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "效果被移除时产生的log"
 				},
 				"remove_message": {
 					"anyOf": [
@@ -66082,6 +66129,60 @@
 			"type": "object"
 		},
 		"__type_80": {
+			"description": "音效",
+			"properties": {
+				"files": {
+					"description": "文件路径 从音效包起始",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"id": {
+					"$ref": "#/definitions/SoundEffectID",
+					"description": "音效ID"
+				},
+				"is_indoors": {
+					"description": "如果已定义, 则只有当玩家在室内/室外 (true/false 时)时才会播放声音。",
+					"type": "boolean"
+				},
+				"is_night": {
+					"description": "如果已定义, 则仅当当前时间为夜间/白天 (当 true/false 时)时才会播放声音。",
+					"type": "boolean"
+				},
+				"season": {
+					"description": "如果定义, 声音将仅在指定季节播放。 (可能的值为spring、summer、autumn和winter)。",
+					"enum": [
+						"autumn",
+						"spring",
+						"summer",
+						"winter"
+					],
+					"type": "string"
+				},
+				"type": {
+					"const": "sound_effect",
+					"type": "string"
+				},
+				"variant": {
+					"$ref": "#/definitions/SoundEffectVariantID",
+					"description": "音效变体ID"
+				},
+				"volume": {
+					"description": "音量",
+					"type": "number"
+				}
+			},
+			"required": [
+				"files",
+				"id",
+				"type",
+				"variant",
+				"volume"
+			],
+			"type": "object"
+		},
+		"__type_81": {
 			"description": "法术",
 			"properties": {
 				"accuracy_increment": {
@@ -66127,7 +66228,7 @@
 					"description": "法术的伤害类型  \n伤害法术必须定义伤害类型"
 				},
 				"description": {
-					"type": "string"
+					"$ref": "#/definitions/DescText"
 				},
 				"difficulty": {
 					"$ref": "#/definitions/NumObj",
@@ -66309,7 +66410,7 @@
 					"description": "初始法术施法范围"
 				},
 				"name": {
-					"type": "string"
+					"$ref": "#/definitions/DescText"
 				},
 				"pierce_increment": {
 					"$ref": "#/definitions/NumObj",
@@ -66328,20 +66429,20 @@
 					"type": "boolean"
 				},
 				"sound_description": {
-					"description": "发书产生的声音描述 起效于\"You hear %s\" 默认为 \"an explosion\"",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "发书产生的声音描述 起效于\"You hear %s\" 默认为 \"an explosion\""
 				},
 				"sound_id": {
-					"description": "声音ID",
-					"type": "string"
+					"$ref": "#/definitions/SoundEffectID_1",
+					"description": "声音ID"
 				},
 				"sound_type": {
 					"$ref": "#/definitions/SpellSoundType",
 					"description": "法术产生的声音类型"
 				},
 				"sound_variant": {
-					"description": "声音变体ID",
-					"type": "string"
+					"$ref": "#/definitions/SoundEffectVariantID_1",
+					"description": "声音变体ID"
 				},
 				"spell_class": {
 					"description": "属于哪个职业的法术",
@@ -66391,7 +66492,7 @@
 			],
 			"type": "object"
 		},
-		"__type_81": {
+		"__type_82": {
 			"description": "变异",
 			"properties": {
 				"activated_eocs": {
@@ -66518,8 +66619,8 @@
 					"type": "array"
 				},
 				"description": {
-					"description": "描述",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "描述"
 				},
 				"destroys_gear": {
 					"description": "如果为 true, 则在突变时会销毁“restricts_gear”位置中的齿轮 (默认值: false)",
@@ -66733,8 +66834,8 @@
 					"type": "number"
 				},
 				"name": {
-					"description": "名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "名称"
 				},
 				"no_cbm_on_bp": {
 					"description": "不能接收CBMs的身体部位列表 (默认值: 空)",
@@ -66796,8 +66897,8 @@
 					"description": "突变激活允许你射击假枪",
 					"properties": {
 						"message": {
-							"description": "射击时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText",
+							"description": "射击时的消息"
 						},
 						"type": {
 							"$ref": "#/definitions/GunID",
@@ -66856,8 +66957,8 @@
 					"description": "此突变激活产生一个物品",
 					"properties": {
 						"message": {
-							"description": "生成时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText",
+							"description": "生成时的消息"
 						},
 						"type": {
 							"$ref": "#/definitions/AnyItemID",
@@ -66935,8 +67036,8 @@
 							"type": "number"
 						},
 						"msg_transform": {
-							"description": "变形时显示的消息。",
-							"type": "string"
+							"$ref": "#/definitions/DescText",
+							"description": "变形时显示的消息。"
 						},
 						"safe": {
 							"description": "如果为真, 转变将使用正常的突变进展规则 - 移除冲突特性, 需要阈值 (但不使用任何维生素或引起不稳定)",
@@ -67049,7 +67150,7 @@
 			],
 			"type": "object"
 		},
-		"__type_82": {
+		"__type_83": {
 			"properties": {
 				"bonus_dex": {
 					"$ref": "#/definitions/NpcNumObj",
@@ -67079,18 +67180,18 @@
 					"$ref": "#/definitions/NpcClassID"
 				},
 				"job_description": {
-					"type": "string"
+					"$ref": "#/definitions/DescText"
 				},
 				"mutation_rounds": {
 					"$ref": "#/definitions/MutationRounds",
 					"description": "变异方向  \nMutation rounds can be specified as follows:  \n\"mutation_rounds\": {  \n \"ANY\" : { \"constant\": 1 },  \n \"INSECT\" : { \"rng\": [1, 3] }  \n}"
 				},
 				"name": {
-					"type": "string"
+					"$ref": "#/definitions/DescText"
 				},
 				"restock_interval": {
 					"description": "默认值为 6 天",
-					"pattern": "^.* days$",
+					"pattern": "^[0-9]* days$",
 					"type": "string"
 				},
 				"sells_belongings": {
@@ -67211,7 +67312,7 @@
 			],
 			"type": "object"
 		},
-		"__type_83": {
+		"__type_84": {
 			"description": "Npc实例",
 			"properties": {
 				"age": {
@@ -67265,12 +67366,12 @@
 					"description": "初始行为"
 				},
 				"name_suffix": {
-					"description": "名称后缀",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "名称后缀"
 				},
 				"name_unique": {
-					"description": "独特名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "独特名称"
 				},
 				"per": {
 					"description": "npc的感知",
@@ -67317,66 +67418,12 @@
 			],
 			"type": "object"
 		},
-		"__type_84": {
-			"description": "音效",
-			"properties": {
-				"files": {
-					"description": "文件路径 从音效包起始",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
-				},
-				"id": {
-					"$ref": "#/definitions/SoundEffectID",
-					"description": "音效ID"
-				},
-				"is_indoors": {
-					"description": "如果已定义, 则只有当玩家在室内/室外 (true/false 时)时才会播放声音。",
-					"type": "boolean"
-				},
-				"is_night": {
-					"description": "如果已定义, 则仅当当前时间为夜间/白天 (当 true/false 时)时才会播放声音。",
-					"type": "boolean"
-				},
-				"season": {
-					"description": "如果定义, 声音将仅在指定季节播放。 (可能的值为spring、summer、autumn和winter)。",
-					"enum": [
-						"autumn",
-						"spring",
-						"summer",
-						"winter"
-					],
-					"type": "string"
-				},
-				"type": {
-					"const": "sound_effect",
-					"type": "string"
-				},
-				"variant": {
-					"$ref": "#/definitions/SoundEffectVariantID",
-					"description": "音效变体ID"
-				},
-				"volume": {
-					"description": "音量",
-					"type": "number"
-				}
-			},
-			"required": [
-				"files",
-				"id",
-				"type",
-				"variant",
-				"volume"
-			],
-			"type": "object"
-		},
 		"__type_85": {
 			"description": "任务定义",
 			"properties": {
 				"description": {
-					"description": "任务说明",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "任务说明"
 				},
 				"dialogue": {
 					"$ref": "#/definitions/MissionDialog",
@@ -67410,8 +67457,8 @@
 					"description": "如果目标是寻找道具，目标的道具ID"
 				},
 				"name": {
-					"description": "任务名",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "任务名"
 				},
 				"origins": {
 					"description": "任务来源",
@@ -68665,8 +68712,8 @@
 					"type": "boolean"
 				},
 				"name": {
-					"description": "伤害类型的名称, 如在物品信息屏幕中的保护值中显示",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "伤害类型的名称, 如在物品信息屏幕中的保护值中显示"
 				},
 				"no_resist": {
 					"description": "(可选) 将此伤害类型标识为无法抵抗的（即“纯”伤害）(默认为false)",
@@ -68747,8 +68794,8 @@
 					"type": "string"
 				},
 				"verb": {
-					"description": "(可选) 描述如何应用此伤害类型的动词（例如：\"bashing\"）。在物品信息的近战部分使用",
-					"type": "string"
+					"$ref": "#/definitions/DescText_1",
+					"description": "(可选) 描述如何应用此伤害类型的动词（例如：\"bashing\"）。在物品信息的近战部分使用"
 				}
 			},
 			"required": [
@@ -68829,8 +68876,8 @@
 					"description": "唯一ID"
 				},
 				"name": {
-					"description": "弹药名称",
-					"type": "string"
+					"$ref": "#/definitions/DescText",
+					"description": "弹药名称"
 				},
 				"type": {
 					"const": "ammunition_type",
@@ -70185,19 +70232,22 @@
 		"__type_96": {
 			"description": "额外造成某种类型的伤害",
 			"properties": {
-				"count": {
-					"$ref": "#/definitions/NumObj_1"
+				"amount": {
+					"$ref": "#/definitions/NumObj_1",
+					"description": "伤害量"
 				},
 				"damage_type": {
-					"$ref": "#/definitions/DamageTypeID"
+					"$ref": "#/definitions/DamageTypeID",
+					"description": "伤害类型id"
 				},
 				"type": {
 					"const": "ExtDamage",
+					"description": "额外伤害",
 					"type": "string"
 				}
 			},
 			"required": [
-				"count",
+				"amount",
 				"damage_type",
 				"type"
 			],
@@ -71637,16 +71687,16 @@
 							"description": "最大法术等级"
 						},
 						"message": {
-							"description": "释放时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText_1",
+							"description": "释放时的消息"
 						},
 						"min_level": {
 							"$ref": "#/definitions/NumObj",
 							"description": "最小法术等级"
 						},
 						"npc_message": {
-							"description": "npc释放时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText_1",
+							"description": "npc释放时的消息"
 						},
 						"once_in": {
 							"$ref": "#/definitions/NumObj",
@@ -72407,16 +72457,16 @@
 							"description": "最大法术等级"
 						},
 						"message": {
-							"description": "释放时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText_1",
+							"description": "释放时的消息"
 						},
 						"min_level": {
 							"$ref": "#/definitions/NumObj",
 							"description": "最小法术等级"
 						},
 						"npc_message": {
-							"description": "npc释放时的消息",
-							"type": "string"
+							"$ref": "#/definitions/DescText_1",
+							"description": "npc释放时的消息"
 						},
 						"once_in": {
 							"$ref": "#/definitions/NumObj",

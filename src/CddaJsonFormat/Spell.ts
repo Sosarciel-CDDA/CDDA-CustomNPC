@@ -33,6 +33,8 @@ export type Spell = {
     targeted_monster_ids?:MonsterID[];
     /**如果法术可以对生物释放 有效的怪物特殊标签 */
     targeted_monster_species?:string[];
+    /**如果法术可以对生物释放 排除的怪物特殊标签 */
+    ignored_monster_species?:string[];
     /**法术效果类型 */
 	effect: SpellEffect;
     /**法术效果子类型  
@@ -150,6 +152,7 @@ export const SpellTargetList = [
     "ground" ,//地面
     "self"   ,//自己
     "ally"   ,//盟友
+    "field"  ,//地块效果
     "none"   ,//无
 ] as const;
 /**法术有效目标 */

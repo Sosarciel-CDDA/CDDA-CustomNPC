@@ -184,7 +184,7 @@ export type Effect = {
      */
     enchantments?:ParamsEnchantment[];
     /**拥有此效果时进行血液分析可得出的说明 */
-    blood_analysis_description: DescText;
+    blood_analysis_description?: DescText;
 };
 
 
@@ -257,11 +257,11 @@ export type EffectLimbMod ={
  * 如果确实存在, 那么机会是 X_chance/X_chance_bot
  */
 export const EffectModTypeList = [
-"str_mod"		,//正值提高统计数据, 负值降低统计数据
-"dex_mod"		,//正值提高统计数据, 负值降低统计数据
-"per_mod"		,//正值提高统计数据, 负值降低统计数据
-"int_mod"		,//正值提高统计数据, 负值降低统计数据
-"speed_mod"		,//正值提高统计数据, 负值降低统计数据
+"str_mod"		    ,//正值提高统计数据, 负值降低统计数据
+"dex_mod"		    ,//正值提高统计数据, 负值降低统计数据
+"per_mod"		    ,//正值提高统计数据, 负值降低统计数据
+"int_mod"		    ,//正值提高统计数据, 负值降低统计数据
+"speed_mod"		    ,//正值提高统计数据, 负值降低统计数据
 
 "pain_amount"		,//积极因素会引起疼痛, 消极因素不会产生任何影响。 不要把它设得太高。
 "pain_min"		    ,//最小程度的疼痛, 会给予/采取一定的效果

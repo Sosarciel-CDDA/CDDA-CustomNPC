@@ -129,7 +129,7 @@ export type FireModeDisplayName =[
 /*开火模式额外flag */
 export type FireModeFlag = [
     "NPC_AVOID"     ,//禁止 NPC 使用
-    "MELEE"         ,//近战攻击的第三个参数指定到达距离
+    "MELEE"         ,//近战攻击的第三个参数指定到达距离 使用枪或辅助枪械的属性进行近战攻击。
     "SIMULTANEOUS"  ,//多发子弹同时发射, 最后施加后坐力
 ][number];
 

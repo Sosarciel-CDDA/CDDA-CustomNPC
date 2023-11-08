@@ -135,8 +135,11 @@ type RunEoc = {
 }
 /**额外造成某种类型的伤害 */
 type ExtDamage = {
+    /**额外伤害 */
     type: "ExtDamage";
-    count: NumObj;
+    /**伤害量 */
+    amount: NumObj;
+    /**伤害类型id */
     damage_type: DamageTypeID;
 }
 
@@ -270,7 +273,7 @@ function processExtDamage(dm:DataManager,charName:string,baseSkillData:BaseSkill
         effect:"attack",
         name:`${spell.name}_${index}_ExtDamage`,
         description:spell.name+"额外伤害子法术",
-        min_damage:{math:[parseNumObj(spec.count)]},
+        min_damage:{math:[parseNumObj(spec.amount)]},
         max_damage:SPELL_MAX_DAMAGE,
         damage_type:spec.damage_type,
         min_aoe,max_aoe,aoe_increment,

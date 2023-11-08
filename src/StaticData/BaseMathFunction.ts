@@ -14,19 +14,33 @@ const CritDamage:MathFunction={
     return:"_0 + (_0 * (rng(0, 1) < _1 ? _2 : 0))",
 }
 
-/**感知伤害 */
+/**感知系数伤害 */
 const PerDamage:MathFunction={
     type:"jmath_function",
     id:"PerDamage" as MathFunctionID,
     num_args: 1,
     return:"CalcDamage(_0 , u_val('perception'))",
 }
-/**力量伤害 */
+/**力量系数伤害 */
 const StrDamage:MathFunction={
     type:"jmath_function",
     id:"StrDamage" as MathFunctionID,
     num_args: 1,
     return:"CalcDamage(_0 , u_val('strength'))",
+}
+/**敏捷系数伤害 */
+const DexDamage:MathFunction={
+    type:"jmath_function",
+    id:"DexDamage" as MathFunctionID,
+    num_args: 1,
+    return:"CalcDamage(_0 , u_val('dexterity'))",
+}
+/**智力系数伤害 */
+const IntDamage:MathFunction={
+    type:"jmath_function",
+    id:"IntDamage" as MathFunctionID,
+    num_args: 1,
+    return:"CalcDamage(_0 , u_val('intelligence'))",
 }
 
 /**属性伤害计算  
@@ -129,5 +143,6 @@ const SpellExpDiff:MathFunction={
     "return": "SpellExp(_0 + 1) - SpellExp(_0)"
 }
 
-export const BaseMathFunction = [CalcDamage,DamageMul,Log10,Pow2,LvlExp,SpellExpDiff,SpellExp,SumHp,AvgHp,MinHp,MaxHp,PerDamage,StrDamage,CritDamage];
+export const BaseMathFunction = [CalcDamage,DamageMul,Log10,Pow2,LvlExp,SpellExpDiff,SpellExp,SumHp,AvgHp,MinHp,MaxHp,
+    PerDamage,StrDamage,DexDamage,IntDamage,CritDamage];
 saveStaticData(BaseMathFunction,'static_resource',"base_math_function");

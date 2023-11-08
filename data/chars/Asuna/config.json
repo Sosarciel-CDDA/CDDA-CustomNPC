@@ -32,7 +32,7 @@
 				"faults": [],
 				"modes": [
 					["DEFAULT"	,"semi-auto",1],
-					["AUTO"		,"auto"		,3]
+					["AUTO"		,"auto"		,2]
 				],
 				"range": 16
 			}
@@ -83,8 +83,8 @@
 				"id":"EvaporateFuture",
 				"type": "SPELL",
 				"name": "蒸发未来",
-				"description": "对一条线上的敌人造成 2.1*感知系数 的伤害。",
-				"min_damage":{"math": ["CalcDamage(u_damage, u_val('perception'))*2.1"]},
+				"description": "对一条线上的敌人造成 2.1*感知系数 的伤害, 使用后随机降低本技能冷却时间。",
+				"min_damage":{"math": ["PerDamage(u_damage)*2.1"]},
 				"max_damage":999999,
 				"damage_type": "bullet",
 				"min_range":{"math": ["BATTLE_RANGE"]},
@@ -145,8 +145,7 @@
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
 			"common_cooldown": 0,
-			"weight": 10,
-			"require_weapon_flag": ["AsunaM9"]
+			"weight": 10
 		},
 		{
 			"name": "刀锋打击",
@@ -162,11 +161,12 @@
 				"name": "刀锋打击",
 				"description": "对目标造成 3.6*力量系数 的伤害, 为其添加 60 秒 重创 效果, 并造成 40 撕裂伤害。",
 				"min_damage":{
-					"math": ["CalcDamage(u_damage, u_val('strength'))*3.6"]
+					"math": ["StrDamage(u_damage)*3.6"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
+				"base_casting_time":100,
 				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile"],
 				"effect": "attack",
@@ -177,7 +177,7 @@
 			"spec_effect": [{
 				"type": "ExtDamage",
 				"damage_type":"Laceration",
-				"count": 40
+				"amount": 40
 			}],
 			"weight": 1,
 			"require_weapon_flag": ["AsunaKnife"]
@@ -199,15 +199,16 @@
 				"name": "情报破译",
 				"description": "为目标添加 60 秒 情报破译 效果。",
 				"shape": "blast",
-				"min_range": {"math": ["MELEE_RANGE"]},
+				"min_range": {"math": ["BATTLE_RANGE"]},
 				"valid_targets": ["hostile"],
 				"effect": "attack",
 				"effect_str": "IntelligenceDeciphered",
 				"min_duration":6000,
+				"base_casting_time":100,
+				"min_aoe": 2,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"weight": 2,
-			"require_weapon_flag": ["AsunaKnife"]
+			"weight": 2
 		},
 		{
 			"name": "创伤之刃",
@@ -224,11 +225,12 @@
 				"name": "创伤之刃",
 				"description": "对目标造成 1.2*力量系数 的伤害, 并造成 敏捷系数*0.6 创伤伤害。",
 				"min_damage":{
-					"math": ["CalcDamage(u_damage, u_val('strength'))*1.2"]
+					"math": ["StrDamage(u_damage)*1.2"]
 				},
 				"max_damage":999999,
 				"damage_type": "cut",
 				"shape": "blast",
+				"base_casting_time":100,
 				"min_range": {"math": ["MELEE_RANGE"]},
 				"valid_targets": ["hostile"],
 				"effect": "attack",
@@ -237,7 +239,7 @@
 			"spec_effect": [{
 				"type": "ExtDamage",
 				"damage_type":"Trauma",
-				"count": {"math": ["CalcDamage(u_damage, u_val('dexterity')) * 0.6"]}
+				"amount": {"math": ["DexDamage(u_damage) * 0.6"]}
 			}],
 			"cooldown":16,
 			"weight": 2,
@@ -277,7 +279,7 @@
 				"description": "任何一次成功的攻击都会额外造成 敏捷系数*0.02(至少1) 的 创伤伤害。",
 				"effect": "attack",
 				"damage_type":"Trauma",
-				"min_damage":{"math": ["max(1, CalcDamage(u_damage, u_val('dexterity')) * 0.02)"]},
+				"min_damage":{"math": ["max(1, DexDamage(u_damage) * 0.02)"]},
 				"max_damage":999999,
 				"valid_targets": ["hostile"],
 				"shape": "blast",

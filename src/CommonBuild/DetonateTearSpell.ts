@@ -92,6 +92,19 @@ export async function createDetonateTearSpell(dm:DataManager){
     }
     out.push(expl2);
 
+    //关闭裂隙
+    const closeSpell: Spell = {
+		type: "SPELL",
+		id: `${id}_close_tear` as SpellID,
+		name: "引爆裂隙关闭效果",
+		description: "引爆裂隙关闭效果",
+		valid_targets: ["field"],
+		shape: "blast",
+		effect: "remove_field",
+		effect_str: "fd_fatigue",
+	};
+    out.push(closeSpell);
+
     //主EOC
     const maineoc:Eoc={
         type:"effect_on_condition",
@@ -99,14 +112,15 @@ export async function createDetonateTearSpell(dm:DataManager){
         eoc_type:"ACTIVATION",
         effect:[
             {npc_add_var:cdvar,time:true},
-            {npc_cast_spell:{id:"AO_CLOSE_TEAR"}},
+            {u_location_variable:{global_val:"tmp_loc"}},
+            {npc_cast_spell:{id:closeSpell.id},loc:{global_val:"tmp_loc"}},
             {u_cast_spell:{id:expl2.id}},
             {math:["u_hp()","=","0"]},
         ],
         condition:{and:[
             {u_is_in_field:"fd_fatigue"},
             {or:[
-                {npc_compare_time_since_var:cdvar,op:">=",time:"1 h"},
+                {npc_compare_time_since_var:cdvar,op:">=",time:"10 s"},
                 {not:{npc_has_var:cdvar,time:true}}
             ]}
         ]},

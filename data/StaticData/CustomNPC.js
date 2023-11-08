@@ -134,20 +134,22 @@ function CNPC_EOC_EGU(){
 	run_for_npcs(true);
 
 	//通用刷新 如果含有已经死亡标记则不触发
-	if(u_isDeath!=1)
+	if(u_isDeath!=1){
 		CNPC_EOC_CommonGlobalUpdateEvent();
 
-	//Cnpc角色刷新
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
-		//如果含有已经死亡标记则不触发
-		if(u_isDeath==1){
-			//触发动态生成的 Cnpc角色死亡后 事件
-			CNPC_EOC_CnpcDeathAfter();
-			eobj({"run_eoc_with":"CNPC_EOC_DeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
-		}else CNPC_EOC_CnpcGlobalUpdateEvent();
-	}
-	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
-		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果不是cnpc单位则添加替代素体
+		//Cnpc角色刷新
+		if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
+			CNPC_EOC_CnpcGlobalUpdateEvent();
+	}//如果含有已经死亡标记则触发死亡后
+	else CNPC_EOC_ESD()
+}
+//死亡后
+function CNPC_EOC_EDA(){
+	eoc_type("ACTIVATION")
+
+	//cnpc角色死亡后
+	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
+		CNPC_EOC_CnpcDeathAfterEvent();
 }
 //玩家刷新
 function CNPC_EOC_EPU(){
@@ -210,9 +212,16 @@ function CNPC_EOC_CommonTakeDamageEvent(){
 //全局刷新事件主Eoc
 function CNPC_EOC_CommonGlobalUpdateEvent(){
 	eoc_type("ACTIVATION")
+	//如果不是cnpc单位则添加替代素体
+	if(not(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))){
+		if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" })))
+			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" })
+	}
+
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
+
 	//触发动态生成的 刷新 事件
 	CNPC_EOC_Update();
 }
@@ -388,9 +397,17 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 	if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
 }
+//死亡后事件
+function CNPC_EOC_CnpcDeathAfterEvent(){
+	eoc_type("ACTIVATION")
+
+	//触发动态生成的 Cnpc角色死亡后 事件
+	CNPC_EOC_CnpcDeathAfter();
+	eobj({"run_eoc_with":"CNPC_EOC_CnpcDeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
+}
 
 //死亡后处理
-function CNPC_EOC_DeathAfterProcess(){
+function CNPC_EOC_CnpcDeathAfterProcess(){
 	eoc_type("ACTIVATION")
 	//传送
 	eobj({u_location_variable:{global_val:"tmp_loc"},z_adjust:-10,z_override:true})
