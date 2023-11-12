@@ -1,6 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MonsterFlagList = void 0;
+exports.MonsterFlagList = exports.MonsterBPList = void 0;
+/**怪物的身体类型 列表 */
+exports.MonsterBPList = [
+    "angel",
+    "bear",
+    "bird",
+    "blob",
+    "crab",
+    "dog",
+    "elephant",
+    "fish",
+    "flying insect",
+    "frog",
+    "gator",
+    "horse",
+    "human",
+    "insect",
+    "kangaroo",
+    "lizard",
+    "migo",
+    "pig",
+    "spider",
+    "snake", // 一种身体长，无肢体的动物
+];
 /**怪物可用的Flag 列表 */
 exports.MonsterFlagList = [
     "SEES",

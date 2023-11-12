@@ -88,6 +88,18 @@ async function createDetonateTearSpell(dm) {
         flags: ["RANDOM_DAMAGE"]
     };
     out.push(expl2);
+    //关闭裂隙
+    const closeSpell = {
+        type: "SPELL",
+        id: `${id}_close_tear`,
+        name: "引爆裂隙关闭效果",
+        description: "引爆裂隙关闭效果",
+        valid_targets: ["field"],
+        shape: "blast",
+        effect: "remove_field",
+        effect_str: "fd_fatigue",
+    };
+    out.push(closeSpell);
     //主EOC
     const maineoc = {
         type: "effect_on_condition",
@@ -95,14 +107,15 @@ async function createDetonateTearSpell(dm) {
         eoc_type: "ACTIVATION",
         effect: [
             { npc_add_var: cdvar, time: true },
-            { npc_cast_spell: { id: "AO_CLOSE_TEAR" } },
+            { u_location_variable: { global_val: "tmp_loc" } },
+            { npc_cast_spell: { id: closeSpell.id }, loc: { global_val: "tmp_loc" } },
             { u_cast_spell: { id: expl2.id } },
             { math: ["u_hp()", "=", "0"] },
         ],
         condition: { and: [
                 { u_is_in_field: "fd_fatigue" },
                 { or: [
-                        { npc_compare_time_since_var: cdvar, op: ">=", time: "1 h" },
+                        { npc_compare_time_since_var: cdvar, op: ">=", time: "10 s" },
                         { not: { npc_has_var: cdvar, time: true } }
                     ] }
             ] },
@@ -127,13 +140,13 @@ async function createDetonateTearSpell(dm) {
     };
     out.push(cardGroup);
     //物品集
-    const metGroup = {
-        id: (0, ModDefine_1.genItemGroupID)(`CardDistribution`),
+    const mateGroup = {
+        id: (0, ModDefine_1.genItemGroupID)(`AfsMateCollect`),
         type: "item_group",
-        subtype: "distribution",
+        subtype: "collection",
         items: itemcollect
     };
-    out.push(metGroup);
+    out.push(mateGroup);
     //辅助检测怪物
     const mon = {
         type: "MONSTER",
@@ -160,7 +173,7 @@ async function createDetonateTearSpell(dm) {
             subtype: "collection",
             entries: [
                 { group: cardGroup.id, prob: 100 },
-                { group: metGroup.id, count: 10 },
+                { group: mateGroup.id, count: 10 },
                 { group: "bionics", prob: 100, count: [3, 6] },
             ]
         }

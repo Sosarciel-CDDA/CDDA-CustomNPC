@@ -1,4 +1,4 @@
-import { BodyPartID, Time, CddaID } from "./GenericDefine";
+import { BodyPartID, Time, CddaID, DescText } from "./GenericDefine";
 import { SpellID } from "./Spell";
 import { EmitID } from "./Emit";
 import { MutationID } from "./Mutation";
@@ -10,9 +10,10 @@ export type EnchantmentID = CddaID<"ENCH">;
 export type Enchantment = {
     type: "enchantment";
     /**附魔的说明 */
-    description?: string;
+    description?: DescText;
     /**附魔的名称 */
-    name?: string;
+    name?: DescText;
+    /**附魔唯一ID */
     id: EnchantmentID;
     /**物品在什么位置时启用 */
     has?: EnchConHas;
@@ -101,9 +102,9 @@ export type FakeSpell = {
     /** 1/n 的几率触发 */
     once_in?: NumObj;
     /**释放时的消息 */
-    message?: string;
+    message?: DescText;
     /**npc释放时的消息 */
-    npc_message?: string;
+    npc_message?: DescText;
     /**最小法术等级 */
     min_level?: NumObj;
     /**最大法术等级 */

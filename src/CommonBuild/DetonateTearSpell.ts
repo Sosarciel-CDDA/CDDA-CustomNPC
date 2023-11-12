@@ -147,13 +147,13 @@ export async function createDetonateTearSpell(dm:DataManager){
     out.push(cardGroup);
 
     //物品集
-    const metGroup:ItemGroup={
-        id:genItemGroupID(`CardDistribution`),
+    const mateGroup:ItemGroup={
+        id:genItemGroupID(`AfsMateCollect`),
         type:"item_group",
-        subtype:"distribution",
+        subtype:"collection",
         items:itemcollect as any
     }
-    out.push(metGroup);
+    out.push(mateGroup);
 
     //辅助检测怪物
     const mon:Monster={
@@ -180,9 +180,9 @@ export async function createDetonateTearSpell(dm:DataManager){
         death_drops:{
             subtype:"collection",
             entries:[
-                {group:cardGroup.id,prob:100},
-                {group:metGroup.id ,count:10},
-                {group:"bionics",prob:100,count:[3,6]},
+                {group:cardGroup.id ,prob:100},
+                {group:mateGroup.id ,count:10},
+                {group:"bionics"    ,prob:100,count:[3,6]},
             ]
         }
     }

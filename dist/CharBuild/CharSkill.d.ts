@@ -122,8 +122,11 @@ type RunEoc = {
 };
 /**额外造成某种类型的伤害 */
 type ExtDamage = {
+    /**额外伤害 */
     type: "ExtDamage";
-    count: NumObj;
+    /**伤害量 */
+    amount: NumObj;
+    /**伤害类型id */
     damage_type: DamageTypeID;
 };
 /**使某个技能停止使用的全局变量 */

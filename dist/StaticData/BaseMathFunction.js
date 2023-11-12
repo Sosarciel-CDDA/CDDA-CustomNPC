@@ -12,19 +12,33 @@ const CritDamage = {
     num_args: 3,
     return: "_0 + (_0 * (rng(0, 1) < _1 ? _2 : 0))",
 };
-/**感知伤害 */
+/**感知系数伤害 */
 const PerDamage = {
     type: "jmath_function",
     id: "PerDamage",
     num_args: 1,
     return: "CalcDamage(_0 , u_val('perception'))",
 };
-/**力量伤害 */
+/**力量系数伤害 */
 const StrDamage = {
     type: "jmath_function",
     id: "StrDamage",
     num_args: 1,
     return: "CalcDamage(_0 , u_val('strength'))",
+};
+/**敏捷系数伤害 */
+const DexDamage = {
+    type: "jmath_function",
+    id: "DexDamage",
+    num_args: 1,
+    return: "CalcDamage(_0 , u_val('dexterity'))",
+};
+/**智力系数伤害 */
+const IntDamage = {
+    type: "jmath_function",
+    id: "IntDamage",
+    num_args: 1,
+    return: "CalcDamage(_0 , u_val('intelligence'))",
 };
 /**属性伤害计算
  * (基础伤害+属性加值)*属性倍率
@@ -122,5 +136,6 @@ const SpellExpDiff = {
     "num_args": 1,
     "return": "SpellExp(_0 + 1) - SpellExp(_0)"
 };
-exports.BaseMathFunction = [CalcDamage, DamageMul, Log10, Pow2, LvlExp, SpellExpDiff, SpellExp, SumHp, AvgHp, MinHp, MaxHp, PerDamage, StrDamage, CritDamage];
+exports.BaseMathFunction = [CalcDamage, DamageMul, Log10, Pow2, LvlExp, SpellExpDiff, SpellExp, SumHp, AvgHp, MinHp, MaxHp,
+    PerDamage, StrDamage, DexDamage, IntDamage, CritDamage];
 (0, StaticData_1.saveStaticData)(exports.BaseMathFunction, 'static_resource', "base_math_function");

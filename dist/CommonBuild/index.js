@@ -1,19 +1,19 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./Test"), exports);
-__exportStar(require("./TriggerEffect"), exports);
-__exportStar(require("./CommonItem"), exports);
+exports.commonBuild = void 0;
+const Test_1 = require("./Test");
+const TriggerEffect_1 = require("./TriggerEffect");
+const CommonItem_1 = require("./CommonItem");
+const DivinationSpell_1 = require("./DivinationSpell");
+const DetonateTearSpell_1 = require("./DetonateTearSpell");
+const CommonDamageType_1 = require("./CommonDamageType");
+/**构建通用数据 */
+async function commonBuild(dm) {
+    await (0, Test_1.createTest)(dm);
+    await (0, TriggerEffect_1.createTriggerEffect)(dm);
+    await (0, CommonItem_1.createCommonItem)(dm);
+    await (0, DivinationSpell_1.createDivinationSpell)(dm);
+    await (0, DetonateTearSpell_1.createDetonateTearSpell)(dm);
+    await (0, CommonDamageType_1.createDamageType)(dm);
+}
+exports.commonBuild = commonBuild;

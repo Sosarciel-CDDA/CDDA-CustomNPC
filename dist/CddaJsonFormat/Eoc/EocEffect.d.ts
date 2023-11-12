@@ -6,7 +6,7 @@ import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { EocID, InlineEoc, TalkerVar } from "./Eoc";
 import { IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
-import { BodyPartParam, Time } from "../GenericDefine";
+import { BodyPartParam, DescText, Time } from "../GenericDefine";
 import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
 import { ItemGroupID } from "../ItemGroup";
 /**Eoc效果 */
@@ -84,11 +84,11 @@ type EocSelector = {
     /**每个选项的名称 */
     names?: StrObj[];
     /**每个选项的介绍 */
-    descriptions?: string[];
+    descriptions?: DescText[];
     /**每个选项的键 */
     keys?: string[];
     /**整体选项的标题 */
-    title?: string;
+    title?: DescText;
     /**为true时对应Eoc的条件如果不满足 则直接隐藏
      * 默认false 显示无法选择
      */
@@ -186,7 +186,7 @@ type LocalVar = TalkerVar<{
 }, "location_variable">;
 /**发送消息 */
 type Message = TalkerVar<{
-    message: string;
+    message: DescText;
     /**默认中立；消息如何在日志中显示（通常是指颜色）；
      * 可以是良好（绿色）、中性（白色）、不良（红色）、
      * 混合（紫色）、警告（黄色）、信息（蓝色）、调试（仅在调试模式打开时出现）、

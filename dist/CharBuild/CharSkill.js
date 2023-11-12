@@ -119,7 +119,7 @@ function processExtDamage(dm, charName, baseSkillData, spec, index) {
         effect: "attack",
         name: `${spell.name}_${index}_ExtDamage`,
         description: spell.name + "额外伤害子法术",
-        min_damage: { math: [parseNumObj(spec.count)] },
+        min_damage: { math: [parseNumObj(spec.amount)] },
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         damage_type: spec.damage_type,
         min_aoe, max_aoe, aoe_increment,

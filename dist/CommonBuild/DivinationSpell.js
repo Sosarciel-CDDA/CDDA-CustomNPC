@@ -16,7 +16,7 @@ const OMNameIDMap = {
     "虚空蜘蛛巢穴": { om_terrain: "void_spider_lair_entrance", om_special: "void_spider_lair" },
     "米·戈营地": { om_terrain: "mi-go_camp1", om_special: "Mi-Go Encampment" },
     "米·戈侦察塔": { om_terrain: "mi-go_scout_tower_1", om_special: "Mi-Go Scout Tower" },
-    "米·传送门": { om_terrain: "mi-go_portal", om_special: "Mi-Go Portal" },
+    "米·戈传送门": { om_terrain: "mi-go_portal", om_special: "Mi-Go Portal" },
     "三尖树之林": { om_terrain: "triffid_grove", om_special: "Triffid Grove" },
     "海怪巢穴": { om_terrain: "river_cave", om_special: undefined },
     "变形怪坑": { om_terrain: "slimepit_top", om_special: "Slime Pit" },

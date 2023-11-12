@@ -1,6 +1,6 @@
 import { EocID } from "./Eoc";
 import { FlagID } from "./Flag";
-import { CddaID, Color } from "./GenericDefine";
+import { CddaID, Color, DescText } from "./GenericDefine";
 import { SkillID } from "./Skill";
 /**预定义的伤害类型 列表 */
 export declare const DefineDamageTypeIDList: readonly ["stab", "bash", "cut", "bullet", "acid", "electric", "heat", "cold", "biological", "pure", "afs_plasma", "xe_cold_iron_cut_damage", "xe_cold_iron_cut_damage", "xe_cold_iron_bash_damage", "xe_cold_iron_stab_damage", "psi_telekinetic_damage", "psi_telepathic_damage", "psi_teleporter_teleporting_damage", "psi_enervation_damage"];
@@ -13,7 +13,7 @@ export type DamageType = {
     type: "damage_type";
     id: DamageTypeID;
     /** 伤害类型的名称, 如在物品信息屏幕中的保护值中显示 */
-    name: string;
+    name: DescText;
     /** (可选) 确定处理此伤害类型时使用的技能 (默认为none) */
     skill?: SkillID;
     /** (可选) 将此伤害类型标识为来自物理源 (默认为false) */
@@ -62,7 +62,7 @@ export type DamageInfoOrder = {
     info_display?: "detailed" | "basic" | "none";
     /**(可选) 描述如何应用此伤害类型的动词（例如："bashing"）。在物品信息的近战部分使用
      */
-    verb?: string;
+    verb?: DescText;
     /**(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性  */
     bionic_info?: DmgInfo;
     /**(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性  */
