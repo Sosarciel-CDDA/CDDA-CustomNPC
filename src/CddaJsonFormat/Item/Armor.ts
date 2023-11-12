@@ -4,8 +4,7 @@ import { MaterialID } from "../Material";
 import { GenericBase, GenericFlag } from "./Generic"
 
 
-/**Armor ID格式  
- */
+/**Armor ID格式 */
 export type ArmorID = CddaID<"ARMOR">;
 
 /**一件护甲 */
@@ -21,6 +20,7 @@ export type Armor = CopyfromVar<{
 	armor?: ArmorData[];
 } & GenericBase>;
 
+/**护甲数据 */
 export type ArmorData = {
 	/**材质 */
 	material?: {

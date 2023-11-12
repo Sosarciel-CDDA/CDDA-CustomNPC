@@ -5,8 +5,7 @@ import { SkillID } from "../Skill";
 import { GenericBase, GenericFlag } from "./Generic";
 
 
-/**GUN ID格式  
- */
+/**GUN ID格式 */
 export type GunID = CddaID<"GUN">;
 
 /**枪械 */

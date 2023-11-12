@@ -15,8 +15,7 @@ export const DefineMutionIdList = [
 ] as const;
 /**预定义的变异ID */
 export type DefineMutionId = typeof DefineMutionIdList[number];
-/**Mutation ID格式  
- */
+/**Mutation ID格式 */
 export type MutationID = CddaID<"MUT">|DefineMutionId;
 
 /**变异 */

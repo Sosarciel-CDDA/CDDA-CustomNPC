@@ -1,0 +1,227 @@
+import { DataManager } from "@src/DataManager";
+import { JObject } from "@zwa73/utils";
+import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "CddaJsonFormat";
+import { genItemGroupID } from "ModDefine";
+import { CON_SPELL_FLAG } from "StaticData";
+
+
+const commonGroups:ReadonlyArray<ItemGroupID> = [
+    "afs_common_biomaterial_scrapgroup",
+    "afs_common_circuitry_scrapgroup",
+    "afs_common_energy_storage_scrapgroup",
+    "afs_common_heat_scrapgroup",
+    "afs_common_magnet_scrapgroup",
+    "afs_common_material_scrapgroup",
+    "afs_common_neural_io_scrapgroup",
+] as const;
+const advanceGroups:ReadonlyArray<ItemGroupID> = [
+    "afs_advanced_biomaterial_scrapgroup",
+    "afs_advanced_circuitry_scrapgroup",
+    "afs_advanced_energy_storage_scrapgroup",
+    "afs_advanced_heat_scrapgroup",
+    "afs_advanced_magnet_scrapgroup",
+    "afs_advanced_material_scrapgroup",
+    "afs_advanced_neural_io_scrapgroup",
+    "afs_advanced_optics_scrapgroup",
+] as const;
+const itemcollect = [
+    ["afs_biomaterial_1"    , 100   ],
+    ["afs_biomaterial_2"    , 95    ],
+    ["afs_biomaterial_3"    , 90    ],
+    ["afs_biomaterial_4"    , 85    ],
+    ["afs_biomaterial_5"    , 80    ],
+    ["afs_circuitry_1"      , 100   ],
+    ["afs_circuitry_2"      , 95    ],
+    ["afs_circuitry_3"      , 90    ],
+    ["afs_circuitry_4"      , 85    ],
+    ["afs_circuitry_5"      , 80    ],
+    ["afs_energy_storage_1" , 100   ],
+    ["afs_energy_storage_2" , 95    ],
+    ["afs_energy_storage_3" , 90    ],
+    ["afs_energy_storage_4" , 85    ],
+    ["afs_energy_storage_5" , 80    ],
+    ["afs_heat_1"           , 100   ],
+    ["afs_heat_2_salvage"   , 95    ],
+    ["afs_heat_3"           , 90    ],
+    ["afs_heat_4"           , 85    ],
+    ["afs_heat_5"           , 80    ],
+    ["afs_magnet_1"         , 100   ],
+    ["afs_magnet_2"         , 95    ],
+    ["afs_magnet_3"         , 90    ],
+    ["afs_magnet_4"         , 85    ],
+    ["afs_material_1"       , 100   ],
+    ["afs_material_2"       , 95    ],
+    ["afs_material_3"       , 90    ],
+    ["afs_material_4"       , 85    ],
+    ["afs_material_5"       , 80    ],
+    ["afs_neural_io_1"      , 100   ],
+    ["afs_neural_io_2"      , 95    ],
+    ["afs_neural_io_3"      , 90    ],
+    ["afs_neural_io_4"      , 85    ],
+    ["afs_neural_io_5"      , 80    ],
+    ["afs_optics_3"         , 90    ],
+    ["afs_optics_4"         , 85    ],
+] as const;
+export async function createDetonateTearSpell(dm:DataManager){
+    const id = `DetonateTearSpell`;
+    const cdvar = `${id}_cooldown`;
+    const out:JObject[]=[];
+    const charDataList = await Promise.all(dm.charList.map(charName=>{
+        return dm.getCharData(charName)
+    }));
+
+    const spellRange = 15;
+
+
+    //卡片集
+    const cardGroup:ItemGroup={
+        id:genItemGroupID(`CardDistribution`),
+        type:"item_group",
+        subtype:"distribution",
+        entries:charDataList.map(cd=>({
+            item:cd.defineData.cardID,
+            prob:1
+        }))
+    }
+    out.push(cardGroup);
+
+    //物品集
+    const mateGroup:ItemGroup={
+        id:genItemGroupID(`AfsMateDistribution`),
+        type:"item_group",
+        subtype:"distribution",
+        items:itemcollect as any
+    }
+    out.push(mateGroup);
+
+    //辅助检测怪物
+    const mon:Monster={
+        type: "MONSTER",
+        id: `${id}_mon` as MonsterID,
+        name: "",
+        description: "空间裂隙怪物",
+        looks_like: "CNPC_GENERIC_TransparentItem",
+        speed: 500,
+        hp:1,
+        default_faction:"passive_machine",
+        symbol:"O",
+        weight: 0,
+        volume: 0,
+        vision_day: 0,
+        vision_night: 0,
+        aggression: 0,
+        morale: 1000,
+        flags:["NOHEAD","NO_BREATHE","NO_BREATHE"],
+        death_function:{
+            corpse_type: "NO_CORPSE",
+            message: "",
+        },
+        death_drops:{
+            subtype:"collection",
+            entries:[
+                {group:cardGroup.id ,prob:100},
+                {group:mateGroup.id ,count:10},
+                {group:"bionics"    ,prob:100,count:[3,6]},
+            ]
+        }
+    }
+    out.push(mon);
+
+    //召唤法术
+    const monSpell:Spell={
+        type:"SPELL",
+        id:`${id}_spawn` as SpellID,
+        name:"引爆裂隙召唤效果",
+        description:"引爆裂隙召唤效果",
+        shape:"blast",
+        min_range:spellRange,
+        min_duration:1,
+        min_damage:1,
+        max_damage:1,
+        effect:"summon",
+        effect_str:mon.id,
+        valid_targets:["ground"],
+        flags:["SPAWN_WITH_DEATH_DROPS"]
+    }
+    out.push(monSpell);
+
+    //爆炸效果
+    const expl:Spell={
+        type:"SPELL",
+        id:`${id}_explosion` as SpellID,
+        min_aoe:5,
+        effect:"attack",
+        field_id:"fd_tindalos_rift",
+        min_range: spellRange,
+        min_damage: 10,
+        max_damage: 20,
+        damage_type:"pure",
+        field_chance:8,
+        min_field_intensity:2,
+        max_field_intensity:2,
+        field_intensity_variance:1,
+        shape:"blast",
+        valid_targets:["ally","self","ground","hostile"],
+        name:"引爆裂隙爆炸效果",
+        description:"引爆裂隙爆炸效果",
+        flags:["RANDOM_DAMAGE"]
+    }
+    out.push(expl);
+
+    //关闭裂隙
+    const closeSpell: Spell = {
+		type: "SPELL",
+		id: `${id}_close_tear` as SpellID,
+		name: "引爆裂隙关闭效果",
+		description: "引爆裂隙关闭效果",
+		valid_targets: ["ground"],
+		shape: "blast",
+		effect: "remove_field",
+		effect_str: "fd_fatigue",
+        min_aoe:0,
+        max_aoe:0,
+        flags: [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+	};
+    out.push(closeSpell);
+
+    //主EOC
+    const maineoc:Eoc={
+        type:"effect_on_condition",
+        id:`${id}_eoc` as EocID,
+        eoc_type:"ACTIVATION",
+        effect:[
+            {u_add_var:cdvar,time:true},
+            {u_cast_spell:{id:closeSpell.id}},
+            {u_cast_spell:{id:expl.id}},
+            {u_spawn_item:mainGroup.id,use_item_group:true,suppress_message:true},
+        ],
+        condition:{and:[
+            {u_is_in_field:"fd_fatigue"},
+            {or:[
+                {u_compare_time_since_var:cdvar,op:">=",time:"10 s"},
+                {not:{u_has_var:cdvar,time:true}}
+            ]}
+        ]},
+        false_effect:[
+            {u_add_var:cdvar,time:true},
+            {u_message:"没有什么效果……"}
+        ]
+    }
+    out.push(maineoc);
+
+    //主法术
+    const mainSpell:Spell={
+        type:"SPELL",
+        id:id as SpellID,
+        name:"引爆裂隙",
+        description:"引爆脚下的时空裂隙, 可以获得被裂隙卷入的随机物品。",
+        shape:"blast",
+        effect:"effect_on_condition",
+        effect_str:maineoc.id,
+        valid_targets:["self"]
+    }
+    out.push(mainSpell);
+
+
+    dm.addStaticData(out,"common_resource","DetonateTearSpell");
+}

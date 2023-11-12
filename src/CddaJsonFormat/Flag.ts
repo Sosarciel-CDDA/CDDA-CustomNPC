@@ -4,8 +4,7 @@ import { CddaID } from "./GenericDefine";
 
 
 
-/**Flag ID格式  
- */
+/**Flag ID格式 */
 export type FlagID = CddaID<"FLAG">;
 
 /**一个自定义的Flag */

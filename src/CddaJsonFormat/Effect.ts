@@ -22,8 +22,7 @@ export const DefineEffectIDList = [
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];
 
-/**效果ID  
- */
+/**效果ID */
 export type EffectID = CddaID<"EFF">|DefineEffectID;
 
 /**效果 */

@@ -5,10 +5,10 @@ import { GenericBase, GenericFlag } from "./Generic";
 
 
 
-/**Ammo ID格式  
- */
+/**Ammo ID格式 */
 export type AmmoID = CddaID<"AMMO">;
 
+/**Ammo 弹药物品 */
 export type Ammo = CopyfromVar<{
     id:AmmoID;
 	type: "AMMO";

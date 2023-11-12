@@ -3,7 +3,7 @@ import { createTest } from "./Test";
 import { createTriggerEffect } from "./TriggerEffect";
 import { createCommonItem } from "./CommonItem";
 import { createDivinationSpell } from "./DivinationSpell";
-import { createDetonateTearSpell } from "./DetonateTearSpell";
+import { createDrawCardSpell } from "./DrawCardSpell";
 import { createDamageType } from "./CommonDamageType";
 
 
@@ -13,6 +13,6 @@ export async function commonBuild(dm:DataManager){
     await createTriggerEffect(dm);
     await createCommonItem(dm);
     await createDivinationSpell(dm);
-    await createDetonateTearSpell(dm);
+    await createDrawCardSpell(dm);
     await createDamageType(dm);
 }

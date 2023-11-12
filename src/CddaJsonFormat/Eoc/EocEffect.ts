@@ -322,9 +322,9 @@ type SpawnItem = TalkerVar<{
     count?:NumObj;
     /**容器 */
     container?:IDObj<AnyItemID>;
-    /**使用物品组 */
+    /**使用物品组 默认false*/
     use_item_group?:boolean;
-    /**不显示消息 */
+    /**不显示消息 默认false*/
     suppress_message?:boolean;
 },"spawn_item">
 

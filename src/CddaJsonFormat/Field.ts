@@ -13,6 +13,5 @@ export const DefineFieldIDList = [
 /**定义的地块附着物 */
 export type DefineFieldID = typeof DefineFieldIDList[number];
 
-/**地块附着物ID  
- */
+/**地块附着物ID */
 export type FieldID = CddaID<"FD">|DefineFieldID;

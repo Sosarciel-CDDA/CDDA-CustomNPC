@@ -2,10 +2,12 @@ import { CddaID, DescText } from "./GenericDefine";
 import { AnyItemID } from "./Item";
 
 
+/**预定义的弹药类型 列表 */
 export const DefineAmmoTypeIDList = [
     "50"    ,
     "500"   ,
 ] as const;
+/**预定义的弹药类型 */
 export type DefineAmmoTypeID = typeof DefineAmmoTypeIDList[number];
 
 /**弹药ID格式  */

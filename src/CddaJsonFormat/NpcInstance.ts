@@ -5,8 +5,7 @@ import { TalkTopicID } from "./TalkTopic";
 
 
 
-/**NpcInstance ID格式  
- */
+/**NpcInstance ID格式 */
 export type NpcInstanceID = CddaID<"NPC">;
 
 /**Npc实例 */

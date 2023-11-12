@@ -4,7 +4,7 @@ import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeImage } from "./CharBuild";
 import { commonBuild } from "./CommonBuild";
 import { createDivinationSpell } from "./CommonBuild/DivinationSpell";
-import { createDetonateTearSpell } from "./CommonBuild/DetonateTearSpell";
+import { createDrawCardSpell } from "./CommonBuild/DrawCardSpell";
 
 
 
