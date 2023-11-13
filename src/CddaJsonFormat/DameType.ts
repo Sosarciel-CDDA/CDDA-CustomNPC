@@ -53,9 +53,9 @@ export type DamageType = {
     material_required?: boolean;
     /** (可选) 确定此伤害类型是否应该有助于怪物的难度等级 (默认为false) */
     mon_difficulty?: boolean;
-    /** (可选) 将此伤害类型标识为无法抵抗的（即“纯”伤害）(默认为false) */
+    /** (可选) 将此伤害类型标识为无法抵抗的 (即“纯”伤害) (默认为false) */
     no_resist?: boolean;
-    /**(可选) 一个带有两个可选字段的对象："character" 和 "monster"。  
+    /**(可选) 一个带有两个可选字段的对象: "character" 和 "monster"。  
      * 两个内部字段分别列出了一组角色标志和怪物标志, 这些标志会使角色或怪物对此伤害类型免疫  
      */
     immune_flags?: {
@@ -81,12 +81,12 @@ export type DamageType = {
 /**伤害信息顺序 */
 export type DamageInfoOrder = {
     type: "damage_info_order";
-    /** 唯一标识符，必须对应一个已存在的 damage_type */
+    /** 唯一标识符, 必须对应一个已存在的 damage_type */
     id: DamageTypeID;
-    /**(可选) 确定在保护值中显示此伤害类型的详细程度。有效值为 "detailed"，"basic" 和 "none" (默认为 "none")
+    /**(可选) 确定在保护值中显示此伤害类型的详细程度。有效值为 "detailed", "basic" 和 "none" (默认为 "none")
      */
     info_display?: "detailed" | "basic" | "none";
-    /**(可选) 描述如何应用此伤害类型的动词（例如："bashing"）。在物品信息的近战部分使用
+    /**(可选) 描述如何应用此伤害类型的动词 (例如: "bashing") 。在物品信息的近战部分使用
      */
     verb?: DescText;
     /**(可选) 确定在物品信息的指定部分中此伤害类型的顺序和可见性  */

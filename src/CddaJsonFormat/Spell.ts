@@ -161,8 +161,8 @@ export type SpellTarget = typeof SpellTargetList[number];
 
 /**法术效果 列表 */
 export const SpellEffectList = [
-    "area_pull"             , // 将其范围内的valid_targets拉向目标位置。目前, 拉动距离设置为1（参见directed_push）。
-    "area_push"             , // 将其范围内的valid_targets从目标位置推开。目前, 推动距离设置为1（参见directed_push）。
+    "area_pull"             , // 将其范围内的valid_targets拉向目标位置。目前, 拉动距离设置为1 (参见directed_push) 。
+    "area_push"             , // 将其范围内的valid_targets从目标位置推开。目前, 推动距离设置为1 (参见directed_push) 。
     "attack"                , // 对其范围内的valid_targets造成伤害, 并将名为effect的effect_str应用于目标。要对地形造成伤害, 请使用bash。
     "banishment"            , // 杀死范围内的任何MONSTER, 直到伤害hp。任何溢出的hp都会从施法者那里拿走；如果超过施法者的hp, 法术就会失败。
     "bash"                  , // 在目标处猛击地形。使用damage()作为猛击的力度。
@@ -178,8 +178,8 @@ export const SpellEffectList = [
     "map"                   , // 映射出以玩家为中心的overmap, 半径为aoe()。
     "mod_moves"             , // 为目标添加damage()移动。负值表示“冻结”那段时间。
     "morale"                , // 给aoe内的NPC或头像一个士气效果。使用damage()作为值。decay_start是duration()/10。
-    "mutate"                , // 变异目标。如果定义了effect_str, 则向该类别变异, 而不是随机选择。如果使用了MUTATE_TRAIT标志, 则允许effect_str是一个特定的特性。Damage()/100是突变成功的百分比（10000表示100.00%）。
-    "noise"                 , // 在目标处产生damage()量的噪音。注意：噪音可以进一步描述为sound_type、sound_description、sound_ambient、sound_id和sound_variant。
+    "mutate"                , // 变异目标。如果定义了effect_str, 则向该类别变异, 而不是随机选择。如果使用了MUTATE_TRAIT标志, 则允许effect_str是一个特定的特性。Damage()/100是突变成功的百分比 (10000表示100.00%) 。
+    "noise"                 , // 在目标处产生damage()量的噪音。注意: 噪音可以进一步描述为sound_type、sound_description、sound_ambient、sound_id和sound_variant。
     "pain_split"            , // 平均分配你所有肢体的伤害。
     "pull_target"           , // 尝试将目标直线拉向施法者。如果路径被无法通过的家具或地形阻挡, 效果就会失败。
     "recover_energy"        , // 恢复等于法术伤害的能源源。能源源在effect_str中定义, 可以是BIONIC、FATIGUE、PAIN、MANA或STAMINA之一。
@@ -187,13 +187,13 @@ export const SpellEffectList = [
     "remove_field"          , // 在aoe内移除effect_str字段。如果移除的字段是fd_fatigue, 则会根据字段密度产生不同强度的teleglow, 并可能发生传送。
     "revive"                , // 像僵尸巫师一样复活一个怪物。怪物必须有REVIVES标志。
     "short_range_teleport"  , // 将玩家随机传送到范围内的空间, 有aoe变化。另请参见TARGET_TELEPORT和UNSAFE_TELEPORT标志。
-    "slime_split"           , // 黏液根据质量分裂成两个大的或正常的黏液。注意：硬编码为mon_blob类型的敌人, 检查怪物死亡函数+法术召唤组合。
+    "slime_split"           , // 黏液根据质量分裂成两个大的或正常的黏液。注意: 硬编码为mon_blob类型的敌人, 检查怪物死亡函数+法术召唤组合。
     "spawn_item"            , // 生成一个物品, 该物品在其持续时间结束时会消失。默认持续时间为0。
     "summon"                , // 从effect_str召唤一个MONSTER或monstergroup, 它将在其持续时间结束时消失。默认持续时间为0。另请参见SPAWN_WITH_DEATH_DROPS标志。
     "summon_vehicle"        , // 从effect_str召唤一个车辆, 它将在其持续时间结束时消失。默认持续时间为0。
     "targeted_polymorph"    , // 一个被定向的怪物被永久转化为由effect_str指定的MONSTER, 如果它的HP小于法术的伤害。如果effect_str为空, 则目标将变形成一个难度等级相似的随机怪物。或者, 可以使用POLYMORPH_GROUP标志从monstergroup中选择一个加权ID。玩家和NPC对这种法术效果免疫。
     "ter_transform"         , // 转换其aoe中的地形和家具。aoe中的任何一点改变的机会是1 / (damage)。effect_str是ter_furn_transform的ID。
-    "timed_event"           , // 只向玩家添加一个定时事件。有效的定时事件有：amigara、artifact_light、dim、help、robot_attack、roots_die、spawn_wyrms、temple_flood、temple_open、temple_spawn、wanted。注意：这只是为了神器活动效果而添加的。支持有限, 使用风险自负。
+    "timed_event"           , // 只向玩家添加一个定时事件。有效的定时事件有: amigara、artifact_light、dim、help、robot_attack、roots_die、spawn_wyrms、temple_flood、temple_open、temple_spawn、wanted。注意: 这只是为了神器活动效果而添加的。支持有限, 使用风险自负。
     "translocate"           , // 打开一个窗口, 允许施法者选择一个传送门进行传送。
     "upgrade"               , // 立即升级目标MONSTER。
     "vomit"                 , // 其aoe内的任何生物都会立即呕吐, 如果它能够这样做。

@@ -10,6 +10,7 @@ import { MaterialID } from "../Material";
 import { Tool, ToolID } from "./Tool";
 import { Magazine, MagazineID } from "./Magazine";
 import { Comestible } from "./Comestible";
+import { Armor } from "./Armor";
 
 
 /**预定义的通用物品 列表 */
@@ -282,7 +283,7 @@ export type ItemMaterial = MaterialID|{
 }
 
 /**任何物品 */
-export type AnyItem = Generic|Ammo|Gun|Tool|Magazine|Comestible;
+export type AnyItem = Generic|Ammo|Gun|Tool|Magazine|Comestible|Armor;
 /**任何物品ID */
 export type AnyItemID = AnyItem["id"];
 
