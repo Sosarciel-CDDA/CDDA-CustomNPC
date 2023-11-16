@@ -95,7 +95,7 @@ export type ToolQualityID = CddaID<"TQ">|DefineToolQualityID;
 export type ToolQuality = {
     /**工具品质类型 */
     type: "tool_quality";
-    /**在游戏中查看具有该 id 的条目时，选项卡中使用的描述 */
+    /**在游戏中查看具有该 id 的条目时, 选项卡中使用的描述 */
     name: DescText;
     /**唯一ID */
     id: ToolQualityID;

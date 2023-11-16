@@ -9,18 +9,18 @@ export type RequirementID = CddaID<"REQ">;
 /**需求组 */
 export type Requirement = {
     type: "requirement";
-    /**定义物品质量，如 CUT 或 HAMMER，以及制作所需的质量等级 */
+    /**定义物品质量, 如 CUT 或 HAMMER, 以及制作所需的质量等级 */
     qualities: {
         /**工具ID */
         id:ToolID;
         /**要求等级 */
         level:number;
     }[],
-    /**列出制作配方所需的工具（或几种可选工具）的物品 id  
+    /**列出制作配方所需的工具 (或几种可选工具) 的物品 id  
      * [ [ 工具, 消耗的充能 ] ]  
      */
     tools: [AnyItemID,number][];
-    /**列出物品或需求 id，主要用于材料成分  
+    /**列出物品或需求 id, 主要用于材料成分  
      * [ [ 可选的物品1, 可选的物品2 ], [ 必须的物品1 ] ]  
      */
     components: ReqComponents;

@@ -20,8 +20,8 @@ export const DefineItemActionIDList = [
     "GEIGER"                  , // 使用盖革计数器
     "HACKSAW"                 , // 切割金属
     "BOLTCUTTERS"             , // 切割螺栓或电线
-    "HOTPLATE"                , // 加热食物（用它）
-    "HOTPLATE_ATOMIC"         , // 加热食物（用它）
+    "HOTPLATE"                , // 加热食物 (用它) 
+    "HOTPLATE_ATOMIC"         , // 加热食物 (用它) 
     "TOOLMOD_ATTACH"          , // 作为工具模块附加
     "GUNMOD_ATTACH"           , // 作为枪械模块附加
     "GUN_REPAIR"              , // 修理枪械
@@ -111,7 +111,7 @@ export const DefineItemActionIDList = [
     "modify_gunmods"          , // 修改附加设备
     "HAIRKIT"                 , // 修剪头发
     "HEATPACK"                , // 使用
-    "HEAT_FOOD"               , // 加热食物（在其中）
+    "HEAT_FOOD"               , // 加热食物 (在其中) 
     "HONEYCOMB"               , // 消耗
     "INHALER"                 , // 吸入
     "JACKHAMMER"              , // 钻孔
