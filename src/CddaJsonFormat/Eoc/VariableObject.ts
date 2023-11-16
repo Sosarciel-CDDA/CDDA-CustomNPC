@@ -183,15 +183,15 @@ type HasMission = TalkerVar<{
 
 /**获取 时间变量自创建以来经过的时间 并比较 */
 type CompareTime = TalkerVar<{
-	compare_time_since_var: string;
+    compare_time_since_var: string;
     /**变量的 type 注释 */
-	type?: string;
+    type?: string;
     /**变量的 context 注释 */
-	context?: string;
+    context?: string;
     /**操作符 */
-	op: CompareOpera;
+    op: CompareOpera;
     /**比较的时间 */
-	time: Time;
+    time: Time;
 },"compare_time_since_var">;
 
 

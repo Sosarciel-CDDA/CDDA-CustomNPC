@@ -230,9 +230,9 @@ export class DataManager{
 
         //写入基础贴图配置
         await dm.saveToFile("mod_tileset.json", [{
-			type: "mod_tileset",
-			compatibility: [dm.gameData.gfx_name],
-			"tiles-new": [{
+            type: "mod_tileset",
+            compatibility: [dm.gameData.gfx_name],
+            "tiles-new": [{
                 file: "32xTransparent.png",
                 sprite_width: 32,
                 sprite_height: 32,
@@ -245,7 +245,7 @@ export class DataManager{
                     { id: "CNPC_GENERIC_TransparentItem", fg: 0, bg: 0 },
                 ]
             }],
-		}]);
+        }]);
     }
     /**初始化 处理音效包 */
     private async processSoundpack(){

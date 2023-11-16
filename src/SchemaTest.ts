@@ -58,14 +58,14 @@ type TestFlag2 = OR<AnyString>|DefineGenericFlag;
 
 /**通用物品的flag列表 */
 export const GenericFlagList = [
-	"ACTIVATE_ON_PLACE"	, //放置时激活
-	"SINGLE_USE"		, //使用后删除
-	"ZERO_WEIGHT"		, //允许0重量/体积
-	"TARDIS"			, //跳过容器大小检查
-	"TRADER_KEEP"		, //商人不会售卖这个物品
-	"NO_RELOAD"			, //无法重载
-	"UNBREAKABLE"		, //不会损坏
-	"DURABLE_MELEE"		, //坚固的近战武器
+    "ACTIVATE_ON_PLACE" , // 放置时激活
+    "SINGLE_USE"        , // 使用后删除
+    "ZERO_WEIGHT"       , // 允许0重量/体积
+    "TARDIS"            , // 跳过容器大小检查
+    "TRADER_KEEP"       , // 商人不会售卖这个物品
+    "NO_RELOAD"         , // 无法重载
+    "UNBREAKABLE"       , // 不会损坏
+    "DURABLE_MELEE"     , // 坚固的近战武器
 ] as const;
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];

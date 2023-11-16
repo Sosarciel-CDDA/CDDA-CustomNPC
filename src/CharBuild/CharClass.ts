@@ -79,44 +79,44 @@ export async function createCharClass(dm:DataManager,charName:string){
     }
     /**生成器EOC */
     const charSpawnerEoc: Eoc = {
-		type: "effect_on_condition",
+        type: "effect_on_condition",
         eoc_type:"ACTIVATION",
-		id: genEOCID(spawnerId),
-		effect: [
-			//{ u_consume_item: genGenericID(spawnerId), count: 1 },
+        id: genEOCID(spawnerId),
+        effect: [
+            //{ u_consume_item: genGenericID(spawnerId), count: 1 },
             {math:[`${charName}_uid`,"+=","1"]},
-			{
+            {
                 u_spawn_npc: defineData.instanceID,
-				real_count: 1,
-				min_radius: 1,
-				max_radius: 1,
-			},
-		],
-	};
+                real_count: 1,
+                min_radius: 1,
+                max_radius: 1,
+            },
+        ],
+    };
 
     //卡片冷却变量
     const cardcdvar = `${charName}_cooldown`;
     /**卡片EOC */
     const charCardEoc: Eoc = {
-		type: "effect_on_condition",
+        type: "effect_on_condition",
         eoc_type:"ACTIVATION",
-		id: genEOCID(`${charName}_Card_Eoc`),
-		effect: [
+        id: genEOCID(`${charName}_Card_Eoc`),
+        effect: [
             {u_add_var:cardcdvar,time:true},
             {math:[`${charName}_uid`,"+=","1"]},
-			{
+            {
                 u_spawn_npc: defineData.instanceID,
-				real_count: 1,
-				min_radius: 1,
-				max_radius: 1,
-			},
-		],
+                real_count: 1,
+                min_radius: 1,
+                max_radius: 1,
+            },
+        ],
         condition:{or:[
             {u_compare_time_since_var:cardcdvar,op:">=",time:"1 d"},
             {not:{u_has_var:cardcdvar,time:true}}
         ]},
         false_effect:[{u_message:"卡片没什么反应, 等一会再试吧……"}]
-	};
+    };
     /**卡片 */
     const charCard:Generic={
         type:"GENERIC",

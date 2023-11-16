@@ -12,17 +12,17 @@ export type MaterialID = CddaID<"MATE">;
 
 /**材料 */
 export type Material = {
-	type: "material";
-	id: MaterialID;
-	name: DescText;
+    type: "material";
+    id: MaterialID;
+    name: DescText;
     /**密度 影响车辆碰撞损坏, 较致密的零件比较不致密的零件更具优势。 */
-	density: number;
+    density: number;
     /**材料未冷冻时的比热 (J/(g K))。默认 4.186 - 水。 */
-	specific_heat_liquid: number;
+    specific_heat_liquid: number;
     /**材料冷冻时的比热 (J/(g K))。默认 2.108 - 水。 */
-	specific_heat_solid: number;
+    specific_heat_solid: number;
     /**材料的熔化潜热 (J/g)。默认 334。 */
-	latent_heat: number;
+    latent_heat: number;
     /**材料的凝固点  
      * 该材料的凝固点 (C)。默认 0 C (32 F)。  
      */
@@ -30,27 +30,27 @@ export type Material = {
     /**可食用 默认false */
     edible?:boolean;
     /**会腐烂 默认false */
-	rotting?: boolean;
+    rotting?: boolean;
     /**作为护甲时每1厚度的伤害抗性 */
-	resist: Record<DamageTypeID,number>;
+    resist: Record<DamageTypeID,number>;
     /**此材质物品被直接攻击时 物品的防御力 */
-	chip_resist: number;
+    chip_resist: number;
     /**描述材料损坏程度的形容词  
      * ["bruised", "mutilated", "badly mutilated", "thoroughly mutilated"]  
      */
-	dmg_adj: string[];
+    dmg_adj: string[];
     /**描述材料被砸坏的形容词  
      * "bruised"  
      */
-	bash_dmg_verb: string;
+    bash_dmg_verb: string;
     /**描述材料被切割的形容词  
      * "sliced"  
      */
-	cut_dmg_verb: string;
+    cut_dmg_verb: string;
     /**此材质含有的维生素  
      * [["calcium", 0.1], ["vitB", 1], ["iron", 1.3]];  
      */
-	vitamins: [string,number][];
+    vitamins: [string,number][];
     /**是否导电 */
     conductive:boolean;
     /**是否强化？ */
@@ -59,7 +59,7 @@ export type Material = {
     soft:boolean;
     /**燃烧数据  
      */
-	burn_data?: MateBurnData;
+    burn_data?: MateBurnData;
     /**燃料数据  
      */
     fuel_data?: FuelData

@@ -9,38 +9,38 @@ export type ArmorID = CddaID<"ARMOR">;
 
 /**一件护甲 */
 export type Armor = CopyfromVar<{
-	id:ArmorID;
-	type: "ARMOR";
-	/**保暖度 */
-	warmth?: number;
-	/**环境保护 */
-	environmental_protection?: number;
-	flags?: ArmorFlag[];
-	/**护甲数据 必须设置覆盖层 */
-	armor?: ArmorData[];
+    id:ArmorID;
+    type: "ARMOR";
+    /**保暖度 */
+    warmth?: number;
+    /**环境保护 */
+    environmental_protection?: number;
+    flags?: ArmorFlag[];
+    /**护甲数据 必须设置覆盖层 */
+    armor?: ArmorData[];
 } & GenericBase>;
 
 /**护甲数据 */
 export type ArmorData = {
-	/**材质 */
-	material?: {
-		/**材质 */
-		type: MaterialID;
-		/**材质覆盖率 0~100*/
-		covered_by_mat: number;
-		/**厚度 基础1*/
-		thickness: number;
-	}[];
-	/**覆盖 主肢体id */
-	covers: BodyPartID[];
-	/**特殊覆盖 子肢体id */
-	specifically_covers?: BodyPartID[];
-	/**覆盖率 */
-	coverage: number;
-	/**累赘度 [每件累赘度, 多件累赘度惩罚]  重复穿着3件时 [0]*3+[1] */
-	encumbrance: number | [number, number];
-	/**层级 */
-	layers?: ArmorLayer[];
+    /**材质 */
+    material?: {
+        /**材质 */
+        type: MaterialID;
+        /**材质覆盖率 0~100*/
+        covered_by_mat: number;
+        /**厚度 基础1*/
+        thickness: number;
+    }[];
+    /**覆盖 主肢体id */
+    covers: BodyPartID[];
+    /**特殊覆盖 子肢体id */
+    specifically_covers?: BodyPartID[];
+    /**覆盖率 */
+    coverage: number;
+    /**累赘度 [每件累赘度, 多件累赘度惩罚]  重复穿着3件时 [0]*3+[1] */
+    encumbrance: number | [number, number];
+    /**层级 */
+    layers?: ArmorLayer[];
 };
 
 
@@ -53,11 +53,11 @@ export const ArmorLayerList = ["PERSONAL","SKINTIGHT","NORMAL","WAIST","OUTER","
 export type ArmorLayer = typeof ArmorLayerList[number];
 
 export const ArmorFlagList = [
-	"INTEGRATED"			,//该物品代表了由突变或仿生学授予的你的一部分。它总是适合, 不能被卸下 (除了失去来源), 并且不会在死亡时掉落, 但在功能、负担、层冲突等方面表现得像普通盔甲。
-	"ALLOWS_NATURAL_ATTACKS",//允许变异肢体的攻击
-	"BLOCK_WHILE_WORN"		,//允许使用磨损的盔甲或盾牌来阻挡攻击。
-	"PARTIAL_DEAF"			,//降低音量到安全
-	"PADDED"				,//有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
+    "INTEGRATED"             , // 该物品代表了由突变或仿生学授予的你的一部分。它总是适合, 不能被卸下 (除了失去来源), 并且不会在死亡时掉落, 但在功能、负担、层冲突等方面表现得像普通盔甲。
+    "ALLOWS_NATURAL_ATTACKS" , // 允许变异肢体的攻击
+    "BLOCK_WHILE_WORN"       , // 允许使用磨损的盔甲或盾牌来阻挡攻击。
+    "PARTIAL_DEAF"           , // 降低音量到安全
+    "PADDED"                 , // 有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
 ] as const;
 export type ArmorFlag = typeof ArmorFlagList[number]|ArmorLayer|GenericFlag;
 

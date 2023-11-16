@@ -52,7 +52,7 @@ export type ItemGroup = {
     extend?:Pick<ItemGroup,"entries"|"items"|"groups">;
 }
 /**一项Entry */
-type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|
+export type ItemGroupEntrie = (ItemGroupEntrieItem|ItemGroupEntrieGroup|
     ItemGroupEntrieDist|ItemGroupEntrieColl)&ItemGroupEntrieOpt;
 /**物品Entry */
 type ItemGroupEntrieItem = {

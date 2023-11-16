@@ -30,11 +30,11 @@ export function genAmmoID(id:string):AmmoID{
 }
 /**生成适用于此mod的 EOC ID */
 export function genEOCID(id: string):EocID{
-	return `${MOD_PREFIX}_EOC_${id}`;
+    return `${MOD_PREFIX}_EOC_${id}`;
 }
 /**生成适用于此mod的 Effect ID */
 export function genEffectID(id: string):EffectID{
-	return `${MOD_PREFIX}_EFF_${id}`;
+    return `${MOD_PREFIX}_EFF_${id}`;
 }
 /**生成适用于此mod的 物品组ID */
 export function genItemGroupID(id:string):ItemGroupID{
@@ -42,7 +42,7 @@ export function genItemGroupID(id:string):ItemGroupID{
 }
 /**生成适用于此mod的 变异ID */
 export function genMutationID(id: string):MutationID{
-	return `${MOD_PREFIX}_MUT_${id}`;
+    return `${MOD_PREFIX}_MUT_${id}`;
 }
 /**生成适用于此mod的 NPC职业ID */
 export function genNpcClassID(id:string):NpcClassID{

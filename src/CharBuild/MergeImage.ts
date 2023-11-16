@@ -10,15 +10,15 @@ import { OverlayOrdering } from "CddaJsonFormat";
 /**动作图片信息 */
 type ImageInfo = Partial<Record<AnimType,{
     /**图片宽度 */
-	sprite_width: number;
+    sprite_width: number;
     /**图片高度 */
-	sprite_height: number;
+    sprite_height: number;
     /**图片偏移 X */
-	sprite_offset_x?: number;
+    sprite_offset_x?: number;
     /**图片偏移 Y */
-	sprite_offset_y?: number;
+    sprite_offset_y?: number;
     /**图片缩放比例 */
-	pixelscale?: number;
+    pixelscale?: number;
     /**帧动画间隔 默认10 */
     interval?:number;
     /**最后一帧的权重 默认等于interval */
@@ -135,13 +135,13 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     const tilesetNew = ((await UtilFT.loadJSONFile(packageInfoPath))["tiles-new"] as any[])
         .filter(item => item.file!="fallback.png");
     outData["mod_tileset"] = [{
-		type: "mod_tileset",
-		compatibility: [dm.gameData.gfx_name],
-		"tiles-new": tilesetNew.map(item=>{
+        type: "mod_tileset",
+        compatibility: [dm.gameData.gfx_name],
+        "tiles-new": tilesetNew.map(item=>{
             item.file = path.join('chars',charName,'anim',item.file)
             return item;
         }),
-	}];
+    }];
     outData['overlay_ordering'] = [ordering];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))

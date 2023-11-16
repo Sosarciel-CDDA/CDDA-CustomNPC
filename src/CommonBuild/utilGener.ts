@@ -85,7 +85,7 @@ export function genArmorMut(armor:Armor){
         "PARTIAL_DEAF"          ,//降低音量到安全水平
         "NO_SALVAGE"            ,//无法拆分
         "ALLOWS_NATURAL_ATTACKS",//不会妨碍特殊攻击
-        "PADDED"				,//有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
+        "PADDED"                ,//有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
     )
     armor.weight=0;
     armor.volume=0;

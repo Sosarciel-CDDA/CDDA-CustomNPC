@@ -11,8 +11,8 @@ import { SoundEffectID, SoundEffectVariantID } from "./SoundEffect";
 
 /**预定义的法术ID 列表 */
 export const DefineSpellIDList = [
-    "AO_CLOSE_TEAR" ,//神器关闭裂隙
-    "pain_split"    ,//伤痛分流
+    "AO_CLOSE_TEAR" , //神器关闭裂隙
+    "pain_split"    , //伤痛分流
 ] as const;
 /**预定义的法术ID */
 export type DefineSpellID = typeof DefineSpellIDList[number];
@@ -23,12 +23,12 @@ export type SpellID = CddaID<"SPELL">|DefineSpellID;
 
 /**法术 */
 export type Spell = {
-	id: SpellID;
-	type: "SPELL";
-	name: DescText;
-	description: DescText;
+    id: SpellID;
+    type: "SPELL";
+    name: DescText;
+    description: DescText;
     /**有效的目标类型 */
-	valid_targets: SpellTarget[];
+    valid_targets: SpellTarget[];
     /**如果法术可以对生物释放 有效的怪物ID */
     targeted_monster_ids?:MonsterID[];
     /**如果法术可以对生物释放 有效的怪物特殊标签 */
@@ -36,124 +36,124 @@ export type Spell = {
     /**如果法术可以对生物释放 排除的怪物特殊标签 */
     ignored_monster_species?:string[];
     /**法术效果类型 */
-	effect: SpellEffect;
+    effect: SpellEffect;
     /**法术效果子类型  
      * 主类型为 attack 时向目标添加效果  
      * 其他情况下取决于主类型  
      */
-	effect_str?: string;
+    effect_str?: string;
     /**法术范围形状 */
-	shape: SpellShape;
+    shape: SpellShape;
     /**法术子效果 */
-	extra_effects?: FakeSpell[];
+    extra_effects?: FakeSpell[];
     /**受影响的身体部位 */
-	affected_body_parts?: BodyPartID[];
+    affected_body_parts?: BodyPartID[];
     /**法术flag */
-	flags?: SpellFlag[];
+    flags?: SpellFlag[];
     /**属于哪个职业的法术 */
-	spell_class?: string;
+    spell_class?: string;
     /**初始施法时间 */
-	base_casting_time?: NumObj;
+    base_casting_time?: NumObj;
     /**极限的施法时间 */
-	final_casting_time?: NumObj;
+    final_casting_time?: NumObj;
     /**每级的施法时间调整 */
-	casting_time_increment?: NumObj;
+    casting_time_increment?: NumObj;
     /**初始能量消耗 */
-	base_energy_cost?: NumObj;
+    base_energy_cost?: NumObj;
     /**极限的能量消耗 */
-	final_energy_cost?: NumObj;
+    final_energy_cost?: NumObj;
     /**每级的能量消耗调整 */
-	energy_increment?: NumObj;
+    energy_increment?: NumObj;
     /**法术使用的能量池 默认魔力 */
-	energy_source?: SpellEnergySource;
+    energy_source?: SpellEnergySource;
     /**施法材料ID */
-	components?: AnyItemID[];
+    components?: AnyItemID[];
     /**法术难度 */
-	difficulty?: NumObj;
+    difficulty?: NumObj;
     /**法术最大等级 */
-	max_level?: NumObj;
+    max_level?: NumObj;
     /**初始法术准确度 -15 左右时总是能被格挡 */
-	min_accuracy?: NumObj;
+    min_accuracy?: NumObj;
     /**极限法术准确度 20 左右时几乎无法格挡 */
-	max_accuracy?: NumObj;
+    max_accuracy?: NumObj;
     /**每级的法术准确度调整 */
-	accuracy_increment?: NumObj;
+    accuracy_increment?: NumObj;
     /**初始法术伤害 必须填写 max_damage 才能造成伤害 */
-	min_damage?: NumObj;
+    min_damage?: NumObj;
     /**极限法术伤害 必须填写 max_damage 才能造成伤害 */
-	max_damage?: NumObj;
+    max_damage?: NumObj;
     /**每级的法术伤害调整 */
-	damage_increment?: NumObj;
+    damage_increment?: NumObj;
     /**法术的伤害类型  
      * 伤害法术必须定义伤害类型  
      */
     damage_type?:DamageTypeID;
     /**初始法术aoe范围 */
-	min_aoe?: NumObj;
+    min_aoe?: NumObj;
     /**极限法术aoe范围 */
-	max_aoe?: NumObj;
+    max_aoe?: NumObj;
     /**每级的法术aoe范围调整 */
-	aoe_increment?: NumObj;
+    aoe_increment?: NumObj;
     /**初始法术施法范围 */
-	min_range?: NumObj;
+    min_range?: NumObj;
     /**极限法术施法范围 */
-	max_range?: NumObj;
+    max_range?: NumObj;
     /**每级的法术施法范围调整 */
-	range_increment?: NumObj;
+    range_increment?: NumObj;
     /**初始法术持续伤害 */
-	min_dot?: NumObj;
+    min_dot?: NumObj;
     /**极限法术持续伤害 */
-	max_dot?: NumObj;
+    max_dot?: NumObj;
     /**每级的法术持续伤害调整 */
-	dot_increment?: NumObj;
+    dot_increment?: NumObj;
     /**初始法术持续时间 单位为 1/100秒 */
-	min_duration?: NumObj;
-	/**极限法术持续时间 单位为 1/100秒 */
+    min_duration?: NumObj;
+    /**极限法术持续时间 单位为 1/100秒 */
     max_duration?: NumObj;
     /**每级的法术持续时间调整 */
-	duration_increment?: NumObj;
+    duration_increment?: NumObj;
     /**初始法术穿甲 */
-	min_pierce?: NumObj;
+    min_pierce?: NumObj;
     /**极限法术穿甲 */
-	max_pierce?: NumObj;
+    max_pierce?: NumObj;
     /**每级的法术穿甲调整 */
-	pierce_increment?: NumObj;
+    pierce_increment?: NumObj;
     /**法术在目标处创建的Field */
-	field_id?: FieldID;
+    field_id?: FieldID;
     /**每个被法术影响到的地块有 1/n 的概率产生Field */
-	field_chance?: NumObj;
+    field_chance?: NumObj;
     /**初始法术地块效果强度 */
-	min_field_intensity?: NumObj;
+    min_field_intensity?: NumObj;
     /**极限法术地块效果强度 */
-	max_field_intensity?: NumObj;
+    max_field_intensity?: NumObj;
     /**每级的法术地块效果强度调整 */
-	field_intensity_increment?: NumObj;
+    field_intensity_increment?: NumObj;
     /**法术地块效果强度的浮动值 0.1时为 +-10% */
-	field_intensity_variance?: NumObj;
+    field_intensity_variance?: NumObj;
     /**法术产生的声音类型 */
-	sound_type?: SpellSoundType;
+    sound_type?: SpellSoundType;
     /**发书产生的声音描述 起效于"You hear %s" 默认为 "an explosion" */
-	sound_description?: DescText;
+    sound_description?: DescText;
     /**视为环境声音 */
-	sound_ambient?: boolean;
+    sound_ambient?: boolean;
     /**声音ID */
-	sound_id?: SoundEffectID;
+    sound_id?: SoundEffectID;
     /**声音变体ID */
-	sound_variant?: SoundEffectVariantID;
+    sound_variant?: SoundEffectVariantID;
     /**当列表内所有法术到达指定等级时学会此法术  
      * Record<(SpellID)法术ID : (NumObj)需求等级>  
      */
-	learn_spells?: Partial<Record<SpellID,NumObj>>;
+    learn_spells?: Partial<Record<SpellID,NumObj>>;
 };
 
 /**法术有效目标 列表 */
 export const SpellTargetList = [
-    "hostile",//敌人
-    "ground" ,//地面
-    "self"   ,//自己
-    "ally"   ,//盟友
-    "field"  ,//地块效果
-    "none"   ,//无
+    "hostile", //敌人
+    "ground" , //地面
+    "self"   , //自己
+    "ally"   , //盟友
+    "field"  , //地块效果
+    "none"   , //无
 ] as const;
 /**法术有效目标 */
 export type SpellTarget = typeof SpellTargetList[number];
@@ -203,50 +203,50 @@ export type SpellEffect = typeof SpellEffectList[number];
 
 /**法术范围形状 列表*/
 export const SpellShapeList = [
-    "blast"	,//以撞击位置为中心的圆形爆炸。Aoe值是半径。
-    "cone"	,//发射一个圆锥体, 其弧度等于 aoe (以度为单位)。
-    "line"	,//发射一条宽度等于 aoe 的线。
+    "blast" , // 以撞击位置为中心的圆形爆炸。Aoe值是半径。
+    "cone"  , // 发射一个圆锥体, 其弧度等于 aoe (以度为单位)。
+    "line"  , // 发射一条宽度等于 aoe 的线。
 ] as const;
 /**法术范围形状 */
 export type SpellShape = typeof SpellShapeList[number];
 
 /**法术Flag 列表*/
 export const SpellFlagList = [
-    "CONCENTRATE"	                ,//焦点影响法术失败百分比。
-    "EXTRA_EFFECTS_FIRST"	        ,//该法术extra_effects将在主要法术效果之前发生。
-    "FRIENDLY_POLY"	                ,//如果法术成功结算, 法术的目标targeted_polymorph将会对施法者变得友好。
-    "HOSTILE_SUMMON"	            ,//召唤法术总是会产生敌对的怪物。
-    "HOSTILE_50"	                ,//召唤的怪物在 50% 的情况下会友好地生成。
-    "IGNITE_FLAMMABLE"	            ,//如果法术区域有任何易燃物品, 就会产生火灾
-    "IGNORE_WALLS"	                ,//法术的 AOE 可以穿过墙壁。
-    "LOUD"	                        ,//法术会对目标产生额外的噪音。
-    "MUST_HAVE_CLASS_TO_LEARN"	    ,//当你拥有 时, 该法术会自动学习spell_class；当你失去它时, 该法术会被移除。
-    "MUTATE_TRAIT"	                ,//覆盖mutate法术效果以使用特定的 Trait_id 而不是类别。
-    "NO_EXPLOSION_SFX"	            ,//该法术不会产生视觉爆炸效果。
-    "NO_FAIL"	                    ,//该法术在施展时不会失败。
-    "NO_HANDS"	                    ,//手不影响法术能量消耗。
-    "NO_LEGS"	                    ,//腿不影响施法时间。
-    "NO_PROJECTILE"	                ,//法术的“射弹”部分会穿过墙壁, 法术效果的中心正是你瞄准的地方, 不考虑障碍物。
-    "NON_MAGICAL"	                ,//计算伤害减轻时忽略法术抗力。
-    "PAIN_NORESIST"	                ,//改变疼痛的法术无法被抵抗 (就像死亡特性一样)。
-    "PERCENTAGE_DAMAGE"	            ,//该法术根据目标当前的生命值造成伤害。这意味着该法术无法直接杀死目标。
-    "PERMANENT"	                    ,//用此法术生成的物品或生物不会像平常一样消失和死亡。物品只有在最高法术等级时才能永久存在；任何法术等级的生物都可以是永久的。
-    "PERMANENT_ALL_LEVELS"	        ,//即使该法术不是最高等级, 用该法术生成的物品也不会消失。
-    "POLYMORPH_GROUP"	            ,//咒语targeted_polymorph会将目标变成随机的monstergroup怪物effect_str。
-    "RANDOM_AOE"	                ,//在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
-    "RANDOM_CRITTER"	            ,//与地面相同, RANDOM_TARGET但忽略地面。
-    "RANDOM_DAMAGE"	                ,//在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
-    "RANDOM_DURATION"	            ,//在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
-    "RANDOM_TARGET"	                ,//强制法术在范围内随机选择一个有效目标, 而不是由施法者选择目标。这也影响到extra_effects。
-    "SILENT"	                    ,//法术不会对目标发出任何噪音。
-    "SOMATIC"	                    ,//手臂负担会影响失败率和施法时间 (轻微)。
-    "SPAWN_GROUP"	                ,//item_group      从或生成或召唤monstergroup, 而不是特定 ID。
-    "SPAWN_WITH_DEATH_DROPS"	    ,//允许召唤的怪物保留其通常的死亡掉落物, 否则它们不会掉落任何东西。
-    "SWAP_POS"	                    ,//投射法术会交换施法者和目标的位置。
-    "TARGET_TELEPORT"	            ,//传送法术更改为最大范围目标, 并以范围作为目标周围的变化。
-    "UNSAFE_TELEPORT"	            ,//传送法术有杀死施法者或其他人的风险。
-    "VERBAL"	                    ,//法术会在施法者所在位置发出噪音, 嘴部阻碍会影响失败百分比。
-    "WONDER"	                    ,//这极大地改变了父法术的行为: 法术本身不施放, 但伤害和范围信息用于施放extra_effects。extra_effects将随机选择n个施放, 其中n是法术当前的伤害 (与RANDOM_DAMAGE旗帜叠加), 施放法术的消息也会显示。如果不需要这个咒语的消息, 请确保message它是一个空字符串。
+    "CONCENTRATE"              , // 焦点影响法术失败百分比。
+    "EXTRA_EFFECTS_FIRST"      , // 该法术extra_effects将在主要法术效果之前发生。
+    "FRIENDLY_POLY"            , // 如果法术成功结算, 法术的目标targeted_polymorph将会对施法者变得友好。
+    "HOSTILE_SUMMON"           , // 召唤法术总是会产生敌对的怪物。
+    "HOSTILE_50"               , // 召唤的怪物在 50% 的情况下会友好地生成。
+    "IGNITE_FLAMMABLE"         , // 如果法术区域有任何易燃物品, 就会产生火灾
+    "IGNORE_WALLS"             , // 法术的 AOE 可以穿过墙壁。
+    "LOUD"                     , // 法术会对目标产生额外的噪音。
+    "MUST_HAVE_CLASS_TO_LEARN" , // 当你拥有 时, 该法术会自动学习spell_class；当你失去它时, 该法术会被移除。
+    "MUTATE_TRAIT"             , // 覆盖mutate法术效果以使用特定的 Trait_id 而不是类别。
+    "NO_EXPLOSION_SFX"         , // 该法术不会产生视觉爆炸效果。
+    "NO_FAIL"                  , // 该法术在施展时不会失败。
+    "NO_HANDS"                 , // 手不影响法术能量消耗。
+    "NO_LEGS"                  , // 腿不影响施法时间。
+    "NO_PROJECTILE"            , // 法术的“射弹”部分会穿过墙壁, 法术效果的中心正是你瞄准的地方, 不考虑障碍物。
+    "NON_MAGICAL"              , // 计算伤害减轻时忽略法术抗力。
+    "PAIN_NORESIST"            , // 改变疼痛的法术无法被抵抗 (就像死亡特性一样)。
+    "PERCENTAGE_DAMAGE"        , // 该法术根据目标当前的生命值造成伤害。这意味着该法术无法直接杀死目标。
+    "PERMANENT"                , // 用此法术生成的物品或生物不会像平常一样消失和死亡。物品只有在最高法术等级时才能永久存在；任何法术等级的生物都可以是永久的。
+    "PERMANENT_ALL_LEVELS"     , // 即使该法术不是最高等级, 用该法术生成的物品也不会消失。
+    "POLYMORPH_GROUP"          , // 咒语targeted_polymorph会将目标变成随机的monstergroup怪物effect_str。
+    "RANDOM_AOE"               , // 在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
+    "RANDOM_CRITTER"           , // 与地面相同, RANDOM_TARGET但忽略地面。
+    "RANDOM_DAMAGE"            , // 在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
+    "RANDOM_DURATION"          , // 在 (最小值+增量)*级别和最大值之间选择随机数, 而不是正常行为。
+    "RANDOM_TARGET"            , // 强制法术在范围内随机选择一个有效目标, 而不是由施法者选择目标。这也影响到extra_effects。
+    "SILENT"                   , // 法术不会对目标发出任何噪音。
+    "SOMATIC"                  , // 手臂负担会影响失败率和施法时间 (轻微)。
+    "SPAWN_GROUP"              , // item_group      从或生成或召唤monstergroup, 而不是特定 ID。
+    "SPAWN_WITH_DEATH_DROPS"   , // 允许召唤的怪物保留其通常的死亡掉落物, 否则它们不会掉落任何东西。
+    "SWAP_POS"                 , // 投射法术会交换施法者和目标的位置。
+    "TARGET_TELEPORT"          , // 传送法术更改为最大范围目标, 并以范围作为目标周围的变化。
+    "UNSAFE_TELEPORT"          , // 传送法术有杀死施法者或其他人的风险。
+    "VERBAL"                   , // 法术会在施法者所在位置发出噪音, 嘴部阻碍会影响失败百分比。
+    "WONDER"                   , // 这极大地改变了父法术的行为: 法术本身不施放, 但伤害和范围信息用于施放extra_effects。extra_effects将随机选择n个施放, 其中n是法术当前的伤害 (与RANDOM_DAMAGE旗帜叠加), 施放法术的消息也会显示。如果不需要这个咒语的消息, 请确保message它是一个空字符串。
 ] as const;
 /**法术Flag */
 export type SpellFlag = typeof SpellFlagList[number];
