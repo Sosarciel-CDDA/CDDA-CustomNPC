@@ -26,6 +26,7 @@ exports.StatMod = {
     values: [{
             value: "RANGED_DAMAGE",
             //add:{math:["u_val('perception')"]},
+            add: { math: ["10000"] },
             multiply: { math: ["DamageMul(u_val('perception'))-1"] }
         }, {
             value: "MELEE_DAMAGE",

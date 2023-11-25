@@ -31,8 +31,7 @@
 				"valid_mod_locations": [],
 				"faults": [],
 				"modes": [
-					["DEFAULT"	,"semi-auto",1],
-					["AUTO"		,"auto"		,2]
+					["DEFAULT"	,"semi-auto",1]
 				],
 				"range": 16
 			}

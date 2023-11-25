@@ -11,6 +11,7 @@ import { Tool, ToolID } from "./Tool";
 import { Magazine, MagazineID } from "./Magazine";
 import { Comestible } from "./Comestible";
 import { Armor } from "./Armor";
+import { GunMod } from "./GunMod";
 
 
 /**预定义的通用物品 列表 */
@@ -208,25 +209,25 @@ export type ToHit ={
 
 /**武器Flag 列表 */
 export const WeaponFlagList = [
-    "ALLOWS_BODY_BLOCK"    ,//即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
-    "ALWAYS_TWOHAND"    ,//物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
-    "BIONIC_WEAPON"        ,//无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
-    "DIAMOND"            ,//金刚石涂层使切割和穿刺伤害增加 30%。
-    "MESSY"                ,//制浆时会造成更多混乱。
-    "NO_CVD"            ,//物品永远不能与 CVD 机器一起使用。
-    "NO_RELOAD"            ,//物品永远无法重新装载 (即使具有有效的弹药类型)。
-    "NO_UNWIELD"        ,//无法解开该物品。使用仿生学的假武器和工具将自动添加此标志。
-    "NONCONDUCTIVE"        ,//由于某些特征 (手柄或整个物品的非导电材料), 该物品不导电, 因此可以安全地用于对抗以电力为主题的怪物, 而没有回击的风险。对面CONDUCTIVE。
-    "POLEARM"            ,//该物品近距离时很笨拙, 会对相邻目标造成 70% 的正常伤害。应与REACH_ATTACK. 像长矛这样的简单的穿刺武器不应该得到这个旗帜。
-    "REACH_ATTACK"        ,//允许在 2 格距离内进行近战攻击。
-    "REACH3"            ,//允许在 3 格距离内进行近战攻击。
-    "SHEATH_AXE"        ,//物品可以装在斧鞘中。
-    "SHEATH_GOLF"        ,//物品可以装在高尔夫球袋中。
-    "SHEATH_KNIFE"        ,//物品可以套在刀套中, 适用于中小型刀具 (容量不大于2)。
-    "SHEATH_SWORD"        ,//物品可以装在剑鞘中。
-    "SPEAR"                ,//当进行攻击时, THIN_OBSTACLE地形不会成为障碍。应与REACH_ATTACK.
-    //"UNARMED_WEAPON"    ,//挥舞该物品进行战斗仍然算作徒手战斗。
-    "WHIP"                ,//有一定几率解除对手的武装。
+    "ALLOWS_BODY_BLOCK", //即使在挥舞带有旗帜的物品时也可以触发身体块 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+    "ALWAYS_TWOHAND"   , //物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
+    "BIONIC_WEAPON"    , //无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
+    "DIAMOND"          , //金刚石涂层使切割和穿刺伤害增加 30%。
+    "MESSY"            , //制浆时会造成更多混乱。
+    "NO_CVD"           , //物品永远不能与 CVD 机器一起使用。
+    "NO_RELOAD"        , //物品永远无法重新装载 (即使具有有效的弹药类型)。
+    "NO_UNWIELD"       , //无法解开该物品。使用仿生学的假武器和工具将自动添加此标志。
+    "NONCONDUCTIVE"    , //由于某些特征 (手柄或整个物品的非导电材料), 该物品不导电, 因此可以安全地用于对抗以电力为主题的怪物, 而没有回击的风险。对面CONDUCTIVE。
+    "POLEARM"          , //该物品近距离时很笨拙, 会对相邻目标造成 70% 的正常伤害。应与REACH_ATTACK. 像长矛这样的简单的穿刺武器不应该得到这个旗帜。
+    "REACH_ATTACK"     , //允许在 2 格距离内进行近战攻击。
+    "REACH3"           , //允许在 3 格距离内进行近战攻击。
+    "SHEATH_AXE"       , //物品可以装在斧鞘中。
+    "SHEATH_GOLF"      , //物品可以装在高尔夫球袋中。
+    "SHEATH_KNIFE"     , //物品可以套在刀套中, 适用于中小型刀具 (容量不大于2)。
+    "SHEATH_SWORD"     , //物品可以装在剑鞘中。
+    "SPEAR"            , //当进行攻击时, THIN_OBSTACLE地形不会成为障碍。应与REACH_ATTACK.
+    //"UNARMED_WEAPON" , //挥舞该物品进行战斗仍然算作徒手战斗。
+    "WHIP"             , //有一定几率解除对手的武装。
 ] as const;
 /**武器Flag */
 export type WeaponFlag = typeof WeaponFlagList[number];
@@ -235,39 +236,39 @@ export type WeaponFlag = typeof WeaponFlagList[number];
 
 /**近战武器的Flag列表 */
 export const MeleeItemFlagList = [
-    "ALLOWS_BODY_BLOCK"    , // 即使在挥舞带有旗帜的物品时也可以触发身体格挡 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
+    "ALLOWS_BODY_BLOCK" , // 即使在挥舞带有旗帜的物品时也可以触发身体格挡 (手臂和腿块)。与刀和手枪等小物品一起使用, 不会干扰您身体的阻挡能力。仅当您当前的武术也允许身体阻挡时才有效。
     "ALWAYS_TWOHAND"    , // 物品总是用两只手挥舞。如果没有这个, 则使用物品的体积和重量来计算。
-    "BIONIC_WEAPON"        , // 无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
-    "DIAMOND"            , // 金刚石涂层使切割和穿刺伤害增加 30%。
-    "MESSY"                , // 制浆时会造成更多混乱。
+    "BIONIC_WEAPON"     , // 无法正常使用该物品。它必须连接到仿生设备上并通过激活仿生设备来装备。
+    "DIAMOND"           , // 金刚石涂层使切割和穿刺伤害增加 30%。
+    "MESSY"             , // 制浆时会造成更多混乱。
     "NO_CVD"            , // 物品永远不能与 CVD 机器一起使用。
-    "NO_RELOAD"            , // 物品永远无法重新装载 (即使具有有效的弹药类型)。
+    "NO_RELOAD"         , // 物品永远无法重新装载 (即使具有有效的弹药类型)。
     "NO_UNWIELD"        , // 无法解开该物品。使用仿生学的假武器和工具将自动添加此标志。
-    "NONCONDUCTIVE"        , // 由于某些特征 (手柄或整个物品的非导电材料), 该物品不导电, 因此可以安全地用于对抗以电力为主题的怪物, 而没有回击的风险。对面CONDUCTIVE。
-    "POLEARM"            , // 该物品近距离时很笨拙, 会对相邻目标造成 70% 的正常伤害。应与REACH_ATTACK. 像长矛这样的简单的穿刺武器不应该得到这个旗帜。
-    "REACH_ATTACK"        , // 允许在 2 格距离内进行近战攻击。
+    "NONCONDUCTIVE"     , // 由于某些特征 (手柄或整个物品的非导电材料), 该物品不导电, 因此可以安全地用于对抗以电力为主题的怪物, 而没有回击的风险。对面CONDUCTIVE。
+    "POLEARM"           , // 该物品近距离时很笨拙, 会对相邻目标造成 70% 的正常伤害。应与REACH_ATTACK. 像长矛这样的简单的穿刺武器不应该得到这个旗帜。
+    "REACH_ATTACK"      , // 允许在 2 格距离内进行近战攻击。
     "REACH3"            , // 允许在 3 格距离内进行近战攻击。
     "SHEATH_AXE"        , // 物品可以装在斧鞘中。
-    "SHEATH_GOLF"        , // 物品可以装在高尔夫球袋中。
-    "SHEATH_KNIFE"        , // 物品可以套在刀套中, 适用于中小型刀具 (容量不大于2)。
-    "SHEATH_SWORD"        , // 物品可以装在剑鞘中。
-    "SPEAR"                , // 当进行攻击时, THIN_OBSTACLE地形不会成为障碍。应与REACH_ATTACK.
+    "SHEATH_GOLF"       , // 物品可以装在高尔夫球袋中。
+    "SHEATH_KNIFE"      , // 物品可以套在刀套中, 适用于中小型刀具 (容量不大于2)。
+    "SHEATH_SWORD"      , // 物品可以装在剑鞘中。
+    "SPEAR"             , // 当进行攻击时, THIN_OBSTACLE地形不会成为障碍。应与REACH_ATTACK.
     "UNARMED_WEAPON"    , // 挥舞该物品进行战斗仍然算作徒手战斗。
-    "WHIP"                , // 有一定几率解除对手的武装。
+    "WHIP"              , // 有一定几率解除对手的武装。
 ] as const;
 
 /**通用物品的flag列表 */
 export const GenericFlagList = [
-    ...MeleeItemFlagList,
-    "ACTIVATE_ON_PLACE"    , //放置时激活
-    "SINGLE_USE"        , //使用后删除
-    "ZERO_WEIGHT"        , //允许0重量/体积
-    "TARDIS"            , //跳过容器大小检查
-    "TRADER_KEEP"        , //商人不会售卖这个物品
-    "NO_RELOAD"            , //无法重载
-    "UNBREAKABLE"        , //不会损坏
-    "DURABLE_MELEE"        , //坚固的近战武器
-    "NO_SALVAGE"        , //无法拆分
+    ...MeleeItemFlagList     , 
+    "ACTIVATE_ON_PLACE"      , //放置时激活
+    "SINGLE_USE"             , //使用后删除
+    "ZERO_WEIGHT"            , //允许0重量/体积
+    "TARDIS"                 , //跳过容器大小检查
+    "TRADER_KEEP"            , //商人不会售卖这个物品
+    "NO_RELOAD"              , //无法重载
+    "UNBREAKABLE"            , //不会损坏
+    "DURABLE_MELEE"          , //坚固的近战武器
+    "NO_SALVAGE"             , //无法拆分
 ] as const;
 /**预定义的通用物品的flag */
 export type DefineGenericFlag = typeof GenericFlagList[number];
@@ -283,47 +284,47 @@ export type ItemMaterial = MaterialID|{
 }
 
 /**任何物品 */
-export type AnyItem = Generic|Ammo|Gun|Tool|Magazine|Comestible|Armor;
+export type AnyItem = Generic|Ammo|Gun|Tool|Magazine|Comestible|Armor|GunMod;
 /**任何物品ID */
 export type AnyItemID = AnyItem["id"];
 
 
 /**预定义的物品类别 列表 */
-export const DefineItemCategoryList =[
-    "guns"                    ,//
-    "magazines"                ,//
-    "ammo"                    ,//
-    "weapons"                ,//
-    "tools"                    ,//
-    "clothing"                ,//衣物
-    "food"                    ,//
-    "drugs"                    ,//
-    "manuals"                ,//
-    "books"                    ,//
-    "maps"                    ,//
-    "mods"                    ,//
-    "mutagen"                ,//
-    "bionics"                ,//
-    "currency"                ,//
-    "veh_parts"                ,//
-    "other"                    ,//
-    "fuel"                    ,//
-    "seeds"                    ,//
-    "ma_manuals"            ,//
-    "traps"                    ,//
-    "chems"                    ,//
-    "spare_parts"            ,//
-    "container"                ,//
-    "artifacts"                ,//
-    "keys"                    ,//
-    "corpses"                ,//
-    "tool_magazine"            ,//
-    "armor"                    ,//盔甲
-    "exosuit"                ,//
-    "ITEMS_WORN"            ,//
-    "INTEGRATED"            ,//
-    "BIONIC_FUEL_SOURCE"    ,//
-    "WEAPON_HELD"            ,//
+export const DefineItemCategoryList = [
+    "guns"                          , //
+    "magazines"                     , //
+    "ammo"                          , //
+    "weapons"                       , //
+    "tools"                         , //
+    "clothing"                      , //衣物
+    "food"                          , //
+    "drugs"                         , //
+    "manuals"                       , //
+    "books"                         , //
+    "maps"                          , //
+    "mods"                          , //
+    "mutagen"                       , //
+    "bionics"                       , //
+    "currency"                      , //
+    "veh_parts"                     , //
+    "other"                         , //
+    "fuel"                          , //
+    "seeds"                         , //
+    "ma_manuals"                    , //
+    "traps"                         , //
+    "chems"                         , //
+    "spare_parts"                   , //
+    "container"                     , //
+    "artifacts"                     , //
+    "keys"                          , //
+    "corpses"                       , //
+    "tool_magazine"                 , //
+    "armor"                         , //盔甲
+    "exosuit"                       , //
+    "ITEMS_WORN"                    , //
+    "INTEGRATED"                    , //
+    "BIONIC_FUEL_SOURCE"            , //
+    "WEAPON_HELD"                   , //
 ] as const;
 /**预定义的物品类别 */
 export type DefineItemCategory = typeof DefineItemCategoryList[number];
@@ -332,11 +333,11 @@ export type ItemCategotyID = DefineItemCategory;
 
 
 /**
-ACT_IN_FIRE                            如果掉落在带有火的瓷砖上, 该物品将被激活
-ALLERGEN_MILK                        该产品含有牛奶, 乳糖不耐症人士不可食用
-ANIMAL_PRODUCT                        该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
-BAD_TASTE这                            种食物的味道为-5, 无法通过烹饪来覆盖
-BANK_NOTE_SHAPED                    该物品可像钞票一样放入钱包的折叠套中。
+ACT_IN_FIRE                              如果掉落在带有火的瓷砖上, 该物品将被激活
+ALLERGEN_MILK                            该产品含有牛奶, 乳糖不耐症人士不可食用
+ANIMAL_PRODUCT                           该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
+BAD_TASTE这                              种食物的味道为-5, 无法通过烹饪来覆盖
+BANK_NOTE_SHAPED                        该物品可像钞票一样放入钱包的折叠套中。
 BANK_NOTE_STRAP_SHAPED                该物品可放入用于放钱带的口袋中 (如收银机)。
 BATTERY_HEAVY                        该商品为重型电池, 可放入有重型电池限制的口袋中
 BATTERY_LIGHT                        该商品为轻型电池, 可放入有轻型电池限制的口袋中

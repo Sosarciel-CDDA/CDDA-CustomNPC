@@ -1,4 +1,5 @@
 {
+	"virtual": true,
 	"extends": ["BaseField","BaseSkill","BaseVar","AnimStatModify"],
     "base_status":{
         "str":12,

@@ -32,8 +32,7 @@
 			"energy_drain": 0,
 			"flags":["NO_UNLOAD"],
 			"modes": [
-				[ "DEFAULT", "pulse", 1 ],
-				[ "AUTO"   , "2s sequence", 2 ]
+				[ "DEFAULT", "pulse", 1 ]
 			],
 			"ammo_effects": ["LIGHTNING_Akaset","DRAW_AS_LINE"],
 			"valid_mod_locations": [],

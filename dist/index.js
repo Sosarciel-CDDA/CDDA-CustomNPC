@@ -7,7 +7,7 @@ const CharBuild_1 = require("./CharBuild");
 const CommonBuild_1 = require("./CommonBuild");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
-    await (0, CharBuild_1.mergeImage)(dm, charName, true);
+    await (0, CharBuild_1.mergeImage)(dm, charName, false);
     await (0, CharBuild_1.createAnimTool)(dm, charName);
     await (0, CharBuild_1.createCharClass)(dm, charName);
     await (0, CharBuild_1.createCharEquip)(dm, charName);
