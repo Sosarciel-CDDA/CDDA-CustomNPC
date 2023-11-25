@@ -9,7 +9,49 @@ export type UseAction = [
     UARunEoc,
     UAExplosion,
     UALearnSpell,
-    UACastSpell
+    UACastSpell,
+    UseActionHardcode
+][number];
+/**硬编码效果 */
+type UseActionHardcode = [
+    "ALCOHOL_STRONG",
+    "ALCOHOL_WEAK",
+    "ALCOHOL",
+    "ANTIBIOTIC",
+    "BANDAGE",
+    "BIRDFOOD",
+    "BLECH",
+    "BLECH_BECAUSE_UNCLEAN",
+    "CATFOOD",
+    "CATTLEFODDER",
+    "CHEW",
+    "CIG",
+    "COKE",
+    "CRACK",
+    "DISINFECTANT",
+    "DOGFOOD",
+    "FIRSTAID",
+    "FLUMED",
+    "FLUSLEEP",
+    "FUNGICIDE",
+    "HALLU",
+    "HONEYCOMB",
+    "INHALER",
+    "IODINE",
+    "MARLOSS",
+    "METH",
+    "NONE",
+    "PKILL",
+    "PLANTBLECH",
+    "POISON",
+    "PROZAC",
+    "PURIFIER",
+    "SEWAGE",
+    "SLEEP",
+    "THORAZINE",
+    "VITAMINS",
+    "WEED",
+    "XANAX"
 ][number];
 /**放置NPC */
 type UAPlaceNpc = {
@@ -19,7 +61,7 @@ type UAPlaceNpc = {
     npc_class_id: NpcClassID;
     /**生成时播报的消息 */
     summon_msg?: DescText;
-    /**将 npc 随机放置在玩家周围, 如果 false: 让玩家决定将其放置在哪里（默认值: false） */
+    /**将 npc 随机放置在玩家周围, 如果 false: 让玩家决定将其放置在哪里 (默认值: false)  */
     place_randomly?: boolean;
     /**该动作需要多少移动点 */
     moves?: number;

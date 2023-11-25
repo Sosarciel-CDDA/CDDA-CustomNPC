@@ -8,8 +8,7 @@ import { VitaminsID } from "./Vitamins";
 export declare const DefineEffectIDList: readonly ["npc_run_away", "npc_suspend", "incorporeal", "stunned", "downed", "grabbed"];
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];
-/**效果ID
- */
+/**效果ID */
 export type EffectID = CddaID<"EFF"> | DefineEffectID;
 /**效果 */
 export type Effect = {

@@ -2,9 +2,9 @@ import { AmmunitionTypeID } from "../AmmiunitionType";
 import { AmmoEffectID } from "../AmmoEffect";
 import { CddaID, CopyfromVar, RangeDamage } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
-/**Ammo ID格式
- */
+/**Ammo ID格式 */
 export type AmmoID = CddaID<"AMMO">;
+/**Ammo 弹药物品 */
 export type Ammo = CopyfromVar<{
     id: AmmoID;
     type: "AMMO";
@@ -37,6 +37,8 @@ export type Ammo = CopyfromVar<{
      * 仅当 shot_count 存在时才有意义。
      */
     shot_spread?: number;
+    /**暴击伤害倍率 */
+    critical_multiplier?: number;
     /**射击时产生后坐力 */
     recoil?: number;
     /**一次生成的数量 */

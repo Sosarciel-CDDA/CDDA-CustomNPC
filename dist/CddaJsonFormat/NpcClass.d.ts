@@ -4,9 +4,9 @@ import { ItemGroupID } from "./ItemGroup";
 import { MutationID } from "./Mutation";
 import { SkillID } from "./Skill";
 import { SpellID } from "./Spell";
-/**NpcClass ID格式
- */
+/**NpcClass ID格式 */
 export type NpcClassID = CddaID<"NPCCLS">;
+/**Npc职业 */
 export type NpcClass = {
     type: "npc_class";
     id: NpcClassID;

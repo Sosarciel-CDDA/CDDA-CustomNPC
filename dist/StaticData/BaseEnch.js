@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseEnch = exports.RangeModify = exports.MeleeModify = exports.DefenseModify = exports.NoPain = exports.NO_PAIN_ENCHID = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const StaticData_1 = require("./StaticData");
 /**属性映射附魔 */
@@ -11,11 +10,12 @@ const StatusVarMap = {
     type: "enchantment",
     has: "WORN",
     condition: "ALWAYS",
-    values: [...CddaJsonFormat_1.EnchGenericValTypeList, ...CddaJsonFormat_1.EnchArmorValTypeList].map(modType => ({
-        value: modType,
-        add: { math: [`u_add_${modType}`] },
-        multiply: { math: [`u_mul_${modType}`] },
-    }))
+    //values:[...EnchGenericValTypeList,...EnchArmorValTypeList].map(modType=>({
+    //    value   :modType,
+    //    add     :{math:[`u_add_${modType}`]},
+    //    multiply:{math:[`u_mul_${modType}`]},
+    //}))
+    values: []
 };
 /**属性增强附魔 */
 exports.STAT_MOD_ENCHID = (0, ModDefine_1.genEnchantmentID)("StatMod");

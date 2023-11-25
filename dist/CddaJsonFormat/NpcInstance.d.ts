@@ -2,8 +2,7 @@ import { EocID } from "./Eoc";
 import { CddaID, DefineNpcFaction, DescText } from "./GenericDefine";
 import { NpcClassID } from "./NpcClass";
 import { TalkTopicID } from "./TalkTopic";
-/**NpcInstance ID格式
- */
+/**NpcInstance ID格式 */
 export type NpcInstanceID = CddaID<"NPC">;
 /**Npc实例 */
 export type NpcInstance = {

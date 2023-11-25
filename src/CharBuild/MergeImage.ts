@@ -19,7 +19,7 @@ type ImageInfo = Partial<Record<AnimType,{
     sprite_offset_y?: number;
     /**图片缩放比例 */
     pixelscale?: number;
-    /**帧动画间隔 默认10 */
+    /**帧动画间隔 默认10 Cdda为60帧 */
     interval?:number;
     /**最后一帧的权重 默认等于interval */
     last_weight?:number;

@@ -1,9 +1,12 @@
 import { AmmunitionTypeID } from "./AmmiunitionType";
-import { CddaID, Color, CopyfromVar, DescText, Time } from "./GenericDefine";
-import { GenericID } from "./Item";
+import { DamageTypeID } from "./DameType";
+import { FieldID } from "./Field";
+import { CddaID, Color, CopyfromVar, DescText, Time, Volume } from "./GenericDefine";
+import { AnyItemID, GenericID } from "./Item";
 import { ItemEntrieQuick, ItemGroupEntrie, ItemGroupID } from "./ItemGroup";
 import { ReqUsing, RequirementID } from "./Requirement";
 import { SkillID } from "./Skill";
+import { ToolQualityID } from "./ToolQuality";
 
 /**载具部件ID */
 export type VehiclePartID = CddaID<"VP">;
@@ -50,12 +53,77 @@ export type VehiclePart = CopyfromVar<{
     breaks_into?: ItemGroupEntrie[]|ItemGroupID;
     /**与部件相关的标志 */
     flags?: VPFlag[];
-    /** (可选) 部件的特殊安装、移除或修理要求。每个字段都由一个对象组成, 字段为 "skills"、"time" 和 "using"。 */
+    /** (可选) 部件的特殊安装、移除或修理要求。  
+     * 每个字段都由一个对象组成, 字段为 "skills"、"time" 和 "using"。  
+     */
     requirements?: {
-        install: VPRequirement;
-        removal: VPRequirement;
-        repair: VPRequirement;
+        install?: VPRequirement;
+        removal?: VPRequirement;
+        repair?: VPRequirement;
     };
+    /** (可选) 安装此部件的车辆的控制要求 */
+    control_requirements?: {
+        /** 飞行在空中的要求 */
+        air?: ControlReq;
+        /** 在地面上运行的要求 */
+        land?: ControlReq;
+    };
+    /** 此部件提供的工艺工具 */
+    pseudo_tools?: {
+        /**目标工具 */
+        id: AnyItemID;
+        /**热键 */
+        hotkey?: string;
+    }[];
+    /** 此vpart在折叠形式下的体积，未定义或null禁用折叠 */
+    folded_volume?: Volume;
+    /** 折叠所需的工具 itype_ids */
+    folding_tools?: AnyItemID[];
+    /** 折叠此部件的时间 */
+    folding_time?: Time;
+    /** 展开所需的工具 itype_ids */
+    unfolding_tools?: AnyItemID[];
+    /** 展开此部件的时间 */
+    unfolding_time?: Time;
+    /** 伤害减少；参见"部件阻力"。如果未指定，则设为零 */
+    damage_reduction: Partial<Record<DamageTypeID|"non_physical"|"physical"|"all",number>>;
+    /** (可选) 一个列表，每个列表都是一个工具质量和质量等级，该车辆部件提供 */
+    qualities?: [ToolQualityID, number][];
+    /** (可选) 此部件可以转换地形，如犁 */
+    transform_terrain?: {
+        /** 可以转换的地形的标志列表 */
+        pre_flags: ["PLOWABLE"];
+        /** (可选，默认为"t_null") 结果地形（如果有） */
+        post_terrain: "t_dirtmound";
+        /** (可选，默认为"f_null") 结果家具（如果有） */
+        post_furniture: "f_boulder";
+        /** (可选，默认为"fd_null") 结果字段（如果有） */
+        post_field?: FieldID;
+        /** (可选，默认为0) 字段的强度（如果有） */
+        post_field_intensity?: number;
+        /** (可选，默认为0转) 字段的生存时间（如果有） */
+        post_field_age?: Time;
+    };
+    /** 要生成的变体基础 (参见下文) */
+    variants_bases: {
+        /**变体ID */
+        id: string;
+        /**变体的显示名 */
+        label: DescText;
+    }[];
+    /**部件变体 */
+    variants: {
+        /** 变体id (必须在此部件中唯一) */
+        id: "front";
+        /** 用于ui显示的标签 */
+        label: "Front";
+        /** 部件未破裂时的符号 */
+        symbols: "oooooooo";
+        /** 部件破裂时的符号 */
+        symbols_broken: "x";
+    }[];
+    /**允许挂载的工具 */
+    allowed_tools?:AnyItemID[];
 }>;
 
 /**车辆部件的操作需求 */
@@ -67,6 +135,14 @@ type VPRequirement = {
     /**"using" 是一个列表, 每个列表都是一个制作要求。 */
     using: ReqUsing;
 }
+
+/**控制要求 */
+type ControlReq = {
+    /** "skills" 是一个列表，每个列表都是一个技能名称和技能等级 */
+    skills?: [SkillID,number][];
+    /** "proficiencies" 是技能名称的列表 prof_helicopter_pilot */
+    proficiencies?: string[];
+};
 
 /**车辆部件flag 列表 */
 export const VPFlagList = [
@@ -97,7 +173,7 @@ export const VPFlagList = [
     "CIRCLE_LIGHT"                 , // 打开时投射出一个圆形的光线
     "CONE_LIGHT"                   , // 打开时投射出一个锥形的光线
     "CONTROLS"                     , // 可以用来控制车辆
-    "CONTROL_ANIMAL"               , // 这些控制器只能用来控制由动物拉动的车辆 (例如, 缰绳和其他马具) 
+    "CONTROL_ANIMAL"               , // 这些控制器只能用来控制由动物拉动的车辆 (例如, 缰绳和其他马具)
     "COOLER"                       , // 有一个单独的命令来切换这个部件
     "COVERED"                      , // 防止货物部件中的物品发出任何光
     "CTRL_ELECTRONIC"              , // 控制车辆的电气和电子系统
@@ -112,11 +188,11 @@ export const VPFlagList = [
     "E_ALTERNATOR"                 , // 是一个引擎, 可以为发电机供电
     "E_COLD_START"                 , // 是一个引擎, 在寒冷的天气里启动的速度要慢得多
     "E_COMBUSTION"                 , // 是一个引擎, 燃烧其燃料, 当损坏时可以回火或爆炸
-    "E_DIESEL_FUEL"                , // 这个车辆部件可以从油箱中燃烧柴油或JP8 (也可以燃烧生物柴油或煤油, 尽管效果不太好) 
+    "E_DIESEL_FUEL"                , // 这个车辆部件可以从油箱中燃烧柴油或JP8 (也可以燃烧生物柴油或煤油, 尽管效果不太好)
     "E_HEATER"                     , // 是一个引擎, 当打开时, 有一个加热器可以给车内的物品加热
     "E_HIGHER_SKILL"               , // 是一个引擎, 安装的引擎越多, 安装起来就越困难
     "E_STARTS_INSTANTLY"           , // 是一个引擎, 像食物踏板一样, 可以立即启动
-    "FLAT_SURF"                    , // 带有平坦硬表面的部件 (例如, 桌子) 
+    "FLAT_SURF"                    , // 带有平坦硬表面的部件 (例如, 桌子)
     "FLUIDTANK"                    , // 允许在这个部件中存储液体；液体的数量应在这个车辆部件的物品中定义
     "FREEZER"                      , // 可以在零度以下的温度下冻结物品
     "FRIDGE"                       , // 可以冷藏物品
@@ -130,7 +206,7 @@ export const VPFlagList = [
     "LOCKABLE_CARGO"               , // 能够安装锁的货物容器
     "MUFFLER"                      , // 在运行时降低车辆的噪音
     "MULTISQUARE"                  , // 使这个部件和任何相邻的带有相同ID的部件作为一个单一的部件
-    "MUSCLE_ARMS"                  , // 带有此标志的引擎的功率取决于玩家的力量 (比MUSCLE_LEGS效果差) 
+    "MUSCLE_ARMS"                  , // 带有此标志的引擎的功率取决于玩家的力量 (比MUSCLE_LEGS效果差)
     "MUSCLE_LEGS"                  , // 带有此标志的引擎的功率取决于玩家的力量
     "NAILABLE"                     , // 用钉子固定
     "NEEDS_BATTERY_MOUNT"          , // 带有此标志的部件需要安装在带有BATTERY_MOUNT标志的部件上
@@ -139,8 +215,8 @@ export const VPFlagList = [
     "NEEDS_WHEEL_MOUNT_LIGHT"      , // 只能安装在带有WHEEL_MOUNT_LIGHT标志的部件上
     "NEEDS_WHEEL_MOUNT_MEDIUM"     , // 只能安装在带有WHEEL_MOUNT_MEDIUM标志的部件上
     "NEEDS_WINDOW"                 , // 只能安装在带有WINDOW标志的部件上
-    "NO_INSTALL_HIDDEN"            , // 部件不能由玩家安装, 并在安装菜单中隐藏 (例如, 电源线, 充气船部件, 召唤车辆部件) 
-    "NO_INSTALL_PLAYER"            , // 部件不能由玩家安装, 但在安装菜单中可见 (例如, 直升机转子) 
+    "NO_INSTALL_HIDDEN"            , // 部件不能由玩家安装, 并在安装菜单中隐藏 (例如, 电源线, 充气船部件, 召唤车辆部件)
+    "NO_INSTALL_PLAYER"            , // 部件不能由玩家安装, 但在安装菜单中可见 (例如, 直升机转子)
     "NO_LEAK"                      , // 使船体即使受损也能漂浮
     "NO_MODIFY_VEHICLE"            , // 安装带有此标志的部件在车辆上将意味着它不能再被修改。带有此标志的部件不应由玩家安装
     "NO_REPAIR"                    , // 不能修理
@@ -148,7 +224,7 @@ export const VPFlagList = [
     "OBSTACLE"                     , // 不能穿过部件, 除非部件也是OPENABLE
     "ODDTURN"                      , // 只在奇数轮次上
     "ON_CONTROLS"                  , // 只能安装在带有CONTROLS标志的部件上
-    "ON_ROOF"                      , // 带有此标志的部件只能安装在屋顶上 (带有ROOF标志的部件) 
+    "ON_ROOF"                      , // 带有此标志的部件只能安装在屋顶上 (带有ROOF标志的部件)
     "OPAQUE"                       , // 不能透视
     "OPENABLE"                     , // 可以打开或关闭
     "OPENCLOSE_INSIDE"             , // 可以打开或关闭, 但只能从车内打开或关闭
@@ -160,7 +236,7 @@ export const VPFlagList = [
     "PROTRUSION"                   , // 部件突出, 所以其他部件不能安装在它上面
     "REACTOR"                      , // 启用时, 部件消耗燃料产生电力
     "REAPER"                       , // 割下成熟的作物, 将它们放在方块上
-    "RECHARGE"                     , // 为带有相同标志的物品充电。 (目前只有可充电电池模块) 
+    "RECHARGE"                     , // 为带有相同标志的物品充电。 (目前只有可充电电池模块)
     "REMOTE_CONTROLS"              , // 一旦安装, 允许通过遥控器使用车辆
     "REVERSIBLE"                   , // 拆除与安装的要求相同, 但速度是两倍
     "ROOF"                         , // 覆盖车辆的一部分。车辆上有屋顶的区域和周围区域的屋顶, 被认为是内部。否则它们是外部
@@ -179,7 +255,7 @@ export const VPFlagList = [
     "STEREO"                       , // 允许播放音乐以提高士气
     "TRACKED"                      , // 有助于提高转向效果, 但在安装难度上不算作转向轴, 仍然对转向中心的阻力计算有贡献
     "TRACK"                        , // 允许在地图上标记和跟踪安装在车辆上的车辆
-    "TRANSFORM_TERRAIN"            , // 转换地形 (使用transform_terrain中定义的规则) 
+    "TRANSFORM_TERRAIN"            , // 转换地形 (使用transform_terrain中定义的规则)
     "TURRET_CONTROLS"              , // 如果带有此标志的部件安装在炮塔上, 它允许将炮塔的瞄准模式设置为全自动。只能安装在带有TURRET标志的部件上
     "TURRET_MOUNT"                 , // 带有此标志的部件适合安装炮塔
     "TURRET"                       , // 是一个武器炮塔。只能安装在带有TURRET_MOUNT标志的部件上
@@ -194,7 +270,7 @@ export const VPFlagList = [
     "WHEEL"                        , // 在轮胎计算中算作轮胎
     "WIDE_CONE_LIGHT"              , // 打开时投射出一个宽锥形的光线
     "WINDOW"                       , // 可以透过这个部件看到, 并可以在其上安装窗帘
-    "WIND_POWERED"                 , // 这个引擎是由风力驱动的 (帆等) 
+    "WIND_POWERED"                 , // 这个引擎是由风力驱动的 (帆等)
     "WIND_TURBINE"                 , // 在风中为车辆电池充电
     "WIRING"                       , // 待定, 似乎与check_no_wiring有关
     "WORKBENCH"                    , // 可以在这个部件上工艺, 必须与工作台json条目配对

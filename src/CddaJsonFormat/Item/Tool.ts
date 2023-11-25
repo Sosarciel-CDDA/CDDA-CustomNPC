@@ -50,7 +50,7 @@ export type Tool = CopyfromVar<{
     variables?: {
         /**该工具是可折叠车辆, 可以绕过默认的可折叠规则； 这是将展开的车辆的名称 */
         vehicle_name?: "Wheelchair";
-        /**这是这辆车拥有的部件 - 它使用自己的语法, 
+        /**这是这辆车拥有的部件 - 它使用自己的语法,  
          * 与 `"type": "vehicle"` 不同, 所以最好阅读 `unfoldable.json` 中的示例
          */
         folded_parts?: "folded_parts_syntax";

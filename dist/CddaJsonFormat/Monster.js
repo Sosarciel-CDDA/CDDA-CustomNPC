@@ -22,7 +22,7 @@ exports.MonsterBPList = [
     "migo",
     "pig",
     "spider",
-    "snake", // 一种身体长，无肢体的动物
+    "snake", // 一种身体长, 无肢体的动物
 ];
 /**怪物可用的Flag 列表 */
 exports.MonsterFlagList = [

@@ -10,7 +10,7 @@ exports.ArmorFlagList = [
     "ALLOWS_NATURAL_ATTACKS",
     "BLOCK_WHILE_WORN",
     "PARTIAL_DEAF",
-    "PADDED", //有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
+    "PADDED", // 有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
 ];
 /**
 ABLATIVE_CHAINMAIL_ARMS             物品可以与链甲盔甲一起佩戴, 而不会受到负担惩罚；特别可以放入带有此标志限制的盔甲口袋中

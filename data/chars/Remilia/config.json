@@ -1,0 +1,21 @@
+{
+	"extends": ["BaseField","BaseSkill","BaseVar","AnimStatModify"],
+    "base_status":{
+        "str":12,
+        "dex":12,
+        "per":12,
+        "int":12
+    },
+	"base_skill": {
+		"ALL": 2,
+		"rifle": 4,
+		"gun": 4,
+		"melee": 4,
+		"bashing": 4
+	},
+	"desc": {
+		"age": 310,
+		"gender": "female",
+		"height": 158
+	}
+}

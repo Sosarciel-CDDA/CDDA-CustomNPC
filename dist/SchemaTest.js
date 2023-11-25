@@ -32,5 +32,5 @@ exports.GenericFlagList = [
     "TRADER_KEEP",
     "NO_RELOAD",
     "UNBREAKABLE",
-    "DURABLE_MELEE", //坚固的近战武器
+    "DURABLE_MELEE", // 坚固的近战武器
 ];

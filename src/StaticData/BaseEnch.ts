@@ -11,11 +11,12 @@ const StatusVarMap:Enchantment={
     type:"enchantment",
     has:"WORN",
     condition:"ALWAYS",
-    values:[...EnchGenericValTypeList,...EnchArmorValTypeList].map(modType=>({
-        value   :modType,
-        add     :{math:[`u_add_${modType}`]},
-        multiply:{math:[`u_mul_${modType}`]},
-    }))
+    //values:[...EnchGenericValTypeList,...EnchArmorValTypeList].map(modType=>({
+    //    value   :modType,
+    //    add     :{math:[`u_add_${modType}`]},
+    //    multiply:{math:[`u_mul_${modType}`]},
+    //}))
+    values:[]
 }
 /**属性增强附魔 */
 export const STAT_MOD_ENCHID = genEnchantmentID("StatMod");

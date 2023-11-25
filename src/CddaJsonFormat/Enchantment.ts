@@ -129,6 +129,7 @@ export const EnchGenericValTypeList = [
     "ARMOR_STAB"            , // 
     "ATTACK_NOISE"          , // 影响近战攻击时发出的噪音量。
     "ATTACK_SPEED"          , // 影响物品的攻击速度, 即使它不是你所使用的物品。
+    "AVOID_FRIENDRY_FIRE"	, //如果有朋友处于火线中，你的角色就有很大机会避免友军火力。从 0.0（没有机会）到 1.0（从不友善开火）。
     "BIONIC_POWER"          , // 
     "BONUS_BLOCK"           , // 影响您可以执行的格挡次数。
     "BONUS_DODGE"           , // 影响你可以执行的闪避次数。

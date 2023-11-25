@@ -138,5 +138,5 @@ exports.EffectModTypeList = [
     "healing_torso",
     "dodge_mod",
     "hit_mod",
-    "bash_mod", //额外的 bash 奖励/惩罚
+    "bash_mod", // 额外的 bash 奖励/惩罚
 ];

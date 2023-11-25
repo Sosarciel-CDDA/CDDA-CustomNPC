@@ -3,8 +3,7 @@ import { AmmoEffectID } from "../AmmoEffect";
 import { RangeDamage, Energy, Volume, CddaID, CopyfromVar, Length } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { GenericBase, GenericFlag } from "./Generic";
-/**GUN ID格式
- */
+/**GUN ID格式 */
 export type GunID = CddaID<"GUN">;
 /**枪械 */
 export type Gun = CopyfromVar<{

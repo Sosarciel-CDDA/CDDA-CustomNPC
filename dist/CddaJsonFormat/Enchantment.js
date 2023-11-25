@@ -14,6 +14,7 @@ exports.EnchGenericValTypeList = [
     "ARMOR_STAB",
     "ATTACK_NOISE",
     "ATTACK_SPEED",
+    "AVOID_FRIENDRY_FIRE",
     "BIONIC_POWER",
     "BONUS_BLOCK",
     "BONUS_DODGE",
@@ -75,7 +76,7 @@ exports.EnchGenericValTypeList = [
     "REGEN_MANA",
     "REGEN_STAMINA",
     "THIRST",
-    "WEAPON_DISPERSION", //正值增加分散度, 负值减少分散度。
+    "WEAPON_DISPERSION", // 正值增加分散度, 负值减少分散度。
 ];
 /**附魔近战武器加值类型 列表 */
 exports.EnchMeleeValTypeList = [
@@ -89,7 +90,7 @@ exports.EnchMeleeValTypeList = [
     "ITEM_DAMAGE_HEAT",
     "ITEM_DAMAGE_PURE",
     "ITEM_DAMAGE_STAB",
-    "ITEM_ATTACK_SPEED", //
+    "ITEM_ATTACK_SPEED", // 
 ];
 /**附魔护甲加值类型 列表 */
 exports.EnchArmorValTypeList = [
@@ -101,5 +102,5 @@ exports.EnchArmorValTypeList = [
     "ITEM_ARMOR_CUT",
     "ITEM_ARMOR_ELEC",
     "ITEM_ARMOR_HEAT",
-    "ITEM_ARMOR_STAB", //
+    "ITEM_ARMOR_STAB", // 
 ];

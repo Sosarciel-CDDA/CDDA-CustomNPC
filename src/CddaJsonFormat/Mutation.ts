@@ -46,7 +46,7 @@ export type Mutation = {
     changes_to?: MutationID[];
     /**是一个开始可选的变异 */
     starting_trait?: boolean,
-    /**内置护甲 
+    /**内置护甲  
      * 这个物品永远穿在你的角色身上, 直到你摆脱这个突变
      */
     integrated_armor?: ArmorID[];
@@ -204,8 +204,8 @@ export type Mutation = {
     movecost_swim_modifier?: number;
     /**承载能力调节剂 (0.9 表示减少 10%, 1.1 表示增加 10%)。 */
     weight_capacity_modifier?: number;
-    /**社交修饰符。可以是: 恐吓, 撒谎, 说服。 
-     * intimidate, lie, persuade
+    /**社交修饰符。可以是: 恐吓, 撒谎, 说服。  
+     * intimidate, lie, persuade  
      */
     social_modifiers?:Partial<Record<SocialType,number>>;
     /**学习的法术和获得特性/突变后的等级。 */

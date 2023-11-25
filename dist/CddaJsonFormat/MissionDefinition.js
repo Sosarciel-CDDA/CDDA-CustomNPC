@@ -26,7 +26,7 @@ const MissionOriginList = [
     "ORIGIN_OPENER_NPC",
     "ORIGIN_ANY_NPC",
     "ORIGIN_SECONDARY",
-    "ORIGIN_COMPUTER", //阅读调查后在计算机终端中引发条目
+    "ORIGIN_COMPUTER", // 阅读调查后在计算机终端中引发条目
 ];
 /**空的任务对话字典 */
 exports.EmptyMissionDialog = {
@@ -45,5 +45,5 @@ exports.OMTMatchTypeList = [
     "EXACT",
     "TYPE",
     "PREFIX",
-    "CONTAINS", // 提供的字符串必须包含在覆盖地图地形 ID 中，但可以出现在开头、结尾或中间，并且没有任何关于下划线分隔的规则。
+    "CONTAINS", // 提供的字符串必须包含在覆盖地图地形 ID 中, 但可以出现在开头、结尾或中间, 并且没有任何关于下划线分隔的规则。
 ];

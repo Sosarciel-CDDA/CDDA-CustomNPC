@@ -59,7 +59,7 @@ async function createAnimStatus(dm, charName) {
             let eocs = changeAnimEoc(charName, defineData, animType);
             eocList.push(...eocs);
             const eventName = animEventMap[animType];
-            if (eventName != null && eocs != null)
+            if (eventName != null && eocs != null && eocs.length > 0)
                 dm.addCharEvent(charName, eventName, 0, eocs[0]);
         }
     }

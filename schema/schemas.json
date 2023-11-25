@@ -257,6 +257,10 @@
 									"description": "一次生成的数量",
 									"type": "number"
 								},
+								"critical_multiplier": {
+									"description": "暴击伤害倍率",
+									"type": "number"
+								},
 								"damage": {
 									"anyOf": [
 										{
@@ -299,7 +303,7 @@
 									"type": "number"
 								},
 								"projectile_count": {
-									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 									"type": "number"
 								},
 								"prop_damage": {
@@ -339,7 +343,7 @@
 									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 								},
 								"shot_spread": {
-									"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 									"type": "number"
 								},
 								"show_stats": {
@@ -1591,6 +1595,10 @@
 									"description": "一次生成的数量",
 									"type": "number"
 								},
+								"critical_multiplier": {
+									"description": "暴击伤害倍率",
+									"type": "number"
+								},
 								"damage": {
 									"anyOf": [
 										{
@@ -1633,7 +1641,7 @@
 									"type": "number"
 								},
 								"projectile_count": {
-									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 									"type": "number"
 								},
 								"prop_damage": {
@@ -1673,7 +1681,7 @@
 									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 								},
 								"shot_spread": {
-									"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 									"type": "number"
 								},
 								"show_stats": {
@@ -5967,6 +5975,10 @@
 									"description": "一次生成的数量",
 									"type": "number"
 								},
+								"critical_multiplier": {
+									"description": "暴击伤害倍率",
+									"type": "number"
+								},
 								"damage": {
 									"anyOf": [
 										{
@@ -6009,7 +6021,7 @@
 									"type": "number"
 								},
 								"projectile_count": {
-									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+									"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 									"type": "number"
 								},
 								"prop_damage": {
@@ -6049,7 +6061,7 @@
 									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 								},
 								"shot_spread": {
-									"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 									"type": "number"
 								},
 								"show_stats": {
@@ -11836,6 +11848,33 @@
 			},
 			"type": "array"
 		},
+		"Array_3": {
+			"description": "Components格式的需求",
+			"items": {
+				"items": {
+					"$ref": "#/definitions/ReqFormat"
+				},
+				"type": "array"
+			},
+			"type": "array"
+		},
+		"Array_4": {
+			"description": "using格式的需求",
+			"items": {
+				"items": [
+					{
+						"$ref": "#/definitions/RequirementID"
+					},
+					{
+						"type": "number"
+					}
+				],
+				"maxItems": 2,
+				"minItems": 2,
+				"type": "array"
+			},
+			"type": "array"
+		},
 		"AssignMissionTarget": {
 			"$ref": "#/definitions/AssignMissionTarget_1",
 			"description": "寻找大地图目标"
@@ -15034,6 +15073,10 @@
 											"description": "一次生成的数量",
 											"type": "number"
 										},
+										"critical_multiplier": {
+											"description": "暴击伤害倍率",
+											"type": "number"
+										},
 										"damage": {
 											"anyOf": [
 												{
@@ -15076,7 +15119,7 @@
 											"type": "number"
 										},
 										"projectile_count": {
-											"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+											"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 											"type": "number"
 										},
 										"prop_damage": {
@@ -15116,7 +15159,7 @@
 											"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 										},
 										"shot_spread": {
-											"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+											"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 											"type": "number"
 										},
 										"show_stats": {
@@ -19953,6 +19996,28 @@
 			],
 			"type": "string"
 		},
+		"Color_1": {
+			"description": "可用的颜色",
+			"enum": [
+				"black",
+				"blue",
+				"brown",
+				"cyan",
+				"dark_gray",
+				"green",
+				"light_blue",
+				"light_cyan",
+				"light_gray",
+				"light_green",
+				"light_red",
+				"magenta",
+				"pink",
+				"red",
+				"white",
+				"yellow"
+			],
+			"type": "string"
+		},
 		"Comestible": {
 			"anyOf": [
 				{
@@ -20901,7 +20966,7 @@
 		"Copyfrom": {
 			"allOf": [
 				{
-					"$ref": "#/definitions/Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">"
+					"$ref": "#/definitions/Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">"
 				},
 				{
 					"properties": {
@@ -21443,6 +21508,52 @@
 			],
 			"description": "copyfrom变体"
 		},
+		"Copyfrom_8": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/Pick<{type:\"vehicle_part\";id:VehiclePartID;name:string;looks_like:string;bonus:number;color:\"black\"|\"red\"|\"green\"|\"brown\"|\"blue\"|\"magenta\"|\"cyan\"|\"light_gray\"|\"dark_gray\"|\"light_red\"|\"light_green\"|\"yellow\"|\"light_blue\"|\"pink\"|\"light_cyan\"|\"white\";broken_color:\"black\"|\"red\"|\"green\"|\"brown\"|\"blue\"|\"magenta\"|\"cyan\"|\"light_gray\"|\"dark_gray\"|\"light_red\"|\"light_green\"|\"yellow\"|\"light_blue\"|\"pink\"|\"light_cyan\"|\"white\";location:\"fuel_source\";damage_modifier?:number|undefined;durability:number;description:string;fuel_type?:AmmunitionTypeID|undefined;epower?:number|undefined;item:GenericID;remove_as?:GenericID|undefined;difficulty:number;breaks_into?:ItemGroupID|ItemGroupEntrie[]|undefined;flags?:(\"RECHARGE\"|\"ARMOR\"|\"CAMERA\"|\"ADVANCED_PLANTER\"|\"AIRCRAFT_REPAIRABLE_NOPROF\"|\"AISLE_LIGHT\"|\"AISLE\"|\"ALTERNATOR\"|\"ANCHOR_POINT\"|\"ANIMAL_CTRL\"|\"APPLIANCE\"|\"ARCADE\"|\"ATOMIC_LIGHT\"|\"AUTOPILOT\"|\"BATTERY_MOUNT\"|\"BED\"|\"BEEPER\"|\"BELTABLE\"|\"BIKE_RACK_VEH\"|\"BOARDABLE\"|\"CAMERA_CONTROL\"|\"CAPTURE_MOSNTER_VEH\"|\"CARGO_LOCKING\"|\"CARGO\"|\"CHIMES\"|\"CIRCLE_LIGHT\"|\"CONE_LIGHT\"|\"CONTROLS\"|\"CONTROL_ANIMAL\"|\"COOLER\"|\"COVERED\"|\"CTRL_ELECTRONIC\"|\"CURTAIN\"|\"DISHWASHER\"|\"DOME_LIGHT\"|\"DOOR_MOTOR\"|\"ENABLED_DRAINS_EPOWER\"|\"ENGINE\"|\"EVENTURN\"|\"EXTRA_DRAG\"|\"E_ALTERNATOR\"|\"E_COLD_START\"|\"E_COMBUSTION\"|\"E_DIESEL_FUEL\"|\"E_HEATER\"|\"E_HIGHER_SKILL\"|\"E_STARTS_INSTANTLY\"|\"FLAT_SURF\"|\"FLUIDTANK\"|\"FREEZER\"|\"FRIDGE\"|\"FUNNEL\"|\"HALF_CIRCLE_LIGHT\"|\"HANDHELD_BATTERY_MOUNT\"|\"HARNESS_bodytype\"|\"HORN\"|\"INITIAL_PART\"|\"INTERNAL\"|\"LOCKABLE_CARGO\"|\"MUFFLER\"|\"MULTISQUARE\"|\"MUSCLE_ARMS\"|\"MUSCLE_LEGS\"|\"NAILABLE\"|\"NEEDS_BATTERY_MOUNT\"|\"NEEDS_HANDHELD_BATTERY_MOUNT\"|\"NEEDS_WHEEL_MOUNT_HEAVY\"|\"NEEDS_WHEEL_MOUNT_LIGHT\"|\"NEEDS_WHEEL_MOUNT_MEDIUM\"|\"NEEDS_WINDOW\"|\"NO_INSTALL_HIDDEN\"|\"NO_INSTALL_PLAYER\"|\"NO_LEAK\"|\"NO_MODIFY_VEHICLE\"|\"NO_REPAIR\"|\"NO_UNINSTALL\"|\"OBSTACLE\"|\"ODDTURN\"|\"ON_CONTROLS\"|\"ON_ROOF\"|\"OPAQUE\"|\"OPENABLE\"|\"OPENCLOSE_INSIDE\"|\"OVER\"|\"PERPETUAL\"|\"PLANTER\"|\"PLOW\"|\"POWER_TRANSFER\"|\"PROTRUSION\"|\"REACTOR\"|\"REAPER\"|\"REMOTE_CONTROLS\"|\"REVERSIBLE\"|\"ROOF\"|\"SCOOP\"|\"SEATBELT\"|\"SEAT\"|\"SECURITY\"|\"SHARP\"|\"SHOCK_ABSORBER\"|\"SIMPLE_PART\"|\"SMASH_REMOVE\"|\"SOLAR_PANEL\"|\"SPACE_HEATER\"|\"STABLE\"|\"STEERABLE\"|\"STEREO\"|\"TRACKED\"|\"TRACK\"|\"TRANSFORM_TERRAIN\"|\"TURRET_CONTROLS\"|\"TURRET_MOUNT\"|\"TURRET\"|\"UNMOUNT_ON_DAMAGE\"|\"UNMOUNT_ON_MOVE\"|\"UNSTABLE_WHEEL\"|\"VARIABLE_SIZE\"|\"VISION\"|\"WALL_MOUNTED\"|\"WASHING_MACHINE\"|\"WATER_WHEEL\"|\"WHEEL\"|\"WIDE_CONE_LIGHT\"|\"WINDOW\"|\"WIND_POWERED\"|\"WIND_TURBINE\"|\"WIRING\"|\"WORKBENCH\")[]|undefined;requirements?:{install:VPRequirement;removal:VPRequirement;repair:VPRequirement;}|undefined;},\"type\"|\"id\">"
+				},
+				{
+					"properties": {
+						"//": {
+							"const": "copy",
+							"type": "string"
+						},
+						"copy-from": {
+							"$ref": "#/definitions/VehiclePartID"
+						},
+						"delete": {
+							"$ref": "#/definitions/Partial_37",
+							"description": "删除原物品的某些元素"
+						},
+						"extend": {
+							"$ref": "#/definitions/Partial_37",
+							"description": "扩展原物品的某些元素"
+						},
+						"proportional": {
+							"$ref": "#/definitions/Partial_37",
+							"description": "在原物品的某些元素上做数值倍率调整"
+						},
+						"relative": {
+							"$ref": "#/definitions/Partial_37",
+							"description": "在原物品的某些元素上做数值调整"
+						},
+						"replace_materials": {
+							"$ref": "#/definitions/Record_6",
+							"description": "将原物品的某些材质替换 原材质:替换材质"
+						}
+					},
+					"required": [
+						"copy-from"
+					],
+					"type": "object"
+				},
+				{
+					"$ref": "#/definitions/__type_117"
+				}
+			],
+			"description": "copyfrom变体"
+		},
 		"CustBP": {
 			"anyOf": [
 				{
@@ -21765,6 +21876,223 @@
 			],
 			"type": "string"
 		},
+		"DefineItemActionID": {
+			"enum": [
+				"ACIDBOMB_ACT",
+				"ADRENALINE_INJECTOR",
+				"AFS_TRANSLOCATOR",
+				"ALCOHOL",
+				"ALCOHOL_STRONG",
+				"ALCOHOL_WEAK",
+				"ANTIBIOTIC",
+				"ANTICONVULSANT",
+				"ANTIFUNGAL",
+				"ANTIPARASITIC",
+				"BELL",
+				"BINDER_ADD_RECIPE",
+				"BINDER_MANAGE_RECIPE",
+				"BLECH",
+				"BLECH_BECAUSE_UNCLEAN",
+				"BLOOD_DRAW",
+				"BOLTCUTTERS",
+				"BREAK_STICK",
+				"C4",
+				"CALL_OF_TINDALOS",
+				"CALORIES_INTAKE_TRACKER",
+				"CAMERA",
+				"CAN_GOO",
+				"CAPTURE_MONSTER_ACT",
+				"CAPTURE_MONSTER_VEH",
+				"CARVER_OFF",
+				"CHAINSAW_OFF",
+				"CHANGE_EYES",
+				"CHANGE_SKIN",
+				"CHEW",
+				"CHOP_LOGS",
+				"CHOP_TREE",
+				"CLEAR_RUBBLE",
+				"COIN_FLIP",
+				"COKE",
+				"COMBATSAW_OFF",
+				"CONTACTS",
+				"CRAFT",
+				"CROWBAR",
+				"CROWBAR_WEAK",
+				"DATURA",
+				"DBG_LUX_METER",
+				"DIG",
+				"DIG_CHANNEL",
+				"DIRECTIONAL_ANTENNA",
+				"DIRECTIONAL_HOLOGRAM",
+				"DISASSEMBLE",
+				"DIVE_TANK_ACTIVATE",
+				"DOG_WHISTLE",
+				"DOLLCHAT",
+				"EBOOKREAD",
+				"EBOOKSAVE",
+				"ECIG",
+				"EHANDCUFFS",
+				"EINKTABLETPC",
+				"ELECTRICSTORAGE",
+				"ELEC_CHAINSAW_OFF",
+				"EMF_PASSIVE_ON",
+				"EXTINGUISHER",
+				"EYEDROPS",
+				"E_COMBATSAW_OFF",
+				"FILL_PIT",
+				"FIRECRACKER",
+				"FIRECRACKER_PACK",
+				"FIRECRACKER_PACK_ACT",
+				"FISH_ROD",
+				"FISH_TRAP",
+				"FITNESS_CHECK",
+				"FLUMED",
+				"FLUSLEEP",
+				"FLU_VACCINE",
+				"FOODPERSON",
+				"FUNGICIDE",
+				"GASMASK_ACTIVATE",
+				"GEIGER",
+				"GRANADE_ACT",
+				"GRENADE_INC_ACT",
+				"GUNMOD_ATTACH",
+				"GUN_REPAIR",
+				"HACKSAW",
+				"HAIRKIT",
+				"HAMMER",
+				"HAND_CRANK",
+				"HEATPACK",
+				"HEAT_FOOD",
+				"HONEYCOMB",
+				"HOTPLATE",
+				"HOTPLATE_ATOMIC",
+				"INHALER",
+				"JACKHAMMER",
+				"JET_INJECTOR",
+				"LUMBER",
+				"LUX_METER",
+				"MACE",
+				"MAGIC_8_BALL",
+				"MAKEMOUND",
+				"MANAGE_EXOSUIT",
+				"MARLOSS",
+				"MARLOSS_GEL",
+				"MARLOSS_SEED",
+				"MA_MANUAL",
+				"MEDITATE",
+				"METH",
+				"MININUKE",
+				"MOLOTOV_LIT",
+				"MOP",
+				"MP3",
+				"MP3_DEACTIVATE",
+				"MULTICOOKER",
+				"MYCUS",
+				"NOISE_EMITTER_ON",
+				"OXYGEN_BOTTLE",
+				"OXYTORCH",
+				"PACK_CBM",
+				"PACK_ITEM",
+				"PETFOOD",
+				"PICKAXE",
+				"PICK_LOCK",
+				"PLANTBLECH",
+				"PLAY_GAME",
+				"POISON",
+				"PORTABLE_GAME",
+				"PORTAL",
+				"PROZAC",
+				"PURIFY_SMART",
+				"RADGLOVE",
+				"RADIOCAR",
+				"RADIOCARON",
+				"RADIOCONTROL",
+				"RADIO_MOD",
+				"RADIO_OFF",
+				"RADIO_ON",
+				"REMOTEVEH",
+				"REMOVE_ALL_MODS",
+				"RM13ARMOR_OFF",
+				"RM13ARMOR_ON",
+				"ROBOTCONTROL",
+				"RPGDIE",
+				"SEED",
+				"SEWAGE",
+				"SEXTANT",
+				"SHAVEKIT",
+				"SHOCKTONFA_OFF",
+				"SHOCKTONFA_ON",
+				"SIPHON",
+				"SMOKING",
+				"SOLARPACK",
+				"SOLARPACK_OFF",
+				"SPRAY_CAN",
+				"STIMPACK",
+				"STRONG_ANTIBIOTIC",
+				"TAZER",
+				"TELEPORT",
+				"THORAZINE",
+				"TOOLMOD_ATTACH",
+				"TOOLWEAPON_DEACTIVATE",
+				"TOWEL",
+				"TRIMMER_OFF",
+				"UNFOLD_GENERIC",
+				"UNPACK_ITEM",
+				"VIBE",
+				"VOLTMETER",
+				"VORTEX",
+				"WASH_ALL_ITEMS",
+				"WASH_HARD_ITEMS",
+				"WASH_SOFT_ITEMS",
+				"WATER_PURIFIER",
+				"WEAK_ANTIBIOTIC",
+				"WEATHER_TOOL",
+				"WEED_CAKE",
+				"XANAX",
+				"ammobelt",
+				"attach_molle",
+				"cast_spell",
+				"change_scent",
+				"consume_drug",
+				"delayed_transform",
+				"deploy_appliance",
+				"deploy_furn",
+				"deploy_tent",
+				"detach_gunmods",
+				"detach_molle",
+				"effect_on_conditions",
+				"explosion",
+				"firestarter",
+				"fireweapon_off",
+				"fireweapon_on",
+				"heal",
+				"holster",
+				"inscribe",
+				"install_bionic",
+				"learn_spell",
+				"link_up",
+				"manualnoise",
+				"message",
+				"modify_gunmods",
+				"musical_instrument",
+				"place_monster",
+				"place_npc",
+				"place_trap",
+				"play_instrument",
+				"repair_fabric",
+				"repair_metal",
+				"reveal_map",
+				"salvage",
+				"saw_barrel",
+				"saw_stock",
+				"sew_advanced",
+				"sound",
+				"transform",
+				"unpack",
+				"weigh_self"
+			],
+			"type": "string"
+		},
 		"DefineItemCategory": {
 			"enum": [
 				"BIONIC_FUEL_SOURCE",
@@ -21870,6 +22198,94 @@
 			"enum": [
 				"AO_CLOSE_TEAR",
 				"pain_split"
+			],
+			"type": "string"
+		},
+		"DefineToolQualityID": {
+			"enum": [
+				"ANALYSIS",
+				"ANESTHESIA",
+				"ANVIL",
+				"AXE",
+				"BLOW_AIR",
+				"BLOW_HOT_AIR",
+				"BOIL",
+				"BUTCHER",
+				"CHEM",
+				"CHISEL",
+				"CHISEL_WOOD",
+				"CHROMATOGRAPHY",
+				"CHURN",
+				"CONCENTRATE",
+				"CONTAIN",
+				"COOK",
+				"CUT",
+				"CUT_FINE",
+				"CUT_GLASS",
+				"DIG",
+				"DISTILL",
+				"DRILL",
+				"DRILL_ROCK",
+				"EXTRACT",
+				"FABRIC_CUT",
+				"FILE",
+				"FILTER",
+				"FINE_DISTILL",
+				"FINE_GRIND",
+				"FISHING_ROD",
+				"FISH_TRAP",
+				"GLARE",
+				"GRASS_CUT",
+				"GRIND",
+				"GUN",
+				"HAMMER",
+				"HAMMER_FINE",
+				"HAMMER_SOFT",
+				"HOSE",
+				"JACK",
+				"JUMPSTART",
+				"KNIT",
+				"LEATHER_AWL",
+				"LIFT",
+				"LOCKPICK",
+				"MOP",
+				"OVEN",
+				"PISTOL",
+				"PRESSURIZATION",
+				"PRY",
+				"PRYING_NAIL",
+				"PULL",
+				"PUNCH",
+				"REAM",
+				"RIFLE",
+				"ROPE",
+				"SAW_M",
+				"SAW_M_FINE",
+				"SAW_W",
+				"SCREW",
+				"SCREW_FINE",
+				"SELF_JACK",
+				"SEPARATE",
+				"SEW",
+				"SEW_CURVED",
+				"SHEAR",
+				"SHOTGUN",
+				"SIEVE",
+				"SMG",
+				"SMOKE_PIPE",
+				"SMOOTH",
+				"STRAIN",
+				"SURFACE",
+				"SUSPENDING",
+				"THREAD_CUT",
+				"THREAD_TAP",
+				"TREE_TAP",
+				"VISE",
+				"WELD",
+				"WHEEL_FAST",
+				"WRENCH",
+				"WRENCH_FINE",
+				"WRITE"
 			],
 			"type": "string"
 		},
@@ -43417,6 +43833,65 @@
 			],
 			"description": "Generic ID格式"
 		},
+		"GenericID_2": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^GENERIC_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_GENERIC_.*$",
+					"type": "string"
+				},
+				{
+					"enum": [
+						"afs_biomaterial_1",
+						"afs_biomaterial_2",
+						"afs_biomaterial_3",
+						"afs_biomaterial_4",
+						"afs_biomaterial_5",
+						"afs_circuitry_1",
+						"afs_circuitry_2",
+						"afs_circuitry_3",
+						"afs_circuitry_4",
+						"afs_circuitry_5",
+						"afs_energy_storage_1",
+						"afs_energy_storage_2",
+						"afs_energy_storage_3",
+						"afs_energy_storage_4",
+						"afs_energy_storage_5",
+						"afs_heat_1",
+						"afs_heat_2",
+						"afs_heat_2_salvage",
+						"afs_heat_3",
+						"afs_heat_4",
+						"afs_heat_5",
+						"afs_magnet_1",
+						"afs_magnet_2",
+						"afs_magnet_3",
+						"afs_magnet_4",
+						"afs_material_1",
+						"afs_material_2",
+						"afs_material_3",
+						"afs_material_4",
+						"afs_material_5",
+						"afs_neural_io_1",
+						"afs_neural_io_2",
+						"afs_neural_io_3",
+						"afs_neural_io_4",
+						"afs_neural_io_5",
+						"afs_optics_3",
+						"afs_optics_4"
+					],
+					"type": "string"
+				}
+			],
+			"description": "Generic ID格式"
+		},
 		"GenericMagazines": {
 			"description": "内置弹夹",
 			"items": [
@@ -46301,6 +46776,240 @@
 				}
 			],
 			"description": "站在某个地块附着物上"
+		},
+		"ItemActionID": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^IACT_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_IACT_.*$",
+					"type": "string"
+				},
+				{
+					"enum": [
+						"ACIDBOMB_ACT",
+						"ADRENALINE_INJECTOR",
+						"AFS_TRANSLOCATOR",
+						"ALCOHOL",
+						"ALCOHOL_STRONG",
+						"ALCOHOL_WEAK",
+						"ANTIBIOTIC",
+						"ANTICONVULSANT",
+						"ANTIFUNGAL",
+						"ANTIPARASITIC",
+						"BELL",
+						"BINDER_ADD_RECIPE",
+						"BINDER_MANAGE_RECIPE",
+						"BLECH",
+						"BLECH_BECAUSE_UNCLEAN",
+						"BLOOD_DRAW",
+						"BOLTCUTTERS",
+						"BREAK_STICK",
+						"C4",
+						"CALL_OF_TINDALOS",
+						"CALORIES_INTAKE_TRACKER",
+						"CAMERA",
+						"CAN_GOO",
+						"CAPTURE_MONSTER_ACT",
+						"CAPTURE_MONSTER_VEH",
+						"CARVER_OFF",
+						"CHAINSAW_OFF",
+						"CHANGE_EYES",
+						"CHANGE_SKIN",
+						"CHEW",
+						"CHOP_LOGS",
+						"CHOP_TREE",
+						"CLEAR_RUBBLE",
+						"COIN_FLIP",
+						"COKE",
+						"COMBATSAW_OFF",
+						"CONTACTS",
+						"CRAFT",
+						"CROWBAR",
+						"CROWBAR_WEAK",
+						"DATURA",
+						"DBG_LUX_METER",
+						"DIG",
+						"DIG_CHANNEL",
+						"DIRECTIONAL_ANTENNA",
+						"DIRECTIONAL_HOLOGRAM",
+						"DISASSEMBLE",
+						"DIVE_TANK_ACTIVATE",
+						"DOG_WHISTLE",
+						"DOLLCHAT",
+						"EBOOKREAD",
+						"EBOOKSAVE",
+						"ECIG",
+						"EHANDCUFFS",
+						"EINKTABLETPC",
+						"ELECTRICSTORAGE",
+						"ELEC_CHAINSAW_OFF",
+						"EMF_PASSIVE_ON",
+						"EXTINGUISHER",
+						"EYEDROPS",
+						"E_COMBATSAW_OFF",
+						"FILL_PIT",
+						"FIRECRACKER",
+						"FIRECRACKER_PACK",
+						"FIRECRACKER_PACK_ACT",
+						"FISH_ROD",
+						"FISH_TRAP",
+						"FITNESS_CHECK",
+						"FLUMED",
+						"FLUSLEEP",
+						"FLU_VACCINE",
+						"FOODPERSON",
+						"FUNGICIDE",
+						"GASMASK_ACTIVATE",
+						"GEIGER",
+						"GRANADE_ACT",
+						"GRENADE_INC_ACT",
+						"GUNMOD_ATTACH",
+						"GUN_REPAIR",
+						"HACKSAW",
+						"HAIRKIT",
+						"HAMMER",
+						"HAND_CRANK",
+						"HEATPACK",
+						"HEAT_FOOD",
+						"HONEYCOMB",
+						"HOTPLATE",
+						"HOTPLATE_ATOMIC",
+						"INHALER",
+						"JACKHAMMER",
+						"JET_INJECTOR",
+						"LUMBER",
+						"LUX_METER",
+						"MACE",
+						"MAGIC_8_BALL",
+						"MAKEMOUND",
+						"MANAGE_EXOSUIT",
+						"MARLOSS",
+						"MARLOSS_GEL",
+						"MARLOSS_SEED",
+						"MA_MANUAL",
+						"MEDITATE",
+						"METH",
+						"MININUKE",
+						"MOLOTOV_LIT",
+						"MOP",
+						"MP3",
+						"MP3_DEACTIVATE",
+						"MULTICOOKER",
+						"MYCUS",
+						"NOISE_EMITTER_ON",
+						"OXYGEN_BOTTLE",
+						"OXYTORCH",
+						"PACK_CBM",
+						"PACK_ITEM",
+						"PETFOOD",
+						"PICKAXE",
+						"PICK_LOCK",
+						"PLANTBLECH",
+						"PLAY_GAME",
+						"POISON",
+						"PORTABLE_GAME",
+						"PORTAL",
+						"PROZAC",
+						"PURIFY_SMART",
+						"RADGLOVE",
+						"RADIOCAR",
+						"RADIOCARON",
+						"RADIOCONTROL",
+						"RADIO_MOD",
+						"RADIO_OFF",
+						"RADIO_ON",
+						"REMOTEVEH",
+						"REMOVE_ALL_MODS",
+						"RM13ARMOR_OFF",
+						"RM13ARMOR_ON",
+						"ROBOTCONTROL",
+						"RPGDIE",
+						"SEED",
+						"SEWAGE",
+						"SEXTANT",
+						"SHAVEKIT",
+						"SHOCKTONFA_OFF",
+						"SHOCKTONFA_ON",
+						"SIPHON",
+						"SMOKING",
+						"SOLARPACK",
+						"SOLARPACK_OFF",
+						"SPRAY_CAN",
+						"STIMPACK",
+						"STRONG_ANTIBIOTIC",
+						"TAZER",
+						"TELEPORT",
+						"THORAZINE",
+						"TOOLMOD_ATTACH",
+						"TOOLWEAPON_DEACTIVATE",
+						"TOWEL",
+						"TRIMMER_OFF",
+						"UNFOLD_GENERIC",
+						"UNPACK_ITEM",
+						"VIBE",
+						"VOLTMETER",
+						"VORTEX",
+						"WASH_ALL_ITEMS",
+						"WASH_HARD_ITEMS",
+						"WASH_SOFT_ITEMS",
+						"WATER_PURIFIER",
+						"WEAK_ANTIBIOTIC",
+						"WEATHER_TOOL",
+						"WEED_CAKE",
+						"XANAX",
+						"ammobelt",
+						"attach_molle",
+						"cast_spell",
+						"change_scent",
+						"consume_drug",
+						"delayed_transform",
+						"deploy_appliance",
+						"deploy_furn",
+						"deploy_tent",
+						"detach_gunmods",
+						"detach_molle",
+						"effect_on_conditions",
+						"explosion",
+						"firestarter",
+						"fireweapon_off",
+						"fireweapon_on",
+						"heal",
+						"holster",
+						"inscribe",
+						"install_bionic",
+						"learn_spell",
+						"link_up",
+						"manualnoise",
+						"message",
+						"modify_gunmods",
+						"musical_instrument",
+						"place_monster",
+						"place_npc",
+						"place_trap",
+						"play_instrument",
+						"repair_fabric",
+						"repair_metal",
+						"reveal_map",
+						"salvage",
+						"saw_barrel",
+						"saw_stock",
+						"sew_advanced",
+						"sound",
+						"transform",
+						"unpack",
+						"weigh_self"
+					],
+					"type": "string"
+				}
+			],
+			"description": "物品动作ID"
 		},
 		"ItemCategotyID": {
 			"description": "物品类别",
@@ -50801,6 +51510,12 @@
 		"Partial_36": {
 			"$ref": "#/definitions/__type_103"
 		},
+		"Partial_37": {
+			"$ref": "#/definitions/Partial_38"
+		},
+		"Partial_38": {
+			"$ref": "#/definitions/__type_117"
+		},
 		"Partial_4": {
 			"$ref": "#/definitions/__type_39"
 		},
@@ -50875,7 +51590,7 @@
 			],
 			"type": "object"
 		},
-		"Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">": {
+		"Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">": {
 			"properties": {
 				"id": {
 					"$ref": "#/definitions/AmmoID_1",
@@ -50992,6 +51707,23 @@
 				"type": {
 					"const": "GENERIC",
 					"description": "物品类型",
+					"type": "string"
+				}
+			},
+			"required": [
+				"id",
+				"type"
+			],
+			"type": "object"
+		},
+		"Pick<{type:\"vehicle_part\";id:VehiclePartID;name:string;looks_like:string;bonus:number;color:\"black\"|\"red\"|\"green\"|\"brown\"|\"blue\"|\"magenta\"|\"cyan\"|\"light_gray\"|\"dark_gray\"|\"light_red\"|\"light_green\"|\"yellow\"|\"light_blue\"|\"pink\"|\"light_cyan\"|\"white\";broken_color:\"black\"|\"red\"|\"green\"|\"brown\"|\"blue\"|\"magenta\"|\"cyan\"|\"light_gray\"|\"dark_gray\"|\"light_red\"|\"light_green\"|\"yellow\"|\"light_blue\"|\"pink\"|\"light_cyan\"|\"white\";location:\"fuel_source\";damage_modifier?:number|undefined;durability:number;description:string;fuel_type?:AmmunitionTypeID|undefined;epower?:number|undefined;item:GenericID;remove_as?:GenericID|undefined;difficulty:number;breaks_into?:ItemGroupID|ItemGroupEntrie[]|undefined;flags?:(\"RECHARGE\"|\"ARMOR\"|\"CAMERA\"|\"ADVANCED_PLANTER\"|\"AIRCRAFT_REPAIRABLE_NOPROF\"|\"AISLE_LIGHT\"|\"AISLE\"|\"ALTERNATOR\"|\"ANCHOR_POINT\"|\"ANIMAL_CTRL\"|\"APPLIANCE\"|\"ARCADE\"|\"ATOMIC_LIGHT\"|\"AUTOPILOT\"|\"BATTERY_MOUNT\"|\"BED\"|\"BEEPER\"|\"BELTABLE\"|\"BIKE_RACK_VEH\"|\"BOARDABLE\"|\"CAMERA_CONTROL\"|\"CAPTURE_MOSNTER_VEH\"|\"CARGO_LOCKING\"|\"CARGO\"|\"CHIMES\"|\"CIRCLE_LIGHT\"|\"CONE_LIGHT\"|\"CONTROLS\"|\"CONTROL_ANIMAL\"|\"COOLER\"|\"COVERED\"|\"CTRL_ELECTRONIC\"|\"CURTAIN\"|\"DISHWASHER\"|\"DOME_LIGHT\"|\"DOOR_MOTOR\"|\"ENABLED_DRAINS_EPOWER\"|\"ENGINE\"|\"EVENTURN\"|\"EXTRA_DRAG\"|\"E_ALTERNATOR\"|\"E_COLD_START\"|\"E_COMBUSTION\"|\"E_DIESEL_FUEL\"|\"E_HEATER\"|\"E_HIGHER_SKILL\"|\"E_STARTS_INSTANTLY\"|\"FLAT_SURF\"|\"FLUIDTANK\"|\"FREEZER\"|\"FRIDGE\"|\"FUNNEL\"|\"HALF_CIRCLE_LIGHT\"|\"HANDHELD_BATTERY_MOUNT\"|\"HARNESS_bodytype\"|\"HORN\"|\"INITIAL_PART\"|\"INTERNAL\"|\"LOCKABLE_CARGO\"|\"MUFFLER\"|\"MULTISQUARE\"|\"MUSCLE_ARMS\"|\"MUSCLE_LEGS\"|\"NAILABLE\"|\"NEEDS_BATTERY_MOUNT\"|\"NEEDS_HANDHELD_BATTERY_MOUNT\"|\"NEEDS_WHEEL_MOUNT_HEAVY\"|\"NEEDS_WHEEL_MOUNT_LIGHT\"|\"NEEDS_WHEEL_MOUNT_MEDIUM\"|\"NEEDS_WINDOW\"|\"NO_INSTALL_HIDDEN\"|\"NO_INSTALL_PLAYER\"|\"NO_LEAK\"|\"NO_MODIFY_VEHICLE\"|\"NO_REPAIR\"|\"NO_UNINSTALL\"|\"OBSTACLE\"|\"ODDTURN\"|\"ON_CONTROLS\"|\"ON_ROOF\"|\"OPAQUE\"|\"OPENABLE\"|\"OPENCLOSE_INSIDE\"|\"OVER\"|\"PERPETUAL\"|\"PLANTER\"|\"PLOW\"|\"POWER_TRANSFER\"|\"PROTRUSION\"|\"REACTOR\"|\"REAPER\"|\"REMOTE_CONTROLS\"|\"REVERSIBLE\"|\"ROOF\"|\"SCOOP\"|\"SEATBELT\"|\"SEAT\"|\"SECURITY\"|\"SHARP\"|\"SHOCK_ABSORBER\"|\"SIMPLE_PART\"|\"SMASH_REMOVE\"|\"SOLAR_PANEL\"|\"SPACE_HEATER\"|\"STABLE\"|\"STEERABLE\"|\"STEREO\"|\"TRACKED\"|\"TRACK\"|\"TRANSFORM_TERRAIN\"|\"TURRET_CONTROLS\"|\"TURRET_MOUNT\"|\"TURRET\"|\"UNMOUNT_ON_DAMAGE\"|\"UNMOUNT_ON_MOVE\"|\"UNSTABLE_WHEEL\"|\"VARIABLE_SIZE\"|\"VISION\"|\"WALL_MOUNTED\"|\"WASHING_MACHINE\"|\"WATER_WHEEL\"|\"WHEEL\"|\"WIDE_CONE_LIGHT\"|\"WINDOW\"|\"WIND_POWERED\"|\"WIND_TURBINE\"|\"WIRING\"|\"WORKBENCH\")[]|undefined;requirements?:{install:VPRequirement;removal:VPRequirement;repair:VPRequirement;}|undefined;},\"type\"|\"id\">": {
+			"properties": {
+				"id": {
+					"$ref": "#/definitions/VehiclePartID",
+					"description": "唯一标识符, 不能包含 # 符号"
+				},
+				"type": {
+					"const": "vehicle_part",
 					"type": "string"
 				}
 			},
@@ -51385,8 +52117,339 @@
 			],
 			"description": "删除物品"
 		},
+		"ReqComponents": {
+			"$ref": "#/definitions/Array_3"
+		},
+		"ReqFormat": {
+			"anyOf": [
+				{
+					"items": [
+						{
+							"$ref": "#/definitions/RequirementID"
+						},
+						{
+							"type": "number"
+						},
+						{
+							"const": "LIST",
+							"type": "string"
+						}
+					],
+					"maxItems": 3,
+					"minItems": 3,
+					"type": "array"
+				},
+				{
+					"items": [
+						{
+							"anyOf": [
+								{
+									"pattern": "^.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^GENERIC_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_GENERIC_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^AMMO_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_AMMO_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^GUN_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_GUN_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^TOOL_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_TOOL_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^MAG_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_MAG_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^COME_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_COME_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^ARMOR_.*$",
+									"type": "string"
+								},
+								{
+									"pattern": "^.*_ARMOR_.*$",
+									"type": "string"
+								},
+								{
+									"enum": [
+										"afs_biomaterial_1",
+										"afs_biomaterial_2",
+										"afs_biomaterial_3",
+										"afs_biomaterial_4",
+										"afs_biomaterial_5",
+										"afs_circuitry_1",
+										"afs_circuitry_2",
+										"afs_circuitry_3",
+										"afs_circuitry_4",
+										"afs_circuitry_5",
+										"afs_energy_storage_1",
+										"afs_energy_storage_2",
+										"afs_energy_storage_3",
+										"afs_energy_storage_4",
+										"afs_energy_storage_5",
+										"afs_heat_1",
+										"afs_heat_2",
+										"afs_heat_2_salvage",
+										"afs_heat_3",
+										"afs_heat_4",
+										"afs_heat_5",
+										"afs_magnet_1",
+										"afs_magnet_2",
+										"afs_magnet_3",
+										"afs_magnet_4",
+										"afs_material_1",
+										"afs_material_2",
+										"afs_material_3",
+										"afs_material_4",
+										"afs_material_5",
+										"afs_neural_io_1",
+										"afs_neural_io_2",
+										"afs_neural_io_3",
+										"afs_neural_io_4",
+										"afs_neural_io_5",
+										"afs_optics_3",
+										"afs_optics_4"
+									],
+									"type": "string"
+								}
+							]
+						},
+						{
+							"type": "number"
+						},
+						{
+							"const": "NO_RECOVER",
+							"type": "string"
+						}
+					],
+					"maxItems": 3,
+					"minItems": 2,
+					"type": "array"
+				}
+			],
+			"description": "需求格式  \n[ID , 消耗的数量]  \nNO_RECOVER为不可恢复  \nLIST为标记其是一个需求组"
+		},
+		"ReqUsing": {
+			"$ref": "#/definitions/Array_4"
+		},
 		"RequireResource": {
 			"$ref": "#/definitions/__type_104"
+		},
+		"Requirement": {
+			"description": "需求组",
+			"properties": {
+				"components": {
+					"$ref": "#/definitions/ReqComponents",
+					"description": "列出物品或需求 id, 主要用于材料成分  \n[ [ 可选的物品1, 可选的物品2 ], [ 必须的物品1 ] ]"
+				},
+				"qualities": {
+					"description": "定义物品质量, 如 CUT 或 HAMMER, 以及制作所需的质量等级",
+					"items": {
+						"properties": {
+							"id": {
+								"$ref": "#/definitions/ToolID",
+								"description": "工具ID"
+							},
+							"level": {
+								"description": "要求等级",
+								"type": "number"
+							}
+						},
+						"required": [
+							"id",
+							"level"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"tools": {
+					"description": "列出制作配方所需的工具 (或几种可选工具) 的物品 id  \n[ [ 工具, 消耗的充能 ] ]",
+					"items": {
+						"items": [
+							{
+								"anyOf": [
+									{
+										"pattern": "^.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^GENERIC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_GENERIC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^AMMO_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_AMMO_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^GUN_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_GUN_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^TOOL_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_TOOL_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^MAG_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_MAG_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^COME_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_COME_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^ARMOR_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_ARMOR_.*$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"afs_biomaterial_1",
+											"afs_biomaterial_2",
+											"afs_biomaterial_3",
+											"afs_biomaterial_4",
+											"afs_biomaterial_5",
+											"afs_circuitry_1",
+											"afs_circuitry_2",
+											"afs_circuitry_3",
+											"afs_circuitry_4",
+											"afs_circuitry_5",
+											"afs_energy_storage_1",
+											"afs_energy_storage_2",
+											"afs_energy_storage_3",
+											"afs_energy_storage_4",
+											"afs_energy_storage_5",
+											"afs_heat_1",
+											"afs_heat_2",
+											"afs_heat_2_salvage",
+											"afs_heat_3",
+											"afs_heat_4",
+											"afs_heat_5",
+											"afs_magnet_1",
+											"afs_magnet_2",
+											"afs_magnet_3",
+											"afs_magnet_4",
+											"afs_material_1",
+											"afs_material_2",
+											"afs_material_3",
+											"afs_material_4",
+											"afs_material_5",
+											"afs_neural_io_1",
+											"afs_neural_io_2",
+											"afs_neural_io_3",
+											"afs_neural_io_4",
+											"afs_neural_io_5",
+											"afs_optics_3",
+											"afs_optics_4"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"type": {
+					"const": "requirement",
+					"type": "string"
+				},
+				"using": {
+					"$ref": "#/definitions/ReqUsing",
+					"description": "给出需求 id；需求可能有嵌套的工具、质量或组件"
+				}
+			},
+			"required": [
+				"components",
+				"qualities",
+				"tools",
+				"type",
+				"using"
+			],
+			"type": "object"
+		},
+		"RequirementID": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^REQ_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_REQ_.*$",
+					"type": "string"
+				}
+			],
+			"description": "需求组ID"
 		},
 		"Resp": {
 			"anyOf": [
@@ -54131,7 +55194,7 @@
 			"description": "TOOL ID格式"
 		},
 		"ToolQuality": {
-			"description": "工具品质 [调整值类型, 品质等级]",
+			"description": "工具品质",
 			"items": [
 				{
 					"enum": [
@@ -54147,6 +55210,111 @@
 			"maxItems": 2,
 			"minItems": 2,
 			"type": "array"
+		},
+		"ToolQualityID": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^TQ_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_TQ_.*$",
+					"type": "string"
+				},
+				{
+					"enum": [
+						"ANALYSIS",
+						"ANESTHESIA",
+						"ANVIL",
+						"AXE",
+						"BLOW_AIR",
+						"BLOW_HOT_AIR",
+						"BOIL",
+						"BUTCHER",
+						"CHEM",
+						"CHISEL",
+						"CHISEL_WOOD",
+						"CHROMATOGRAPHY",
+						"CHURN",
+						"CONCENTRATE",
+						"CONTAIN",
+						"COOK",
+						"CUT",
+						"CUT_FINE",
+						"CUT_GLASS",
+						"DIG",
+						"DISTILL",
+						"DRILL",
+						"DRILL_ROCK",
+						"EXTRACT",
+						"FABRIC_CUT",
+						"FILE",
+						"FILTER",
+						"FINE_DISTILL",
+						"FINE_GRIND",
+						"FISHING_ROD",
+						"FISH_TRAP",
+						"GLARE",
+						"GRASS_CUT",
+						"GRIND",
+						"GUN",
+						"HAMMER",
+						"HAMMER_FINE",
+						"HAMMER_SOFT",
+						"HOSE",
+						"JACK",
+						"JUMPSTART",
+						"KNIT",
+						"LEATHER_AWL",
+						"LIFT",
+						"LOCKPICK",
+						"MOP",
+						"OVEN",
+						"PISTOL",
+						"PRESSURIZATION",
+						"PRY",
+						"PRYING_NAIL",
+						"PULL",
+						"PUNCH",
+						"REAM",
+						"RIFLE",
+						"ROPE",
+						"SAW_M",
+						"SAW_M_FINE",
+						"SAW_W",
+						"SCREW",
+						"SCREW_FINE",
+						"SELF_JACK",
+						"SEPARATE",
+						"SEW",
+						"SEW_CURVED",
+						"SHEAR",
+						"SHOTGUN",
+						"SIEVE",
+						"SMG",
+						"SMOKE_PIPE",
+						"SMOOTH",
+						"STRAIN",
+						"SURFACE",
+						"SUSPENDING",
+						"THREAD_CUT",
+						"THREAD_TAP",
+						"TREE_TAP",
+						"VISE",
+						"WELD",
+						"WHEEL_FAST",
+						"WRENCH",
+						"WRENCH_FINE",
+						"WRITE"
+					],
+					"type": "string"
+				}
+			],
+			"description": "工具品质ID"
 		},
 		"ToolQualityType": {
 			"enum": [
@@ -54680,6 +55848,142 @@
 			],
 			"type": "string"
 		},
+		"VPFlag": {
+			"enum": [
+				"ADVANCED_PLANTER",
+				"AIRCRAFT_REPAIRABLE_NOPROF",
+				"AISLE",
+				"AISLE_LIGHT",
+				"ALTERNATOR",
+				"ANCHOR_POINT",
+				"ANIMAL_CTRL",
+				"APPLIANCE",
+				"ARCADE",
+				"ARMOR",
+				"ATOMIC_LIGHT",
+				"AUTOPILOT",
+				"BATTERY_MOUNT",
+				"BED",
+				"BEEPER",
+				"BELTABLE",
+				"BIKE_RACK_VEH",
+				"BOARDABLE",
+				"CAMERA",
+				"CAMERA_CONTROL",
+				"CAPTURE_MOSNTER_VEH",
+				"CARGO",
+				"CARGO_LOCKING",
+				"CHIMES",
+				"CIRCLE_LIGHT",
+				"CONE_LIGHT",
+				"CONTROLS",
+				"CONTROL_ANIMAL",
+				"COOLER",
+				"COVERED",
+				"CTRL_ELECTRONIC",
+				"CURTAIN",
+				"DISHWASHER",
+				"DOME_LIGHT",
+				"DOOR_MOTOR",
+				"ENABLED_DRAINS_EPOWER",
+				"ENGINE",
+				"EVENTURN",
+				"EXTRA_DRAG",
+				"E_ALTERNATOR",
+				"E_COLD_START",
+				"E_COMBUSTION",
+				"E_DIESEL_FUEL",
+				"E_HEATER",
+				"E_HIGHER_SKILL",
+				"E_STARTS_INSTANTLY",
+				"FLAT_SURF",
+				"FLUIDTANK",
+				"FREEZER",
+				"FRIDGE",
+				"FUNNEL",
+				"HALF_CIRCLE_LIGHT",
+				"HANDHELD_BATTERY_MOUNT",
+				"HARNESS_bodytype",
+				"HORN",
+				"INITIAL_PART",
+				"INTERNAL",
+				"LOCKABLE_CARGO",
+				"MUFFLER",
+				"MULTISQUARE",
+				"MUSCLE_ARMS",
+				"MUSCLE_LEGS",
+				"NAILABLE",
+				"NEEDS_BATTERY_MOUNT",
+				"NEEDS_HANDHELD_BATTERY_MOUNT",
+				"NEEDS_WHEEL_MOUNT_HEAVY",
+				"NEEDS_WHEEL_MOUNT_LIGHT",
+				"NEEDS_WHEEL_MOUNT_MEDIUM",
+				"NEEDS_WINDOW",
+				"NO_INSTALL_HIDDEN",
+				"NO_INSTALL_PLAYER",
+				"NO_LEAK",
+				"NO_MODIFY_VEHICLE",
+				"NO_REPAIR",
+				"NO_UNINSTALL",
+				"OBSTACLE",
+				"ODDTURN",
+				"ON_CONTROLS",
+				"ON_ROOF",
+				"OPAQUE",
+				"OPENABLE",
+				"OPENCLOSE_INSIDE",
+				"OVER",
+				"PERPETUAL",
+				"PLANTER",
+				"PLOW",
+				"POWER_TRANSFER",
+				"PROTRUSION",
+				"REACTOR",
+				"REAPER",
+				"RECHARGE",
+				"REMOTE_CONTROLS",
+				"REVERSIBLE",
+				"ROOF",
+				"SCOOP",
+				"SEAT",
+				"SEATBELT",
+				"SECURITY",
+				"SHARP",
+				"SHOCK_ABSORBER",
+				"SIMPLE_PART",
+				"SMASH_REMOVE",
+				"SOLAR_PANEL",
+				"SPACE_HEATER",
+				"STABLE",
+				"STEERABLE",
+				"STEREO",
+				"TRACK",
+				"TRACKED",
+				"TRANSFORM_TERRAIN",
+				"TURRET",
+				"TURRET_CONTROLS",
+				"TURRET_MOUNT",
+				"UNMOUNT_ON_DAMAGE",
+				"UNMOUNT_ON_MOVE",
+				"UNSTABLE_WHEEL",
+				"VARIABLE_SIZE",
+				"VISION",
+				"WALL_MOUNTED",
+				"WASHING_MACHINE",
+				"WATER_WHEEL",
+				"WHEEL",
+				"WIDE_CONE_LIGHT",
+				"WINDOW",
+				"WIND_POWERED",
+				"WIND_TURBINE",
+				"WIRING",
+				"WORKBENCH"
+			],
+			"type": "string"
+		},
+		"VPRequirement": {
+			"$ref": "#/definitions/__type_116"
+		},
 		"VaildMod": {
 			"description": "有效枪械组件",
 			"items": [
@@ -54707,6 +56011,330 @@
 				}
 			},
 			"type": "object"
+		},
+		"VehiclePart": {
+			"anyOf": [
+				{
+					"allOf": [
+						{
+							"properties": {
+								"bonus": {
+									"description": "功能取决于部件类型：",
+									"type": "number"
+								},
+								"breaks_into": {
+									"anyOf": [
+										{
+											"pattern": "^.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^ITEMGP_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_ITEMGP_.*$",
+											"type": "string"
+										},
+										{
+											"items": {
+												"$ref": "#/definitions/ItemGroupEntrie"
+											},
+											"type": "array"
+										},
+										{
+											"enum": [
+												"afs_advanced_biomaterial_scrapgroup",
+												"afs_advanced_circuitry_scrapgroup",
+												"afs_advanced_energy_storage_scrapgroup",
+												"afs_advanced_heat_scrapgroup",
+												"afs_advanced_magnet_scrapgroup",
+												"afs_advanced_material_scrapgroup",
+												"afs_advanced_neural_io_scrapgroup",
+												"afs_advanced_optics_scrapgroup",
+												"afs_common_biomaterial_scrapgroup",
+												"afs_common_circuitry_scrapgroup",
+												"afs_common_energy_storage_scrapgroup",
+												"afs_common_heat_scrapgroup",
+												"afs_common_magnet_scrapgroup",
+												"afs_common_material_scrapgroup",
+												"afs_common_neural_io_scrapgroup",
+												"bionics"
+											],
+											"type": "string"
+										}
+									],
+									"description": "当车辆部件被销毁时, 此物品组中的物品 (参见 ITEM_SPAWN.md) 将在地面上的部件周围生成。  \n或者只是物品组的 id。"
+								},
+								"broken_color": {
+									"$ref": "#/definitions/Color_1",
+									"description": "部件损坏时使用的颜色"
+								},
+								"color": {
+									"$ref": "#/definitions/Color_1",
+									"description": "部件工作时使用的颜色"
+								},
+								"damage_modifier": {
+									"description": "(可选, 默认 = 100) 当此部件击中某物时, 所造成的伤害乘数, 以百分比表示。越高 = 对被击中的生物造成更多的伤害",
+									"type": "number"
+								},
+								"description": {
+									"$ref": "#/definitions/DescText",
+									"description": "安装此车辆部件时的描述"
+								},
+								"difficulty": {
+									"description": "你的机械技能必须至少达到这个级别才能安装这个部件",
+									"type": "number"
+								},
+								"durability": {
+									"description": "部件在损坏前可以承受多少伤害",
+									"type": "number"
+								},
+								"epower": {
+									"description": "部件的电力使用量, 以瓦特为单位。负值表示消耗电力, 正值表示产生电力。  \n通常, 电力消耗还需要 ENABLED_DRAINS_EPOWER 标志, 并且物品需要打开。  \n太阳能板的电力产生受到太阳角度的影响。当太阳在 90 度时, 面板产生全部电力。",
+									"type": "number"
+								},
+								"flags": {
+									"description": "与部件相关的标志",
+									"items": {
+										"enum": [
+											"ADVANCED_PLANTER",
+											"AIRCRAFT_REPAIRABLE_NOPROF",
+											"AISLE",
+											"AISLE_LIGHT",
+											"ALTERNATOR",
+											"ANCHOR_POINT",
+											"ANIMAL_CTRL",
+											"APPLIANCE",
+											"ARCADE",
+											"ARMOR",
+											"ATOMIC_LIGHT",
+											"AUTOPILOT",
+											"BATTERY_MOUNT",
+											"BED",
+											"BEEPER",
+											"BELTABLE",
+											"BIKE_RACK_VEH",
+											"BOARDABLE",
+											"CAMERA",
+											"CAMERA_CONTROL",
+											"CAPTURE_MOSNTER_VEH",
+											"CARGO",
+											"CARGO_LOCKING",
+											"CHIMES",
+											"CIRCLE_LIGHT",
+											"CONE_LIGHT",
+											"CONTROLS",
+											"CONTROL_ANIMAL",
+											"COOLER",
+											"COVERED",
+											"CTRL_ELECTRONIC",
+											"CURTAIN",
+											"DISHWASHER",
+											"DOME_LIGHT",
+											"DOOR_MOTOR",
+											"ENABLED_DRAINS_EPOWER",
+											"ENGINE",
+											"EVENTURN",
+											"EXTRA_DRAG",
+											"E_ALTERNATOR",
+											"E_COLD_START",
+											"E_COMBUSTION",
+											"E_DIESEL_FUEL",
+											"E_HEATER",
+											"E_HIGHER_SKILL",
+											"E_STARTS_INSTANTLY",
+											"FLAT_SURF",
+											"FLUIDTANK",
+											"FREEZER",
+											"FRIDGE",
+											"FUNNEL",
+											"HALF_CIRCLE_LIGHT",
+											"HANDHELD_BATTERY_MOUNT",
+											"HARNESS_bodytype",
+											"HORN",
+											"INITIAL_PART",
+											"INTERNAL",
+											"LOCKABLE_CARGO",
+											"MUFFLER",
+											"MULTISQUARE",
+											"MUSCLE_ARMS",
+											"MUSCLE_LEGS",
+											"NAILABLE",
+											"NEEDS_BATTERY_MOUNT",
+											"NEEDS_HANDHELD_BATTERY_MOUNT",
+											"NEEDS_WHEEL_MOUNT_HEAVY",
+											"NEEDS_WHEEL_MOUNT_LIGHT",
+											"NEEDS_WHEEL_MOUNT_MEDIUM",
+											"NEEDS_WINDOW",
+											"NO_INSTALL_HIDDEN",
+											"NO_INSTALL_PLAYER",
+											"NO_LEAK",
+											"NO_MODIFY_VEHICLE",
+											"NO_REPAIR",
+											"NO_UNINSTALL",
+											"OBSTACLE",
+											"ODDTURN",
+											"ON_CONTROLS",
+											"ON_ROOF",
+											"OPAQUE",
+											"OPENABLE",
+											"OPENCLOSE_INSIDE",
+											"OVER",
+											"PERPETUAL",
+											"PLANTER",
+											"PLOW",
+											"POWER_TRANSFER",
+											"PROTRUSION",
+											"REACTOR",
+											"REAPER",
+											"RECHARGE",
+											"REMOTE_CONTROLS",
+											"REVERSIBLE",
+											"ROOF",
+											"SCOOP",
+											"SEAT",
+											"SEATBELT",
+											"SECURITY",
+											"SHARP",
+											"SHOCK_ABSORBER",
+											"SIMPLE_PART",
+											"SMASH_REMOVE",
+											"SOLAR_PANEL",
+											"SPACE_HEATER",
+											"STABLE",
+											"STEERABLE",
+											"STEREO",
+											"TRACK",
+											"TRACKED",
+											"TRANSFORM_TERRAIN",
+											"TURRET",
+											"TURRET_CONTROLS",
+											"TURRET_MOUNT",
+											"UNMOUNT_ON_DAMAGE",
+											"UNMOUNT_ON_MOVE",
+											"UNSTABLE_WHEEL",
+											"VARIABLE_SIZE",
+											"VISION",
+											"WALL_MOUNTED",
+											"WASHING_MACHINE",
+											"WATER_WHEEL",
+											"WHEEL",
+											"WIDE_CONE_LIGHT",
+											"WINDOW",
+											"WIND_POWERED",
+											"WIND_TURBINE",
+											"WIRING",
+											"WORKBENCH"
+										],
+										"type": "string"
+									},
+									"type": "array"
+								},
+								"fuel_type": {
+									"$ref": "#/definitions/AmmunitionTypeID_1",
+									"description": "(可选, 默认 = \"NULL\") 部件消耗的燃料/弹药类型, 作为物品 id"
+								},
+								"id": {
+									"$ref": "#/definitions/VehiclePartID",
+									"description": "唯一标识符, 不能包含 # 符号"
+								},
+								"item": {
+									"$ref": "#/definitions/GenericID",
+									"description": "用于安装此部件的物品, 以及移除此部件时获得的物品。"
+								},
+								"location": {
+									"const": "fuel_source",
+									"description": "可选。确定部件是否可以安装在给定瓦片上的检查之一。如果任何现有部件占用同一位置, 则不能安装部件。",
+									"type": "string"
+								},
+								"looks_like": {
+									"description": "(可选) 如果此部分没有图块, 向图块集提供提示, 使用 looks_like 图块。",
+									"type": "string"
+								},
+								"name": {
+									"$ref": "#/definitions/DescText",
+									"description": "显示名称"
+								},
+								"remove_as": {
+									"$ref": "#/definitions/GenericID_2",
+									"description": "覆盖 \"item\", 移除此部件时返回的物品。"
+								},
+								"requirements": {
+									"description": "(可选) 部件的特殊安装、移除或修理要求。每个字段都由一个对象组成, 字段为 \"skills\"、\"time\" 和 \"using\"。",
+									"properties": {
+										"install": {
+											"$ref": "#/definitions/VPRequirement"
+										},
+										"removal": {
+											"$ref": "#/definitions/VPRequirement"
+										},
+										"repair": {
+											"$ref": "#/definitions/VPRequirement"
+										}
+									},
+									"required": [
+										"install",
+										"removal",
+										"repair"
+									],
+									"type": "object"
+								},
+								"type": {
+									"const": "vehicle_part",
+									"type": "string"
+								}
+							},
+							"required": [
+								"bonus",
+								"broken_color",
+								"color",
+								"description",
+								"difficulty",
+								"durability",
+								"id",
+								"item",
+								"location",
+								"looks_like",
+								"name",
+								"type"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"//": {
+									"const": "uncopy",
+									"type": "string"
+								}
+							},
+							"type": "object"
+						}
+					]
+				},
+				{
+					"$ref": "#/definitions/Copyfrom_8",
+					"description": "copyfrom变体"
+				}
+			],
+			"description": "载具部件"
+		},
+		"VehiclePartID": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^VP_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_VP_.*$",
+					"type": "string"
+				}
+			],
+			"description": "载具部件ID"
 		},
 		"VitalBP": {
 			"enum": [
@@ -55637,7 +57265,7 @@
 					"type": "array"
 				},
 				"hit_you_effect": {
-					"description": "抚摸拥有者近战击中敌人时触发的法术  \n 该法术以该生物的位置为中心, 除非\"hit_self\": true  \n 那么它以你的位置为中心。",
+					"description": "抚摸拥有者近战击中敌人时触发的法术  \n该法术以该生物的位置为中心, 除非\"hit_self\": true  \n那么它以你的位置为中心。",
 					"items": {
 						"description": "伪法术附加信息",
 						"properties": {
@@ -59179,6 +60807,10 @@
 														"description": "一次生成的数量",
 														"type": "number"
 													},
+													"critical_multiplier": {
+														"description": "暴击伤害倍率",
+														"type": "number"
+													},
 													"damage": {
 														"anyOf": [
 															{
@@ -59221,7 +60853,7 @@
 														"type": "number"
 													},
 													"projectile_count": {
-														"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+														"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 														"type": "number"
 													},
 													"prop_damage": {
@@ -59261,7 +60893,7 @@
 														"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 													},
 													"shot_spread": {
-														"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+														"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 														"type": "number"
 													},
 													"show_stats": {
@@ -64513,6 +66145,305 @@
 				"sharedTable",
 				"staticTable"
 			],
+			"type": "object"
+		},
+		"__type_116": {
+			"description": "车辆部件的操作需求",
+			"properties": {
+				"skills": {
+					"description": "\"skills\" 是一个列表, 每个列表都是一个技能名称和技能等级。",
+					"items": {
+						"items": [
+							{
+								"$ref": "#/definitions/SkillID"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"time": {
+					"$ref": "#/definitions/Time_1",
+					"description": "\"time\" 是一个字符串, 指定执行操作的时间。"
+				},
+				"using": {
+					"$ref": "#/definitions/ReqUsing",
+					"description": "\"using\" 是一个列表, 每个列表都是一个制作要求。"
+				}
+			},
+			"required": [
+				"skills",
+				"time",
+				"using"
+			],
+			"type": "object"
+		},
+		"__type_117": {
+			"properties": {
+				"bonus": {
+					"description": "功能取决于部件类型：",
+					"type": "number"
+				},
+				"breaks_into": {
+					"anyOf": [
+						{
+							"pattern": "^.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^ITEMGP_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_ITEMGP_.*$",
+							"type": "string"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/ItemGroupEntrie"
+							},
+							"type": "array"
+						},
+						{
+							"enum": [
+								"afs_advanced_biomaterial_scrapgroup",
+								"afs_advanced_circuitry_scrapgroup",
+								"afs_advanced_energy_storage_scrapgroup",
+								"afs_advanced_heat_scrapgroup",
+								"afs_advanced_magnet_scrapgroup",
+								"afs_advanced_material_scrapgroup",
+								"afs_advanced_neural_io_scrapgroup",
+								"afs_advanced_optics_scrapgroup",
+								"afs_common_biomaterial_scrapgroup",
+								"afs_common_circuitry_scrapgroup",
+								"afs_common_energy_storage_scrapgroup",
+								"afs_common_heat_scrapgroup",
+								"afs_common_magnet_scrapgroup",
+								"afs_common_material_scrapgroup",
+								"afs_common_neural_io_scrapgroup",
+								"bionics"
+							],
+							"type": "string"
+						}
+					],
+					"description": "当车辆部件被销毁时, 此物品组中的物品 (参见 ITEM_SPAWN.md) 将在地面上的部件周围生成。  \n或者只是物品组的 id。"
+				},
+				"broken_color": {
+					"$ref": "#/definitions/Color",
+					"description": "部件损坏时使用的颜色"
+				},
+				"color": {
+					"$ref": "#/definitions/Color",
+					"description": "部件工作时使用的颜色"
+				},
+				"damage_modifier": {
+					"description": "(可选, 默认 = 100) 当此部件击中某物时, 所造成的伤害乘数, 以百分比表示。越高 = 对被击中的生物造成更多的伤害",
+					"type": "number"
+				},
+				"description": {
+					"$ref": "#/definitions/DescText_1",
+					"description": "安装此车辆部件时的描述"
+				},
+				"difficulty": {
+					"description": "你的机械技能必须至少达到这个级别才能安装这个部件",
+					"type": "number"
+				},
+				"durability": {
+					"description": "部件在损坏前可以承受多少伤害",
+					"type": "number"
+				},
+				"epower": {
+					"description": "部件的电力使用量, 以瓦特为单位。负值表示消耗电力, 正值表示产生电力。  \n通常, 电力消耗还需要 ENABLED_DRAINS_EPOWER 标志, 并且物品需要打开。  \n太阳能板的电力产生受到太阳角度的影响。当太阳在 90 度时, 面板产生全部电力。",
+					"type": "number"
+				},
+				"flags": {
+					"description": "与部件相关的标志",
+					"items": {
+						"enum": [
+							"ADVANCED_PLANTER",
+							"AIRCRAFT_REPAIRABLE_NOPROF",
+							"AISLE",
+							"AISLE_LIGHT",
+							"ALTERNATOR",
+							"ANCHOR_POINT",
+							"ANIMAL_CTRL",
+							"APPLIANCE",
+							"ARCADE",
+							"ARMOR",
+							"ATOMIC_LIGHT",
+							"AUTOPILOT",
+							"BATTERY_MOUNT",
+							"BED",
+							"BEEPER",
+							"BELTABLE",
+							"BIKE_RACK_VEH",
+							"BOARDABLE",
+							"CAMERA",
+							"CAMERA_CONTROL",
+							"CAPTURE_MOSNTER_VEH",
+							"CARGO",
+							"CARGO_LOCKING",
+							"CHIMES",
+							"CIRCLE_LIGHT",
+							"CONE_LIGHT",
+							"CONTROLS",
+							"CONTROL_ANIMAL",
+							"COOLER",
+							"COVERED",
+							"CTRL_ELECTRONIC",
+							"CURTAIN",
+							"DISHWASHER",
+							"DOME_LIGHT",
+							"DOOR_MOTOR",
+							"ENABLED_DRAINS_EPOWER",
+							"ENGINE",
+							"EVENTURN",
+							"EXTRA_DRAG",
+							"E_ALTERNATOR",
+							"E_COLD_START",
+							"E_COMBUSTION",
+							"E_DIESEL_FUEL",
+							"E_HEATER",
+							"E_HIGHER_SKILL",
+							"E_STARTS_INSTANTLY",
+							"FLAT_SURF",
+							"FLUIDTANK",
+							"FREEZER",
+							"FRIDGE",
+							"FUNNEL",
+							"HALF_CIRCLE_LIGHT",
+							"HANDHELD_BATTERY_MOUNT",
+							"HARNESS_bodytype",
+							"HORN",
+							"INITIAL_PART",
+							"INTERNAL",
+							"LOCKABLE_CARGO",
+							"MUFFLER",
+							"MULTISQUARE",
+							"MUSCLE_ARMS",
+							"MUSCLE_LEGS",
+							"NAILABLE",
+							"NEEDS_BATTERY_MOUNT",
+							"NEEDS_HANDHELD_BATTERY_MOUNT",
+							"NEEDS_WHEEL_MOUNT_HEAVY",
+							"NEEDS_WHEEL_MOUNT_LIGHT",
+							"NEEDS_WHEEL_MOUNT_MEDIUM",
+							"NEEDS_WINDOW",
+							"NO_INSTALL_HIDDEN",
+							"NO_INSTALL_PLAYER",
+							"NO_LEAK",
+							"NO_MODIFY_VEHICLE",
+							"NO_REPAIR",
+							"NO_UNINSTALL",
+							"OBSTACLE",
+							"ODDTURN",
+							"ON_CONTROLS",
+							"ON_ROOF",
+							"OPAQUE",
+							"OPENABLE",
+							"OPENCLOSE_INSIDE",
+							"OVER",
+							"PERPETUAL",
+							"PLANTER",
+							"PLOW",
+							"POWER_TRANSFER",
+							"PROTRUSION",
+							"REACTOR",
+							"REAPER",
+							"RECHARGE",
+							"REMOTE_CONTROLS",
+							"REVERSIBLE",
+							"ROOF",
+							"SCOOP",
+							"SEAT",
+							"SEATBELT",
+							"SECURITY",
+							"SHARP",
+							"SHOCK_ABSORBER",
+							"SIMPLE_PART",
+							"SMASH_REMOVE",
+							"SOLAR_PANEL",
+							"SPACE_HEATER",
+							"STABLE",
+							"STEERABLE",
+							"STEREO",
+							"TRACK",
+							"TRACKED",
+							"TRANSFORM_TERRAIN",
+							"TURRET",
+							"TURRET_CONTROLS",
+							"TURRET_MOUNT",
+							"UNMOUNT_ON_DAMAGE",
+							"UNMOUNT_ON_MOVE",
+							"UNSTABLE_WHEEL",
+							"VARIABLE_SIZE",
+							"VISION",
+							"WALL_MOUNTED",
+							"WASHING_MACHINE",
+							"WATER_WHEEL",
+							"WHEEL",
+							"WIDE_CONE_LIGHT",
+							"WINDOW",
+							"WIND_POWERED",
+							"WIND_TURBINE",
+							"WIRING",
+							"WORKBENCH"
+						],
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"fuel_type": {
+					"$ref": "#/definitions/AmmunitionTypeID_1",
+					"description": "(可选, 默认 = \"NULL\") 部件消耗的燃料/弹药类型, 作为物品 id"
+				},
+				"item": {
+					"$ref": "#/definitions/GenericID_2",
+					"description": "用于安装此部件的物品, 以及移除此部件时获得的物品。"
+				},
+				"location": {
+					"const": "fuel_source",
+					"description": "可选。确定部件是否可以安装在给定瓦片上的检查之一。如果任何现有部件占用同一位置, 则不能安装部件。",
+					"type": "string"
+				},
+				"looks_like": {
+					"description": "(可选) 如果此部分没有图块, 向图块集提供提示, 使用 looks_like 图块。",
+					"type": "string"
+				},
+				"name": {
+					"$ref": "#/definitions/DescText_1",
+					"description": "显示名称"
+				},
+				"remove_as": {
+					"$ref": "#/definitions/GenericID_2",
+					"description": "覆盖 \"item\", 移除此部件时返回的物品。"
+				},
+				"requirements": {
+					"description": "(可选) 部件的特殊安装、移除或修理要求。每个字段都由一个对象组成, 字段为 \"skills\"、\"time\" 和 \"using\"。",
+					"properties": {
+						"install": {
+							"$ref": "#/definitions/VPRequirement"
+						},
+						"removal": {
+							"$ref": "#/definitions/VPRequirement"
+						},
+						"repair": {
+							"$ref": "#/definitions/VPRequirement"
+						}
+					},
+					"required": [
+						"install",
+						"removal",
+						"repair"
+					],
+					"type": "object"
+				}
+			},
 			"type": "object"
 		},
 		"__type_12": {
@@ -71197,6 +73128,10 @@
 					"$ref": "#/definitions/Time",
 					"description": "定时激活 一旦定时器的持续时间过去, 就会\"countdown_action\"执行"
 				},
+				"critical_multiplier": {
+					"description": "暴击伤害倍率",
+					"type": "number"
+				},
 				"damage": {
 					"anyOf": [
 						{
@@ -71611,7 +73546,7 @@
 					"description": "大灾变后的物品价格"
 				},
 				"projectile_count": {
-					"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n 如果存在 shot_damage, 则还必须指定。",
+					"description": "可选字段, 指定该弹药每轮发射多个射弹, 例如 shot  \n如果存在 shot_damage, 则还必须指定。",
 					"type": "number"
 				},
 				"prop_damage": {
@@ -71670,7 +73605,7 @@
 					"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 shot_count。"
 				},
 				"shot_spread": {
-					"description": "可选字段, 指定单个射弹的额外分散度。  \n 仅当 shot_count 存在时才有意义。",
+					"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 shot_count 存在时才有意义。",
 					"type": "number"
 				},
 				"show_stats": {
@@ -76079,7 +78014,7 @@
 					"type": "array"
 				},
 				"hit_you_effect": {
-					"description": "抚摸拥有者近战击中敌人时触发的法术  \n 该法术以该生物的位置为中心, 除非\"hit_self\": true  \n 那么它以你的位置为中心。",
+					"description": "抚摸拥有者近战击中敌人时触发的法术  \n该法术以该生物的位置为中心, 除非\"hit_self\": true  \n那么它以你的位置为中心。",
 					"items": {
 						"$ref": "#/definitions/__type_33",
 						"description": "伪法术附加信息"
@@ -76969,7 +78904,7 @@
 					"type": "string"
 				},
 				"diff": {
-					"description": "(整数) 特殊和远程攻击的额外怪物难度  \n如果超过 30, 则击杀将记录在纪念日志中。  \n怪物难度是根据预期的近战伤害、闪避、护甲、生命值、速度、士气、攻击性和视野范围来计算的。  \n该计算不能很好地处理远程特殊攻击或独特的特殊攻击, 可以使用基线难度来解释这一点。  \n2\t有限的防御能力, 如掠夺者的泰瑟枪, 或弱的特殊能力, 如尖叫僵尸的特殊能力, 以警告附近的怪物, 或攻击的小奖励, 如毒药或毒液。  \n5\t比喷吐僵尸的吐痰弱的有限范围攻击, 或者强大的防御能力, 如震撼僵尸的回击或酸僵尸的酸喷雾。  \n10\t强大的远程攻击, 如喷吐僵尸的喷水或炮塔的 9 毫米冲锋枪。  \n15\t强大的远程攻击, 带有额外的危险, 例如腐蚀性僵尸的口水  \n20\t非常强大的远程攻击, 例如激光炮塔或军用炮塔的5.56毫米步枪, 或者强大的特殊能力, 例如僵尸死灵法师复活其他僵尸的能力。  \n30\t即使对于装甲角色来说也是致命的远程攻击, 例如反物质炮塔的 0.50 BMG 步枪。",
+					"description": "(整数) 特殊和远程攻击的额外怪物难度  \n如果超过 30, 则击杀将记录在纪念日志中。  \n怪物难度是根据预期的近战伤害、闪避、护甲、生命值、速度、士气、攻击性和视野范围来计算的。  \n该计算不能很好地处理远程特殊攻击或独特的特殊攻击, 可以使用基线难度来解释这一点。  \n  2    有限的防御能力, 如掠夺者的泰瑟枪, 或弱的特殊能力, 如尖叫僵尸的特殊能力, 以警告附近的怪物, 或攻击的小奖励, 如毒药或毒液。  \n  5    比喷吐僵尸的吐痰弱的有限范围攻击, 或者强大的防御能力, 如震撼僵尸的回击或酸僵尸的酸喷雾。  \n  10   强大的远程攻击, 如喷吐僵尸的喷水或炮塔的 9 毫米冲锋枪。  \n  15   强大的远程攻击, 带有额外的危险, 例如腐蚀性僵尸的口水  \n  20   非常强大的远程攻击, 例如激光炮塔或军用炮塔的5.56毫米步枪, 或者强大的特殊能力, 例如僵尸死灵法师复活其他僵尸的能力。  \n  30   即使对于装甲角色来说也是致命的远程攻击, 例如反物质炮塔的 0.50 BMG 步枪。",
 					"type": "number"
 				},
 				"dodge": {

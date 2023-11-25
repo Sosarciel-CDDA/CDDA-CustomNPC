@@ -197,17 +197,17 @@ type CompareTime = TalkerVar<{
 
 
 /**非操作 */
-export type BoolOperaNot     = {
+export type BoolOperaNot = {
     /**非操作 */
     not:BoolObj
 };
 /**或操作 */
-export type BoolOperaOr      = {
+export type BoolOperaOr = {
     /**或操作 */
     or:BoolObj[]
 };
 /**与操作 */
-export type BoolOperaAnd     = {
+export type BoolOperaAnd = {
     /**与操作 */
     and:BoolObj[]
 };
@@ -226,27 +226,27 @@ export type IDObj<T extends string> = Exclude<StrObj,string>|T;
 export type StrObj = StrOperateList[number];
 /**Eoc字符串对象操作符 */
 export type StrOperateList = [
-    GenericObj                          ,//
-    string                              ,
-    LocObj                              ,//
+    GenericObj, //
+    string    , 
+    LocObj    , //
 ]
 
 /**任何Obj */
 export type AnyObj = AnyObjOperateList[number];
 /**任何Obj操作符 */
 export type AnyObjOperateList = [
-    BoolObj                 ,//
-    StrObj                  ,//
-    NumObj                  ,//
+    BoolObj, //
+    StrObj , //
+    NumObj , //
 ]
 
 /**通用Obj操作符 */
 export type GenericObjOperateList = [
-    { global_val: string  } ,//全局变量
-    { u_val: string }       ,//alpha talker的变量
-    { npc_val: string }     ,//beta talker的变量
-    { context_val: string } ,//上下文变量 存于对话中的变量
-    { var_val : string }    ,//获得某个上下文变量的值 然后以值作为 全局/角色变量名 获得全局/角色值
+    { global_val : string } , //全局变量
+    { u_val      : string } , //alpha talker的变量
+    { npc_val    : string } , //beta talker的变量
+    { context_val: string } , //上下文变量 存于对话中的变量
+    { var_val    : string } , //获得某个上下文变量的值 然后以值作为 全局/角色变量名 获得全局/角色值
 ];
 /**通用Obj操作符 */
 export type GenericObj = GenericObjOperateList[number];
