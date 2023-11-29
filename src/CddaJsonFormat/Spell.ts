@@ -153,6 +153,7 @@ export const SpellTargetList = [
     "self"   , //自己
     "ally"   , //盟友
     "field"  , //地块效果
+    "item"   , //物品
     "none"   , //无
 ] as const;
 /**法术有效目标 */

@@ -14,7 +14,7 @@ function hasAnim(outData:Record<string,JArray>,animType:AnimType){
 
 /**移除其他动作变异 */
 export function removeOtherAnimEoc(charName:string,baseData:CharDefineData,animType:AnimType){
-    const otherAnim = baseData.vaildAnim.filter(item=> item!=animType);
+    const otherAnim = baseData.validAnim.filter(item=> item!=animType);
     if(otherAnim.length<=0) return null;
     const eoc:Eoc={
         type:"effect_on_condition",

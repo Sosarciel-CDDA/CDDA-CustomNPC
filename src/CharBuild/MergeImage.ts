@@ -63,7 +63,7 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
         const animType = mtnName as AnimType;
         const mtnInfo = info[animType];
         //添加有效动画
-        defineData.vaildAnim.push(animType);
+        defineData.validAnim.push(animType);
         const animData = defineData.animData[animType];
 
         if(mtnInfo==undefined) continue;

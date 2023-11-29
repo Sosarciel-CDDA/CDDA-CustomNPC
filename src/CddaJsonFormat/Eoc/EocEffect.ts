@@ -5,7 +5,7 @@ import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { Eoc, EocID, InlineEoc, TalkerVar } from "./Eoc";
-import { BoolObj, GenericObj, GenericObjOperateList, IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
+import { BoolObj, CondObj, GenericObj, GenericObjOperateList, IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartID, BodyPartParam, DescText, Time } from "../GenericDefine";
 import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
@@ -29,6 +29,7 @@ export type EocEffectList = [
     QueueEoc            ,//延迟运行Eoc
     EocSelector         ,//Eoc选项
     RunEocWith          ,//
+    RunEocUntil         ,//
     LoseTrait           ,//失去变异
     AddTrait            ,//获得变异
     ConsumeItem         ,//使用/扣除 count 个物品
@@ -50,6 +51,7 @@ export type EocEffectList = [
     AssingMission       ,//添加任务
     RemoveActionMission ,//移除任务
     FinishMission       ,//完成任务
+    SetCond             ,//保存条件
 ];
 
 /**无参效果 */
@@ -78,6 +80,15 @@ type RunEoc = {
     /**运行Eoc */
     run_eocs:ParamsEoc
 };
+/**循环运行Eoc */
+type RunEocUntil = {
+    /**循环运行Eoc */
+    run_eoc_until:ParamsEoc;
+    /**循环条件, 为真时循环 */
+    condition:CondObj;
+    /**最大循环限制, 超过时停止并报错 默认100*/
+    iteration?:NumObj;
+}
 /**延迟队列eoc */
 type QueueEoc = {
     /**运行Eoc 将会丢失beta talker*/
@@ -261,6 +272,7 @@ type LoseEffect = TalkerVar<{
  * { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }  
  * 等价于  
  * {math: [ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]}  
+ * type_context_variable_name  
  */
 export type VarComment = {
     /**注释用字段 type */
@@ -362,6 +374,13 @@ type FinishMission = {
     success?:boolean;
     /**完成相当于step值的任务步骤 */
     step?:number;
+}
+/**将条件Obj保存为变量 */
+type SetCond = {
+    /**将条件Obj保存为变量 */
+    set_condition:CondObj;
+    /**将要保存的条件 */
+    condition:BoolObj;
 }
 
 /**参数Eoc */

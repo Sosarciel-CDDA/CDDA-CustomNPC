@@ -13,6 +13,7 @@ exports.SpellTargetList = [
     "self",
     "ally",
     "field",
+    "item",
     "none", //无
 ];
 /**法术效果 列表 */

@@ -22,7 +22,7 @@ export type CharDefineData=Readonly<{
     /**动画数据 */
     animData    : Record<AnimType,AnimData>;
     /**有效的动作动画 */
-    vaildAnim: AnimType[];
+    validAnim: AnimType[];
     /**基础装备ID */
     baseArmorID : ArmorID;
     /**基础装备附魔ID */
@@ -342,7 +342,7 @@ export class DataManager{
                 classID             : genNpcClassID(charName),
                 instanceID          : genNpcInstanceID(charName),
                 animData            : animData,
-                vaildAnim           : [],
+                validAnim           : [],
                 baseArmorID         : genArmorID(charName),
                 baseEnchID          : genEnchantmentID(charName),
                 baseItemFlagID      : genFlagID(`${charName}_WeaponFlag`),

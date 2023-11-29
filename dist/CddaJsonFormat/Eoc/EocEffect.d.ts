@@ -4,7 +4,7 @@ import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
 import { EocID, InlineEoc, TalkerVar } from "./Eoc";
-import { IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
+import { BoolObj, CondObj, IDObj, LocObj, NumObj, StrObj } from "./VariableObject";
 import { EffectID } from "../Effect";
 import { BodyPartParam, DescText, Time } from "../GenericDefine";
 import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
@@ -18,6 +18,7 @@ export type EocEffectList = [
     QueueEoc,
     EocSelector,
     RunEocWith,
+    RunEocUntil,
     LoseTrait,
     AddTrait,
     ConsumeItem,
@@ -38,7 +39,8 @@ export type EocEffectList = [
     NoParamEffect,
     AssingMission,
     RemoveActionMission,
-    FinishMission
+    FinishMission,
+    SetCond
 ];
 /**无参效果 */
 export type NoParamEffect = [
@@ -59,6 +61,15 @@ type MathAssignExp = {
 type RunEoc = {
     /**运行Eoc */
     run_eocs: ParamsEoc;
+};
+/**循环运行Eoc */
+type RunEocUntil = {
+    /**循环运行Eoc */
+    run_eoc_until: ParamsEoc;
+    /**循环条件, 为真时循环 */
+    condition: CondObj;
+    /**最大循环限制, 超过时停止并报错 默认100*/
+    iteration?: NumObj;
 };
 /**延迟队列eoc */
 type QueueEoc = {
@@ -236,6 +247,7 @@ type LoseEffect = TalkerVar<{
  * { "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
  * 等价于
  * {math: [ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]}
+ * type_context_variable_name
  */
 export type VarComment = {
     /**注释用字段 type */
@@ -331,6 +343,13 @@ type FinishMission = {
     success?: boolean;
     /**完成相当于step值的任务步骤 */
     step?: number;
+};
+/**将条件Obj保存为变量 */
+type SetCond = {
+    /**将条件Obj保存为变量 */
+    set_condition: CondObj;
+    /**将要保存的条件 */
+    condition: BoolObj;
 };
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID> | InlineEoc) | (IDObj<EocID> | InlineEoc)[];

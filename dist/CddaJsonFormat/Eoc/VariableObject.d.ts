@@ -57,9 +57,9 @@ export type Arithmetic = {
 type CalcOpera = "+" | "-" | "*" | "/";
 /**比较运算符 */
 type CompareOpera = "==" | "!=" | ">=" | "<=" | ">" | "<";
-/**Eoc条件对象 */
+/**Eoc Bool 对象 */
 export type BoolObj = BoolOperateList[number];
-/**Eoc条件对象操作符 */
+/**Eoc Bool 对象操作符 */
 export type BoolOperateList = [
     BoolOperaNot,
     BoolOperaOr,
@@ -79,7 +79,8 @@ export type BoolOperateList = [
     HasTimeVar,
     ModIsLoad,
     HasMission,
-    IsInField
+    IsInField,
+    GetCond
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -92,6 +93,11 @@ export type NoParamTalkerCond = `${`u_` | `npc_`}${typeof NoParamTalkerCondList[
 /**math比较表达式 */
 type MathCompareExp = {
     math: [string, CompareOpera, string];
+};
+/**获取条件 */
+type GetCond = {
+    /**获取条件 */
+    get_condition: CondObj;
 };
 /**有某个效果 */
 type HasEffect = TalkerVar<{
@@ -240,4 +246,6 @@ export type GenericObjOperateList = [
 export type GenericObj = GenericObjOperateList[number];
 /**位置Obj */
 export type LocObj = GenericObj;
+/**条件Obj */
+export type CondObj = GenericObj;
 export {};

@@ -60,7 +60,7 @@ exports.WeaponFlagList = [
     "SHEATH_KNIFE",
     "SHEATH_SWORD",
     "SPEAR",
-    //"UNARMED_WEAPON"    ,//挥舞该物品进行战斗仍然算作徒手战斗。
+    //"UNARMED_WEAPON" , //挥舞该物品进行战斗仍然算作徒手战斗。
     "WHIP", //有一定几率解除对手的武装。
 ];
 /**近战武器的Flag列表 */
@@ -136,11 +136,11 @@ exports.DefineItemCategoryList = [
     "WEAPON_HELD", //
 ];
 /**
-ACT_IN_FIRE                            如果掉落在带有火的瓷砖上, 该物品将被激活
-ALLERGEN_MILK                        该产品含有牛奶, 乳糖不耐症人士不可食用
-ANIMAL_PRODUCT                        该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
-BAD_TASTE这                            种食物的味道为-5, 无法通过烹饪来覆盖
-BANK_NOTE_SHAPED                    该物品可像钞票一样放入钱包的折叠套中。
+ACT_IN_FIRE                              如果掉落在带有火的瓷砖上, 该物品将被激活
+ALLERGEN_MILK                            该产品含有牛奶, 乳糖不耐症人士不可食用
+ANIMAL_PRODUCT                           该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
+BAD_TASTE这                              种食物的味道为-5, 无法通过烹饪来覆盖
+BANK_NOTE_SHAPED                        该物品可像钞票一样放入钱包的折叠套中。
 BANK_NOTE_STRAP_SHAPED                该物品可放入用于放钱带的口袋中 (如收银机)。
 BATTERY_HEAVY                        该商品为重型电池, 可放入有重型电池限制的口袋中
 BATTERY_LIGHT                        该商品为轻型电池, 可放入有轻型电池限制的口袋中

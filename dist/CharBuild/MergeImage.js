@@ -37,7 +37,7 @@ async function mergeImage(dm, charName, forcePackage = true) {
         const animType = mtnName;
         const mtnInfo = info[animType];
         //添加有效动画
-        defineData.vaildAnim.push(animType);
+        defineData.validAnim.push(animType);
         const animData = defineData.animData[animType];
         if (mtnInfo == undefined)
             continue;

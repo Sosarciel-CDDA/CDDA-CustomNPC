@@ -10,17 +10,18 @@ async function createDamageType(dm) {
     await Trauma(dm);
     await Laceration(dm);
     await Freeze(dm);
+    await Knockback(dm);
 }
 exports.createDamageType = createDamageType;
 const TEFF_MAX = 1000000;
 //感电
 function Electrify(dm) {
-    const effid = "Electrify";
+    const did = "Electrify";
     const extid = "Serial";
     const dur = "60 s";
     const eff = {
         type: "effect_type",
-        id: effid,
+        id: did,
         name: ["感电"],
         desc: [`可被 放电 伤害激发, 造成相当于 放电伤害*感电层数 的电击伤害。`],
         max_intensity: TEFF_MAX,
@@ -30,20 +31,20 @@ function Electrify(dm) {
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
+        id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage`),
         effect: [
             //regenDmg,
             { u_message: "感电触发 <context_val:total_damage> <context_val:damage_taken>" },
             {
-                npc_add_effect: effid,
+                npc_add_effect: did,
                 duration: dur,
-                intensity: { math: [`n_effect_intensity('${effid}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`] }
+                intensity: { math: [`n_effect_intensity('${did}') + (_total_damage * (n_effect_intensity('${extid}')>0? 4 : 1))`] }
             },
         ],
         condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
-        id: effid,
+        id: did,
         type: "damage_type",
         name: "感电",
         magic_color: "yellow",
@@ -60,15 +61,15 @@ function Electrify(dm) {
         max_duration: dur,
         show_in_info: true,
     };
-    dm.addStaticData([eff, onDmgEoc, dt, exteff, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", "Electrify");
+    dm.addStaticData([eff, onDmgEoc, dt, exteff, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", did);
 }
 //放电
 function Discharge(dm) {
-    const effid = "Discharge";
+    const did = "Discharge";
     const dmgeffid = "Electrify";
     const tspell = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger`),
+        id: (0, ModDefine_1.genSpellID)(`${did}_Trigger`),
         name: "放电感电触发伤害",
         description: "放电感电触发伤害",
         effect: "attack",
@@ -81,39 +82,41 @@ function Discharge(dm) {
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
+        id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage`),
         effect: [
             //regenDmg,
             { u_message: "放电触发 <context_val:total_damage> <context_val:damage_taken>" },
             { math: ["tmpDischargeDmg", "=", "_total_damage/10"] },
             { npc_cast_spell: { id: tspell.id, hit_self: true } },
+            //{math:[`_stack`,"=",`n_effect_intensity('${dmgeffid}')`]},
+            //{u_message:"感电层数 <context_val:stack>"},
             { npc_lose_effect: dmgeffid },
         ],
         condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
-        id: effid,
+        id: did,
         type: "damage_type",
         name: "放电",
         magic_color: "yellow",
         ondamage_eocs: [onDmgEoc.id],
         no_resist: true
     };
-    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", "Discharge");
+    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", did);
 }
 //创伤
 function Trauma(dm) {
-    const effid = "Trauma";
+    const did = "Trauma";
     const extid = "HeavyTrauma";
     const stackcount = TEFF_MAX;
     const dur = "15 s";
     const tspell = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger`),
+        id: (0, ModDefine_1.genSpellID)(`${did}_Trigger`),
         name: "创伤触发伤害",
         description: "创伤触发伤害",
         effect: "attack",
-        min_damage: { math: [`u_effect_intensity('${effid}')`] },
+        min_damage: { math: [`u_effect_intensity('${did}')`] },
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         valid_targets: ["self"],
         shape: "blast",
@@ -121,7 +124,7 @@ function Trauma(dm) {
     };
     const eff = {
         type: "effect_type",
-        id: effid,
+        id: did,
         name: ["创伤"],
         desc: [`每秒受到一次相当于 创伤层数 的伤害。`],
         apply_message: "一道伤口正在蚕食着你的躯体",
@@ -139,16 +142,16 @@ function Trauma(dm) {
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
+        id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage`),
         effect: [
             //regenDmg,
             { u_message: "创伤触发 <context_val:total_damage> <context_val:damage_taken>" },
-            { npc_add_effect: effid, duration: dur, intensity: { math: [`n_effect_intensity('${effid}') +  (_total_damage * (n_effect_intensity('${extid}')>0? 1.5 : 1))`] } }
+            { npc_add_effect: did, duration: dur, intensity: { math: [`n_effect_intensity('${did}') +  (_total_damage * (n_effect_intensity('${extid}')>0? 1.5 : 1))`] } }
         ],
         condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
-        id: effid,
+        id: did,
         type: "damage_type",
         name: "创伤",
         physical: true,
@@ -167,18 +170,18 @@ function Trauma(dm) {
         max_duration: dur,
         show_in_info: true,
     };
-    dm.addStaticData([tspell, eff, onDmgEoc, dt, (0, UtilGener_1.genDIO)(dt), exteff], "common_resource", "damage_type", "Trauma");
+    dm.addStaticData([tspell, eff, onDmgEoc, dt, (0, UtilGener_1.genDIO)(dt), exteff], "common_resource", "damage_type", did);
 }
 //撕裂
 function Laceration(dm) {
-    const effid = "Laceration";
+    const did = "Laceration";
     const tspell = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger`),
+        id: (0, ModDefine_1.genSpellID)(`${did}_Trigger`),
         name: "撕裂创伤触发伤害",
         description: "撕裂创伤触发伤害",
         effect: "attack",
-        min_damage: { math: [`u_effect_intensity('${effid}') * tmpLacerationDmg`] },
+        min_damage: { math: [`u_effect_intensity('${did}') * tmpLacerationDmg`] },
         max_damage: StaticData_1.SPELL_MAX_DAMAGE,
         valid_targets: ["self"],
         shape: "blast",
@@ -187,7 +190,7 @@ function Laceration(dm) {
     const onDmgEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${effid}_OnDamage`),
+        id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage`),
         effect: [
             //regenDmg,
             { u_message: "撕裂触发 <context_val:total_damage> <context_val:damage_taken>" },
@@ -197,14 +200,14 @@ function Laceration(dm) {
         condition: { math: ["_total_damage", ">", "0"] }
     };
     const dt = {
-        id: effid,
+        id: did,
         type: "damage_type",
         name: "撕裂",
         magic_color: "white",
         ondamage_eocs: [onDmgEoc.id],
         no_resist: true,
     };
-    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", "Laceration");
+    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", did);
 }
 //冻结
 function Freeze(dm) {
@@ -240,5 +243,98 @@ function Freeze(dm) {
         ondamage_eocs: [onDmgEoc.id],
         no_resist: true
     };
-    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", "Discharge");
+    dm.addStaticData([onDmgEoc, dt, tspell, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", did);
+}
+//击退
+function Knockback(dm) {
+    const did = "Knockback";
+    const dname = "击退";
+    const tmddmg = `tmp${did}Dmg`;
+    const tspell_base = {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(`${did}_Base`),
+        name: "击退触发",
+        description: "击退触发",
+        effect: "directed_push",
+        min_damage: 1,
+        max_damage: 1,
+        min_range: 1000,
+        max_range: 1000,
+        valid_targets: ["self", "ally", "hostile"],
+        shape: "blast",
+        flags: ["IGNORE_WALLS", "NO_PROJECTILE"]
+    };
+    const tspell_bash = {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(`${did}_Bash`),
+        name: "击退触发破坏地形",
+        description: "击退触发破坏地形",
+        effect: "bash",
+        min_damage: { math: [`${tmddmg} * 10`] },
+        max_damage: StaticData_1.SPELL_MAX_DAMAGE,
+        min_aoe: 1,
+        max_aoe: 1,
+        valid_targets: ["ground"],
+        shape: "blast",
+        flags: ["NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE"]
+    };
+    const tspell_subdamage = {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(`${did}_Subdamage`),
+        name: "击退触发子伤害",
+        description: "击退触发子伤害",
+        effect: "attack",
+        damage_type: "bash",
+        min_damage: { math: [tmddmg] },
+        max_damage: StaticData_1.SPELL_MAX_DAMAGE,
+        min_aoe: 1,
+        max_aoe: 1,
+        valid_targets: ["self", "ally", "hostile", "ground"],
+        shape: "blast",
+        flags: ["SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE"]
+    };
+    const tspell_subknockback = {
+        type: "SPELL",
+        id: (0, ModDefine_1.genSpellID)(`${did}_Subknockback`),
+        name: "击退触发子击退",
+        description: "击退触发子击退",
+        effect: "area_push",
+        min_aoe: 2,
+        max_aoe: 2,
+        valid_targets: ["ally", "hostile", "item", "ground"],
+        shape: "blast",
+        flags: ["SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS", "NO_PROJECTILE"]
+    };
+    const onDmgEoc = {
+        type: "effect_on_condition",
+        eoc_type: "ACTIVATION",
+        id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage`),
+        effect: [
+            { u_message: `${dname} 触发 <context_val:total_damage> <context_val:damage_taken>` },
+            { math: [tmddmg, "=", "_total_damage"] },
+            { set_condition: { global_val: "knockback_cond" }, condition: { math: [tmddmg, ">", "0"] } },
+            { run_eoc_until: {
+                    id: (0, ModDefine_1.genEOCID)(`${did}_OnDamage_each`),
+                    eoc_type: "ACTIVATION",
+                    effect: [
+                        { npc_location_variable: { global_val: "tmp_knockback_loc" } },
+                        { u_cast_spell: { id: tspell_base.id }, loc: { global_val: "tmp_knockback_loc" } },
+                        { npc_cast_spell: { id: tspell_bash.id } },
+                        { npc_cast_spell: { id: tspell_subdamage.id } },
+                        { npc_cast_spell: { id: tspell_subknockback.id } },
+                        { math: [tmddmg, "-=", "1"] },
+                    ]
+                }, condition: { global_val: "knockback_cond" } },
+        ],
+        condition: { math: ["_total_damage", ">", "0"] }
+    };
+    const dt = {
+        id: did,
+        type: "damage_type",
+        name: dname,
+        magic_color: "white",
+        ondamage_eocs: [onDmgEoc.id],
+        derived_from: ["bash", 1]
+    };
+    dm.addStaticData([onDmgEoc, dt, tspell_base, tspell_bash, tspell_subdamage, tspell_subknockback, (0, UtilGener_1.genDIO)(dt)], "common_resource", "damage_type", did);
 }

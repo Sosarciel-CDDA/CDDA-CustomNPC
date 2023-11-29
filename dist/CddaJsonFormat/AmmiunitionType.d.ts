@@ -4,7 +4,7 @@ import { AnyItemID } from "./Item";
 export declare const DefineAmmoTypeIDList: readonly ["50", "500"];
 /**预定义的弹药类型 */
 export type DefineAmmoTypeID = typeof DefineAmmoTypeIDList[number];
-/**弹药ID格式  */
+/**弹药类型ID格式  */
 export type AmmunitionTypeID = CddaID<"AMMUNIT"> | DefineAmmoTypeID;
 /**弹药类型 */
 export type AmmunitionType = {

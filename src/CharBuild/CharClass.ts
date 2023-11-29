@@ -37,7 +37,7 @@ export async function createCharClass(dm:DataManager,charName:string){
             { "trait": defineData.baseMutID },
             ...(charConfig.base_mutation??[])
                 .map(mut=>({trait:mut})),
-            ...(defineData.vaildAnim.length>=1
+            ...(defineData.validAnim.length>=1
             ? [{ "trait": defineData.animData.Idle.mutID },{"trait":"TOUGH_FEET" as MutationID}]
             : [{ "trait": genMutationID("NoAnim") }])]
     }

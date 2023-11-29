@@ -252,7 +252,7 @@ class DataManager {
                 classID: (0, ModDefine_1.genNpcClassID)(charName),
                 instanceID: (0, ModDefine_1.genNpcInstanceID)(charName),
                 animData: animData,
-                vaildAnim: [],
+                validAnim: [],
                 baseArmorID: (0, ModDefine_1.genArmorID)(charName),
                 baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
                 baseItemFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),

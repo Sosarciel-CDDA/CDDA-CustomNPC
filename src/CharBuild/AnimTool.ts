@@ -22,7 +22,7 @@ export function formatAnimName(charName:string,animType:AnimType){
  */
 export async function createAnimTool(dm:DataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
-    for(const animType of defineData.vaildAnim){
+    for(const animType of defineData.validAnim){
         const animData = defineData.animData[animType];
         const animMut:Mutation={
             type:"mutation",

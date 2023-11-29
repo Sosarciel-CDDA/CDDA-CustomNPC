@@ -15,7 +15,7 @@ export type CharDefineData = Readonly<{
     /**动画数据 */
     animData: Record<AnimType, AnimData>;
     /**有效的动作动画 */
-    vaildAnim: AnimType[];
+    validAnim: AnimType[];
     /**基础装备ID */
     baseArmorID: ArmorID;
     /**基础装备附魔ID */

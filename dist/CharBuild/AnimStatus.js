@@ -8,7 +8,7 @@ function hasAnim(outData, animType) {
 }
 /**移除其他动作变异 */
 function removeOtherAnimEoc(charName, baseData, animType) {
-    const otherAnim = baseData.vaildAnim.filter(item => item != animType);
+    const otherAnim = baseData.validAnim.filter(item => item != animType);
     if (otherAnim.length <= 0)
         return null;
     const eoc = {

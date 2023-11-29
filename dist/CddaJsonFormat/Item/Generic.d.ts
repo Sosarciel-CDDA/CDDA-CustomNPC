@@ -11,6 +11,7 @@ import { Tool } from "./Tool";
 import { Magazine } from "./Magazine";
 import { Comestible } from "./Comestible";
 import { Armor } from "./Armor";
+import { GunMod } from "./GunMod";
 /**预定义的通用物品 列表 */
 export declare const DefineGenericIDList: readonly ["afs_biomaterial_1", "afs_biomaterial_2", "afs_biomaterial_3", "afs_biomaterial_4", "afs_biomaterial_5", "afs_circuitry_1", "afs_circuitry_2", "afs_circuitry_3", "afs_circuitry_4", "afs_circuitry_5", "afs_energy_storage_1", "afs_energy_storage_2", "afs_energy_storage_3", "afs_energy_storage_4", "afs_energy_storage_5", "afs_heat_2_salvage", "afs_heat_1", "afs_heat_2", "afs_heat_3", "afs_heat_4", "afs_heat_5", "afs_magnet_1", "afs_magnet_2", "afs_magnet_3", "afs_magnet_4", "afs_material_1", "afs_material_2", "afs_material_3", "afs_material_4", "afs_material_5", "afs_neural_io_1", "afs_neural_io_2", "afs_neural_io_3", "afs_neural_io_4", "afs_neural_io_5", "afs_optics_3", "afs_optics_4"];
 /**预定义的通用物品 */
@@ -180,7 +181,7 @@ export type ItemMaterial = MaterialID | {
     portion?: number;
 };
 /**任何物品 */
-export type AnyItem = Generic | Ammo | Gun | Tool | Magazine | Comestible | Armor;
+export type AnyItem = Generic | Ammo | Gun | Tool | Magazine | Comestible | Armor | GunMod;
 /**任何物品ID */
 export type AnyItemID = AnyItem["id"];
 /**预定义的物品类别 列表 */
@@ -190,11 +191,11 @@ export type DefineItemCategory = typeof DefineItemCategoryList[number];
 /**物品类别 */
 export type ItemCategotyID = DefineItemCategory;
 /**
-ACT_IN_FIRE                            如果掉落在带有火的瓷砖上, 该物品将被激活
-ALLERGEN_MILK                        该产品含有牛奶, 乳糖不耐症人士不可食用
-ANIMAL_PRODUCT                        该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
-BAD_TASTE这                            种食物的味道为-5, 无法通过烹饪来覆盖
-BANK_NOTE_SHAPED                    该物品可像钞票一样放入钱包的折叠套中。
+ACT_IN_FIRE                              如果掉落在带有火的瓷砖上, 该物品将被激活
+ALLERGEN_MILK                            该产品含有牛奶, 乳糖不耐症人士不可食用
+ANIMAL_PRODUCT                           该物品不能被素食主义者佩戴或食用, 尽管它的材料没有被列入黑名单, 或者它没有其他标志来限制它
+BAD_TASTE这                              种食物的味道为-5, 无法通过烹饪来覆盖
+BANK_NOTE_SHAPED                        该物品可像钞票一样放入钱包的折叠套中。
 BANK_NOTE_STRAP_SHAPED                该物品可放入用于放钱带的口袋中 (如收银机)。
 BATTERY_HEAVY                        该商品为重型电池, 可放入有重型电池限制的口袋中
 BATTERY_LIGHT                        该商品为轻型电池, 可放入有轻型电池限制的口袋中

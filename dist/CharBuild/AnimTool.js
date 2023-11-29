@@ -15,7 +15,7 @@ exports.formatAnimName = formatAnimName;
  */
 async function createAnimTool(dm, charName) {
     const { defineData, outData } = await dm.getCharData(charName);
-    for (const animType of defineData.vaildAnim) {
+    for (const animType of defineData.validAnim) {
         const animData = defineData.animData[animType];
         const animMut = {
             type: "mutation",

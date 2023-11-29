@@ -62,7 +62,7 @@ export type Gun = CopyfromVar<{
     /**枪管长度 */
     barrel_length?:Length;
     /**枪械的有效位置以及该位置的插槽安装量 */
-    valid_mod_locations?: VaildMod[];
+    valid_mod_locations?: ValidMod[];
     /**这把枪射击时产生的噪音量。  
      * 如果未定义值, 则根据加载弹药的响度值进行计算。  
      * 最终响度计算为枪支响度+枪械响度+弹药响度。  
@@ -134,7 +134,7 @@ export type FireModeFlag = [
 ][number];
 
 /**有效枪械组件 */
-export type VaildMod = [
+export type ValidMod = [
     /**组件类型/位置 "brass catcher" "grip" */
     GunModSlot,
     /**可安装数 */

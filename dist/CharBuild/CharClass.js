@@ -34,7 +34,7 @@ async function createCharClass(dm, charName) {
             { "trait": defineData.baseMutID },
             ...(charConfig.base_mutation ?? [])
                 .map(mut => ({ trait: mut })),
-            ...(defineData.vaildAnim.length >= 1
+            ...(defineData.validAnim.length >= 1
                 ? [{ "trait": defineData.animData.Idle.mutID }, { "trait": "TOUGH_FEET" }]
                 : [{ "trait": (0, ModDefine_1.genMutationID)("NoAnim") }])
         ]
