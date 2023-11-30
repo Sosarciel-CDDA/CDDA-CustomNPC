@@ -172,7 +172,7 @@ export const BaseSpell:Spell[] = [
         valid_targets: ["self"],
         flags: [...CON_SPELL_FLAG],
         min_damage: {math:[`0-${SPELL_CT_MODMOVE_VAR}`]},
-        max_damage: {math:[`0-${SPELL_CT_MODMOVE_VAR}`]},
+        max_damage: SPELL_MAX_DAMAGE,
     },
 ];
 

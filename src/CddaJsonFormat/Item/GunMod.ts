@@ -3,7 +3,7 @@ import { AmmoEffectID } from "../AmmoEffect";
 import { Energy, CddaID, CopyfromVar, Length, Time, DescText } from "../GenericDefine";
 import { SkillID } from "../Skill";
 import { GenericBase, GenericFlag } from "./Generic";
-import { FireMode, GunID } from "./Gun";
+import { FireMode, GunBase, GunFlag, GunID } from "./Gun";
 import { MagazineID } from "./Magazine";
 
 
@@ -116,7 +116,7 @@ export type GunMod = CopyfromVar<{
 	blacklist_slot?: GunModSlot[];
 	/** 如果枪上存在指定的改装件，阻止安装枪械改装件 */
 	blacklist_mod?: GunModID[];
-} & GenericBase>;
+} & Partial<GunBase> & GenericBase>;
 
 /**枪械模组槽位 */
 export type GunModSlot = string;

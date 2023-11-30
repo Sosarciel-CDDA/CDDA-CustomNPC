@@ -141,7 +141,7 @@ function CNPC_EOC_EGU(){
 		if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 			CNPC_EOC_CnpcGlobalUpdateEvent();
 	}//如果含有已经死亡标记则触发死亡后
-	else CNPC_EOC_ESD()
+	else CNPC_EOC_EDA()
 }
 //死亡后
 function CNPC_EOC_EDA(){
@@ -202,6 +202,13 @@ function CNPC_EOC_CommonRangeHitEvent(){
 	//触发动态生成的 尝试远程攻击 事件
 	CNPC_EOC_TryRangeHit();
 	CNPC_EOC_TryHit();
+
+	//射击延迟
+	//if(u_shoot_movemod!=0){
+	//	casttime_modmove = u_shoot_movemod;
+		casttime_modmove = 100;
+		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CastTimeModMove","hit_self":true}});
+	//}
 }
 //受到攻击攻击主Eoc
 function CNPC_EOC_CommonTakeDamageEvent(){
@@ -334,6 +341,9 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 		CNPC_EOC_CnpcInit();
 		u_isInit=1;
 	}
+
+	//数值显示变量
+	let u_show_mana = u_val('mana');
 
 	//触发动态生成的 Cnpc刷新 事件eoc
 	CNPC_EOC_CnpcUpdate();

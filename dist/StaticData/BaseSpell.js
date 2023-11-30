@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_CT_MODMOVE_VAR = exports.SPELL_CT_MODMOVE = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
+exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_M1T = exports.SPELL_CT_MODMOVE_VAR = exports.SPELL_CT_MODMOVE = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
 const ModDefine_1 = require("../ModDefine");
@@ -14,6 +14,8 @@ exports.SPELL_MAX_DAMAGE = 10000000;
 exports.SPELL_CT_MODMOVE = (0, ModDefine_1.genSpellID)(`CastTimeModMove`);
 /**施法后摇变量 */
 exports.SPELL_CT_MODMOVE_VAR = 'casttime_modmove';
+/**加速一回合 */
+exports.SPELL_M1T = (0, ModDefine_1.genSpellID)("Mod1Turn");
 /**用于必定成功的控制法术的flags */
 exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];
 exports.BaseSpell = [
@@ -74,6 +76,18 @@ exports.BaseSpell = [
         min_aoe: 1,
         min_duration: 100,
         max_duration: 100,
+    },
+    {
+        id: exports.SPELL_M1T,
+        type: "SPELL",
+        name: "加速一回合",
+        description: "获得一回合移动调整",
+        effect: "mod_moves",
+        shape: "blast",
+        valid_targets: ["self"],
+        flags: [...exports.CON_SPELL_FLAG],
+        min_damage: 100,
+        max_damage: 100
     },
     {
         type: "SPELL",
@@ -156,7 +170,7 @@ exports.BaseSpell = [
         valid_targets: ["self"],
         flags: [...exports.CON_SPELL_FLAG],
         min_damage: { math: [`0-${exports.SPELL_CT_MODMOVE_VAR}`] },
-        max_damage: { math: [`0-${exports.SPELL_CT_MODMOVE_VAR}`] },
+        max_damage: exports.SPELL_MAX_DAMAGE,
     },
 ];
 (0, StaticData_1.saveStaticData)(exports.BaseSpell, 'static_resource', 'base_spell');

@@ -15,6 +15,10 @@ async function createCharTalkTopic(dm, charName) {
                 condition: { npc_has_trait: defineData.baseMutID },
                 text: "[CNPC]我想聊聊关于你的事。",
                 topic: defineData.talkTopicID
+            }, {
+                condition: { npc_has_trait: defineData.baseMutID },
+                text: "[施法]我想你释放技能。",
+                topic: await createCastControlResp(dm, charName)
             }]
     };
     /**主对话 */
@@ -33,10 +37,6 @@ async function createCharTalkTopic(dm, charName) {
             {
                 text: "[武器]我想更换你的武器。",
                 topic: await createWeaponResp(dm, charName)
-            },
-            {
-                text: "[施法]我想你释放技能。",
-                topic: await createCastControlResp(dm, charName)
             },
             {
                 text: "[返回]算了。",
@@ -298,8 +298,8 @@ async function createSkillResp(dm, charName) {
         dynamic_line: "&",
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses: [...skillRespList, {
-                text: "[继续]走吧。",
-                topic: "TALK_DONE"
+                text: "[返回]算了。",
+                topic: "TALK_NONE"
             }]
     };
     //注册初始化eoc
@@ -502,14 +502,14 @@ async function createCastControlResp(dm, charName) {
     const castControlTalkTopic = {
         type: "talk_topic",
         id: castControlTalkTopicId,
-        dynamic_line: `&当前魔法值: <npc_val:mana>`,
+        dynamic_line: `&当前魔法值: <npc_val:show_mana>`,
         //dynamic_line:{concatenate:["&",...dynLine]},
-        responses: [...(outData['castControl_resp'] ?? []), {
+        responses: [...(outData['castcontrol_resp'] ?? []), {
                 text: "[继续]走吧。",
                 topic: "TALK_DONE"
             }]
     };
-    delete outData['castControl_resp'];
-    outData['castControl_talk_topic'] = [castControlTalkTopic];
+    delete outData['castcontrol_resp'];
+    outData['castcontrol_talk_topic'] = [castControlTalkTopic];
     return castControlTalkTopicId;
 }

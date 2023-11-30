@@ -4,6 +4,7 @@
     "base_var": {
         "u_damage":30,
         "u_critical_chance":5,
-        "u_critical_damage":0.5
+        "u_critical_damage":0.5,
+        "u_shoot_movemod": 100
     }
 }

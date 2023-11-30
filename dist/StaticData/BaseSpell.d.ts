@@ -9,6 +9,8 @@ export declare const SPELL_MAX_DAMAGE = 10000000;
 export declare const SPELL_CT_MODMOVE: import("../CddaJsonFormat").SpellID;
 /**施法后摇变量 */
 export declare const SPELL_CT_MODMOVE_VAR = "casttime_modmove";
+/**加速一回合 */
+export declare const SPELL_M1T: import("../CddaJsonFormat").SpellID;
 /**用于必定成功的控制法术的flags */
 export declare const CON_SPELL_FLAG: readonly ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];
 export declare const BaseSpell: Spell[];

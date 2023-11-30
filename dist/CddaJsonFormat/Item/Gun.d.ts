@@ -6,10 +6,8 @@ import { GenericBase, GenericFlag } from "./Generic";
 import { GunModID, GunModSlot } from "./GunMod";
 /**GUN ID格式 */
 export type GunID = CddaID<"GUN">;
-/**枪械 */
-export type Gun = CopyfromVar<{
-    id: GunID;
-    type: "GUN";
+/**枪械基础 */
+export type GunBase = {
     /**用于射击的技能 */
     skill: SkillID;
     /**接受重新加载的弹药类型 */
@@ -82,7 +80,12 @@ export type Gun = CopyfromVar<{
     cooling_value?: undefined;
     overheat_threshold?: undefined;
     hurt_part_when_fired?: undefined;
-} & GenericBase>;
+};
+/**枪械 */
+export type Gun = CopyfromVar<{
+    id: GunID;
+    type: "GUN";
+} & GunBase & GenericBase>;
 /**开火模式 */
 export type FireMode = [
     /**基础模式 */

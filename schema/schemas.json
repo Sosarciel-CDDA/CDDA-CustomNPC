@@ -33,7 +33,7 @@
 			"description": "添加效果"
 		},
 		"AddEffect_1": {
-			"$ref": "#/definitions/__type_101"
+			"$ref": "#/definitions/__type_102"
 		},
 		"AddRandStrVar": {
 			"anyOf": [
@@ -865,7 +865,7 @@
 			"$ref": "#/definitions/__type_57"
 		},
 		"AmmoEffect": {
-			"$ref": "#/definitions/__type_95"
+			"$ref": "#/definitions/__type_96"
 		},
 		"AmmoEffectID": {
 			"anyOf": [
@@ -982,7 +982,7 @@
 			"$ref": "#/definitions/__type_58"
 		},
 		"AmmunitionType": {
-			"$ref": "#/definitions/__type_96"
+			"$ref": "#/definitions/__type_97"
 		},
 		"AmmunitionTypeID": {
 			"anyOf": [
@@ -2212,6 +2212,23 @@
 					"allOf": [
 						{
 							"properties": {
+								"id": {
+									"$ref": "#/definitions/GunID"
+								},
+								"type": {
+									"const": "GUN",
+									"type": "string"
+								}
+							},
+							"required": [
+								"id",
+								"type"
+							],
+							"type": "object"
+						},
+						{
+							"description": "枪械基础",
+							"properties": {
 								"ammo": {
 									"description": "接受重新加载的弹药类型",
 									"items": {
@@ -2289,9 +2306,6 @@
 								"handling": {
 									"description": "武器的处理； 更好的操控性意味着更少的后坐力",
 									"type": "number"
-								},
-								"id": {
-									"$ref": "#/definitions/GunID"
 								},
 								"loudness": {
 									"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
@@ -2418,10 +2432,6 @@
 									"$ref": "#/definitions/SkillID",
 									"description": "用于射击的技能"
 								},
-								"type": {
-									"const": "GUN",
-									"type": "string"
-								},
 								"valid_mod_locations": {
 									"description": "枪械的有效位置以及该位置的插槽安装量",
 									"items": {
@@ -2443,9 +2453,7 @@
 							},
 							"required": [
 								"ammo",
-								"id",
-								"skill",
-								"type"
+								"skill"
 							],
 							"type": "object"
 						},
@@ -2988,6 +2996,10 @@
 								"fuel_efficiency": {
 									"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 									"type": "number"
+								},
+								"gunmod_data": {
+									"$ref": "#/definitions/Omit",
+									"description": "同时作为枪械模组的数据"
 								},
 								"id": {
 									"$ref": "#/definitions/ToolID"
@@ -5733,6 +5745,9 @@
 								"type"
 							],
 							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/Partial<GunBase>"
 						},
 						{
 							"description": "通用物品基础",
@@ -7447,6 +7462,23 @@
 					"allOf": [
 						{
 							"properties": {
+								"id": {
+									"$ref": "#/definitions/GunID"
+								},
+								"type": {
+									"const": "GUN",
+									"type": "string"
+								}
+							},
+							"required": [
+								"id",
+								"type"
+							],
+							"type": "object"
+						},
+						{
+							"description": "枪械基础",
+							"properties": {
 								"ammo": {
 									"description": "接受重新加载的弹药类型",
 									"items": {
@@ -7524,9 +7556,6 @@
 								"handling": {
 									"description": "武器的处理； 更好的操控性意味着更少的后坐力",
 									"type": "number"
-								},
-								"id": {
-									"$ref": "#/definitions/GunID"
 								},
 								"loudness": {
 									"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
@@ -7653,10 +7682,6 @@
 									"$ref": "#/definitions/SkillID",
 									"description": "用于射击的技能"
 								},
-								"type": {
-									"const": "GUN",
-									"type": "string"
-								},
 								"valid_mod_locations": {
 									"description": "枪械的有效位置以及该位置的插槽安装量",
 									"items": {
@@ -7678,9 +7703,7 @@
 							},
 							"required": [
 								"ammo",
-								"id",
-								"skill",
-								"type"
+								"skill"
 							],
 							"type": "object"
 						},
@@ -8223,6 +8246,10 @@
 								"fuel_efficiency": {
 									"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 									"type": "number"
+								},
+								"gunmod_data": {
+									"$ref": "#/definitions/Omit",
+									"description": "同时作为枪械模组的数据"
 								},
 								"id": {
 									"$ref": "#/definitions/ToolID"
@@ -10968,6 +10995,9 @@
 								"type"
 							],
 							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/Partial<GunBase>"
 						},
 						{
 							"description": "通用物品基础",
@@ -16389,7 +16419,7 @@
 			"type": "array"
 		},
 		"BuildSetting": {
-			"$ref": "#/definitions/__type_118"
+			"$ref": "#/definitions/__type_119"
 		},
 		"CalcOpera": {
 			"description": "计算运算符",
@@ -16402,7 +16432,7 @@
 			"type": "string"
 		},
 		"CastCondition": {
-			"$ref": "#/definitions/__type_99"
+			"$ref": "#/definitions/__type_100"
 		},
 		"CastSpell": {
 			"anyOf": [
@@ -17613,6 +17643,23 @@
 							"allOf": [
 								{
 									"properties": {
+										"id": {
+											"$ref": "#/definitions/GunID"
+										},
+										"type": {
+											"const": "GUN",
+											"type": "string"
+										}
+									},
+									"required": [
+										"id",
+										"type"
+									],
+									"type": "object"
+								},
+								{
+									"description": "枪械基础",
+									"properties": {
 										"ammo": {
 											"description": "接受重新加载的弹药类型",
 											"items": {
@@ -17690,9 +17737,6 @@
 										"handling": {
 											"description": "武器的处理； 更好的操控性意味着更少的后坐力",
 											"type": "number"
-										},
-										"id": {
-											"$ref": "#/definitions/GunID"
 										},
 										"loudness": {
 											"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
@@ -17819,10 +17863,6 @@
 											"$ref": "#/definitions/SkillID",
 											"description": "用于射击的技能"
 										},
-										"type": {
-											"const": "GUN",
-											"type": "string"
-										},
 										"valid_mod_locations": {
 											"description": "枪械的有效位置以及该位置的插槽安装量",
 											"items": {
@@ -17844,9 +17884,7 @@
 									},
 									"required": [
 										"ammo",
-										"id",
-										"skill",
-										"type"
+										"skill"
 									],
 									"type": "object"
 								},
@@ -18397,6 +18435,10 @@
 										"fuel_efficiency": {
 											"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 											"type": "number"
+										},
+										"gunmod_data": {
+											"$ref": "#/definitions/Omit",
+											"description": "同时作为枪械模组的数据"
 										},
 										"id": {
 											"$ref": "#/definitions/ToolID"
@@ -21176,6 +21218,9 @@
 									"type": "object"
 								},
 								{
+									"$ref": "#/definitions/Partial<GunBase>"
+								},
+								{
 									"description": "通用物品基础",
 									"properties": {
 										"ascii_picture": {
@@ -21756,7 +21801,7 @@
 			"type": "object"
 		},
 		"CharConfig": {
-			"$ref": "#/definitions/__type_113"
+			"$ref": "#/definitions/__type_114"
 		},
 		"CharData": {
 			"description": "角色数据",
@@ -21938,10 +21983,10 @@
 			"description": "角色描述信息"
 		},
 		"CharDesc_1": {
-			"$ref": "#/definitions/__type_104"
+			"$ref": "#/definitions/__type_105"
 		},
 		"CharSkill": {
-			"$ref": "#/definitions/__type_103"
+			"$ref": "#/definitions/__type_104"
 		},
 		"CharUpgrade": {
 			"description": "角色强化项",
@@ -23842,7 +23887,7 @@
 			"description": "控制要求"
 		},
 		"ControlReq_1": {
-			"$ref": "#/definitions/__type_122"
+			"$ref": "#/definitions/__type_123"
 		},
 		"Copyfrom": {
 			"allOf": [
@@ -24006,7 +24051,7 @@
 		"Copyfrom_2": {
 			"allOf": [
 				{
-					"$ref": "#/definitions/Pick<{id:GunModID;type:\"GUNMOD\";location:string;mod_targets:SkillID[];install_time:Time;acceptable_ammo?:AmmunitionTypeID[]|undefined;ammo_modifier?:AmmunitionTypeID[]|undefined;magazine_adaptor?:[AmmunitionTypeID,MagazineID[]][]|undefined;damage_modifier?:number|undefined;dispersion_modifier?:number|undefined;loudness_modifier?:number|undefined;range_modifier?:number|undefined;range_multiplier?:number|undefined;integral_longest_side?:Length|undefined;overwrite_min_cycle_recoil?:number|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;aim_speed_modifier?:number|undefined;add_mod?:[string,number][]|undefined;energy_drain_multiplier?:number|undefined;field_of_view?:number|undefined;min_skills?:[SkillID,number][]|undefined;shot_spread_multiplier_modifier?:number|undefined;energy_drain_modifier?:Energy|undefined;energy_drains_multiplier?:number|undefined;reload_modifier?:number|undefined;min_str_required_mod?:number|undefined;aim_speed?:number|undefined;ammo_effects?:AmmoEffectID[]|undefined;consume_chance?:number|undefined;consume_divisor?:number|undefined;handling_modifier?:number|undefined;mode_modifier?:FireMode[]|undefined;barrel_length?:Length|undefined;overheat_threshold_modifier?:number|undefined;overheat_threshold_multiplier?:number|undefined;cooling_value_modifier?:number|undefined;cooling_value_multiplier?:number|undefined;heat_per_shot_modifier?:number|undefined;heat_per_shot_multiplier?:number|undefined;blacklist_slot?:string[]|undefined;blacklist_mod?:GunModID[]|undefined;}&GenericBase,\"type\"|\"id\">"
+					"$ref": "#/definitions/Pick<{id:GunModID;type:\"GUNMOD\";location:string;mod_targets:SkillID[];install_time:Time;acceptable_ammo?:AmmunitionTypeID[]|undefined;ammo_modifier?:AmmunitionTypeID[]|undefined;magazine_adaptor?:[AmmunitionTypeID,MagazineID[]][]|undefined;damage_modifier?:number|undefined;dispersion_modifier?:number|undefined;loudness_modifier?:number|undefined;range_modifier?:number|undefined;range_multiplier?:number|undefined;integral_longest_side?:Length|undefined;overwrite_min_cycle_recoil?:number|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;aim_speed_modifier?:number|undefined;add_mod?:[string,number][]|undefined;energy_drain_multiplier?:number|undefined;field_of_view?:number|undefined;min_skills?:[SkillID,number][]|undefined;shot_spread_multiplier_modifier?:number|undefined;energy_drain_modifier?:Energy|undefined;energy_drains_multiplier?:number|undefined;reload_modifier?:number|undefined;min_str_required_mod?:number|undefined;aim_speed?:number|undefined;ammo_effects?:AmmoEffectID[]|undefined;consume_chance?:number|undefined;consume_divisor?:number|undefined;handling_modifier?:number|undefined;mode_modifier?:FireMode[]|undefined;barrel_length?:Length|undefined;overheat_threshold_modifier?:number|undefined;overheat_threshold_multiplier?:number|undefined;cooling_value_modifier?:number|undefined;cooling_value_multiplier?:number|undefined;heat_per_shot_modifier?:number|undefined;heat_per_shot_multiplier?:number|undefined;blacklist_slot?:string[]|undefined;blacklist_mod?:GunModID[]|undefined;}&Partial<GunBase>&GenericBase,\"type\"|\"id\">"
 				},
 				{
 					"properties": {
@@ -24065,7 +24110,7 @@
 		"Copyfrom_3": {
 			"allOf": [
 				{
-					"$ref": "#/definitions/Pick<{id:GunID;type:\"GUN\";skill:SkillID;ammo:AmmunitionTypeID[];ranged_damage?:RangeDamage|RangeDamage[]|undefined;range?:number|undefined;dispersion?:number|undefined;sight_dispersion?:number|undefined;recoil?:number|undefined;durability?:number|undefined;blackpowder_tolerance?:number|undefined;min_cycle_recoil?:number|undefined;clip_size?:number|undefined;energy_drain?:Energy|undefined;ammo_to_fire?:number|undefined;modes?:FireMode[]|undefined;reload?:number|undefined;built_in_mods?:GunModID[]|undefined;default_mods?:GunModID[]|undefined;barrel_volume?:Volume|undefined;barrel_length?:Length|undefined;valid_mod_locations?:ValidMod[]|undefined;loudness?:number|undefined;flags?:GunFlag[]|undefined;ammo_effects?:AmmoEffectID[]|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;faults?:string[]|undefined;handling?:number|undefined;heat_per_shot?:undefined;cooling_value?:undefined;overheat_threshold?:undefined;hurt_part_when_fired?:undefined;}&GenericBase,\"type\"|\"id\">"
+					"$ref": "#/definitions/Pick<{id:GunID;type:\"GUN\";}&GunBase&GenericBase,\"type\"|\"id\">"
 				},
 				{
 					"properties": {
@@ -24124,7 +24169,7 @@
 		"Copyfrom_4": {
 			"allOf": [
 				{
-					"$ref": "#/definitions/Pick<{id:ToolID;type:\"TOOL\";turns_per_charge?:number|undefined;fuel_efficiency?:number|undefined;quality?:ToolQuality[]|undefined;charged_qualities?:ToolQuality[]|undefined;ammo?:AmmunitionTypeID[]|undefined;charge_factor?:number|undefined;charges_per_use?:number|undefined;initial_charges?:number|undefined;max_charges?:number|undefined;rand_charges?:number[]|undefined;power_draw?:Power|undefined;revert_to?:ToolID|undefined;revert_msg?:string|undefined;sub?:ToolID|undefined;variables?:{vehicle_name?:\"Wheelchair\"|undefined;folded_parts?:\"folded_parts_syntax\"|undefined;}|undefined;flags?:ToolFlag[]|undefined;}&GenericBase,\"type\"|\"id\">"
+					"$ref": "#/definitions/Pick<{id:ToolID;type:\"TOOL\";turns_per_charge?:number|undefined;fuel_efficiency?:number|undefined;quality?:ToolQuality[]|undefined;charged_qualities?:ToolQuality[]|undefined;ammo?:AmmunitionTypeID[]|undefined;charge_factor?:number|undefined;charges_per_use?:number|undefined;initial_charges?:number|undefined;max_charges?:number|undefined;rand_charges?:number[]|undefined;power_draw?:Power|undefined;revert_to?:ToolID|undefined;revert_msg?:string|undefined;sub?:ToolID|undefined;variables?:{vehicle_name?:\"Wheelchair\"|undefined;folded_parts?:\"folded_parts_syntax\"|undefined;}|undefined;flags?:ToolFlag[]|undefined;gunmod_data?:Omit<GunMod,\"type\"|\"id\">|undefined;}&GenericBase,\"type\"|\"id\">"
 				},
 				{
 					"properties": {
@@ -24175,7 +24220,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_75"
+					"$ref": "#/definitions/__type_76"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24234,7 +24279,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_76"
+					"$ref": "#/definitions/__type_77"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24335,7 +24380,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_77"
+					"$ref": "#/definitions/__type_78"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24394,7 +24439,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_78"
+					"$ref": "#/definitions/__type_79"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24443,7 +24488,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_79"
+					"$ref": "#/definitions/__type_80"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24489,7 +24534,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_124"
+					"$ref": "#/definitions/__type_125"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24512,10 +24557,10 @@
 			"description": "自定义的肢体"
 		},
 		"DamageInfoOrder": {
-			"$ref": "#/definitions/__type_94"
+			"$ref": "#/definitions/__type_95"
 		},
 		"DamageType": {
-			"$ref": "#/definitions/__type_93"
+			"$ref": "#/definitions/__type_94"
 		},
 		"DamageTypeID": {
 			"anyOf": [
@@ -24652,7 +24697,7 @@
 			"type": "object"
 		},
 		"DataTable": {
-			"$ref": "#/definitions/__type_120"
+			"$ref": "#/definitions/__type_121"
 		},
 		"DefineAmmoEffectID": {
 			"enum": [
@@ -29404,7 +29449,7 @@
 			"type": "array"
 		},
 		"Effect": {
-			"$ref": "#/definitions/__type_83"
+			"$ref": "#/definitions/__type_84"
 		},
 		"EffectID": {
 			"anyOf": [
@@ -43717,7 +43762,7 @@
 			"type": "string"
 		},
 		"Enchantment": {
-			"$ref": "#/definitions/__type_82"
+			"$ref": "#/definitions/__type_83"
 		},
 		"EnchantmentID": {
 			"anyOf": [
@@ -43769,7 +43814,7 @@
 			"description": "能量"
 		},
 		"Eoc": {
-			"$ref": "#/definitions/__type_92"
+			"$ref": "#/definitions/__type_93"
 		},
 		"EocCond": {
 			"anyOf": [
@@ -46063,7 +46108,7 @@
 			"$ref": "#/definitions/__type_59"
 		},
 		"ExtDamage": {
-			"$ref": "#/definitions/__type_102"
+			"$ref": "#/definitions/__type_103"
 		},
 		"FakeSpell": {
 			"$ref": "#/definitions/__type_37"
@@ -46238,7 +46283,7 @@
 			"type": "string"
 		},
 		"Flag": {
-			"$ref": "#/definitions/__type_81"
+			"$ref": "#/definitions/__type_82"
 		},
 		"FlagID": {
 			"anyOf": [
@@ -46265,7 +46310,7 @@
 			"$ref": "#/definitions/__type_56"
 		},
 		"GameData": {
-			"$ref": "#/definitions/__type_119"
+			"$ref": "#/definitions/__type_120"
 		},
 		"Generic": {
 			"anyOf": [
@@ -47801,6 +47846,23 @@
 					"allOf": [
 						{
 							"properties": {
+								"id": {
+									"$ref": "#/definitions/GunID"
+								},
+								"type": {
+									"const": "GUN",
+									"type": "string"
+								}
+							},
+							"required": [
+								"id",
+								"type"
+							],
+							"type": "object"
+						},
+						{
+							"description": "枪械基础",
+							"properties": {
 								"ammo": {
 									"description": "接受重新加载的弹药类型",
 									"items": {
@@ -47878,9 +47940,6 @@
 								"handling": {
 									"description": "武器的处理； 更好的操控性意味着更少的后坐力",
 									"type": "number"
-								},
-								"id": {
-									"$ref": "#/definitions/GunID"
 								},
 								"loudness": {
 									"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
@@ -48007,10 +48066,6 @@
 									"$ref": "#/definitions/SkillID",
 									"description": "用于射击的技能"
 								},
-								"type": {
-									"const": "GUN",
-									"type": "string"
-								},
 								"valid_mod_locations": {
 									"description": "枪械的有效位置以及该位置的插槽安装量",
 									"items": {
@@ -48032,9 +48087,7 @@
 							},
 							"required": [
 								"ammo",
-								"id",
-								"skill",
-								"type"
+								"skill"
 							],
 							"type": "object"
 						},
@@ -48529,6 +48582,237 @@
 			],
 			"description": "枪械"
 		},
+		"GunBase": {
+			"description": "枪械基础",
+			"properties": {
+				"ammo": {
+					"description": "接受重新加载的弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"ammo_effects": {
+					"description": "子弹附加效果",
+					"items": {
+						"$ref": "#/definitions/AmmoEffectID"
+					},
+					"type": "array"
+				},
+				"ammo_to_fire": {
+					"description": "使用的弹药量 默认1",
+					"type": "number"
+				},
+				"barrel_length": {
+					"$ref": "#/definitions/Length_1",
+					"description": "枪管长度"
+				},
+				"barrel_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
+				},
+				"blackpowder_tolerance": {
+					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
+					"type": "number"
+				},
+				"built_in_mods": {
+					"description": "将使用不可拆卸标签集成到武器中的模组数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"clip_size": {
+					"description": "可以装载的最大弹药量",
+					"type": "number"
+				},
+				"default_mods": {
+					"description": "将在生成时添加到武器的 mod 数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"dispersion": {
+					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
+					"type": "number"
+				},
+				"durability": {
+					"description": "抵抗损坏/生锈, 也决定了失火几率",
+					"type": "number"
+				},
+				"energy_drain": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
+				},
+				"faults": {
+					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"flags": {
+					"description": "枪械的flag",
+					"items": {
+						"$ref": "#/definitions/GunFlag"
+					},
+					"type": "array"
+				},
+				"handling": {
+					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
+					"type": "number"
+				},
+				"loudness": {
+					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
+					"type": "number"
+				},
+				"min_cycle_recoil": {
+					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
+					"type": "number"
+				},
+				"modes": {
+					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"range": {
+					"description": "发射时的范围",
+					"type": "number"
+				},
+				"ranged_damage": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/RangeDamage",
+							"description": "远程武器伤害"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/RangeDamage",
+								"description": "远程武器伤害"
+							},
+							"type": "array"
+						}
+					],
+					"description": "发射时的远程伤害"
+				},
+				"recoil": {
+					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
+					"type": "number"
+				},
+				"reload": {
+					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
+					"type": "number"
+				},
+				"reload_noise": {
+					"description": "重装时发出的声音",
+					"type": "string"
+				},
+				"reload_noise_volume": {
+					"description": "重装时发出的声音大小",
+					"type": "number"
+				},
+				"sight_dispersion": {
+					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
+					"type": "number"
+				},
+				"skill": {
+					"$ref": "#/definitions/SkillID",
+					"description": "用于射击的技能"
+				},
+				"valid_mod_locations": {
+					"description": "枪械的有效位置以及该位置的插槽安装量",
+					"items": {
+						"description": "有效枪械组件",
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"ammo",
+				"skill"
+			],
+			"type": "object"
+		},
 		"GunFlag": {
 			"anyOf": [
 				{
@@ -48959,6 +49243,9 @@
 								"type"
 							],
 							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/Partial<GunBase>"
 						},
 						{
 							"description": "通用物品基础",
@@ -51881,7 +52168,7 @@
 			"description": "物品快速定义  \n物品id 或者 [物品id,概率(100为100%)]"
 		},
 		"ItemGroup": {
-			"$ref": "#/definitions/__type_84"
+			"$ref": "#/definitions/__type_85"
 		},
 		"ItemGroupEntrie": {
 			"anyOf": [
@@ -53300,7 +53587,7 @@
 			"$ref": "#/definitions/__type_8"
 		},
 		"MathFunction": {
-			"$ref": "#/definitions/__type_97"
+			"$ref": "#/definitions/__type_98"
 		},
 		"MathFunctionID": {
 			"anyOf": [
@@ -53355,7 +53642,7 @@
 			"description": "发送消息"
 		},
 		"MissionDefinition": {
-			"$ref": "#/definitions/__type_91"
+			"$ref": "#/definitions/__type_92"
 		},
 		"MissionDefinitionID": {
 			"anyOf": [
@@ -54006,7 +54293,7 @@
 			"description": "怪物的专长弱点\n字符串时为 proficiency"
 		},
 		"Monster": {
-			"$ref": "#/definitions/__type_85"
+			"$ref": "#/definitions/__type_86"
 		},
 		"MonsterFlag": {
 			"enum": [
@@ -54116,7 +54403,7 @@
 			"type": "object"
 		},
 		"Mutation": {
-			"$ref": "#/definitions/__type_88"
+			"$ref": "#/definitions/__type_89"
 		},
 		"MutationID": {
 			"anyOf": [
@@ -54287,7 +54574,7 @@
 			"type": "number"
 		},
 		"NpcClass": {
-			"$ref": "#/definitions/__type_89"
+			"$ref": "#/definitions/__type_90"
 		},
 		"NpcClassID": {
 			"anyOf": [
@@ -54315,7 +54602,7 @@
 			"type": "string"
 		},
 		"NpcInstance": {
-			"$ref": "#/definitions/__type_90"
+			"$ref": "#/definitions/__type_91"
 		},
 		"NpcInstanceID": {
 			"anyOf": [
@@ -54702,6 +54989,9 @@
 			"description": "自定义的ID",
 			"pattern": "^.*JustString$",
 			"type": "string"
+		},
+		"Omit": {
+			"$ref": "#/definitions/Omit_1"
 		},
 		"Omit<B,K>": {
 			"type": "object"
@@ -55213,6 +55503,9 @@
 			},
 			"type": "object"
 		},
+		"Omit_1": {
+			"$ref": "#/definitions/__type_75"
+		},
 		"OneInChance": {
 			"$ref": "#/definitions/__type_9"
 		},
@@ -55234,7 +55527,7 @@
 			"description": "大地图特殊地点"
 		},
 		"OverlayOrdering": {
-			"$ref": "#/definitions/__type_98"
+			"$ref": "#/definitions/__type_99"
 		},
 		"OvermapTerrainID": {
 			"anyOf": [
@@ -55584,6 +55877,232 @@
 		},
 		"Partial": {
 			"$ref": "#/definitions/__type"
+		},
+		"Partial<GunBase>": {
+			"properties": {
+				"ammo": {
+					"description": "接受重新加载的弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"ammo_effects": {
+					"description": "子弹附加效果",
+					"items": {
+						"$ref": "#/definitions/AmmoEffectID"
+					},
+					"type": "array"
+				},
+				"ammo_to_fire": {
+					"description": "使用的弹药量 默认1",
+					"type": "number"
+				},
+				"barrel_length": {
+					"$ref": "#/definitions/Length_1",
+					"description": "枪管长度"
+				},
+				"barrel_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
+				},
+				"blackpowder_tolerance": {
+					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
+					"type": "number"
+				},
+				"built_in_mods": {
+					"description": "将使用不可拆卸标签集成到武器中的模组数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"clip_size": {
+					"description": "可以装载的最大弹药量",
+					"type": "number"
+				},
+				"default_mods": {
+					"description": "将在生成时添加到武器的 mod 数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"dispersion": {
+					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
+					"type": "number"
+				},
+				"durability": {
+					"description": "抵抗损坏/生锈, 也决定了失火几率",
+					"type": "number"
+				},
+				"energy_drain": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
+				},
+				"faults": {
+					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"flags": {
+					"description": "枪械的flag",
+					"items": {
+						"$ref": "#/definitions/GunFlag"
+					},
+					"type": "array"
+				},
+				"handling": {
+					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
+					"type": "number"
+				},
+				"loudness": {
+					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
+					"type": "number"
+				},
+				"min_cycle_recoil": {
+					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
+					"type": "number"
+				},
+				"modes": {
+					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"range": {
+					"description": "发射时的范围",
+					"type": "number"
+				},
+				"ranged_damage": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/RangeDamage",
+							"description": "远程武器伤害"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/RangeDamage",
+								"description": "远程武器伤害"
+							},
+							"type": "array"
+						}
+					],
+					"description": "发射时的远程伤害"
+				},
+				"recoil": {
+					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
+					"type": "number"
+				},
+				"reload": {
+					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
+					"type": "number"
+				},
+				"reload_noise": {
+					"description": "重装时发出的声音",
+					"type": "string"
+				},
+				"reload_noise_volume": {
+					"description": "重装时发出的声音大小",
+					"type": "number"
+				},
+				"sight_dispersion": {
+					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
+					"type": "number"
+				},
+				"skill": {
+					"$ref": "#/definitions/SkillID_1",
+					"description": "用于射击的技能"
+				},
+				"valid_mod_locations": {
+					"description": "枪械的有效位置以及该位置的插槽安装量",
+					"items": {
+						"description": "有效枪械组件",
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"type": "object"
 		},
 		"Partial<Record<\"u_female\"|\"u_male\"|\"u_can_drop_weapon\"|\"u_is_alive\"|\"u_has_weapon\"|\"npc_female\"|\"npc_male\"|\"npc_can_drop_weapon\"|\"npc_is_alive\"|\"npc_has_weapon\",boolean>>": {
 			"properties": {
@@ -56099,19 +56618,19 @@
 			"$ref": "#/definitions/Partial_24"
 		},
 		"Partial_24": {
-			"$ref": "#/definitions/__type_75"
+			"$ref": "#/definitions/__type_76"
 		},
 		"Partial_25": {
 			"$ref": "#/definitions/Partial_26"
 		},
 		"Partial_26": {
-			"$ref": "#/definitions/__type_76"
+			"$ref": "#/definitions/__type_77"
 		},
 		"Partial_27": {
 			"$ref": "#/definitions/Partial_28"
 		},
 		"Partial_28": {
-			"$ref": "#/definitions/__type_77"
+			"$ref": "#/definitions/__type_78"
 		},
 		"Partial_29": {
 			"$ref": "#/definitions/Partial_30"
@@ -56120,34 +56639,34 @@
 			"$ref": "#/definitions/Partial_4"
 		},
 		"Partial_30": {
-			"$ref": "#/definitions/__type_78"
+			"$ref": "#/definitions/__type_79"
 		},
 		"Partial_31": {
 			"$ref": "#/definitions/Partial_32"
 		},
 		"Partial_32": {
-			"$ref": "#/definitions/__type_79"
+			"$ref": "#/definitions/__type_80"
 		},
 		"Partial_33": {
 			"$ref": "#/definitions/Partial_34"
 		},
 		"Partial_34": {
-			"$ref": "#/definitions/__type_80"
+			"$ref": "#/definitions/__type_81"
 		},
 		"Partial_35": {
 			"$ref": "#/definitions/Partial_36"
 		},
 		"Partial_36": {
-			"$ref": "#/definitions/__type_106"
+			"$ref": "#/definitions/__type_107"
 		},
 		"Partial_37": {
 			"$ref": "#/definitions/Partial_38"
 		},
 		"Partial_38": {
-			"$ref": "#/definitions/__type_108"
+			"$ref": "#/definitions/__type_109"
 		},
 		"Partial_39": {
-			"$ref": "#/definitions/__type_123"
+			"$ref": "#/definitions/__type_124"
 		},
 		"Partial_4": {
 			"$ref": "#/definitions/__type_43"
@@ -56156,7 +56675,7 @@
 			"$ref": "#/definitions/Partial_41"
 		},
 		"Partial_41": {
-			"$ref": "#/definitions/__type_124"
+			"$ref": "#/definitions/__type_125"
 		},
 		"Partial_42": {
 			"$ref": "#/definitions/Partial_39"
@@ -56286,7 +56805,7 @@
 			],
 			"type": "object"
 		},
-		"Pick<{id:GunID;type:\"GUN\";skill:SkillID;ammo:AmmunitionTypeID[];ranged_damage?:RangeDamage|RangeDamage[]|undefined;range?:number|undefined;dispersion?:number|undefined;sight_dispersion?:number|undefined;recoil?:number|undefined;durability?:number|undefined;blackpowder_tolerance?:number|undefined;min_cycle_recoil?:number|undefined;clip_size?:number|undefined;energy_drain?:Energy|undefined;ammo_to_fire?:number|undefined;modes?:FireMode[]|undefined;reload?:number|undefined;built_in_mods?:GunModID[]|undefined;default_mods?:GunModID[]|undefined;barrel_volume?:Volume|undefined;barrel_length?:Length|undefined;valid_mod_locations?:ValidMod[]|undefined;loudness?:number|undefined;flags?:GunFlag[]|undefined;ammo_effects?:AmmoEffectID[]|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;faults?:string[]|undefined;handling?:number|undefined;heat_per_shot?:undefined;cooling_value?:undefined;overheat_threshold?:undefined;hurt_part_when_fired?:undefined;}&GenericBase,\"type\"|\"id\">": {
+		"Pick<{id:GunID;type:\"GUN\";}&GunBase&GenericBase,\"type\"|\"id\">": {
 			"properties": {
 				"id": {
 					"$ref": "#/definitions/GunID_1",
@@ -56304,7 +56823,7 @@
 			],
 			"type": "object"
 		},
-		"Pick<{id:GunModID;type:\"GUNMOD\";location:string;mod_targets:SkillID[];install_time:Time;acceptable_ammo?:AmmunitionTypeID[]|undefined;ammo_modifier?:AmmunitionTypeID[]|undefined;magazine_adaptor?:[AmmunitionTypeID,MagazineID[]][]|undefined;damage_modifier?:number|undefined;dispersion_modifier?:number|undefined;loudness_modifier?:number|undefined;range_modifier?:number|undefined;range_multiplier?:number|undefined;integral_longest_side?:Length|undefined;overwrite_min_cycle_recoil?:number|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;aim_speed_modifier?:number|undefined;add_mod?:[string,number][]|undefined;energy_drain_multiplier?:number|undefined;field_of_view?:number|undefined;min_skills?:[SkillID,number][]|undefined;shot_spread_multiplier_modifier?:number|undefined;energy_drain_modifier?:Energy|undefined;energy_drains_multiplier?:number|undefined;reload_modifier?:number|undefined;min_str_required_mod?:number|undefined;aim_speed?:number|undefined;ammo_effects?:AmmoEffectID[]|undefined;consume_chance?:number|undefined;consume_divisor?:number|undefined;handling_modifier?:number|undefined;mode_modifier?:FireMode[]|undefined;barrel_length?:Length|undefined;overheat_threshold_modifier?:number|undefined;overheat_threshold_multiplier?:number|undefined;cooling_value_modifier?:number|undefined;cooling_value_multiplier?:number|undefined;heat_per_shot_modifier?:number|undefined;heat_per_shot_multiplier?:number|undefined;blacklist_slot?:string[]|undefined;blacklist_mod?:GunModID[]|undefined;}&GenericBase,\"type\"|\"id\">": {
+		"Pick<{id:GunModID;type:\"GUNMOD\";location:string;mod_targets:SkillID[];install_time:Time;acceptable_ammo?:AmmunitionTypeID[]|undefined;ammo_modifier?:AmmunitionTypeID[]|undefined;magazine_adaptor?:[AmmunitionTypeID,MagazineID[]][]|undefined;damage_modifier?:number|undefined;dispersion_modifier?:number|undefined;loudness_modifier?:number|undefined;range_modifier?:number|undefined;range_multiplier?:number|undefined;integral_longest_side?:Length|undefined;overwrite_min_cycle_recoil?:number|undefined;reload_noise?:string|undefined;reload_noise_volume?:number|undefined;aim_speed_modifier?:number|undefined;add_mod?:[string,number][]|undefined;energy_drain_multiplier?:number|undefined;field_of_view?:number|undefined;min_skills?:[SkillID,number][]|undefined;shot_spread_multiplier_modifier?:number|undefined;energy_drain_modifier?:Energy|undefined;energy_drains_multiplier?:number|undefined;reload_modifier?:number|undefined;min_str_required_mod?:number|undefined;aim_speed?:number|undefined;ammo_effects?:AmmoEffectID[]|undefined;consume_chance?:number|undefined;consume_divisor?:number|undefined;handling_modifier?:number|undefined;mode_modifier?:FireMode[]|undefined;barrel_length?:Length|undefined;overheat_threshold_modifier?:number|undefined;overheat_threshold_multiplier?:number|undefined;cooling_value_modifier?:number|undefined;cooling_value_multiplier?:number|undefined;heat_per_shot_modifier?:number|undefined;heat_per_shot_multiplier?:number|undefined;blacklist_slot?:string[]|undefined;blacklist_mod?:GunModID[]|undefined;}&Partial<GunBase>&GenericBase,\"type\"|\"id\">": {
 			"properties": {
 				"id": {
 					"$ref": "#/definitions/GunModID_1",
@@ -56340,7 +56859,7 @@
 			],
 			"type": "object"
 		},
-		"Pick<{id:ToolID;type:\"TOOL\";turns_per_charge?:number|undefined;fuel_efficiency?:number|undefined;quality?:ToolQuality[]|undefined;charged_qualities?:ToolQuality[]|undefined;ammo?:AmmunitionTypeID[]|undefined;charge_factor?:number|undefined;charges_per_use?:number|undefined;initial_charges?:number|undefined;max_charges?:number|undefined;rand_charges?:number[]|undefined;power_draw?:Power|undefined;revert_to?:ToolID|undefined;revert_msg?:string|undefined;sub?:ToolID|undefined;variables?:{vehicle_name?:\"Wheelchair\"|undefined;folded_parts?:\"folded_parts_syntax\"|undefined;}|undefined;flags?:ToolFlag[]|undefined;}&GenericBase,\"type\"|\"id\">": {
+		"Pick<{id:ToolID;type:\"TOOL\";turns_per_charge?:number|undefined;fuel_efficiency?:number|undefined;quality?:ToolQuality[]|undefined;charged_qualities?:ToolQuality[]|undefined;ammo?:AmmunitionTypeID[]|undefined;charge_factor?:number|undefined;charges_per_use?:number|undefined;initial_charges?:number|undefined;max_charges?:number|undefined;rand_charges?:number[]|undefined;power_draw?:Power|undefined;revert_to?:ToolID|undefined;revert_msg?:string|undefined;sub?:ToolID|undefined;variables?:{vehicle_name?:\"Wheelchair\"|undefined;folded_parts?:\"folded_parts_syntax\"|undefined;}|undefined;flags?:ToolFlag[]|undefined;gunmod_data?:Omit<GunMod,\"type\"|\"id\">|undefined;}&GenericBase,\"type\"|\"id\">": {
 			"properties": {
 				"id": {
 					"$ref": "#/definitions/ToolID_2",
@@ -56736,28 +57255,28 @@
 			"$ref": "#/definitions/Record_11"
 		},
 		"Record_11": {
-			"$ref": "#/definitions/__type_107"
+			"$ref": "#/definitions/__type_108"
 		},
 		"Record_12": {
-			"$ref": "#/definitions/__type_110"
-		},
-		"Record_13": {
 			"$ref": "#/definitions/__type_111"
 		},
-		"Record_14": {
+		"Record_13": {
 			"$ref": "#/definitions/__type_112"
 		},
-		"Record_15": {
-			"$ref": "#/definitions/__type_114"
+		"Record_14": {
+			"$ref": "#/definitions/__type_113"
 		},
-		"Record_16": {
+		"Record_15": {
 			"$ref": "#/definitions/__type_115"
 		},
-		"Record_17": {
+		"Record_16": {
 			"$ref": "#/definitions/__type_116"
 		},
-		"Record_18": {
+		"Record_17": {
 			"$ref": "#/definitions/__type_117"
+		},
+		"Record_18": {
+			"$ref": "#/definitions/__type_118"
 		},
 		"Record_2": {
 			"$ref": "#/definitions/Record_3"
@@ -56781,7 +57300,7 @@
 			"$ref": "#/definitions/Record_9"
 		},
 		"Record_9": {
-			"$ref": "#/definitions/__type_105"
+			"$ref": "#/definitions/__type_106"
 		},
 		"RelicData": {
 			"$ref": "#/definitions/RelicData_1",
@@ -56981,7 +57500,7 @@
 			"$ref": "#/definitions/Array_4"
 		},
 		"RequireResource": {
-			"$ref": "#/definitions/__type_109"
+			"$ref": "#/definitions/__type_110"
 		},
 		"Requirement": {
 			"description": "需求组",
@@ -57555,7 +58074,7 @@
 			"$ref": "#/definitions/__type_21"
 		},
 		"RunEoc_1": {
-			"$ref": "#/definitions/__type_100"
+			"$ref": "#/definitions/__type_101"
 		},
 		"SchemaString": {
 			"description": "用于辅助解析只能补全的类型  \n输出后替换为 ^.*$ 的 string 匹配",
@@ -57957,7 +58476,7 @@
 			"description": "音效变体ID"
 		},
 		"SoundEffect_1": {
-			"$ref": "#/definitions/__type_86"
+			"$ref": "#/definitions/__type_87"
 		},
 		"SpawnItem": {
 			"anyOf": [
@@ -59197,7 +59716,7 @@
 			"type": "object"
 		},
 		"Spell": {
-			"$ref": "#/definitions/__type_87"
+			"$ref": "#/definitions/__type_88"
 		},
 		"SpellEffect": {
 			"description": "法术效果",
@@ -60381,6 +60900,10 @@
 								"fuel_efficiency": {
 									"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 									"type": "number"
+								},
+								"gunmod_data": {
+									"$ref": "#/definitions/Omit",
+									"description": "同时作为枪械模组的数据"
 								},
 								"id": {
 									"$ref": "#/definitions/ToolID"
@@ -61919,7 +62442,7 @@
 			"description": "车辆部件的操作需求"
 		},
 		"VPRequirement_1": {
-			"$ref": "#/definitions/__type_121"
+			"$ref": "#/definitions/__type_122"
 		},
 		"ValidMod": {
 			"description": "有效枪械组件",
@@ -63917,6 +64440,27 @@
 			"type": "object"
 		},
 		"__type_100": {
+			"description": "技能的释放条件",
+			"properties": {
+				"condition": {
+					"$ref": "#/definitions/BoolObj_1",
+					"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
+				},
+				"hook": {
+					"$ref": "#/definitions/AnyCnpcEvenetType",
+					"description": "时机"
+				},
+				"target": {
+					"$ref": "#/definitions/TargetType",
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n \n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
+				}
+			},
+			"required": [
+				"hook"
+			],
+			"type": "object"
+		},
+		"__type_101": {
 			"description": "以受害者为 u_ 运行EOC",
 			"properties": {
 				"condition": {
@@ -64505,7 +65049,7 @@
 			],
 			"type": "object"
 		},
-		"__type_101": {
+		"__type_102": {
 			"description": "添加效果",
 			"properties": {
 				"duration": {
@@ -65191,7 +65735,7 @@
 			],
 			"type": "object"
 		},
-		"__type_102": {
+		"__type_103": {
 			"description": "额外造成某种类型的伤害",
 			"properties": {
 				"amount": {
@@ -65215,7 +65759,7 @@
 			],
 			"type": "object"
 		},
-		"__type_103": {
+		"__type_104": {
 			"description": "角色技能",
 			"properties": {
 				"after_effect": {
@@ -66487,7 +67031,7 @@
 			],
 			"type": "object"
 		},
-		"__type_104": {
+		"__type_105": {
 			"description": "角色描述信息",
 			"properties": {
 				"age": {
@@ -66505,7 +67049,7 @@
 			},
 			"type": "object"
 		},
-		"__type_105": {
+		"__type_106": {
 			"properties": {
 				"dex": {
 					"type": "number"
@@ -66528,7 +67072,7 @@
 			],
 			"type": "object"
 		},
-		"__type_106": {
+		"__type_107": {
 			"properties": {
 				"ALL": {
 					"type": "number"
@@ -66617,10 +67161,10 @@
 			},
 			"type": "object"
 		},
-		"__type_107": {
+		"__type_108": {
 			"type": "object"
 		},
-		"__type_108": {
+		"__type_109": {
 			"properties": {
 				"add_ARMOR_ACID": {
 					"anyOf": [
@@ -68693,7 +69237,20 @@
 			},
 			"type": "object"
 		},
-		"__type_109": {
+		"__type_11": {
+			"description": "获取条件",
+			"properties": {
+				"get_condition": {
+					"$ref": "#/definitions/CondObj",
+					"description": "获取条件"
+				}
+			},
+			"required": [
+				"get_condition"
+			],
+			"type": "object"
+		},
+		"__type_110": {
 			"description": "要求的资源",
 			"properties": {
 				"count": {
@@ -68714,20 +69271,7 @@
 			],
 			"type": "object"
 		},
-		"__type_11": {
-			"description": "获取条件",
-			"properties": {
-				"get_condition": {
-					"$ref": "#/definitions/CondObj",
-					"description": "获取条件"
-				}
-			},
-			"required": [
-				"get_condition"
-			],
-			"type": "object"
-		},
-		"__type_110": {
+		"__type_111": {
 			"properties": {
 				"Attack": {
 					"properties": {
@@ -68833,10 +69377,10 @@
 			],
 			"type": "object"
 		},
-		"__type_111": {
+		"__type_112": {
 			"type": "object"
 		},
-		"__type_112": {
+		"__type_113": {
 			"properties": {
 				"CauseMeleeHit": {
 					"items": {
@@ -69327,7 +69871,7 @@
 			],
 			"type": "object"
 		},
-		"__type_113": {
+		"__type_114": {
 			"description": "动态读取的角色设定",
 			"properties": {
 				"base_mutation": {
@@ -70505,6 +71049,23 @@
 										"allOf": [
 											{
 												"properties": {
+													"id": {
+														"$ref": "#/definitions/GunID"
+													},
+													"type": {
+														"const": "GUN",
+														"type": "string"
+													}
+												},
+												"required": [
+													"id",
+													"type"
+												],
+												"type": "object"
+											},
+											{
+												"description": "枪械基础",
+												"properties": {
 													"ammo": {
 														"description": "接受重新加载的弹药类型",
 														"items": {
@@ -70582,9 +71143,6 @@
 													"handling": {
 														"description": "武器的处理； 更好的操控性意味着更少的后坐力",
 														"type": "number"
-													},
-													"id": {
-														"$ref": "#/definitions/GunID"
 													},
 													"loudness": {
 														"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
@@ -70711,10 +71269,6 @@
 														"$ref": "#/definitions/SkillID",
 														"description": "用于射击的技能"
 													},
-													"type": {
-														"const": "GUN",
-														"type": "string"
-													},
 													"valid_mod_locations": {
 														"description": "枪械的有效位置以及该位置的插槽安装量",
 														"items": {
@@ -70736,9 +71290,7 @@
 												},
 												"required": [
 													"ammo",
-													"id",
-													"skill",
-													"type"
+													"skill"
 												],
 												"type": "object"
 											},
@@ -71289,6 +71841,10 @@
 													"fuel_efficiency": {
 														"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 														"type": "number"
+													},
+													"gunmod_data": {
+														"$ref": "#/definitions/Omit",
+														"description": "同时作为枪械模组的数据"
 													},
 													"id": {
 														"$ref": "#/definitions/ToolID"
@@ -74068,6 +74624,9 @@
 												"type": "object"
 											},
 											{
+												"$ref": "#/definitions/Partial<GunBase>"
+											},
+											{
 												"description": "通用物品基础",
 												"properties": {
 													"ascii_picture": {
@@ -75484,10 +76043,10 @@
 			},
 			"type": "object"
 		},
-		"__type_114": {
+		"__type_115": {
 			"type": "object"
 		},
-		"__type_115": {
+		"__type_116": {
 			"properties": {
 				"CauseMeleeHit": {
 					"items": {
@@ -76022,13 +76581,13 @@
 			],
 			"type": "object"
 		},
-		"__type_116": {
-			"type": "object"
-		},
 		"__type_117": {
 			"type": "object"
 		},
 		"__type_118": {
+			"type": "object"
+		},
+		"__type_119": {
 			"description": "build配置",
 			"properties": {
 				"game_path": {
@@ -76051,20 +76610,6 @@
 			],
 			"type": "object"
 		},
-		"__type_119": {
-			"description": "游戏数据",
-			"properties": {
-				"game_json": {
-					"$ref": "#/definitions/CddaJson",
-					"description": "JSON"
-				},
-				"gfx_name": {
-					"description": "贴图包ID",
-					"type": "string"
-				}
-			},
-			"type": "object"
-		},
 		"__type_12": {
 			"description": "根据Npc性别产生不同对话",
 			"properties": {
@@ -76084,6 +76629,20 @@
 			"type": "object"
 		},
 		"__type_120": {
+			"description": "游戏数据",
+			"properties": {
+				"game_json": {
+					"$ref": "#/definitions/CddaJson",
+					"description": "JSON"
+				},
+				"gfx_name": {
+					"description": "贴图包ID",
+					"type": "string"
+				}
+			},
+			"type": "object"
+		},
+		"__type_121": {
 			"description": "主资源表",
 			"properties": {
 				"charTable": {
@@ -76111,7 +76670,7 @@
 			],
 			"type": "object"
 		},
-		"__type_121": {
+		"__type_122": {
 			"description": "车辆部件的操作需求",
 			"properties": {
 				"skills": {
@@ -76147,7 +76706,7 @@
 			],
 			"type": "object"
 		},
-		"__type_122": {
+		"__type_123": {
 			"description": "控制要求",
 			"properties": {
 				"proficiencies": {
@@ -76177,7 +76736,7 @@
 			},
 			"type": "object"
 		},
-		"__type_123": {
+		"__type_124": {
 			"properties": {
 				"acid": {
 					"type": "number"
@@ -76245,7 +76804,7 @@
 			},
 			"type": "object"
 		},
-		"__type_124": {
+		"__type_125": {
 			"properties": {
 				"allowed_tools": {
 					"description": "允许挂载的工具",
@@ -87051,8 +87610,15 @@
 					"description": "改变你用这个改装件瞄准枪的速度",
 					"type": "number"
 				},
+				"ammo": {
+					"description": "接受重新加载的弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
 				"ammo_effects": {
-					"description": "弹药效果类型的ID列表",
+					"description": "弹药效果类型的ID列表\n子弹附加效果",
 					"items": {
 						"$ref": "#/definitions/AmmoEffectID"
 					},
@@ -87065,13 +87631,21 @@
 					},
 					"type": "array"
 				},
+				"ammo_to_fire": {
+					"description": "使用的弹药量 默认1",
+					"type": "number"
+				},
 				"ascii_picture": {
 					"description": "用于该项目的 asci_art 的 ID",
 					"type": "string"
 				},
 				"barrel_length": {
 					"$ref": "#/definitions/Length_1",
-					"description": "为这个枪械改装件指定一个直接的枪管长度。如果使用，只有第一个带有枪管长度的改装件会被计算"
+					"description": "为这个枪械改装件指定一个直接的枪管长度。如果使用，只有第一个带有枪管长度的改装件会被计算\n枪管长度"
+				},
+				"barrel_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
 				},
 				"blacklist_mod": {
 					"description": "如果枪上存在指定的改装件，阻止安装枪械改装件",
@@ -87087,9 +87661,24 @@
 					},
 					"type": "array"
 				},
+				"blackpowder_tolerance": {
+					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
+					"type": "number"
+				},
+				"built_in_mods": {
+					"description": "将使用不可拆卸标签集成到武器中的模组数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
 				"category": {
 					"$ref": "#/definitions/ItemCategotyID",
 					"description": "物品分类"
+				},
+				"clip_size": {
+					"description": "可以装载的最大弹药量",
+					"type": "number"
 				},
 				"color": {
 					"$ref": "#/definitions/Color",
@@ -87127,6 +87716,13 @@
 					"description": "(可选) 增加或减少基础枪伤害的字段",
 					"type": "number"
 				},
+				"default_mods": {
+					"description": "将在生成时添加到武器的 mod 数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
 				"degradation_multiplier": {
 					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
 					"type": "number"
@@ -87135,9 +87731,21 @@
 					"$ref": "#/definitions/DescText_1",
 					"description": "描述"
 				},
+				"dispersion": {
+					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
+					"type": "number"
+				},
 				"dispersion_modifier": {
 					"description": "(可选) 增加或减少基础枪弹散的字段",
 					"type": "number"
+				},
+				"durability": {
+					"description": "抵抗损坏/生锈, 也决定了失火几率",
+					"type": "number"
+				},
+				"energy_drain": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
 				},
 				"energy_drain_modifier": {
 					"$ref": "#/definitions/Energy_1",
@@ -87159,16 +87767,37 @@
 					"$ref": "#/definitions/Explosion",
 					"description": "爆炸数据"
 				},
+				"faults": {
+					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
 				"field_of_view": {
 					"description": "#53180有它的图片，但它表示了瞄准镜的视场有多大 -  \n 当角色开始瞄准时，它根本不使用瞄准镜，而是瞄准\"一般方向\"，  \n 然后转用瞄准镜来精确定位目标。视场越大，角色就越早能够使用瞄准镜  \n （用更高倍数的瞄准镜进行目标获取非常非常困难）；  \n 简单地说：视场越大，玩家瞄准的速度就越快，到某种程度；以MOA（角分）为单位",
 					"type": "number"
 				},
 				"flags": {
-					"description": "物品flag",
-					"items": {
-						"type": "string"
-					},
-					"type": "array"
+					"allOf": [
+						{
+							"items": {
+								"$ref": "#/definitions/GunFlag"
+							},
+							"type": "array"
+						},
+						{
+							"items": {
+								"type": "string"
+							},
+							"type": "array"
+						}
+					],
+					"description": "枪械的flag\n物品flag"
+				},
+				"handling": {
+					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
+					"type": "number"
 				},
 				"handling_modifier": {
 					"description": "提高枪械的操控性。例如，前握把可能有6，两脚架有18",
@@ -87213,6 +87842,10 @@
 				"looks_like": {
 					"description": "提示图块集, 如果该项目没有图块 使用looks_like图块",
 					"type": "string"
+				},
+				"loudness": {
+					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
+					"type": "number"
 				},
 				"loudness_modifier": {
 					"description": "(可选) 增加或减少基础枪噪音的字段",
@@ -87280,6 +87913,10 @@
 					"$ref": "#/definitions/MeleeDamage",
 					"description": "作为近战武器的伤害"
 				},
+				"min_cycle_recoil": {
+					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
+					"type": "number"
+				},
 				"min_dexterity": {
 					"description": "最小敏捷需求",
 					"type": "number"
@@ -87326,6 +87963,79 @@
 				},
 				"mode_modifier": {
 					"description": "修改枪的射击模式，例如给出AUTO或REACH",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"modes": {
+					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
 					"items": {
 						"description": "开火模式",
 						"items": [
@@ -87688,6 +88398,10 @@
 					"$ref": "#/definitions/Price",
 					"description": "大灾变后的物品价格"
 				},
+				"range": {
+					"description": "发射时的范围",
+					"type": "number"
+				},
 				"range_modifier": {
 					"description": "(可选) 增加或减少基础枪范围的字段",
 					"type": "number"
@@ -87696,9 +88410,33 @@
 					"description": "(可选) 乘以基础枪范围的字段",
 					"type": "number"
 				},
+				"ranged_damage": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/RangeDamage",
+							"description": "远程武器伤害"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/RangeDamage",
+								"description": "远程武器伤害"
+							},
+							"type": "array"
+						}
+					],
+					"description": "发射时的远程伤害"
+				},
+				"recoil": {
+					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
+					"type": "number"
+				},
 				"relic_data": {
 					"$ref": "#/definitions/RelicData",
 					"description": "附魔数据"
+				},
+				"reload": {
+					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
+					"type": "number"
 				},
 				"reload_modifier": {
 					"description": "(可选) 以百分比增加或减少基础枪重装时间",
@@ -87706,10 +88444,10 @@
 				},
 				"reload_noise": {
 					"$ref": "#/definitions/DescText_1",
-					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音"
 				},
 				"reload_noise_volume": {
-					"description": "当你用这个改装件重装枪时，产生的噪音量",
+					"description": "当你用这个改装件重装枪时，产生的噪音量\n重装时发出的声音大小",
 					"type": "number"
 				},
 				"repairs_like": {
@@ -87731,6 +88469,14 @@
 					"description": "对于霰弹枪，改变弹丸的散布。给定一个默认的乘数1.0(100%)，  \n 一个乘数修饰符-0.8导致0.2(20%)的弹丸散布。  \n 所有改装件的乘数都被加起来，但在原版游戏中，  \n 只有choke应该能够操纵弹丸散布 - **霰弹枪的枪管长度不影响弹丸散布**",
 					"type": "number"
 				},
+				"sight_dispersion": {
+					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
+					"type": "number"
+				},
+				"skill": {
+					"$ref": "#/definitions/SkillID_1",
+					"description": "用于射击的技能"
+				},
 				"symbol": {
 					"description": "ascii显示符号",
 					"type": "string"
@@ -87742,6 +88488,24 @@
 				"use_action": {
 					"$ref": "#/definitions/UseAction",
 					"description": "使用效果"
+				},
+				"valid_mod_locations": {
+					"description": "枪械的有效位置以及该位置的插槽安装量",
+					"items": {
+						"description": "有效枪械组件",
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
 				},
 				"volume": {
 					"$ref": "#/definitions/Volume_1",
@@ -88442,6 +89206,962 @@
 		},
 		"__type_75": {
 			"properties": {
+				"//": {
+					"enum": [
+						"copy",
+						"uncopy"
+					],
+					"type": "string"
+				},
+				"acceptable_ammo": {
+					"description": "(可选) 限制改装件到那些基础（在修饰符之前）弹药类型的枪",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"add_mod": {
+					"description": "如果这个改装件安装了，将这个数量的枪械改装件添加到枪上",
+					"items": {
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"aim_speed": {
+					"description": "瞄准的速度，以每点弹散的移动数为单位",
+					"type": "number"
+				},
+				"aim_speed_modifier": {
+					"description": "改变你用这个改装件瞄准枪的速度",
+					"type": "number"
+				},
+				"ammo": {
+					"description": "接受重新加载的弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"ammo_effects": {
+					"description": "弹药效果类型的ID列表\n子弹附加效果",
+					"items": {
+						"$ref": "#/definitions/AmmoEffectID"
+					},
+					"type": "array"
+				},
+				"ammo_modifier": {
+					"description": "(可选) 如果指定，修改父枪使用这些弹药类型",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"ammo_to_fire": {
+					"description": "使用的弹药量 默认1",
+					"type": "number"
+				},
+				"ascii_picture": {
+					"description": "用于该项目的 asci_art 的 ID",
+					"type": "string"
+				},
+				"barrel_length": {
+					"$ref": "#/definitions/Length_1",
+					"description": "为这个枪械改装件指定一个直接的枪管长度。如果使用，只有第一个带有枪管长度的改装件会被计算\n枪管长度"
+				},
+				"barrel_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值"
+				},
+				"blacklist_mod": {
+					"description": "如果枪上存在指定的改装件，阻止安装枪械改装件",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"blacklist_slot": {
+					"description": "如果枪上存在指定的插槽，阻止安装枪械改装件",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"blackpowder_tolerance": {
+					"description": "发射黑火药弹药时, 有 N 分之一的几率 (每次射击）被堵塞（越高越好)。 可选, 默认为 8",
+					"type": "number"
+				},
+				"built_in_mods": {
+					"description": "将使用不可拆卸标签集成到武器中的模组数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"category": {
+					"$ref": "#/definitions/ItemCategotyID",
+					"description": "物品分类"
+				},
+				"clip_size": {
+					"description": "可以装载的最大弹药量",
+					"type": "number"
+				},
+				"color": {
+					"$ref": "#/definitions/Color",
+					"description": "颜色"
+				},
+				"consume_chance": {
+					"description": "枪械发射时消耗改装件被销毁的几率（默认1/10000）",
+					"type": "number"
+				},
+				"consume_divisor": {
+					"description": "将对改装件的伤害除以此数量 (默认 1)",
+					"type": "number"
+				},
+				"container": {
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "该项目应在哪个容器 (如果有)中生成"
+				},
+				"cooling_value_modifier": {
+					"description": "在枪的\"cooling_value\"上添加一个固定的数量；  \n 与overheat_threshold_modifier工作方式相同",
+					"type": "number"
+				},
+				"cooling_value_multiplier": {
+					"description": "通过这个数字乘以枪的\"cooling_value\"；  \n 与overheat_threshold_multiplier工作方式相同",
+					"type": "number"
+				},
+				"countdown_action": {
+					"$ref": "#/definitions/UseAction",
+					"description": "定时激活的动作"
+				},
+				"countdown_interval": {
+					"$ref": "#/definitions/Time",
+					"description": "定时激活 一旦定时器的持续时间过去, 就会\"countdown_action\"执行"
+				},
+				"damage_modifier": {
+					"description": "(可选) 增加或减少基础枪伤害的字段",
+					"type": "number"
+				},
+				"default_mods": {
+					"description": "将在生成时添加到武器的 mod 数组",
+					"items": {
+						"$ref": "#/definitions/GunModID"
+					},
+					"type": "array"
+				},
+				"degradation_multiplier": {
+					"description": "控制物品在受到伤害时退化的速度。 0 = 无退化。  \n默认为 1.0",
+					"type": "number"
+				},
+				"description": {
+					"$ref": "#/definitions/DescText_1",
+					"description": "描述"
+				},
+				"dispersion": {
+					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
+					"type": "number"
+				},
+				"dispersion_modifier": {
+					"description": "(可选) 增加或减少基础枪弹散的字段",
+					"type": "number"
+				},
+				"durability": {
+					"description": "抵抗损坏/生锈, 也决定了失火几率",
+					"type": "number"
+				},
+				"energy_drain": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "除了普通弹药 (如果有)之外, 枪还需要一些电能。  \n枪内电池电量耗尽。  \n使用标志“USE_UPS”和“USES_BIONIC_POWER”来耗尽其他资源。  \n这也适用于模组。 附加带有 energy_drain 的模组将增加/增加武器的消耗。"
+				},
+				"energy_drain_modifier": {
+					"$ref": "#/definitions/Energy_1",
+					"description": "(可选) 通过添加给定值增加或减少基础枪能量消耗（每发）。这个增加不会被energy_drains_multiplier乘以"
+				},
+				"energy_drain_multiplier": {
+					"description": "如果武器使用`energy_drain`，将其乘以这个数量",
+					"type": "number"
+				},
+				"energy_drains_multiplier": {
+					"description": "(可选) 通过乘以给定值增加或减少基础枪能量消耗（每发）",
+					"type": "number"
+				},
+				"explode_in_fire": {
+					"description": "掉进火里会爆炸",
+					"type": "boolean"
+				},
+				"explosion": {
+					"$ref": "#/definitions/Explosion",
+					"description": "爆炸数据"
+				},
+				"faults": {
+					"description": "可能适用于该枪的故障类型； 通常继承自单个抽象, 例如rifle_base, 但也存在例外",
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"field_of_view": {
+					"description": "#53180有它的图片，但它表示了瞄准镜的视场有多大 -  \n 当角色开始瞄准时，它根本不使用瞄准镜，而是瞄准\"一般方向\"，  \n 然后转用瞄准镜来精确定位目标。视场越大，角色就越早能够使用瞄准镜  \n （用更高倍数的瞄准镜进行目标获取非常非常困难）；  \n 简单地说：视场越大，玩家瞄准的速度就越快，到某种程度；以MOA（角分）为单位",
+					"type": "number"
+				},
+				"flags": {
+					"allOf": [
+						{
+							"items": {
+								"$ref": "#/definitions/GunFlag"
+							},
+							"type": "array"
+						},
+						{
+							"items": {
+								"type": "string"
+							},
+							"type": "array"
+						}
+					],
+					"description": "枪械的flag\n物品flag"
+				},
+				"handling": {
+					"description": "武器的处理； 更好的操控性意味着更少的后坐力",
+					"type": "number"
+				},
+				"handling_modifier": {
+					"description": "提高枪械的操控性。例如，前握把可能有6，两脚架有18",
+					"type": "number"
+				},
+				"heat_per_shot_modifier": {
+					"description": "在枪的\"heat_per_shot\"上添加一个固定的数量；  \n 与overheat_threshold_modifier工作方式相同",
+					"type": "number"
+				},
+				"heat_per_shot_multiplier": {
+					"description": "通过这个数字乘以枪的\"heat_per_shot\"；  \n 与overheat_threshold_multiplier工作方式相同",
+					"type": "number"
+				},
+				"install_time": {
+					"$ref": "#/definitions/Time",
+					"description": "必填。安装需要多长时间？一个整数将被读取为移动，或者可以使用时间字符串"
+				},
+				"insulation": {
+					"description": "(可选, 默认 = 1)如果是容器或车辆部件, 它应为内容物提供多少绝缘程度",
+					"type": "number"
+				},
+				"integral_longest_side": {
+					"$ref": "#/definitions/Length_1",
+					"description": "安装此改装件时，枪械增加的长度"
+				},
+				"integral_volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "当物品集成到另一个物品中时添加到基础物品的体积  \n例如, 集成到枪支的枪械 体积会添加到基础物品上。  \n默认值与音量相同。"
+				},
+				"integral_weight": {
+					"$ref": "#/definitions/Weight_1",
+					"description": "当物品集成到另一个物品中时  \n例如, 集成到枪中的枪械 重量会添加到基础物品上。  \n默认值与重量相同。"
+				},
+				"location": {
+					"$ref": "#/definitions/GunModSlot_1",
+					"description": "必填。这个枪械改装件安装在哪里？"
+				},
+				"longest_side": {
+					"$ref": "#/definitions/Length_1",
+					"description": "最长物品尺寸的长度。 默认为体积的立方根"
+				},
+				"looks_like": {
+					"description": "提示图块集, 如果该项目没有图块 使用looks_like图块",
+					"type": "string"
+				},
+				"loudness": {
+					"description": "这把枪射击时产生的噪音量。  \n如果未定义值, 则根据加载弹药的响度值进行计算。  \n最终响度计算为枪支响度+枪械响度+弹药响度。  \n如果最终响度为 0, 则枪声完全静音。",
+					"type": "number"
+				},
+				"loudness_modifier": {
+					"description": "(可选) 增加或减少基础枪噪音的字段",
+					"type": "number"
+				},
+				"magazine_adaptor": {
+					"description": "(可选) 改变父枪接受的弹药类型 [弹药ID, 弹夹约束[]][]",
+					"items": {
+						"items": [
+							{
+								"$ref": "#/definitions/AmmunitionTypeID"
+							},
+							{
+								"items": {
+									"$ref": "#/definitions/MagazineID"
+								},
+								"type": "array"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"magazine_well": {
+					"description": "超过该体积杂志开始从物品中突出并增加额外的体积",
+					"type": "number"
+				},
+				"magazines": {
+					"description": "每种弹药类型 (如果有)的杂志类型, 可用于重新加载该物品",
+					"items": {
+						"description": "内置弹夹",
+						"items": [
+							{
+								"$ref": "#/definitions/AmmunitionTypeID"
+							},
+							{
+								"additionalItems": {
+									"$ref": "#/definitions/AmmoID"
+								},
+								"items": [
+									{
+										"$ref": "#/definitions/AmmoID"
+									}
+								],
+								"minItems": 1,
+								"type": "array"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"material": {
+					"description": "材质",
+					"items": {
+						"$ref": "#/definitions/ItemMaterial"
+					},
+					"type": "array"
+				},
+				"melee_damage": {
+					"$ref": "#/definitions/MeleeDamage",
+					"description": "作为近战武器的伤害"
+				},
+				"min_cycle_recoil": {
+					"description": "枪发射多颗子弹连射时的最小弹药后坐力。",
+					"type": "number"
+				},
+				"min_dexterity": {
+					"description": "最小敏捷需求",
+					"type": "number"
+				},
+				"min_intelligence": {
+					"description": "最小智力需求",
+					"type": "number"
+				},
+				"min_perception": {
+					"description": "最小感知需求",
+					"type": "number"
+				},
+				"min_skills": {
+					"description": "安装这个枪械改装件所需的最低技能等级",
+					"items": {
+						"items": [
+							{
+								"$ref": "#/definitions/SkillID"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"min_str_required_mod": {
+					"description": "(可选) 增加或减少使用枪所需的最小力量",
+					"type": "number"
+				},
+				"min_strength": {
+					"description": "最小力量需求",
+					"type": "number"
+				},
+				"mod_targets": {
+					"description": "必填。这个枪械改装件可以用于哪种武器？",
+					"items": {
+						"$ref": "#/definitions/SkillID"
+					},
+					"type": "array"
+				},
+				"mode_modifier": {
+					"description": "修改枪的射击模式，例如给出AUTO或REACH",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"modes": {
+					"description": "这把枪的射击模式 DEFAULT,AUTO, MELEE  \n后面是游戏中显示的模式名称  \n最后是该模组的射击次数。",
+					"items": {
+						"description": "开火模式",
+						"items": [
+							{
+								"enum": [
+									"AUTO",
+									"BURST",
+									"DEFAULT",
+									"MELEE",
+									"MULTI"
+								],
+								"type": "string"
+							},
+							{
+								"anyOf": [
+									{
+										"pattern": "^[0-9]* rd.$",
+										"type": "string"
+									},
+									{
+										"pattern": "^[0-9]*s sequence$",
+										"type": "string"
+									},
+									{
+										"enum": [
+											"auto",
+											"double",
+											"high auto",
+											"multi",
+											"pulse",
+											"revolver",
+											"semi-auto",
+											"single"
+										],
+										"type": "string"
+									}
+								]
+							},
+							{
+								"type": "number"
+							},
+							{
+								"anyOf": [
+									{
+										"items": {
+											"enum": [
+												"MELEE",
+												"NPC_AVOID",
+												"SIMULTANEOUS"
+											],
+											"type": "string"
+										},
+										"type": "array"
+									},
+									{
+										"enum": [
+											"MELEE",
+											"NPC_AVOID",
+											"SIMULTANEOUS"
+										],
+										"type": "string"
+									}
+								]
+							}
+						],
+						"maxItems": 4,
+						"minItems": 3,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"name": {
+					"anyOf": [
+						{
+							"properties": {
+								"ctxt": {
+									"$ref": "#/definitions/DescText_1",
+									"description": "翻译上下文"
+								},
+								"str": {
+									"$ref": "#/definitions/DescText_1",
+									"description": "单数名"
+								},
+								"str_pl": {
+									"$ref": "#/definitions/DescText_1",
+									"description": "复数名"
+								},
+								"str_sp": {
+									"$ref": "#/definitions/DescText_1",
+									"description": "单复数共用名"
+								}
+							},
+							"type": "object"
+						},
+						{
+							"type": "string"
+						}
+					],
+					"description": "物品显示名"
+				},
+				"overheat_threshold_modifier": {
+					"description": "在枪的\"overheat_threshold\"上添加一个固定的数量；  \n 如果阈值是100，修饰符是10，结果是110；如果修饰符是-25，结果是75",
+					"type": "number"
+				},
+				"overheat_threshold_multiplier": {
+					"description": "通过这个数字乘以枪的\"overheat_threshold\"；  \n 如果阈值是100，乘数是1.5，结果是150；如果乘数是0.8，结果是80",
+					"type": "number"
+				},
+				"overwrite_min_cycle_recoil": {
+					"description": "使用此字段将覆盖枪的min_cycle_recoil",
+					"type": "number"
+				},
+				"phase": {
+					"$ref": "#/definitions/Phase",
+					"description": "默认的状态 默认为固态"
+				},
+				"pocket_data": {
+					"description": "口袋数据",
+					"items": {
+						"description": "容器",
+						"properties": {
+							"ablative": {
+								"description": "默认 false。 如果属实, 该物品包含一个烧蚀板。 确保在可以添加的车牌类型上包含 flag_restriction。",
+								"type": "boolean"
+							},
+							"airtight": {
+								"description": "默认 false。 如果属实, 可能含有气体。",
+								"type": "boolean"
+							},
+							"ammo_restriction": {
+								"$ref": "#/definitions/Partial_11",
+								"description": "将口袋限制为给定的弹药类型和数量。 这会覆盖强制性的体积、重量、水密和气密, 以使用给定的弹药类型。  \n一个口袋可以容纳任意数量的独特弹药类型, 每种弹药类型的数量不同, 并且容器只能容纳一种类型 (截至目前)。 如果省略它, 它将是空的。  \nRecord<(AmmoID)子弹类型 : (number)容纳数量}>"
+							},
+							"fire_protection": {
+								"description": "默认 false。 如果属实, 口袋可以保护里面的物品在扔进火里时不会爆炸。",
+								"type": "boolean"
+							},
+							"flag_restriction": {
+								"description": "只有当物品具有与这些标志之一匹配的标志时, 才能将其放入此口袋中。",
+								"items": {
+									"$ref": "#/definitions/FlagID"
+								},
+								"type": "array"
+							},
+							"forbidden": {
+								"description": "默认 false。 如果属实, 则玩家无法使用该口袋",
+								"type": "boolean"
+							},
+							"holster": {
+								"description": "默认 false。 如果为 true, 则只能将一堆物品放入此口袋内, 如果该物品不是 count_by_charges, 则只能放置一件物品。",
+								"type": "boolean"
+							},
+							"inherits_flags": {
+								"description": "如果口袋继承了标志, 则意味着里面的物品对拥有口袋本身的物品有贡献的任何标志。",
+								"type": "boolean"
+							},
+							"item_restriction": {
+								"description": "只有这些物品 ID 才能放入此口袋中。 超越弹药和旗帜限制。",
+								"items": {
+									"anyOf": [
+										{
+											"pattern": "^.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^GENERIC_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_GENERIC_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^AMMO_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_AMMO_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^GUN_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_GUN_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^TOOL_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_TOOL_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^MAG_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_MAG_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^COME_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_COME_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^ARMOR_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_ARMOR_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^GMOD_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_GMOD_.*$",
+											"type": "string"
+										},
+										{
+											"enum": [
+												"afs_biomaterial_1",
+												"afs_biomaterial_2",
+												"afs_biomaterial_3",
+												"afs_biomaterial_4",
+												"afs_biomaterial_5",
+												"afs_circuitry_1",
+												"afs_circuitry_2",
+												"afs_circuitry_3",
+												"afs_circuitry_4",
+												"afs_circuitry_5",
+												"afs_energy_storage_1",
+												"afs_energy_storage_2",
+												"afs_energy_storage_3",
+												"afs_energy_storage_4",
+												"afs_energy_storage_5",
+												"afs_heat_1",
+												"afs_heat_2",
+												"afs_heat_2_salvage",
+												"afs_heat_3",
+												"afs_heat_4",
+												"afs_heat_5",
+												"afs_magnet_1",
+												"afs_magnet_2",
+												"afs_magnet_3",
+												"afs_magnet_4",
+												"afs_material_1",
+												"afs_material_2",
+												"afs_material_3",
+												"afs_material_4",
+												"afs_material_5",
+												"afs_neural_io_1",
+												"afs_neural_io_2",
+												"afs_neural_io_3",
+												"afs_neural_io_4",
+												"afs_neural_io_5",
+												"afs_optics_3",
+												"afs_optics_4"
+											],
+											"type": "string"
+										}
+									]
+								},
+								"type": "array"
+							},
+							"magazine_well": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "在口袋开始膨胀之前可以放置物品的空间量。 仅当rigid = false 时才有效。"
+							},
+							"material_restriction": {
+								"description": "有主要由该材料制成的物品才能进入。",
+								"items": {
+									"$ref": "#/definitions/MaterialID"
+								},
+								"type": "array"
+							},
+							"max_contains_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "此口袋可以容纳的最大体积, 所有包含的物品的总和"
+							},
+							"max_contains_weight": {
+								"$ref": "#/definitions/Weight_1",
+								"description": "此口袋可以容纳的最大重量, 所有容器物品的总重量"
+							},
+							"max_item_length": {
+								"$ref": "#/definitions/Length_1",
+								"description": "可放入此口袋的物品的最大长度 (按其最长边)。 默认值为假设体积为立方体的对角线开口长度 (cube_root(vol)*square_root(2))"
+							},
+							"max_item_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "可通过开口放入此口袋的物品的最大体积"
+							},
+							"min_item_volume": {
+								"$ref": "#/definitions/Volume_1",
+								"description": "可放入此口袋的物品的最小体积。 小于此尺寸的物品不能放入口袋中"
+							},
+							"moves": {
+								"description": "表示在最佳条件下从口袋中取出物品所需的移动次数。",
+								"type": "number"
+							},
+							"open_container": {
+								"description": "默认 false。 如果为 true, 则如果将此物品放入另一个物品中, 该口袋中的物品将会溢出",
+								"type": "boolean"
+							},
+							"pocket_type": {
+								"description": "容器或弹夹",
+								"enum": [
+									"CONTAINER",
+									"MAGAZINE",
+									"MAGAZINE_WELL"
+								],
+								"type": "string"
+							},
+							"rigid": {
+								"description": "默认 false。 如果为 true, 则该口袋的大小是固定的, 并且在填充时不会扩展。 玻璃罐是刚性的, 而塑料袋则不是。",
+								"type": "boolean"
+							},
+							"sealed_data": {
+								"$ref": "#/definitions/Partial_13",
+								"description": "如果口袋有 sealed_data, 则在物品生成时它将被密封。 口袋的密封版本将覆盖相同数据类型的未密封版本"
+							},
+							"spoil_multiplier": {
+								"description": "腐坏速度乘数 将物品放入此口袋中如何影响损坏。 小于1.0, 物品保存时间更长； 0.0 将无限期保留",
+								"type": "number"
+							},
+							"volume_multiplier": {
+								"description": "体积乘数 该口袋中的物品内部体积小于外部体积。 可用于有助于组织特定内容的容器, 例如用于管道胶带的纸板卷",
+								"type": "number"
+							},
+							"watertight": {
+								"description": "默认 false。 如果属实, 可能含有液体。",
+								"type": "boolean"
+							},
+							"weight_multiplier": {
+								"description": "重量乘数 个口袋里的物品神奇地内部重量比外部重量轻 原版中的任何东西都不应该有一个weight_multiplier",
+								"type": "number"
+							}
+						},
+						"required": [
+							"pocket_type"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"price": {
+					"$ref": "#/definitions/Price",
+					"description": "物品价格"
+				},
+				"price_postapoc": {
+					"$ref": "#/definitions/Price",
+					"description": "大灾变后的物品价格"
+				},
+				"range": {
+					"description": "发射时的范围",
+					"type": "number"
+				},
+				"range_modifier": {
+					"description": "(可选) 增加或减少基础枪范围的字段",
+					"type": "number"
+				},
+				"range_multiplier": {
+					"description": "(可选) 乘以基础枪范围的字段",
+					"type": "number"
+				},
+				"ranged_damage": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/RangeDamage",
+							"description": "远程武器伤害"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/RangeDamage",
+								"description": "远程武器伤害"
+							},
+							"type": "array"
+						}
+					],
+					"description": "发射时的远程伤害"
+				},
+				"recoil": {
+					"description": "射击时产生的后坐力, 以角度分钟 (MOA) 的百分之一为单位测量",
+					"type": "number"
+				},
+				"relic_data": {
+					"$ref": "#/definitions/RelicData",
+					"description": "附魔数据"
+				},
+				"reload": {
+					"description": "重新加载的时间量, 100 = 1 秒 = 1 \"turn\"",
+					"type": "number"
+				},
+				"reload_modifier": {
+					"description": "(可选) 以百分比增加或减少基础枪重装时间",
+					"type": "number"
+				},
+				"reload_noise": {
+					"$ref": "#/definitions/DescText_1",
+					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音"
+				},
+				"reload_noise_volume": {
+					"description": "当你用这个改装件重装枪时，产生的噪音量\n重装时发出的声音大小",
+					"type": "number"
+				},
+				"repairs_like": {
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "如果该物品没有配方, 则修复该物品时等同于配方"
+				},
+				"repairs_with": {
+					"description": "材质 可用哪些材料修复",
+					"items": {
+						"$ref": "#/definitions/AmmunitionTypeID"
+					},
+					"type": "array"
+				},
+				"rigid": {
+					"description": "对于非刚性物品体积 (以及磨损物品负担)与内容成比例增加",
+					"type": "boolean"
+				},
+				"shot_spread_multiplier_modifier": {
+					"description": "对于霰弹枪，改变弹丸的散布。给定一个默认的乘数1.0(100%)，  \n 一个乘数修饰符-0.8导致0.2(20%)的弹丸散布。  \n 所有改装件的乘数都被加起来，但在原版游戏中，  \n 只有choke应该能够操纵弹丸散布 - **霰弹枪的枪管长度不影响弹丸散布**",
+					"type": "number"
+				},
+				"sight_dispersion": {
+					"description": "瞄准机构产生的枪支不准确度, 以角度分之一 (MOA) 为单位测量",
+					"type": "number"
+				},
+				"skill": {
+					"$ref": "#/definitions/SkillID_1",
+					"description": "用于射击的技能"
+				},
+				"symbol": {
+					"description": "ascii显示符号",
+					"type": "string"
+				},
+				"to_hit": {
+					"$ref": "#/definitions/ToHit",
+					"description": "命中数据"
+				},
+				"use_action": {
+					"$ref": "#/definitions/UseAction",
+					"description": "使用效果"
+				},
+				"valid_mod_locations": {
+					"description": "枪械的有效位置以及该位置的插槽安装量",
+					"items": {
+						"description": "有效枪械组件",
+						"items": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "number"
+							}
+						],
+						"maxItems": 2,
+						"minItems": 2,
+						"type": "array"
+					},
+					"type": "array"
+				},
+				"volume": {
+					"$ref": "#/definitions/Volume_1",
+					"description": "体积 0体积物品需要添加 ZERO_WEIGHT标签"
+				},
+				"weapon_category": {
+					"description": "属于什么类型的武器",
+					"items": {
+						"$ref": "#/definitions/WeaponCategoryID"
+					},
+					"type": "array"
+				},
+				"weight": {
+					"$ref": "#/definitions/Weight_1",
+					"description": "重量 0重量物品需要添加 ZERO_WEIGHT标签"
+				}
+			},
+			"type": "object"
+		},
+		"__type_76": {
+			"properties": {
 				"ammo": {
 					"description": "用于装弹的弹药类型",
 					"items": {
@@ -88539,6 +90259,10 @@
 				"fuel_efficiency": {
 					"description": "当与 UPS 结合使用时, 该项目将燃烧燃料以获得给定的能量值,   \n以产生具有所提供效率的能量。  \n需要 > 0 才能正常工作",
 					"type": "number"
+				},
+				"gunmod_data": {
+					"$ref": "#/definitions/Omit",
+					"description": "同时作为枪械模组的数据"
 				},
 				"initial_charges": {
 					"description": "生成时充能",
@@ -89019,7 +90743,7 @@
 			},
 			"type": "object"
 		},
-		"__type_76": {
+		"__type_77": {
 			"properties": {
 				"addiction_potential": {
 					"description": "此物品引起成瘾的默认强度",
@@ -89673,7 +91397,7 @@
 			},
 			"type": "object"
 		},
-		"__type_77": {
+		"__type_78": {
 			"properties": {
 				"ascii_picture": {
 					"description": "用于该项目的 asci_art 的 ID",
@@ -90138,7 +91862,7 @@
 			},
 			"type": "object"
 		},
-		"__type_78": {
+		"__type_79": {
 			"properties": {
 				"armor": {
 					"description": "护甲数据 必须设置覆盖层",
@@ -90707,9 +92431,6 @@
 			},
 			"type": "object"
 		},
-		"__type_79": {
-			"type": "object"
-		},
 		"__type_8": {
 			"description": "math比较表达式",
 			"properties": {
@@ -90739,6 +92460,9 @@
 			"type": "object"
 		},
 		"__type_81": {
+			"type": "object"
+		},
+		"__type_82": {
 			"description": "一个自定义的Flag",
 			"properties": {
 				"id": {
@@ -90755,7 +92479,7 @@
 			],
 			"type": "object"
 		},
-		"__type_82": {
+		"__type_83": {
 			"description": "附魔",
 			"properties": {
 				"condition": {
@@ -90929,7 +92653,7 @@
 			],
 			"type": "object"
 		},
-		"__type_83": {
+		"__type_84": {
 			"description": "效果",
 			"properties": {
 				"apply_memorial_log": {
@@ -91360,7 +93084,7 @@
 			],
 			"type": "object"
 		},
-		"__type_84": {
+		"__type_85": {
 			"description": "ItemGroup",
 			"properties": {
 				"copy-from": {
@@ -91414,7 +93138,7 @@
 			],
 			"type": "object"
 		},
-		"__type_85": {
+		"__type_86": {
 			"description": "怪物",
 			"properties": {
 				"absorb_material": {
@@ -92193,7 +93917,7 @@
 			],
 			"type": "object"
 		},
-		"__type_86": {
+		"__type_87": {
 			"description": "音效",
 			"properties": {
 				"files": {
@@ -92247,7 +93971,7 @@
 			],
 			"type": "object"
 		},
-		"__type_87": {
+		"__type_88": {
 			"description": "法术",
 			"properties": {
 				"accuracy_increment": {
@@ -92677,7 +94401,7 @@
 			],
 			"type": "object"
 		},
-		"__type_88": {
+		"__type_89": {
 			"description": "变异",
 			"properties": {
 				"activated_eocs": {
@@ -93557,7 +95281,20 @@
 			],
 			"type": "object"
 		},
-		"__type_89": {
+		"__type_9": {
+			"description": "1/n的概率返回true",
+			"properties": {
+				"one_in_chance": {
+					"$ref": "#/definitions/NumObj_1",
+					"description": "1/n的概率返回true"
+				}
+			},
+			"required": [
+				"one_in_chance"
+			],
+			"type": "object"
+		},
+		"__type_90": {
 			"description": "Npc职业",
 			"properties": {
 				"bonus_dex": {
@@ -93720,20 +95457,7 @@
 			],
 			"type": "object"
 		},
-		"__type_9": {
-			"description": "1/n的概率返回true",
-			"properties": {
-				"one_in_chance": {
-					"$ref": "#/definitions/NumObj_1",
-					"description": "1/n的概率返回true"
-				}
-			},
-			"required": [
-				"one_in_chance"
-			],
-			"type": "object"
-		},
-		"__type_90": {
+		"__type_91": {
 			"description": "Npc实例",
 			"properties": {
 				"age": {
@@ -93839,7 +95563,7 @@
 			],
 			"type": "object"
 		},
-		"__type_91": {
+		"__type_92": {
 			"description": "任务定义",
 			"properties": {
 				"description": {
@@ -93919,7 +95643,7 @@
 			],
 			"type": "object"
 		},
-		"__type_92": {
+		"__type_93": {
 			"description": "EOC",
 			"properties": {
 				"condition": {
@@ -95094,7 +96818,7 @@
 			],
 			"type": "object"
 		},
-		"__type_93": {
+		"__type_94": {
 			"description": "伤害类型",
 			"properties": {
 				"derived_from": {
@@ -95198,7 +96922,7 @@
 			],
 			"type": "object"
 		},
-		"__type_94": {
+		"__type_95": {
 			"description": "伤害信息顺序",
 			"properties": {
 				"ablative_info": {
@@ -95249,7 +96973,7 @@
 			],
 			"type": "object"
 		},
-		"__type_95": {
+		"__type_96": {
 			"description": "弹药效果",
 			"properties": {
 				"aoe": {
@@ -95296,7 +97020,7 @@
 			],
 			"type": "object"
 		},
-		"__type_96": {
+		"__type_97": {
 			"description": "弹药类型",
 			"properties": {
 				"default": {
@@ -95324,7 +97048,7 @@
 			],
 			"type": "object"
 		},
-		"__type_97": {
+		"__type_98": {
 			"description": "数学函数",
 			"properties": {
 				"id": {
@@ -95351,7 +97075,7 @@
 			],
 			"type": "object"
 		},
-		"__type_98": {
+		"__type_99": {
 			"description": "县市层级",
 			"properties": {
 				"overlay_ordering": {
@@ -95386,27 +97110,6 @@
 			"required": [
 				"overlay_ordering",
 				"type"
-			],
-			"type": "object"
-		},
-		"__type_99": {
-			"description": "技能的释放条件",
-			"properties": {
-				"condition": {
-					"$ref": "#/definitions/BoolObj_1",
-					"description": "释放条件 若允许多个条件请使用{or:[]}  \n相同的hook与target将覆盖"
-				},
-				"hook": {
-					"$ref": "#/definitions/AnyCnpcEvenetType",
-					"description": "时机"
-				},
-				"target": {
-					"$ref": "#/definitions/TargetType",
-					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n \n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
-				}
-			},
-			"required": [
-				"hook"
 			],
 			"type": "object"
 		},

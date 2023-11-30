@@ -603,43 +603,65 @@ async function control_castProc(dm, charName, baseSkillData) {
         hideCond.push({ math: [`u_${fdarr[0]}`, ">=", fdarr[1] + ""] });
     }
     const playerSelectLoc = { global_val: "tmpControlLoc" };
+    const coneocid = genCastEocID(charName, spell, ccuid);
     //创建选择施法eoc
     const controlEoc = {
         type: "effect_on_condition",
-        id: genCastEocID(charName, spell, ccuid),
+        id: coneocid,
         eoc_type: "ACTIVATION",
-        effect: [{
-                if: { u_query_tile: "line_of_sight", target_var: playerSelectLoc },
-                then: [
-                    ...PreEffect,
-                    {
-                        npc_cast_spell: { id: spell.id },
-                        targeted: false,
-                        true_eocs: {
-                            id: genTrueEocID(charName, spell, ccuid),
-                            effect: [...TEffect],
-                            eoc_type: "ACTIVATION",
-                        },
-                        loc: playerSelectLoc
-                    }
-                ]
-            }],
+        effect: [
+            { u_cast_spell: { id: StaticData_1.SPELL_M1T, hit_self: true } },
+            { npc_location_variable: { global_val: "tmp_casterloc" } },
+            { queue_eocs: {
+                    id: (coneocid + "_queue"),
+                    eoc_type: "ACTIVATION",
+                    effect: [{ run_eoc_with: {
+                                id: (coneocid + "_queue_with"),
+                                eoc_type: "ACTIVATION",
+                                effect: [{
+                                        if: { u_query_tile: "line_of_sight", target_var: playerSelectLoc, range: 30 },
+                                        then: [
+                                            ...PreEffect, {
+                                                npc_cast_spell: { id: spell.id },
+                                                targeted: false,
+                                                true_eocs: {
+                                                    id: genTrueEocID(charName, spell, ccuid),
+                                                    effect: [...TEffect],
+                                                    eoc_type: "ACTIVATION",
+                                                },
+                                                loc: playerSelectLoc
+                                            }
+                                        ]
+                                    }]
+                            }, beta_loc: { global_val: "tmp_casterloc" } }]
+                }, time_in_future: 0 },
+        ],
         false_effect: [],
         condition: { and: [...baseCond] }
     };
+    const sourceNameMap = {
+        "MANA": "魔力",
+        "BIONIC": "生化能量",
+        "HP": "生命值",
+        "STAMINA": "耐力",
+    };
+    const source = sourceNameMap[spell.energy_source] ?? "";
+    const coststr = spell.base_energy_cost == 0 || spell.base_energy_cost == undefined
+        ? ""
+        : `耗能:${spell.base_energy_cost}${source}`;
     //创建施法对话
     const castResp = {
         condition: { and: hideCond },
         truefalsetext: {
             condition: { and: [...baseCond] },
-            true: `${name} 可释放 耗能:${spell.base_energy_cost ?? 0}`,
-            false: `${name} 不可释放 耗能:${spell.base_energy_cost ?? 0} CD: <npc_val:${spell.id}_cooldown>`,
+            true: `[可释放] ${name} ${coststr}`,
+            false: `[不可释放] ${name} ${coststr} 冷却中:<npc_val:${spell.id}_cooldown>`,
         },
         effect: { run_eocs: controlEoc.id },
         topic: "TALK_DONE",
     };
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
-    outData['castControl_resp'] = outData['castControl_resp'] ?? [];
-    outData['castControl_resp'].push(castResp);
+    outData['castcontrol_resp'] = outData['castcontrol_resp'] ?? [];
+    outData['castcontrol_resp'].push(castResp);
     return [controlEoc];
 }

@@ -1,0 +1,16 @@
+[
+    {
+        "type": "GUNMOD",
+        "id": "AimSpeedDown100",
+        "aim_speed_modifier": 0,
+        "install_time": 0,
+        "name": "瞄准速度-100",
+        "description": "瞄准速度-100",
+        "mod_targets": ["rifle","pistol","shotgun","smg","launcher","mechanics"],
+        "volume": 0,
+        "weight": 0,
+        "symbol": "o",
+        "location": "cnpcmod",
+        "flags": ["IRREMOVABLE","UNBREAKABLE","ZERO_WEIGHT"]
+    }
+]

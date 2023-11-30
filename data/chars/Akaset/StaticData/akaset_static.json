@@ -81,12 +81,12 @@
             "field_type": "fd_electricity",
             "intensity_min": 1,
             "intensity_max": 1,
-            "chance": 50
+            "chance": 10
         },
         "aoe": {
             "field_type": "fd_electricity",
-            "intensity_min": 2,
-            "intensity_max": 3,
+            "intensity_min": 1,
+            "intensity_max": 1,
             "chance": 100
         }
     }

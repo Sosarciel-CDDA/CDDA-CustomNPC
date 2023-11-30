@@ -22,6 +22,10 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
             condition:{npc_has_trait:defineData.baseMutID},
             text:"[CNPC]我想聊聊关于你的事。",
             topic:defineData.talkTopicID
+        },{
+            condition:{npc_has_trait:defineData.baseMutID},
+            text : "[施法]我想你释放技能。",
+            topic: await createCastControlResp(dm,charName)
         }]
     }
 
@@ -42,10 +46,6 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
         {
             text : "[武器]我想更换你的武器。",
             topic: await createWeaponResp(dm,charName)
-        },
-        {
-            text : "[施法]我想你释放技能。",
-            topic: await createCastControlResp(dm,charName)
         },
         {
             text : "[返回]算了。",
@@ -332,8 +332,8 @@ async function createSkillResp(dm:DataManager,charName:string){
         dynamic_line:"&",
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses:[...skillRespList,{
-            text:"[继续]走吧。",
-            topic:"TALK_DONE"
+            text : "[返回]算了。",
+            topic: "TALK_NONE"
         }]
     }
 
@@ -564,7 +564,7 @@ async function createCastControlResp(dm:DataManager,charName:string){
     const castControlTalkTopic:TalkTopic={
         type:"talk_topic",
         id:castControlTalkTopicId,
-        dynamic_line:`&当前魔法值: <npc_val:mana>`,
+        dynamic_line:`&当前魔法值: <npc_val:show_mana>`,
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses:[...(outData['castcontrol_resp'] as any??[]),{
             text:"[继续]走吧。",
