@@ -2,7 +2,7 @@ import { MutationID } from "../Mutation";
 import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";
-import { BodyPartID, Time } from "../GenericDefine";
+import { BodyPartID, DescText, Time } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
 import { WeaponCategoryID } from "../WeaponCategory";
 import { VarComment } from "./EocEffect";
@@ -75,6 +75,7 @@ export type BoolOperateList = [
     HasMission              ,//有某个任务
     IsInField               ,//在某个地块附着物上
     GetCond                 ,//获取条件
+    QueryTile               ,//选择地块
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -201,6 +202,27 @@ type CompareTime = TalkerVar<{
     time: Time;
 },"compare_time_since_var">;
 
+/**选择地块的模式 列表 */
+const QueryTileTypeList = [
+    "anywhere"      , //与"look around" UI相同
+    "line_of_sight" , //此刻可见的唯一瓷砖（范围是强制性的）
+    "around"        , //与点燃火源相同，你只能选择紧邻的9个瓷砖
+] as const;
+/**选择地块的模式 列表 */
+type QueryTileType = typeof QueryTileTypeList[number];
+/**选择地块 */
+type QueryTile = TalkerVar<{
+    /**选择地块 */
+    query_tile:QueryTileType;
+    /**包含所选瓷砖坐标的变量对象（强制性） */
+    target_var: LocObj;
+    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
+    range?: NumObj;
+    /**定义是否允许为anywhere选择其他z-level */
+    z_level?: NumObj;
+    /**选择时显示的消息 */
+    message?: DescText;
+},"query_tile">
 
 
 /**非操作 */

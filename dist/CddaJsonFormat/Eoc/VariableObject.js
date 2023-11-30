@@ -9,3 +9,9 @@ exports.NoParamTalkerCondList = [
     "is_alive",
     "has_weapon", //挥舞着任意物品
 ];
+/**选择地块的模式 列表 */
+const QueryTileTypeList = [
+    "anywhere",
+    "line_of_sight",
+    "around", //与点燃火源相同，你只能选择紧邻的9个瓷砖
+];

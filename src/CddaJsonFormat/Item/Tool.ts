@@ -1,6 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { CddaID, CopyfromVar, Power, DescText } from "../GenericDefine";
 import { GenericBase, GenericFlag } from "./Generic";
+import { GunMod } from "./GunMod";
 
 
 /**TOOL ID格式 */
@@ -57,6 +58,8 @@ export type Tool = CopyfromVar<{
     };
     /**工具的Flag */
     flags?:ToolFlag[];
+    /**同时作为枪械模组的数据 */
+    gunmod_data?: Omit<GunMod,"id"|"type">;
 } & GenericBase>;
 
 /**工具调整值类型 列表 */

@@ -52,6 +52,7 @@ export type EocEffectList = [
     RemoveActionMission ,//移除任务
     FinishMission       ,//完成任务
     SetCond             ,//保存条件
+    IfElse              ,//条件控制
 ];
 
 /**无参效果 */
@@ -381,6 +382,15 @@ type SetCond = {
     set_condition:CondObj;
     /**将要保存的条件 */
     condition:BoolObj;
+}
+/**条件控制 */
+type IfElse = {
+    /**对话条件（强制性） */
+    if: BoolObj;
+    /**满足条件时执行的效果（强制性） */
+    then: EocEffect[];
+    /**不满足条件时执行的效果（可选） */
+    else?: EocEffect[];
 }
 
 /**参数Eoc */

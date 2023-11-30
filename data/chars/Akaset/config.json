@@ -196,7 +196,10 @@
 		},
 		{
 			"name": "离子风暴",
-			"cast_condition":{"hook": "TryHit"},
+			"cast_condition":[
+				{"hook": "TryHit"},
+				{"hook": "TryHit", "target": "control_cast"}
+			],
 			"audio":["IonStormSF","BaseAudio:ElectHit"],
 			"spell": {
 				"id":"IonStorm",

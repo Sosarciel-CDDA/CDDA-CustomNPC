@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID} from "CddaJsonFormat";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, AnyCnpcEvenetType } from "Event";
@@ -13,8 +13,26 @@ const TargetTypeList = [
     "spell_target"  ,//瞄准法术标靶 任意非翻转hook 但法术标靶只在造成伤害时生成
     "direct_hit"    ,//直接命中交互单位 u为角色 n为受害者 hook必须为InteractiveCharEvent
     "filter_random" ,//筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
+    "control_cast"  ,//玩家控制施法
 ]as const;
-/**技能选择目标类型 */
+/**技能选择目标类型  
+ * auto 为 根据施法目标自动选择;  
+ *  
+ * random 为 原版随机 适用于自身buff;  
+ *  
+ * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  
+ *  
+ * direct_hit 为 直接命中交互单位 适用于任何目标技能  
+ * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
+ *  
+ * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  
+ *  
+ * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
+ *  
+ * 默认为auto  
+ * 若允许多个CastCondition 请指定具体type  
+ * 相同的hook与target(包括auto或未指定)将覆盖  
+ */
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
@@ -98,6 +116,8 @@ export type CastCondition={
      *  
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  
      *  
+     * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
+     *   
      * 默认为auto  
      * 若允许多个CastCondition 请指定具体type  
      * 相同的hook与target(包括auto或未指定)将覆盖  
@@ -144,15 +164,15 @@ type ExtDamage = {
 }
 
 /**特殊效果的处理表 */
-const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number)=>void>={
+const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number)=>void>={
     AddEffect   :processAddEffect   ,
     RunEoc      :processRunEoc      ,
     ExtDamage   :processExtDamage   ,
 }
 
 
-function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
-    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+function processAddEffect(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+    const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec = spec as AddEffect;
 
@@ -202,8 +222,8 @@ function processAddEffect(dm:DataManager,charName:string,baseSkillData:BaseSkill
         targeted_monster_ids,targeted_monster_species,flags
     })
 };
-function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
-    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+    const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec=spec as RunEoc;
 
@@ -251,8 +271,8 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:BaseSkillCas
         targeted_monster_ids,targeted_monster_species,flags
     })
 };
-function processExtDamage(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData,spec:SpecEffect,index:number){
-    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+function processExtDamage(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+    const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec=spec as ExtDamage;
 
@@ -396,6 +416,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         }
         if(after_effect)
             TEffect.push(...after_effect);
+        //施法后暂停施法时间
         if(spell.base_casting_time){
             const ct = parseSpellNumObj(spell,"base_casting_time");
             TEffect.push(
@@ -414,12 +435,27 @@ export async function createCharSkill(dm:DataManager,charName:string){
             ?cast_condition
             :[cast_condition] as const;
 
+
+        //生成子效果 并加入子法术 extraEffects
+        const specDat:SpecSkillCastData = {
+            skill, TEffect, PreEffect, extraEffects,
+        }
+        let specindex = 0;
+        for(const spec of spec_effect??[])
+            SpecProcMap[spec.type](dm,charName,specDat,spec,specindex++);
+        //加入子效果
+        if(extraEffects.length>0){
+            spell.extra_effects=spell.extra_effects??[];
+            spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
+        }
+
+        //遍历释放条件生成施法eoc
         for(const castCondition of ccs){
             const {target} = castCondition;
-            //计算基础条件
+            //计算基础条件 确保第一个为技能开关, 用于cast_control读取
             const baseCond:BoolObj[] = [
+                {math:[getDisableSpellVar("u",spell),"!=","1"]},
                 {math:[gcdValName,"<=","0"]},
-                {math:[getDisableSpellVar("u",spell),"!=","1"]}
             ];
             if(spell.base_energy_cost!=undefined && costType!=undefined)
                 baseCond.push({math:[costType,">=",spellCost]});
@@ -445,17 +481,11 @@ export async function createCharSkill(dm:DataManager,charName:string){
 
             //处理并加入输出
             const dat:BaseSkillCastData = {
-                skill,
-                TEffect,
-                PreEffect,
-                baseCond,
-                castCondition,
-                extraEffects,
+                skill, TEffect, PreEffect,
+                baseCond, castCondition, extraEffects,
             }
-            let specindex = 0;
-            for(const spec of spec_effect??[])
-                SpecProcMap[spec.type](dm,charName,dat,spec,specindex++);
-            skillDataList.push(...ProcMap[target??"auto"](dm,charName,dat));
+            //生成法术
+            skillDataList.push(...(await ProcMap[target??"auto"](dm,charName,dat)));
         }
         dm.addSharedRes(spell.id,spell,"common_resource","common_spell");
         for(const exspell of extraEffects)
@@ -474,12 +504,13 @@ export async function createCharSkill(dm:DataManager,charName:string){
 }
 
 /**处理方式表 */
-const ProcMap:Record<TargetType,(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData)=>JObject[]>={
+const ProcMap:Record<TargetType,(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData)=>Promise<JObject[]>>={
     "auto"          : autoProc,
     "random"        : randomProc,
     "spell_target"  : spell_targetProc,
     "direct_hit"    : direct_hitProc,
     "filter_random" : filter_randomProc,
+    "control_cast"  : control_castProc,
 }
 
 /**基础技能数据 */
@@ -494,6 +525,18 @@ type BaseSkillCastData=Readonly<{
     PreEffect:EocEffect[];
     /**释放条件 */
     castCondition:CastCondition;
+    /**子法术 */
+    extraEffects:Spell[];
+}>
+
+/**子项数据 */
+type SpecSkillCastData=Readonly<{
+    /**技能 */
+    skill:CharSkill;
+    /**基础成功eoc效果 */
+    TEffect:EocEffect[];
+    /**基础准备释放Eoc */
+    PreEffect:EocEffect[];
     /**子法术 */
     extraEffects:Spell[];
 }>
@@ -545,18 +588,12 @@ function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
 }
 
 
-function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
-
-    //加入子效果
-    if(extraEffects.length>0){
-        spell.extra_effects=spell.extra_effects??[];
-        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
-    }
 
     //创建瞄准法术标靶的辅助索敌法术
     const flags:SpellFlag[] = ["WONDER","RANDOM_TARGET",...CON_SPELL_FLAG];
@@ -609,18 +646,12 @@ function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
     return [castEoc];
 }
 
-function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
-
-    //加入子效果
-    if(extraEffects.length>0){
-        spell.extra_effects=spell.extra_effects??[];
-        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
-    }
 
     //创建施法EOC
     const castEoc:Eoc={
@@ -650,7 +681,7 @@ function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastDa
     return [castEoc];
 }
 
-function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     let {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
@@ -658,12 +689,6 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
 
     //设置翻转条件
     const filterCond:BoolObj = revTalker(castCondition.condition);
-
-    //加入子效果
-    if(extraEffects.length>0){
-        spell.extra_effects=spell.extra_effects??[];
-        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
-    }
 
     //命中id
     const fhitvar = `${spell.id}_hasTarget`;
@@ -747,18 +772,12 @@ function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkil
     return [castEoc,castSelEoc,filterTargetSpell];
 }
 
-function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
     if(castCondition.condition) baseCond.push(castCondition.condition);
     const ccuid = castCondUid(castCondition);
-
-    //加入子效果
-    if(extraEffects.length>0){
-        spell.extra_effects=spell.extra_effects??[];
-        spell.extra_effects.push(...extraEffects.map(spell=>({id:spell.id})))
-    }
 
     //创建施法EOC
     const castEoc:Eoc={
@@ -792,7 +811,7 @@ function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     return [castEoc];
 }
 
-function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,castCondition} = baseSkillData;
     const {spell} = skill;
     const {hook} = castCondition;
@@ -819,4 +838,72 @@ function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData
 
     //其他法术随机
     return ProcMap.random(dm,charName,baseSkillData);
+}
+
+async function control_castProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+    const {skill,castCondition,extraEffects} = baseSkillData;
+    let {baseCond,TEffect,PreEffect} = baseSkillData;
+    const {name,spell,one_in_chance} = skill;
+    const {hook} = castCondition;
+    //删除开关条件
+    baseCond.shift();
+    if(castCondition.condition) baseCond.push(castCondition.condition);
+    const ccuid = castCondUid(castCondition);
+
+    //翻转对话者 将u改为n使其适用npc
+    baseCond = revTalker(baseCond);
+    TEffect = revTalker(TEffect);
+    PreEffect = revTalker(PreEffect);
+
+    //将字段要求作为显示条件
+    const hideCond:BoolObj[] = [];
+    const {require_field} = skill;
+    if(require_field){
+        let fdarr = typeof require_field == "string"
+            ? [require_field,1] as const : require_field;
+        hideCond.push({math:[`u_${fdarr[0]}`,">=",fdarr[1]+""]});
+    }
+
+    const playerSelectLoc = { global_val:"tmpControlLoc"};
+
+    //创建选择施法eoc
+    const controlEoc:Eoc={
+        type:"effect_on_condition",
+        id:genCastEocID(charName,spell,ccuid),
+        eoc_type:"ACTIVATION",
+        effect:[{
+            if:{u_query_tile:"line_of_sight",target_var:playerSelectLoc,range:30},
+            then:[
+                ...PreEffect,
+                {
+                    npc_cast_spell:{id:spell.id},
+                    targeted: false,
+                    true_eocs:{
+                        id:genTrueEocID(charName,spell,ccuid),
+                        effect:[...TEffect],
+                        eoc_type:"ACTIVATION",
+                    },
+                    loc:playerSelectLoc
+                }
+            ]
+        }],
+        false_effect:[],
+        condition:{and:[...baseCond]}
+    }
+    //创建施法对话
+    const castResp:Resp={
+        condition:{and:hideCond},
+        truefalsetext:{
+            condition:{and:[...baseCond]},
+            true:`${name} 可释放 耗能:${spell.base_energy_cost??0}`,
+            false:`${name} 不可释放 耗能:${spell.base_energy_cost??0} CD:<npc_val:${spell.id}_cooldown>`,
+        },
+        effect:{run_eocs:controlEoc.id},
+        topic:"TALK_DONE",
+    }
+
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    outData['castcontrol_resp'] = outData['castcontrol_resp']??[];
+    outData['castcontrol_resp'].push(castResp);
+    return [controlEoc];
 }

@@ -40,7 +40,7 @@ function CNPC_EOC_UpdateStat(){
 //移除法术标靶
 function CNPC_EOC_KillSpellTarget(){
 	eoc_type("ACTIVATION")
-	eobj({math:["u_hp()","=","0"]})
+	eobj({math:["u_hp('ALL')","=","0"]})
 }
 
 
@@ -414,7 +414,7 @@ function CNPC_EOC_CnpcDeathAfterProcess(){
     eobj({u_teleport:{global_val:"tmp_loc"},force:true})
 	//npc传送会使玩家一起传送 需要将玩家传送回原地
     eobj({npc_teleport:{global_val:"avatar_loc"},force:true})
-    eobj({math:["u_hp()","=","0"]})
+    eobj({math:["u_hp('ALL')","=","0"]})
 }
 
 

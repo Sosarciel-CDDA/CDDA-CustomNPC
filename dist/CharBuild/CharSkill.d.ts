@@ -2,8 +2,25 @@ import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, 
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
 /**技能选择目标类型 列表 */
-declare const TargetTypeList: readonly ["auto", "random", "spell_target", "direct_hit", "filter_random"];
-/**技能选择目标类型 */
+declare const TargetTypeList: readonly ["auto", "random", "spell_target", "direct_hit", "filter_random", "control_cast"];
+/**技能选择目标类型
+ * auto 为 根据施法目标自动选择;
+ *
+ * random 为 原版随机 适用于自身buff;
+ *
+ * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
+ *
+ * direct_hit 为 直接命中交互单位 适用于任何目标技能
+ * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
+ *
+ * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
+ *
+ * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
+ *
+ * 默认为auto
+ * 若允许多个CastCondition 请指定具体type
+ * 相同的hook与target(包括auto或未指定)将覆盖
+ */
 type TargetType = typeof TargetTypeList[number];
 /**角色技能 */
 export type CharSkill = {
@@ -85,6 +102,8 @@ export type CastCondition = {
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
      *
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
+     *
+     * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
      *
      * 默认为auto
      * 若允许多个CastCondition 请指定具体type

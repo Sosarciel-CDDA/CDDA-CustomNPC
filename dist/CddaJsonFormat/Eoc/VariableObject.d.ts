@@ -2,7 +2,7 @@ import { MutationID } from "../Mutation";
 import { AnyItemID } from "../Item";
 import { FlagID } from "../Flag";
 import { EffectID } from "../Effect";
-import { BodyPartID, Time } from "../GenericDefine";
+import { BodyPartID, DescText, Time } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
 import { WeaponCategoryID } from "../WeaponCategory";
 import { VarComment } from "./EocEffect";
@@ -80,7 +80,8 @@ export type BoolOperateList = [
     ModIsLoad,
     HasMission,
     IsInField,
-    GetCond
+    GetCond,
+    QueryTile
 ];
 /**无参条件 */
 export type NoParamCond = [
@@ -186,6 +187,23 @@ type CompareTime = TalkerVar<{
     /**比较的时间 */
     time: Time;
 }, "compare_time_since_var">;
+/**选择地块的模式 列表 */
+declare const QueryTileTypeList: readonly ["anywhere", "line_of_sight", "around"];
+/**选择地块的模式 列表 */
+type QueryTileType = typeof QueryTileTypeList[number];
+/**选择地块 */
+type QueryTile = TalkerVar<{
+    /**选择地块 */
+    query_tile: QueryTileType;
+    /**包含所选瓷砖坐标的变量对象（强制性） */
+    target_var: LocObj;
+    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
+    range?: NumObj;
+    /**定义是否允许为anywhere选择其他z-level */
+    z_level?: NumObj;
+    /**选择时显示的消息 */
+    message?: DescText;
+}, "query_tile">;
 /**非操作 */
 export type BoolOperaNot = {
     /**非操作 */

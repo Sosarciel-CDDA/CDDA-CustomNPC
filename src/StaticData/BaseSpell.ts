@@ -15,7 +15,8 @@ export const SPELL_MAX_DAMAGE = 10000000;
 export const SPELL_CT_MODMOVE = genSpellID(`CastTimeModMove`);
 /**施法后摇变量 */
 export const SPELL_CT_MODMOVE_VAR = 'casttime_modmove';
-
+/**加速一回合 */
+export const SPELL_M1T = genSpellID("Mod1Turn");
 
 /**用于必定成功的控制法术的flags */
 export const CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL","NO_EXPLOSION_SFX"] as const;
@@ -77,6 +78,18 @@ export const BaseSpell:Spell[] = [
         min_aoe: 1,
         min_duration: 100,
         max_duration: 100,
+    },
+    {
+        id: SPELL_M1T,
+        type: "SPELL",
+        name: "加速一回合",
+        description: "获得一回合移动调整",
+        effect: "mod_moves",
+        shape: "blast",
+        valid_targets: ["self"],
+        flags: [...CON_SPELL_FLAG],
+        min_damage:100,
+        max_damage:100
     },
     {
         type: "SPELL",

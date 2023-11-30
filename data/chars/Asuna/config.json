@@ -49,7 +49,6 @@
 					"surface": "line",
 					"balance": "good"
 				},
-				"gunmod_data":{},
 				"flags": [ "DIAMOND","ALLOWS_BODY_BLOCK" ]
 			}
 		}

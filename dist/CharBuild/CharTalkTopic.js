@@ -35,6 +35,10 @@ async function createCharTalkTopic(dm, charName) {
                 topic: await createWeaponResp(dm, charName)
             },
             {
+                text: "[施法]我想你释放技能。",
+                topic: await createCastControlResp(dm, charName)
+            },
+            {
                 text: "[返回]算了。",
                 topic: "TALK_NONE"
             }]
@@ -488,4 +492,24 @@ async function createWeaponResp(dm, charName) {
     dm.addCharEvent(charName, "CnpcInit", 10, InitWeapon);
     outData['weapon_talk_topic'] = [weaponTalkTopic, ...weaponData];
     return weaponTalkTopicId;
+}
+/**创建施法对话 */
+async function createCastControlResp(dm, charName) {
+    const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    //主对话id
+    const castControlTalkTopicId = (0, ModDefine_1.genTalkTopicID)(`${charName}_castControl`);
+    //施法主对话
+    const castControlTalkTopic = {
+        type: "talk_topic",
+        id: castControlTalkTopicId,
+        dynamic_line: `&当前魔法值: <npc_val:mana>`,
+        //dynamic_line:{concatenate:["&",...dynLine]},
+        responses: [...(outData['castControl_resp'] ?? []), {
+                text: "[继续]走吧。",
+                topic: "TALK_DONE"
+            }]
+    };
+    delete outData['castControl_resp'];
+    outData['castControl_talk_topic'] = [castControlTalkTopic];
+    return castControlTalkTopicId;
 }
