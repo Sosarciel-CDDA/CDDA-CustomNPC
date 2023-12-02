@@ -9,7 +9,6 @@ const Event_1 = require("../Event");
 const TargetTypeList = [
     "auto",
     "random",
-    "spell_target",
     "direct_hit",
     "filter_random",
     "control_cast", //玩家控制施法
@@ -206,11 +205,11 @@ async function createCharSkill(dm, charName) {
                 if (audioObj.cooldown) {
                     //冷却
                     const cdeoc = (0, ModDefine_1.genActEoc)(cdid, [{ math: [cdid, "-=", "1"] }], { math: [cdid, ">", "0"] });
-                    dm.addCharEvent(charName, "CnpcBattleUpdate", 0, cdeoc);
+                    dm.addCharEvent(charName, "BattleUpdate", 0, cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
                     const initeoc = (0, ModDefine_1.genActEoc)(cdid + "_init", [{ math: [cdid, "=", "0"] }]);
-                    dm.addCharEvent(charName, "CnpcEnterBattle", 0, initeoc);
+                    dm.addCharEvent(charName, "EnterBattle", 0, initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect = {
@@ -309,7 +308,6 @@ exports.createCharSkill = createCharSkill;
 const ProcMap = {
     "auto": autoProc,
     "random": randomProc,
-    "spell_target": spell_targetProc,
     "direct_hit": direct_hitProc,
     "filter_random": filter_randomProc,
     "control_cast": control_castProc,
@@ -355,59 +353,6 @@ function genCastEocID(charName, spell, ccuid) {
 }
 function genTrueEocID(charName, spell, ccuid) {
     return (0, ModDefine_1.genEOCID)(`${charName}_${spell.id}TrueEoc_${ccuid}`);
-}
-async function spell_targetProc(dm, charName, baseSkillData) {
-    const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
-    const { spell, one_in_chance } = skill;
-    const { hook } = castCondition;
-    if (castCondition.condition)
-        baseCond.push(castCondition.condition);
-    const ccuid = castCondUid(castCondition);
-    //创建瞄准法术标靶的辅助索敌法术
-    const flags = ["WONDER", "RANDOM_TARGET", ...StaticData_1.CON_SPELL_FLAG];
-    if (spell.flags?.includes("IGNORE_WALLS"))
-        flags.push("IGNORE_WALLS");
-    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape } = spell;
-    const selTargetSpell = {
-        id: (0, ModDefine_1.genSpellID)(`${spell.id}_SelTarget`),
-        type: "SPELL",
-        name: spell.name + "_索敌",
-        description: `${spell.name}的辅助索敌法术`,
-        effect: "attack",
-        min_damage: 1,
-        max_damage: 1,
-        valid_targets: ["hostile"],
-        targeted_monster_ids: [StaticData_1.TARGET_MON_ID],
-        min_aoe, max_aoe, aoe_increment,
-        min_range, max_range, range_increment,
-        shape, max_level, flags,
-        extra_effects: [{ id: spell.id }],
-    };
-    dm.addSharedRes(selTargetSpell.id, selTargetSpell, "common_resource", "common_spell_assist");
-    //创建施法EOC
-    const castEoc = {
-        type: "effect_on_condition",
-        id: genCastEocID(charName, spell, ccuid),
-        eoc_type: "ACTIVATION",
-        effect: [
-            ...PreEffect,
-            {
-                u_cast_spell: {
-                    id: selTargetSpell.id,
-                    once_in: one_in_chance,
-                },
-                targeted: true,
-                true_eocs: {
-                    id: genTrueEocID(charName, spell, ccuid),
-                    effect: [...TEffect],
-                    eoc_type: "ACTIVATION",
-                }
-            }
-        ],
-        condition: { and: [...baseCond] },
-    };
-    dm.addCharEvent(charName, hook, 0, castEoc);
-    return [castEoc];
 }
 async function randomProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
@@ -552,8 +497,8 @@ async function direct_hitProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (!Event_1.CnpcInteractiveEventList.includes(hook))
-        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.CnpcInteractiveEventList}`;
+    if (!Event_1.CommonInteractiveEventTypeList.includes(hook))
+        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.CommonInteractiveEventTypeList}`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -568,14 +513,11 @@ async function autoProc(dm, charName, baseSkillData) {
     //有释放范围
     const hasRange = (spell.min_range != null && spell.min_range != 0) ||
         (spell.range_increment != null && spell.range_increment != 0);
-    //aoe 有范围 敌对目标 法术将使用法术标靶
-    //if(isHostileTarget && isAoe && hasRange)
-    //    return ProcMap.spell_target(dm,charName,baseSkillData);
     //有范围 有条件 友方目标 法术适用筛选命中
     if (isAllyTarget && hasRange && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
     //hook为互动事件 敌对目标 法术将直接命中
-    if ((Event_1.CnpcInteractiveEventList.includes(hook)) && isHostileTarget)
+    if ((Event_1.CommonInteractiveEventTypeList.includes(hook)) && isHostileTarget)
         return ProcMap.direct_hit(dm, charName, baseSkillData);
     //其他法术随机
     return ProcMap.random(dm, charName, baseSkillData);

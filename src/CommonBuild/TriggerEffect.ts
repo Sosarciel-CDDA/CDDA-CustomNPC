@@ -162,12 +162,12 @@ function HealReserve(dm:DataManager){
     const teoc = genTriggerEffect(dm,eff,"BattleUpdate","none",[
         ...BodyPartList.map((bpid)=>{
             const eff:EocEffect={
-                "if":{math:[`u_hp(${bpid})`,"<",`u_hp_max(${bpid})`]},
+                "if":{math:[`u_hp('${bpid}')`,"<",`u_hp_max('${bpid}')`]},
                 then:[
-                    {math:["_needheal","=",`u_hp_max(${bpid}) - u_hp(${bpid})`]},
+                    {math:["_needheal","=",`u_hp_max('${bpid}') - u_hp('${bpid}')`]},
                     {math:["_effstk","=",`u_effect_intensity('${effid}')`]},
                     {math:["_healcount","=",`_needheal > _effstk ? _effstk : _needheal`]},
-                    {math:[`u_hp(${bpid})`,"+=",`_healcount`]},
+                    {math:[`u_hp('${bpid}')`,"+=",`_healcount`]},
                     {u_add_effect:effid,intensity:{math:[`_effstk - _healcount`]},duration:UPG_TEFF_DUR},
                 ]
             }

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTriggerEffect = void 0;
+const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const UtilGener_1 = require("./UtilGener");
 /**回复收到的伤害 */
@@ -9,9 +10,13 @@ const UtilGener_1 = require("./UtilGener");
 async function createTriggerEffect(dm) {
     await FrostShield(dm);
     await EmergencyFreeze(dm);
+    await HealReserve(dm);
 }
 exports.createTriggerEffect = createTriggerEffect;
+/**触发效果持续时间 */
 const TEFF_DUR = '60 s';
+/**刷新触发的效果持续时间 */
+const UPG_TEFF_DUR = '20 s';
 const TEFF_MAX = 1000000;
 //霜盾
 function FrostShield(dm) {
@@ -139,4 +144,33 @@ function EmergencyFreeze(dm) {
         { sound_effect: "IceHit", id: "BaseAudio", volume: 100 }
     ], "PERMANENT");
     dm.addStaticData([tex, tspell, tfreeze, freeze, eff, teoc], "common_resource", "trigger_effect", "EmergencyFreeze");
+}
+//治疗储备
+function HealReserve(dm) {
+    const effid = "HealReserve";
+    const eff = {
+        type: "effect_type",
+        id: effid,
+        name: ["治疗储备"],
+        desc: ["治疗储备"],
+        max_intensity: TEFF_MAX,
+        max_duration: TEFF_DUR
+    };
+    const teoc = (0, UtilGener_1.genTriggerEffect)(dm, eff, "BattleUpdate", "none", [
+        ...CddaJsonFormat_1.BodyPartList.map((bpid) => {
+            const eff = {
+                "if": { math: [`u_hp('${bpid}')`, "<", `u_hp_max('${bpid}')`] },
+                then: [
+                    { math: ["_needheal", "=", `u_hp_max('${bpid}') - u_hp('${bpid}')`] },
+                    { math: ["_effstk", "=", `u_effect_intensity('${effid}')`] },
+                    { math: ["_healcount", "=", `_needheal > _effstk ? _effstk : _needheal`] },
+                    { math: [`u_hp('${bpid}')`, "+=", `_healcount`] },
+                    { u_add_effect: effid, intensity: { math: [`_effstk - _healcount`] }, duration: UPG_TEFF_DUR },
+                ]
+            };
+            return eff;
+        }),
+        { math: ["u_pain()", "=", "0"] },
+    ], UPG_TEFF_DUR, undefined, undefined);
+    dm.addStaticData([eff, teoc], "common_resource", "trigger_effect", "HealReserve");
 }

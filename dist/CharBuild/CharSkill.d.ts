@@ -2,13 +2,11 @@ import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, 
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
 /**技能选择目标类型 列表 */
-declare const TargetTypeList: readonly ["auto", "random", "spell_target", "direct_hit", "filter_random", "control_cast"];
+declare const TargetTypeList: readonly ["auto", "random", "direct_hit", "filter_random", "control_cast"];
 /**技能选择目标类型
  * auto 为 根据施法目标自动选择;
  *
  * random 为 原版随机 适用于自身buff;
- *
- * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
  *
  * direct_hit 为 直接命中交互单位 适用于任何目标技能
  * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
@@ -95,8 +93,6 @@ export type CastCondition = {
      * auto 为 根据施法目标自动选择;
      *
      * random 为 原版随机 适用于自身buff;
-     *
-     * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;
      *
      * direct_hit 为 直接命中交互单位 适用于任何目标技能
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";

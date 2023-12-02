@@ -408,7 +408,7 @@ async function createWeaponResp(dm, charName) {
                 effect: [{ u_spawn_item: item.id }]
             };
             dm.addCharEvent(charName, "CnpcUpdateSlow", 0, giveWeapon);
-            dm.addCharEvent(charName, "CnpcBattleUpdate", 0, giveWeapon);
+            dm.addCharEvent(charName, "BattleUpdate", 0, giveWeapon);
             dm.addCharEvent(charName, "CnpcInit", 0, giveWeapon);
             weaponData.push(giveWeapon);
             /**如果禁用则删除 */
@@ -426,7 +426,7 @@ async function createWeaponResp(dm, charName) {
                     { run_eocs: rmweocid }
                 ]
             };
-            dm.addCharEvent(charName, "CnpcBattleUpdate", 0, removeWeapon);
+            dm.addCharEvent(charName, "BattleUpdate", 0, removeWeapon);
             dm.addCharEvent(charName, "CnpcUpdateSlow", 0, removeWeapon);
             weaponData.push(removeWeapon);
             //开关eoc

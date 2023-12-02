@@ -101,6 +101,11 @@
 					"intensity":2,
 					"duration":120,
 					"effect_id":"FrostShield"
+				},{
+					"type": "AddEffect",
+					"intensity": 1000,
+					"duration": 100,
+					"effect_id": "HealReserve"
 				}
 			],
 			"cooldown":64,

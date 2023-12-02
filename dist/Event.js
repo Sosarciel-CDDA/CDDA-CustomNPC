@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GlobalEventTypeList = exports.AnyCnpcEventTypeList = exports.CnpcEventTypeList = exports.CnpcInteractiveEventList = exports.CommonEventTypeList = exports.CommonInteractiveEventTypeList = void 0;
+exports.GlobalEventTypeList = exports.AnyCnpcEventTypeList = exports.CnpcEventTypeList = exports.CommonEventTypeList = exports.CommonInteractiveEventTypeList = void 0;
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */
@@ -18,15 +18,9 @@ exports.CommonEventTypeList = [
     "Update",
     "TakeDamage",
     "Death",
-    ...exports.CommonInteractiveEventTypeList,
-];
-/**Cnpc角色与怪物互动的事件 列表
- * u为角色 n为怪物
- */
-exports.CnpcInteractiveEventList = [
-    "CnpcTryMeleeHit",
-    "CnpcTryRangeHit",
-    "CnpcTryHit",
+    "EnterBattle",
+    "BattleUpdate",
+    "NonBattleUpdate",
     ...exports.CommonInteractiveEventTypeList,
 ];
 /**Cnpc角色事件列表
@@ -38,14 +32,10 @@ exports.CnpcEventTypeList = [
     "CnpcUpdate",
     "CnpcUpdateSlow",
     "CnpcInit",
-    "CnpcBattleUpdate",
-    "CnpcNonBattleUpdate",
     "CnpcDeath",
     "CnpcDeathPrev",
     "CnpcDeathAfter",
-    "CnpcEnterBattle",
     ...exports.CommonEventTypeList,
-    ...exports.CnpcInteractiveEventList,
 ];
 /**任何Cnpc角色事件 列表 */
 exports.AnyCnpcEventTypeList = [...exports.CnpcEventTypeList];

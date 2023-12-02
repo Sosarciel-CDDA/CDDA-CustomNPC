@@ -29,9 +29,9 @@ type ImageInfo = Partial<Record<AnimType,{
 
 
 /**合并并创建序列帧 */
-export async function mergeImage(dm:DataManager,charName:string,forcePackage:boolean=true){
+export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boolean=true){
     const {defineData,outData} = await dm.getCharData(charName);
-    const imagePath = path.join(dm.getCharPath(charName),"image");
+    const imagePath = path.join(dm.getCharPath(charName),"anime");
     const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
 
     //缓存目录
