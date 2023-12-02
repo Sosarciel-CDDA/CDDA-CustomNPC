@@ -24,6 +24,9 @@ export const CommonEventTypeList = [
     "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
     "TakeDamage"            ,//受到伤害
     "Death"                 ,//死亡
+    "EnterBattle"           ,//进入战斗
+    "BattleUpdate"          ,//进入战斗时 刷新
+    "NonBattleUpdate"       ,//非战斗时 刷新
     ...CommonInteractiveEventTypeList,
 ] as const;
 
@@ -31,20 +34,6 @@ export const CommonEventTypeList = [
  * u为角色 n不存在
  */
 export type CommonEventType = typeof CommonEventTypeList[number];
-
-/**Cnpc角色与怪物互动的事件 列表  
- * u为角色 n为怪物
- */
-export const CnpcInteractiveEventList = [
-    "CnpcTryMeleeHit"           ,//Cnpc角色 尝试近战攻击    会创建法术标靶
-    "CnpcTryRangeHit"           ,//Cnpc角色 尝试远程攻击    会创建法术标靶
-    "CnpcTryHit"                ,//Cnpc角色 尝试攻击        会创建法术标靶
-    ...CommonInteractiveEventTypeList,
-] as const;
-/**Cnpc角色与怪物互动的事件 */
-export type CnpcInteractiveEvent = typeof CnpcInteractiveEventList[number];
-
-
 
 /**Cnpc角色事件列表  
  * u为角色 n不存在
@@ -55,14 +44,10 @@ export const CnpcEventTypeList = [
     "CnpcUpdate"                ,//刷新
     "CnpcUpdateSlow"            ,//慢速刷新 60刷新触发一次
     "CnpcInit"                  ,//被创建时
-    "CnpcBattleUpdate"          ,//进入战斗时 刷新
-    "CnpcNonBattleUpdate"       ,//非战斗时 刷新
     "CnpcDeath"                 ,//死亡
     "CnpcDeathPrev"             ,//死亡前 回复生命可阻止死亡
     "CnpcDeathAfter"            ,//死亡后
-    "CnpcEnterBattle"           ,//进入战斗
     ...CommonEventTypeList      ,
-    ...CnpcInteractiveEventList ,
 ] as const;
 /**Cnpc角色事件类型 */
 export type CnpcEventType = typeof CnpcEventTypeList[number];

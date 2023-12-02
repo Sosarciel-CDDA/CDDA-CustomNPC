@@ -77,7 +77,7 @@
 		{
 			"name": "霜盾",
 			"cast_condition":{
-				"hook": "CnpcBattleUpdate"
+				"hook": "BattleUpdate"
 			},
 			"audio":[
 				{"id":"FrostShield","cooldown": 180},
@@ -110,7 +110,7 @@
 		{
 			"name": "情报分析",
 			"cast_condition":{
-				"hook": "CnpcBattleUpdate"
+				"hook": "BattleUpdate"
 			},
 			"spell": {
 				"id":"IntelligenceAnalysis",
@@ -262,7 +262,7 @@
 		{
 			"name": "功率强化",
 			"cast_condition":[{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"PowerBoost"}}
 			},{
 				"hook": "CnpcUpdateSlow",
@@ -286,7 +286,7 @@
 		{
 			"name": "紧急冻结",
 			"cast_condition":[{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
 			},{
 				"hook": "CnpcUpdateSlow",

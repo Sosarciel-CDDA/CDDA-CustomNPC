@@ -159,7 +159,7 @@ function HealReserve(dm:DataManager){
         max_intensity:TEFF_MAX,
         max_duration:TEFF_DUR
     }
-    const teoc = genTriggerEffect(dm,eff,"CnpcBattleUpdate","none",[
+    const teoc = genTriggerEffect(dm,eff,"BattleUpdate","none",[
         ...BodyPartList.map((bpid)=>{
             const eff:EocEffect={
                 "if":{math:[`u_hp(${bpid})`,"<",`u_hp_max(${bpid})`]},

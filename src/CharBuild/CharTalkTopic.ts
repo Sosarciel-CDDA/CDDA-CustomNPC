@@ -459,7 +459,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                 effect:[{u_spawn_item:item.id}]
             }
             dm.addCharEvent(charName,"CnpcUpdateSlow"  ,0,giveWeapon);
-            dm.addCharEvent(charName,"CnpcBattleUpdate",0,giveWeapon);
+            dm.addCharEvent(charName,"BattleUpdate",0,giveWeapon);
             dm.addCharEvent(charName,"CnpcInit",0,giveWeapon);
             weaponData.push(giveWeapon)
 
@@ -478,7 +478,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
                     {run_eocs:rmweocid}
                 ]
             }
-            dm.addCharEvent(charName,"CnpcBattleUpdate",0,removeWeapon);
+            dm.addCharEvent(charName,"BattleUpdate",0,removeWeapon);
             dm.addCharEvent(charName,"CnpcUpdateSlow"  ,0,removeWeapon);
             weaponData.push(removeWeapon)
 

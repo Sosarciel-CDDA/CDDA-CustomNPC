@@ -78,7 +78,7 @@
         {
             "name": "猫之优雅",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"and":[
                     {"not":{"u_has_effect":"cats_grace"}},
                     {"not":{"u_has_effect":"eagles_sight"}},
@@ -107,7 +107,7 @@
         {
             "name": "鹰眼",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"and":[
                     {"not":{"u_has_effect":"cats_grace"}},
                     {"not":{"u_has_effect":"eagles_sight"}},
@@ -136,7 +136,7 @@
         {
             "name": "巨魔之力",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"and":[
                     {"not":{"u_has_effect":"cats_grace"}},
                     {"not":{"u_has_effect":"eagles_sight"}},
@@ -165,7 +165,7 @@
         {
             "name": "狐之狡黠",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"and":[
                     {"not":{"u_has_effect":"cats_grace"}},
                     {"not":{"u_has_effect":"eagles_sight"}},
@@ -194,7 +194,7 @@
         {
             "name": "突触刺激",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"not":{"u_has_effect":"synaptic_stim"}}
             },
             "spell": {
@@ -218,7 +218,7 @@
         {
             "name": "祝福",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"not":{"npc_has_effect":"bless"}}
             },
             "spell": {
@@ -245,7 +245,7 @@
         {
             "name": "风行术",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"not":{"u_has_effect":"enchant_windrun"}}
             },
             "spell": {
@@ -270,7 +270,7 @@
         {
             "name": "朦胧术",
             "cast_condition":{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"not":{"u_has_effect":"effect_obfuscating_aura"}}
             },
             "spell": {
@@ -294,7 +294,7 @@
         {
             "name": "治疗轻伤",
             "cast_condition":[{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"or":[
                     {"math":["n_hp('torso')","<=","n_hp_max('torso')/3"]},
                     {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
@@ -329,7 +329,7 @@
         {
             "name": "伤痛分流",
             "cast_condition":[{
-                "hook": "CnpcBattleUpdate",
+                "hook": "BattleUpdate",
                 "condition": {"and":[
                     {"math":["MaxHp()-MinHp()",">","max(AvgHp()/2, 10)"]},
                     {"or":[

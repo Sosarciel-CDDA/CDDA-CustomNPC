@@ -103,7 +103,7 @@
 		{
 			"name": "精准狙击",
 			"cast_condition":{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"PreciseSnipe"}}
 			},
 			"audio":["PreciseSnipe","PreciseSnipeSF"],
@@ -127,7 +127,7 @@
 		{
 			"name": "作战指挥",
 			"cast_condition":{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"CombatCommand"}}
 			},
 			"spell": {
@@ -183,7 +183,7 @@
 		{
 			"name": "情报破译",
 			"cast_condition":{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"target": "filter_random",
 				"condition":{"not":{"npc_has_effect":"IntelligenceDeciphered"}}
 			},
@@ -246,7 +246,7 @@
 		{
 			"name": "战场先锋",
 			"cast_condition":[{
-				"hook": "CnpcBattleUpdate",
+				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
 			},{
 				"hook": "CnpcUpdateSlow",

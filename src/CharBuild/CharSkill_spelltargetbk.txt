@@ -3,13 +3,14 @@ import { genActEoc, genEOCID, genSpellID } from "ModDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
-import { CnpcEventTypeList, CnpcEventType, AnyCnpcEvenetType, CommonInteractiveEventTypeList } from "Event";
+import { CnpcEventTypeList, CnpcEventType, CnpcInteractiveEventList, AnyCnpcEvenetType } from "Event";
 
 
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
     "auto"          ,//自动         任意非翻转hook
     "random"        ,//原版随机     任意非翻转hook
+    "spell_target"  ,//瞄准法术标靶 任意非翻转hook 但法术标靶只在造成伤害时生成
     "direct_hit"    ,//直接命中交互单位 u为角色 n为受害者 hook必须为InteractiveCharEvent
     "filter_random" ,//筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
     "control_cast"  ,//玩家控制施法
@@ -18,6 +19,8 @@ const TargetTypeList = [
  * auto 为 根据施法目标自动选择;  
  *  
  * random 为 原版随机 适用于自身buff;  
+ *  
+ * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  
  *  
  * direct_hit 为 直接命中交互单位 适用于任何目标技能  
  * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
@@ -105,6 +108,8 @@ export type CastCondition={
      * auto 为 根据施法目标自动选择;  
      *  
      * random 为 原版随机 适用于自身buff;  
+     *  
+     * spell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  
      *  
      * direct_hit 为 直接命中交互单位 适用于任何目标技能  
      * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
@@ -385,11 +390,11 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 if(audioObj.cooldown){
                     //冷却
                     const cdeoc=genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
-                    dm.addCharEvent(charName,"BattleUpdate",0,cdeoc);
+                    dm.addCharEvent(charName,"CnpcBattleUpdate",0,cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
                     const initeoc=genActEoc(cdid+"_init",[{math:[cdid,"=","0"]}]);
-                    dm.addCharEvent(charName,"EnterBattle",0,initeoc);
+                    dm.addCharEvent(charName,"CnpcEnterBattle",0,initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect:EocEffect = {
@@ -502,6 +507,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
 const ProcMap:Record<TargetType,(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData)=>Promise<JObject[]>>={
     "auto"          : autoProc,
     "random"        : randomProc,
+    "spell_target"  : spell_targetProc,
     "direct_hit"    : direct_hitProc,
     "filter_random" : filter_randomProc,
     "control_cast"  : control_castProc,
@@ -581,6 +587,64 @@ function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
     return genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`)
 }
 
+
+async function spell_targetProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+    const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
+    const {spell,one_in_chance} = skill;
+    const {hook} = castCondition;
+    if(castCondition.condition) baseCond.push(castCondition.condition);
+    const ccuid = castCondUid(castCondition);
+
+    //创建瞄准法术标靶的辅助索敌法术
+    const flags:SpellFlag[] = ["WONDER","RANDOM_TARGET",...CON_SPELL_FLAG];
+    if(spell.flags?.includes("IGNORE_WALLS"))
+        flags.push("IGNORE_WALLS")
+    const {min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        max_level,shape} = spell;
+    const selTargetSpell:Spell = {
+        id:genSpellID(`${spell.id}_SelTarget`),
+        type:"SPELL",
+        name:spell.name+"_索敌",
+        description:`${spell.name}的辅助索敌法术`,
+        effect:"attack",
+        min_damage: 1,
+        max_damage: 1,
+        valid_targets:["hostile"],
+        targeted_monster_ids:[TARGET_MON_ID],
+        min_aoe,max_aoe,aoe_increment,
+        min_range,max_range,range_increment,
+        shape,max_level,flags,
+        extra_effects:[{id:spell.id}],
+    }
+    dm.addSharedRes(selTargetSpell.id,selTargetSpell,"common_resource","common_spell_assist");
+
+    //创建施法EOC
+    const castEoc:Eoc={
+        type:"effect_on_condition",
+        id:genCastEocID(charName,spell,ccuid),
+        eoc_type:"ACTIVATION",
+        effect:[
+            ...PreEffect,
+            {
+                u_cast_spell:{
+                    id:selTargetSpell.id,
+                    once_in:one_in_chance,
+                },
+                targeted: true,
+                true_eocs:{
+                    id:genTrueEocID(charName,spell,ccuid),
+                    effect:[...TEffect],
+                    eoc_type:"ACTIVATION",
+                }
+            }
+        ],
+        condition:{and:[...baseCond]},
+    }
+
+    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
+    return [castEoc];
+}
 
 async function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
@@ -740,8 +804,8 @@ async function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseS
     }
 
     //加入触发
-    if(!CommonInteractiveEventTypeList.includes(hook as any))
-        throw `直接命中 所用的事件必须为 交互事件: ${CommonInteractiveEventTypeList}`
+    if(!CnpcInteractiveEventList.includes(hook as any))
+        throw `直接命中 所用的事件必须为 交互事件: ${CnpcInteractiveEventList}`
     dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
 
     return [castEoc];
@@ -760,12 +824,16 @@ async function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     const hasRange = (spell.min_range!=null && spell.min_range!=0) ||
         (spell.range_increment!=null && spell.range_increment!=0);
 
+    //aoe 有范围 敌对目标 法术将使用法术标靶
+    //if(isHostileTarget && isAoe && hasRange)
+    //    return ProcMap.spell_target(dm,charName,baseSkillData);
+
     //有范围 有条件 友方目标 法术适用筛选命中
     if(isAllyTarget && hasRange && castCondition.condition!=undefined)
         return ProcMap.filter_random(dm,charName,baseSkillData);
 
     //hook为互动事件 敌对目标 法术将直接命中
-    if((CommonInteractiveEventTypeList.includes(hook as any)) && isHostileTarget)
+    if((CnpcInteractiveEventList.includes(hook as any)) && isHostileTarget)
         return ProcMap.direct_hit(dm,charName,baseSkillData);
 
     //其他法术随机

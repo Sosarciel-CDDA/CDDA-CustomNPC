@@ -35,6 +35,7 @@ export type Ammo = CopyfromVar<{
     shot_counter?: number;
     /**可选字段, 指定本轮发射的单个射弹造成的伤害。  
      * 如果存在, 还必须指定 projectile_count。  
+     * 在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage  
      */
     shot_damage?: RangeDamage|RangeDamage[];
     /**可选字段, 指定单个射弹的额外分散度。  

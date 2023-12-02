@@ -35,6 +35,15 @@ function CNPC_EOC_UpdateStat(){
 
 
 
+
+//———————————————————— 导出EOC ————————————————————//
+//移除法术标靶
+function CNPC_EOC_KillSpellTarget(){
+	eoc_type("ACTIVATION")
+	eobj({math:["u_hp('ALL')","=","0"]})
+}
+
+
 //———————————————————— 基础事件路由 ————————————————————//
 //每次进入游戏时事件
 function CNPC_EOC_EGB(){
@@ -178,11 +187,10 @@ function CNPC_EOC_ED(){
 //———————————————————— 通用事件处理 ————————————————————//
 //近战攻击主Eoc
 function CNPC_EOC_CommonMeleeHitEvent(){
-	eoc_type("ACTIVATION");
-	//通用尝试攻击
-	CNPC_EOC_CommonTryHitEvent();
+	eoc_type("ACTIVATION")
 	//触发动态生成的 尝试近战攻击 事件
 	CNPC_EOC_TryMeleeHit();
+	CNPC_EOC_TryHit();
 	if(_hits==1)
 		CNPC_EOC_CauseMeleeHit();
 	else
@@ -190,25 +198,9 @@ function CNPC_EOC_CommonMeleeHitEvent(){
 }
 //远程攻击主Eoc
 function CNPC_EOC_CommonRangeHitEvent(){
-	eoc_type("ACTIVATION");
-	//通用尝试攻击
-	CNPC_EOC_CommonTryHitEvent();
+	eoc_type("ACTIVATION")
 	//触发动态生成的 尝试远程攻击 事件
 	CNPC_EOC_TryRangeHit();
-}
-//通用尝试攻击
-function CNPC_EOC_CommonTryHitEvent(){
-	eoc_type("ACTIVATION")
-
-	//触发进入战斗
-	if(u_inBattle<=0){
-		//触发动态生成的 Cnpc角色进入战斗 事件eoc
-		CNPC_EOC_EnterBattle()
-	}
-	//设置在战斗中
-	u_inBattle = 60;
-
-	//触发动态生成的 尝试攻击 事件
 	CNPC_EOC_TryHit();
 }
 //受到攻击攻击主Eoc
@@ -229,20 +221,6 @@ function CNPC_EOC_CommonGlobalUpdateEvent(){
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
-
-
-	//附近有怪物 u_search_radius 无效
-	//if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
-	if(u_inBattle>0){
-		//触发战斗中
-		//触发动态生成的 cnpc战斗刷新 事件eoc
-		CNPC_EOC_BattleUpdate();
-		u_inBattle=u_inBattle-1;
-	}else{
-		//触发非战斗中
-		//触发动态生成的 cnpc非战斗刷新 事件eoc
-		CNPC_EOC_NonBattleUpdate();
-	}
 
 	//触发动态生成的 刷新 事件
 	CNPC_EOC_Update();
@@ -303,17 +281,45 @@ function CNPC_EOC_CnpcDeathProcess(){
 	u_isDeath = 1;
 }
 
-//Cnpc角色近战攻击主Eoc
-function CNPC_EOC_CnpcMeleeHitEvent(){
+//Cnpc角色尝试攻击触发的eoc
+function CNPC_EOC_CnpcTryHitEvent(){
 	eoc_type("ACTIVATION")
 	//设置不在待机
 	u_notIdleOrMove=4;
+
+	//触发进入战斗
+	if(u_inBattle<=0){
+		//触发动态生成的 Cnpc角色进入战斗 事件eoc
+		CNPC_EOC_CnpcEnterBattle()
+	}
+
+	//设置在战斗中
+	u_inBattle = 60;
+
+	//触发动态生成的 尝试攻击 事件
+	CNPC_EOC_CnpcTryHit();
+}
+//Cnpc角色近战攻击主Eoc
+function CNPC_EOC_CnpcMeleeHitEvent(){
+	eoc_type("ACTIVATION")
+	//产生法术标靶
+	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+	//通用攻击
+	CNPC_EOC_CnpcTryHitEvent();
+	//触发动态生成的 尝试远程攻击 事件
+	CNPC_EOC_CnpcTryRangeHit();
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 //Cnpc角色远程攻击主Eoc
 function CNPC_EOC_CnpcRangeHitEvent(){
 	eoc_type("ACTIVATION")
-	//设置不在待机
-	u_notIdleOrMove=4;
+	//产生法术标靶
+	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
+	//通用攻击
+	CNPC_EOC_CnpcTryHitEvent();
+	//触发动态生成的 尝试近战攻击 事件
+	CNPC_EOC_CnpcTryMeleeHit();
+	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 
 //Cnpc角色的主循环函数
@@ -342,6 +348,20 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 		CNPC_EOC_CnpcUpdateSlow();
 		u_update_count=0;
 	}
+
+	//附近有怪物 u_search_radius 无效
+	//if(eobj({ "math": [ "u_monsters_nearby('radius': 20 )", ">=", "1" ] })){
+	if(u_inBattle>0){
+		//触发战斗中
+		//触发动态生成的 cnpc战斗刷新 事件eoc
+		CNPC_EOC_CnpcBattleUpdate();
+		u_inBattle=u_inBattle-1;
+	}else{
+		//触发非战斗中
+		//触发动态生成的 cnpc非战斗刷新 事件eoc
+		CNPC_EOC_CnpcNonBattleUpdate();
+	}
+
 
 	//通过比较 loc字符串 检测移动
 	eobj({

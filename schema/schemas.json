@@ -340,7 +340,7 @@
 											"type": "array"
 										}
 									],
-									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 								},
 								"shot_spread": {
 									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
@@ -1694,7 +1694,7 @@
 											"type": "array"
 										}
 									],
-									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 								},
 								"shot_spread": {
 									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
@@ -6310,23 +6310,20 @@
 		"AnyCnpcEvenetType": {
 			"description": "任何Cnpc角色事件",
 			"enum": [
+				"BattleUpdate",
 				"CauseMeleeHit",
-				"CnpcBattleUpdate",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
-				"CnpcEnterBattle",
 				"CnpcIdle",
 				"CnpcInit",
 				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"Death",
+				"EnterBattle",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"TakeDamage",
 				"TryHit",
 				"TryMeleeHit",
@@ -6944,7 +6941,7 @@
 											"type": "array"
 										}
 									],
-									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+									"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 								},
 								"shot_spread": {
 									"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
@@ -17117,7 +17114,7 @@
 													"type": "array"
 												}
 											],
-											"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+											"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 										},
 										"shot_spread": {
 											"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
@@ -22787,41 +22784,25 @@
 		},
 		"CnpcEventType": {
 			"enum": [
+				"BattleUpdate",
 				"CauseMeleeHit",
-				"CnpcBattleUpdate",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
-				"CnpcEnterBattle",
 				"CnpcIdle",
 				"CnpcInit",
 				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"Death",
+				"EnterBattle",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"TakeDamage",
 				"TryHit",
 				"TryMeleeHit",
 				"TryRangeHit",
 				"Update"
-			],
-			"type": "string"
-		},
-		"CnpcInteractiveEvent": {
-			"enum": [
-				"CauseMeleeHit",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
-				"MissMeleeHit",
-				"TryHit",
-				"TryMeleeHit",
-				"TryRangeHit"
 			],
 			"type": "string"
 		},
@@ -23721,9 +23702,12 @@
 		},
 		"CommonEventType": {
 			"enum": [
+				"BattleUpdate",
 				"CauseMeleeHit",
 				"Death",
+				"EnterBattle",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"TakeDamage",
 				"TryHit",
 				"TryMeleeHit",
@@ -23734,9 +23718,12 @@
 		},
 		"CommonInteractiveEventType": {
 			"enum": [
+				"BattleUpdate",
 				"CauseMeleeHit",
 				"Death",
+				"EnterBattle",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"TakeDamage",
 				"TryHit",
 				"TryMeleeHit",
@@ -47678,24 +47665,21 @@
 		},
 		"GlobalEventType": {
 			"enum": [
+				"BattleUpdate",
 				"CauseMeleeHit",
-				"CnpcBattleUpdate",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
-				"CnpcEnterBattle",
 				"CnpcIdle",
 				"CnpcInit",
 				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"Death",
+				"EnterBattle",
 				"GameBegin",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"PlayerUpdate",
 				"TakeDamage",
 				"TryHit",
@@ -60656,14 +60640,13 @@
 			"description": "创建U与NPC的变体"
 		},
 		"TargetType": {
-			"description": "技能选择目标类型  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n\n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
+			"description": "技能选择目标类型  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n\n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖",
 			"enum": [
 				"auto",
 				"control_cast",
 				"direct_hit",
 				"filter_random",
-				"random",
-				"spell_target"
+				"random"
 			],
 			"type": "string"
 		},
@@ -64452,7 +64435,7 @@
 				},
 				"target": {
 					"$ref": "#/definitions/TargetType",
-					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\nspell_target 为 瞄准目标周围的 攻击时出现的法术标靶 仅适用于攻击触发的范围技能;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n \n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
+					"description": "瞄准方式  \nauto 为 根据施法目标自动选择;  \n\nrandom 为 原版随机 适用于自身buff;  \n\ndirect_hit 为 直接命中交互单位 适用于任何目标技能  \nhook 必须为互动事件 \"CharTakeDamage\" | \"CharTakeRangeDamage\" | \"CharTakeMeleeDamage\" | \"CharCauseMeleeHit\" | \"CharCauseRangeHit\" | \"CharCauseHit\";  \n\nfilter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  \n\ncontrol_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效\n \n默认为auto  \n若允许多个CastCondition 请指定具体type  \n相同的hook与target(包括auto或未指定)将覆盖"
 				}
 			},
 			"required": [
@@ -69382,7 +69365,7 @@
 		},
 		"__type_113": {
 			"properties": {
-				"CauseMeleeHit": {
+				"BattleUpdate": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -69403,7 +69386,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcBattleUpdate": {
+				"CauseMeleeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -69487,27 +69470,6 @@
 					},
 					"type": "array"
 				},
-				"CnpcEnterBattle": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcIdle": {
 					"items": {
 						"description": "事件效果",
@@ -69551,90 +69513,6 @@
 					"type": "array"
 				},
 				"CnpcMove": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcNonBattleUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -69718,7 +69596,49 @@
 					},
 					"type": "array"
 				},
+				"EnterBattle": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"MissMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"NonBattleUpdate": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -69846,23 +69766,20 @@
 				}
 			},
 			"required": [
+				"BattleUpdate",
 				"CauseMeleeHit",
-				"CnpcBattleUpdate",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
-				"CnpcEnterBattle",
 				"CnpcIdle",
 				"CnpcInit",
 				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"Death",
+				"EnterBattle",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"TakeDamage",
 				"TryHit",
 				"TryMeleeHit",
@@ -70523,7 +70440,7 @@
 																"type": "array"
 															}
 														],
-														"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+														"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 													},
 													"shot_spread": {
 														"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
@@ -76048,7 +75965,7 @@
 		},
 		"__type_116": {
 			"properties": {
-				"CauseMeleeHit": {
+				"BattleUpdate": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -76069,7 +75986,7 @@
 					},
 					"type": "array"
 				},
-				"CnpcBattleUpdate": {
+				"CauseMeleeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -76153,27 +76070,6 @@
 					},
 					"type": "array"
 				},
-				"CnpcEnterBattle": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
 				"CnpcIdle": {
 					"items": {
 						"description": "事件效果",
@@ -76217,90 +76113,6 @@
 					"type": "array"
 				},
 				"CnpcMove": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcNonBattleUpdate": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryMeleeHit": {
-					"items": {
-						"description": "事件效果",
-						"properties": {
-							"effect": {
-								"$ref": "#/definitions/EocEffect_1",
-								"description": "eoc效果"
-							},
-							"weight": {
-								"description": "排序权重",
-								"type": "number"
-							}
-						},
-						"required": [
-							"effect",
-							"weight"
-						],
-						"type": "object"
-					},
-					"type": "array"
-				},
-				"CnpcTryRangeHit": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -76384,6 +76196,27 @@
 					},
 					"type": "array"
 				},
+				"EnterBattle": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
 				"GameBegin": {
 					"items": {
 						"description": "事件效果",
@@ -76406,6 +76239,27 @@
 					"type": "array"
 				},
 				"MissMeleeHit": {
+					"items": {
+						"description": "事件效果",
+						"properties": {
+							"effect": {
+								"$ref": "#/definitions/EocEffect_1",
+								"description": "eoc效果"
+							},
+							"weight": {
+								"description": "排序权重",
+								"type": "number"
+							}
+						},
+						"required": [
+							"effect",
+							"weight"
+						],
+						"type": "object"
+					},
+					"type": "array"
+				},
+				"NonBattleUpdate": {
 					"items": {
 						"description": "事件效果",
 						"properties": {
@@ -76554,24 +76408,21 @@
 				}
 			},
 			"required": [
+				"BattleUpdate",
 				"CauseMeleeHit",
-				"CnpcBattleUpdate",
 				"CnpcDeath",
 				"CnpcDeathAfter",
 				"CnpcDeathPrev",
-				"CnpcEnterBattle",
 				"CnpcIdle",
 				"CnpcInit",
 				"CnpcMove",
-				"CnpcNonBattleUpdate",
-				"CnpcTryHit",
-				"CnpcTryMeleeHit",
-				"CnpcTryRangeHit",
 				"CnpcUpdate",
 				"CnpcUpdateSlow",
 				"Death",
+				"EnterBattle",
 				"GameBegin",
 				"MissMeleeHit",
+				"NonBattleUpdate",
 				"PlayerUpdate",
 				"TakeDamage",
 				"TryHit",
@@ -87037,7 +86888,7 @@
 							"type": "array"
 						}
 					],
-					"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。"
+					"description": "可选字段, 指定本轮发射的单个射弹造成的伤害。  \n如果存在, 还必须指定 projectile_count。  \n在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage"
 				},
 				"shot_spread": {
 					"description": "可选字段, 指定单个射弹的额外分散度。  \n仅当 projectile_count 存在时才有意义。",
