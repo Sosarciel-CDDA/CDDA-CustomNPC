@@ -332,8 +332,8 @@ async function createSkillResp(dm:DataManager,charName:string){
         dynamic_line:"&",
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses:[...skillRespList,{
-            text : "[返回]算了。",
-            topic: "TALK_NONE"
+            text : "[继续]走吧。",
+            topic: "TALK_DONE"
         }]
     }
 
@@ -567,8 +567,8 @@ async function createCastControlResp(dm:DataManager,charName:string){
         dynamic_line:`&当前魔法值: <npc_val:show_mana>`,
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses:[...(outData['castcontrol_resp'] as any??[]),{
-            text:"[继续]走吧。",
-            topic:"TALK_DONE"
+            text : "[返回]算了。",
+            topic: "TALK_NONE"
         }]
     }
     delete outData['castcontrol_resp'];

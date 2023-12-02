@@ -5,6 +5,7 @@ import { createCommonItem } from "./CommonItem";
 import { createDivinationSpell } from "./DivinationSpell";
 import { createDrawCardSpell } from "./DrawCardSpell";
 import { createDamageType } from "./CommonDamageType";
+import { createTriggerFlag } from "./TriggerFlag";
 
 
 /**构建通用数据 */
@@ -15,4 +16,5 @@ export async function commonBuild(dm:DataManager){
     await createDivinationSpell(dm);
     await createDrawCardSpell(dm);
     await createDamageType(dm);
+    await createTriggerFlag(dm);
 }

@@ -30,11 +30,11 @@ export type Ammo = CopyfromVar<{
      */
     shot_counter?: number;
     /**可选字段, 指定本轮发射的单个射弹造成的伤害。
-     * 如果存在, 还必须指定 shot_count。
+     * 如果存在, 还必须指定 projectile_count。
      */
     shot_damage?: RangeDamage | RangeDamage[];
     /**可选字段, 指定单个射弹的额外分散度。
-     * 仅当 shot_count 存在时才有意义。
+     * 仅当 projectile_count 存在时才有意义。
      */
     shot_spread?: number;
     /**暴击伤害倍率 */

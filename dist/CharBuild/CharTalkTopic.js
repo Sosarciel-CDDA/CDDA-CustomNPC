@@ -298,8 +298,8 @@ async function createSkillResp(dm, charName) {
         dynamic_line: "&",
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses: [...skillRespList, {
-                text: "[返回]算了。",
-                topic: "TALK_NONE"
+                text: "[继续]走吧。",
+                topic: "TALK_DONE"
             }]
     };
     //注册初始化eoc
@@ -505,8 +505,8 @@ async function createCastControlResp(dm, charName) {
         dynamic_line: `&当前魔法值: <npc_val:show_mana>`,
         //dynamic_line:{concatenate:["&",...dynLine]},
         responses: [...(outData['castcontrol_resp'] ?? []), {
-                text: "[继续]走吧。",
-                topic: "TALK_DONE"
+                text: "[返回]算了。",
+                topic: "TALK_NONE"
             }]
     };
     delete outData['castcontrol_resp'];

@@ -202,13 +202,6 @@ function CNPC_EOC_CommonRangeHitEvent(){
 	//触发动态生成的 尝试远程攻击 事件
 	CNPC_EOC_TryRangeHit();
 	CNPC_EOC_TryHit();
-
-	//射击延迟
-	//if(u_shoot_movemod!=0){
-	//	casttime_modmove = u_shoot_movemod;
-		casttime_modmove = 100;
-		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CastTimeModMove","hit_self":true}});
-	//}
 }
 //受到攻击攻击主Eoc
 function CNPC_EOC_CommonTakeDamageEvent(){

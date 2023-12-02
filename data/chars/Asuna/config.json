@@ -26,7 +26,7 @@
 					"pocket_type": "MAGAZINE_WELL",
 					"item_restriction": ["AsunaMag"]
 				}],
-				"flags": ["NO_UNLOAD","ALLOWS_BODY_BLOCK"],
+				"flags": ["NO_UNLOAD","ALLOWS_BODY_BLOCK","SHOTINT_70"],
 				"min_cycle_recoil": 360,
 				"valid_mod_locations": [],
 				"faults": [],

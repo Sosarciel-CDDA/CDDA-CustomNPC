@@ -7,6 +7,7 @@ const CommonItem_1 = require("./CommonItem");
 const DivinationSpell_1 = require("./DivinationSpell");
 const DrawCardSpell_1 = require("./DrawCardSpell");
 const CommonDamageType_1 = require("./CommonDamageType");
+const TriggerFlag_1 = require("./TriggerFlag");
 /**构建通用数据 */
 async function commonBuild(dm) {
     await (0, Test_1.createTest)(dm);
@@ -15,5 +16,6 @@ async function commonBuild(dm) {
     await (0, DivinationSpell_1.createDivinationSpell)(dm);
     await (0, DrawCardSpell_1.createDrawCardSpell)(dm);
     await (0, CommonDamageType_1.createDamageType)(dm);
+    await (0, TriggerFlag_1.createTriggerFlag)(dm);
 }
 exports.commonBuild = commonBuild;

@@ -30,11 +30,9 @@
 			"name": "Akaset的 激光炮",
 			"description": "Akaset的 激光炮",
 			"energy_drain": 0,
-			"flags":["NO_UNLOAD"],
+			"flags":["NO_UNLOAD","SHOTINT_100"],
 			"modes": [
-				[ "DEFAULT", "100s sequence", 10 ],
-				[ "AUTO", "100s sequence", 10 ],
-				[ "MELEE", "100s sequence", 10 ]
+				[ "DEFAULT", "pulse", 1 ]
 			],
 			"ammo_effects": ["LIGHTNING_Akaset","DRAW_AS_LINE"],
 			"valid_mod_locations": [],
