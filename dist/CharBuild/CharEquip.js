@@ -8,6 +8,7 @@ const StaticData_1 = require("../StaticData");
 async function createCharEquip(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     const outs = [];
+    const displayName = charName.replaceAll("_", " ");
     /**基础物品的识别flag */
     const baseItemFlag = {
         type: "json_flag",
@@ -96,8 +97,8 @@ async function createCharEquip(dm, charName) {
     const baseArmor = {
         type: "ARMOR",
         id: defineData.baseArmorID,
-        name: `${charName}的基础装备`,
-        description: `${charName}的基础装备`,
+        name: `${displayName}的基础装备`,
+        description: `${displayName}的基础装备`,
         category: "clothing",
         weight: 0,
         volume: 0,
@@ -126,8 +127,8 @@ async function createCharEquip(dm, charName) {
     const baseMut = {
         type: "mutation",
         id: defineData.baseMutID,
-        name: `${charName}的基础变异`,
-        description: `${charName}的基础变异`,
+        name: `${displayName}的基础变异`,
+        description: `${displayName}的基础变异`,
         points: 0,
         integrated_armor: [defineData.baseArmorID],
         valid: false,

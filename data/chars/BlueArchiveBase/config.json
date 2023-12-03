@@ -4,32 +4,25 @@
     "weapon": [{
         "item":{
             "id": "BAPistol",
-            "name": "BA S&W 袖珍手枪",
-            "description": "BA S&W 袖珍手枪",
-            "copy-from": "sw_22",
+            "name": "BA 鲁格 LCR .38 左轮手枪",
+            "description": "BA 鲁格 LCR .38 左轮手枪",
+            "copy-from": "ruger_lcr_38",
+            "looks_like": "sw_619",
             "type": "GUN",
-            "flags": ["NO_UNLOAD","SHOTINT_70","ALLOWS_BODY_BLOCK"],
+            "flags": ["RELOAD_ONE","RELOAD_EJECT","NO_UNLOAD","SHOTINT_70"],
             "modes": [
-                ["DEFAULT"	,"semi-auto",1]
+                ["DEFAULT"	,"semi-auto", 1]
             ],
-            "pocket_data": [{
-                "pocket_type": "MAGAZINE_WELL",
-                "item_restriction": ["BAPistolMag"]
-            }]
+			"faults": []
         }
     }],
     "carry": [
         {
-            "item":{
-				"id":"BAPistolMag",
-				"type": "MAGAZINE",
-				"copy-from":"sw22mag",
-				"name": {"str_sp": "BA S&W 袖珍手枪的 10发手枪弹匣"},
-				"description": "BA S&W 袖珍手枪的 10发手枪弹匣",
-				"flags": ["MAG_DESTROY","NO_UNLOAD"]
-			},
+            "item":"38_special",
 			"recharge": 1,
-			"count": 10
+            "recharge_count": 5,
+            "start_count": 10,
+			"count": 20
         }
     ]
 }

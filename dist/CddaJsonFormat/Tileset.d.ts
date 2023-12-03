@@ -31,6 +31,7 @@ export type DefTilsetCfg = {
     height: number;
     /**默认缩放 */
     pixelscale: number;
+    zlevel_height?: number;
     iso?: false;
     retract_dist_min?: number;
     retract_dist_max?: number;
@@ -43,7 +44,7 @@ export type PkgTilesetInfo = [
 /**完成打包的Tileset info */
 export type TilesetInfo = {
     /**默认的tileset配置 */
-    tile_info: DefTilsetCfg;
+    tile_info: [DefTilsetCfg];
     /**瓦块集信息 */
     "tiles-new": TilesetCfg[];
 };

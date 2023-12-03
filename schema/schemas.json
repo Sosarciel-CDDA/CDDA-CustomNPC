@@ -33,7 +33,7 @@
 			"description": "添加效果"
 		},
 		"AddEffect_1": {
-			"$ref": "#/definitions/__type_106"
+			"$ref": "#/definitions/__type_105"
 		},
 		"AddRandStrVar": {
 			"anyOf": [
@@ -865,7 +865,7 @@
 			"$ref": "#/definitions/__type_57"
 		},
 		"AmmoEffect": {
-			"$ref": "#/definitions/__type_99"
+			"$ref": "#/definitions/__type_98"
 		},
 		"AmmoEffectID": {
 			"anyOf": [
@@ -982,7 +982,7 @@
 			"$ref": "#/definitions/__type_58"
 		},
 		"AmmunitionType": {
-			"$ref": "#/definitions/__type_100"
+			"$ref": "#/definitions/__type_99"
 		},
 		"AmmunitionTypeID": {
 			"anyOf": [
@@ -16549,7 +16549,7 @@
 			"type": "array"
 		},
 		"BuildSetting": {
-			"$ref": "#/definitions/__type_123"
+			"$ref": "#/definitions/__type_122"
 		},
 		"CalcOpera": {
 			"description": "计算运算符",
@@ -16562,7 +16562,7 @@
 			"type": "string"
 		},
 		"CastCondition": {
-			"$ref": "#/definitions/__type_105"
+			"$ref": "#/definitions/__type_104"
 		},
 		"CastSpell": {
 			"anyOf": [
@@ -21931,7 +21931,7 @@
 			"type": "object"
 		},
 		"CharConfig": {
-			"$ref": "#/definitions/__type_118"
+			"$ref": "#/definitions/__type_117"
 		},
 		"CharData": {
 			"description": "角色数据",
@@ -22113,10 +22113,10 @@
 			"description": "角色描述信息"
 		},
 		"CharDesc_1": {
-			"$ref": "#/definitions/__type_109"
+			"$ref": "#/definitions/__type_108"
 		},
 		"CharSkill": {
-			"$ref": "#/definitions/__type_104"
+			"$ref": "#/definitions/__type_103"
 		},
 		"CharUpgrade": {
 			"description": "角色强化项",
@@ -24007,7 +24007,7 @@
 			"description": "控制要求"
 		},
 		"ControlReq_1": {
-			"$ref": "#/definitions/__type_127"
+			"$ref": "#/definitions/__type_126"
 		},
 		"Copyfrom": {
 			"allOf": [
@@ -24608,7 +24608,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_83"
+					"$ref": "#/definitions/__type_82"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24654,7 +24654,7 @@
 					"type": "object"
 				},
 				{
-					"$ref": "#/definitions/__type_129"
+					"$ref": "#/definitions/__type_128"
 				}
 			],
 			"description": "copyfrom变体"
@@ -24677,10 +24677,10 @@
 			"description": "自定义的肢体"
 		},
 		"DamageInfoOrder": {
-			"$ref": "#/definitions/__type_98"
+			"$ref": "#/definitions/__type_97"
 		},
 		"DamageType": {
-			"$ref": "#/definitions/__type_97"
+			"$ref": "#/definitions/__type_96"
 		},
 		"DamageTypeID": {
 			"anyOf": [
@@ -24817,10 +24817,43 @@
 			"type": "object"
 		},
 		"DataTable": {
-			"$ref": "#/definitions/__type_125"
+			"$ref": "#/definitions/__type_124"
 		},
 		"DefTilsetCfg": {
-			"$ref": "#/definitions/__type_80"
+			"description": "默认的tileset配置",
+			"properties": {
+				"height": {
+					"description": "默认瓦块高度",
+					"type": "number"
+				},
+				"iso": {
+					"const": false,
+					"type": "boolean"
+				},
+				"pixelscale": {
+					"description": "默认缩放",
+					"type": "number"
+				},
+				"retract_dist_max": {
+					"type": "number"
+				},
+				"retract_dist_min": {
+					"type": "number"
+				},
+				"width": {
+					"description": "默认瓦块宽度",
+					"type": "number"
+				},
+				"zlevel_height": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"height",
+				"pixelscale",
+				"width"
+			],
+			"type": "object"
 		},
 		"DefineAmmoEffectID": {
 			"enum": [
@@ -29572,7 +29605,7 @@
 			"type": "array"
 		},
 		"Effect": {
-			"$ref": "#/definitions/__type_87"
+			"$ref": "#/definitions/__type_86"
 		},
 		"EffectID": {
 			"anyOf": [
@@ -43885,7 +43918,7 @@
 			"type": "string"
 		},
 		"Enchantment": {
-			"$ref": "#/definitions/__type_86"
+			"$ref": "#/definitions/__type_85"
 		},
 		"EnchantmentID": {
 			"anyOf": [
@@ -43937,7 +43970,7 @@
 			"description": "能量"
 		},
 		"Eoc": {
-			"$ref": "#/definitions/__type_96"
+			"$ref": "#/definitions/__type_95"
 		},
 		"EocCond": {
 			"anyOf": [
@@ -46231,7 +46264,7 @@
 			"$ref": "#/definitions/__type_59"
 		},
 		"ExtDamage": {
-			"$ref": "#/definitions/__type_108"
+			"$ref": "#/definitions/__type_107"
 		},
 		"FakeSpell": {
 			"$ref": "#/definitions/__type_37"
@@ -46406,7 +46439,7 @@
 			"type": "string"
 		},
 		"Flag": {
-			"$ref": "#/definitions/__type_85"
+			"$ref": "#/definitions/__type_84"
 		},
 		"FlagID": {
 			"anyOf": [
@@ -46433,7 +46466,7 @@
 			"$ref": "#/definitions/__type_56"
 		},
 		"GameData": {
-			"$ref": "#/definitions/__type_124"
+			"$ref": "#/definitions/__type_123"
 		},
 		"Generic": {
 			"anyOf": [
@@ -51535,7 +51568,7 @@
 				},
 				{
 					"items": {
-						"$ref": "#/definitions/__type_81",
+						"$ref": "#/definitions/__type_80",
 						"description": "已打包的图片对象格式"
 					},
 					"type": "array"
@@ -51547,7 +51580,7 @@
 			"description": "已打包的图片格式"
 		},
 		"ImageCfgObj": {
-			"$ref": "#/definitions/__type_81"
+			"$ref": "#/definitions/__type_80"
 		},
 		"ImageCfg_1": {
 			"anyOf": [
@@ -52230,7 +52263,7 @@
 			"description": "物品快速定义  \n物品id 或者 [物品id,概率(100为100%)]"
 		},
 		"ItemGroup": {
-			"$ref": "#/definitions/__type_88"
+			"$ref": "#/definitions/__type_87"
 		},
 		"ItemGroupEntrie": {
 			"anyOf": [
@@ -53649,7 +53682,7 @@
 			"$ref": "#/definitions/__type_8"
 		},
 		"MathFunction": {
-			"$ref": "#/definitions/__type_101"
+			"$ref": "#/definitions/__type_100"
 		},
 		"MathFunctionID": {
 			"anyOf": [
@@ -53704,7 +53737,7 @@
 			"description": "发送消息"
 		},
 		"MissionDefinition": {
-			"$ref": "#/definitions/__type_95"
+			"$ref": "#/definitions/__type_94"
 		},
 		"MissionDefinitionID": {
 			"anyOf": [
@@ -53790,7 +53823,7 @@
 			"$ref": "#/definitions/__type_10"
 		},
 		"ModTileset": {
-			"$ref": "#/definitions/__type_103"
+			"$ref": "#/definitions/__type_102"
 		},
 		"MonAttackEffect": {
 			"description": "怪物的攻击效果",
@@ -54358,7 +54391,7 @@
 			"description": "怪物的专长弱点\n字符串时为 proficiency"
 		},
 		"Monster": {
-			"$ref": "#/definitions/__type_89"
+			"$ref": "#/definitions/__type_88"
 		},
 		"MonsterFlag": {
 			"enum": [
@@ -54468,7 +54501,7 @@
 			"type": "object"
 		},
 		"Mutation": {
-			"$ref": "#/definitions/__type_92"
+			"$ref": "#/definitions/__type_91"
 		},
 		"MutationID": {
 			"anyOf": [
@@ -54639,7 +54672,7 @@
 			"type": "number"
 		},
 		"NpcClass": {
-			"$ref": "#/definitions/__type_93"
+			"$ref": "#/definitions/__type_92"
 		},
 		"NpcClassID": {
 			"anyOf": [
@@ -54667,7 +54700,7 @@
 			"type": "string"
 		},
 		"NpcInstance": {
-			"$ref": "#/definitions/__type_94"
+			"$ref": "#/definitions/__type_93"
 		},
 		"NpcInstanceID": {
 			"anyOf": [
@@ -55592,7 +55625,7 @@
 			"description": "大地图特殊地点"
 		},
 		"OverlayOrdering": {
-			"$ref": "#/definitions/__type_102"
+			"$ref": "#/definitions/__type_101"
 		},
 		"OvermapTerrainID": {
 			"anyOf": [
@@ -56710,28 +56743,28 @@
 			"$ref": "#/definitions/Partial_32"
 		},
 		"Partial_32": {
-			"$ref": "#/definitions/__type_83"
+			"$ref": "#/definitions/__type_82"
 		},
 		"Partial_33": {
 			"$ref": "#/definitions/Partial_34"
 		},
 		"Partial_34": {
-			"$ref": "#/definitions/__type_84"
+			"$ref": "#/definitions/__type_83"
 		},
 		"Partial_35": {
 			"$ref": "#/definitions/Partial_36"
 		},
 		"Partial_36": {
-			"$ref": "#/definitions/__type_111"
+			"$ref": "#/definitions/__type_110"
 		},
 		"Partial_37": {
 			"$ref": "#/definitions/Partial_38"
 		},
 		"Partial_38": {
-			"$ref": "#/definitions/__type_113"
+			"$ref": "#/definitions/__type_112"
 		},
 		"Partial_39": {
-			"$ref": "#/definitions/__type_128"
+			"$ref": "#/definitions/__type_127"
 		},
 		"Partial_4": {
 			"$ref": "#/definitions/__type_43"
@@ -56740,7 +56773,7 @@
 			"$ref": "#/definitions/Partial_41"
 		},
 		"Partial_41": {
-			"$ref": "#/definitions/__type_129"
+			"$ref": "#/definitions/__type_128"
 		},
 		"Partial_42": {
 			"$ref": "#/definitions/Partial_39"
@@ -56994,7 +57027,7 @@
 				},
 				{
 					"items": {
-						"$ref": "#/definitions/__type_82",
+						"$ref": "#/definitions/__type_81",
 						"description": "未打包的图片对象格式"
 					},
 					"type": "array"
@@ -57006,7 +57039,7 @@
 			"description": "未打包的图片格式"
 		},
 		"PkgImageCfgObj": {
-			"$ref": "#/definitions/__type_82"
+			"$ref": "#/definitions/__type_81"
 		},
 		"PkgImageCfg_1": {
 			"anyOf": [
@@ -57148,6 +57181,9 @@
 						},
 						"width": {
 							"description": "默认瓦块宽度",
+							"type": "number"
+						},
+						"zlevel_height": {
 							"type": "number"
 						}
 					},
@@ -57505,28 +57541,28 @@
 			"$ref": "#/definitions/Record_11"
 		},
 		"Record_11": {
-			"$ref": "#/definitions/__type_112"
+			"$ref": "#/definitions/__type_111"
 		},
 		"Record_12": {
-			"$ref": "#/definitions/__type_115"
+			"$ref": "#/definitions/__type_114"
 		},
 		"Record_13": {
-			"$ref": "#/definitions/__type_116"
+			"$ref": "#/definitions/__type_115"
 		},
 		"Record_14": {
-			"$ref": "#/definitions/__type_117"
+			"$ref": "#/definitions/__type_116"
 		},
 		"Record_15": {
-			"$ref": "#/definitions/__type_119"
+			"$ref": "#/definitions/__type_118"
 		},
 		"Record_16": {
-			"$ref": "#/definitions/__type_120"
+			"$ref": "#/definitions/__type_119"
 		},
 		"Record_17": {
-			"$ref": "#/definitions/__type_121"
+			"$ref": "#/definitions/__type_120"
 		},
 		"Record_18": {
-			"$ref": "#/definitions/__type_122"
+			"$ref": "#/definitions/__type_121"
 		},
 		"Record_2": {
 			"$ref": "#/definitions/Record_3"
@@ -57550,7 +57586,7 @@
 			"$ref": "#/definitions/Record_9"
 		},
 		"Record_9": {
-			"$ref": "#/definitions/__type_110"
+			"$ref": "#/definitions/__type_109"
 		},
 		"RelicData": {
 			"$ref": "#/definitions/RelicData_1",
@@ -57750,7 +57786,7 @@
 			"$ref": "#/definitions/Array_4"
 		},
 		"RequireResource": {
-			"$ref": "#/definitions/__type_114"
+			"$ref": "#/definitions/__type_113"
 		},
 		"Requirement": {
 			"description": "需求组",
@@ -58324,7 +58360,7 @@
 			"$ref": "#/definitions/__type_21"
 		},
 		"RunEoc_1": {
-			"$ref": "#/definitions/__type_107"
+			"$ref": "#/definitions/__type_106"
 		},
 		"SchemaString": {
 			"description": "用于辅助解析只能补全的类型  \n输出后替换为 ^.*$ 的 string 匹配",
@@ -58726,7 +58762,7 @@
 			"description": "音效变体ID"
 		},
 		"SoundEffect_1": {
-			"$ref": "#/definitions/__type_90"
+			"$ref": "#/definitions/__type_89"
 		},
 		"SpawnItem": {
 			"anyOf": [
@@ -59966,7 +60002,7 @@
 			"type": "object"
 		},
 		"Spell": {
-			"$ref": "#/definitions/__type_91"
+			"$ref": "#/definitions/__type_90"
 		},
 		"SpellEffect": {
 			"description": "法术效果",
@@ -61134,8 +61170,48 @@
 			"description": "完成打包的Tileset info",
 			"properties": {
 				"tile_info": {
-					"$ref": "#/definitions/DefTilsetCfg",
-					"description": "默认的tileset配置"
+					"description": "默认的tileset配置",
+					"items": [
+						{
+							"description": "默认的tileset配置",
+							"properties": {
+								"height": {
+									"description": "默认瓦块高度",
+									"type": "number"
+								},
+								"iso": {
+									"const": false,
+									"type": "boolean"
+								},
+								"pixelscale": {
+									"description": "默认缩放",
+									"type": "number"
+								},
+								"retract_dist_max": {
+									"type": "number"
+								},
+								"retract_dist_min": {
+									"type": "number"
+								},
+								"width": {
+									"description": "默认瓦块宽度",
+									"type": "number"
+								},
+								"zlevel_height": {
+									"type": "number"
+								}
+							},
+							"required": [
+								"height",
+								"pixelscale",
+								"width"
+							],
+							"type": "object"
+						}
+					],
+					"maxItems": 1,
+					"minItems": 1,
+					"type": "array"
 				},
 				"tiles-new": {
 					"description": "瓦块集信息",
@@ -62860,7 +62936,7 @@
 			"description": "车辆部件的操作需求"
 		},
 		"VPRequirement_1": {
-			"$ref": "#/definitions/__type_126"
+			"$ref": "#/definitions/__type_125"
 		},
 		"ValidMod": {
 			"description": "有效枪械组件",
@@ -64858,34 +64934,6 @@
 			"type": "object"
 		},
 		"__type_100": {
-			"description": "弹药类型",
-			"properties": {
-				"default": {
-					"$ref": "#/definitions/AnyItemID",
-					"description": "弹药的默认物品ID"
-				},
-				"id": {
-					"$ref": "#/definitions/AmmunitionTypeID",
-					"description": "唯一ID"
-				},
-				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "弹药名称"
-				},
-				"type": {
-					"const": "ammunition_type",
-					"type": "string"
-				}
-			},
-			"required": [
-				"default",
-				"id",
-				"name",
-				"type"
-			],
-			"type": "object"
-		},
-		"__type_101": {
 			"description": "数学函数",
 			"properties": {
 				"id": {
@@ -64912,7 +64960,7 @@
 			],
 			"type": "object"
 		},
-		"__type_102": {
+		"__type_101": {
 			"description": "县市层级",
 			"properties": {
 				"overlay_ordering": {
@@ -64950,7 +64998,7 @@
 			],
 			"type": "object"
 		},
-		"__type_103": {
+		"__type_102": {
 			"description": "mod图包",
 			"properties": {
 				"compatibility": {
@@ -64979,7 +65027,7 @@
 			],
 			"type": "object"
 		},
-		"__type_104": {
+		"__type_103": {
 			"description": "角色技能",
 			"properties": {
 				"after_effect": {
@@ -66157,7 +66205,7 @@
 						},
 						{
 							"items": {
-								"$ref": "#/definitions/__type_105",
+								"$ref": "#/definitions/__type_104",
 								"description": "技能的释放条件"
 							},
 							"type": "array"
@@ -66251,7 +66299,7 @@
 			],
 			"type": "object"
 		},
-		"__type_105": {
+		"__type_104": {
 			"description": "技能的释放条件",
 			"properties": {
 				"condition": {
@@ -66272,7 +66320,7 @@
 			],
 			"type": "object"
 		},
-		"__type_106": {
+		"__type_105": {
 			"description": "添加效果",
 			"properties": {
 				"duration": {
@@ -66958,7 +67006,7 @@
 			],
 			"type": "object"
 		},
-		"__type_107": {
+		"__type_106": {
 			"description": "以受害者为 u_ 运行EOC",
 			"properties": {
 				"condition": {
@@ -67547,7 +67595,7 @@
 			],
 			"type": "object"
 		},
-		"__type_108": {
+		"__type_107": {
 			"description": "额外造成某种类型的伤害",
 			"properties": {
 				"amount": {
@@ -67571,7 +67619,7 @@
 			],
 			"type": "object"
 		},
-		"__type_109": {
+		"__type_108": {
 			"description": "角色描述信息",
 			"properties": {
 				"age": {
@@ -67589,20 +67637,7 @@
 			},
 			"type": "object"
 		},
-		"__type_11": {
-			"description": "获取条件",
-			"properties": {
-				"get_condition": {
-					"$ref": "#/definitions/CondObj",
-					"description": "获取条件"
-				}
-			},
-			"required": [
-				"get_condition"
-			],
-			"type": "object"
-		},
-		"__type_110": {
+		"__type_109": {
 			"properties": {
 				"dex": {
 					"type": "number"
@@ -67625,7 +67660,20 @@
 			],
 			"type": "object"
 		},
-		"__type_111": {
+		"__type_11": {
+			"description": "获取条件",
+			"properties": {
+				"get_condition": {
+					"$ref": "#/definitions/CondObj",
+					"description": "获取条件"
+				}
+			},
+			"required": [
+				"get_condition"
+			],
+			"type": "object"
+		},
+		"__type_110": {
 			"properties": {
 				"ALL": {
 					"type": "number"
@@ -67714,10 +67762,10 @@
 			},
 			"type": "object"
 		},
-		"__type_112": {
+		"__type_111": {
 			"type": "object"
 		},
-		"__type_113": {
+		"__type_112": {
 			"properties": {
 				"add_ARMOR_ACID": {
 					"anyOf": [
@@ -69790,7 +69838,7 @@
 			},
 			"type": "object"
 		},
-		"__type_114": {
+		"__type_113": {
 			"description": "要求的资源",
 			"properties": {
 				"count": {
@@ -69811,7 +69859,7 @@
 			],
 			"type": "object"
 		},
-		"__type_115": {
+		"__type_114": {
 			"properties": {
 				"Attack": {
 					"properties": {
@@ -69917,10 +69965,10 @@
 			],
 			"type": "object"
 		},
-		"__type_116": {
+		"__type_115": {
 			"type": "object"
 		},
-		"__type_117": {
+		"__type_116": {
 			"properties": {
 				"BattleUpdate": {
 					"items": {
@@ -70345,7 +70393,7 @@
 			],
 			"type": "object"
 		},
-		"__type_118": {
+		"__type_117": {
 			"description": "动态读取的角色设定",
 			"properties": {
 				"base_mutation": {
@@ -76517,28 +76565,10 @@
 			},
 			"type": "object"
 		},
+		"__type_118": {
+			"type": "object"
+		},
 		"__type_119": {
-			"type": "object"
-		},
-		"__type_12": {
-			"description": "根据Npc性别产生不同对话",
-			"properties": {
-				"npc_female": {
-					"$ref": "#/definitions/DynamicLine_1",
-					"description": "如果npc是女性"
-				},
-				"npc_male": {
-					"$ref": "#/definitions/DynamicLine_1",
-					"description": "如果npc是男性"
-				}
-			},
-			"required": [
-				"npc_female",
-				"npc_male"
-			],
-			"type": "object"
-		},
-		"__type_120": {
 			"properties": {
 				"BattleUpdate": {
 					"items": {
@@ -77007,13 +77037,31 @@
 			],
 			"type": "object"
 		},
+		"__type_12": {
+			"description": "根据Npc性别产生不同对话",
+			"properties": {
+				"npc_female": {
+					"$ref": "#/definitions/DynamicLine_1",
+					"description": "如果npc是女性"
+				},
+				"npc_male": {
+					"$ref": "#/definitions/DynamicLine_1",
+					"description": "如果npc是男性"
+				}
+			},
+			"required": [
+				"npc_female",
+				"npc_male"
+			],
+			"type": "object"
+		},
+		"__type_120": {
+			"type": "object"
+		},
 		"__type_121": {
 			"type": "object"
 		},
 		"__type_122": {
-			"type": "object"
-		},
-		"__type_123": {
 			"description": "build配置",
 			"properties": {
 				"game_path": {
@@ -77036,7 +77084,7 @@
 			],
 			"type": "object"
 		},
-		"__type_124": {
+		"__type_123": {
 			"description": "游戏数据",
 			"properties": {
 				"game_json": {
@@ -77050,7 +77098,7 @@
 			},
 			"type": "object"
 		},
-		"__type_125": {
+		"__type_124": {
 			"description": "主资源表",
 			"properties": {
 				"charTable": {
@@ -77078,7 +77126,7 @@
 			],
 			"type": "object"
 		},
-		"__type_126": {
+		"__type_125": {
 			"description": "车辆部件的操作需求",
 			"properties": {
 				"skills": {
@@ -77114,7 +77162,7 @@
 			],
 			"type": "object"
 		},
-		"__type_127": {
+		"__type_126": {
 			"description": "控制要求",
 			"properties": {
 				"proficiencies": {
@@ -77144,7 +77192,7 @@
 			},
 			"type": "object"
 		},
-		"__type_128": {
+		"__type_127": {
 			"properties": {
 				"acid": {
 					"type": "number"
@@ -77212,7 +77260,7 @@
 			},
 			"type": "object"
 		},
-		"__type_129": {
+		"__type_128": {
 			"properties": {
 				"allowed_tools": {
 					"description": "允许挂载的工具",
@@ -92865,39 +92913,6 @@
 			"type": "object"
 		},
 		"__type_80": {
-			"description": "默认的tileset配置",
-			"properties": {
-				"height": {
-					"description": "默认瓦块高度",
-					"type": "number"
-				},
-				"iso": {
-					"const": false,
-					"type": "boolean"
-				},
-				"pixelscale": {
-					"description": "默认缩放",
-					"type": "number"
-				},
-				"retract_dist_max": {
-					"type": "number"
-				},
-				"retract_dist_min": {
-					"type": "number"
-				},
-				"width": {
-					"description": "默认瓦块宽度",
-					"type": "number"
-				}
-			},
-			"required": [
-				"height",
-				"pixelscale",
-				"width"
-			],
-			"type": "object"
-		},
-		"__type_81": {
 			"description": "已打包的图片对象格式",
 			"properties": {
 				"sprite": {
@@ -92925,7 +92940,7 @@
 			],
 			"type": "object"
 		},
-		"__type_82": {
+		"__type_81": {
 			"description": "未打包的图片对象格式",
 			"properties": {
 				"sprite": {
@@ -92953,13 +92968,13 @@
 			],
 			"type": "object"
 		},
+		"__type_82": {
+			"type": "object"
+		},
 		"__type_83": {
 			"type": "object"
 		},
 		"__type_84": {
-			"type": "object"
-		},
-		"__type_85": {
 			"description": "一个自定义的Flag",
 			"properties": {
 				"id": {
@@ -92976,7 +92991,7 @@
 			],
 			"type": "object"
 		},
-		"__type_86": {
+		"__type_85": {
 			"description": "附魔",
 			"properties": {
 				"condition": {
@@ -93150,7 +93165,7 @@
 			],
 			"type": "object"
 		},
-		"__type_87": {
+		"__type_86": {
 			"description": "效果",
 			"properties": {
 				"apply_memorial_log": {
@@ -93581,7 +93596,7 @@
 			],
 			"type": "object"
 		},
-		"__type_88": {
+		"__type_87": {
 			"description": "ItemGroup",
 			"properties": {
 				"copy-from": {
@@ -93635,7 +93650,7 @@
 			],
 			"type": "object"
 		},
-		"__type_89": {
+		"__type_88": {
 			"description": "怪物",
 			"properties": {
 				"absorb_material": {
@@ -94414,20 +94429,7 @@
 			],
 			"type": "object"
 		},
-		"__type_9": {
-			"description": "1/n的概率返回true",
-			"properties": {
-				"one_in_chance": {
-					"$ref": "#/definitions/NumObj_1",
-					"description": "1/n的概率返回true"
-				}
-			},
-			"required": [
-				"one_in_chance"
-			],
-			"type": "object"
-		},
-		"__type_90": {
+		"__type_89": {
 			"description": "音效",
 			"properties": {
 				"files": {
@@ -94481,7 +94483,20 @@
 			],
 			"type": "object"
 		},
-		"__type_91": {
+		"__type_9": {
+			"description": "1/n的概率返回true",
+			"properties": {
+				"one_in_chance": {
+					"$ref": "#/definitions/NumObj_1",
+					"description": "1/n的概率返回true"
+				}
+			},
+			"required": [
+				"one_in_chance"
+			],
+			"type": "object"
+		},
+		"__type_90": {
 			"description": "法术",
 			"properties": {
 				"accuracy_increment": {
@@ -94911,7 +94926,7 @@
 			],
 			"type": "object"
 		},
-		"__type_92": {
+		"__type_91": {
 			"description": "变异",
 			"properties": {
 				"activated_eocs": {
@@ -95791,7 +95806,7 @@
 			],
 			"type": "object"
 		},
-		"__type_93": {
+		"__type_92": {
 			"description": "Npc职业",
 			"properties": {
 				"bonus_dex": {
@@ -95954,7 +95969,7 @@
 			],
 			"type": "object"
 		},
-		"__type_94": {
+		"__type_93": {
 			"description": "Npc实例",
 			"properties": {
 				"age": {
@@ -96060,7 +96075,7 @@
 			],
 			"type": "object"
 		},
-		"__type_95": {
+		"__type_94": {
 			"description": "任务定义",
 			"properties": {
 				"description": {
@@ -96140,7 +96155,7 @@
 			],
 			"type": "object"
 		},
-		"__type_96": {
+		"__type_95": {
 			"description": "EOC",
 			"properties": {
 				"condition": {
@@ -97315,7 +97330,7 @@
 			],
 			"type": "object"
 		},
-		"__type_97": {
+		"__type_96": {
 			"description": "伤害类型",
 			"properties": {
 				"derived_from": {
@@ -97419,7 +97434,7 @@
 			],
 			"type": "object"
 		},
-		"__type_98": {
+		"__type_97": {
 			"description": "伤害信息顺序",
 			"properties": {
 				"ablative_info": {
@@ -97470,7 +97485,7 @@
 			],
 			"type": "object"
 		},
-		"__type_99": {
+		"__type_98": {
 			"description": "弹药效果",
 			"properties": {
 				"aoe": {
@@ -97513,6 +97528,34 @@
 			},
 			"required": [
 				"id",
+				"type"
+			],
+			"type": "object"
+		},
+		"__type_99": {
+			"description": "弹药类型",
+			"properties": {
+				"default": {
+					"$ref": "#/definitions/AnyItemID",
+					"description": "弹药的默认物品ID"
+				},
+				"id": {
+					"$ref": "#/definitions/AmmunitionTypeID",
+					"description": "唯一ID"
+				},
+				"name": {
+					"$ref": "#/definitions/DescText",
+					"description": "弹药名称"
+				},
+				"type": {
+					"const": "ammunition_type",
+					"type": "string"
+				}
+			},
+			"required": [
+				"default",
+				"id",
+				"name",
 				"type"
 			],
 			"type": "object"

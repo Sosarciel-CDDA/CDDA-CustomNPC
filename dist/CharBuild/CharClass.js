@@ -9,12 +9,13 @@ const StaticData_1 = require("../StaticData");
  */
 async function createCharClass(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    const displayName = charName.replaceAll("_", " ");
     /**NPC职业 */
     const charClass = {
         type: "npc_class",
         id: defineData.classID,
-        name: charName,
-        job_description: `${charName}专用的职业`,
+        name: displayName,
+        job_description: `${displayName}专用的职业`,
         common: false,
         worn_override: StaticData_1.EMPTY_GROUP_ID,
         weapon_override: StaticData_1.EMPTY_GROUP_ID,
@@ -43,7 +44,7 @@ async function createCharClass(dm, charName) {
     const charInstance = {
         type: "npc",
         id: defineData.instanceID,
-        name_unique: charName,
+        name_unique: displayName,
         class: defineData.classID,
         faction: "your_followers",
         chat: "TALK_DONE",
@@ -63,11 +64,11 @@ async function createCharClass(dm, charName) {
     const charSpawner = {
         type: "GENERIC",
         id: (0, ModDefine_1.genGenericID)(spawnerId),
-        name: { str_sp: `${charName} 生成器` },
-        description: `生成一个${charName}`,
+        name: { str_sp: `${displayName} 生成器` },
+        description: `生成一个 ${displayName}`,
         use_action: {
             type: "effect_on_conditions",
-            description: `生成一个${charName}`,
+            description: `生成一个 ${displayName}`,
             effect_on_conditions: [(0, ModDefine_1.genEOCID)(spawnerId)],
         },
         weight: 1,
@@ -117,11 +118,11 @@ async function createCharClass(dm, charName) {
     const charCard = {
         type: "GENERIC",
         id: defineData.cardID,
-        name: { str_sp: `${charName} 卡片` },
-        description: `召唤 ${charName}`,
+        name: { str_sp: `${displayName} 卡片` },
+        description: `召唤 ${displayName}`,
         use_action: {
             type: "effect_on_conditions",
-            description: `召唤 ${charName}`,
+            description: `召唤 ${displayName}`,
             effect_on_conditions: [charCardEoc.id],
         },
         flags: ["UNBREAKABLE"],

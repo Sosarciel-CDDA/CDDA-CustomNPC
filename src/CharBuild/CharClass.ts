@@ -13,12 +13,13 @@ import { EMPTY_GROUP_ID } from "StaticData";
  */
 export async function createCharClass(dm:DataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    const displayName = charName.replaceAll("_"," ");
     /**NPC职业 */
     const charClass:NpcClass={
         type:"npc_class",
         id:defineData.classID,
-        name:charName,
-        job_description:`${charName}专用的职业`,
+        name:displayName,
+        job_description:`${displayName}专用的职业`,
         common: false,
         worn_override:EMPTY_GROUP_ID,
         weapon_override:EMPTY_GROUP_ID,
@@ -45,7 +46,7 @@ export async function createCharClass(dm:DataManager,charName:string){
     const charInstance:NpcInstance={
         type:"npc",
         id:defineData.instanceID,
-        name_unique:charName,
+        name_unique:displayName,
         class:defineData.classID,
         faction:"your_followers",
         chat: "TALK_DONE",
@@ -66,11 +67,11 @@ export async function createCharClass(dm:DataManager,charName:string){
     const charSpawner:Generic={
         type:"GENERIC",
         id:genGenericID(spawnerId),
-        name:{str_sp:`${charName} 生成器`},
-        description:`生成一个${charName}`,
+        name:{str_sp:`${displayName} 生成器`},
+        description:`生成一个 ${displayName}`,
         use_action:{
             type:"effect_on_conditions",
-            description:`生成一个${charName}`,
+            description:`生成一个 ${displayName}`,
             effect_on_conditions:[genEOCID(spawnerId)],
         },
         weight:1,
@@ -121,11 +122,11 @@ export async function createCharClass(dm:DataManager,charName:string){
     const charCard:Generic={
         type:"GENERIC",
         id:defineData.cardID,
-        name:{str_sp:`${charName} 卡片`},
-        description:`召唤 ${charName}`,
+        name:{str_sp:`${displayName} 卡片`},
+        description:`召唤 ${displayName}`,
         use_action:{
             type:"effect_on_conditions",
-            description:`召唤 ${charName}`,
+            description:`召唤 ${displayName}`,
             effect_on_conditions:[charCardEoc.id],
         },
         flags:["UNBREAKABLE"],

@@ -27,7 +27,7 @@
 				"amount": 20,
 				"armor_penetration": 50
 			}],
-			"name": "Akaset的 激光炮",
+			"name": {"str_sp": "Akaset的 激光炮"},
 			"description": "Akaset的 激光炮",
 			"energy_drain": 0,
 			"flags":["NO_UNLOAD","SHOTINT_100"],
@@ -53,7 +53,7 @@
 				}]
 			},
 			"description": "Akaset的 冰冻手套",
-			"name": "Akaset的 冰冻手套",
+			"name": {"str_sp": "Akaset的 冰冻手套"},
 			"to_hit":{
 				"surface": "every",
 				"balance": "good",
