@@ -5,8 +5,12 @@
             "url": "./schema/CharConfig.schema.json"
         },
         {
-            "fileMatch": ["data/chars/*/image/info.json"],
+            "fileMatch": ["data/chars/*/image/*.json"],
             "url": "./schema/ImageInfo.schema.json"
+        },
+        {
+            "fileMatch": ["data/chars/*/anime/info.json"],
+            "url": "./schema/AnimeInfo.schema.json"
         },
         {
             "fileMatch": [

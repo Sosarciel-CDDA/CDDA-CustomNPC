@@ -5,9 +5,11 @@ const DataManager_1 = require("./DataManager");
 const utils_1 = require("@zwa73/utils");
 const CharBuild_1 = require("./CharBuild");
 const CommonBuild_1 = require("./CommonBuild");
+const MergeImage_1 = require("./CharBuild/MergeImage");
 async function buildChar(dm, charName) {
     utils_1.UtilFT.ensurePathExists(dm.getOutCharPath(charName), true);
-    await (0, CharBuild_1.mergeImage)(dm, charName, false);
+    await (0, MergeImage_1.mergeImage)(dm, charName);
+    await (0, CharBuild_1.mergeAnime)(dm, charName, false);
     await (0, CharBuild_1.createAnimTool)(dm, charName);
     await (0, CharBuild_1.createCharClass)(dm, charName);
     await (0, CharBuild_1.createCharEquip)(dm, charName);

@@ -6,4 +6,4 @@ export * from './CharConfig';
 export * from './CharEquip';
 export * from './CharSkill';
 export * from './CharTalkTopic';
-export * from './MergeImage';
+export * from './MergeAnime';

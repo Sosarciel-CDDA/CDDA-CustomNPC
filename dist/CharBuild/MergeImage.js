@@ -4,119 +4,132 @@ exports.mergeImage = void 0;
 const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
-/**合并并创建序列帧 */
+//根据 PkgSpriteCfg 获得图片列表
+function getImageFiles(cfg) {
+    let subget = (imageCfg) => {
+        if (imageCfg === undefined)
+            return [];
+        let imageNames = [];
+        if (typeof imageCfg === 'string')
+            imageNames.push(imageCfg);
+        else if (Array.isArray(imageCfg)) {
+            for (let item of imageCfg) {
+                if (typeof item === 'string')
+                    imageNames.push(item);
+                else if ('sprite' in item) {
+                    if (typeof item.sprite === 'string')
+                        imageNames.push(item.sprite);
+                    else
+                        imageNames.push(...item.sprite);
+                }
+            }
+        }
+        else if ('sprite' in imageCfg) {
+            if (typeof imageCfg.sprite === 'string')
+                imageNames.push(imageCfg.sprite);
+            else
+                imageNames.push(...imageCfg.sprite);
+        }
+        return imageNames;
+    };
+    return [...subget(cfg.fg), ...subget(cfg.bg)];
+}
+//根据 PkgSpriteCfg 获得图集名
+function getTilesetUID(cfg) {
+    let W = cfg.sprite_width;
+    let H = cfg.sprite_height;
+    let result = `W${W}H${H}`;
+    // 定义一个子函数来处理可选属性
+    let concatSub = (shortName, value) => {
+        if (value !== undefined)
+            result += `${shortName}${value}`;
+    };
+    // 使用子函数来处理每个可选属性
+    concatSub('ox', cfg.sprite_offset_x);
+    concatSub('oy', cfg.sprite_offset_y);
+    concatSub('ps', cfg.pixelscale);
+    concatSub('sa', cfg.sprites_across);
+    return result;
+}
+/**合并图像 */
 async function mergeImage(dm, charName, forcePackage = true) {
     const { defineData, outData } = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName), "image");
-    const info = await utils_1.UtilFT.loadJSONFile(path.join(imagePath, 'info'));
-    //缓存目录
-    const tmpPath = path.join(imagePath, 'tmp');
-    //检测是否需要强制生成
-    const needPackage = forcePackage || !(await utils_1.UtilFT.pathExists(tmpPath));
-    //检查是否有Idle动作
-    if (info.Idle == null && Object.values(info).length >= 1)
-        throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
-    //提供给打包脚本的info
-    const tmpInfo = [{
-            "width": 32,
-            "height": 32,
-            "pixelscale": 1 //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
-        }];
-    //显示层级
-    const ordering = {
-        type: "overlay_order",
-        overlay_ordering: []
-    };
-    //处理动作
-    //删除缓存
-    if (forcePackage)
-        await fs.promises.rm(tmpPath, { recursive: true, force: true });
-    const rawPath = path.join(tmpPath, 'raw');
-    const mergePath = path.join(tmpPath, 'merge');
-    for (const mtnName in info) {
-        const animType = mtnName;
-        const mtnInfo = info[animType];
-        //添加有效动画
-        defineData.validAnim.push(animType);
-        const animData = defineData.animData[animType];
-        if (mtnInfo == undefined)
-            continue;
-        const mtnPath = path.join(imagePath, mtnName);
-        const animName = animData.animName;
-        //创建缓存文件夹
-        const tmpMthPath = path.join(rawPath, `pngs_${animName}_${mtnInfo.sprite_width}x${mtnInfo.sprite_height}`);
-        await utils_1.UtilFT.ensurePathExists(tmpMthPath, true);
-        //复制数据到缓存
-        if (needPackage)
-            await fs.promises.cp(mtnPath, tmpMthPath, { recursive: true });
-        const { interval, last_weight, format_regex, ...rest } = mtnInfo;
-        //检查图片 创建动画数据
-        const animages = (await fs.promises.readdir(tmpMthPath))
-            .filter(fileName => path.parse(fileName).ext == '.png')
-            .sort((a, b) => {
-            const regStr = format_regex || (mtnName + "(.*)\\.png");
-            const amatch = a.match(new RegExp(regStr));
-            const bmatch = b.match(new RegExp(regStr));
-            if (amatch == null || bmatch == null)
-                throw `文件名错误 path:${tmpMthPath} a:${a} b:${b}`;
-            return parseInt(amatch[1]) - parseInt(bmatch[1]);
-        })
-            .map(fileName => ({ weight: (interval ?? 10), sprite: path.parse(fileName).name }));
-        //设置最后一帧循环
-        if (animages.length > 0 && last_weight != null && last_weight > 0)
-            animages[animages.length - 1].weight = last_weight;
-        //写入动画数据
-        await utils_1.UtilFT.writeJSONFile(path.join(tmpMthPath, animName), {
-            //id:`overlay_worn_${animData.armorID}`,
-            id: `overlay_mutation_${animData.mutID}`,
-            fg: animages,
-            animated: true,
-        });
-        //添加主info
-        tmpInfo.push({
-            [animName + '.png']: {
-                ...rest
-            }
-        });
-        //添加显示层级
-        ordering.overlay_ordering.push({
-            id: [animData.mutID],
-            order: 9999
-        });
+    if (!(await utils_1.UtilFT.pathExists(imagePath)))
+        return;
+    const tmpPath = path.join(imagePath, "tmp");
+    const rawPath = path.join(tmpPath, "raw");
+    const mergePath = path.join(tmpPath, "merge");
+    const tileSetMap = {};
+    //寻找图像配置
+    const cfgFilepaths = Object.values(utils_1.UtilFT.fileSearch(imagePath, /image\/[^/]+\.json/.source));
+    for (const cfgPath of cfgFilepaths) {
+        const cfgJson = (await utils_1.UtilFT.loadJSONFile(cfgPath));
+        const tilesetcfg = cfgJson.tileset;
+        console.log("startlog");
+        console.log(cfgPath);
+        console.log(cfgJson);
+        const pngs = getImageFiles(cfgJson.sprite);
+        //移动到缓存
+        const wxh = tilesetcfg.sprite_width + "x" + tilesetcfg.sprite_height;
+        const uid = getTilesetUID(tilesetcfg);
+        const tmpFolderPath = path.join(rawPath, `pngs_${uid}_${wxh}`);
+        await utils_1.UtilFT.ensurePathExists(tmpFolderPath, true);
+        //复制png
+        for (let pngName of pngs) {
+            pngName = pngName + ".png";
+            const pngPath = path.join(imagePath, pngName);
+            const outPngPath = path.join(tmpFolderPath, pngName);
+            await fs.promises.copyFile(pngPath, outPngPath);
+        }
+        //复制配置
+        const cfgName = path.parse(cfgPath);
+        await utils_1.UtilFT.writeJSONFile(path.join(tmpFolderPath, cfgName.name), cfgJson.sprite);
+        //注册入tileset表
+        tileSetMap[uid] = tilesetcfg;
     }
-    //创建info
-    await utils_1.UtilFT.writeJSONFile(path.join(rawPath, 'tile_info.json'), tmpInfo);
+    //创建tileset配置
+    const rawinfo = [{
+            width: 32,
+            height: 32,
+            pixelscale: 1
+        },
+        ...Object.keys(tileSetMap).map((uid) => {
+            return {
+                [`${uid}.png`]: tileSetMap[uid]
+            };
+        })
+    ];
+    await utils_1.UtilFT.writeJSONFile(path.join(rawPath, 'tile_info.json'), rawinfo);
     const str = `NAME: ${charName}\n` +
         `VIEW: ${charName}\n` +
         `JSON: tile_config.json\n` +
         `TILESET: tiles.png`;
     await fs.promises.writeFile(path.join(rawPath, 'tileset.txt'), str);
-    //打包
+    //开始打包
     await utils_1.UtilFT.ensurePathExists(mergePath, true);
+    await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
+    //读取打包结果
     const packageInfoPath = path.join(mergePath, 'tile_config.json');
-    //如果不存在目标info文件或强制打包则进行打包
-    if (needPackage)
-        await utils_1.UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
-    //写入 mod贴图设置 到角色文件夹
-    const charAnimPath = path.join(dm.getOutCharPath(charName), 'anim');
-    await utils_1.UtilFT.ensurePathExists(charAnimPath, true);
+    const charImgPath = path.join(dm.getOutCharPath(charName), 'image');
+    await utils_1.UtilFT.ensurePathExists(charImgPath, true);
     const tilesetNew = (await utils_1.UtilFT.loadJSONFile(packageInfoPath))["tiles-new"]
         .filter(item => item.file != "fallback.png");
-    outData["mod_tileset"] = [{
-            type: "mod_tileset",
-            compatibility: [dm.gameData.gfx_name],
-            "tiles-new": tilesetNew.map(item => {
-                item.file = path.join('chars', charName, 'anim', item.file);
-                return item;
-            }),
-        }];
-    outData['overlay_ordering'] = [ordering];
+    const imgModTileset = {
+        type: "mod_tileset",
+        compatibility: [dm.gameData.gfx_name],
+        "tiles-new": tilesetNew.map(item => {
+            item.file = path.join('chars', charName, 'image', item.file);
+            return item;
+        }),
+    };
+    outData["image_tileset"] = [imgModTileset];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName => path.parse(fileName).ext == '.png');
     for (let pngName of pngs) {
         const pngPath = path.join(mergePath, pngName);
-        const outPngPath = path.join(charAnimPath, pngName);
+        const outPngPath = path.join(charImgPath, pngName);
         await fs.promises.copyFile(pngPath, outPngPath);
     }
 }

@@ -22,4 +22,4 @@ __exportStar(require("./CharConfig"), exports);
 __exportStar(require("./CharEquip"), exports);
 __exportStar(require("./CharSkill"), exports);
 __exportStar(require("./CharTalkTopic"), exports);
-__exportStar(require("./MergeImage"), exports);
+__exportStar(require("./MergeAnime"), exports);

@@ -47,7 +47,7 @@ async function createAnimTool(dm, charName) {
             subtype: "collection",
             items: [animData.armorID]
         };
-        outData[path.join("anim", animType)] = [animMut, animArmor, animArmorGroup];
+        outData[path.join("anime", animType)] = [animMut, animArmor, animArmorGroup];
     }
 }
 exports.createAnimTool = createAnimTool;

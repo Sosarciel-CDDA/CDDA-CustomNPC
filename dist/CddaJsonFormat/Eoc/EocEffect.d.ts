@@ -324,6 +324,7 @@ type ConsumeItem = TalkerVar<{
 }, "consume_item">;
 /**删除物品 */
 type RemoveItem = TalkerVar<{
+    /**删除物品 */
     remove_item_with: IDObj<AnyItemID>;
 }, "remove_item_with">;
 /**给玩家添加任务 */

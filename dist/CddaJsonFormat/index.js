@@ -36,3 +36,4 @@ __exportStar(require("./WeaponCategory"), exports);
 __exportStar(require("./TalkTopic"), exports);
 __exportStar(require("./Effect"), exports);
 __exportStar(require("./DameType"), exports);
+__exportStar(require("./Tileset"), exports);

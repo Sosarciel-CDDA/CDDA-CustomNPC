@@ -1,6 +1,7 @@
-import { Spell, FlagID, BoolObj, EocEffect, NumObj, WeaponCategoryID, EffectID, Time, ParamsEoc, DamageTypeID } from "../CddaJsonFormat";
+import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "../CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { AnyCnpcEvenetType } from "../Event";
+import { SpecEffect } from "./CharSkillSpecEffect";
 /**技能选择目标类型 列表 */
 declare const TargetTypeList: readonly ["auto", "random", "direct_hit", "filter_random", "control_cast"];
 /**技能选择目标类型
@@ -13,7 +14,7 @@ declare const TargetTypeList: readonly ["auto", "random", "direct_hit", "filter_
  *
  * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
  *
- * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
+ * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效 `${spell.id}_loc` 为玩家选择坐标
  *
  * 默认为auto
  * 若允许多个CastCondition 请指定具体type
@@ -99,7 +100,7 @@ export type CastCondition = {
      *
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
      *
-     * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效
+     * control_cast 为玩家控制施法 u 为玩家 n 为npc hook字段无效 `${spell.id}_loc` 为玩家选择坐标
      *
      * 默认为auto
      * 若允许多个CastCondition 请指定具体type
@@ -107,47 +108,12 @@ export type CastCondition = {
      */
     target?: TargetType;
 };
-/**特殊的字效果 */
-type SpecEffect = RunEoc | AddEffect | ExtDamage;
-/**添加效果 */
-type AddEffect = {
-    /**生成一个添加效果的子法术 */
-    type: "AddEffect";
-    /**效果ID */
-    effect_id: EffectID;
-    /**效果强度 */
-    intensity: NumObj;
-    /**持续时间 数字为秒 */
-    duration: Time | NumObj;
-    /**添加效果后的额外效果 */
-    effect?: EocEffect[];
-    /**是否叠加强度 默认覆盖 */
-    is_stack?: boolean;
-};
-/**以受害者为 u_ 运行EOC */
-type RunEoc = {
-    /**生成一个运行的子法术 */
-    type: "RunEoc";
-    /**运行的Eoc */
-    eoc: ParamsEoc;
-    /**自动生成eoc并运行 */
-    effect?: EocEffect[];
-    /**自动生成的eoc的运行条件 */
-    condition?: BoolObj;
-};
-/**额外造成某种类型的伤害 */
-type ExtDamage = {
-    /**额外伤害 */
-    type: "ExtDamage";
-    /**伤害量 */
-    amount: NumObj;
-    /**伤害类型id */
-    damage_type: DamageTypeID;
-};
 /**使某个技能停止使用的全局变量 */
 export declare function getGlobalDisableSpellVar(charName: string, spell: Spell): string;
 /**使某个技能停止使用的变量 */
 export declare function getDisableSpellVar(talker: "u" | "n", spell: Spell): string;
 /**处理角色技能 */
 export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;
+/**解析NumObj为math表达式 */
+export declare function parseNumObj(value: any): string;
 export {};

@@ -3,12 +3,13 @@ import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { OverlayOrdering } from "CddaJsonFormat";
+import { OverlayOrdering, PkgTilesetInfo, TilesetCfg } from "CddaJsonFormat";
+import { ModTileset } from "@src/CddaJsonFormat/ModTileset";
 
 
 
 /**动作图片信息 */
-type ImageInfo = Partial<Record<AnimType,{
+type AnimeInfo = Partial<Record<AnimType,{
     /**图片宽度 */
     sprite_width: number;
     /**图片高度 */
@@ -32,7 +33,9 @@ type ImageInfo = Partial<Record<AnimType,{
 export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boolean=true){
     const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName),"anime");
-    const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as ImageInfo;
+    if(!(await UtilFT.pathExists(imagePath))) return;
+
+    const info = await UtilFT.loadJSONFile(path.join(imagePath,'info')) as AnimeInfo;
 
     //缓存目录
     const tmpPath = path.join(imagePath,'tmp');
@@ -43,10 +46,10 @@ export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boo
     if(info.Idle==null && Object.values(info).length>=1) throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
 
     //提供给打包脚本的info
-    const tmpInfo:any[] = [{
-        "width": 32,            // default sprite size
-        "height": 32,
-        "pixelscale": 1         //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
+    const tmpRawInfo:PkgTilesetInfo = [{
+        width: 32,            // default sprite size
+        height: 32,
+        pixelscale: 1         //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
     }];
     //显示层级
     const ordering:OverlayOrdering={
@@ -104,7 +107,7 @@ export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boo
             animated: true,
         });
         //添加主info
-        tmpInfo.push({
+        tmpRawInfo.push({
             [animName+'.png']:{
                 ...rest
             }
@@ -116,7 +119,7 @@ export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boo
         })
     }
     //创建info
-    await UtilFT.writeJSONFile(path.join(rawPath,'tile_info.json'),tmpInfo);
+    await UtilFT.writeJSONFile(path.join(rawPath,'tile_info.json'),tmpRawInfo);
     const str = `NAME: ${charName}\n`     +
                 `VIEW: ${charName}\n`     +
                 `JSON: tile_config.json\n`+
@@ -130,19 +133,20 @@ export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boo
         await UtilFunc.exec(`py "tools/compose.py" "${rawPath}" "${mergePath}"`);
 
     //写入 mod贴图设置 到角色文件夹
-    const charAnimPath = path.join(dm.getOutCharPath(charName),'anim');
+    const charAnimPath = path.join(dm.getOutCharPath(charName),'anime');
     await UtilFT.ensurePathExists(charAnimPath,true);
-    const tilesetNew = ((await UtilFT.loadJSONFile(packageInfoPath))["tiles-new"] as any[])
+    const tilesetNew = ((await UtilFT.loadJSONFile(packageInfoPath))["tiles-new"] as TilesetCfg[])
         .filter(item => item.file!="fallback.png");
-    outData["mod_tileset"] = [{
+    const animModTileset:ModTileset = {
         type: "mod_tileset",
-        compatibility: [dm.gameData.gfx_name],
+        compatibility: [dm.gameData.gfx_name!],
         "tiles-new": tilesetNew.map(item=>{
-            item.file = path.join('chars',charName,'anim',item.file)
+            item.file = path.join('chars',charName,'anime',item.file)
             return item;
         }),
-    }];
-    outData['overlay_ordering'] = [ordering];
+    }
+    outData["anime_tileset"] = [animModTileset];
+    outData['anime_overlay_ordering'] = [ordering];
     //复制所有图片 到主目录
     const pngs = (await fs.promises.readdir(mergePath))
         .filter(fileName=> path.parse(fileName).ext=='.png');

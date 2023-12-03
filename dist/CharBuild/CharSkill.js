@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
+exports.parseNumObj = exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
 const ModDefine_1 = require("../ModDefine");
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const StaticData_1 = require("../StaticData");
 const Event_1 = require("../Event");
+const CharSkillSpecEffect_1 = require("./CharSkillSpecEffect");
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
     "auto",
@@ -13,122 +14,6 @@ const TargetTypeList = [
     "filter_random",
     "control_cast", //玩家控制施法
 ];
-/**特殊效果的处理表 */
-const SpecProcMap = {
-    AddEffect: processAddEffect,
-    RunEoc: processRunEoc,
-    ExtDamage: processExtDamage,
-};
-function processAddEffect(dm, charName, baseSkillData, spec, index) {
-    const { skill, TEffect, PreEffect, extraEffects } = baseSkillData;
-    const { spell, one_in_chance } = skill;
-    spec = spec;
-    const mainid = `${spell.id}_${index}_AddEffect`;
-    const intVar = `${mainid}_intensity`;
-    PreEffect.push({ math: [intVar, "=", parseNumObj(spec.intensity)] });
-    let fixdur = spec.duration;
-    if (typeof fixdur != "string" && typeof fixdur != "number") {
-        const durVar = `${mainid}_duration`;
-        PreEffect.push({ math: [durVar, "=", parseNumObj(fixdur)] });
-        fixdur = { math: [durVar] };
-    }
-    const addEoc = {
-        type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(mainid),
-        eoc_type: "ACTIVATION",
-        effect: [
-            spec.is_stack == true
-                ? { u_add_effect: spec.effect_id, duration: fixdur, intensity: { math: [`max(u_effect_intensity('${spec.effect_id}'),0) + ${intVar}`] } }
-                : { u_add_effect: spec.effect_id, duration: fixdur, intensity: { math: [intVar] } },
-            ...spec.effect ?? []
-        ]
-    };
-    dm.addSharedRes(addEoc.id, addEoc, "common_resource", "common_spell_assist");
-    const flags = [...StaticData_1.CON_SPELL_FLAG];
-    if (spell.flags?.includes("IGNORE_WALLS"))
-        flags.push("IGNORE_WALLS");
-    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
-    extraEffects.push({
-        type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
-        effect: "effect_on_condition",
-        effect_str: addEoc.id,
-        name: `${spell.name}_${index}_AddEffect`,
-        description: spell.name + "的添加效果子法术",
-        min_aoe, max_aoe, aoe_increment,
-        min_range, max_range, range_increment,
-        max_level, shape, valid_targets,
-        targeted_monster_ids, targeted_monster_species, flags
-    });
-}
-;
-function processRunEoc(dm, charName, baseSkillData, spec, index) {
-    const { skill, TEffect, PreEffect, extraEffects } = baseSkillData;
-    const { spell, one_in_chance } = skill;
-    spec = spec;
-    const mainid = `${spell.id}_${index}_RunEoc`;
-    const runEoc = {
-        type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(mainid),
-        eoc_type: "ACTIVATION",
-        effect: []
-    };
-    if (spec.eoc != undefined)
-        runEoc.effect?.push({ run_eocs: spec.eoc });
-    if (spec.effect != undefined) {
-        let inline = {
-            id: (0, ModDefine_1.genEOCID)(`${mainid}_inline`),
-            eoc_type: "ACTIVATION",
-            effect: spec.effect,
-        };
-        if (spec.condition != undefined)
-            inline.condition = spec.condition;
-        runEoc.effect?.push({ run_eocs: inline });
-    }
-    dm.addSharedRes(runEoc.id, runEoc, "common_resource", "common_spell_assist");
-    const flags = [...StaticData_1.CON_SPELL_FLAG];
-    if (spell.flags?.includes("IGNORE_WALLS"))
-        flags.push("IGNORE_WALLS");
-    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
-    extraEffects.push({
-        type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
-        effect: "effect_on_condition",
-        effect_str: runEoc.id,
-        name: `${spell.name}_${index}_RunEoc`,
-        description: spell.name + "运行Eoc子法术",
-        min_aoe, max_aoe, aoe_increment,
-        min_range, max_range, range_increment,
-        max_level, shape, valid_targets,
-        targeted_monster_ids, targeted_monster_species, flags
-    });
-}
-;
-function processExtDamage(dm, charName, baseSkillData, spec, index) {
-    const { skill, TEffect, PreEffect, extraEffects } = baseSkillData;
-    const { spell, one_in_chance } = skill;
-    spec = spec;
-    const mainid = `${spell.id}_${index}_ExtDamage`;
-    const flags = [...StaticData_1.CON_SPELL_FLAG];
-    if (spell.flags?.includes("IGNORE_WALLS"))
-        flags.push("IGNORE_WALLS");
-    const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
-    extraEffects.push({
-        type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
-        effect: "attack",
-        name: `${spell.name}_${index}_ExtDamage`,
-        description: spell.name + "额外伤害子法术",
-        min_damage: { math: [parseNumObj(spec.amount)] },
-        max_damage: StaticData_1.SPELL_MAX_DAMAGE,
-        damage_type: spec.damage_type,
-        min_aoe, max_aoe, aoe_increment,
-        min_range, max_range, range_increment,
-        max_level, shape, valid_targets,
-        targeted_monster_ids, targeted_monster_species, flags
-    });
-}
-;
 //全局冷却字段名
 const gcdValName = `u_coCooldown`;
 /**使某个技能停止使用的全局变量 */
@@ -250,7 +135,7 @@ async function createCharSkill(dm, charName) {
         };
         let specindex = 0;
         for (const spec of spec_effect ?? [])
-            SpecProcMap[spec.type](dm, charName, specDat, spec, specindex++);
+            CharSkillSpecEffect_1.SpecProcMap[spec.type](dm, charName, specDat, spec, specindex++);
         //加入子效果
         if (extraEffects.length > 0) {
             spell.extra_effects = spell.extra_effects ?? [];
@@ -344,6 +229,7 @@ function parseNumObj(value) {
     }
     return strExp;
 }
+exports.parseNumObj = parseNumObj;
 /**解析法术伤害字符串 */
 function parseSpellNumObj(spell, field) {
     return parseNumObj(spell[field]);
@@ -544,7 +430,7 @@ async function control_castProc(dm, charName, baseSkillData) {
             ? [require_field, 1] : require_field;
         hideCond.push({ math: [`u_${fdarr[0]}`, ">=", fdarr[1] + ""] });
     }
-    const playerSelectLoc = { global_val: "tmpControlLoc" };
+    const playerSelectLoc = { global_val: `${spell.id}_loc` };
     const coneocid = genCastEocID(charName, spell, ccuid);
     //创建选择施法eoc
     const controlEoc = {

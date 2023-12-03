@@ -9,7 +9,7 @@ import { CnpcEventType } from "Event";
 
 
 function hasAnim(outData:Record<string,JArray>,animType:AnimType){
-    return outData[path.join("anim",animType)]
+    return outData[path.join("anime",animType)]
 }
 
 /**移除其他动作变异 */
@@ -38,7 +38,7 @@ export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:A
         id:genEOCID(charName+"_ChangeAnimEoc_"+animType),
         effect:[
             {"run_eocs":removeEoc.id},
-            { "u_add_trait": baseData.animData[animType].mutID },
+            {"u_add_trait": baseData.animData[animType].mutID },
         ],
         condition:{not:{"u_has_trait": baseData.animData[animType].mutID}}
     }
@@ -66,5 +66,5 @@ export async function createAnimStatus(dm:DataManager,charName:string){
                 dm.addCharEvent(charName,eventName,0,eocs[0]);
         }
     }
-    outData['anim_status'] = eocList;
+    outData['anime_status'] = eocList;
 }

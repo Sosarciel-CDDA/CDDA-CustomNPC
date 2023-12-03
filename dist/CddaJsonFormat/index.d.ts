@@ -20,3 +20,4 @@ export * from './WeaponCategory';
 export * from './TalkTopic';
 export * from './Effect';
 export * from './DameType';
+export * from './Tileset';

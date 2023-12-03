@@ -18,6 +18,7 @@ import { MissionDefinition } from "./MissionDefinition";
 import { Mutation } from "./Mutation";
 import { DamageInfoOrder, DamageType, DamageTypeID } from "./DameType";
 import { AmmoEffect } from "./AmmoEffect";
+import { ModTileset } from "./ModTileset";
 
 /**描述性文本 */
 export type DescText = string;
@@ -319,6 +320,7 @@ export type RatType = typeof RatTypeList[number];
 export type AnyCddaJson =AnyItem|Eoc|Mutation|DamageType|DamageInfoOrder|
     AmmunitionType|Enchantment|Flag|ItemGroup|Monster|
     NpcClass|NpcInstance|OverlayOrdering|SoundEffect|
-    Effect|Spell|MathFunction|AmmoEffect|MissionDefinition;
+    Effect|Spell|MathFunction|AmmoEffect|MissionDefinition|
+    ModTileset;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];

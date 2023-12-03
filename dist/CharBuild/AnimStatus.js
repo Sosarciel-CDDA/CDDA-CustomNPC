@@ -4,7 +4,7 @@ exports.createAnimStatus = exports.changeAnimEoc = exports.removeOtherAnimEoc = 
 const path = require("path");
 const ModDefine_1 = require("../ModDefine");
 function hasAnim(outData, animType) {
-    return outData[path.join("anim", animType)];
+    return outData[path.join("anime", animType)];
 }
 /**移除其他动作变异 */
 function removeOtherAnimEoc(charName, baseData, animType) {
@@ -63,6 +63,6 @@ async function createAnimStatus(dm, charName) {
                 dm.addCharEvent(charName, eventName, 0, eocs[0]);
         }
     }
-    outData['anim_status'] = eocList;
+    outData['anime_status'] = eocList;
 }
 exports.createAnimStatus = createAnimStatus;

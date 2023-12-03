@@ -5,11 +5,13 @@ import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, cre
 import { commonBuild } from "./CommonBuild";
 import { createDivinationSpell } from "./CommonBuild/DivinationSpell";
 import { createDrawCardSpell } from "./CommonBuild/DrawCardSpell";
+import { mergeImage } from "./CharBuild/MergeImage";
 
 
 
 export async function buildChar(dm:DataManager,charName:string){
     UtilFT.ensurePathExists(dm.getOutCharPath(charName),true);
+    await mergeImage(dm,charName);
     await mergeAnime(dm,charName,false);
     await createAnimTool(dm,charName);
     await createCharClass(dm,charName);
