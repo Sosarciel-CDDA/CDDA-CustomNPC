@@ -64,7 +64,7 @@
 				"shape": "cone",
 				"min_aoe": 45,
 				"min_range": 15,
-				"effect_str": "stunmed",
+				"effect_str": "stunned",
 				"min_duration": 200,
 				"valid_targets": ["ground","hostile"]
 			},
