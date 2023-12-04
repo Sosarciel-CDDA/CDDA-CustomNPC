@@ -83,9 +83,9 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     for(const cfgPath of cfgFilepaths){
         const cfgJson:ImageInfo = (await UtilFT.loadJSONFile(cfgPath)) as ImageInfo;
         const tilesetcfg = cfgJson.tileset;
-        console.log("startlog")
-        console.log(cfgPath)
-        console.log(cfgJson)
+        //console.log("startlog")
+        //console.log(cfgPath)
+        //console.log(cfgJson)
         const pngs = getImageFiles(cfgJson.sprite);
         //移动到缓存
         const wxh = tilesetcfg.sprite_width+"x"+tilesetcfg.sprite_height;

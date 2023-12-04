@@ -9,17 +9,93 @@
 	"base_skill": {
 		"ALL": 2,
 		"rifle": 4,
-		"gun": 4,
-		"melee": 4,
-		"bashing": 4
+		"pistol": 4,
+		"gun": 4
 	},
 	"base_mutation": [
 		"CNPC_MUT_小鸟游_星野"
 	],
     "weapon":[],
-	"skill": [],
+	"skill": [
+		{
+			"name": "战术镇压 充能",
+			"cast_condition":[{
+				"hook": "BattleUpdate"
+			},{
+				"hook": "TryHit",
+				"target": "control_cast"
+			}],
+			"audio": ["Asuna:PreciseSnipeSF"],
+			"spell": {
+				"type": "SPELL",
+				"id": "战术镇压_充能",
+				"name": "战术镇压 充能",
+				"description": "准备释放 5 次 战术镇压 攻击",
+				"effect": "attack",
+				"effect_str": "战术镇压充能",
+				"valid_targets": ["self"],
+				"shape": "blast"
+			},
+			"spec_effect": [{
+				"type": "AddEffect",
+				"effect_id":"战术镇压充能",
+				"intensity": 5,
+				"duration": 64
+			}],
+			"cooldown": 64
+		},
+		{
+			"name": "战术镇压 攻击",
+			"cast_condition":[{
+				"hook": "TryRangeHit",
+				"condition":{"math": ["u_effect_intensity('战术镇压充能')",">=","1"]}
+			}],
+			"audio": ["BaseAudio:BashHit"],
+			"spell": {
+				"id":"战术镇压_攻击",
+				"type": "SPELL",
+				"name": "战术镇压 攻击",
+				"description": "对锥形范围的敌人造成 0.32*感知系数 的 子弹伤害, 眩晕 2 秒 并击退 1 格",
+				"base_casting_time":20,
+				"damage_type": "bullet",
+				"effect": "attack",
+				"min_damage": {"math": ["PerDamage(u_damage)*0.32"]},
+				"max_damage": 999999,
+				"shape": "cone",
+				"min_aoe": 45,
+				"min_range": 15,
+				"effect_str": "stunmed",
+				"min_duration": 200,
+				"valid_targets": ["ground","hostile"]
+			},
+			"extra_effect": [{
+				"type": "SPELL",
+				"id": "战术镇压_攻击_击退",
+				"name": "战术镇压 攻击 击退",
+				"description": "战术镇压 攻击 的击退效果",
+				"effect": "area_push",
+				"min_damage": 1,
+				"max_damage": 1,
+				"shape": "cone",
+				"min_aoe": 45,
+				"min_range": 15,
+				"valid_targets": ["hostile"]
+			}],
+			"after_effect": [{
+				"if":{"math":["u_effect_intensity('战术镇压充能')","<=","1"]},
+				"then":[{"u_lose_effect":"战术镇压充能"}],
+				"else":[{
+					"u_add_effect":"战术镇压充能",
+					"intensity":{"math":["u_effect_intensity('战术镇压充能')-1"]},
+					"duration":10
+				}]
+			}],
+			"weight": 1,
+			"cooldown": 1
+		}
+	],
 	"desc": {
-		"age": 310,
+		"age": 10,
 		"gender": "female",
 		"height": 158
 	}

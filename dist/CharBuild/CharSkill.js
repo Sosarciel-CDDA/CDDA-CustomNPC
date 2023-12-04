@@ -317,6 +317,7 @@ async function filter_randomProc(dm, charName, baseSkillData) {
                 { math: [fhitvar, "!=", "1"] },
             ] }
     };
+    dm.addSharedRes(locEoc.id, locEoc, "common_resource", "common_spell");
     //创建筛选目标的辅助索敌法术
     const flags = [...StaticData_1.CON_SPELL_FLAG];
     if (spell.flags?.includes("IGNORE_WALLS"))

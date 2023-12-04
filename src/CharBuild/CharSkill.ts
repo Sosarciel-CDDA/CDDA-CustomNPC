@@ -477,6 +477,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
             {math:[fhitvar,"!=","1"]},
         ]}
     }
+    dm.addSharedRes(locEoc.id,locEoc,"common_resource","common_spell");
 
 
     //创建筛选目标的辅助索敌法术

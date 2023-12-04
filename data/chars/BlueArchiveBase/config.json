@@ -4,25 +4,35 @@
     "weapon": [{
         "item":{
             "id": "BAPistol",
-            "name": "BA 鲁格 LCR .38 左轮手枪",
-            "description": "BA 鲁格 LCR .38 左轮手枪",
-            "copy-from": "ruger_lcr_38",
-            "looks_like": "sw_619",
+            "name": "BA 格洛克勤务手枪",
+            "description": "BA 格洛克勤务手枪",
+            "copy-from": "glock_17",
+            "looks_like": "glock_17",
             "type": "GUN",
-            "flags": ["RELOAD_ONE","RELOAD_EJECT","NO_UNLOAD","SHOTINT_70"],
+            "flags": ["ALLOWS_BODY_BLOCK","NO_UNLOAD","SHOTINT_70"],
             "modes": [
                 ["DEFAULT"	,"semi-auto", 1]
             ],
-			"faults": []
+			"faults": [],
+            "pocket_data": [{
+                "pocket_type": "MAGAZINE_WELL",
+                "item_restriction": ["BAmag"]
+            }]
         }
     }],
     "carry": [
         {
-            "item":"38_special",
+			"item":{
+				"id":"BAmag",
+				"type": "MAGAZINE",
+				"copy-from":"glock17_17",
+				"name": {"str_sp": "BA 格洛克 9x19mm 17发弹匣"},
+				"description": "BA 格洛克 9x19mm 17发弹匣",
+				"flags": ["MAG_DESTROY","NO_UNLOAD"],
+				"count": 17
+			},
 			"recharge": 1,
-            "recharge_count": 5,
-            "start_count": 10,
-			"count": 20
-        }
+			"count": 10
+		}
     ]
 }
