@@ -12,7 +12,7 @@ export async function createTriggerFlag(dm:DataManager){
 /**射击间隔 */
 async function shotInterval(dm:DataManager){
     const baseId = "SHOTINT" as const;
-    const numVar = [30,70,100,1000] as const;
+    const numVar = [30,70,100,140,1000] as const;
     const outlist:JObject[] = [];
     for(let num of numVar){
         const flagid = `${baseId}_${num}` as FlagID;

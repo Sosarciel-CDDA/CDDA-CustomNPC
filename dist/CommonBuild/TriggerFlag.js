@@ -10,7 +10,7 @@ exports.createTriggerFlag = createTriggerFlag;
 /**射击间隔 */
 async function shotInterval(dm) {
     const baseId = "SHOTINT";
-    const numVar = [30, 70, 100, 1000];
+    const numVar = [30, 70, 100, 140, 1000];
     const outlist = [];
     for (let num of numVar) {
         const flagid = `${baseId}_${num}`;

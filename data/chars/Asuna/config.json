@@ -21,19 +21,20 @@
 				"id": "AsunaM9",
 				"name": {"str_sp": "Asuna的 伯莱塔 M9A1 手枪"},
 				"description": "Asuna的 伯莱塔 M9A1 手枪",
-				"ammo": ["9mm"],
+				"ammo": ["Asuna9mm"],
 				"pocket_data": [{
 					"pocket_type": "MAGAZINE_WELL",
 					"item_restriction": ["AsunaMag"]
 				}],
 				"flags": ["NO_UNLOAD","ALLOWS_BODY_BLOCK","SHOTINT_70"],
-				"min_cycle_recoil": 360,
+				"min_cycle_recoil": 0,
 				"valid_mod_locations": [],
 				"faults": [],
 				"modes": [
-					["DEFAULT"	,"semi-auto",1]
+					["DEFAULT"	,"auto", 10]
 				],
-				"range": 16
+				"range": 16,
+				"ammo_to_fire": 0
 			}
 		},
 		{
@@ -59,11 +60,18 @@
 				"id":"AsunaMag",
 				"type": "MAGAZINE",
 				"copy-from":"m9mag_18rd",
+				"pocket_data": [{
+					"pocket_type": "MAGAZINE",
+					"rigid": true,
+					"ammo_restriction": {
+						"Asuna9mm": 18
+					}
+				}],
+				"ammo_type": ["Asuna9mm"],
 				"name": {"str_sp": "Asuna的 M9 18发弹匣"},
 				"description": "Asuna的 M9 18发弹匣",
 				"flags": ["MAG_DESTROY","NO_UNLOAD"],
-				"count": 15,
-				"default_ammo": "9mmP2"
+				"count": 18
 			},
 			"recharge": 1,
 			"count": 10
@@ -72,7 +80,7 @@
 	"skill": [
 		{
 			"name": "蒸发未来",
-			"cast_condition":{"hook": "TryHit"},
+			"cast_condition":{"hook": "TryRangeHit"},
 			"audio":[
 				{"id":"EvaporateFuture","cooldown": 180},
 				"EvaporateFutureSF","BaseAudio:BashHit"

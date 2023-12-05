@@ -73,7 +73,7 @@
 				"id": "战术镇压_攻击_击退",
 				"name": "战术镇压 攻击 击退",
 				"description": "战术镇压 攻击 的击退效果",
-				"effect": "area_push",
+				"effect": "directed_push",
 				"min_damage": 1,
 				"max_damage": 1,
 				"shape": "cone",

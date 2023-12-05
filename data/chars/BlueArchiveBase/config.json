@@ -9,15 +9,16 @@
             "copy-from": "glock_17",
             "looks_like": "glock_17",
             "type": "GUN",
-            "flags": ["ALLOWS_BODY_BLOCK","NO_UNLOAD","SHOTINT_70"],
+            "flags": ["ALLOWS_BODY_BLOCK","NO_UNLOAD","SHOTINT_100"],
             "modes": [
-                ["DEFAULT"	,"semi-auto", 1]
+                ["DEFAULT"	,"auto", 10]
             ],
 			"faults": [],
             "pocket_data": [{
                 "pocket_type": "MAGAZINE_WELL",
                 "item_restriction": ["BAmag"]
-            }]
+            }],
+            "ammo_to_fire": 0
         }
     }],
     "carry": [

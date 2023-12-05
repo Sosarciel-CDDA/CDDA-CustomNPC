@@ -54,5 +54,20 @@
             "dodge_mod": [-10],
             "speed_mod": [-10]
         }
+    },
+    {
+        "type": "AMMO",
+        "copy-from":"9mmP2",
+        "id":"Asuna9mm",
+        "ammo_type": "Asuna9mm",
+        "recoil": 0,
+        "name": "Asuna9mm子弹",
+        "description": "Asuna9mm子弹"
+    },
+    {
+        "type": "ammunition_type",
+        "default": "Asuna9mm",
+        "id":"Asuna9mm",
+        "name": "Asuna9mm子弹"
     }
 ]
