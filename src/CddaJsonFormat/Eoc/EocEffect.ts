@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken } from "@zwa73/utils";
 import { FakeSpell } from "../Enchantment";
-import { AnyItemID } from "../Item";
+import { AnyItem, AnyItemID, ItemCategotyID } from "../Item";
 import { MutationID } from "../Mutation";
 import { NpcInstanceID } from "../NpcInstance";
 import { SoundEffectID, SoundEffectVariantID } from "../SoundEffect";
@@ -11,6 +11,7 @@ import { BodyPartID, BodyPartParam, DescText, Time } from "../GenericDefine";
 import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
 import { ItemGroupID } from "../ItemGroup";
 import { ActivityTypeID } from "../ActivityType";
+import { MaterialID } from "../Material";
 
 
 
@@ -32,6 +33,7 @@ export type EocEffectList = [
     RunInvEocs          ,//
     RunEocWith          ,//
     RunEocUntil         ,//
+    WeightedListEocs    ,//
     LoseTrait           ,//失去变异
     AddTrait            ,//获得变异
     ConsumeItem         ,//使用/扣除 count 个物品
@@ -426,7 +428,7 @@ type RunInvEocs = TalkerVar<{
      */
     search_data?: InvSearchData;
     /**如果使用了manual或manual_mult, 将显示的菜单的名称 */
-    title?: StrObj;
+    title?: (StrObj);
     /**如果物品被成功选中, 所有true_eocs都会运行, 否则所有false_eocs都会运行;  
      * 选中的物品作为npc返回;  
      * 例如, n_hp()返回物品的hp  
@@ -440,17 +442,21 @@ type InvSearchData = {
     /**特定物品的id */
     id?: IDObj<AnyItemID>;
     /**物品的类别 (区分大小写, 应始终使用小写) */
-    category?: (StrObj);
+    category?: (ItemCategotyID);
     /**物品具有的标志 */
-    flags?: string[];
+    flags?: Exclude<AnyItem["flags"],undefined>[number][];
     /**物品的材料 */
-    material?: (StrObj);
+    material?: (MaterialID);
     /**如果为true, 只返回穿着的物品 */
     worn_only?: boolean;
     /** 如果为true, 只返回手持的物品 */
     wielded_only?: boolean;
 }[];
-
+/**根据权重运行EOC */
+type WeightedListEocs = {
+    /**根据权重运行EOC */
+    weighted_list_eocs: ((InlineEoc|EocID)|[(InlineEoc|EocID),NumObj])[];
+}
 
 
 /**参数Eoc */
