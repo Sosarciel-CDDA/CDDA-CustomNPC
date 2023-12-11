@@ -110,7 +110,7 @@ type HasEffect = TalkerVar<{
      */
     has_effect:IDObj<EffectID>;
     /**要求的效果强度 */
-    intensity?: NumObj;
+    intensity?: (NumObj);
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
 },"has_effect">;
@@ -174,7 +174,7 @@ type IsInField = TalkerVar<{
 /**1/n的概率返回true */
 type OneInChance = {
     /**1/n的概率返回true */
-    one_in_chance: NumObj
+    one_in_chance: (NumObj)
 }
 
 /**某个mod是否加载 */
@@ -217,11 +217,11 @@ type QueryTile = TalkerVar<{
     /**包含所选瓷砖坐标的变量对象（强制性） */
     target_var: LocObj;
     /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
-    range?: NumObj;
+    range?: (NumObj);
     /**定义是否允许为anywhere选择其他z-level */
-    z_level?: NumObj;
+    z_level?: (NumObj);
     /**选择时显示的消息 */
-    message?: DescText;
+    message?: (DescText);
 },"query_tile">
 
 

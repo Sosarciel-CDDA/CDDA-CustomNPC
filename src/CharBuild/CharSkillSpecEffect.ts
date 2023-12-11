@@ -28,7 +28,7 @@ type AddEffect = {
     /**效果ID */
     effect_id:EffectID;
     /**效果强度 */
-    intensity: NumObj;
+    intensity: (NumObj);
     /**持续时间 数字为秒 */
     duration: Time|NumObj;
     /**添加效果后的额外效果 */
@@ -52,7 +52,7 @@ type ExtDamage = {
     /**额外伤害 */
     type: "ExtDamage";
     /**伤害量 */
-    amount: NumObj;
+    amount: (NumObj);
     /**伤害类型id */
     damage_type: DamageTypeID;
 }

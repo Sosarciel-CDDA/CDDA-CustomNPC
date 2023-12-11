@@ -220,7 +220,7 @@ type LocalVar = TalkerVar<{
 
 /**发送消息 */
 type Message = TalkerVar<{
-    message: DescText;
+    message: (DescText);
     /**默认中立；消息如何在日志中显示 (通常是指颜色) ；  
      * 可以是良好 (绿色) 、中性 (白色) 、不良 (红色) 、  
      * 混合 (紫色) 、警告 (黄色) 、信息 (蓝色) 、调试 (仅在调试模式打开时出现) 、  
@@ -302,7 +302,7 @@ type AddRandStrVar = TalkerVar<{
 
 /**设置生命 */
 type SetHP = TalkerVar<{
-    set_hp: NumObj;
+    set_hp: (NumObj);
     /**默认为 whole body 全身  
      * 如果使用, HP调整将仅应用于该身体部位  
      */
@@ -345,7 +345,7 @@ type SpawnItem = TalkerVar<{
 type ConsumeItem = TalkerVar<{
     consume_item: IDObj<AnyItemID>;
     /**数量 */
-    count?: NumObj;
+    count?: (NumObj);
     /**充能数量 */
     charges?:NumObj;
     /**为true时将显示消息给予npc物品 */

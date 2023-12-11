@@ -44,7 +44,7 @@ export type Tool = CopyfromVar<{
     /**充能消耗后转化为物品 */
     revert_to?: ToolID;
     /**revert_to 触发时产生的信息 */
-    revert_msg?: DescText;
+    revert_msg?: (DescText);
     /**该工具与其他工具具有相同的功能 */
     sub?: ToolID;
     /**变体 */

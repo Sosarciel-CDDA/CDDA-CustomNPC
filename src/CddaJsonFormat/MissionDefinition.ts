@@ -13,9 +13,9 @@ export type MissionDefinition = {
     id: MissionDefinitionID;
     type: "mission_definition";
     /**任务名 */
-    name: DescText;
+    name: (DescText);
     /**任务说明 */
-    description: DescText;
+    description: (DescText);
     /**任务目标 */
     goal: MissionGoal;
     /**任务难度 */
@@ -78,23 +78,23 @@ type MissionOrigin = typeof MissionOriginList[number];
 /**任务对话字典 */
 type MissionDialog = {
     /**NPC 对任务的总体描述 */
-    describe   : DescText;
+    describe   : (DescText);
     /**当玩家选择该任务时给出的任务细节 */
-    offer      : DescText;
+    offer      : (DescText);
     /**玩家接受任务后 NPC 的反应 */
-    accepted   : DescText;
+    accepted   : (DescText);
     /**玩家拒绝任务时NPC的反应 */
-    rejected   : DescText;
+    rejected   : (DescText);
     /**如果玩家询问如何完成任务的建议, 他们会听到以下内容 */
-    advice     : DescText;
+    advice     : (DescText);
     /**如果 NPC 询问玩家任务进展如何, 则使用此选项 */
-    inquire    : DescText;
+    inquire    : (DescText);
     /**NPC 对任务成功报告的回应 */
-    success    : DescText;
+    success    : (DescText);
     /**如果 NPC 发现玩家在任务成功的问题上撒谎, 他们会做出什么反应 */
-    success_lie: DescText;
+    success_lie: (DescText);
     /**如果玩家报告任务失败, NPC 的反应 */
-    failure    : DescText;
+    failure    : (DescText);
 };
 /**空的任务对话字典 */
 export const EmptyMissionDialog:MissionDialog = {

@@ -64,7 +64,7 @@ type UAPlaceNpc = {
     /**npc职业ID */
     npc_class_id: NpcClassID;
     /**生成时播报的消息 */
-    summon_msg?: DescText;
+    summon_msg?: (DescText);
     /**将 npc 随机放置在玩家周围, 如果 false: 让玩家决定将其放置在哪里 (默认值: false)  */
     place_randomly?: boolean;
     /**该动作需要多少移动点 */
@@ -77,7 +77,7 @@ type UARunEoc = {
     /**执行某个ECO */
     type: "effect_on_conditions";
     /**说明 */
-    description: DescText;
+    description: (DescText);
     /**eoc列表 */
     effect_on_conditions: EocID[];
 }

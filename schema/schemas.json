@@ -398,8 +398,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -503,19 +503,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -1272,8 +1272,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -1377,19 +1377,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -1881,8 +1881,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -1986,19 +1986,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -2618,8 +2618,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -2723,19 +2723,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -3175,8 +3175,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "revert_to 触发时产生的信息"
+									"description": "revert_to 触发时产生的信息",
+									"type": "string"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -3249,8 +3249,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -3354,19 +3354,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -3791,8 +3791,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -3896,19 +3896,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -4492,8 +4492,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -4597,19 +4597,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -5108,8 +5108,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -5213,19 +5213,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -5849,8 +5849,8 @@
 									"type": "number"
 								},
 								"reload_noise": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用",
+									"type": "string"
 								},
 								"reload_noise_volume": {
 									"description": "当你用这个改装件重装枪时，产生的噪音量",
@@ -5910,8 +5910,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -6015,19 +6015,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -6523,8 +6523,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -6628,19 +6628,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -7132,8 +7132,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -7237,19 +7237,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -7869,8 +7869,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -7974,19 +7974,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -8426,8 +8426,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "revert_to 触发时产生的信息"
+									"description": "revert_to 触发时产生的信息",
+									"type": "string"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -8500,8 +8500,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -8605,19 +8605,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -9042,8 +9042,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -9147,19 +9147,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -9743,8 +9743,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -9848,19 +9848,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -10359,8 +10359,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -10464,19 +10464,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -11100,8 +11100,8 @@
 									"type": "number"
 								},
 								"reload_noise": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用",
+									"type": "string"
 								},
 								"reload_noise_volume": {
 									"description": "当你用这个改装件重装枪时，产生的噪音量",
@@ -11161,8 +11161,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -11266,19 +11266,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -13059,8 +13059,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -13164,19 +13164,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -16688,8 +16688,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -16793,19 +16793,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -17305,8 +17305,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -17410,19 +17410,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -18050,8 +18050,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -18155,19 +18155,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -18615,8 +18615,8 @@
 											"type": "array"
 										},
 										"revert_msg": {
-											"$ref": "#/definitions/DescText_1",
-											"description": "revert_to 触发时产生的信息"
+											"description": "revert_to 触发时产生的信息",
+											"type": "string"
 										},
 										"revert_to": {
 											"$ref": "#/definitions/ToolID_1",
@@ -18689,8 +18689,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -18794,19 +18794,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -19239,8 +19239,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -19344,19 +19344,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -19948,8 +19948,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -20053,19 +20053,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -20572,8 +20572,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -20677,19 +20677,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -21321,8 +21321,8 @@
 											"type": "number"
 										},
 										"reload_noise": {
-											"$ref": "#/definitions/DescText_1",
-											"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+											"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用",
+											"type": "string"
 										},
 										"reload_noise_volume": {
 											"description": "当你用这个改装件重装枪时，产生的噪音量",
@@ -21382,8 +21382,8 @@
 											"type": "number"
 										},
 										"description": {
-											"$ref": "#/definitions/DescText",
-											"description": "描述"
+											"description": "描述",
+											"type": "string"
 										},
 										"explode_in_fire": {
 											"description": "掉进火里会爆炸",
@@ -21487,19 +21487,19 @@
 												{
 													"properties": {
 														"ctxt": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "翻译上下文"
 														},
 														"str": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单数名"
 														},
 														"str_pl": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "复数名"
 														},
 														"str_sp": {
-															"$ref": "#/definitions/DescText_1",
+															"$ref": "#/definitions/DescText",
 															"description": "单复数共用名"
 														}
 													},
@@ -23230,8 +23230,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -23335,19 +23335,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -25480,10 +25480,6 @@
 			"type": "string"
 		},
 		"DescText": {
-			"description": "描述性文本",
-			"type": "string"
-		},
-		"DescText_1": {
 			"description": "描述性文本",
 			"type": "string"
 		},
@@ -46526,8 +46522,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -46631,19 +46627,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -47017,8 +47013,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -47122,19 +47118,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -48276,8 +48272,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -48381,19 +48377,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -49371,8 +49367,8 @@
 									"type": "number"
 								},
 								"reload_noise": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+									"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用",
+									"type": "string"
 								},
 								"reload_noise_volume": {
 									"description": "当你用这个改装件重装枪时，产生的噪音量",
@@ -49432,8 +49428,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -49537,19 +49533,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -52611,8 +52607,8 @@
 					"description": "标识此肢体得分"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "必填。定义将在用户界面中显示的此肢体得分的可翻译名称"
+					"description": "必填。定义将在用户界面中显示的此肢体得分的可翻译名称",
+					"type": "string"
 				},
 				"type": {
 					"const": "limb_score",
@@ -52963,8 +52959,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -53068,19 +53064,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -53572,7 +53568,7 @@
 					"type": "number"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText"
+					"type": "string"
 				},
 				"reinforces": {
 					"description": "是否强化？",
@@ -55301,7 +55297,74 @@
 					"description": "充能数量"
 				},
 				"count": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "数量"
 				},
 				"popup": {
@@ -55318,7 +55381,74 @@
 					"description": "检查哪个肢体"
 				},
 				"intensity": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "要求的效果强度"
 				}
 			},
@@ -55497,11 +55627,78 @@
 		"Omit<{query_tile:\"anywhere\"|\"line_of_sight\"|\"around\";target_var:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;};range?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|Arithmetic|undefined;z_level?:number|{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|NumMathExp|Arithmetic|undefined;message?:string|undefined;},\"query_tile\">": {
 			"properties": {
 				"message": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "选择时显示的消息"
+					"description": "选择时显示的消息",
+					"type": "string"
 				},
 				"range": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要）"
 				},
 				"target_var": {
@@ -55509,7 +55706,74 @@
 					"description": "包含所选瓷砖坐标的变量对象（强制性）"
 				},
 				"z_level": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "定义是否允许为anywhere选择其他z-level"
 				}
 			},
@@ -58012,8 +58276,8 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
+									"type": "string"
 								},
 								"failure_topic": {
 									"$ref": "#/definitions/TalkTopicID_1",
@@ -58024,8 +58288,8 @@
 									"type": "boolean"
 								},
 								"text": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
+									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
+									"type": "string"
 								},
 								"truefalsetext": {
 									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -58035,12 +58299,12 @@
 											"description": "条件"
 										},
 										"false": {
-											"$ref": "#/definitions/DescText",
-											"description": "条件为假时的text"
+											"description": "条件为假时的text",
+											"type": "string"
 										},
 										"true": {
-											"$ref": "#/definitions/DescText",
-											"description": "条件为真时的text"
+											"description": "条件为真时的text",
+											"type": "string"
 										}
 									},
 									"required": [
@@ -58142,8 +58406,8 @@
 									"type": "boolean"
 								},
 								"failure_explanation": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
+									"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
+									"type": "string"
 								},
 								"failure_topic": {
 									"$ref": "#/definitions/TalkTopicID_1",
@@ -58154,8 +58418,8 @@
 									"type": "boolean"
 								},
 								"text": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
+									"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
+									"type": "string"
 								},
 								"truefalsetext": {
 									"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -58165,12 +58429,12 @@
 											"description": "条件"
 										},
 										"false": {
-											"$ref": "#/definitions/DescText",
-											"description": "条件为假时的text"
+											"description": "条件为假时的text",
+											"type": "string"
 										},
 										"true": {
-											"$ref": "#/definitions/DescText",
-											"description": "条件为真时的text"
+											"description": "条件为真时的text",
+											"type": "string"
 										}
 									},
 									"required": [
@@ -58200,8 +58464,8 @@
 					"type": "boolean"
 				},
 				"failure_explanation": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本"
+					"description": "回复的条件不满足时仍然显示选项 但采用此字段而非text  \n玩家的文本回复/选项显示文本",
+					"type": "string"
 				},
 				"failure_topic": {
 					"$ref": "#/definitions/TalkTopicID_1",
@@ -58212,8 +58476,8 @@
 					"type": "boolean"
 				},
 				"text": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。"
+					"description": "玩家的文本回复/选项显示文本\n目前, 您可以添加 & 作为对话中的第一个字符,   \n这会删除输出文本周围的引号, 表示显示文本的描述性性质,   \n使用 \\\" 转义双引号来指示实际对话的开始。",
+					"type": "string"
 				},
 				"truefalsetext": {
 					"description": "对某个条件进行判断 并给出不同的文本  \n代替 text 字段",
@@ -58223,12 +58487,12 @@
 							"description": "条件"
 						},
 						"false": {
-							"$ref": "#/definitions/DescText",
-							"description": "条件为假时的text"
+							"description": "条件为假时的text",
+							"type": "string"
 						},
 						"true": {
-							"$ref": "#/definitions/DescText",
-							"description": "条件为真时的text"
+							"description": "条件为真时的text",
+							"type": "string"
 						}
 					},
 					"required": [
@@ -61444,8 +61708,8 @@
 									"type": "array"
 								},
 								"revert_msg": {
-									"$ref": "#/definitions/DescText_1",
-									"description": "revert_to 触发时产生的信息"
+									"description": "revert_to 触发时产生的信息",
+									"type": "string"
 								},
 								"revert_to": {
 									"$ref": "#/definitions/ToolID_1",
@@ -61518,8 +61782,8 @@
 									"type": "number"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "描述"
+									"description": "描述",
+									"type": "string"
 								},
 								"explode_in_fire": {
 									"description": "掉进火里会爆炸",
@@ -61623,19 +61887,19 @@
 										{
 											"properties": {
 												"ctxt": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "翻译上下文"
 												},
 												"str": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单数名"
 												},
 												"str_pl": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "复数名"
 												},
 												"str_sp": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "单复数共用名"
 												}
 											},
@@ -63169,8 +63433,8 @@
 									"description": "伤害减少；参见\"部件阻力\"。如果未指定，则设为零"
 								},
 								"description": {
-									"$ref": "#/definitions/DescText",
-									"description": "安装此车辆部件时的描述"
+									"description": "安装此车辆部件时的描述",
+									"type": "string"
 								},
 								"difficulty": {
 									"description": "你的机械技能必须至少达到这个级别才能安装这个部件",
@@ -63469,8 +63733,8 @@
 									"type": "string"
 								},
 								"name": {
-									"$ref": "#/definitions/DescText",
-									"description": "显示名称"
+									"description": "显示名称",
+									"type": "string"
 								},
 								"pseudo_tools": {
 									"description": "此部件提供的工艺工具",
@@ -63743,8 +64007,8 @@
 												"type": "string"
 											},
 											"label": {
-												"$ref": "#/definitions/DescText",
-												"description": "变体的显示名"
+												"description": "变体的显示名",
+												"type": "string"
 											}
 										},
 										"required": [
@@ -64665,7 +64929,7 @@
 					"description": "启用条件"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "附魔的说明"
 				},
 				"emitter": {
@@ -64715,7 +64979,7 @@
 								"description": "最大法术等级"
 							},
 							"message": {
-								"$ref": "#/definitions/DescText_1",
+								"$ref": "#/definitions/DescText",
 								"description": "释放时的消息"
 							},
 							"min_level": {
@@ -64723,11 +64987,78 @@
 								"description": "最小法术等级"
 							},
 							"npc_message": {
-								"$ref": "#/definitions/DescText_1",
+								"$ref": "#/definitions/DescText",
 								"description": "npc释放时的消息"
 							},
 							"once_in": {
-								"$ref": "#/definitions/NumObj",
+								"anyOf": [
+									{
+										"properties": {
+											"global_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"global_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"u_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"npc_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"npc_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"context_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"context_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"var_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"var_val"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/NumMathExp",
+										"description": "Math数字表达式"
+									},
+									{
+										"$ref": "#/definitions/Arithmetic",
+										"description": "算术表达式"
+									},
+									{
+										"type": "number"
+									}
+								],
 								"description": "1/n 的几率触发"
 							}
 						},
@@ -64756,7 +65087,7 @@
 								"description": "最大法术等级"
 							},
 							"message": {
-								"$ref": "#/definitions/DescText_1",
+								"$ref": "#/definitions/DescText",
 								"description": "释放时的消息"
 							},
 							"min_level": {
@@ -64764,11 +65095,78 @@
 								"description": "最小法术等级"
 							},
 							"npc_message": {
-								"$ref": "#/definitions/DescText_1",
+								"$ref": "#/definitions/DescText",
 								"description": "npc释放时的消息"
 							},
 							"once_in": {
-								"$ref": "#/definitions/NumObj",
+								"anyOf": [
+									{
+										"properties": {
+											"global_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"global_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"u_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"npc_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"npc_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"context_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"context_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"var_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"var_val"
+										],
+										"type": "object"
+									},
+									{
+										"$ref": "#/definitions/NumMathExp",
+										"description": "Math数字表达式"
+									},
+									{
+										"$ref": "#/definitions/Arithmetic",
+										"description": "算术表达式"
+									},
+									{
+										"type": "number"
+									}
+								],
 								"description": "1/n 的几率触发"
 							}
 						},
@@ -64808,7 +65206,7 @@
 													"description": "最大法术等级"
 												},
 												"message": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "释放时的消息"
 												},
 												"min_level": {
@@ -64816,11 +65214,78 @@
 													"description": "最小法术等级"
 												},
 												"npc_message": {
-													"$ref": "#/definitions/DescText_1",
+													"$ref": "#/definitions/DescText",
 													"description": "npc释放时的消息"
 												},
 												"once_in": {
-													"$ref": "#/definitions/NumObj",
+													"anyOf": [
+														{
+															"properties": {
+																"global_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"global_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"u_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"u_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"npc_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"npc_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"context_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"context_val"
+															],
+															"type": "object"
+														},
+														{
+															"properties": {
+																"var_val": {
+																	"type": "string"
+																}
+															},
+															"required": [
+																"var_val"
+															],
+															"type": "object"
+														},
+														{
+															"$ref": "#/definitions/NumMathExp",
+															"description": "Math数字表达式"
+														},
+														{
+															"$ref": "#/definitions/Arithmetic",
+															"description": "算术表达式"
+														},
+														{
+															"type": "number"
+														}
+													],
 													"description": "1/n 的几率触发"
 												}
 											},
@@ -64886,7 +65351,7 @@
 					"type": "array"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "附魔的名称"
 				},
 				"values": {
@@ -66985,7 +67450,74 @@
 					"description": "效果ID"
 				},
 				"intensity": {
-					"$ref": "#/definitions/NumObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "效果强度"
 				},
 				"is_stack": {
@@ -67599,7 +68131,74 @@
 			"description": "额外造成某种类型的伤害",
 			"properties": {
 				"amount": {
-					"$ref": "#/definitions/NumObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "伤害量"
 				},
 				"damage_type": {
@@ -70486,8 +71085,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -70591,19 +71190,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -71103,8 +71702,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -71208,19 +71807,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -71848,8 +72447,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -71953,19 +72552,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -72413,8 +73012,8 @@
 														"type": "array"
 													},
 													"revert_msg": {
-														"$ref": "#/definitions/DescText_1",
-														"description": "revert_to 触发时产生的信息"
+														"description": "revert_to 触发时产生的信息",
+														"type": "string"
 													},
 													"revert_to": {
 														"$ref": "#/definitions/ToolID_1",
@@ -72487,8 +73086,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -72592,19 +73191,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -73037,8 +73636,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -73142,19 +73741,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -73746,8 +74345,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -73851,19 +74450,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -74370,8 +74969,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -74475,19 +75074,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -75119,8 +75718,8 @@
 														"type": "number"
 													},
 													"reload_noise": {
-														"$ref": "#/definitions/DescText_1",
-														"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用"
+														"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用",
+														"type": "string"
 													},
 													"reload_noise_volume": {
 														"description": "当你用这个改装件重装枪时，产生的噪音量",
@@ -75180,8 +75779,8 @@
 														"type": "number"
 													},
 													"description": {
-														"$ref": "#/definitions/DescText",
-														"description": "描述"
+														"description": "描述",
+														"type": "string"
 													},
 													"explode_in_fire": {
 														"description": "掉进火里会爆炸",
@@ -75285,19 +75884,19 @@
 															{
 																"properties": {
 																	"ctxt": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "翻译上下文"
 																	},
 																	"str": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单数名"
 																	},
 																	"str_pl": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "复数名"
 																	},
 																	"str_sp": {
-																		"$ref": "#/definitions/DescText_1",
+																		"$ref": "#/definitions/DescText",
 																		"description": "单复数共用名"
 																	}
 																},
@@ -77459,8 +78058,8 @@
 					"description": "伤害减少；参见\"部件阻力\"。如果未指定，则设为零"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "安装此车辆部件时的描述"
+					"description": "安装此车辆部件时的描述",
+					"type": "string"
 				},
 				"difficulty": {
 					"description": "你的机械技能必须至少达到这个级别才能安装这个部件",
@@ -77755,8 +78354,8 @@
 					"type": "string"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "显示名称"
+					"description": "显示名称",
+					"type": "string"
 				},
 				"pseudo_tools": {
 					"description": "此部件提供的工艺工具",
@@ -78025,8 +78624,8 @@
 								"type": "string"
 							},
 							"label": {
-								"$ref": "#/definitions/DescText",
-								"description": "变体的显示名"
+								"description": "变体的显示名",
+								"type": "string"
 							}
 						},
 						"required": [
@@ -79401,7 +80000,7 @@
 					"type": "array"
 				},
 				"title": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "整体选项的标题"
 				},
 				"variables": {
@@ -82427,7 +83026,7 @@
 					"description": "最大法术等级"
 				},
 				"message": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "释放时的消息"
 				},
 				"min_level": {
@@ -82435,11 +83034,78 @@
 					"description": "最小法术等级"
 				},
 				"npc_message": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "npc释放时的消息"
 				},
 				"once_in": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "1/n 的几率触发"
 				}
 			},
@@ -82941,8 +83607,8 @@
 					"description": "评价类型"
 				},
 				"text": {
-					"$ref": "#/definitions/DescText",
-					"description": "消息文本"
+					"description": "消息文本",
+					"type": "string"
 				}
 			},
 			"required": [
@@ -84802,40 +85468,40 @@
 			"description": "任务对话字典",
 			"properties": {
 				"accepted": {
-					"$ref": "#/definitions/DescText",
-					"description": "玩家接受任务后 NPC 的反应"
+					"description": "玩家接受任务后 NPC 的反应",
+					"type": "string"
 				},
 				"advice": {
-					"$ref": "#/definitions/DescText",
-					"description": "如果玩家询问如何完成任务的建议, 他们会听到以下内容"
+					"description": "如果玩家询问如何完成任务的建议, 他们会听到以下内容",
+					"type": "string"
 				},
 				"describe": {
-					"$ref": "#/definitions/DescText",
-					"description": "NPC 对任务的总体描述"
+					"description": "NPC 对任务的总体描述",
+					"type": "string"
 				},
 				"failure": {
-					"$ref": "#/definitions/DescText",
-					"description": "如果玩家报告任务失败, NPC 的反应"
+					"description": "如果玩家报告任务失败, NPC 的反应",
+					"type": "string"
 				},
 				"inquire": {
-					"$ref": "#/definitions/DescText",
-					"description": "如果 NPC 询问玩家任务进展如何, 则使用此选项"
+					"description": "如果 NPC 询问玩家任务进展如何, 则使用此选项",
+					"type": "string"
 				},
 				"offer": {
-					"$ref": "#/definitions/DescText",
-					"description": "当玩家选择该任务时给出的任务细节"
+					"description": "当玩家选择该任务时给出的任务细节",
+					"type": "string"
 				},
 				"rejected": {
-					"$ref": "#/definitions/DescText",
-					"description": "玩家拒绝任务时NPC的反应"
+					"description": "玩家拒绝任务时NPC的反应",
+					"type": "string"
 				},
 				"success": {
-					"$ref": "#/definitions/DescText",
-					"description": "NPC 对任务成功报告的回应"
+					"description": "NPC 对任务成功报告的回应",
+					"type": "string"
 				},
 				"success_lie": {
-					"$ref": "#/definitions/DescText",
-					"description": "如果 NPC 发现玩家在任务成功的问题上撒谎, 他们会做出什么反应"
+					"description": "如果 NPC 发现玩家在任务成功的问题上撒谎, 他们会做出什么反应",
+					"type": "string"
 				}
 			},
 			"required": [
@@ -85566,8 +86232,8 @@
 					"type": "number"
 				},
 				"summon_msg": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "生成时播报的消息"
+					"description": "生成时播报的消息",
+					"type": "string"
 				},
 				"type": {
 					"const": "place_npc",
@@ -85585,8 +86251,8 @@
 			"description": "运行Eoc",
 			"properties": {
 				"description": {
-					"$ref": "#/definitions/DescText",
-					"description": "说明"
+					"description": "说明",
+					"type": "string"
 				},
 				"effect_on_conditions": {
 					"description": "eoc列表",
@@ -87036,8 +87702,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"dispersion": {
 					"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
@@ -87162,19 +87828,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -87590,8 +88256,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -87705,19 +88371,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -88184,8 +88850,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"dispersion": {
 					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
@@ -88568,19 +89234,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -88899,8 +89565,8 @@
 					"type": "number"
 				},
 				"reload_noise": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音"
+					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音",
+					"type": "string"
 				},
 				"reload_noise_volume": {
 					"description": "当你用这个改装件重装枪时，产生的噪音量\n重装时发出的声音大小",
@@ -89060,8 +89726,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"dispersion": {
 					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
@@ -89275,19 +89941,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -89819,8 +90485,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"dispersion": {
 					"description": "枪的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量  \n当枪械模组中存在 sight_dispersion 和 aim_speed 时, 瞄准系统会选择“最佳”  \n用于每个目标操作的瞄准器, 这是在当前目标阈值下具有分散性的最快瞄准器",
@@ -90203,19 +90869,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -90534,8 +91200,8 @@
 					"type": "number"
 				},
 				"reload_noise": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音"
+					"description": "当你用这个改装件重装枪时，会产生的信息；似乎不起作用\n重装时发出的声音",
+					"type": "string"
 				},
 				"reload_noise_volume": {
 					"description": "当你用这个改装件重装枪时，产生的噪音量\n重装时发出的声音大小",
@@ -90684,8 +91350,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -90811,19 +91477,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -91134,8 +91800,8 @@
 					"type": "array"
 				},
 				"revert_msg": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "revert_to 触发时产生的信息"
+					"description": "revert_to 触发时产生的信息",
+					"type": "string"
 				},
 				"revert_to": {
 					"$ref": "#/definitions/ToolID_1",
@@ -91307,8 +91973,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -91462,19 +92128,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -91884,8 +92550,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"explode_in_fire": {
 					"description": "掉进火里会爆炸",
@@ -91995,19 +92661,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -92445,8 +93111,8 @@
 					"type": "number"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"environmental_protection": {
 					"description": "环境保护",
@@ -92560,19 +93226,19 @@
 						{
 							"properties": {
 								"ctxt": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "翻译上下文"
 								},
 								"str": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单数名"
 								},
 								"str_pl": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "复数名"
 								},
 								"str_sp": {
-									"$ref": "#/definitions/DescText_1",
+									"$ref": "#/definitions/DescText",
 									"description": "单复数共用名"
 								}
 							},
@@ -92999,7 +93665,7 @@
 					"description": "启用条件"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "附魔的说明"
 				},
 				"emitter": {
@@ -93125,7 +93791,7 @@
 					"type": "array"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "附魔的名称"
 				},
 				"type": {
@@ -93169,8 +93835,8 @@
 			"description": "效果",
 			"properties": {
 				"apply_memorial_log": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "效果被添加时产生的log"
+					"description": "效果被添加时产生的log",
+					"type": "string"
 				},
 				"apply_message": {
 					"anyOf": [
@@ -93214,8 +93880,8 @@
 					"type": "array"
 				},
 				"blood_analysis_description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "拥有此效果时进行血液分析可得出的说明"
+					"description": "拥有此效果时进行血液分析可得出的说明",
+					"type": "string"
 				},
 				"chance_kill": {
 					"description": "每回合有 [0]/[1] 的概率杀死玩家\n按效果强度应用不同成员",
@@ -93256,8 +93922,8 @@
 					"type": "string"
 				},
 				"death_msg": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "因此效果而死亡时产生的消息"
+					"description": "因此效果而死亡时产生的消息",
+					"type": "string"
 				},
 				"decay_messages": {
 					"description": "效果产生自然调整时产生的消息  \n[消息,效果评价][]  \n按效果强度应用不同成员",
@@ -93443,8 +94109,8 @@
 					"type": "array"
 				},
 				"remove_memorial_log": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "效果被移除时产生的log"
+					"description": "效果被移除时产生的log",
+					"type": "string"
 				},
 				"remove_message": {
 					"anyOf": [
@@ -94487,7 +95153,74 @@
 			"description": "1/n的概率返回true",
 			"properties": {
 				"one_in_chance": {
-					"$ref": "#/definitions/NumObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "1/n的概率返回true"
 				}
 			},
@@ -94500,7 +95233,74 @@
 			"description": "法术",
 			"properties": {
 				"accuracy_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术准确度调整"
 				},
 				"affected_body_parts": {
@@ -94511,19 +95311,287 @@
 					"type": "array"
 				},
 				"aoe_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术aoe范围调整"
 				},
 				"base_casting_time": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始施法时间"
 				},
 				"base_energy_cost": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始能量消耗"
 				},
 				"casting_time_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的施法时间调整"
 				},
 				"components": {
@@ -94645,7 +95713,74 @@
 					"type": "array"
 				},
 				"damage_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术伤害调整"
 				},
 				"damage_type": {
@@ -94653,18 +95788,219 @@
 					"description": "法术的伤害类型  \n伤害法术必须定义伤害类型"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText"
+					"type": "string"
 				},
 				"difficulty": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "法术难度"
 				},
 				"dot_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术持续伤害调整"
 				},
 				"duration_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术持续时间调整"
 				},
 				"effect": {
@@ -94676,7 +96012,74 @@
 					"type": "string"
 				},
 				"energy_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的能量消耗调整"
 				},
 				"energy_source": {
@@ -94692,7 +96095,74 @@
 					"type": "array"
 				},
 				"field_chance": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每个被法术影响到的地块有 1/n 的概率产生Field"
 				},
 				"field_id": {
@@ -94700,19 +96170,287 @@
 					"description": "法术在目标处创建的Field"
 				},
 				"field_intensity_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术地块效果强度调整"
 				},
 				"field_intensity_variance": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "法术地块效果强度的浮动值 0.1时为 +-10%"
 				},
 				"final_casting_time": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限的施法时间"
 				},
 				"final_energy_cost": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限的能量消耗"
 				},
 				"flags": {
@@ -94774,82 +96512,1355 @@
 					"description": "当列表内所有法术到达指定等级时学会此法术  \nRecord<(SpellID)法术ID : (NumObj)需求等级>"
 				},
 				"max_accuracy": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术准确度 20 左右时几乎无法格挡"
 				},
 				"max_aoe": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术aoe范围"
 				},
 				"max_damage": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术伤害 必须填写 max_damage 才能造成伤害"
 				},
 				"max_dot": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术持续伤害"
 				},
 				"max_duration": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术持续时间 单位为 1/100秒"
 				},
 				"max_field_intensity": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术地块效果强度"
 				},
 				"max_level": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "法术最大等级"
 				},
 				"max_pierce": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术穿甲"
 				},
 				"max_range": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "极限法术施法范围"
 				},
 				"min_accuracy": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术准确度 -15 左右时总是能被格挡"
 				},
 				"min_aoe": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术aoe范围"
 				},
 				"min_damage": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术伤害 必须填写 max_damage 才能造成伤害"
 				},
 				"min_dot": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术持续伤害"
 				},
 				"min_duration": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术持续时间 单位为 1/100秒"
 				},
 				"min_field_intensity": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术地块效果强度"
 				},
 				"min_pierce": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术穿甲"
 				},
 				"min_range": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "初始法术施法范围"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText"
+					"type": "string"
 				},
 				"pierce_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术穿甲调整"
 				},
 				"range_increment": {
-					"$ref": "#/definitions/NumObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"$ref": "#/definitions/NumMathExp",
+							"description": "Math数字表达式"
+						},
+						{
+							"$ref": "#/definitions/Arithmetic",
+							"description": "算术表达式"
+						},
+						{
+							"type": "number"
+						}
+					],
 					"description": "每级的法术施法范围调整"
 				},
 				"shape": {
@@ -94861,8 +97872,8 @@
 					"type": "boolean"
 				},
 				"sound_description": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "发书产生的声音描述 起效于\"You hear %s\" 默认为 \"an explosion\""
+					"description": "发书产生的声音描述 起效于\"You hear %s\" 默认为 \"an explosion\"",
+					"type": "string"
 				},
 				"sound_id": {
 					"$ref": "#/definitions/SoundEffectID_1",
@@ -95275,8 +98286,8 @@
 					"type": "array"
 				},
 				"description": {
-					"$ref": "#/definitions/DescText",
-					"description": "描述"
+					"description": "描述",
+					"type": "string"
 				},
 				"destroys_gear": {
 					"description": "如果为 true, 则在突变时会销毁“restricts_gear”位置中的齿轮 (默认值: false)",
@@ -95490,8 +98501,8 @@
 					"type": "number"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "名称"
+					"description": "名称",
+					"type": "string"
 				},
 				"no_cbm_on_bp": {
 					"description": "不能接收CBMs的身体部位列表 (默认值: 空)",
@@ -95553,8 +98564,8 @@
 					"description": "突变激活允许你射击假枪",
 					"properties": {
 						"message": {
-							"$ref": "#/definitions/DescText",
-							"description": "射击时的消息"
+							"description": "射击时的消息",
+							"type": "string"
 						},
 						"type": {
 							"$ref": "#/definitions/GunID",
@@ -95613,8 +98624,8 @@
 					"description": "此突变激活产生一个物品",
 					"properties": {
 						"message": {
-							"$ref": "#/definitions/DescText",
-							"description": "生成时的消息"
+							"description": "生成时的消息",
+							"type": "string"
 						},
 						"type": {
 							"$ref": "#/definitions/AnyItemID",
@@ -95692,8 +98703,8 @@
 							"type": "number"
 						},
 						"msg_transform": {
-							"$ref": "#/definitions/DescText",
-							"description": "变形时显示的消息。"
+							"description": "变形时显示的消息。",
+							"type": "string"
 						},
 						"safe": {
 							"description": "如果为真, 转变将使用正常的突变进展规则 - 移除冲突特性, 需要阈值 (但不使用任何维生素或引起不稳定)",
@@ -95837,14 +98848,14 @@
 					"$ref": "#/definitions/NpcClassID"
 				},
 				"job_description": {
-					"$ref": "#/definitions/DescText"
+					"type": "string"
 				},
 				"mutation_rounds": {
 					"$ref": "#/definitions/MutationRounds",
 					"description": "变异方向  \nMutation rounds can be specified as follows:  \n\"mutation_rounds\": {  \n \"ANY\" : { \"constant\": 1 },  \n \"INSECT\" : { \"rng\": [1, 3] }  \n}"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText"
+					"type": "string"
 				},
 				"restock_interval": {
 					"description": "默认值为 6 天",
@@ -96023,11 +99034,11 @@
 					"description": "初始行为"
 				},
 				"name_suffix": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "名称后缀"
 				},
 				"name_unique": {
-					"$ref": "#/definitions/DescText_1",
+					"$ref": "#/definitions/DescText",
 					"description": "独特名称"
 				},
 				"per": {
@@ -96079,8 +99090,8 @@
 			"description": "任务定义",
 			"properties": {
 				"description": {
-					"$ref": "#/definitions/DescText",
-					"description": "任务说明"
+					"description": "任务说明",
+					"type": "string"
 				},
 				"dialogue": {
 					"$ref": "#/definitions/MissionDialog",
@@ -96114,8 +99125,8 @@
 					"description": "如果目标是寻找道具, 目标的道具ID"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "任务名"
+					"description": "任务名",
+					"type": "string"
 				},
 				"origins": {
 					"description": "任务来源",
@@ -97393,8 +100404,8 @@
 					"type": "boolean"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "伤害类型的名称, 如在物品信息屏幕中的保护值中显示"
+					"description": "伤害类型的名称, 如在物品信息屏幕中的保护值中显示",
+					"type": "string"
 				},
 				"no_resist": {
 					"description": "(可选) 将此伤害类型标识为无法抵抗的 (即“纯”伤害) (默认为false)",
@@ -97475,8 +100486,8 @@
 					"type": "string"
 				},
 				"verb": {
-					"$ref": "#/definitions/DescText_1",
-					"description": "(可选) 描述如何应用此伤害类型的动词 (例如: \"bashing\") 。在物品信息的近战部分使用"
+					"description": "(可选) 描述如何应用此伤害类型的动词 (例如: \"bashing\") 。在物品信息的近战部分使用",
+					"type": "string"
 				}
 			},
 			"required": [
@@ -97544,8 +100555,8 @@
 					"description": "唯一ID"
 				},
 				"name": {
-					"$ref": "#/definitions/DescText",
-					"description": "弹药名称"
+					"description": "弹药名称",
+					"type": "string"
 				},
 				"type": {
 					"const": "ammunition_type",
@@ -97705,7 +100716,7 @@
 							"description": "最大法术等级"
 						},
 						"message": {
-							"$ref": "#/definitions/DescText_1",
+							"$ref": "#/definitions/DescText",
 							"description": "释放时的消息"
 						},
 						"min_level": {
@@ -97713,11 +100724,78 @@
 							"description": "最小法术等级"
 						},
 						"npc_message": {
-							"$ref": "#/definitions/DescText_1",
+							"$ref": "#/definitions/DescText",
 							"description": "npc释放时的消息"
 						},
 						"once_in": {
-							"$ref": "#/definitions/NumObj",
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"$ref": "#/definitions/NumMathExp",
+									"description": "Math数字表达式"
+								},
+								{
+									"$ref": "#/definitions/Arithmetic",
+									"description": "算术表达式"
+								},
+								{
+									"type": "number"
+								}
+							],
 							"description": "1/n 的几率触发"
 						}
 					},
@@ -98510,7 +101588,7 @@
 							"description": "最大法术等级"
 						},
 						"message": {
-							"$ref": "#/definitions/DescText_1",
+							"$ref": "#/definitions/DescText",
 							"description": "释放时的消息"
 						},
 						"min_level": {
@@ -98518,11 +101596,78 @@
 							"description": "最小法术等级"
 						},
 						"npc_message": {
-							"$ref": "#/definitions/DescText_1",
+							"$ref": "#/definitions/DescText",
 							"description": "npc释放时的消息"
 						},
 						"once_in": {
-							"$ref": "#/definitions/NumObj",
+							"anyOf": [
+								{
+									"properties": {
+										"global_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"global_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"u_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"u_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"npc_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"npc_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"context_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"context_val"
+									],
+									"type": "object"
+								},
+								{
+									"properties": {
+										"var_val": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"var_val"
+									],
+									"type": "object"
+								},
+								{
+									"$ref": "#/definitions/NumMathExp",
+									"description": "Math数字表达式"
+								},
+								{
+									"$ref": "#/definitions/Arithmetic",
+									"description": "算术表达式"
+								},
+								{
+									"type": "number"
+								}
+							],
 							"description": "1/n 的几率触发"
 						}
 					},

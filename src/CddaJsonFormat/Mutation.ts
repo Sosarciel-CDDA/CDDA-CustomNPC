@@ -23,9 +23,9 @@ export type Mutation = {
     type: "mutation";
     id: MutationID;
     /**名称 */
-    name: DescText;
+    name: (DescText);
     /**描述 */
-    description: DescText;
+    description: (DescText);
     /**消耗的点数 */
     points: number;
     /**可见性 */
@@ -123,7 +123,7 @@ export type Mutation = {
         /**枪械ID */
         type: GunID;
         /**射击时的消息 */
-        message: DescText;
+        message: (DescText);
     };
     /**改变你阅读书籍有多快, `0.5`将其减半, `2`将其加倍 */
     reading_speed_multiplier?: number;
@@ -134,7 +134,7 @@ export type Mutation = {
         /**生成的物品ID */
         type: AnyItemID;
         /**生成时的消息 */
-        message: DescText;
+        message: (DescText);
     };
     /**胃大小调节剂, 增加您一次可以消耗的食物量 */
     stomach_size_multiplier?: number;
@@ -215,7 +215,7 @@ export type Mutation = {
         /**这个突变将转变成的特性_id。 */
         target: MutationID;
         /**变形时显示的消息。 */
-        msg_transform: DescText;
+        msg_transform: (DescText);
         /**如果为真, 突变将在激活时开始供电 (打开)。 */
         active?: boolean;
         /**每次激活的移动成本 (默认值: 0)。 */
@@ -278,7 +278,7 @@ export type MutTigger = {
 /**带有评价的消息 */
 type RatMessage = {
     /**消息文本 */
-    text: DescText;
+    text: (DescText);
     /**评价类型 */
     rating?: RatType;
 };

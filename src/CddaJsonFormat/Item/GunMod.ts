@@ -42,7 +42,7 @@ export type GunMod = CopyfromVar<{
 	/** 使用此字段将覆盖枪的min_cycle_recoil */
 	overwrite_min_cycle_recoil?: number;
 	/** 当你用这个改装件重装枪时，会产生的信息；似乎不起作用  */
-	reload_noise?: DescText;
+	reload_noise?: (DescText);
 	/** 当你用这个改装件重装枪时，产生的噪音量 */
 	reload_noise_volume?: number;
 	/** 改变你用这个改装件瞄准枪的速度 */

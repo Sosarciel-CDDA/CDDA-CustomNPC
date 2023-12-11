@@ -17,7 +17,7 @@ export type VehiclePart = CopyfromVar<{
     /**唯一标识符, 不能包含 # 符号 */
     id: VehiclePartID;
     /**显示名称 */
-    name: DescText;
+    name: (DescText);
     /** (可选) 如果此部分没有图块, 向图块集提供提示, 使用 looks_like 图块。 */
     looks_like: string;
     /**功能取决于部件类型： */
@@ -33,7 +33,7 @@ export type VehiclePart = CopyfromVar<{
     /**部件在损坏前可以承受多少伤害 */
     durability: number;
     /**安装此车辆部件时的描述 */
-    description: DescText;
+    description: (DescText);
     /** (可选, 默认 = "NULL") 部件消耗的燃料/弹药类型, 作为物品 id */
     fuel_type?: AmmunitionTypeID;
     /**部件的电力使用量, 以瓦特为单位。负值表示消耗电力, 正值表示产生电力。  
@@ -109,7 +109,7 @@ export type VehiclePart = CopyfromVar<{
         /**变体ID */
         id: string;
         /**变体的显示名 */
-        label: DescText;
+        label: (DescText);
     }[];
     /**部件变体 */
     variants: {

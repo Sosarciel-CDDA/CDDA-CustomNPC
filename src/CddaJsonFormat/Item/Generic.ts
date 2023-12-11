@@ -76,7 +76,7 @@ export type GenericBase = {
     /**物品唯一ID */
     id: string;
     /**物品显示名 */
-    name: DescText|{
+    name: (DescText)|{
         /**单数名 */
         str?:DescText;
         /**复数名 */
@@ -95,7 +95,7 @@ export type GenericBase = {
     /**提示图块集, 如果该项目没有图块 使用looks_like图块 */
     looks_like?: string,
     /**描述 */
-    description: DescText;
+    description: (DescText);
     /**用于该项目的 asci_art 的 ID */
     ascii_picture?:string;
     /**默认的状态 默认为固态 */

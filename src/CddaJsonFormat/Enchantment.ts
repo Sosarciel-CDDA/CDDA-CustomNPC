@@ -105,7 +105,7 @@ export type FakeSpell = {
      */
     hit_self?: boolean;
     /** 1/n 的几率触发 */
-    once_in?: NumObj;
+    once_in?: (NumObj);
     /**释放时的消息 */
     message?:DescText;
     /**npc释放时的消息 */

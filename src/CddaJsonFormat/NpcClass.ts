@@ -15,8 +15,8 @@ export type NpcClassID = CddaID<"NPCCLS">;
 export type NpcClass = {
     type: "npc_class";
     id: NpcClassID;
-    name: DescText ;
-    job_description: DescText;
+    name: (DescText) ;
+    job_description: (DescText);
     /**false意味着这个NPC职业不会随机生成。  
      * 如果未指定, 则默认为 。true  
      */
