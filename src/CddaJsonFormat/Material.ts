@@ -76,7 +76,7 @@ export type MateBurnData ={
     smoke: number;
     /**如果非零且低于物品体积, 则按 volume_per_turn / 回合 燃烧体积
      */
-    volume_per_turn?:Volume;
+    volume_per_turn?: (Volume);
     /**决定火灾将由该材料制成的物品转化为燃料的速度。  
      * 不影响给定提供的总燃料  
      */

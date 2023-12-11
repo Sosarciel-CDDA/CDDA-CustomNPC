@@ -54,7 +54,7 @@ export type Enchantment = {
         /**定时触发的效果 */
         effects: {
             /**触发间隔 */
-            frequency: Time;
+            frequency: (Time);
             /**伪法术数据 */
             spell_effects: FakeSpell[];
         }[];

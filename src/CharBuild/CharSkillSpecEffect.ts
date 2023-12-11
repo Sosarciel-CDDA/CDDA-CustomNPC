@@ -30,7 +30,7 @@ type AddEffect = {
     /**效果强度 */
     intensity: (NumObj);
     /**持续时间 数字为秒 */
-    duration: Time|NumObj;
+    duration: (Time)|NumObj;
     /**添加效果后的额外效果 */
     effect?:EocEffect[];
     /**是否叠加强度 默认覆盖 */

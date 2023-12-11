@@ -120,7 +120,7 @@ type HasStrVar = TalkerVar<{
     /**有某个文本变量 */
     has_var:string;
     /**要求的内容 */
-    value:StrObj;
+    value: (StrObj);
 },"has_var">&VarComment;
 /**有某个时间变量 */
 type HasTimeVar = TalkerVar<{
@@ -174,7 +174,7 @@ type IsInField = TalkerVar<{
 /**1/n的概率返回true */
 type OneInChance = {
     /**1/n的概率返回true */
-    one_in_chance: (NumObj)
+    one_in_chance: (NumObj);
 }
 
 /**某个mod是否加载 */
@@ -199,7 +199,7 @@ type CompareTime = TalkerVar<{
     /**操作符 */
     op: CompareOpera;
     /**比较的时间 */
-    time: Time;
+    time: (Time);
 },"compare_time_since_var">;
 
 /**选择地块的模式 列表 */
@@ -228,7 +228,7 @@ type QueryTile = TalkerVar<{
 /**非操作 */
 export type BoolOperaNot = {
     /**非操作 */
-    not: (BoolObj)
+    not: (BoolObj);
 };
 /**或操作 */
 export type BoolOperaOr = {

@@ -20,7 +20,7 @@ export type GunMod = CopyfromVar<{
 	/** 必填。这个枪械改装件可以用于哪种武器？ */
 	mod_targets: SkillID[];
 	/** 必填。安装需要多长时间？一个整数将被读取为移动，或者可以使用时间字符串 */
-	install_time: Time;
+	install_time: (Time);
 	/** (可选) 限制改装件到那些基础（在修饰符之前）弹药类型的枪 */
 	acceptable_ammo?: AmmunitionTypeID[];
 	/** (可选) 如果指定，修改父枪使用这些弹药类型 */
@@ -38,7 +38,7 @@ export type GunMod = CopyfromVar<{
 	/** (可选) 乘以基础枪范围的字段 */
 	range_multiplier?: number;
 	/** 安装此改装件时，枪械增加的长度 */
-	integral_longest_side?: Length;
+	integral_longest_side?: (Length);
 	/** 使用此字段将覆盖枪的min_cycle_recoil */
 	overwrite_min_cycle_recoil?: number;
 	/** 当你用这个改装件重装枪时，会产生的信息；似乎不起作用  */
@@ -87,7 +87,7 @@ export type GunMod = CopyfromVar<{
 	/** 修改枪的射击模式，例如给出AUTO或REACH */
 	mode_modifier?: FireMode[];
 	/** 为这个枪械改装件指定一个直接的枪管长度。如果使用，只有第一个带有枪管长度的改装件会被计算 */
-	barrel_length?: Length;
+	barrel_length?: (Length);
 	/** 在枪的"overheat_threshold"上添加一个固定的数量；  
      * 如果阈值是100，修饰符是10，结果是110；如果修饰符是-25，结果是75  
      */

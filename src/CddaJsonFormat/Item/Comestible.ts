@@ -13,7 +13,7 @@ export type Comestible = CopyfromVar<{
     /**定义为COMESTIBLE */
     type: "COMESTIBLE";
     /**一个时间持续期: 食品保质期。0 = 不会变质 */
-    spoils_in?: Time;
+    spoils_in?: (Time);
     /**刺激效果 */
     stim?: number;
     /**这种食品可以消除多少疲劳。 (负值增加疲劳)  */

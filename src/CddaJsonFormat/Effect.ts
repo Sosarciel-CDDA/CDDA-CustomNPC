@@ -89,7 +89,7 @@ export type Effect = {
     /**获得此效果时以下效果将会被免疫 */
     blocks_effects?: EffectID[];
     /**效果的最大持续时间 默认365 d */
-    max_duration?: Time;
+    max_duration?: (Time);
     /**在已有效果的情况下再次添加效果时  
      * 所增加时间的修正值  
      * duration = duration + (dur_add_perc/100) * max_duration  
@@ -214,12 +214,12 @@ export type EffectVitaminsMod ={
     /**rate的基础单位  
      * 按效果强度应用不同成员  
      */
-    tick?: Time[];
+    tick?: (Time)[];
     /**在玩家 抵抗 此效果时  
      * rate的基础单位  
      * 按效果强度应用不同成员  
      */
-    resist_tick?: Time[];
+    resist_tick?: (Time)[];
 };
 /**效果肢体能力修正 */
 export type EffectLimbMod ={

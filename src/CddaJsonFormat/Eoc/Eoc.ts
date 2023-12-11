@@ -23,7 +23,7 @@ export type Eoc = {
     /**启用条件 */
     condition?: BoolObj;
     /**循环间隔 */
-    recurrence?: Time;
+    recurrence?: (Time);
     /**是否可在NPC上运行 */
     global?:boolean,
     /**是否可在NPC上运行 global生效时才可用 */

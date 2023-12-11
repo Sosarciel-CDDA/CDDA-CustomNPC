@@ -76,15 +76,15 @@ export type VehiclePart = CopyfromVar<{
         hotkey?: string;
     }[];
     /** 此vpart在折叠形式下的体积，未定义或null禁用折叠 */
-    folded_volume?: Volume;
+    folded_volume?: (Volume);
     /** 折叠所需的工具 itype_ids */
     folding_tools?: AnyItemID[];
     /** 折叠此部件的时间 */
-    folding_time?: Time;
+    folding_time?: (Time);
     /** 展开所需的工具 itype_ids */
     unfolding_tools?: AnyItemID[];
     /** 展开此部件的时间 */
-    unfolding_time?: Time;
+    unfolding_time?: (Time);
     /** 伤害减少；参见"部件阻力"。如果未指定，则设为零 */
     damage_reduction: Partial<Record<DamageTypeID|"non_physical"|"physical"|"all",number>>;
     /** (可选) 一个列表，每个列表都是一个工具质量和质量等级，该车辆部件提供 */
@@ -102,7 +102,7 @@ export type VehiclePart = CopyfromVar<{
         /** (可选，默认为0) 字段的强度（如果有） */
         post_field_intensity?: number;
         /** (可选，默认为0转) 字段的生存时间（如果有） */
-        post_field_age?: Time;
+        post_field_age?: (Time);
     };
     /** 要生成的变体基础 (参见下文) */
     variants_bases: {
@@ -131,7 +131,7 @@ type VPRequirement = {
     /**"skills" 是一个列表, 每个列表都是一个技能名称和技能等级。 */
     skills: [SkillID, number][];
     /**"time" 是一个字符串, 指定执行操作的时间。 */
-    time: Time;
+    time: (Time);
     /**"using" 是一个列表, 每个列表都是一个制作要求。 */
     using: ReqUsing;
 }

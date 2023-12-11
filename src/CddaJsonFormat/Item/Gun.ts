@@ -57,9 +57,9 @@ export type GunBase = {
     /**将在生成时添加到武器的 mod 数组 */
     default_mods?: GunModID[];
     /**锯开桶时损失的体积量 每英寸大约 250 毫升是一个不错的近似值 */
-    barrel_volume?: Volume;
+    barrel_volume?: (Volume);
     /**枪管长度 */
-    barrel_length?:Length;
+    barrel_length?: (Length);
     /**枪械的有效位置以及该位置的插槽安装量 */
     valid_mod_locations?: ValidMod[];
     /**这把枪射击时产生的噪音量。  

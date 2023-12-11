@@ -10,6 +10,7 @@ import { EffectID } from "../Effect";
 import { BodyPartID, BodyPartParam, DescText, Time } from "../GenericDefine";
 import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
 import { ItemGroupID } from "../ItemGroup";
+import { ActivityTypeID } from "../ActivityType";
 
 
 
@@ -53,6 +54,7 @@ export type EocEffectList = [
     FinishMission       ,//完成任务
     SetCond             ,//保存条件
     IfElse              ,//条件控制
+    AssignActivity      ,//开始活动
 ];
 
 /**无参效果 */
@@ -95,7 +97,7 @@ type QueueEoc = {
     /**运行Eoc 将会丢失beta talker*/
     queue_eocs:ParamsEoc;
     /**延迟 */
-    time_in_future:Time;
+    time_in_future: (Time);
 }
 /**运行Eoc 并提供参数 */
 type RunEocWith = {
@@ -112,7 +114,7 @@ type EocSelector = {
     /**提供的上下文参数表 变量名:值 */
     variables? : Record<string,string>;
     /**每个选项的名称 */
-    names?:StrObj[];
+    names?: (StrObj)[];
     /**每个选项的介绍 */
     descriptions?: (DescText)[];
     /**每个选项的键 */
@@ -177,7 +179,7 @@ type Teleport = TalkerVar<{
 
 /**搜索并获取坐标 存入location_variable*/
 type LocalVar = TalkerVar<{
-    location_variable:LocObj;
+    location_variable: LocObj;
     /**在发起者周围 的最小半径 默认 0 */
     min_radius?: (NumObj);
     /**在发起者周围 的最大半径 默认 0 */
@@ -201,17 +203,17 @@ type LocalVar = TalkerVar<{
      */
     z_override?:boolean;
     /**搜索的目标地形 空字符串为任意 */
-    terrain?:StrObj;
+    terrain?: (StrObj);
     /**搜索的目标家具 空字符串为任意 */
-    furniture?:StrObj;
+    furniture?: (StrObj);
     /**搜索的目标陷阱 空字符串为任意 */
-    trap?:StrObj;
+    trap?: (StrObj);
     /**搜索的目标怪物 空字符串为任意 */
-    monster?:StrObj;
+    monster?: (StrObj);
     /**搜索的目标区域 空字符串为任意 */
-    zone?:StrObj;
+    zone?: (StrObj);
     /**搜索的目标NPC 空字符串为任意 */
-    npc?:StrObj;
+    npc?: (StrObj);
     /**在搜索目标周围的最小半径 */
     target_min_radius?: (NumObj);
     /**在搜索目标周围的最大半径 */
@@ -253,7 +255,7 @@ type AddEffect = TalkerVar<{
     /**添加的时间
      * 数字为秒
      */
-    duration: Time|NumObj;
+    duration: (Time)|NumObj;
     /**默认为 whole body 全身 */
     target_part?:BodyPartParam;
     /**效果强度 默认 0
@@ -291,13 +293,13 @@ type AddStrVar = TalkerVar<{
 type AddTimeVar = TalkerVar<{
     add_var: string;
     /**时间变量 将当前时间存于变量中 */
-    time:true;
+    time: true;
 },"add_var">&VarComment;
 /**添加随机文本变量 */
 type AddRandStrVar = TalkerVar<{
     add_var: string;
     /**可能的变量值 */
-    possible_values:string[];
+    possible_values: string[];
 },"add_var">&VarComment;
 
 /**设置生命 */
@@ -393,7 +395,12 @@ type IfElse = {
     /**不满足条件时执行的效果（可选） */
     else?: EocEffect[];
 }
-
+/**开始活动 */
+type AssignActivity = TalkerVar<{
+    assign_activity: ActivityTypeID;
+    /**活动的持续时间 */
+    duration: (Time);
+},"assign_activity">;
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID>|InlineEoc)|(IDObj<EocID>|InlineEoc)[];
 
