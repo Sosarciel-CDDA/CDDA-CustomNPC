@@ -20,7 +20,7 @@ export type VehiclePart = CopyfromVar<{
     name: (DescText);
     /** (可选) 如果此部分没有图块, 向图块集提供提示, 使用 looks_like 图块。 */
     looks_like: string;
-    /**功能取决于部件类型： */
+    /**功能取决于部件类型:  */
     bonus: number;
     /**部件工作时使用的颜色 */
     color: Color;
@@ -75,7 +75,7 @@ export type VehiclePart = CopyfromVar<{
         /**热键 */
         hotkey?: string;
     }[];
-    /** 此vpart在折叠形式下的体积，未定义或null禁用折叠 */
+    /** 此vpart在折叠形式下的体积, 未定义或null禁用折叠 */
     folded_volume?: (Volume);
     /** 折叠所需的工具 itype_ids */
     folding_tools?: AnyItemID[];
@@ -85,23 +85,23 @@ export type VehiclePart = CopyfromVar<{
     unfolding_tools?: AnyItemID[];
     /** 展开此部件的时间 */
     unfolding_time?: (Time);
-    /** 伤害减少；参见"部件阻力"。如果未指定，则设为零 */
+    /** 伤害减少；参见"部件阻力"。如果未指定, 则设为零 */
     damage_reduction: Partial<Record<DamageTypeID|"non_physical"|"physical"|"all",number>>;
-    /** (可选) 一个列表，每个列表都是一个工具质量和质量等级，该车辆部件提供 */
+    /** (可选) 一个列表, 每个列表都是一个工具质量和质量等级, 该车辆部件提供 */
     qualities?: [ToolQualityID, number][];
-    /** (可选) 此部件可以转换地形，如犁 */
+    /** (可选) 此部件可以转换地形, 如犁 */
     transform_terrain?: {
         /** 可以转换的地形的标志列表 */
         pre_flags: ["PLOWABLE"];
-        /** (可选，默认为"t_null") 结果地形（如果有） */
+        /** (可选, 默认为"t_null") 结果地形（如果有） */
         post_terrain: "t_dirtmound";
-        /** (可选，默认为"f_null") 结果家具（如果有） */
+        /** (可选, 默认为"f_null") 结果家具（如果有） */
         post_furniture: "f_boulder";
-        /** (可选，默认为"fd_null") 结果字段（如果有） */
+        /** (可选, 默认为"fd_null") 结果字段（如果有） */
         post_field?: FieldID;
-        /** (可选，默认为0) 字段的强度（如果有） */
+        /** (可选, 默认为0) 字段的强度（如果有） */
         post_field_intensity?: number;
-        /** (可选，默认为0转) 字段的生存时间（如果有） */
+        /** (可选, 默认为0转) 字段的生存时间（如果有） */
         post_field_age?: (Time);
     };
     /** 要生成的变体基础 (参见下文) */
@@ -138,7 +138,7 @@ type VPRequirement = {
 
 /**控制要求 */
 type ControlReq = {
-    /** "skills" 是一个列表，每个列表都是一个技能名称和技能等级 */
+    /** "skills" 是一个列表, 每个列表都是一个技能名称和技能等级 */
     skills?: [SkillID,number][];
     /** "proficiencies" 是技能名称的列表 prof_helicopter_pilot */
     proficiencies?: string[];

@@ -12,12 +12,29 @@ import { VitaminsID } from "./Vitamins";
 
 /**预定义的EffectID 列表 */
 export const DefineEffectIDList = [
-    "npc_run_away"  , //npc的AI标签,让NPC开始逃跑
-    "npc_suspend"   , //npc的AI标签,暂停AI
-    "incorporeal"   , //无形体 让所有穿戴物品掉落
-    "stunned"       , //眩晕
-    "downed"        , //击倒
-    "grabbed"       , //被抓住
+    "npc_run_away"      , // npc的AI标签, 让NPC开始逃跑
+    "npc_suspend"       , // npc的AI标签, 暂停AI
+    "incorporeal"       , // 无形体 让所有穿戴物品掉落
+    "stunned"           , // 眩晕
+    "downed"            , // 击倒
+    "grabbed"           , // 被抓住
+    "cureall"           , // 清除负面效果
+    "corroding"         , // 被腐蚀
+    "onfire"            , // 着火
+    "dazed"             , // 被震晕
+    "stunned"           , // 被眩晕
+    "venom_blind"       , // 魂不守舍
+    "formication"       , // 皮下有虫
+    "blisters"          , // 水泡
+    "frostbite"         , // 冻伤
+    "frostbite_recovery", // 解冻
+    "wet"               , // 潮湿
+    "slimed"            , // 沾满黏液
+    "migo_atmosphere"   , // 迷惑空气
+    "fetid_goop"        , // 沾满恶臭黏液
+    "sap"               , // 沾满汁液
+    "nausea"            , // 极度恶心
+    "bleed"             , // 流血
 ] as const;
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];

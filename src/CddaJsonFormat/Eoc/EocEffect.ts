@@ -29,6 +29,7 @@ export type EocEffectList = [
     RunEoc              ,//运行Eoc
     QueueEoc            ,//延迟运行Eoc
     EocSelector         ,//Eoc选项
+    RunInvEocs          ,//
     RunEocWith          ,//
     RunEocUntil         ,//
     LoseTrait           ,//失去变异
@@ -401,6 +402,57 @@ type AssignActivity = TalkerVar<{
     /**活动的持续时间 */
     duration: (Time);
 },"assign_activity">;
+
+
+/**在背包物品上运行EOC */
+type RunInvEocs = TalkerVar<{
+    /**物品的选择方式;  
+     * 可选值包括:  
+     * all          - 所有符合条件的物品都会被选中;  
+     * random       - 从所有符合条件的物品中随机选择一个;  
+     * manual       - 打开一个菜单, 列出所有可以选择的物品, 你可以从中选择一个;  
+     * manual_mult  - 与manual相同, 但可以选择多个物品  
+     */
+    run_inv_eocs: "all"|"random"|"manual"|"manual_mult";
+    /**设置目标物品的条件;  
+     * 缺少search_data意味着可以选择任何物品;  
+     * 条件可以是:  
+     * id           - 特定物品的id;  
+     * category     - 物品的类别 (区分大小写, 应始终使用小写);  
+     * flags        - 物品具有的标志  
+     * material     - 物品的材料;  
+     * worn_only    - 如果为true, 只返回穿着的物品;  
+     * wielded_only - 如果为true, 只返回手持的物品  
+     */
+    search_data?: InvSearchData;
+    /**如果使用了manual或manual_mult, 将显示的菜单的名称 */
+    title?: StrObj;
+    /**如果物品被成功选中, 所有true_eocs都会运行, 否则所有false_eocs都会运行;  
+     * 选中的物品作为npc返回;  
+     * 例如, n_hp()返回物品的hp  
+     */
+    true_eocs?: EocID[];
+    /**如果未选择物品, 将运行的eoc */
+    false_eocs?: EocID[];
+},"run_inv_eocs">;
+/**背包筛选数据 */
+type InvSearchData = {
+    /**特定物品的id */
+    id?: IDObj<AnyItemID>;
+    /**物品的类别 (区分大小写, 应始终使用小写) */
+    category?: (StrObj);
+    /**物品具有的标志 */
+    flags?: string[];
+    /**物品的材料 */
+    material?: (StrObj);
+    /**如果为true, 只返回穿着的物品 */
+    worn_only?: boolean;
+    /** 如果为true, 只返回手持的物品 */
+    wielded_only?: boolean;
+}[];
+
+
+
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID>|InlineEoc)|(IDObj<EocID>|InlineEoc)[];
 

@@ -2,6 +2,7 @@ import { DataManager } from "@src/DataManager";
 import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, Spell } from "CddaJsonFormat";
 import { genEOCID, genEffectID, genEnchantmentID, genSpellID } from "ModDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
+import { FULL_RECIVERY_EOCID } from "StaticData";
 
 /**回复收到的伤害 */
 //const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
@@ -138,12 +139,11 @@ function EmergencyFreeze(dm:DataManager){
     }
     const teoc = genTriggerEffect(dm,eff,"CnpcDeathPrev","-1",[
         "u_prevent_death",
-        {u_set_hp:1000,max:true},
-        {u_cast_spell:{id:tex.id}},
-        {u_cast_spell:{id:tspell.id}},
-        {u_cast_spell:{id:tfreeze.id}},
-        {math:[ "u_pain()", "=", "0" ] },
-        {sound_effect:"IceHit",id:"BaseAudio",volume:100}
+        { run_eocs: FULL_RECIVERY_EOCID },
+        { u_cast_spell:{id:tex.id}},
+        { u_cast_spell:{id:tspell.id}},
+        { u_cast_spell:{id:tfreeze.id}},
+        { sound_effect:"IceHit",id:"BaseAudio",volume:100}
     ],"PERMANENT");
     dm.addStaticData([tex,tspell,tfreeze,freeze,eff,teoc],"common_resource","trigger_effect","EmergencyFreeze");
 }

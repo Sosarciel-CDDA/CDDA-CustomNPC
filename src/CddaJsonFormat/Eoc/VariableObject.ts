@@ -206,7 +206,7 @@ type CompareTime = TalkerVar<{
 const QueryTileTypeList = [
     "anywhere"      , //与"look around" UI相同
     "line_of_sight" , //此刻可见的唯一瓷砖（范围是强制性的）
-    "around"        , //与点燃火源相同，你只能选择紧邻的9个瓷砖
+    "around"        , //与点燃火源相同, 你只能选择紧邻的9个瓷砖
 ] as const;
 /**选择地块的模式 列表 */
 type QueryTileType = typeof QueryTileTypeList[number];
@@ -216,7 +216,7 @@ type QueryTile = TalkerVar<{
     query_tile: QueryTileType;
     /**包含所选瓷砖坐标的变量对象（强制性） */
     target_var: LocObj;
-    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
+    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的, 否则不需要） */
     range?: (NumObj);
     /**定义是否允许为anywhere选择其他z-level */
     z_level?: (NumObj);

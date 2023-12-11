@@ -8,7 +8,7 @@ import { BATTLE_RANGE, MELEE_RANGE } from "./BaseSpell";
 
 
 /**初始化变量 */
-export const InitVar:Eoc={
+const InitVar:Eoc={
     type:"effect_on_condition",
     eoc_type:"ACTIVATION",
     id:genEOCID("InitVar"),
@@ -18,6 +18,41 @@ export const InitVar:Eoc={
     ]
 }
 
-export const BaseEoc = [InitVar];
-
+/**完全回复EOC */
+export const FULL_RECIVERY_EOCID = genEOCID("FullRecovery");
+/**完全回复 */
+const FullRecivery:Eoc={
+    type:"effect_on_condition",
+    eoc_type:"ACTIVATION",
+    id:FULL_RECIVERY_EOCID,
+    effect:[
+        { math: [ "u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)"   ] },
+        { math: [ "u_val('thirst')"     , "=", "min( u_val('thirst'), 800)"         ] },
+        { math: [ "u_val('vitamin', 'name: redcells')"      , "=", "0" ] },
+        { math: [ "u_val('vitamin', 'name: bad_food')"      , "=", "0" ] },
+        { math: [ "u_val('vitamin', 'name: blood')"         , "=", "0" ] },
+        { math: [ "u_val('vitamin', 'name: instability')"   , "=", "0" ] },
+        { math: [ "u_pain()"    , "=", "0" ] },
+        { math: [ "u_val('rad')", "=", "0" ] },
+        { u_set_hp: 1000, max: true},
+        { u_add_effect: "cureall", duration: "1 s", intensity: 1 },
+        { u_lose_effect: "corroding"             },
+        { u_lose_effect: "onfire"                },
+        { u_lose_effect: "dazed"                 },
+        { u_lose_effect: "stunned"               },
+        { u_lose_effect: "venom_blind"           },
+        { u_lose_effect: "formication"           },
+        { u_lose_effect: "blisters"              },
+        { u_lose_effect: "frostbite"             },
+        { u_lose_effect: "frostbite_recovery"    },
+        { u_lose_effect: "wet"                   },
+        { u_lose_effect: "slimed"                },
+        { u_lose_effect: "migo_atmosphere"       },
+        { u_lose_effect: "fetid_goop"            },
+        { u_lose_effect: "sap"                   },
+        { u_lose_effect: "nausea"                },
+        { u_lose_effect: "bleed"                 },
+    ]
+}
+export const BaseEoc = [InitVar,FullRecivery];
 saveStaticData(BaseEoc,'static_resource',"base_eoc");

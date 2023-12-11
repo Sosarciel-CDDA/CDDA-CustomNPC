@@ -292,11 +292,11 @@ function CNPC_EOC_CnpcDeathProcess(){
 	}
 	//无形体
 	eobj({ "u_add_effect":"incorporeal","duration":"PERMANENT","force":true});
+	//完全回复
+	CNPC_EOC_FullRecovery();
 	//眩晕倒地
 	eobj({ "u_add_effect":"stunned","duration":"PERMANENT","force":true});
 	eobj({ "u_add_effect":"downed" ,"duration":"PERMANENT","force":true});
-	//满血
-	eobj({ "u_set_hp": 100, "max": true });
 	eobj({ "u_add_trait": "DEBUG_NODMG" });
 	eobj({ "u_add_trait": "DEBUG_CLOAK" });
 	eobj({ "u_add_trait": "DEBUG_SPEED" });
