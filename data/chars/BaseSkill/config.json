@@ -76,6 +76,32 @@
     ],
     "skill": [
         {
+            "name": "战术转移",
+            "cast_condition":{"hook": "TryHit","target": "control_cast"},
+            "spell": {
+                "type": "SPELL",
+                "id": "CNPC_SPELL_tactical_transfer",
+                "description": "传送到视野范围内的另一个位置。",
+                "name": "战术转移",
+                "valid_targets": ["ground"],
+                "effect": "attack",
+                "min_range":{"math": ["BATTLE_RANGE"]},
+                "shape": "blast"
+
+            },
+            "before_effect": [
+                {"math": ["CNPC_SPELL_tactical_transfer_isconuse","=","1"]}
+            ],
+            "after_effect": [{
+                "if": {"math": ["CNPC_SPELL_tactical_transfer_isconuse","==","1"]},
+                "then": [
+                    {"u_teleport":{"global_val": "CNPC_SPELL_tactical_transfer_loc"}},
+                    {"math": ["CNPC_SPELL_tactical_transfer_isconuse","=","0"]}
+                ]
+            }],
+            "cooldown": 64
+        },
+        {
             "name": "猫之优雅",
             "cast_condition":{
                 "hook": "BattleUpdate",
