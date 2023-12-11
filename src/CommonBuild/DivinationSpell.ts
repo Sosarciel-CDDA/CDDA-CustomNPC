@@ -247,7 +247,7 @@ export async function createDivinationSpell(dm:DataManager){
             out.push(subeoc);
             subeocIdList.push(subeoc.id);
         }else{
-            const cond:BoolObj[] = [{not:{u_has_mission:miss.id}}];
+            const cond: (BoolObj)[] = [{not:{u_has_mission:miss.id}}];
             if(mod_is_loaded)
                 cond.push({mod_is_loaded});
             const subeoc:Eoc={

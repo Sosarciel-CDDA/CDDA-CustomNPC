@@ -85,7 +85,7 @@ async function createUpgResp(dm:DataManager,charName:string){
         //子话题的回复
         const upgSubRespList:Resp[] = [];
         //判断是否有任何子选项可以升级
-        const upgSubResCondList:BoolObj[] = [];
+        const upgSubResCondList: (BoolObj)[] = [];
         //全局字段变量
         const globalFieldID = getGlobalFieldVarID(charName,upgObj.field);
 
@@ -112,11 +112,11 @@ async function createUpgResp(dm:DataManager,charName:string){
                 //过滤item 全部转为obj形式
                 const fixRes:RequireResource[] = andRes.map(item=>typeof item =="string" ? {id:item} : item);
                 //字段等级条件
-                const lvlCond:BoolObj[] = (isLastRes
+                const lvlCond: (BoolObj)[] = (isLastRes
                         ? [{math:[nfield,">=",lvl+""]},{math:[nfield,"<",maxLvl+""]}]
                         : [{math:[nfield,"==",lvl+""]}])
                 //升级材料条件
-                const cond:BoolObj={and:[
+                const cond: (BoolObj)={and:[
                     ...lvlCond,
                     ...fixRes.map(item=>({u_has_items:{
                         item: item.id,
@@ -444,7 +444,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
 
 
             //给予条件
-            const giveCond:BoolObj[] = [
+            const giveCond: (BoolObj)[] = [
                 {not:{ u_has_item: item.id }},
                 {math:[uenable,"==","1"]}
             ];

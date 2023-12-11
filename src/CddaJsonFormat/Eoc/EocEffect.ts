@@ -88,7 +88,7 @@ type RunEocUntil = {
     /**循环条件, 为真时循环 */
     condition:CondObj;
     /**最大循环限制, 超过时停止并报错 默认100*/
-    iteration?:NumObj;
+    iteration?: (NumObj);
 }
 /**延迟队列eoc */
 type QueueEoc = {
@@ -114,11 +114,11 @@ type EocSelector = {
     /**每个选项的名称 */
     names?:StrObj[];
     /**每个选项的介绍 */
-    descriptions?:DescText[];
+    descriptions?: (DescText)[];
     /**每个选项的键 */
     keys?:string[];
     /**整体选项的标题 */
-    title?:DescText;
+    title?: (DescText);
     /**为true时对应Eoc的条件如果不满足 则直接隐藏  
      * 默认false 显示无法选择
      */
@@ -141,11 +141,11 @@ type SoundEffect = {
     /**音效ID */
     id          :  StrObj|SoundEffectID;
     /**变体ID */
-    sound_effect?: StrObj|SoundEffectVariantID;
+    sound_effect?: (StrObj)|SoundEffectVariantID;
     /**如果为true则如果玩家在 地下/地下室 时难以听到 */
     outdoor_event?: boolean;
     /**音量 */
-    volume:NumObj;
+    volume: (NumObj);
 }
 /**施法 */
 type CastSpell = TalkerVar<{
@@ -168,9 +168,9 @@ type CastSpell = TalkerVar<{
 type Teleport = TalkerVar<{
     teleport: LocObj;
     /**成功传送产生的消息 */
-    success_message?: StrObj;
+    success_message?: (StrObj);
     /**传送失败产生的消息 */
-    fail_message?: StrObj;
+    fail_message?: (StrObj);
     /**强制传送 尽可能传送到目标位置 传送不会失败 */
     force?: boolean;
 },"teleport">;
@@ -179,9 +179,9 @@ type Teleport = TalkerVar<{
 type LocalVar = TalkerVar<{
     location_variable:LocObj;
     /**在发起者周围 的最小半径 默认 0 */
-    min_radius?:NumObj;
+    min_radius?: (NumObj);
     /**在发起者周围 的最大半径 默认 0 */
-    max_radius?:NumObj;
+    max_radius?: (NumObj);
     /**如果为 true, 则仅选择室外值 默认为 false */
     outdoor_only?:boolean;
     /**如果使用, 搜索将不是从u_或npc_位置执行,   
@@ -190,11 +190,11 @@ type LocalVar = TalkerVar<{
      */
     target_params?: AssignMissionTarget;
     /**将结果的x值增加 */
-    x_adjust?:NumObj;
+    x_adjust?: (NumObj);
     /**将结果的y值增加 */
-    y_adjust?:NumObj;
+    y_adjust?: (NumObj);
     /**将结果的z值增加 */
-    z_adjust?:NumObj;
+    z_adjust?: (NumObj);
     /**如果为 true, 则不将其累加到z级别,   
      * 而是用绝对值覆盖它:"z_adjust": 3将"z_override": true的值z转为3  
      * 默认为 false  
@@ -213,9 +213,9 @@ type LocalVar = TalkerVar<{
     /**搜索的目标NPC 空字符串为任意 */
     npc?:StrObj;
     /**在搜索目标周围的最小半径 */
-    target_min_radius?:NumObj;
+    target_min_radius?: (NumObj);
     /**在搜索目标周围的最大半径 */
-    target_max_radius?:NumObj;
+    target_max_radius?: (NumObj);
 },"location_variable">;
 
 /**发送消息 */
@@ -259,7 +259,7 @@ type AddEffect = TalkerVar<{
     /**效果强度 默认 0
      * 负数强度不产生效果
      */
-    intensity?:NumObj;
+    intensity?: (NumObj);
     /**是否强制添加忽略豁免 默认 false */
     force?:boolean;
 },"add_effect">;
@@ -332,7 +332,7 @@ type AddTrait = TalkerVar<{
 type SpawnItem = TalkerVar<{
     spawn_item:IDObj<AnyItemID>|IDObj<ItemGroupID>;
     /**数量 */
-    count?:NumObj;
+    count?: (NumObj);
     /**容器 */
     container?:IDObj<AnyItemID>;
     /**使用物品组 默认false*/
@@ -347,7 +347,7 @@ type ConsumeItem = TalkerVar<{
     /**数量 */
     count?: (NumObj);
     /**充能数量 */
-    charges?:NumObj;
+    charges?: (NumObj);
     /**为true时将显示消息给予npc物品 */
     popup?:boolean;
 },"consume_item">;
@@ -382,7 +382,7 @@ type SetCond = {
     /**将条件Obj保存为变量 */
     set_condition:CondObj;
     /**将要保存的条件 */
-    condition:BoolObj;
+    condition: (BoolObj);
 }
 /**条件控制 */
 type IfElse = {

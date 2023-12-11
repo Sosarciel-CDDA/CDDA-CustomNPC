@@ -128,7 +128,7 @@ export type AssignMissionTarget = {
     /**要查找的覆盖地图地形的 ID, 如果om_terrain找不到则替换。*/
     om_terrain_replace?:IDObj<OvermapTerrainID>;
     /**要显示的覆盖地图地形坐标中的半径。 */
-    reveal_radius:NumObj;
+    reveal_radius: (NumObj);
     /**如果属实, 那om_terrain肯定已经被看到了。 */
     must_see?:boolean;
     /**如果属实, 那么om_terrain一定还没有被看到。 */
@@ -136,13 +136,13 @@ export type AssignMissionTarget = {
     /**如果为 true, 则使用随机匹配​​。如果为 false, 则使用最接近的om_terrain */
     random?:boolean;
     /**在覆盖地图地形坐标中寻找匹配的范围om_terrain。 */
-    search_range:NumObj;
+    search_range: (NumObj);
     /**覆盖地图地形坐标中的范围。此范围内的实例om_terrain将被忽略。 */
-    min_distance?:NumObj;
+    min_distance?: (NumObj);
     /**从 NPC 的当前位置 (而不是玩家的当前位置) 开始搜索。 */
     origin_npc?:boolean;
     /**如果指定, 搜索时将使用而不是玩家或 NPC 的 z */
-    z?:NumObj;
+    z?: (NumObj);
     /**一个variable_object (参见variable_objectdoc ) , 如果设置了该变量的值将被使用。 */
     var?: LocObj;
     /**找到或创建 后om_terrain, 将任务目标地形偏移覆盖地图地形坐标中的偏移量。 */

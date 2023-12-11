@@ -55,13 +55,11 @@ export type Material = {
     conductive:boolean;
     /**是否强化？ */
     reinforces:boolean;
-    /**柔软材料 */
+    /**是柔软材料 */
     soft:boolean;
-    /**燃烧数据  
-     */
+    /**燃烧数据 */
     burn_data?: MateBurnData;
-    /**燃料数据  
-     */
+    /**燃料数据 */
     fuel_data?: FuelData
 };
 

@@ -99,7 +99,7 @@ export type CastCondition={
     /**释放条件 若允许多个条件请使用{or:[]}  
      * 相同的hook与target将覆盖  
      */
-    condition?      :BoolObj;
+    condition?      : (BoolObj);
     /**时机 */
     hook            :AnyCnpcEvenetType;
     /**瞄准方式  
@@ -270,7 +270,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
         for(const castCondition of ccs){
             const {target} = castCondition;
             //计算基础条件 确保第一个为技能开关, 用于cast_control读取
-            const baseCond:BoolObj[] = [
+            const baseCond: (BoolObj)[] = [
                 {math:[getDisableSpellVar("u",spell),"!=","1"]},
                 {math:[gcdValName,"<=","0"]},
             ];
@@ -284,7 +284,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 baseCond.push({math:[`u_${fdarr[0]}`,">=",fdarr[1]+""]});
             }
             //对所有武器要求进行 或 处理
-            const requireWeaponCond:BoolObj[] = [];
+            const requireWeaponCond: (BoolObj)[] = [];
             if(require_weapon_flag)
                 requireWeaponCond.push(...require_weapon_flag.map(id=>
                     ({u_has_wielded_with_flag:id})));
@@ -334,7 +334,7 @@ type BaseSkillCastData=Readonly<{
     /**技能 */
     skill:CharSkill;
     /**基础释放eoc条件 */
-    baseCond:BoolObj[];
+    baseCond: (BoolObj)[];
     /**基础成功eoc效果 */
     TEffect:EocEffect[];
     /**基础准备释放Eoc */
@@ -435,7 +435,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
     const ccuid = castCondUid(castCondition);
 
     //设置翻转条件
-    const filterCond:BoolObj = revTalker(castCondition.condition);
+    const filterCond: (BoolObj) = revTalker(castCondition.condition);
 
     //命中id
     const fhitvar = `${spell.id}_hasTarget`;
@@ -600,7 +600,7 @@ async function control_castProc(dm:DataManager,charName:string,baseSkillData:Bas
     PreEffect = revTalker(PreEffect);
 
     //将字段要求作为显示条件
-    const hideCond:BoolObj[] = [];
+    const hideCond: (BoolObj)[] = [];
     const {require_field} = skill;
     if(require_field){
         let fdarr = typeof require_field == "string"

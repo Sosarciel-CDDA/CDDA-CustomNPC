@@ -52,7 +52,7 @@ export async function createCharCarry(dm:DataManager,charName:string){
         }
         //自动回复Eoc
         if(recharge!=undefined && recharge>=1){
-            const cond:BoolObj[] = [
+            const cond: (BoolObj)[] = [
                 {not:{u_has_items:{item:itemID,count:count??1}}}
             ];
             if(require_field){

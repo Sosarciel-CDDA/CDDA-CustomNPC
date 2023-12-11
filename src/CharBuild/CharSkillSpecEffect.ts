@@ -45,7 +45,7 @@ type RunEoc = {
     /**自动生成eoc并运行 */
     effect?     :EocEffect[];
     /**自动生成的eoc的运行条件 */
-    condition?  :BoolObj;
+    condition?  : (BoolObj);
 }
 /**额外造成某种类型的伤害 */
 type ExtDamage = {

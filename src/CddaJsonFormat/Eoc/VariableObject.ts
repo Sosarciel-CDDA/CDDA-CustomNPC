@@ -141,9 +141,9 @@ type HasItems = TalkerVar<{
     /**包里有N个某物品 */
     has_items:{
         /**目标物品 */
-        item:IDObj<AnyItemID>;
+        item: IDObj<AnyItemID>;
         /**要求数量 */
-        count:NumObj;
+        count: (NumObj);
     };
 },"has_items">;
 
@@ -213,7 +213,7 @@ type QueryTileType = typeof QueryTileTypeList[number];
 /**选择地块 */
 type QueryTile = TalkerVar<{
     /**选择地块 */
-    query_tile:QueryTileType;
+    query_tile: QueryTileType;
     /**包含所选瓷砖坐标的变量对象（强制性） */
     target_var: LocObj;
     /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
@@ -228,17 +228,17 @@ type QueryTile = TalkerVar<{
 /**非操作 */
 export type BoolOperaNot = {
     /**非操作 */
-    not:BoolObj
+    not: (BoolObj)
 };
 /**或操作 */
 export type BoolOperaOr = {
     /**或操作 */
-    or:BoolObj[]
+    or: (BoolObj)[]
 };
 /**与操作 */
 export type BoolOperaAnd = {
     /**与操作 */
-    and:BoolObj[]
+    and: (BoolObj)[]
 };
 /**比较字符串是否相等 */
 export type BoolOperaCompStr = {

@@ -11,9 +11,9 @@ export type EnchantmentID = CddaID<"ENCH">;
 export type Enchantment = {
     type: "enchantment";
     /**附魔的说明 */
-    description?:DescText;
+    description?: (DescText);
     /**附魔的名称 */
-    name?:DescText;
+    name?: (DescText);
     /**附魔唯一ID */
     id: EnchantmentID;
     /**物品在什么位置时启用 */
@@ -92,9 +92,9 @@ export type EnchModVal = {
     /**附魔增幅类型 */
     value    :EnchValType;
     /**倍率增幅 1为+100% */
-    multiply?:NumObj;
+    multiply?: (NumObj);
     /**加值增幅 在计算倍率前先添加 */
-    add     ?:NumObj;
+    add     ?: (NumObj);
 }
 /**伪法术附加信息 */
 export type FakeSpell = {
@@ -107,13 +107,13 @@ export type FakeSpell = {
     /** 1/n 的几率触发 */
     once_in?: (NumObj);
     /**释放时的消息 */
-    message?:DescText;
+    message?: (DescText);
     /**npc释放时的消息 */
-    npc_message?:DescText;
+    npc_message?: (DescText);
     /**最小法术等级 */
-    min_level?:NumObj;
+    min_level?: (NumObj);
     /**最大法术等级 */
-    max_level?:NumObj;
+    max_level?: (NumObj);
 }
 
 /**附魔通用加值类型 列表 */

@@ -20,7 +20,7 @@ import { genActEoc, genEOCID, genMutationID } from "ModDefine";
  * @param cooldown 触发间隔
  */
 export function genTriggerEffect(dm:DataManager,effect:Effect,hook:GlobalEventType,mode:"/2"|"-1"|"none",
-    eocEffects:EocEffect[],duration:Time,condition?:BoolObj,cooldown:Time=0){
+    eocEffects:EocEffect[],duration:Time,condition?: (BoolObj),cooldown:Time=0){
     if(typeof cooldown == "number") cooldown = `${cooldown} s`;
     effect.int_decay_remove = true;
 

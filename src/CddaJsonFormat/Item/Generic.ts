@@ -78,13 +78,13 @@ export type GenericBase = {
     /**物品显示名 */
     name: (DescText)|{
         /**单数名 */
-        str?:DescText;
+        str?: (DescText);
         /**复数名 */
-        str_pl?:DescText;
+        str_pl?: (DescText);
         /**单复数共用名 */
-        str_sp?:DescText;
+        str_sp?: (DescText);
         /**翻译上下文 */
-        ctxt?:DescText;
+        ctxt?: (DescText);
     };
     /**物品分类 */
     category?:ItemCategotyID;
