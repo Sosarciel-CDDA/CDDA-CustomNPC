@@ -8,7 +8,24 @@ exports.DefineEffectIDList = [
     "incorporeal",
     "stunned",
     "downed",
-    "grabbed", //被抓住
+    "grabbed",
+    "cureall",
+    "corroding",
+    "onfire",
+    "dazed",
+    "stunned",
+    "venom_blind",
+    "formication",
+    "blisters",
+    "frostbite",
+    "frostbite_recovery",
+    "wet",
+    "slimed",
+    "migo_atmosphere",
+    "fetid_goop",
+    "sap",
+    "nausea",
+    "bleed", // 流血
 ];
 /**
  * X_amount       - 当效果被放置时, X的应用量。像应用消息一样, 它只会在新效果上触发

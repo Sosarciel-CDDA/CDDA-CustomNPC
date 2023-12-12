@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { AmmoEffectID } from "../AmmoEffect";
 import { CddaID, CopyfromVar, RangeDamage } from "../GenericDefine";
-import { GenericBase, GenericFlag } from "./Generic";
+import { AnyItemID, GenericBase, GenericFlag } from "./Generic";
 /**Ammo ID格式 */
 export type AmmoID = CddaID<"AMMO">;
 /**Ammo 弹药物品 */
@@ -31,7 +31,7 @@ export type Ammo = CopyfromVar<{
     shot_counter?: number;
     /**可选字段, 指定本轮发射的单个射弹造成的伤害。
      * 如果存在, 还必须指定 projectile_count。
-     * 在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害，而非range_damage
+     * 在目标距离至少大于1时 将显示 目标被流弹击中 并应用此伤害, 而非range_damage
      */
     shot_damage?: RangeDamage | RangeDamage[];
     /**可选字段, 指定单个射弹的额外分散度。
@@ -58,4 +58,6 @@ export type Ammo = CopyfromVar<{
     effects?: AmmoEffectID[];
     /**弹药的flag */
     flags?: GenericFlag[];
+    /**发射弹药后在弹药落点掉落的物品 */
+    drop?: AnyItemID;
 } & GenericBase>;

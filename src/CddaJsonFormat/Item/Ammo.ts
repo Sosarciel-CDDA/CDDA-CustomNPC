@@ -1,7 +1,7 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { AmmoEffectID } from "../AmmoEffect";
 import { CddaID, CopyfromVar, RangeDamage } from "../GenericDefine";
-import { GenericBase, GenericFlag } from "./Generic";
+import { AnyItemID, GenericBase, GenericFlag } from "./Generic";
 
 
 
@@ -62,6 +62,8 @@ export type Ammo = CopyfromVar<{
     effects?: AmmoEffectID[];
     /**弹药的flag */
     flags?: GenericFlag[];
+    /**发射弹药后在弹药落点掉落的物品 */
+    drop?:AnyItemID;
 }&GenericBase>;
 
 

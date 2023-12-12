@@ -6,7 +6,7 @@ export type MaterialID = CddaID<"MATE">;
 export type Material = {
     type: "material";
     id: MaterialID;
-    name: DescText;
+    name: (DescText);
     /**密度 影响车辆碰撞损坏, 较致密的零件比较不致密的零件更具优势。 */
     density: number;
     /**材料未冷冻时的比热 (J/(g K))。默认 4.186 - 水。 */
@@ -47,13 +47,11 @@ export type Material = {
     conductive: boolean;
     /**是否强化？ */
     reinforces: boolean;
-    /**柔软材料 */
+    /**是柔软材料 */
     soft: boolean;
-    /**燃烧数据
-     */
+    /**燃烧数据 */
     burn_data?: MateBurnData;
-    /**燃料数据
-     */
+    /**燃料数据 */
     fuel_data?: FuelData;
 };
 /**燃烧数据 */
@@ -69,7 +67,7 @@ export type MateBurnData = {
     smoke: number;
     /**如果非零且低于物品体积, 则按 volume_per_turn / 回合 燃烧体积
      */
-    volume_per_turn?: Volume;
+    volume_per_turn?: (Volume);
     /**决定火灾将由该材料制成的物品转化为燃料的速度。
      * 不影响给定提供的总燃料
      */

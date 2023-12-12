@@ -12,7 +12,7 @@ export type AmmunitionType = {
     /**唯一ID */
     id: AmmunitionTypeID;
     /**弹药名称 */
-    name: DescText;
+    name: (DescText);
     /**弹药的默认物品ID */
     default: AnyItemID;
 };

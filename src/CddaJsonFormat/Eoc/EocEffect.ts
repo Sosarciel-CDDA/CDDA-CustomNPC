@@ -84,38 +84,38 @@ type MathAssignExp = {
 /**运行Eoc */
 type RunEoc = {
     /**运行Eoc */
-    run_eocs:ParamsEoc
+    run_eocs: (ParamsEoc)
 };
 /**循环运行Eoc */
 type RunEocUntil = {
     /**循环运行Eoc */
-    run_eoc_until:ParamsEoc;
+    run_eoc_until: (ParamsEoc);
     /**循环条件, 为真时循环 */
-    condition:CondObj;
+    condition: (CondObj);
     /**最大循环限制, 超过时停止并报错 默认100*/
     iteration?: (NumObj);
 }
 /**延迟队列eoc */
 type QueueEoc = {
     /**运行Eoc 将会丢失beta talker*/
-    queue_eocs:ParamsEoc;
+    queue_eocs: (ParamsEoc);
     /**延迟 */
     time_in_future: (Time);
 }
 /**运行Eoc 并提供参数 */
 type RunEocWith = {
-    run_eoc_with:ParamsEoc;
+    run_eoc_with: (ParamsEoc);
     /**提供的上下文参数表 变量名:值 */
-    variables? : Record<string,string>;
+    variables? : Record<string,string|boolean|number>;
     /**将loc所在位置的单位作为beta talker */
-    beta_loc? : LocObj;
+    beta_loc? : (LocObj);
 };
 /**Eoc选项 */
 type EocSelector = {
     /**根据选择运行提供的EocID */
-    run_eoc_selector:IDObj<EocID>[];
+    run_eoc_selector: IDObj<EocID>[];
     /**提供的上下文参数表 变量名:值 */
-    variables? : Record<string,string>;
+    variables?: Record<string,string|boolean|number>;
     /**每个选项的名称 */
     names?: (StrObj)[];
     /**每个选项的介绍 */
@@ -127,7 +127,7 @@ type EocSelector = {
     /**为true时对应Eoc的条件如果不满足 则直接隐藏  
      * 默认false 显示无法选择
      */
-    hide_failing?:boolean;
+    hide_failing?: boolean;
 }
 
 /**生成Npc */
@@ -144,9 +144,9 @@ type SpawnNpc = TalkerVar<{
 /**播放声音 */
 type SoundEffect = {
     /**音效ID */
-    id          :  StrObj|SoundEffectID;
+    id          : IDObj<SoundEffectID>;
     /**变体ID */
-    sound_effect?: (StrObj)|SoundEffectVariantID;
+    sound_effect?: IDObj<SoundEffectVariantID>;
     /**如果为true则如果玩家在 地下/地下室 时难以听到 */
     outdoor_event?: boolean;
     /**音量 */
@@ -155,23 +155,23 @@ type SoundEffect = {
 /**施法 */
 type CastSpell = TalkerVar<{
     /**施法 */
-    cast_spell:FakeSpell;
+    cast_spell: FakeSpell;
     /**默认为 false；如果为 true, 则允许您瞄准施放的法术,   
      * 否则将其施放于随机位置, 就像RANDOM_TARGET使用了法术标志一样  
      * RANDOM_TARGET法术需要此项目为true才能正常索敌  
      */
-    targeted?:boolean;
+    targeted?: boolean;
     /**成功施法后运行的eoc */
-    true_eocs?:ParamsEoc;
+    true_eocs?: (ParamsEoc);
     /**施法失败后运行的eoc */
-    false_eocs?:ParamsEoc;
+    false_eocs?: (ParamsEoc);
     /**施法目标位置 */
-    loc?:LocObj;
+    loc?: (LocObj);
 },"cast_spell">;
 
 /**传送 */
 type Teleport = TalkerVar<{
-    teleport: LocObj;
+    teleport: (LocObj);
     /**成功传送产生的消息 */
     success_message?: (StrObj);
     /**传送失败产生的消息 */
@@ -182,18 +182,18 @@ type Teleport = TalkerVar<{
 
 /**搜索并获取坐标 存入location_variable*/
 type LocalVar = TalkerVar<{
-    location_variable: LocObj;
+    location_variable: (LocObj);
     /**在发起者周围 的最小半径 默认 0 */
     min_radius?: (NumObj);
     /**在发起者周围 的最大半径 默认 0 */
     max_radius?: (NumObj);
     /**如果为 true, 则仅选择室外值 默认为 false */
-    outdoor_only?:boolean;
+    outdoor_only?: boolean;
     /**如果使用, 搜索将不是从u_或npc_位置执行,   
      * 而是从 执行mission_target。  
      * 它使用allocate_mission_target语法  
      */
-    target_params?: AssignMissionTarget;
+    target_params?: (AssignMissionTarget);
     /**将结果的x值增加 */
     x_adjust?: (NumObj);
     /**将结果的y值增加 */
@@ -204,7 +204,7 @@ type LocalVar = TalkerVar<{
      * 而是用绝对值覆盖它:"z_adjust": 3将"z_override": true的值z转为3  
      * 默认为 false  
      */
-    z_override?:boolean;
+    z_override?: boolean;
     /**搜索的目标地形 空字符串为任意 */
     terrain?: (StrObj);
     /**搜索的目标家具 空字符串为任意 */
@@ -260,13 +260,13 @@ type AddEffect = TalkerVar<{
      */
     duration: (Time)|NumObj;
     /**默认为 whole body 全身 */
-    target_part?:BodyPartParam;
+    target_part?: BodyPartParam;
     /**效果强度 默认 0
      * 负数强度不产生效果
      */
     intensity?: (NumObj);
     /**是否强制添加忽略豁免 默认 false */
-    force?:boolean;
+    force?: boolean;
 },"add_effect">;
 
 /**失去效果 */
@@ -282,15 +282,15 @@ type LoseEffect = TalkerVar<{
  */
 export type VarComment = {
     /**注释用字段 type */
-    type?:string;
+    type?: string;
     /**注释用字段 context */
-    context?:string;
+    context?: string;
 }
 /**添加文本变量 */
 type AddStrVar = TalkerVar<{
     add_var: string;
     /**变量值 */
-    value:string;
+    value: string;
 },"add_var">&VarComment;
 /**添加时间变量 */
 type AddTimeVar = TalkerVar<{
@@ -315,7 +315,7 @@ type SetHP = TalkerVar<{
     /**仅增加 默认false  
      * 如果属实, HP只能增加  
      */
-    only_increase?:boolean;
+    only_increase?: boolean;
     /**只影响主要肢体 默认 false */
     main_only?:boolean;
     /**只影响次要肢体 默认 false */
@@ -326,24 +326,24 @@ type SetHP = TalkerVar<{
 
 /**失去变异 */
 type LoseTrait = TalkerVar<{
-    lose_trait:IDObj<MutationID>
+    lose_trait: IDObj<MutationID>
 },"lose_trait">;
 /**获得变异 */
 type AddTrait = TalkerVar<{
-    add_trait:IDObj<MutationID>
+    add_trait: IDObj<MutationID>
 },"add_trait">;
 
 /**生成物品 */
 type SpawnItem = TalkerVar<{
-    spawn_item:IDObj<AnyItemID>|IDObj<ItemGroupID>;
+    spawn_item: IDObj<AnyItemID>|IDObj<ItemGroupID>;
     /**数量 */
     count?: (NumObj);
     /**容器 */
-    container?:IDObj<AnyItemID>;
+    container?: IDObj<AnyItemID>;
     /**使用物品组 默认false*/
-    use_item_group?:boolean;
+    use_item_group?: boolean;
     /**不显示消息 默认false*/
-    suppress_message?:boolean;
+    suppress_message?: boolean;
 },"spawn_item">
 
 /**使用物品 */
@@ -354,7 +354,7 @@ type ConsumeItem = TalkerVar<{
     /**充能数量 */
     charges?: (NumObj);
     /**为true时将显示消息给予npc物品 */
-    popup?:boolean;
+    popup?: boolean;
 },"consume_item">;
 
 /**删除物品 */
@@ -366,26 +366,26 @@ type RemoveItem = TalkerVar<{
 /**给玩家添加任务 */
 type AssingMission = {
     /**给玩家添加目标ID任务 */
-    assign_mission:IDObj<MissionDefinitionID>;
+    assign_mission: IDObj<MissionDefinitionID>;
 }
 /**将从玩家的活动任务列表中删除任务而不失败。 */
 type RemoveActionMission = {
     /**给玩家删除目标ID任务 */
-    remove_active_mission:IDObj<MissionDefinitionID>;
+    remove_active_mission: IDObj<MissionDefinitionID>;
 }
 /**使玩家完成任务 */
 type FinishMission = {
     /**使玩家完成目标ID任务 */
-    finish_mission:IDObj<MissionDefinitionID>;
+    finish_mission: IDObj<MissionDefinitionID>;
     /**不为true则视为失败 */
-    success?:boolean;
+    success?: boolean;
     /**完成相当于step值的任务步骤 */
-    step?:number;
+    step?: number;
 }
 /**将条件Obj保存为变量 */
 type SetCond = {
     /**将条件Obj保存为变量 */
-    set_condition:CondObj;
+    set_condition: (CondObj);
     /**将要保存的条件 */
     condition: (BoolObj);
 }

@@ -1,6 +1,6 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
-import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj} from "CddaJsonFormat";
+import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj, SoundEffectID, SoundEffectVariantID} from "CddaJsonFormat";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CnpcEventTypeList, CnpcEventType, AnyCnpcEvenetType, CommonInteractiveEventTypeList } from "Event";
@@ -142,7 +142,11 @@ function parseAudioString(charName:string,str:string,volume:number=100){
         soundName = match[1];
         varName = match[2];
     }
-    return {sound_effect:varName,id:soundName,volume};
+    return {
+        sound_effect:varName    as SoundEffectVariantID ,
+        id          :soundName  as SoundEffectID        ,
+        volume
+    };
 }
 
 //法术消耗变量类型映射

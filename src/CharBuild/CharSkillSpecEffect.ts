@@ -41,7 +41,7 @@ type RunEoc = {
     /**生成一个运行的子法术 */
     type        :"RunEoc";
     /**运行的Eoc */
-    eoc         :ParamsEoc;
+    eoc         : (ParamsEoc);
     /**自动生成eoc并运行 */
     effect?     :EocEffect[];
     /**自动生成的eoc的运行条件 */

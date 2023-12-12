@@ -1,4 +1,4 @@
 import { Eoc } from "../CddaJsonFormat";
-/**初始化变量 */
-export declare const InitVar: Eoc;
+/**完全回复EOC */
+export declare const FULL_RECIVERY_EOCID: import("../CddaJsonFormat").EocID;
 export declare const BaseEoc: Eoc[];

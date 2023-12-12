@@ -33,16 +33,7 @@ export type GenericBase = {
     /**物品唯一ID */
     id: string;
     /**物品显示名 */
-    name: DescText | {
-        /**单数名 */
-        str?: DescText;
-        /**复数名 */
-        str_pl?: DescText;
-        /**单复数共用名 */
-        str_sp?: DescText;
-        /**翻译上下文 */
-        ctxt?: DescText;
-    };
+    name: (DescText);
     /**物品分类 */
     category?: ItemCategotyID;
     /**该项目应在哪个容器 (如果有)中生成 */
@@ -52,33 +43,33 @@ export type GenericBase = {
     /**提示图块集, 如果该项目没有图块 使用looks_like图块 */
     looks_like?: string;
     /**描述 */
-    description: DescText;
+    description: (DescText);
     /**用于该项目的 asci_art 的 ID */
     ascii_picture?: string;
     /**默认的状态 默认为固态 */
     phase?: Phase;
     /**重量 0重量物品需要添加 ZERO_WEIGHT标签 */
-    weight: Weight;
+    weight: (Weight);
     /**体积 0体积物品需要添加 ZERO_WEIGHT标签*/
-    volume: Volume;
+    volume: (Volume);
     /**当物品集成到另一个物品中时添加到基础物品的体积
      * 例如, 集成到枪支的枪械 体积会添加到基础物品上。
      * 默认值与音量相同。 */
-    integral_volume?: Volume;
+    integral_volume?: (Volume);
     /**当物品集成到另一个物品中时
      * 例如, 集成到枪中的枪械 重量会添加到基础物品上。
      * 默认值与重量相同。 */
-    integral_weight?: Weight;
+    integral_weight?: (Weight);
     /**最长物品尺寸的长度。 默认为体积的立方根 */
-    longest_side?: Length;
+    longest_side?: (Length);
     /**对于非刚性物品体积 (以及磨损物品负担)与内容成比例增加 */
     rigid?: boolean;
     /** (可选, 默认 = 1)如果是容器或车辆部件, 它应为内容物提供多少绝缘程度 */
     insulation?: number;
     /**物品价格 */
-    price?: Price;
+    price?: (Price);
     /**大灾变后的物品价格 */
-    price_postapoc?: Price;
+    price_postapoc?: (Price);
     /**控制物品在受到伤害时退化的速度。 0 = 无退化。
      * 默认为 1.0
      */
@@ -110,7 +101,7 @@ export type GenericBase = {
     /**爆炸数据 */
     explosion?: Explosion;
     /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 */
-    countdown_interval?: Time;
+    countdown_interval?: (Time);
     /**定时激活的动作 */
     countdown_action?: UseAction;
     /**附魔数据 */
@@ -132,7 +123,7 @@ export type RelicData = {
         /**回复方式 periodic 为周期 */
         recharge_type: "lunar" | "periodic" | "solar_cloudy" | "solar_sunny" | "none";
         /**每次回复的间隔 */
-        time: Time;
+        time: (Time);
     };
     /**被动附魔效果 */
     passive_effects?: ({

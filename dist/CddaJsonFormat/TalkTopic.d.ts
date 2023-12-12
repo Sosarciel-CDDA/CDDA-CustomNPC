@@ -49,7 +49,7 @@ type RespBase = {
      * 这会删除输出文本周围的引号, 表示显示文本的描述性性质,
      * 使用 \" 转义双引号来指示实际对话的开始。
       */
-    text?: DescText;
+    text?: (DescText);
     /**对某个条件进行判断 并给出不同的文本
      * 代替 text 字段
      */
@@ -57,9 +57,9 @@ type RespBase = {
         /**条件 */
         condition: BoolObj;
         /**条件为真时的text */
-        true: DescText;
+        true: (DescText);
         /**条件为假时的text */
-        false: DescText;
+        false: (DescText);
     };
     /**是一个选项回复 默认false
      * 仅显示第一个带有"switch": true、和有效条件的响应
@@ -72,11 +72,11 @@ type RespBase = {
      */
     default?: boolean;
     /**显示此回复的条件 */
-    condition?: BoolObj;
+    condition?: (BoolObj);
     /**回复的条件不满足时仍然显示选项 但采用此字段而非text
      * 玩家的文本回复/选项显示文本
      */
-    failure_explanation?: DescText;
+    failure_explanation?: (DescText);
     /**回复的条件不满足时 选择此选项将跳转到的对话 */
     failure_topic?: TalkTopicID;
 };
@@ -94,7 +94,7 @@ type RespLong = {
         /**基于哪种社交技能 */
         type: RespTraitType;
         /**如果 type 为 CONDITION 则使用条件代替鉴定难度 */
-        condition?: BoolObj;
+        condition?: (BoolObj);
         /**如果 type 为 SKILL_CHECK 则使用技能鉴定 */
         skill_required?: SkillID;
         /**难度 类型不为 NONE 或 CONDITION时需要设置难度*/

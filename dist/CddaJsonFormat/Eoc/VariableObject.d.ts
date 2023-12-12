@@ -98,7 +98,7 @@ type MathCompareExp = {
 /**获取条件 */
 type GetCond = {
     /**获取条件 */
-    get_condition: CondObj;
+    get_condition: (CondObj);
 };
 /**有某个效果 */
 type HasEffect = TalkerVar<{
@@ -107,7 +107,7 @@ type HasEffect = TalkerVar<{
      */
     has_effect: IDObj<EffectID>;
     /**要求的效果强度 */
-    intensity?: NumObj;
+    intensity?: (NumObj);
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
 }, "has_effect">;
@@ -116,7 +116,7 @@ type HasStrVar = TalkerVar<{
     /**有某个文本变量 */
     has_var: string;
     /**要求的内容 */
-    value: StrObj;
+    value: (StrObj);
 }, "has_var"> & VarComment;
 /**有某个时间变量 */
 type HasTimeVar = TalkerVar<{
@@ -137,7 +137,7 @@ type HasItems = TalkerVar<{
         /**目标物品 */
         item: IDObj<AnyItemID>;
         /**要求数量 */
-        count: NumObj;
+        count: (NumObj);
     };
 }, "has_items">;
 /**有某个变异 */
@@ -163,7 +163,7 @@ type IsInField = TalkerVar<{
 /**1/n的概率返回true */
 type OneInChance = {
     /**1/n的概率返回true */
-    one_in_chance: NumObj;
+    one_in_chance: (NumObj);
 };
 /**某个mod是否加载 */
 type ModIsLoad = {
@@ -185,7 +185,7 @@ type CompareTime = TalkerVar<{
     /**操作符 */
     op: CompareOpera;
     /**比较的时间 */
-    time: Time;
+    time: (Time);
 }, "compare_time_since_var">;
 /**选择地块的模式 列表 */
 declare const QueryTileTypeList: readonly ["anywhere", "line_of_sight", "around"];
@@ -196,28 +196,28 @@ type QueryTile = TalkerVar<{
     /**选择地块 */
     query_tile: QueryTileType;
     /**包含所选瓷砖坐标的变量对象（强制性） */
-    target_var: LocObj;
-    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的，否则不需要） */
-    range?: NumObj;
+    target_var: (LocObj);
+    /**定义line_of_sight的可选范围（对于line_of_sight是强制性的, 否则不需要） */
+    range?: (NumObj);
     /**定义是否允许为anywhere选择其他z-level */
-    z_level?: NumObj;
+    z_level?: (NumObj);
     /**选择时显示的消息 */
-    message?: DescText;
+    message?: (DescText);
 }, "query_tile">;
 /**非操作 */
 export type BoolOperaNot = {
     /**非操作 */
-    not: BoolObj;
+    not: (BoolObj);
 };
 /**或操作 */
 export type BoolOperaOr = {
     /**或操作 */
-    or: BoolObj[];
+    or: (BoolObj)[];
 };
 /**与操作 */
 export type BoolOperaAnd = {
     /**与操作 */
-    and: BoolObj[];
+    and: (BoolObj)[];
 };
 /**比较字符串是否相等 */
 export type BoolOperaCompStr = {

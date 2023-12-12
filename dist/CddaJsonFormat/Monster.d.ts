@@ -25,9 +25,9 @@ export type Monster = {
     /**生命值 */
     hp: number;
     /**体积 影响不同大小目标的近战命中率 */
-    volume: Volume;
+    volume: (Volume);
     /**重量 */
-    weight: Weight;
+    weight: (Weight);
     /**ASCII模式的显示 */
     symbol: string;
     /**颜色 */
@@ -121,7 +121,7 @@ export type Monster = {
     /** (对象数组) 怪物发出的场以及频率 */
     emit_fields?: {
         emit_id: EmitID;
-        delay: Time;
+        delay: (Time);
     }[];
     /** (整数) 怪物每回合恢复的生命值数量 */
     regenerates?: number;
@@ -291,7 +291,7 @@ export type MonWeakpointEff = {
     /** 导致效果的概率 */
     chance: number;
     /** 效果持续时间。可以是一个 (min, max) 对或一个单一值 */
-    duration: Time | [number, number];
+    duration: (Time) | [number, number];
     /** 效果是否是永久性的 */
     permanent: boolean;
     /** 效果的强度。可以是一个 (min, max) 对或一个单一值 */
@@ -366,7 +366,7 @@ export type MonAttackEffect = {
     /** (字符串, 必需) 要应用的效果的 id */
     id: EffectID;
     /** (整数或一对整数, 可选) 效果应持续多久 (以回合为单位) 。当用一对值定义时, 持续时间将在这些值之间随机化 */
-    duration?: Time | [Time, Time];
+    duration?: (Time) | [Time, Time];
     /** (整数或一对整数, 可选) 效果应以何种强度应用, 当定义为一对时, 强度将在它们之间随机化。不能覆盖通过 int_dur_factor 从其持续时间派生其强度的效果 */
     intensity?: number | [number, number];
     /** (布尔值, 可选) 效果是否应用于被击中的身体部位而不是下面设置的部位 */

@@ -13,5 +13,5 @@ exports.NoParamTalkerCondList = [
 const QueryTileTypeList = [
     "anywhere",
     "line_of_sight",
-    "around", //与点燃火源相同，你只能选择紧邻的9个瓷砖
+    "around", //与点燃火源相同, 你只能选择紧邻的9个瓷砖
 ];

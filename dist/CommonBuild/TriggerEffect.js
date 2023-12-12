@@ -4,6 +4,7 @@ exports.createTriggerEffect = void 0;
 const CddaJsonFormat_1 = require("../CddaJsonFormat");
 const ModDefine_1 = require("../ModDefine");
 const UtilGener_1 = require("./UtilGener");
+const StaticData_1 = require("../StaticData");
 /**回复收到的伤害 */
 //const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
 //const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
@@ -136,11 +137,10 @@ function EmergencyFreeze(dm) {
     };
     const teoc = (0, UtilGener_1.genTriggerEffect)(dm, eff, "CnpcDeathPrev", "-1", [
         "u_prevent_death",
-        { u_set_hp: 1000, max: true },
+        { run_eocs: StaticData_1.FULL_RECIVERY_EOCID },
         { u_cast_spell: { id: tex.id } },
         { u_cast_spell: { id: tspell.id } },
         { u_cast_spell: { id: tfreeze.id } },
-        { math: ["u_pain()", "=", "0"] },
         { sound_effect: "IceHit", id: "BaseAudio", volume: 100 }
     ], "PERMANENT");
     dm.addStaticData([tex, tspell, tfreeze, freeze, eff, teoc], "common_resource", "trigger_effect", "EmergencyFreeze");

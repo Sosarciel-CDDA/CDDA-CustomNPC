@@ -9,9 +9,9 @@ export type NpcInstance = {
     type: "npc";
     id: NpcInstanceID;
     /**独特名称 */
-    name_unique?: DescText;
+    name_unique?: (DescText);
     /**名称后缀 */
-    name_suffix?: DescText;
+    name_suffix?: (DescText);
     /**职业 */
     class: NpcClassID;
     /**初始态度 */

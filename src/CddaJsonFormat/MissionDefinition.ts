@@ -114,7 +114,7 @@ type MissionEffect = {
     /**eoc效果 */
     effect?: EocEffect|EocEffect[];
     /**寻找大地图地形目标 */
-    assign_mission_target?: AssignMissionTarget;
+    assign_mission_target?: (AssignMissionTarget);
 };
 
 /**寻找大地图目标 */
@@ -144,7 +144,7 @@ export type AssignMissionTarget = {
     /**如果指定, 搜索时将使用而不是玩家或 NPC 的 z */
     z?: (NumObj);
     /**一个variable_object (参见variable_objectdoc ) , 如果设置了该变量的值将被使用。 */
-    var?: LocObj;
+    var?: (LocObj);
     /**找到或创建 后om_terrain, 将任务目标地形偏移覆盖地图地形坐标中的偏移量。 */
     offset_x?: number;
     /**同offset_x */

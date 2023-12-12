@@ -136,7 +136,7 @@ export type GenericBase = {
     /**命中数据 */
     to_hit?: ToHit;
     /**超过该体积杂志开始从物品中突出并增加额外的体积 */
-    magazine_well?:number;
+    magazine_well?: number;
     /**每种弹药类型 (如果有)的杂志类型, 可用于重新加载该物品 */
     magazines?: GenericMagazines[];
     /**掉进火里会爆炸 */
@@ -146,17 +146,17 @@ export type GenericBase = {
     /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 */
     countdown_interval?: (Time);
     /**定时激活的动作 */
-    countdown_action?:UseAction;
+    countdown_action?: UseAction;
     /**附魔数据 */
     relic_data?: RelicData,
     /**最小力量需求 */
-    min_strength?:number;
+    min_strength?: number;
     /**最小敏捷需求 */
-    min_dexterity?:number;
+    min_dexterity?: number;
     /**最小智力需求 */
-    min_intelligence?:number;
+    min_intelligence?: number;
     /**最小感知需求 */
-    min_perception?:number;
+    min_perception?: number;
 };
 
 /**魔法物品数据 */

@@ -36,4 +36,4 @@ export declare function genTalkTopicID(id: string): TalkTopicID;
 /**生成适用此mod的触发eoc
  * @param forceId 强制使用原id
 */
-export declare function genActEoc(id: string, effect: EocEffect[], condition?: BoolObj, forceId?: boolean): Eoc;
+export declare function genActEoc(id: string, effect: EocEffect[], condition?: (BoolObj), forceId?: boolean): Eoc;

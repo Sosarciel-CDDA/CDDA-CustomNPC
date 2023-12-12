@@ -11,7 +11,7 @@ export type Comestible = CopyfromVar<{
     /**定义为COMESTIBLE */
     type: "COMESTIBLE";
     /**一个时间持续期: 食品保质期。0 = 不会变质 */
-    spoils_in?: Time;
+    spoils_in?: (Time);
     /**刺激效果 */
     stim?: number;
     /**这种食品可以消除多少疲劳。 (负值增加疲劳)  */
@@ -19,7 +19,7 @@ export type Comestible = CopyfromVar<{
     /**食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)  */
     comestible_type?: ComestibleType;
     /**消费后运行的条件影响。支持内联或字符串id */
-    consumption_effect_on_conditions?: ParamsEoc;
+    consumption_effect_on_conditions?: (ParamsEoc);
     /**解渴程度 */
     quench?: number;
     /**健康效果 (用于生病的机会)  */

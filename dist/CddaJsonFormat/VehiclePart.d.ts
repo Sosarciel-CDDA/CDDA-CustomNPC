@@ -15,10 +15,10 @@ export type VehiclePart = CopyfromVar<{
     /**唯一标识符, 不能包含 # 符号 */
     id: VehiclePartID;
     /**显示名称 */
-    name: DescText;
+    name: (DescText);
     /** (可选) 如果此部分没有图块, 向图块集提供提示, 使用 looks_like 图块。 */
     looks_like: string;
-    /**功能取决于部件类型： */
+    /**功能取决于部件类型:  */
     bonus: number;
     /**部件工作时使用的颜色 */
     color: Color;
@@ -31,7 +31,7 @@ export type VehiclePart = CopyfromVar<{
     /**部件在损坏前可以承受多少伤害 */
     durability: number;
     /**安装此车辆部件时的描述 */
-    description: DescText;
+    description: (DescText);
     /** (可选, 默认 = "NULL") 部件消耗的燃料/弹药类型, 作为物品 id */
     fuel_type?: AmmunitionTypeID;
     /**部件的电力使用量, 以瓦特为单位。负值表示消耗电力, 正值表示产生电力。
@@ -73,41 +73,41 @@ export type VehiclePart = CopyfromVar<{
         /**热键 */
         hotkey?: string;
     }[];
-    /** 此vpart在折叠形式下的体积，未定义或null禁用折叠 */
-    folded_volume?: Volume;
+    /** 此vpart在折叠形式下的体积, 未定义或null禁用折叠 */
+    folded_volume?: (Volume);
     /** 折叠所需的工具 itype_ids */
     folding_tools?: AnyItemID[];
     /** 折叠此部件的时间 */
-    folding_time?: Time;
+    folding_time?: (Time);
     /** 展开所需的工具 itype_ids */
     unfolding_tools?: AnyItemID[];
     /** 展开此部件的时间 */
-    unfolding_time?: Time;
-    /** 伤害减少；参见"部件阻力"。如果未指定，则设为零 */
+    unfolding_time?: (Time);
+    /** 伤害减少；参见"部件阻力"。如果未指定, 则设为零 */
     damage_reduction: Partial<Record<DamageTypeID | "non_physical" | "physical" | "all", number>>;
-    /** (可选) 一个列表，每个列表都是一个工具质量和质量等级，该车辆部件提供 */
+    /** (可选) 一个列表, 每个列表都是一个工具质量和质量等级, 该车辆部件提供 */
     qualities?: [ToolQualityID, number][];
-    /** (可选) 此部件可以转换地形，如犁 */
+    /** (可选) 此部件可以转换地形, 如犁 */
     transform_terrain?: {
         /** 可以转换的地形的标志列表 */
         pre_flags: ["PLOWABLE"];
-        /** (可选，默认为"t_null") 结果地形（如果有） */
+        /** (可选, 默认为"t_null") 结果地形（如果有） */
         post_terrain: "t_dirtmound";
-        /** (可选，默认为"f_null") 结果家具（如果有） */
+        /** (可选, 默认为"f_null") 结果家具（如果有） */
         post_furniture: "f_boulder";
-        /** (可选，默认为"fd_null") 结果字段（如果有） */
+        /** (可选, 默认为"fd_null") 结果字段（如果有） */
         post_field?: FieldID;
-        /** (可选，默认为0) 字段的强度（如果有） */
+        /** (可选, 默认为0) 字段的强度（如果有） */
         post_field_intensity?: number;
-        /** (可选，默认为0转) 字段的生存时间（如果有） */
-        post_field_age?: Time;
+        /** (可选, 默认为0转) 字段的生存时间（如果有） */
+        post_field_age?: (Time);
     };
     /** 要生成的变体基础 (参见下文) */
     variants_bases: {
         /**变体ID */
         id: string;
         /**变体的显示名 */
-        label: DescText;
+        label: (DescText);
     }[];
     /**部件变体 */
     variants: {
@@ -128,13 +128,13 @@ type VPRequirement = {
     /**"skills" 是一个列表, 每个列表都是一个技能名称和技能等级。 */
     skills: [SkillID, number][];
     /**"time" 是一个字符串, 指定执行操作的时间。 */
-    time: Time;
+    time: (Time);
     /**"using" 是一个列表, 每个列表都是一个制作要求。 */
     using: ReqUsing;
 };
 /**控制要求 */
 type ControlReq = {
-    /** "skills" 是一个列表，每个列表都是一个技能名称和技能等级 */
+    /** "skills" 是一个列表, 每个列表都是一个技能名称和技能等级 */
     skills?: [SkillID, number][];
     /** "proficiencies" 是技能名称的列表 prof_helicopter_pilot */
     proficiencies?: string[];

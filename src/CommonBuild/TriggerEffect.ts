@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, Spell } from "CddaJsonFormat";
+import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "CddaJsonFormat";
 import { genEOCID, genEffectID, genEnchantmentID, genSpellID } from "ModDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
 import { FULL_RECIVERY_EOCID } from "StaticData";
@@ -68,7 +68,7 @@ function FrostShield(dm:DataManager){
     const teoc = genTriggerEffect(dm,eff,"TakeDamage","-1",[
         {u_cast_spell:{id:tex.id}},
         {u_cast_spell:{id:tspell.id}},
-        {sound_effect:"IceHit",id:"BaseAudio",volume:100}
+        {sound_effect:"IceHit" as SoundEffectVariantID,id:"BaseAudio" as SoundEffectID,volume:100}
     ],TEFF_DUR,undefined,"1 s");
     dm.addStaticData([tex,tspell,eff,teoc],"common_resource","trigger_effect","FrostShield");
 }
@@ -143,7 +143,7 @@ function EmergencyFreeze(dm:DataManager){
         { u_cast_spell:{id:tex.id}},
         { u_cast_spell:{id:tspell.id}},
         { u_cast_spell:{id:tfreeze.id}},
-        { sound_effect:"IceHit",id:"BaseAudio",volume:100}
+        { sound_effect:"IceHit"  as SoundEffectVariantID ,id:"BaseAudio" as SoundEffectID,volume:100}
     ],"PERMANENT");
     dm.addStaticData([tex,tspell,tfreeze,freeze,eff,teoc],"common_resource","trigger_effect","EmergencyFreeze");
 }

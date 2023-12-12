@@ -87,7 +87,7 @@ export type CastCondition = {
     /**释放条件 若允许多个条件请使用{or:[]}
      * 相同的hook与target将覆盖
      */
-    condition?: BoolObj;
+    condition?: (BoolObj);
     /**时机 */
     hook: AnyCnpcEvenetType;
     /**瞄准方式

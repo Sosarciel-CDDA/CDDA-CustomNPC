@@ -100,7 +100,7 @@ type MathCompareExp = {
 /**获取条件 */
 type GetCond = {
     /**获取条件 */
-    get_condition: CondObj;
+    get_condition: (CondObj);
 }
 
 /**有某个效果 */
@@ -215,7 +215,7 @@ type QueryTile = TalkerVar<{
     /**选择地块 */
     query_tile: QueryTileType;
     /**包含所选瓷砖坐标的变量对象（强制性） */
-    target_var: LocObj;
+    target_var: (LocObj);
     /**定义line_of_sight的可选范围（对于line_of_sight是强制性的, 否则不需要） */
     range?: (NumObj);
     /**定义是否允许为anywhere选择其他z-level */

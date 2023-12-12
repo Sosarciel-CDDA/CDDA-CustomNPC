@@ -13,7 +13,7 @@ import { GlobalEventType } from "../Event";
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: GlobalEventType, mode: "/2" | "-1" | "none", eocEffects: EocEffect[], duration: Time, condition?: BoolObj, cooldown?: Time): Eoc;
+export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: GlobalEventType, mode: "/2" | "-1" | "none", eocEffects: EocEffect[], duration: (Time), condition?: (BoolObj), cooldown?: (Time)): Eoc;
 /**创建添加效果的Eoc
  * EocID为 `${effect.id}_AddEffect`
  * 添加层数为 全局变量 `${effect.id}_count`
@@ -21,7 +21,7 @@ export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: 
  * @param duration 持续时间
  * @param eocEffects 额外效果
  */
-export declare function genAddEffEoc(effectID: EffectID, duration: Time, eocEffects?: EocEffect[]): Eoc;
+export declare function genAddEffEoc(effectID: EffectID, duration: (Time), eocEffects?: EocEffect[]): Eoc;
 /**修改护甲 并生成添加护甲的变异
  * ID为`${armor.id}_MUT`
  */

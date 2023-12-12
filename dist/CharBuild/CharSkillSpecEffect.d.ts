@@ -19,9 +19,9 @@ type AddEffect = {
     /**效果ID */
     effect_id: EffectID;
     /**效果强度 */
-    intensity: NumObj;
+    intensity: (NumObj);
     /**持续时间 数字为秒 */
-    duration: Time | NumObj;
+    duration: (Time) | NumObj;
     /**添加效果后的额外效果 */
     effect?: EocEffect[];
     /**是否叠加强度 默认覆盖 */
@@ -32,18 +32,18 @@ type RunEoc = {
     /**生成一个运行的子法术 */
     type: "RunEoc";
     /**运行的Eoc */
-    eoc: ParamsEoc;
+    eoc: (ParamsEoc);
     /**自动生成eoc并运行 */
     effect?: EocEffect[];
     /**自动生成的eoc的运行条件 */
-    condition?: BoolObj;
+    condition?: (BoolObj);
 };
 /**额外造成某种类型的伤害 */
 type ExtDamage = {
     /**额外伤害 */
     type: "ExtDamage";
     /**伤害量 */
-    amount: NumObj;
+    amount: (NumObj);
     /**伤害类型id */
     damage_type: DamageTypeID;
 };

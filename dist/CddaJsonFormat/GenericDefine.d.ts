@@ -18,8 +18,18 @@ import { Mutation } from "./Mutation";
 import { DamageInfoOrder, DamageType, DamageTypeID } from "./DameType";
 import { AmmoEffect } from "./AmmoEffect";
 import { ModTileset } from "./ModTileset";
+import { ActivityType } from "./ActivityType";
 /**描述性文本 */
-export type DescText = string;
+export type DescText = string | {
+    /**单数名 */
+    str?: string;
+    /**复数名 */
+    str_pl?: string;
+    /**单复数共用名 */
+    str_sp?: string;
+    /**翻译上下文 */
+    ctxt?: string;
+};
 /**重量 */
 export type Weight = number | `${number} ${"kg" | "g"}`;
 /**体积 */
@@ -107,15 +117,15 @@ export type PocketData = {
     /**容器或弹夹 */
     pocket_type: "CONTAINER" | "MAGAZINE" | "MAGAZINE_WELL";
     /**此口袋可以容纳的最大体积, 所有包含的物品的总和 */
-    max_contains_volume?: Volume;
+    max_contains_volume?: (Volume);
     /**此口袋可以容纳的最大重量, 所有容器物品的总重量 */
-    max_contains_weight?: Weight;
+    max_contains_weight?: (Weight);
     /**可放入此口袋的物品的最小体积。 小于此尺寸的物品不能放入口袋中 */
-    min_item_volume?: Volume;
+    min_item_volume?: (Volume);
     /**可通过开口放入此口袋的物品的最大体积 */
-    max_item_volume?: Volume;
+    max_item_volume?: (Volume);
     /**可放入此口袋的物品的最大长度 (按其最长边)。 默认值为假设体积为立方体的对角线开口长度 (cube_root(vol)*square_root(2)) */
-    max_item_length?: Length;
+    max_item_length?: (Length);
     /**腐坏速度乘数 将物品放入此口袋中如何影响损坏。 小于1.0, 物品保存时间更长； 0.0 将无限期保留 */
     spoil_multiplier?: number;
     /**重量乘数 个口袋里的物品神奇地内部重量比外部重量轻 原版中的任何东西都不应该有一个weight_multiplier */
@@ -129,7 +139,7 @@ export type PocketData = {
     /**默认 false。 如果属实, 则玩家无法使用该口袋 */
     forbidden?: boolean;
     /**在口袋开始膨胀之前可以放置物品的空间量。 仅当rigid = false 时才有效。 */
-    magazine_well?: Volume;
+    magazine_well?: (Volume);
     /**默认 false。 如果属实, 可能含有液体。 */
     watertight?: boolean;
     /**默认 false。 如果属实, 可能含有气体。 */
@@ -169,7 +179,7 @@ export type RangeDamage = {
     /**枪管伤害 */
     barrels?: {
         /**如果枪管小于等于此长度则应用此伤害 */
-        barrel_length: Length;
+        barrel_length: (Length);
         /**伤害 */
         amount: number;
     }[];
@@ -238,6 +248,6 @@ export declare const RatTypeList: readonly ["good", "neutral", "bad", "mixed"];
 /**效果评价 */
 export type RatType = typeof RatTypeList[number];
 /**任何Cdda的Json */
-export type AnyCddaJson = AnyItem | Eoc | Mutation | DamageType | DamageInfoOrder | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction | AmmoEffect | MissionDefinition | ModTileset;
+export type AnyCddaJson = AnyItem | Eoc | Mutation | DamageType | DamageInfoOrder | AmmunitionType | Enchantment | Flag | ItemGroup | Monster | NpcClass | NpcInstance | OverlayOrdering | SoundEffect | Effect | Spell | MathFunction | AmmoEffect | MissionDefinition | ModTileset | ActivityType;
 /**任何Cdda的Json 组成的数组*/
 export type AnyCddaJsonList = AnyCddaJson[];

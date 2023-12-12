@@ -5,7 +5,7 @@ import { LimbScoreID } from "./LimbScore";
 import { MutationID } from "./Mutation";
 import { VitaminsID } from "./Vitamins";
 /**预定义的EffectID 列表 */
-export declare const DefineEffectIDList: readonly ["npc_run_away", "npc_suspend", "incorporeal", "stunned", "downed", "grabbed"];
+export declare const DefineEffectIDList: readonly ["npc_run_away", "npc_suspend", "incorporeal", "stunned", "downed", "grabbed", "cureall", "corroding", "onfire", "dazed", "stunned", "venom_blind", "formication", "blisters", "frostbite", "frostbite_recovery", "wet", "slimed", "migo_atmosphere", "fetid_goop", "sap", "nausea", "bleed"];
 /**预定义的EffectID */
 export type DefineEffectID = typeof DefineEffectIDList[number];
 /**效果ID */
@@ -30,15 +30,15 @@ export type Effect = {
      * 则该效果将不会在状态屏幕中向玩家显示。
      * 按效果强度应用不同成员
      */
-    name?: DescText[];
+    name?: (DescText)[];
     /**同name
      * 按效果强度应用不同成员
      */
-    desc?: DescText[];
+    desc?: (DescText)[];
     /**被抵抗时产生的描述
      * 按效果强度应用不同成员
      */
-    reduced_desc?: DescText[];
+    reduced_desc?: (DescText)[];
     /**如果“part_descs”== true, 则描述前面带有“您的 X”,
      * 其中 X 是身体部位名称, 这意味着先前的描述将显示为“您的左臂 ABC”。
      */
@@ -46,17 +46,17 @@ export type Effect = {
     /**效果评价 */
     rating?: RatType;
     /**效果被添加时产生的消息 */
-    apply_message?: DescText | [DescText, RatType][];
+    apply_message?: (DescText) | [DescText, RatType][];
     /**效果结束或移除时产生的消息 */
-    remove_message?: DescText | [DescText, RatType][];
+    remove_message?: (DescText) | [DescText, RatType][];
     /**默认 false；如果为 true, 则当您检查另一个 NPC 或怪物时会显示该效果
      * 如果为true玩家可以从怪物简介中查看到效果
      */
     show_in_info?: boolean;
     /**效果被添加时产生的log */
-    apply_memorial_log?: DescText;
+    apply_memorial_log?: (DescText);
     /**效果被移除时产生的log */
-    remove_memorial_log?: DescText;
+    remove_memorial_log?: (DescText);
     /**可 抵抗 此效果的变异 */
     resist_traits?: MutationID;
     /**可 抵抗 此效果的效果 */
@@ -74,7 +74,7 @@ export type Effect = {
     /**获得此效果时以下效果将会被免疫 */
     blocks_effects?: EffectID[];
     /**效果的最大持续时间 默认365 d */
-    max_duration?: Time;
+    max_duration?: (Time);
     /**在已有效果的情况下再次添加效果时
      * 所增加时间的修正值
      * duration = duration + (dur_add_perc/100) * max_duration
@@ -154,7 +154,7 @@ export type Effect = {
      */
     chance_kill_resist?: [number, number][];
     /**因此效果而死亡时产生的消息 */
-    death_msg?: DescText;
+    death_msg?: (DescText);
     /**因此效果而死亡时产生的事件 */
     death_event?: string;
     /**效果肢体能力修正 */
@@ -168,7 +168,7 @@ export type Effect = {
      */
     enchantments?: ParamsEnchantment[];
     /**拥有此效果时进行血液分析可得出的说明 */
-    blood_analysis_description?: DescText;
+    blood_analysis_description?: (DescText);
 };
 /**效果维生素修正 */
 export type EffectVitaminsMod = {
@@ -197,12 +197,12 @@ export type EffectVitaminsMod = {
     /**rate的基础单位
      * 按效果强度应用不同成员
      */
-    tick?: Time[];
+    tick?: (Time)[];
     /**在玩家 抵抗 此效果时
      * rate的基础单位
      * 按效果强度应用不同成员
      */
-    resist_tick?: Time[];
+    resist_tick?: (Time)[];
 };
 /**效果肢体能力修正 */
 export type EffectLimbMod = {

@@ -37,7 +37,11 @@ function parseAudioString(charName, str, volume = 100) {
         soundName = match[1];
         varName = match[2];
     }
-    return { sound_effect: varName, id: soundName, volume };
+    return {
+        sound_effect: varName,
+        id: soundName,
+        volume
+    };
 }
 //法术消耗变量类型映射
 const costMap = {

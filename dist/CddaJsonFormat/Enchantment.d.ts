@@ -10,9 +10,9 @@ export type EnchantmentID = CddaID<"ENCH">;
 export type Enchantment = {
     type: "enchantment";
     /**附魔的说明 */
-    description?: DescText;
+    description?: (DescText);
     /**附魔的名称 */
-    name?: DescText;
+    name?: (DescText);
     /**附魔唯一ID */
     id: EnchantmentID;
     /**物品在什么位置时启用 */
@@ -54,7 +54,7 @@ export type Enchantment = {
         /**定时触发的效果 */
         effects: {
             /**触发间隔 */
-            frequency: Time;
+            frequency: (Time);
             /**伪法术数据 */
             spell_effects: FakeSpell[];
         }[];
@@ -87,9 +87,9 @@ export type EnchModVal = {
     /**附魔增幅类型 */
     value: EnchValType;
     /**倍率增幅 1为+100% */
-    multiply?: NumObj;
+    multiply?: (NumObj);
     /**加值增幅 在计算倍率前先添加 */
-    add?: NumObj;
+    add?: (NumObj);
 };
 /**伪法术附加信息 */
 export type FakeSpell = {
@@ -100,15 +100,15 @@ export type FakeSpell = {
      */
     hit_self?: boolean;
     /** 1/n 的几率触发 */
-    once_in?: NumObj;
+    once_in?: (NumObj);
     /**释放时的消息 */
-    message?: DescText;
+    message?: (DescText);
     /**npc释放时的消息 */
-    npc_message?: DescText;
+    npc_message?: (DescText);
     /**最小法术等级 */
-    min_level?: NumObj;
+    min_level?: (NumObj);
     /**最大法术等级 */
-    max_level?: NumObj;
+    max_level?: (NumObj);
 };
 /**附魔通用加值类型 列表 */
 export declare const EnchGenericValTypeList: readonly ["ARMOR_ACID", "ARMOR_BASH", "ARMOR_BIO", "ARMOR_BULLET", "ARMOR_COLD", "ARMOR_CUT", "ARMOR_ELEC", "ARMOR_HEAT", "ARMOR_STAB", "ATTACK_NOISE", "ATTACK_SPEED", "AVOID_FRIENDRY_FIRE", "BIONIC_POWER", "BONUS_BLOCK", "BONUS_DODGE", "CARRY_WEIGHT", "COMBAT_CATCHUP", "CLIMATE_CONTROL_HEAT", "CLIMATE_CONTROL_CHILL", "DEXTERITY", "INTELLIGENCE", "PERCEPTION", "STRENGTH", "SPEED", "EFFECTIVE_HEALTH_MOD", "EXTRA_ACID", "EXTRA_BASH", "EXTRA_BIO", "EXTRA_BULLET", "EXTRA_COLD", "EXTRA_CUT", "EXTRA_ELEC", "EXTRA_HEAT", "EXTRA_STAB", "EXTRA_ELEC_PAIN", "EVASION", "FALL_DAMAGE", "FATIGUE", "FOOTSTEP_NOISE", "FORCEFIELD", "HUNGER", "KNOCKBACK_RESIST", "KNOCKDOWN_RESIST", "LEARNING_FOCUS", "LUMINATION", "MAX_HP", "MAX_MANA", "MAX_STAMINA", "MELEE_DAMAGE", "RANGED_DAMAGE", "METABOLISM", "MOD_HEALTH", "MOD_HEALTH_CAP", "MOVE_COST", "OVERKILL_DAMAGE", "PAIN", "PAIN_REMOVE", "SHOUT_NOISE", "SIGHT_RANGE_ELECTRIC", "SIGHT_RANGE_NETHER", "MOTION_VISION_RANGE", "SLEEPY", "SKILL_RUST_RESIST", "SOCIAL_INTIMIDATE", "SOCIAL_LIE", "SOCIAL_PERSUADE", "RANGE", "READING_EXP", "RECOIL_MODIFIER", "REGEN_HP", "REGEN_MANA", "REGEN_STAMINA", "THIRST", "WEAPON_DISPERSION"];
