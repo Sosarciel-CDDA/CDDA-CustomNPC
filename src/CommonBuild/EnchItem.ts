@@ -44,6 +44,11 @@ function numToRoman(num:number) {
     return roman;
 }
 
+/**子eoc */
+function enchEID(flag:Flag,t:"add"|"remove"){
+    return `${flag.id}_${t}` as EocID;
+}
+
 /**附魔集 */
 type EnchSet = {
     /**主要标志 */
@@ -152,7 +157,7 @@ export async function enchTest(dm:DataManager,enchSets:EnchSet[]){
     //添加附魔子eoc
     enchSets.forEach((enchset)=>{
         enchset.lvl.forEach((lvlobj)=>{
-            out.push(genActEoc(`${lvlobj.ench.id}_add`,[
+            out.push(genActEoc(enchEID(lvlobj.ench,"add"),[
                 {npc_set_flag:lvlobj.ench.id},
                 {npc_set_flag:enchset.main.id}
             ],{not:{npc_has_flag:enchset.main.id}},true));
@@ -161,7 +166,7 @@ export async function enchTest(dm:DataManager,enchSets:EnchSet[]){
     //移除附魔子eoc
     enchSets.forEach((enchset)=>{
         enchset.lvl.forEach((lvlobj)=>{
-            out.push(genActEoc(`${lvlobj.ench.id}_remove`,[
+            out.push(genActEoc(enchEID(lvlobj.ench,"remove"),[
                 {npc_unset_flag:lvlobj.ench.id},
                 {npc_unset_flag:enchset.main.id}
             ],{npc_has_flag:lvlobj.ench.id},true));
@@ -204,14 +209,14 @@ export async function enchTest(dm:DataManager,enchSets:EnchSet[]){
                                 cases:[{
                                     case:0,//添加附魔
                                     effect:[{
-                                        run_eoc_selector:[...flatEnchSet.map((ench)=>`${ench.id}_add` as EocID),NONEEocId],
+                                        run_eoc_selector:[...flatEnchSet.map((ench)=>enchEID(ench,"add")),NONEEocId],
                                         names:[...flatEnchSet.map((ench)=>ench.name as string),"算了"],
                                         hide_failing:true
                                     }]
                                 },{
                                     case:1,//移除附魔
                                     effect:[{
-                                        run_eoc_selector:[...flatEnchSet.map((ench)=>`${ench.id}_remove` as EocID),NONEEocId],
+                                        run_eoc_selector:[...flatEnchSet.map((ench)=>enchEID(ench,"remove")),NONEEocId],
                                         names:[...flatEnchSet.map((ench)=>ench.name as string),"算了"],
                                         hide_failing:true
                                     }]
