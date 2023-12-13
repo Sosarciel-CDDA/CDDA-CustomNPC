@@ -1,0 +1,3 @@
+[submodule "CDDA-Schema"]
+	path = CDDA-Schema
+	url = https://github.com/zwa73/CDDA-Schema.git

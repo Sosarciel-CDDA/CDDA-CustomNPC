@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build-schema": "npx build-cdda-schema && node ./dist/BuildSchema.js",
-	"compile": "tsc && tsc-alias",
-	"build": "npm run compile && node --trace-warnings index"
+    "compile": "tsc && tsc-alias",
+    "build": "npm run compile && node --trace-warnings index"
   },
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {
     "@zwa73/utils": "^1.0.42",
     "typescript": "^5.2.2",
-    "typescript-json-schema": "^0.61.0"
+    "typescript-json-schema": "^0.61.0",
+    "cdda-schema": "file:./CDDA-Schema"
   }
 }
