@@ -17,7 +17,7 @@
                 "data/chars/*/StaticData/**/*.json",
                 "data/StaticData/**/*.json"
             ],
-            "url": "./schema/AnyCddaJsonList.schema.json"
+            "url": "./CddaSchema/AnyCddaJsonList.schema.json"
         }
     ]
 }
