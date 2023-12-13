@@ -1,4 +1,4 @@
-import { AmmunitionTypeID, BoolObj, Eoc, EocEffect, SpellID, EffectID, TalkTopicID, EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "./CddaJsonFormat";
+import { AmmunitionTypeID, BoolObj, Eoc, EocEffect, SpellID, EffectID, TalkTopicID, EocID, FlagID, AmmoID, ArmorID, GenericID, GunID, ItemGroupID, MonsterID, MutationID, NpcClassID, NpcInstanceID, EnchantmentID } from "cdda-schema";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 /**生成适用于此mod的ARMOR ID */

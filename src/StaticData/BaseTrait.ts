@@ -1,4 +1,4 @@
-import { Mutation, OverlayOrdering } from "CddaJsonFormat";
+import { Mutation, OverlayOrdering } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
 import { genMutationID } from "@src/ModDefine";
 import { STAT_MOD_ENCHID } from "./BaseEnch";

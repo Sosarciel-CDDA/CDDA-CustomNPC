@@ -1,4 +1,4 @@
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "../CddaJsonFormat";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
 import { DataManager } from '../DataManager';
 /**动态读取的角色设定 */

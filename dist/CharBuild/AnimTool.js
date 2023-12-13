@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAnimTool = exports.formatAnimName = exports.AnimTypeList = void 0;
 const path = require("path");
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
+const cdda_schema_1 = require("cdda-schema");
 /**可用的动画类型列表 */
 exports.AnimTypeList = ["Idle", "Move", "Attack"];
 /**生成某角色的动作id */
@@ -23,8 +23,8 @@ async function createAnimTool(dm, charName) {
             name: `${charName}的${animType}动画变异`,
             description: `${charName}的${animType}动画变异`,
             //integrated_armor:[animData.armorID],
-            restricts_gear: [...CddaJsonFormat_1.BodyPartList],
-            remove_rigid: [...CddaJsonFormat_1.BodyPartList],
+            restricts_gear: [...cdda_schema_1.BodyPartList],
+            remove_rigid: [...cdda_schema_1.BodyPartList],
             points: 0,
             purifiable: false,
             valid: false,

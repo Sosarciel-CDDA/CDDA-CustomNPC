@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Spell } from "CddaJsonFormat";
+import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Spell } from "cdda-schema";
 import { genEOCID, genSpellID } from "ModDefine";
 import { genDIO } from "./UtilGener";
 import { SPELL_MAX_DAMAGE } from "StaticData";

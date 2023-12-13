@@ -2,7 +2,7 @@ import {
     AmmunitionTypeID, BoolObj, Eoc, EocEffect, EocEffectList, SpellID,
     EffectID, TalkTopicID, EocID ,FlagID,AmmoID, ArmorID, GenericID, GunID,
     ItemGroupID,MonsterID,MutationID,NpcClassID,NpcInstanceID, EnchantmentID
-} from "CddaJsonFormat";
+} from "cdda-schema";
 
 
 /**mod物品前缀 */

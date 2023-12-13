@@ -1,4 +1,4 @@
-import { EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, EnchantmentID } from "CddaJsonFormat";
+import { EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, EnchantmentID } from "cdda-schema";
 import { genEnchantmentID } from "@src/ModDefine";
 import { saveStaticData } from "./StaticData";
 

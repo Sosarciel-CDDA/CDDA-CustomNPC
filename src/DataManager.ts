@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'CddaJsonFormat';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
 import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType } from 'Event';
 

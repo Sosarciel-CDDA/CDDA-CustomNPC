@@ -1,5 +1,5 @@
 import { saveStaticData } from "./StaticData";
-import { DamageInfoOrder, DamageType, DamageTypeID, Eoc } from "CddaJsonFormat";
+import { DamageInfoOrder, DamageType, DamageTypeID, Eoc } from "cdda-schema";
 
 
 

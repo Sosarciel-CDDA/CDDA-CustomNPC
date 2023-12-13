@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node test",
-    "generate-schema": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks --aliasRefs",
-	"generate-schema-noAliasRefs": "typescript-json-schema tsconfig.json * --out schema/schemas.json --required --strictNullChecks"
-  },
+    "generate-schema": "npx build-cdda-schema && node ./dist/BuildSchema.js"
+	},
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {

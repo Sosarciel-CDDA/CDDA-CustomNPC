@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "CddaJsonFormat";
+import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "cdda-schema";
 import { genEOCID, genEffectID, genEnchantmentID, genSpellID } from "ModDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
 import { FULL_RECIVERY_EOCID } from "StaticData";

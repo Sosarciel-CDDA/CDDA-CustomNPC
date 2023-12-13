@@ -1,4 +1,4 @@
-import { EocEffect } from "./CddaJsonFormat";
+import { EocEffect } from "cdda-schema";
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Armor, BodyPartList, Mutation, ItemGroup } from "CddaJsonFormat";
+import { Armor, BodyPartList, Mutation, ItemGroup } from "cdda-schema";
 import { DataManager } from "../DataManager";
 
 

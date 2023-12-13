@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { Armor, ArmorID } from "CddaJsonFormat";
+import { Armor, ArmorID } from "cdda-schema";
 import { genArmorMut } from "./UtilGener";
 
 

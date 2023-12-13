@@ -1,4 +1,4 @@
-import { NpcClass, NpcInstance } from "CddaJsonFormat";
+import { NpcClass, NpcInstance } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
 import { genNpcClassID, genNpcInstanceID } from "@src/ModDefine";
 

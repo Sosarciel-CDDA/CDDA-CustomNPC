@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
 const ModDefine_1 = require("../ModDefine");
-const Skill_1 = require("../CddaJsonFormat/Skill");
+const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
 /**创建角色职业和实例
  * @param charName 角色名
@@ -69,6 +69,7 @@ async function createCharClass(dm, charName) {
         use_action: {
             type: "effect_on_conditions",
             description: `生成一个 ${displayName}`,
+            menu_text: `生成一个 ${displayName}`,
             effect_on_conditions: [(0, ModDefine_1.genEOCID)(spawnerId)],
         },
         weight: 1,
@@ -123,6 +124,7 @@ async function createCharClass(dm, charName) {
         use_action: {
             type: "effect_on_conditions",
             description: `召唤 ${displayName}`,
+            menu_text: `召唤 ${displayName}`,
             effect_on_conditions: [charCardEoc.id],
         },
         flags: ["UNBREAKABLE"],
@@ -137,7 +139,7 @@ async function createCharClass(dm, charName) {
         id: (0, ModDefine_1.genEOCID)(`${charName}_SaveProcess`),
         eoc_type: "ACTIVATION",
         effect: [
-            ...Skill_1.DefineSkillList.map(item => {
+            ...cdda_schema_1.DefineSkillList.map(item => {
                 const math = { math: [`${charName}_skill_${item}`, "=", `u_skill(${item})`] };
                 return math;
             })
@@ -151,7 +153,7 @@ async function createCharClass(dm, charName) {
         id: (0, ModDefine_1.genEOCID)(`${charName}_InitProcess`),
         effect: [
             { math: [`u_uid`, "=", `${charName}_uid`] },
-            ...Skill_1.DefineSkillList.map(item => {
+            ...cdda_schema_1.DefineSkillList.map(item => {
                 const math = { math: [`u_skill(${item})`, "=", `${charName}_skill_${item}`] };
                 return math;
             })

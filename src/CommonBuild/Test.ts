@@ -2,7 +2,7 @@ import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { genAddEffEoc, genTriggerEffect } from "./UtilGener";
 import { genEffectID, genSpellID } from "ModDefine";
-import { Effect, Spell } from "CddaJsonFormat";
+import { Effect, Spell } from "cdda-schema";
 
 
 export async function createTest(dm:DataManager){

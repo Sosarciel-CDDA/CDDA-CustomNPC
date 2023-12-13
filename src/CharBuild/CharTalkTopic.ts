@@ -1,6 +1,6 @@
 import { JObject } from "@zwa73/utils";
 import { genEOCID, genFlagID, genTalkTopicID } from "ModDefine";
-import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "CddaJsonFormat";
+import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "cdda-schema";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
 import { DataManager } from "../DataManager";

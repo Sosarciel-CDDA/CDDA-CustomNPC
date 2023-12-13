@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "CddaJsonFormat";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { genEOCID, genEnchantmentID } from "ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";

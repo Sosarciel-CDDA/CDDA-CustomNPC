@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTriggerEffect = void 0;
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
+const cdda_schema_1 = require("cdda-schema");
 const ModDefine_1 = require("../ModDefine");
 const UtilGener_1 = require("./UtilGener");
 const StaticData_1 = require("../StaticData");
@@ -157,7 +157,7 @@ function HealReserve(dm) {
         max_duration: TEFF_DUR
     };
     const teoc = (0, UtilGener_1.genTriggerEffect)(dm, eff, "BattleUpdate", "none", [
-        ...CddaJsonFormat_1.BodyPartList.map((bpid) => {
+        ...cdda_schema_1.BodyPartList.map((bpid) => {
             const eff = {
                 "if": { math: [`u_hp('${bpid}')`, "<", `u_hp_max('${bpid}')`] },
                 then: [

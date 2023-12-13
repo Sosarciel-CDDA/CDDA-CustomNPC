@@ -1,4 +1,4 @@
-import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "../CddaJsonFormat";
+import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { CnpcEventType } from "../Event";
 import { SpecEffect } from "./CharSkillSpecEffect";

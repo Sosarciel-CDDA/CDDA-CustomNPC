@@ -1,6 +1,5 @@
-import { Effect, EffectID } from "../CddaJsonFormat/Effect";
 import { DataManager } from "../DataManager";
-import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, Time } from "../CddaJsonFormat";
+import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, Time, Effect, EffectID } from "cdda-schema";
 import { GlobalEventType } from "../Event";
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`

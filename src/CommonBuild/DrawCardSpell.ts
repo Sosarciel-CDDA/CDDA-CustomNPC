@@ -1,6 +1,6 @@
 import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
-import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "CddaJsonFormat";
+import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "cdda-schema";
 import { genItemGroupID } from "ModDefine";
 import { CON_SPELL_FLAG } from "StaticData";
 

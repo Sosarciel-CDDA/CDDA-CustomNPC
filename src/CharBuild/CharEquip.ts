@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "CddaJsonFormat";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { genActEoc, genEOCID, genEnchantmentID } from "ModDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";

@@ -1,7 +1,5 @@
-import { Effect, EffectID } from "@src/CddaJsonFormat/Effect";
 import { DataManager } from "@src/DataManager";
-import { UtilFunc } from "@zwa73/utils";
-import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time } from "CddaJsonFormat";
+import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "cdda-schema";
 import { CommonEventType, GlobalEventType } from "Event";
 import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 

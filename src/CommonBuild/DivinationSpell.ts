@@ -1,9 +1,7 @@
-import { EmptyMissionDialog, MissionDefinition, MissionDefinitionID, OMTMatchType } from "@src/CddaJsonFormat/MissionDefinition";
-import { OverMapSpecialID } from "@src/CddaJsonFormat/OvermapSpecial";
-import { OvermapTerrainID } from "@src/CddaJsonFormat/OvermapTerrain";
+import { EmptyMissionDialog, MissionDefinition, MissionDefinitionID, OMTMatchType } from "cdda-schema";
 import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
-import { BoolObj, Eoc, EocID, Spell, SpellID } from "CddaJsonFormat";
+import { BoolObj, Eoc, EocID, Spell, SpellID, OvermapTerrainID, OverMapSpecialID } from "cdda-schema";
 
 
 

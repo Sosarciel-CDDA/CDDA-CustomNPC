@@ -1,7 +1,7 @@
-import { ToolQuality, ToolQualityID } from "@src/CddaJsonFormat/ToolQuality";
+import { ToolQuality, ToolQualityID } from "cdda-schema";
 import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
-import { Eoc, Tool, ToolID, ItemToolQuality, EocID, Generic, FlagID, Flag, EocEffect, CondObj, BoolObj, Spell, DamageTypeID } from "CddaJsonFormat";
+import { Eoc, Tool, ToolID, ItemToolQuality, EocID, Generic, FlagID, Flag, EocEffect, CondObj, BoolObj, Spell, DamageTypeID } from "cdda-schema";
 import { CnpcEventType } from "Event";
 import { genActEoc, genEOCID, genGenericID, genSpellID } from "ModDefine";
 import { CON_SPELL_FLAG } from "StaticData";

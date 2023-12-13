@@ -1,4 +1,4 @@
-import { MathFunction, MathFunctionID } from "CddaJsonFormat";
+import { MathFunction, MathFunctionID } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
 
 

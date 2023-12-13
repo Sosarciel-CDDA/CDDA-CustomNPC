@@ -38,6 +38,10 @@ function numToRoman(num) {
     }
     return roman;
 }
+/**子eoc */
+function enchEID(flag, t) {
+    return `${flag.id}_${t}`;
+}
 async function createEnchItem(dm) {
     const EnchList = [
         await knockback(dm),
@@ -88,14 +92,15 @@ async function knockback(dm) {
             { u_cast_spell: { id: tspell.id }, loc: { global_val: `_${enchId}_loc` } }
         ]);
         out.push(ench, tspell, teoc);
-        enchSet.lvl.push(ench);
+        enchSet.lvl.push({ ench, weight: maxLvl + 1 - i });
     }
     //互斥
-    enchSet.lvl.forEach((ench) => {
+    enchSet.lvl.forEach((lvlobj) => {
+        const ench = lvlobj.ench;
         ench.conflicts = ench.conflicts ?? [];
         ench.conflicts.push(...enchSet.lvl
-            .filter((subench) => subench.id != ench.id)
-            .map((ench) => ench.id));
+            .filter((sublvlobj) => sublvlobj.ench.id != ench.id)
+            .map((subelvlobj) => subelvlobj.ench.id));
     });
     dm.addStaticData(out, "common_resource", "ench", enchId);
     return enchSet;
@@ -103,42 +108,42 @@ async function knockback(dm) {
 exports.knockback = knockback;
 async function enchTest(dm, enchSets) {
     const out = [];
-    let testTypeIndex = -1;
+    let testTypeIndex = 0;
     const testType = "enchTestType";
     const enchTestList = [
-        [(0, ModDefine_1.genActEoc)("EnchTestNone", [
-                { math: [testType, "=", `${testTypeIndex++}`] }
-            ]), "取消调试"],
         [(0, ModDefine_1.genActEoc)("EnchTestAdd", [
                 { math: [testType, "=", `${testTypeIndex++}`] }
             ]), "添加附魔"],
         [(0, ModDefine_1.genActEoc)("EnchTestRemove", [
                 { math: [testType, "=", `${testTypeIndex++}`] }
             ]), "移除附魔"],
+        [(0, ModDefine_1.genActEoc)("EnchTestNone", [
+                { math: [testType, "=", `${testTypeIndex++}`] }
+            ]), "取消调试"],
     ];
     out.push(...enchTestList.map((item) => item[0]));
     const NONEEocId = "EnchTestNone";
     out.push((0, ModDefine_1.genActEoc)(NONEEocId, [], undefined, true));
     const flatEnchSet = [];
     enchSets.forEach((enchset) => {
-        enchset.lvl.forEach((ench) => flatEnchSet.push(ench));
+        enchset.lvl.forEach((lvlobj) => flatEnchSet.push(lvlobj.ench));
     });
     //添加附魔子eoc
     enchSets.forEach((enchset) => {
-        enchset.lvl.forEach((ench) => {
-            out.push((0, ModDefine_1.genActEoc)(`${ench.id}_add`, [
-                { npc_set_flag: ench.id },
+        enchset.lvl.forEach((lvlobj) => {
+            out.push((0, ModDefine_1.genActEoc)(enchEID(lvlobj.ench, "add"), [
+                { npc_set_flag: lvlobj.ench.id },
                 { npc_set_flag: enchset.main.id }
             ], { not: { npc_has_flag: enchset.main.id } }, true));
         });
     });
     //移除附魔子eoc
     enchSets.forEach((enchset) => {
-        enchset.lvl.forEach((ench) => {
-            out.push((0, ModDefine_1.genActEoc)(`${ench.id}_remove`, [
-                { npc_unset_flag: ench.id },
+        enchset.lvl.forEach((lvlobj) => {
+            out.push((0, ModDefine_1.genActEoc)(enchEID(lvlobj.ench, "remove"), [
+                { npc_unset_flag: lvlobj.ench.id },
                 { npc_unset_flag: enchset.main.id }
-            ], { npc_has_flag: ench.id }, true));
+            ], { npc_has_flag: lvlobj.ench.id }, true));
         });
     });
     const EnchTestTool = {
@@ -153,6 +158,7 @@ async function enchTest(dm, enchSets) {
         use_action: {
             type: "effect_on_conditions",
             description: "附魔调试",
+            menu_text: "附魔调试",
             effect_on_conditions: [{
                     eoc_type: "ACTIVATION",
                     id: (0, ModDefine_1.genEOCID)("EnchTestTool"),
@@ -162,8 +168,8 @@ async function enchTest(dm, enchSets) {
                             title: "选择选择调试类型"
                         }, {
                             if: { and: [
-                                    { math: ["testType", ">", "-1"] },
-                                    { math: ["testType", "<", `${testTypeIndex}`] },
+                                    { math: ["testType", ">=", "0"] },
+                                    { math: ["testType", "<", `${testTypeIndex - 1}`] },
                                 ] },
                             then: [{
                                     u_run_inv_eocs: "manual",
@@ -176,14 +182,14 @@ async function enchTest(dm, enchSets) {
                                                 cases: [{
                                                         case: 0,
                                                         effect: [{
-                                                                run_eoc_selector: [...flatEnchSet.map((ench) => `${ench.id}_add`), NONEEocId],
+                                                                run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "add")), NONEEocId],
                                                                 names: [...flatEnchSet.map((ench) => ench.name), "算了"],
                                                                 hide_failing: true
                                                             }]
                                                     }, {
                                                         case: 1,
                                                         effect: [{
-                                                                run_eoc_selector: [...flatEnchSet.map((ench) => `${ench.id}_remove`), NONEEocId],
+                                                                run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "remove")), NONEEocId],
                                                                 names: [...flatEnchSet.map((ench) => ench.name), "算了"],
                                                                 hide_failing: true
                                                             }]

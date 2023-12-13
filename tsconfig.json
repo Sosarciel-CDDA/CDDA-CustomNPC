@@ -14,7 +14,6 @@
             "CharBuild"         : ["./src/CharBuild"],
             "StaticData"        : ["./src/StaticData"],
             "ModDefine"         : ["./src/ModDefine"],
-            "CddaJsonFormat"    : ["./src/CddaJsonFormat"],
 			"@src/*"            : ["./src/*"],
 			"@/*"               : ["./*"]
         }

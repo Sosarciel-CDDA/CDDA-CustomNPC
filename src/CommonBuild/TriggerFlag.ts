@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Flag, FlagID, Spell } from "CddaJsonFormat";
+import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Flag, FlagID, Spell } from "cdda-schema";
 import { genActEoc, genEOCID, genSpellID } from "ModDefine";
 import { genDIO } from "./UtilGener";
 import { SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_MAX_DAMAGE } from "StaticData";

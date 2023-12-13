@@ -1,2 +1,2 @@
-import { NpcClass, NpcInstance } from "../CddaJsonFormat";
+import { NpcClass, NpcInstance } from "cdda-schema";
 export declare const BaseNpc: (NpcClass | NpcInstance)[];

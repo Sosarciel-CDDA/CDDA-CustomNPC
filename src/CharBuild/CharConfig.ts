@@ -1,6 +1,6 @@
 import * as path from 'path';
 import * as  fs from 'fs';
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "CddaJsonFormat";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
 import { DataManager } from '../DataManager';

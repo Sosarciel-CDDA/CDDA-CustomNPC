@@ -2,7 +2,7 @@ import { JArray } from "@zwa73/utils";
 import { saveStaticData } from "./StaticData";
 import { TARGET_MON_ID } from "./BaseMonster";
 import { genSpellID } from "@src/ModDefine";
-import { Spell } from "CddaJsonFormat";
+import { Spell } from "cdda-schema";
 
 
 /**n格以内算作进入战斗/远程攻击范围 */

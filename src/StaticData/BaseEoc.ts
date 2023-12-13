@@ -1,4 +1,4 @@
-import { Eoc } from "@src/CddaJsonFormat";
+import { Eoc } from "cdda-schema";
 import { genEOCID, genEffectID } from "@src/ModDefine";
 import { saveStaticData } from "./StaticData";
 import { BATTLE_RANGE, MELEE_RANGE } from "./BaseSpell";

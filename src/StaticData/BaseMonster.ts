@@ -1,4 +1,4 @@
-import { Monster } from "CddaJsonFormat";
+import { Monster } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
 import { genMonsterID } from "@src/ModDefine";
 

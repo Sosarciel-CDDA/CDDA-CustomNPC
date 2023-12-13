@@ -1,4 +1,4 @@
-import { EocEffect } from "CddaJsonFormat";
+import { EocEffect } from "cdda-schema";
 
 
 

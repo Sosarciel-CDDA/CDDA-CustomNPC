@@ -1,4 +1,4 @@
-import { ItemGroup } from "CddaJsonFormat"
+import { ItemGroup } from "cdda-schema"
 import { saveStaticData } from "./StaticData";
 import { genItemGroupID } from "@src/ModDefine";
 

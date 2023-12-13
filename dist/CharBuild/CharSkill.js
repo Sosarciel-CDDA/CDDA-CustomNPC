@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseNumObj = exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
 const ModDefine_1 = require("../ModDefine");
-const CddaJsonFormat_1 = require("../CddaJsonFormat");
+const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
 const Event_1 = require("../Event");
 const CharSkillSpecEffect_1 = require("./CharSkillSpecEffect");
@@ -215,7 +215,7 @@ function revTalker(obj) {
     str = str.replace(/tmpnpctmp_/g, 'npc_');
     str = str.replace(/tmpntmp_/g, 'n_');
     //修正无参条件
-    const npcond = CddaJsonFormat_1.NoParamTalkerCondList.join('|');
+    const npcond = cdda_schema_1.NoParamTalkerCondList.join('|');
     const regex = new RegExp(`"n_(${npcond})"`, 'g');
     str = str.replace(regex, `"npc_$1"`);
     return JSON.parse(str);

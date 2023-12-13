@@ -1,5 +1,5 @@
 import { DataManager } from "@src/DataManager";
-import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, Spell, SpellFlag, Time } from "CddaJsonFormat";
+import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, Spell, SpellFlag, Time } from "cdda-schema";
 import { CharSkill, parseNumObj } from "./CharSkill";
 import { genEOCID, genSpellID } from "ModDefine";
 import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE } from "StaticData";

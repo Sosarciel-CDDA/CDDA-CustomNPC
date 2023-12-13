@@ -1,7 +1,7 @@
-import { Armor, BodyPartList, Eoc, EocEffect, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "CddaJsonFormat";
+import { Armor, BodyPartList, Eoc, EocEffect, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { genEOCID, genGenericID, genItemGroupID, genMutationID } from "ModDefine";
-import { DefineSkillList, SkillID } from "../CddaJsonFormat/Skill";
+import { DefineSkillList, SkillID } from "cdda-schema";
 import { EMPTY_GROUP_ID } from "StaticData";
 
 

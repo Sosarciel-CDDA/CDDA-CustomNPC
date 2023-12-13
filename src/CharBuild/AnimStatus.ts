@@ -2,7 +2,7 @@ import { JArray } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
 import { CharDefineData, DataManager } from "../DataManager";
 import * as path from 'path';
-import { Eoc } from "CddaJsonFormat";
+import { Eoc } from "cdda-schema";
 import { genEOCID } from "ModDefine";
 import { CnpcEventType } from "Event";
 

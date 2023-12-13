@@ -1,5 +1,5 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID } from './CddaJsonFormat';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID } from 'cdda-schema';
 import { CharConfig, AnimType } from './CharBuild';
 import { CnpcEventType, EventEffect, GlobalEventType } from './Event';
 /**角色定义数据 */

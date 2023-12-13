@@ -1,4 +1,4 @@
-import { Effect } from "@src/CddaJsonFormat/Effect";
+import { Effect } from "cdda-schema";
 import { genEffectID } from "@src/ModDefine";
 import { saveStaticData } from "./StaticData";
 
