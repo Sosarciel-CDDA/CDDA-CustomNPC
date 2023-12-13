@@ -79,7 +79,7 @@ function genArmorMut(armor) {
     armor.volume = 0;
     let fixname = armor.name;
     if (typeof fixname != "string")
-        fixname = fixname?.str_sp ?? fixname?.str_pl ?? fixname?.str ?? fixname?.ctxt;
+        fixname = fixname.str_sp ?? fixname.str_pl ?? fixname.str ?? fixname.ctxt ?? fixname;
     const mut = {
         id: `${armor.id}_MUT`,
         type: "mutation",

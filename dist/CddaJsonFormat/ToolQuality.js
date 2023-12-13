@@ -85,5 +85,8 @@ exports.DefineToolQualityIDList = [
     "BLOW_AIR",
     "BLOW_HOT_AIR",
     "THREAD_CUT",
-    "THREAD_TAP", // 攻螺纹
+    "THREAD_TAP",
+    "MANA_FOCUS",
+    "MANA_INFUSE",
+    "MANA_WEAVE", // 魔力编织
 ];

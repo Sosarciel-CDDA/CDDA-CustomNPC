@@ -1,5 +1,5 @@
 import { CddaID, DescText } from "./GenericDefine";
-import { ItemActionID } from "./ItemAction";
+import { UseAction } from "./ItemAction";
 
 /**预定义的工具品质ID 列表 */
 export const DefineToolQualityIDList = [
@@ -86,6 +86,9 @@ export const DefineToolQualityIDList = [
     "BLOW_HOT_AIR"   , // 吹热气
     "THREAD_CUT"     , // 切割线程
     "THREAD_TAP"     , // 攻螺纹
+    "MANA_FOCUS"     , // 魔力聚焦
+    "MANA_INFUSE"    , // 魔力注入
+    "MANA_WEAVE"     , // 魔力编织
 ] as const;
 /**预定义的工具品质ID */
 export type DefineToolQualityID = typeof DefineToolQualityIDList[number];
@@ -102,6 +105,6 @@ export type ToolQuality = {
     /**不是必需的。可能使用该物品执行的特殊操作。  
      * [ 物品的最小品质等级, [...可进行的动作]]  
      */
-    usages?: [ number, ItemActionID[] ][];
+    usages?: [ number, ToolQualityID[] ][];
 }
 

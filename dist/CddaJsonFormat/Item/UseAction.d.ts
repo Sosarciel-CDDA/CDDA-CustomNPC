@@ -1,4 +1,4 @@
-import { EocID } from "../Eoc";
+import { ParamsEoc } from "../Eoc";
 import { FieldID } from "../Field";
 import { Color, DescText, Explosion } from "../GenericDefine";
 import { NpcClassID } from "../NpcClass";
@@ -75,7 +75,7 @@ type UARunEoc = {
     /**说明 */
     description: (DescText);
     /**eoc列表 */
-    effect_on_conditions: EocID[];
+    effect_on_conditions: ParamsEoc;
 };
 /**产生爆炸 */
 type UAExplosion = {

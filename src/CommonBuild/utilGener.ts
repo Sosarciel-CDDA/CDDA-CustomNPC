@@ -2,7 +2,7 @@ import { Effect, EffectID } from "@src/CddaJsonFormat/Effect";
 import { DataManager } from "@src/DataManager";
 import { UtilFunc } from "@zwa73/utils";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time } from "CddaJsonFormat";
-import { AnyCnpcEvenetType, CommonEventType, GlobalEventType } from "Event";
+import { CommonEventType, GlobalEventType } from "Event";
 import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 
 
@@ -91,7 +91,7 @@ export function genArmorMut(armor:Armor){
     armor.volume=0;
     let fixname = armor.name;
     if(typeof fixname != "string")
-        fixname = fixname?.str_sp??fixname?.str_pl??fixname?.str??fixname?.ctxt;
+        fixname = fixname.str_sp??fixname.str_pl??fixname.str??fixname.ctxt??fixname;
     const mut:Mutation={
         id:`${armor.id}_MUT` as MutationID,
         type:"mutation",

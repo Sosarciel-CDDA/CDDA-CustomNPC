@@ -11,6 +11,7 @@ import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
 import { ItemGroupID } from "../ItemGroup";
 import { ActivityTypeID } from "../ActivityType";
 import { MaterialID } from "../Material";
+import { FlagID } from "../Flag";
 /**Eoc效果 */
 export type EocEffect = EocEffectList[number];
 /**Eoc效果表 */
@@ -46,7 +47,10 @@ export type EocEffectList = [
     FinishMission,
     SetCond,
     IfElse,
-    AssignActivity
+    SwitchCase,
+    AssignActivity,
+    SetFlag,
+    UnsetFlag
 ];
 /**无参效果 */
 export type NoParamEffect = [
@@ -400,9 +404,9 @@ type RunInvEocs = TalkerVar<{
      * 选中的物品作为npc返回;
      * 例如, n_hp()返回物品的hp
      */
-    true_eocs?: EocID[];
+    true_eocs?: (ParamsEoc);
     /**如果未选择物品, 将运行的eoc */
-    false_eocs?: EocID[];
+    false_eocs?: (ParamsEoc);
 }, "run_inv_eocs">;
 /**背包筛选数据 */
 type InvSearchData = {
@@ -423,6 +427,26 @@ type InvSearchData = {
 type WeightedListEocs = {
     /**根据权重运行EOC */
     weighted_list_eocs: ((InlineEoc | EocID) | [(InlineEoc | EocID), NumObj])[];
+};
+/**添加flag */
+type SetFlag = TalkerVar<{
+    set_flag: IDObj<FlagID>;
+}, "set_flag">;
+/**移除flag */
+type UnsetFlag = TalkerVar<{
+    unset_flag: IDObj<FlagID>;
+}, "unset_flag">;
+/**switch控制 */
+type SwitchCase = {
+    /**switch控制 */
+    switch: NumObj;
+    /**cases合集 */
+    cases: {
+        /**case的值 */
+        case: number;
+        /**case值与switch传入NumObj相等时运行的效果 */
+        effect: EocEffect | EocEffect[];
+    }[];
 };
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID> | InlineEoc) | (IDObj<EocID> | InlineEoc)[];

@@ -12,6 +12,7 @@ import { AssignMissionTarget, MissionDefinitionID } from "../MissionDefinition";
 import { ItemGroupID } from "../ItemGroup";
 import { ActivityTypeID } from "../ActivityType";
 import { MaterialID } from "../Material";
+import { FlagID } from "../Flag";
 
 
 
@@ -57,7 +58,10 @@ export type EocEffectList = [
     FinishMission       ,//完成任务
     SetCond             ,//保存条件
     IfElse              ,//条件控制
+    SwitchCase          ,//switch控制
     AssignActivity      ,//开始活动
+    SetFlag             ,//添加flag
+    UnsetFlag           ,//移除flag
 ];
 
 /**无参效果 */
@@ -433,9 +437,9 @@ type RunInvEocs = TalkerVar<{
      * 选中的物品作为npc返回;  
      * 例如, n_hp()返回物品的hp  
      */
-    true_eocs?: EocID[];
+    true_eocs?: (ParamsEoc);
     /**如果未选择物品, 将运行的eoc */
-    false_eocs?: EocID[];
+    false_eocs?: (ParamsEoc);
 },"run_inv_eocs">;
 /**背包筛选数据 */
 type InvSearchData = {
@@ -457,7 +461,27 @@ type WeightedListEocs = {
     /**根据权重运行EOC */
     weighted_list_eocs: ((InlineEoc|EocID)|[(InlineEoc|EocID),NumObj])[];
 }
+/**添加flag */
+type SetFlag = TalkerVar<{
+    set_flag:IDObj<FlagID>;
+},"set_flag">;
+/**移除flag */
+type UnsetFlag = TalkerVar<{
+    unset_flag:IDObj<FlagID>;
+},"unset_flag">;
 
+/**switch控制 */
+type SwitchCase = {
+    /**switch控制 */
+    switch:NumObj;
+    /**cases合集 */
+    cases:{
+        /**case的值 */
+        case:number;
+        /**case值与switch传入NumObj相等时运行的效果 */
+        effect:EocEffect|EocEffect[];
+    }[];
+};
 
 /**参数Eoc */
 export type ParamsEoc = (IDObj<EocID>|InlineEoc)|(IDObj<EocID>|InlineEoc)[];

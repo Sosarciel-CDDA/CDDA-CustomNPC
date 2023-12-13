@@ -1,6 +1,6 @@
 import { MutationID } from "../Mutation";
 import { AnyItemID } from "../Item";
-import { FlagID } from "../Flag";
+import { Flag, FlagID } from "../Flag";
 import { EffectID } from "../Effect";
 import { BodyPartID, DescText, Time } from "../GenericDefine";
 import { TalkerVar } from "./Eoc";
@@ -66,6 +66,7 @@ export type BoolOperateList = [
     HasItems                ,//携带/穿戴/持握/背包里有N个某物品
     HasTrait                ,//有某个变异
     HasEffect               ,//有某个效果
+    HasFlag                 ,//有某个Flag
     OneInChance             ,//1/n的概率返回true
     NoParamCond             ,//无参条件
     CompareTime             ,//比较时间变量
@@ -114,6 +115,12 @@ type HasEffect = TalkerVar<{
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
 },"has_effect">;
+
+/**有某个Flag */
+type HasFlag = TalkerVar<{
+    /**有某个Flag */
+    has_flag:IDObj<FlagID>;
+},"has_flag">;
 
 /**有某个文本变量 */
 type HasStrVar = TalkerVar<{

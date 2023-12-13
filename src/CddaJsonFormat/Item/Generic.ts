@@ -5,13 +5,13 @@ import { CddaID, Color, CopyfromVar, DescText, Explosion, Length, MeleeDamage, P
 import { Ammo, AmmoID } from "./Ammo";
 import { Gun, GunID } from "./Gun";
 import { WeaponCategoryID } from "../WeaponCategory";
-import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
 import { Tool, ToolID } from "./Tool";
 import { Magazine, MagazineID } from "./Magazine";
 import { Comestible } from "./Comestible";
 import { Armor } from "./Armor";
 import { GunMod } from "./GunMod";
+import { UseAction } from "../ItemAction";
 
 
 /**预定义的通用物品 列表 */
@@ -130,7 +130,7 @@ export type GenericBase = {
     /**作为近战武器的伤害 */
     melee_damage?:MeleeDamage;
     /**使用效果 */
-    use_action?: UseAction;
+    use_action?: UseAction|UseAction[];
     /**口袋数据 */
     pocket_data?: PocketData[];
     /**命中数据 */
@@ -143,7 +143,7 @@ export type GenericBase = {
     explode_in_fire?: boolean;
     /**爆炸数据 */
     explosion?: Explosion;
-    /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 */
+    /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 至少1 */
     countdown_interval?: (Time);
     /**定时激活的动作 */
     countdown_action?: UseAction;

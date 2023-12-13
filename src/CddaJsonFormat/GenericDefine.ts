@@ -104,25 +104,28 @@ export type CustBP = CddaID<"BP">;
  */
 export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`|SchemaString;
 
+
+/**Copyfrom的保留字段 */
+export type CopyfromResFD = "id"|"type"|"name";
 /**可以复制的物体 */
-export type CopyfromAble = {id:string,type:string};
+export type CopyfromAble = {id:string,type:string,name:DescText};
 /**Copyfrom的物品 */
 export type CopyfromVar<T extends CopyfromAble> = (T&{"//"?:"uncopy"})|Copyfrom<T>;
 /**copyfrom变体 */
 export type Copyfrom<T extends CopyfromAble> =
-    Pick<T,"id"|"type">&{
+    Pick<T,CopyfromResFD>&{
         "copy-from":T["id"],"//"?:"copy",
         /**删除原物品的某些元素 */
-        delete?: Partial<Omit<T,"id"|"type">>,
+        delete?: Partial<Omit<T,CopyfromResFD>>,
         /**扩展原物品的某些元素 */
-        extend?: Partial<Omit<T,"id"|"type">>,
+        extend?: Partial<Omit<T,CopyfromResFD>>,
         /**在原物品的某些元素上做数值调整 */
-        relative?: Partial<Omit<T,"id"|"type">>,
+        relative?: Partial<Omit<T,CopyfromResFD>>,
         /**在原物品的某些元素上做数值倍率调整 */
-        proportional?: Partial<Omit<T,"id"|"type">>,
+        proportional?: Partial<Omit<T,CopyfromResFD>>,
         /**将原物品的某些材质替换 原材质:替换材质 */
         replace_materials?: Record<MaterialID,MaterialID>,
-    }& Partial<Omit<T,"id"|"type">>;
+    }& Partial<Omit<T,CopyfromResFD>>;
     //Partial<{[P in keyof TMP]:TMP[P] extends object
     //    ? Partial<TMP[P]> & {delete?: TMP[P],extend?: TMP[P]}
     //    : Partial<TMP[P]>

@@ -52,17 +52,11 @@ export const CnpcEventTypeList = [
 /**Cnpc角色事件类型 */
 export type CnpcEventType = typeof CnpcEventTypeList[number];
 
-
-/**任何Cnpc角色事件 列表 */
-export const AnyCnpcEventTypeList = [...CnpcEventTypeList] as const;
-/**任何Cnpc角色事件 */
-export type AnyCnpcEvenetType = typeof AnyCnpcEventTypeList[number];
-
 /**全局的事件列表 */
 export const GlobalEventTypeList = [
     "PlayerUpdate"          ,   //玩家刷新
     "GameBegin"             ,   //每次进入游戏时
-    ...AnyCnpcEventTypeList
+    ...CnpcEventTypeList
 ] as const;
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEventTypeList[number];

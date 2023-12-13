@@ -301,6 +301,10 @@
 									"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 									"type": "number"
 								},
+								"drop": {
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "发射弹药后在弹药落点掉落的物品"
+								},
 								"effects": {
 									"description": "弹药的特殊效果",
 									"items": {
@@ -2093,6 +2097,10 @@
 								"dispersion": {
 									"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 									"type": "number"
+								},
+								"drop": {
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "发射弹药后在弹药落点掉落的物品"
 								},
 								"effects": {
 									"description": "弹药的特殊效果",
@@ -5303,7 +5311,157 @@
 									"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 								},
 								"consumption_effect_on_conditions": {
-									"$ref": "#/definitions/ParamsEoc_1",
+									"anyOf": [
+										{
+											"pattern": "^.*$",
+											"type": "string"
+										},
+										{
+											"properties": {
+												"global_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"global_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"u_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"u_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"npc_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"npc_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"context_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"context_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"var_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"var_val"
+											],
+											"type": "object"
+										},
+										{
+											"pattern": "^EOC_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_EOC_.*$",
+											"type": "string"
+										},
+										{
+											"$ref": "#/definitions/InlineEoc",
+											"description": "内联EOC"
+										},
+										{
+											"items": {
+												"anyOf": [
+													{
+														"pattern": "^.*$",
+														"type": "string"
+													},
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"pattern": "^EOC_.*$",
+														"type": "string"
+													},
+													{
+														"pattern": "^.*_EOC_.*$",
+														"type": "string"
+													},
+													{
+														"$ref": "#/definitions/InlineEoc",
+														"description": "内联EOC"
+													}
+												]
+											},
+											"type": "array"
+										}
+									],
 									"description": "消费后运行的条件影响。支持内联或字符串id"
 								},
 								"contamination": {
@@ -8735,6 +8893,10 @@
 									"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 									"type": "number"
 								},
+								"drop": {
+									"$ref": "#/definitions/AnyItemID_1",
+									"description": "发射弹药后在弹药落点掉落的物品"
+								},
 								"effects": {
 									"description": "弹药的特殊效果",
 									"items": {
@@ -11944,7 +12106,157 @@
 									"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 								},
 								"consumption_effect_on_conditions": {
-									"$ref": "#/definitions/ParamsEoc_1",
+									"anyOf": [
+										{
+											"pattern": "^.*$",
+											"type": "string"
+										},
+										{
+											"properties": {
+												"global_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"global_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"u_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"u_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"npc_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"npc_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"context_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"context_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"var_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"var_val"
+											],
+											"type": "object"
+										},
+										{
+											"pattern": "^EOC_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_EOC_.*$",
+											"type": "string"
+										},
+										{
+											"$ref": "#/definitions/InlineEoc",
+											"description": "内联EOC"
+										},
+										{
+											"items": {
+												"anyOf": [
+													{
+														"pattern": "^.*$",
+														"type": "string"
+													},
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"pattern": "^EOC_.*$",
+														"type": "string"
+													},
+													{
+														"pattern": "^.*_EOC_.*$",
+														"type": "string"
+													},
+													{
+														"$ref": "#/definitions/InlineEoc",
+														"description": "内联EOC"
+													}
+												]
+											},
+											"type": "array"
+										}
+									],
 									"description": "消费后运行的条件影响。支持内联或字符串id"
 								},
 								"contamination": {
@@ -17239,10 +17551,6 @@
 			"description": "开始活动"
 		},
 		"AssignMissionTarget": {
-			"$ref": "#/definitions/AssignMissionTarget_1",
-			"description": "寻找大地图目标"
-		},
-		"AssignMissionTarget_1": {
 			"$ref": "#/definitions/__type_25"
 		},
 		"AssingMission": {
@@ -20856,6 +21164,10 @@
 											"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 											"type": "number"
 										},
+										"drop": {
+											"$ref": "#/definitions/AnyItemID_1",
+											"description": "发射弹药后在弹药落点掉落的物品"
+										},
 										"effects": {
 											"description": "弹药的特殊效果",
 											"items": {
@@ -24097,7 +24409,157 @@
 											"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 										},
 										"consumption_effect_on_conditions": {
-											"$ref": "#/definitions/ParamsEoc_1",
+											"anyOf": [
+												{
+													"pattern": "^.*$",
+													"type": "string"
+												},
+												{
+													"properties": {
+														"global_val": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"global_val"
+													],
+													"type": "object"
+												},
+												{
+													"properties": {
+														"u_val": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"u_val"
+													],
+													"type": "object"
+												},
+												{
+													"properties": {
+														"npc_val": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"npc_val"
+													],
+													"type": "object"
+												},
+												{
+													"properties": {
+														"context_val": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"context_val"
+													],
+													"type": "object"
+												},
+												{
+													"properties": {
+														"var_val": {
+															"type": "string"
+														}
+													},
+													"required": [
+														"var_val"
+													],
+													"type": "object"
+												},
+												{
+													"pattern": "^EOC_.*$",
+													"type": "string"
+												},
+												{
+													"pattern": "^.*_EOC_.*$",
+													"type": "string"
+												},
+												{
+													"$ref": "#/definitions/InlineEoc",
+													"description": "内联EOC"
+												},
+												{
+													"items": {
+														"anyOf": [
+															{
+																"pattern": "^.*$",
+																"type": "string"
+															},
+															{
+																"properties": {
+																	"global_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"global_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"u_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"u_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"npc_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"npc_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"context_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"context_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"var_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"var_val"
+																],
+																"type": "object"
+															},
+															{
+																"pattern": "^EOC_.*$",
+																"type": "string"
+															},
+															{
+																"pattern": "^.*_EOC_.*$",
+																"type": "string"
+															},
+															{
+																"$ref": "#/definitions/InlineEoc",
+																"description": "内联EOC"
+															}
+														]
+													},
+													"type": "array"
+												}
+											],
 											"description": "消费后运行的条件影响。支持内联或字符串id"
 										},
 										"contamination": {
@@ -27989,7 +28451,157 @@
 									"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 								},
 								"consumption_effect_on_conditions": {
-									"$ref": "#/definitions/ParamsEoc_1",
+									"anyOf": [
+										{
+											"pattern": "^.*$",
+											"type": "string"
+										},
+										{
+											"properties": {
+												"global_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"global_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"u_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"u_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"npc_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"npc_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"context_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"context_val"
+											],
+											"type": "object"
+										},
+										{
+											"properties": {
+												"var_val": {
+													"type": "string"
+												}
+											},
+											"required": [
+												"var_val"
+											],
+											"type": "object"
+										},
+										{
+											"pattern": "^EOC_.*$",
+											"type": "string"
+										},
+										{
+											"pattern": "^.*_EOC_.*$",
+											"type": "string"
+										},
+										{
+											"$ref": "#/definitions/InlineEoc",
+											"description": "内联EOC"
+										},
+										{
+											"items": {
+												"anyOf": [
+													{
+														"pattern": "^.*$",
+														"type": "string"
+													},
+													{
+														"properties": {
+															"global_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"global_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"u_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"u_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"npc_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"npc_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"context_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"context_val"
+														],
+														"type": "object"
+													},
+													{
+														"properties": {
+															"var_val": {
+																"type": "string"
+															}
+														},
+														"required": [
+															"var_val"
+														],
+														"type": "object"
+													},
+													{
+														"pattern": "^EOC_.*$",
+														"type": "string"
+													},
+													{
+														"pattern": "^.*_EOC_.*$",
+														"type": "string"
+													},
+													{
+														"$ref": "#/definitions/InlineEoc",
+														"description": "内联EOC"
+													}
+												]
+											},
+											"type": "array"
+										}
+									],
 									"description": "消费后运行的条件影响。支持内联或字符串id"
 								},
 								"contamination": {
@@ -29102,8 +29714,7 @@
 					],
 					"type": "object"
 				}
-			],
-			"description": "条件Obj"
+			]
 		},
 		"ConsumeItem": {
 			"anyOf": [
@@ -29146,7 +29757,7 @@
 		"Copyfrom": {
 			"allOf": [
 				{
-					"$ref": "#/definitions/Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">"
+					"$ref": "#/definitions/Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;drop?:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|\"afs_biomaterial_1\"|\"afs_biomaterial_2\"|\"afs_biomaterial_3\"|\"afs_biomaterial_4\"|\"afs_biomaterial_5\"|\"afs_circuitry_1\"|\"afs_circuitry_2\"|\"afs_circuitry_3\"|\"afs_circuitry_4\"|\"afs_circuitry_5\"|\"afs_energy_storage_1\"|\"afs_energy_storage_2\"|\"afs_energy_storage_3\"|\"afs_energy_storage_4\"|\"afs_energy_storage_5\"|\"afs_heat_2_salvage\"|\"afs_heat_1\"|\"afs_heat_2\"|\"afs_heat_3\"|\"afs_heat_4\"|\"afs_heat_5\"|\"afs_magnet_1\"|\"afs_magnet_2\"|\"afs_magnet_3\"|\"afs_magnet_4\"|\"afs_material_1\"|\"afs_material_2\"|\"afs_material_3\"|\"afs_material_4\"|\"afs_material_5\"|\"afs_neural_io_1\"|\"afs_neural_io_2\"|\"afs_neural_io_3\"|\"afs_neural_io_4\"|\"afs_neural_io_5\"|\"afs_optics_3\"|\"afs_optics_4\"|`AMMO_${string}`|`${string}_AMMO_${string}`|`GUN_${string}`|`${string}_GUN_${string}`|`TOOL_${string}`|`${string}_TOOL_${string}`|`MAG_${string}`|`${string}_MAG_${string}`|`COME_${string}`|`${string}_COME_${string}`|`ARMOR_${string}`|`${string}_ARMOR_${string}`|`GMOD_${string}`|`${string}_GMOD_${string}`|undefined;}&GenericBase,\"type\"|\"id\">"
 				},
 				{
 					"properties": {
@@ -57693,6 +58304,150 @@
 					"type": "object"
 				},
 				{
+					"pattern": "^SE_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_SE_.*$",
+					"type": "string"
+				}
+			],
+			"description": "专用于某种ID的字符串对象"
+		},
+		"IDObj_3": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"properties": {
+						"global_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"global_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"u_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"u_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"npc_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"npc_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"context_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"context_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"var_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"var_val"
+					],
+					"type": "object"
+				},
+				{
+					"pattern": "^SEV_.*$",
+					"type": "string"
+				},
+				{
+					"pattern": "^.*_SEV_.*$",
+					"type": "string"
+				}
+			],
+			"description": "专用于某种ID的字符串对象"
+		},
+		"IDObj_4": {
+			"anyOf": [
+				{
+					"pattern": "^.*$",
+					"type": "string"
+				},
+				{
+					"properties": {
+						"global_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"global_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"u_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"u_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"npc_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"npc_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"context_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"context_val"
+					],
+					"type": "object"
+				},
+				{
+					"properties": {
+						"var_val": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"var_val"
+					],
+					"type": "object"
+				},
+				{
 					"pattern": "^OMTERR_.*$",
 					"type": "string"
 				},
@@ -57703,7 +58458,7 @@
 			],
 			"description": "专用于某种ID的字符串对象"
 		},
-		"IDObj_3": {
+		"IDObj_5": {
 			"anyOf": [
 				{
 					"pattern": "^.*$",
@@ -57775,7 +58530,7 @@
 			],
 			"description": "专用于某种ID的字符串对象"
 		},
-		"IDObj_4": {
+		"IDObj_6": {
 			"anyOf": [
 				{
 					"pattern": "^.*$",
@@ -58998,68 +59753,7 @@
 					],
 					"type": "object"
 				}
-			],
-			"description": "位置Obj"
-		},
-		"LocObj_1": {
-			"anyOf": [
-				{
-					"properties": {
-						"global_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"global_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"u_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"u_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"npc_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"npc_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"context_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"context_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"var_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"var_val"
-					],
-					"type": "object"
-				}
-			],
-			"description": "位置Obj"
+			]
 		},
 		"LocalVar": {
 			"anyOf": [
@@ -61692,11 +62386,217 @@
 		"Omit<{cast_spell:FakeSpell;targeted?:boolean|undefined;true_eocs?:ParamsEoc|undefined;false_eocs?:ParamsEoc|undefined;loc?:{global_val:string;}|{u_val:string;}|{npc_val:string;}|{context_val:string;}|{var_val:string;}|undefined;},\"cast_spell\">": {
 			"properties": {
 				"false_eocs": {
-					"$ref": "#/definitions/ParamsEoc_1",
+					"anyOf": [
+						{
+							"pattern": "^.*$",
+							"type": "string"
+						},
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"pattern": "^EOC_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_EOC_.*$",
+							"type": "string"
+						},
+						{
+							"$ref": "#/definitions/InlineEoc",
+							"description": "内联EOC"
+						},
+						{
+							"items": {
+								"anyOf": [
+									{
+										"pattern": "^.*$",
+										"type": "string"
+									},
+									{
+										"properties": {
+											"global_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"global_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"u_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"npc_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"npc_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"context_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"context_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"var_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"var_val"
+										],
+										"type": "object"
+									},
+									{
+										"pattern": "^EOC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_EOC_.*$",
+										"type": "string"
+									},
+									{
+										"$ref": "#/definitions/InlineEoc",
+										"description": "内联EOC"
+									}
+								]
+							},
+							"type": "array"
+						}
+					],
 					"description": "施法失败后运行的eoc"
 				},
 				"loc": {
-					"$ref": "#/definitions/LocObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "施法目标位置"
 				},
 				"targeted": {
@@ -61704,7 +62604,157 @@
 					"type": "boolean"
 				},
 				"true_eocs": {
-					"$ref": "#/definitions/ParamsEoc_1",
+					"anyOf": [
+						{
+							"pattern": "^.*$",
+							"type": "string"
+						},
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"pattern": "^EOC_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_EOC_.*$",
+							"type": "string"
+						},
+						{
+							"$ref": "#/definitions/InlineEoc",
+							"description": "内联EOC"
+						},
+						{
+							"items": {
+								"anyOf": [
+									{
+										"pattern": "^.*$",
+										"type": "string"
+									},
+									{
+										"properties": {
+											"global_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"global_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"u_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"npc_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"npc_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"context_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"context_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"var_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"var_val"
+										],
+										"type": "object"
+									},
+									{
+										"pattern": "^EOC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_EOC_.*$",
+										"type": "string"
+									},
+									{
+										"$ref": "#/definitions/InlineEoc",
+										"description": "内联EOC"
+									}
+								]
+							},
+							"type": "array"
+						}
+					],
 					"description": "成功施法后运行的eoc"
 				}
 			},
@@ -63121,7 +64171,63 @@
 					"description": "定义line_of_sight的可选范围（对于line_of_sight是强制性的, 否则不需要）"
 				},
 				"target_var": {
-					"$ref": "#/definitions/LocObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "包含所选瓷砖坐标的变量对象（强制性）"
 				},
 				"z_level": {
@@ -63620,160 +64726,6 @@
 			"description": "作为参数传入的附魔"
 		},
 		"ParamsEoc": {
-			"anyOf": [
-				{
-					"pattern": "^.*$",
-					"type": "string"
-				},
-				{
-					"properties": {
-						"global_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"global_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"u_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"u_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"npc_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"npc_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"context_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"context_val"
-					],
-					"type": "object"
-				},
-				{
-					"properties": {
-						"var_val": {
-							"type": "string"
-						}
-					},
-					"required": [
-						"var_val"
-					],
-					"type": "object"
-				},
-				{
-					"pattern": "^EOC_.*$",
-					"type": "string"
-				},
-				{
-					"pattern": "^.*_EOC_.*$",
-					"type": "string"
-				},
-				{
-					"$ref": "#/definitions/InlineEoc",
-					"description": "内联EOC"
-				},
-				{
-					"items": {
-						"anyOf": [
-							{
-								"pattern": "^.*$",
-								"type": "string"
-							},
-							{
-								"properties": {
-									"global_val": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"global_val"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"u_val": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"u_val"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"npc_val": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"npc_val"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"context_val": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"context_val"
-								],
-								"type": "object"
-							},
-							{
-								"properties": {
-									"var_val": {
-										"type": "string"
-									}
-								},
-								"required": [
-									"var_val"
-								],
-								"type": "object"
-							},
-							{
-								"pattern": "^EOC_.*$",
-								"type": "string"
-							},
-							{
-								"pattern": "^.*_EOC_.*$",
-								"type": "string"
-							},
-							{
-								"$ref": "#/definitions/InlineEoc",
-								"description": "内联EOC"
-							}
-						]
-					},
-					"type": "array"
-				}
-			],
-			"description": "参数Eoc"
-		},
-		"ParamsEoc_1": {
 			"anyOf": [
 				{
 					"pattern": "^.*$",
@@ -64835,7 +65787,7 @@
 			],
 			"type": "object"
 		},
-		"Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;}&GenericBase,\"type\"|\"id\">": {
+		"Pick<{id:AmmoID;type:\"AMMO\";ammo_type:AmmunitionTypeID;damage?:RangeDamage|RangeDamage[]|undefined;prop_damage?:number|undefined;range?:number|undefined;range_multiplier?:number|undefined;dispersion?:number|undefined;projectile_count?:number|undefined;shot_counter?:number|undefined;shot_damage?:RangeDamage|RangeDamage[]|undefined;shot_spread?:number|undefined;critical_multiplier?:number|undefined;recoil?:number|undefined;count?:number|undefined;stack_size?:number|undefined;show_stats?:boolean|undefined;loudness?:number|undefined;effects?:AmmoEffectID[]|undefined;flags?:GenericFlag[]|undefined;drop?:`${string}SchemaString`|`GENERIC_${string}`|`${string}_GENERIC_${string}`|\"afs_biomaterial_1\"|\"afs_biomaterial_2\"|\"afs_biomaterial_3\"|\"afs_biomaterial_4\"|\"afs_biomaterial_5\"|\"afs_circuitry_1\"|\"afs_circuitry_2\"|\"afs_circuitry_3\"|\"afs_circuitry_4\"|\"afs_circuitry_5\"|\"afs_energy_storage_1\"|\"afs_energy_storage_2\"|\"afs_energy_storage_3\"|\"afs_energy_storage_4\"|\"afs_energy_storage_5\"|\"afs_heat_2_salvage\"|\"afs_heat_1\"|\"afs_heat_2\"|\"afs_heat_3\"|\"afs_heat_4\"|\"afs_heat_5\"|\"afs_magnet_1\"|\"afs_magnet_2\"|\"afs_magnet_3\"|\"afs_magnet_4\"|\"afs_material_1\"|\"afs_material_2\"|\"afs_material_3\"|\"afs_material_4\"|\"afs_material_5\"|\"afs_neural_io_1\"|\"afs_neural_io_2\"|\"afs_neural_io_3\"|\"afs_neural_io_4\"|\"afs_neural_io_5\"|\"afs_optics_3\"|\"afs_optics_4\"|`AMMO_${string}`|`${string}_AMMO_${string}`|`GUN_${string}`|`${string}_GUN_${string}`|`TOOL_${string}`|`${string}_TOOL_${string}`|`MAG_${string}`|`${string}_MAG_${string}`|`COME_${string}`|`${string}_COME_${string}`|`ARMOR_${string}`|`${string}_ARMOR_${string}`|`GMOD_${string}`|`${string}_GMOD_${string}`|undefined;}&GenericBase,\"type\"|\"id\">": {
 			"properties": {
 				"id": {
 					"$ref": "#/definitions/AmmoID_1",
@@ -80407,7 +81359,63 @@
 			"description": "获取条件",
 			"properties": {
 				"get_condition": {
-					"$ref": "#/definitions/CondObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "获取条件"
 				}
 			},
@@ -83925,6 +84933,10 @@
 														"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 														"type": "number"
 													},
+													"drop": {
+														"$ref": "#/definitions/AnyItemID_1",
+														"description": "发射弹药后在弹药落点掉落的物品"
+													},
 													"effects": {
 														"description": "弹药的特殊效果",
 														"items": {
@@ -87166,7 +88178,157 @@
 														"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 													},
 													"consumption_effect_on_conditions": {
-														"$ref": "#/definitions/ParamsEoc_1",
+														"anyOf": [
+															{
+																"pattern": "^.*$",
+																"type": "string"
+															},
+															{
+																"properties": {
+																	"global_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"global_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"u_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"u_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"npc_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"npc_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"context_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"context_val"
+																],
+																"type": "object"
+															},
+															{
+																"properties": {
+																	"var_val": {
+																		"type": "string"
+																	}
+																},
+																"required": [
+																	"var_val"
+																],
+																"type": "object"
+															},
+															{
+																"pattern": "^EOC_.*$",
+																"type": "string"
+															},
+															{
+																"pattern": "^.*_EOC_.*$",
+																"type": "string"
+															},
+															{
+																"$ref": "#/definitions/InlineEoc",
+																"description": "内联EOC"
+															},
+															{
+																"items": {
+																	"anyOf": [
+																		{
+																			"pattern": "^.*$",
+																			"type": "string"
+																		},
+																		{
+																			"properties": {
+																				"global_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"global_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"u_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"u_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"npc_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"npc_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"context_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"context_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"properties": {
+																				"var_val": {
+																					"type": "string"
+																				}
+																			},
+																			"required": [
+																				"var_val"
+																			],
+																			"type": "object"
+																		},
+																		{
+																			"pattern": "^EOC_.*$",
+																			"type": "string"
+																		},
+																		{
+																			"pattern": "^.*_EOC_.*$",
+																			"type": "string"
+																		},
+																		{
+																			"$ref": "#/definitions/InlineEoc",
+																			"description": "内联EOC"
+																		}
+																	]
+																},
+																"type": "array"
+															}
+														],
 														"description": "消费后运行的条件影响。支持内联或字符串id"
 													},
 													"contamination": {
@@ -93961,7 +95123,63 @@
 			"description": "运行Eoc 并提供参数",
 			"properties": {
 				"beta_loc": {
-					"$ref": "#/definitions/LocObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "将loc所在位置的单位作为beta talker"
 				},
 				"run_eoc_with": {
@@ -93981,7 +95199,63 @@
 			"description": "循环运行Eoc",
 			"properties": {
 				"condition": {
-					"$ref": "#/definitions/CondObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "循环条件, 为真时循环"
 				},
 				"iteration": {
@@ -94200,66 +95474,7 @@
 			"description": "播放声音",
 			"properties": {
 				"id": {
-					"anyOf": [
-						{
-							"properties": {
-								"global_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"global_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"u_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"u_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"npc_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"npc_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"context_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"context_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"var_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"var_val"
-							],
-							"type": "object"
-						},
-						{
-							"type": "string"
-						}
-					],
+					"$ref": "#/definitions/IDObj_2",
 					"description": "音效ID"
 				},
 				"outdoor_event": {
@@ -94267,66 +95482,7 @@
 					"type": "boolean"
 				},
 				"sound_effect": {
-					"anyOf": [
-						{
-							"properties": {
-								"global_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"global_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"u_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"u_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"npc_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"npc_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"context_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"context_val"
-							],
-							"type": "object"
-						},
-						{
-							"properties": {
-								"var_val": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"var_val"
-							],
-							"type": "object"
-						},
-						{
-							"type": "string"
-						}
-					],
+					"$ref": "#/definitions/IDObj_3",
 					"description": "变体ID"
 				},
 				"volume": {
@@ -94502,11 +95658,11 @@
 					"type": "number"
 				},
 				"om_special": {
-					"$ref": "#/definitions/IDObj_3",
+					"$ref": "#/definitions/IDObj_5",
 					"description": "包含覆盖图地形的覆盖图特殊 ID"
 				},
 				"om_terrain": {
-					"$ref": "#/definitions/IDObj_2",
+					"$ref": "#/definitions/IDObj_4",
 					"description": "将被选为目标的覆盖图地形的 ID"
 				},
 				"om_terrain_match_type": {
@@ -94514,7 +95670,7 @@
 					"description": "与 om_terrain 一起使用的匹配规则。默认为TYPE"
 				},
 				"om_terrain_replace": {
-					"$ref": "#/definitions/IDObj_2",
+					"$ref": "#/definitions/IDObj_4",
 					"description": "要查找的覆盖地图地形的 ID, 如果om_terrain找不到则替换。"
 				},
 				"origin_npc": {
@@ -94668,7 +95824,63 @@
 					"description": "在覆盖地图地形坐标中寻找匹配的范围om_terrain。"
 				},
 				"var": {
-					"$ref": "#/definitions/LocObj_1",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "一个variable_object (参见variable_objectdoc ) , 如果设置了该变量的值将被使用。"
 				},
 				"z": {
@@ -94753,7 +95965,7 @@
 			"description": "给玩家添加任务",
 			"properties": {
 				"assign_mission": {
-					"$ref": "#/definitions/IDObj_4",
+					"$ref": "#/definitions/IDObj_6",
 					"description": "给玩家添加目标ID任务"
 				}
 			},
@@ -94766,7 +95978,7 @@
 			"description": "将从玩家的活动任务列表中删除任务而不失败。",
 			"properties": {
 				"remove_active_mission": {
-					"$ref": "#/definitions/IDObj_4",
+					"$ref": "#/definitions/IDObj_6",
 					"description": "给玩家删除目标ID任务"
 				}
 			},
@@ -94779,7 +95991,7 @@
 			"description": "使玩家完成任务",
 			"properties": {
 				"finish_mission": {
-					"$ref": "#/definitions/IDObj_4",
+					"$ref": "#/definitions/IDObj_6",
 					"description": "使玩家完成目标ID任务"
 				},
 				"step": {
@@ -95220,7 +96432,63 @@
 					"description": "将要保存的条件"
 				},
 				"set_condition": {
-					"$ref": "#/definitions/CondObj",
+					"anyOf": [
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						}
+					],
 					"description": "将条件Obj保存为变量"
 				}
 			},
@@ -103669,6 +104937,10 @@
 					"description": "弹药的不准确度, 以角度分钟 (MOA) 的百分之一为单位测量",
 					"type": "number"
 				},
+				"drop": {
+					"$ref": "#/definitions/AnyItemID_1",
+					"description": "发射弹药后在弹药落点掉落的物品"
+				},
 				"effects": {
 					"description": "弹药的特殊效果",
 					"items": {
@@ -109482,7 +110754,157 @@
 					"description": "食品类型, 用于库存排序。'FOOD', 'DRINK', 'MED'或'INVALID'之一 (如果使用INVALID, 考虑使用与COMESTIBLE不同的“type”)"
 				},
 				"consumption_effect_on_conditions": {
-					"$ref": "#/definitions/ParamsEoc_1",
+					"anyOf": [
+						{
+							"pattern": "^.*$",
+							"type": "string"
+						},
+						{
+							"properties": {
+								"global_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"global_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"u_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"u_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"npc_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"npc_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"context_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"context_val"
+							],
+							"type": "object"
+						},
+						{
+							"properties": {
+								"var_val": {
+									"type": "string"
+								}
+							},
+							"required": [
+								"var_val"
+							],
+							"type": "object"
+						},
+						{
+							"pattern": "^EOC_.*$",
+							"type": "string"
+						},
+						{
+							"pattern": "^.*_EOC_.*$",
+							"type": "string"
+						},
+						{
+							"$ref": "#/definitions/InlineEoc",
+							"description": "内联EOC"
+						},
+						{
+							"items": {
+								"anyOf": [
+									{
+										"pattern": "^.*$",
+										"type": "string"
+									},
+									{
+										"properties": {
+											"global_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"global_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"u_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"u_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"npc_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"npc_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"context_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"context_val"
+										],
+										"type": "object"
+									},
+									{
+										"properties": {
+											"var_val": {
+												"type": "string"
+											}
+										},
+										"required": [
+											"var_val"
+										],
+										"type": "object"
+									},
+									{
+										"pattern": "^EOC_.*$",
+										"type": "string"
+									},
+									{
+										"pattern": "^.*_EOC_.*$",
+										"type": "string"
+									},
+									{
+										"$ref": "#/definitions/InlineEoc",
+										"description": "内联EOC"
+									}
+								]
+							},
+							"type": "array"
+						}
+					],
 					"description": "消费后运行的条件影响。支持内联或字符串id"
 				},
 				"container": {

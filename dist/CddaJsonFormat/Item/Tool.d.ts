@@ -1,5 +1,6 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { CddaID, CopyfromVar, Power, DescText } from "../GenericDefine";
+import { ToolQualityID } from "../ToolQuality";
 import { GenericBase, GenericFlag } from "./Generic";
 import { GunMod } from "./GunMod";
 /**TOOL ID格式 */
@@ -16,9 +17,9 @@ export type Tool = CopyfromVar<{
      */
     fuel_efficiency?: number;
     /**固有的工具品质, 如锤击、锯切、拧紧 (参见 tool_qualities.json) */
-    quality?: ToolQuality[];
+    quality?: ItemToolQuality[];
     /**如果工具至少还剩 charges_per_use 费用, 则可用的工具品质 */
-    charged_qualities?: ToolQuality[];
+    charged_qualities?: ItemToolQuality[];
     /**用于装弹的弹药类型 */
     ammo?: AmmunitionTypeID[];
     /**此工具对配方中所需的每次充电使用 charge_factor 费用
@@ -58,12 +59,8 @@ export type Tool = CopyfromVar<{
     /**同时作为枪械模组的数据 */
     gunmod_data?: Omit<GunMod, "id" | "type">;
 } & GenericBase>;
-/**工具调整值类型 列表 */
-export declare const ToolQualityTypeList: readonly ["SCREW", "DRILL"];
-/**工具调整值类型 */
-export type ToolQualityType = typeof ToolQualityTypeList[number];
-/**工具品质 [调整值类型, 品质等级] */
-export type ToolQuality = [ToolQualityType, number];
+/**物品的工具品质 [调整值类型, 品质等级] */
+export type ItemToolQuality = [ToolQualityID, number];
 /**工具可用的flag 列表 */
 export declare const ToolFlagList: readonly ["ACT_ON_RANGED_HIT", "ALLOWS_REMOTE_USE", "BELT_CLIP", "BOMB", "CABLE_SPOOL", "CANNIBALISM", "CHARGEDIM", "DIG_TOOL", "FIRESTARTER", "FIRE", "HAS_RECIPE", "IS_UPS", "NO_DROP", "NO_UNLOAD", "POWERED", "RADIOCARITEM", "RADIOSIGNAL_1", "RADIOSIGNAL_2", "RADIOSIGNAL_3", "RADIO_ACTIVATION", "RADIO_CONTAINER", "RADIO_MODABLE", "RADIO_MOD", "RECHARGE", "SAFECRACK", "USES_BIONIC_POWER", "USE_PLAYER_ENERGY", "USE_UPS", "WATER_EXTINGUISH", "WET", "WIND_EXTINGUISH", "WRITE_MESSAGE"];
 /**工具可用的flag */

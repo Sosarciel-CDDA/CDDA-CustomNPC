@@ -21,10 +21,6 @@ export type CommonEventType = typeof CommonEventTypeList[number];
 export declare const CnpcEventTypeList: readonly ["CnpcIdle", "CnpcMove", "CnpcUpdate", "CnpcUpdateSlow", "CnpcInit", "CnpcDeath", "CnpcDeathPrev", "CnpcDeathAfter", "Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
 /**Cnpc角色事件类型 */
 export type CnpcEventType = typeof CnpcEventTypeList[number];
-/**任何Cnpc角色事件 列表 */
-export declare const AnyCnpcEventTypeList: readonly ["CnpcIdle", "CnpcMove", "CnpcUpdate", "CnpcUpdateSlow", "CnpcInit", "CnpcDeath", "CnpcDeathPrev", "CnpcDeathAfter", "Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
-/**任何Cnpc角色事件 */
-export type AnyCnpcEvenetType = typeof AnyCnpcEventTypeList[number];
 /**全局的事件列表 */
 export declare const GlobalEventTypeList: readonly ["PlayerUpdate", "GameBegin", "CnpcIdle", "CnpcMove", "CnpcUpdate", "CnpcUpdateSlow", "CnpcInit", "CnpcDeath", "CnpcDeathPrev", "CnpcDeathAfter", "Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
 /**全局事件 */

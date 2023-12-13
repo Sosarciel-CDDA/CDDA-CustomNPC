@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ToolFlagList = exports.ToolQualityTypeList = void 0;
-/**工具调整值类型 列表 */
-exports.ToolQualityTypeList = [
-    "SCREW",
-    "DRILL", //钻孔
-];
+exports.ToolFlagList = void 0;
 /**工具可用的flag 列表 */
 exports.ToolFlagList = [
     "ACT_ON_RANGED_HIT",

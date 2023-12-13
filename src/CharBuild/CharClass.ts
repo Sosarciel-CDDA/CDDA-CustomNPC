@@ -72,6 +72,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         use_action:{
             type:"effect_on_conditions",
             description:`生成一个 ${displayName}`,
+            menu_text: `生成一个 ${displayName}`,
             effect_on_conditions:[genEOCID(spawnerId)],
         },
         weight:1,
@@ -127,6 +128,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         use_action:{
             type:"effect_on_conditions",
             description:`召唤 ${displayName}`,
+            menu_text:`召唤 ${displayName}`,
             effect_on_conditions:[charCardEoc.id],
         },
         flags:["UNBREAKABLE"],

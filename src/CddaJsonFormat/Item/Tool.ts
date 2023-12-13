@@ -1,5 +1,6 @@
 import { AmmunitionTypeID } from "../AmmiunitionType";
 import { CddaID, CopyfromVar, Power, DescText } from "../GenericDefine";
+import { ToolQualityID } from "../ToolQuality";
 import { GenericBase, GenericFlag } from "./Generic";
 import { GunMod } from "./GunMod";
 
@@ -19,9 +20,9 @@ export type Tool = CopyfromVar<{
      */
     fuel_efficiency?: number;
     /**固有的工具品质, 如锤击、锯切、拧紧 (参见 tool_qualities.json) */
-    quality?: ToolQuality[];
+    quality?: ItemToolQuality[];
     /**如果工具至少还剩 charges_per_use 费用, 则可用的工具品质 */
-    charged_qualities?: ToolQuality[];
+    charged_qualities?: ItemToolQuality[];
     /**用于装弹的弹药类型 */
     ammo?: AmmunitionTypeID[];
     /**此工具对配方中所需的每次充电使用 charge_factor 费用  
@@ -62,16 +63,8 @@ export type Tool = CopyfromVar<{
     gunmod_data?: Omit<GunMod,"id"|"type">;
 } & GenericBase>;
 
-/**工具调整值类型 列表 */
-export const ToolQualityTypeList = [
-    "SCREW",//锯切
-    "DRILL",//钻孔
-] as const;
-/**工具调整值类型 */
-export type ToolQualityType = typeof ToolQualityTypeList[number];
-
-/**工具品质 [调整值类型, 品质等级] */
-export type ToolQuality = [ToolQualityType,number];
+/**物品的工具品质 [调整值类型, 品质等级] */
+export type ItemToolQuality = [ToolQualityID,number];
 
 
 /**工具可用的flag 列表 */

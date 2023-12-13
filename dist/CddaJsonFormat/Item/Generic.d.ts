@@ -5,13 +5,13 @@ import { CddaID, Color, CopyfromVar, DescText, Explosion, Length, MeleeDamage, P
 import { Ammo, AmmoID } from "./Ammo";
 import { Gun } from "./Gun";
 import { WeaponCategoryID } from "../WeaponCategory";
-import { UseAction } from "./UseAction";
 import { MaterialID } from "../Material";
 import { Tool } from "./Tool";
 import { Magazine } from "./Magazine";
 import { Comestible } from "./Comestible";
 import { Armor } from "./Armor";
 import { GunMod } from "./GunMod";
+import { UseAction } from "../ItemAction";
 /**预定义的通用物品 列表 */
 export declare const DefineGenericIDList: readonly ["afs_biomaterial_1", "afs_biomaterial_2", "afs_biomaterial_3", "afs_biomaterial_4", "afs_biomaterial_5", "afs_circuitry_1", "afs_circuitry_2", "afs_circuitry_3", "afs_circuitry_4", "afs_circuitry_5", "afs_energy_storage_1", "afs_energy_storage_2", "afs_energy_storage_3", "afs_energy_storage_4", "afs_energy_storage_5", "afs_heat_2_salvage", "afs_heat_1", "afs_heat_2", "afs_heat_3", "afs_heat_4", "afs_heat_5", "afs_magnet_1", "afs_magnet_2", "afs_magnet_3", "afs_magnet_4", "afs_material_1", "afs_material_2", "afs_material_3", "afs_material_4", "afs_material_5", "afs_neural_io_1", "afs_neural_io_2", "afs_neural_io_3", "afs_neural_io_4", "afs_neural_io_5", "afs_optics_3", "afs_optics_4"];
 /**预定义的通用物品 */
@@ -100,7 +100,7 @@ export type GenericBase = {
     explode_in_fire?: boolean;
     /**爆炸数据 */
     explosion?: Explosion;
-    /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 */
+    /**定时激活 一旦定时器的持续时间过去, 就会"countdown_action"执行 至少1 */
     countdown_interval?: (Time);
     /**定时激活的动作 */
     countdown_action?: UseAction;

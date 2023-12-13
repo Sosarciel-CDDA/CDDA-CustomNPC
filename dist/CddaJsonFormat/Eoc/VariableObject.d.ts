@@ -72,6 +72,7 @@ export type BoolOperateList = [
     HasItems,
     HasTrait,
     HasEffect,
+    HasFlag,
     OneInChance,
     NoParamCond,
     CompareTime,
@@ -111,6 +112,11 @@ type HasEffect = TalkerVar<{
     /**检查哪个肢体 */
     bodypart?: BodyPartID;
 }, "has_effect">;
+/**有某个Flag */
+type HasFlag = TalkerVar<{
+    /**有某个Flag */
+    has_flag: IDObj<FlagID>;
+}, "has_flag">;
 /**有某个文本变量 */
 type HasStrVar = TalkerVar<{
     /**有某个文本变量 */
