@@ -91,7 +91,7 @@ export function genArmorMut(armor:Armor){
     armor.volume=0;
     let fixname = armor.name;
     if(typeof fixname != "string")
-        fixname = fixname.str_sp??fixname.str_pl??fixname.str??fixname.ctxt??fixname;
+        fixname = fixname!.str_sp??fixname!.str_pl??fixname!.str??fixname!.ctxt??fixname;
     const mut:Mutation={
         id:`${armor.id}_MUT` as MutationID,
         type:"mutation",

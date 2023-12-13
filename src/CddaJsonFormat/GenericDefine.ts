@@ -106,9 +106,9 @@ export type CddaID<T extends string> = `${`${string}_`|''}${T}_${string}`|Schema
 
 
 /**Copyfrom的保留字段 */
-export type CopyfromResFD = "id"|"type"|"name";
+export type CopyfromResFD = "id"|"type";
 /**可以复制的物体 */
-export type CopyfromAble = {id:string,type:string,name:DescText};
+export type CopyfromAble = {id:string,type:string};
 /**Copyfrom的物品 */
 export type CopyfromVar<T extends CopyfromAble> = (T&{"//"?:"uncopy"})|Copyfrom<T>;
 /**copyfrom变体 */
