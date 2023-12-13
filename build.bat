@@ -1,2 +1,2 @@
-node --trace-warnings index
+call npm run build
 pause

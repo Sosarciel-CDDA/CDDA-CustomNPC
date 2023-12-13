@@ -1,2 +1,2 @@
-call npm run generate-schema
+call npm run build-schema
 pause
