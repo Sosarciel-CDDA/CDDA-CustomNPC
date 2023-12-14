@@ -1,6 +1,6 @@
 import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "cdda-schema";
 import { DataManager } from "../DataManager";
-import { CCnpcEventType } from "../CnpcEvent";
+import { CCnpcHook } from "../CnpcEvent";
 import { SpecEffect } from "./CharSkillSpecEffect";
 /**技能选择目标类型 列表 */
 declare const TargetTypeList: readonly ["auto", "random", "direct_hit", "filter_random", "control_cast"];
@@ -10,7 +10,7 @@ declare const TargetTypeList: readonly ["auto", "random", "direct_hit", "filter_
  * random 为 原版随机 适用于自身buff;
  *
  * direct_hit 为 直接命中交互单位 适用于任何目标技能
- * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
+ * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharSucessMeleeAttack" | "CharCauseRangeHit" | "CharCauseHit";
  *
  * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
  *
@@ -89,14 +89,14 @@ export type CastCondition = {
      */
     condition?: (BoolObj);
     /**时机 */
-    hook: CCnpcEventType;
+    hook: CCnpcHook;
     /**瞄准方式
      * auto 为 根据施法目标自动选择;
      *
      * random 为 原版随机 适用于自身buff;
      *
      * direct_hit 为 直接命中交互单位 适用于任何目标技能
-     * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";
+     * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharSucessMeleeAttack" | "CharCauseRangeHit" | "CharCauseHit";
      *
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;
      *

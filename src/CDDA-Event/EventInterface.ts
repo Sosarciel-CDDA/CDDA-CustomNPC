@@ -58,8 +58,8 @@ export const AnyEventTypeList = [
 export type AnyHook = typeof AnyEventTypeList[number];
 
 
-
-type DefineHookObj = {
+/**一个Hook */
+export type HookObj = {
     /**基础设置 */
     base_setting:{
         /**eoc类型 */
@@ -73,23 +73,25 @@ type DefineHookObj = {
         /**运行于npc */
         run_for_npcs?: true;
     }
-    /**运行此事件时将会附带调用的EocEffect */
-    invoke_effects?: EocEffect[];
+    /**运行此事件前将会附带调用的EocEffect */
+    before_effects?: EocEffect[];
+    /**运行此事件后将会附带调用的EocEffect */
+    after_effects?: EocEffect[];
 }
 
-export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
-    const eid = (id:AnyHook)=>`${prefix}_${id}` as EocID;
+export function genDefineHookMap(prefix:string){
+    const eid = (id:AnyHook)=>`${prefix}_${id}_EVENT` as EocID;
     const rune = (id:AnyHook)=>({run_eocs:eid(id)});
     const uvar = (id:string)=>`u_${prefix}_${id}`;
     const nvar = (id:string)=>`n_${prefix}_${id}`;
     //默认Hook
-    const defObj:DefineHookObj={
+    const defObj:HookObj={
         base_setting: {
             eoc_type: "ACTIVATION"
         }
     }
     //预定义的Hook
-    const eventMap:Record<AnyHook,DefineHookObj>={
+    const hookMap:Record<AnyHook,HookObj>={
         GameBegin:{
             base_setting: {
                 eoc_type: "EVENT",
@@ -111,7 +113,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_character"
             },
-            invoke_effects:[rune("TryMeleeAttack")]
+            after_effects:[rune("TryMeleeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -125,7 +127,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_monster"
             },
-            invoke_effects:[rune("TryMeleeAttack")]
+            after_effects:[rune("TryMeleeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -137,7 +139,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("TryAttack"),{
+            after_effects:[rune("TryAttack"),{
                 if:{math:["_hits","==","1"]},
                 then:[rune("SucessMeleeAttack")],
                 else:[rune("MissMeleeAttack")],
@@ -154,7 +156,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_character"
             },
-            invoke_effects:[rune("TryRangeAttack")]
+            after_effects:[rune("TryRangeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -167,7 +169,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_monster"
             },
-            invoke_effects:[rune("TryRangeAttack")]
+            after_effects:[rune("TryRangeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -178,11 +180,11 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("TryAttack")]
+            after_effects:[rune("TryAttack")]
         },
         TryAttack:{
             base_setting:defObj.base_setting,
-            invoke_effects:[{
+            after_effects:[{
                 if:{math:[uvar("inBattle"),"<=","0"]},
                 then:[rune("EnterBattle")],
             },{math:[uvar("inBattle"),"=","60"]}]
@@ -195,9 +197,10 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_dies"
             },
-            invoke_effects:[{
+            after_effects:[{
                 if:{or:[{math:["u_hp('head')","<=","0"]},{math:["u_hp('torso')","<=","0"]}]},
                 then:[rune("Death")],
+                else:["u_prevent_death"]
             }]
             //{ "character", character_id },
         },
@@ -214,10 +217,11 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 global: true,
                 run_for_npcs: true
             },
-            invoke_effects:[{
-                if:{math:[uvar("isInit"),"!=","0"]},
+            before_effects:[{
+                if:{math:[uvar("isInit"),"!=","1"]},
                 then:[rune("Init"),{math:[uvar("isInit"),"=","1"]}]
-            },{
+            }],
+            after_effects:[{
                 if:{math:[uvar("inBattle"),">","0"]},
                 then:[rune("BattleUpdate"),{math:[uvar("inBattle"),"-=","1"]}],
                 else:[rune("NonBattleUpdate")]
@@ -236,15 +240,5 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             }
         }
     };
-    const eocMap:Record<AnyHook,Eoc> = {} as any;
-    for(const key in eventMap){
-        const fixkey = key as AnyHook;
-        const event = eventMap[fixkey];
-        eocMap[fixkey] = {
-            type:"effect_on_condition",
-            ...event.base_setting,
-            id:`${prefix}_${key}_EVENT` as EocID
-        }
-    }
-    return eocMap;
+    return hookMap;
 }

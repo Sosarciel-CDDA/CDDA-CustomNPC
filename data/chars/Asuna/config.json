@@ -257,7 +257,7 @@
 				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
 			},{
-				"hook": "CnpcUpdateSlow",
+				"hook": "SlowUpdate",
 				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
 			}],
 			"spell": {

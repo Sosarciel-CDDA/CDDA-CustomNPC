@@ -326,7 +326,7 @@
                     {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
                 ]}
             },{
-                "hook": "CnpcUpdateSlow",
+                "hook": "SlowUpdate",
                 "condition": {"or":[
                     {"math":["n_hp('torso')","<=","n_hp_max('torso')/3"]},
                     {"math":["n_hp('head')" ,"<=","n_hp_max('head')/3" ]}
@@ -364,7 +364,7 @@
                     ]}
                 ]}
             },{
-                "hook": "CnpcUpdateSlow",
+                "hook": "SlowUpdate",
                 "condition": {"and":[
                     {"math":["MaxHp()-MinHp()",">","max(AvgHp()/2, 10)"]},
                     {"or":[

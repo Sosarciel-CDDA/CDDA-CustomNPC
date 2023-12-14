@@ -270,7 +270,7 @@
 				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"PowerBoost"}}
 			},{
-				"hook": "CnpcUpdateSlow",
+				"hook": "SlowUpdate",
 				"condition":{"not":{"u_has_effect":"PowerBoost"}}
 			}],
 			"spell": {
@@ -294,7 +294,7 @@
 				"hook": "BattleUpdate",
 				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
 			},{
-				"hook": "CnpcUpdateSlow",
+				"hook": "SlowUpdate",
 				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
 			}],
 			"spell": {

@@ -58,7 +58,7 @@ async function createCharSkill(dm, charName) {
     const skillDataList = [];
     //全局冷却事件
     const GCDEoc = (0, ModDefine_1.genActEoc)(`${charName}_CoCooldown`, [{ math: [gcdValName, "-=", "1"] }], { math: [gcdValName, ">", "0"] });
-    dm.addCharEvent(charName, "CnpcUpdate", 0, GCDEoc);
+    dm.addCharEvent(charName, "Update", 0, GCDEoc);
     skillDataList.push(GCDEoc);
     //遍历技能
     for (const skill of skills) {
@@ -186,7 +186,7 @@ async function createCharSkill(dm, charName) {
         //冷却事件
         if (cooldown != null) {
             const CDEoc = (0, ModDefine_1.genActEoc)(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
-            dm.addCharEvent(charName, "CnpcUpdate", 0, CDEoc);
+            dm.addCharEvent(charName, "Update", 0, CDEoc);
             skillDataList.push(CDEoc);
         }
     }
@@ -388,8 +388,8 @@ async function direct_hitProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (!CnpcEvent_1.CCommonInteractiveEventTypeList.includes(hook))
-        throw `直接命中 所用的事件必须为 交互事件: ${CnpcEvent_1.CCommonInteractiveEventTypeList}`;
+    if (!CnpcEvent_1.CInteractHookList.includes(hook))
+        throw `直接命中 所用的事件必须为 交互事件: ${CnpcEvent_1.CInteractHookList}`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -408,7 +408,7 @@ async function autoProc(dm, charName, baseSkillData) {
     if (isAllyTarget && hasRange && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
     //hook为互动事件 敌对目标 法术将直接命中
-    if ((CnpcEvent_1.CCommonInteractiveEventTypeList.includes(hook)) && isHostileTarget)
+    if ((CnpcEvent_1.CInteractHookList.includes(hook)) && isHostileTarget)
         return ProcMap.direct_hit(dm, charName, baseSkillData);
     //其他法术随机
     return ProcMap.random(dm, charName, baseSkillData);

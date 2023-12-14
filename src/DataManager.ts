@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CCnpcHookList, CCnpcHook, EventEffect, CGlobalHook, CGlobalHookList } from "CnpcEvent";
+import { CCnpcHookList, CCnpcHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
 
 
 
@@ -497,7 +497,7 @@ export class DataManager{
         this.saveToFile('event_eocs',eventEocs);
 
         //导出event框架
-        //await buildEventFrame(path.join(this.outPath,"event_frame"));
+        this.saveToFile('event_frame',buildEventFrame());
 
         //编译所有eocscript
         const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`)

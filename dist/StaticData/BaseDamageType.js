@@ -8,7 +8,7 @@ const MeleeCheck = {
     id: "MeleeCheck",
     name: "近战检测事件辅助伤害",
     no_resist: true,
-    ondamage_eocs: ["CNPC_EOC_CheckCauseMeleeHitEvent"]
+    ondamage_eocs: ["CNPC_EOC_CheckSucessMeleeAttackEvent"]
 };
 const MeleeCheckIO = {
     type: "damage_info_order",

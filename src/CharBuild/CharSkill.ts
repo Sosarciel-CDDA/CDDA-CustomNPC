@@ -168,7 +168,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const GCDEoc=genActEoc(`${charName}_CoCooldown`,
         [{math:[gcdValName,"-=","1"]}],
         {math:[gcdValName,">","0"]});
-    dm.addCharEvent(charName,"CnpcUpdate",0,GCDEoc);
+    dm.addCharEvent(charName,"Update",0,GCDEoc);
     skillDataList.push(GCDEoc);
 
 
@@ -316,7 +316,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
                 [{math:[cdValName,"-=","1"]}],
                 {math:[cdValName,">","0"]})
-            dm.addCharEvent(charName,"CnpcUpdate",0,CDEoc);
+            dm.addCharEvent(charName,"Update",0,CDEoc);
             skillDataList.push(CDEoc);
         }
     }

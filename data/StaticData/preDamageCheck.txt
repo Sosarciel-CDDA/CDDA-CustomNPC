@@ -208,7 +208,7 @@ function CNPC_EOC_EPU(){
 	//print_global_val(mag2);
 
 	//触发动态生成的 玩家刷新 事件eoc
-	CNPC_EOC_PlayerUpdate();
+	CNPC_EOC_AvatarUpdate();
 }
 //NPC死亡事件
 function CNPC_EOC_NPC_DEATH(){
@@ -405,18 +405,18 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 		//添加用于防止逃跑的勇气效果
 		eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
 		//触发动态生成的 初始化 事件eoc
-		CNPC_EOC_CnpcInit();
+		CNPC_EOC_Init();
 		u_isInit=1;
 	}
 
 	//触发动态生成的 Cnpc刷新 事件eoc
-	CNPC_EOC_CnpcUpdate();
+	CNPC_EOC_Update();
 
 	//低速刷新
 	u_update_count=u_update_count+1;
 	if(u_update_count>=60){
 		//触发动态生成的 cnpc慢速刷新 事件eoc
-		CNPC_EOC_CnpcUpdateSlow();
+		CNPC_EOC_SlowUpdate();
 		u_update_count=0;
 	}
 

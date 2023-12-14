@@ -152,7 +152,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
                 return eff;
             })
         ])
-        dm.addCharEvent(charName,"CnpcInit",0,initBaseVarEoc);
+        dm.addCharEvent(charName,"Init",0,initBaseVarEoc);
         outs.push(initBaseVarEoc);
     }
 

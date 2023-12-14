@@ -44,7 +44,7 @@ export const ReverseCharEvemtTypeList = [
 export type ReverseCharEventType = typeof ReverseCharEvemtTypeList[number];
 
 /**全局事件列表 */
-export const GlobalEvemtTypeList = ["PlayerUpdate",...CharEvemtTypeList,...ReverseCharEvemtTypeList] as const;
+export const GlobalEvemtTypeList = ["AvatarUpdate",...CharEvemtTypeList,...ReverseCharEvemtTypeList] as const;
 /**全局事件 */
 export type GlobalEventType = typeof GlobalEvemtTypeList[number];
 

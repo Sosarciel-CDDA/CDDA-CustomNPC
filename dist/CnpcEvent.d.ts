@@ -2,29 +2,29 @@ import { EocEffect } from "cdda-schema";
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */
-export declare const CCommonInteractiveEventTypeList: readonly ["TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
+export declare const CInteractHookList: readonly ["TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**任何角色的交互事件
  * u为角色 n为怪物
  */
-export type CCommonInteractiveEventType = typeof CCommonEventTypeList[number];
+export type CInteractHook = typeof CInteractHookList[number];
 /**任何角色通用的事件 列表
  * u为角色 n不存在
  */
-export declare const CCommonEventTypeList: readonly ["Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
+export declare const CCharHookList: readonly ["Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**任何角色通用的事件类型
  * u为角色 n不存在
  */
-export type CCommonEventType = typeof CCommonEventTypeList[number];
+export type CCharHook = typeof CCharHookList[number];
 /**Cnpc角色事件列表
  * u为角色 n不存在
  */
-export declare const CCnpcEventTypeList: readonly ["CnpcIdle", "CnpcMove", "CnpcUpdate", "CnpcUpdateSlow", "CnpcInit", "Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
+export declare const CCnpcHookList: readonly ["CnpcIdle", "CnpcMove", "Update", "Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**Cnpc角色事件类型 */
-export type CCnpcEventType = typeof CCnpcEventTypeList[number];
+export type CCnpcHook = typeof CCnpcHookList[number];
 /**全局的事件列表 */
-export declare const CGlobalEventTypeList: readonly ["PlayerUpdate", "GameBegin", "CnpcIdle", "CnpcMove", "CnpcUpdate", "CnpcUpdateSlow", "CnpcInit", "Update", "TakeDamage", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "TryMeleeHit", "TryRangeHit", "TryHit", "CauseMeleeHit", "MissMeleeHit"];
+export declare const CGlobalHookList: readonly ["AvatarUpdate", "GameBegin", "CnpcIdle", "CnpcMove", "Update", "Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**全局事件 */
-export type CGlobalEventType = typeof CGlobalEventTypeList[number];
+export type CGlobalHook = typeof CGlobalHookList[number];
 /**事件效果 */
 export type EventEffect = {
     /**eoc效果 */
@@ -32,3 +32,4 @@ export type EventEffect = {
     /**排序权重 */
     weight: number;
 };
+export declare function buildEventFrame(): import("@zwa73/utils").JObject[];

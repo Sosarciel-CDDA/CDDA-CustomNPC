@@ -297,7 +297,7 @@ function CNPC_EOC_PlayerMoveEvent(){
 }
 
 //主循环函数 玩家
-function CNPC_EOC_PlayerUpdateEvent(){
+function CNPC_EOC_AvatarUpdateEvent(){
 	recurrence(1);
 	//刷新属性
 	//CNPC_EOC_UpdateStat();
@@ -312,7 +312,7 @@ function CNPC_EOC_PlayerUpdateEvent(){
 	//print_global_val(mag1);
 	//print_global_val(mag2);
 	//运行动态生成的事件eoc
-	CNPC_EOC_PlayerUpdate();
+	CNPC_EOC_AvatarUpdate();
 }
 
 //主循环函数 全局

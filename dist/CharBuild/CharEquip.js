@@ -143,7 +143,7 @@ async function createCharEquip(dm, charName) {
                 return eff;
             })
         ]);
-        dm.addCharEvent(charName, "CnpcInit", 0, initBaseVarEoc);
+        dm.addCharEvent(charName, "Init", 0, initBaseVarEoc);
         outs.push(initBaseVarEoc);
     }
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);

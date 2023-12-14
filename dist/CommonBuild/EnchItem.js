@@ -87,7 +87,7 @@ async function knockback(dm) {
             name: `${subName} 附魔触发法术`,
             description: `${subName} 附魔触发法术`
         };
-        const teoc = genWieldTrigger(dm, ench.id, "TryMeleeHit", [
+        const teoc = genWieldTrigger(dm, ench.id, "TryMeleeAttack", [
             { npc_location_variable: { global_val: `_${enchId}_loc` } },
             { u_cast_spell: { id: tspell.id }, loc: { global_val: `_${enchId}_loc` } }
         ]);

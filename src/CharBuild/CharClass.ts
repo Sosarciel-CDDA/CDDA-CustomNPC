@@ -150,7 +150,7 @@ export async function createCharClass(dm:DataManager,charName:string){
             })
         ]
     }
-    dm.addCharEvent(charName,"CnpcUpdateSlow",0,autoSave);
+    dm.addCharEvent(charName,"SlowUpdate",0,autoSave);
 
 
     /**初始化事件 */
@@ -166,7 +166,7 @@ export async function createCharClass(dm:DataManager,charName:string){
             })
         ]
     }
-    dm.addCharEvent(charName,"CnpcInit",1000,charInitEoc);
+    dm.addCharEvent(charName,"Init",1000,charInitEoc);
 
     /**销毁事件 */
     const charRemoveEoc:Eoc = {
@@ -178,7 +178,7 @@ export async function createCharClass(dm:DataManager,charName:string){
         ],
         condition:{math:["u_uid","!=",`${charName}_uid`]}
     }
-    dm.addCharEvent(charName,"CnpcUpdate",0,charRemoveEoc);
+    dm.addCharEvent(charName,"Update",0,charRemoveEoc);
 
     outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charCardEoc,charCard,autoSave,charInitEoc,charRemoveEoc];
 }

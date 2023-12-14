@@ -22,13 +22,15 @@ export type CInteractHook = typeof CInteractHookList[number];
  * u为角色 n不存在
  */
 export const CCharHookList = [
-    "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
+    "Update"                ,//刷新 Cnpc角色尽量使用 Update
     "TakeDamage"            ,//受到伤害
     "EnterBattle"           ,//进入战斗
     "BattleUpdate"          ,//进入战斗时 刷新
     "NonBattleUpdate"       ,//非战斗时 刷新
     "Death"                 ,//死亡
     "DeathPrev"             ,//死亡前 回复生命可阻止死亡
+    "SlowUpdate"            ,//慢速刷新 60刷新触发一次
+    "Init"                  ,//被创建时
     ...CInteractHookList,
 ] as const;
 
@@ -43,9 +45,7 @@ export type CCharHook = typeof CCharHookList[number];
 export const CCnpcHookList = [
     "CnpcIdle"                  ,//等待状态 刷新
     "CnpcMove"                  ,//移动状态 刷新
-    "CnpcUpdate"                ,//刷新
-    "CnpcUpdateSlow"            ,//慢速刷新 60刷新触发一次
-    "CnpcInit"                  ,//被创建时
+    "Update"                ,//刷新
     ...CCharHookList      ,
 ] as const;
 /**Cnpc角色事件类型 */
@@ -53,7 +53,7 @@ export type CCnpcHook = typeof CCnpcHookList[number];
 
 /**全局的事件列表 */
 export const CGlobalHookList = [
-    "PlayerUpdate"          ,   //玩家刷新
+    "AvatarUpdate"          ,   //玩家刷新
     "GameBegin"             ,   //每次进入游戏时
     ...CCnpcHookList
 ] as const;
@@ -69,13 +69,28 @@ export type EventEffect = {
     weight:number;
 }
 
-async function buildEventFrame(){
+export function buildEventFrame(){
     const em = new EventManager("CNPCEF");
-    em.addInvoke("GameBegin"        ,0,"CNPC_EOC_EGB");
-    em.addInvoke("TakeDamage"       ,0,"CNPC_EOC_CommonTakeDamageEvent");
-    em.addInvoke("TryMeleeAttack"   ,0,"CNPC_EOC_CommonMeleeHitEvent");
-    em.addInvoke("TryRangeAttack"   ,0,"CNPC_EOC_CommonRangeHitEvent");
-    em.addInvoke("AvaterMove"       ,0,"CNPC_EOC_EPM");
-    em.addInvoke("Update"           ,0,"CNPC_EOC_EGU");
+    em.addInvoke("GameBegin"        ,0,"CNPC_EOC_GameBeginEvent");
+    em.addInvoke("TakeDamage"       ,0,"CNPC_EOC_TakeDamageEvent");
+    em.addInvoke("TryMeleeAttack"   ,0,"CNPC_EOC_TryMeleeAttackEvent");
+    em.addInvoke("SucessMeleeAttack",0,"CNPC_EOC_SucessMeleeAttackEvent");
+    em.addInvoke("MissMeleeAttack"  ,0,"CNPC_EOC_MissMeleeAttackEvent");
+
+    em.addInvoke("TryRangeAttack"   ,0,"CNPC_EOC_TryRangeAttackEvent");
+
+    em.addInvoke("TryAttack"        ,0,"CNPC_EOC_TryAttackEvent");
+    em.addInvoke("EnterBattle"      ,0,"CNPC_EOC_EnterBattleEvent");
+    em.addInvoke("DeathPrev"        ,0,"CNPC_EOC_DeathPrevEvent");
+    em.addInvoke("Death"            ,0,"CNPC_EOC_DeathEvent");
+    em.addInvoke("Init"             ,0,"CNPC_EOC_InitEvent");
+
+    em.addInvoke("AvaterMove"       ,0,"CNPC_EOC_AvatarMoveEvent");
+    em.addInvoke("AvaterUpdate"     ,0,"CNPC_EOC_AvatarUpdateEvent");
+
+    em.addInvoke("Update"           ,0,"CNPC_EOC_UpdateEvent");
+    em.addInvoke("BattleUpdate"     ,0,"CNPC_EOC_BattleUpdateEvent");
+    em.addInvoke("NonBattleUpdate"  ,0,"CNPC_EOC_NonBattleUpdateEvent");
+    em.addInvoke("SlowUpdate"       ,0,"CNPC_EOC_SlowUpdateEvent");
     return em.build();
 }

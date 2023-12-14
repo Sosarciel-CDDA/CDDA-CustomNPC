@@ -29,7 +29,7 @@ class DataManager {
         charTable: {},
         staticTable: {},
         sharedTable: {},
-        eventEocs: CnpcEvent_1.CGlobalEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
+        eventEocs: CnpcEvent_1.CGlobalHookList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
     //———————————————————— 初始化 ————————————————————//
     /**
@@ -261,7 +261,7 @@ class DataManager {
                 cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
             };
             //角色事件eoc主体
-            const charEventEocs = CnpcEvent_1.CCnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const charEventEocs = CnpcEvent_1.CCnpcHookList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
@@ -390,7 +390,7 @@ class DataManager {
         }
         this.saveToFile('event_eocs', eventEocs);
         //导出event框架
-        //await buildEventFrame(path.join(this.outPath,"event_frame"));
+        this.saveToFile('event_frame', (0, CnpcEvent_1.buildEventFrame)());
         //编译所有eocscript
         const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`);
         console.log(stdout);
