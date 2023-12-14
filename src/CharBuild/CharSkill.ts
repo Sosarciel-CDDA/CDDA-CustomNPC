@@ -3,7 +3,7 @@ import { genActEoc, genEOCID, genSpellID } from "ModDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj, SoundEffectID, SoundEffectVariantID} from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
-import { CnpcEventTypeList, CnpcEventType, CommonInteractiveEventTypeList } from "Event";
+import { CnpcEventTypeList, CnpcEventType, CommonInteractiveEventTypeList } from "CnpcEvent";
 import { SpecEffect, SpecProcMap, SpecSkillCastData } from "./CharSkillSpecEffect";
 
 

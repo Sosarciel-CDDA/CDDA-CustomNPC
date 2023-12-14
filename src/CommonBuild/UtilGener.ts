@@ -1,6 +1,6 @@
 import { DataManager } from "@src/DataManager";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "cdda-schema";
-import { CommonEventType, GlobalEventType } from "Event";
+import { CommonEventType, GlobalEventType } from "CnpcEvent";
 import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 
 

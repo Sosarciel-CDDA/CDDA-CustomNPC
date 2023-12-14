@@ -10,7 +10,7 @@
         "declaration": true,
         "baseUrl": ".",
         "paths": {
-            "Event"             : ["./src/Event"],
+            "CnpcEvent"         : ["./src/CnpcEvent"],
             "CharBuild"         : ["./src/CharBuild"],
             "StaticData"        : ["./src/StaticData"],
             "ModDefine"         : ["./src/ModDefine"],

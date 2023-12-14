@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType } from 'Event';
+import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType } from "CnpcEvent";
 
 
 
@@ -463,17 +463,7 @@ export class DataManager{
                         eoc_type:"ACTIVATION",
                         id:genEOCID(`${charName}_${etype}`),
                         effect:[...charEventList.map(event=>event.effect)],
-                        condition:CnpcEventTypeList.includes(etype as CnpcEventType)//判断是否为反转事件 并修改条件
-                            ? {and:[
-                                {u_has_trait:charData.defineData.baseMutID},
-                                ...(etype.includes("Death")
-                                ?[{math:["u_isDeath","!=","1"]}]:[])as BoolObj[]
-                            ]}
-                            : {and:[
-                                {npc_has_trait:charData.defineData.baseMutID},
-                                ...(etype.includes("Death")
-                                ?[{math:["n_isDeath","!=","1"]}]:[])as BoolObj[]
-                            ]}
+                        condition:{u_has_trait:charData.defineData.baseMutID}
                     }
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc

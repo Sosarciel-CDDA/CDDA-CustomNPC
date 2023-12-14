@@ -4,7 +4,7 @@ import { CharDefineData, DataManager } from "../DataManager";
 import * as path from 'path';
 import { Eoc } from "cdda-schema";
 import { genEOCID } from "ModDefine";
-import { CnpcEventType } from "Event";
+import { CnpcEventType } from "CnpcEvent";
 
 
 
