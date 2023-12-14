@@ -1,4 +1,4 @@
-import { Eoc, EocEffect, EocType } from "@/cdda-schema";
+import { Eoc, EocEffect, EocType } from "cdda-schema";
 /**角色互动事件 列表 */
 export declare const InteractiveEventTypeList: readonly ["MeleeAttackChar", "MeleeAttackMons", "RangeAttackChar", "RangeAttackMons", "MeleeAttack", "RangeAttack", "Attack", "CauseMeleeHit", "MissMeleeHit"];
 /**角色互动事件

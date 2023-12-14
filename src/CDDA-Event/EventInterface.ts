@@ -1,4 +1,4 @@
-import { Eoc, EocEffect, EocID, EocType } from "@/cdda-schema";
+import { Eoc, EocEffect, EocID, EocType } from "cdda-schema";
 
 
 /**角色互动事件 列表 */

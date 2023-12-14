@@ -1,6 +1,6 @@
 import { JObject } from "@zwa73/utils";
 import { AnyEventType } from "./EventInterface";
-import { EocEffect, EocID } from "@/cdda-schema";
+import { EocEffect, EocID } from "cdda-schema";
 export declare class EventManager {
     private _eocMap;
     private _effectsMap;

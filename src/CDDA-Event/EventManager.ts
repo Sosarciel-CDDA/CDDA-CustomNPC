@@ -1,7 +1,7 @@
 
 import { JObject, UtilFT, UtilFunc } from "@zwa73/utils";
 import { AnyEventType, genEventEoc, GlobalEventType} from "./EventInterface";
-import { Eoc, EocEffect, EocID } from "@/cdda-schema";
+import { Eoc, EocEffect, EocID } from "cdda-schema";
 
 
 /**事件效果 */
