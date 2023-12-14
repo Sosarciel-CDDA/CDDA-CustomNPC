@@ -21,7 +21,7 @@ const TargetTypeList = [
  * random 为 原版随机 适用于自身buff;  
  *  
  * direct_hit 为 直接命中交互单位 适用于任何目标技能  
- * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
+ * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharSucessMeleeAttack" | "CharCauseRangeHit" | "CharCauseHit";  
  *  
  * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  
  *  
@@ -108,7 +108,7 @@ export type CastCondition={
      * random 为 原版随机 适用于自身buff;  
      *  
      * direct_hit 为 直接命中交互单位 适用于任何目标技能  
-     * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharCauseMeleeHit" | "CharCauseRangeHit" | "CharCauseHit";  
+     * hook 必须为互动事件 "CharTakeDamage" | "CharTakeRangeDamage" | "CharTakeMeleeDamage" | "CharSucessMeleeAttack" | "CharCauseRangeHit" | "CharCauseHit";  
      *  
      * filter_random 为根据条件筛选可能的目标 命中第一个通过筛选的目标 条件中u为施法者n为目标 适用于队友buff;  
      *  

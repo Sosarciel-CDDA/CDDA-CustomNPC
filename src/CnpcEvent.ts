@@ -7,11 +7,11 @@ import { EventManager } from "./CDDA-Event";
  * u为角色 n为怪物
  */
 export const CCommonInteractiveEventTypeList = [
-    "TryMeleeHit"           ,//尝试近战攻击
-    "TryRangeHit"           ,//尝试远程攻击
-    "TryHit"                ,//尝试攻击
-    "CauseMeleeHit"         ,//近战攻击命中
-    "MissMeleeHit"          ,//近战攻击未命中
+    "TryMeleeAttack"           ,//尝试近战攻击
+    "TryRangeAttack"           ,//尝试远程攻击
+    "TryAttack"                ,//尝试攻击
+    "SucessMeleeAttack"        ,//近战攻击命中
+    "MissMeleeAttack"          ,//近战攻击未命中
 ] as const;
 /**任何角色的交互事件  
  * u为角色 n为怪物
@@ -24,7 +24,6 @@ export type CCommonInteractiveEventType = typeof CCommonEventTypeList[number];
 export const CCommonEventTypeList = [
     "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
     "TakeDamage"            ,//受到伤害
-    "Death"                 ,//死亡
     "EnterBattle"           ,//进入战斗
     "BattleUpdate"          ,//进入战斗时 刷新
     "NonBattleUpdate"       ,//非战斗时 刷新

@@ -166,24 +166,24 @@ function CNPC_EOC_ED(){
 function CNPC_EOC_CommonMeleeHitEvent(){
 	eoc_type("ACTIVATION");
 	//通用尝试攻击
-	CNPC_EOC_CommonTryHitEvent();
+	CNPC_EOC_CommonTryAttackEvent();
 	//触发动态生成的 尝试近战攻击 事件
-	CNPC_EOC_TryMeleeHit();
+	CNPC_EOC_TryMeleeAttack();
 	if(_hits==1)
-		CNPC_EOC_CauseMeleeHit();
+		CNPC_EOC_SucessMeleeAttack();
 	else
-		CNPC_EOC_MissMeleeHit();
+		CNPC_EOC_MissMeleeAttack();
 }
 //远程攻击主Eoc
 function CNPC_EOC_CommonRangeHitEvent(){
 	eoc_type("ACTIVATION");
 	//通用尝试攻击
-	CNPC_EOC_CommonTryHitEvent();
+	CNPC_EOC_CommonTryAttackEvent();
 	//触发动态生成的 尝试远程攻击 事件
-	CNPC_EOC_TryRangeHit();
+	CNPC_EOC_TryRangeAttack();
 }
 //通用尝试攻击
-function CNPC_EOC_CommonTryHitEvent(){
+function CNPC_EOC_CommonTryAttackEvent(){
 	eoc_type("ACTIVATION")
 
 	//设置不在待机
@@ -197,7 +197,7 @@ function CNPC_EOC_CommonTryHitEvent(){
 	u_inBattle = 60;
 
 	//触发动态生成的 尝试攻击 事件
-	CNPC_EOC_TryHit();
+	CNPC_EOC_TryAttack();
 }
 //受到攻击攻击主Eoc
 function CNPC_EOC_CommonTakeDamageEvent(){

@@ -77,7 +77,7 @@
     "skill": [
         {
             "name": "战术转移",
-            "cast_condition":{"hook": "TryHit","target": "control_cast"},
+            "cast_condition":{"hook": "TryAttack","target": "control_cast"},
             "spell": {
                 "type": "SPELL",
                 "id": "CNPC_SPELL_tactical_transfer",

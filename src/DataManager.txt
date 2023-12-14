@@ -17,7 +17,7 @@ export const CharEvemtTypeList = [
     "CharMove"              ,//角色 移动状态 刷新
     "CharCauseHit"          ,//角色 命中目标 并成功造成伤害
     "CharUpdate"            ,//角色 刷新
-    "CharCauseMeleeHit"     ,//角色 近战攻击命中目标 并成功造成伤害
+    "CharSucessMeleeAttack"     ,//角色 近战攻击命中目标 并成功造成伤害
     "CharCauseRangeHit"     ,//角色 远程攻击命中目标 并成功造成伤害
     "CharInit"              ,//角色 被创建时
     "CharTakeDamage"        ,//角色 受到任何伤害

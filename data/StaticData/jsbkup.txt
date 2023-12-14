@@ -163,7 +163,7 @@ function CNPC_EOC_MeleeHitEvent(){
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 
 		//尝试攻击
-		CNPC_EOC_TryMeleeHitEvent()
+		CNPC_EOC_TryMeleeAttackEvent()
 
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Melee"}})
@@ -171,31 +171,31 @@ function CNPC_EOC_MeleeHitEvent(){
 		//如果成功找到目标则将受害者作为beta运行子eoc
 		if(hasTarget==1){
 			eobj({
-				"run_eoc_with":"CNPC_EOC_CauseMeleeHitEvent",
+				"run_eoc_with":"CNPC_EOC_SucessMeleeAttackEvent",
 				"beta_loc":{"global_val":"victim_loc"}
 			})
 		};
 	}
 }
 //近战攻击命中触发的Eoc
-function CNPC_EOC_CauseMeleeHitEvent(){
+function CNPC_EOC_SucessMeleeAttackEvent(){
 	eoc_type("ACTIVATION")
 	//通用攻击事件
 	CNPC_EOC_CauseHitEvent()
 
 	//运行动态生成的 造成近战攻击 事件eoc
-	CNPC_EOC_CharCauseMeleeHit()
+	CNPC_EOC_CharSucessMeleeAttack()
 
 	hasTarget=0; //重置flag
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 //尝试近战攻击触发的Eoc
-function CNPC_EOC_TryMeleeHitEvent(){
+function CNPC_EOC_TryMeleeAttackEvent(){
 	eoc_type("ACTIVATION")
 	//通用尝试攻击事件
-	CNPC_EOC_TryHitEvent()
+	CNPC_EOC_TryAttackEvent()
 	//运行动态生成的 尝试近战攻击 事件eoc
-	CNPC_EOC_CharTryMeleeHit()
+	CNPC_EOC_CharTryMeleeAttack()
 }
 
 //远程攻击主Eoc
@@ -204,7 +204,7 @@ function CNPC_EOC_RangeHitEvent(){
 	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 
 		//尝试攻击
-		CNPC_EOC_TryRangeHitEvent()
+		CNPC_EOC_TryRangeAttackEvent()
 
 		//释放检测血量法术判断是否击中目标
 		eobj({"u_cast_spell":{"id":"CNPC_SPELL_CheckCurrHP_Range"}})
@@ -231,12 +231,12 @@ function CNPC_EOC_CauseRangeHitEvent(){
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 //尝试远程攻击触发的Eoc
-function CNPC_EOC_TryRangeHitEvent(){
+function CNPC_EOC_TryRangeAttackEvent(){
 	eoc_type("ACTIVATION")
 	//通用尝试攻击事件
-	CNPC_EOC_TryHitEvent()
+	CNPC_EOC_TryAttackEvent()
 	//运行动态生成的 尝试远程攻击 事件eoc
-	CNPC_EOC_CharTryRangeHit()
+	CNPC_EOC_CharTryRangeAttack()
 }
 
 //攻击命中触发的eoc
@@ -253,7 +253,7 @@ function CNPC_EOC_CauseHitEvent(){
 	CNPC_EOC_CharCauseHit()
 }
 //尝试攻击触发的eoc
-function CNPC_EOC_TryHitEvent(){
+function CNPC_EOC_TryAttackEvent(){
 	eoc_type("ACTIVATION")
 	//设置不在待机
 	u_notIdleOrMove=4;
@@ -268,7 +268,7 @@ function CNPC_EOC_TryHitEvent(){
 	u_inBattle = 60;
 
 	//运行动态生成的 尝试攻击 事件eoc
-	CNPC_EOC_CharTryHit()
+	CNPC_EOC_CharTryAttack()
 }
 
 //生成基础npc

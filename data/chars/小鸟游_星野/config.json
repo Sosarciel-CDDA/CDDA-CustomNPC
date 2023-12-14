@@ -22,7 +22,7 @@
 			"cast_condition":[{
 				"hook": "BattleUpdate"
 			},{
-				"hook": "TryHit",
+				"hook": "TryAttack",
 				"target": "control_cast"
 			}],
 			"audio": ["Asuna:PreciseSnipeSF"],
@@ -47,7 +47,7 @@
 		{
 			"name": "战术镇压 攻击",
 			"cast_condition":[{
-				"hook": "TryRangeHit",
+				"hook": "TryRangeAttack",
 				"condition":{"math": ["u_effect_intensity('战术镇压充能')",">=","1"]}
 			}],
 			"audio": ["BaseAudio:BashHit"],

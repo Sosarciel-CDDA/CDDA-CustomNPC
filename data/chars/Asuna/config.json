@@ -80,7 +80,7 @@
 	"skill": [
 		{
 			"name": "蒸发未来",
-			"cast_condition":{"hook": "TryRangeHit"},
+			"cast_condition":{"hook": "TryRangeAttack"},
 			"audio":[
 				{"id":"EvaporateFuture","cooldown": 180},
 				"EvaporateFutureSF","BaseAudio:BashHit"
@@ -155,7 +155,7 @@
 		},
 		{
 			"name": "刀锋打击",
-			"cast_condition":{"hook": "TryMeleeHit"},
+			"cast_condition":{"hook": "TryMeleeAttack"},
 			"cooldown":64,
 			"audio":[
 				{"id":"BladeStrike_","cooldown": 180},
@@ -219,7 +219,7 @@
 		{
 			"name": "创伤之刃",
 			"cast_condition":{
-				"hook": "TryMeleeHit"
+				"hook": "TryMeleeAttack"
 			},
 			"audio":[
 				{"id":"BladeofTrauma","cooldown": 180},
@@ -277,7 +277,7 @@
 		},
 		{
 			"name": "弱点重创",
-			"cast_condition":{"hook": "TryHit"},
+			"cast_condition":{"hook": "TryAttack"},
 			"spell": {
 				"type": "SPELL",
 				"id":"WeaknessHit",

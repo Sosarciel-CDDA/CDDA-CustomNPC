@@ -189,19 +189,19 @@ function CNPC_EOC_ED(){
 function CNPC_EOC_CommonMeleeHitEvent(){
 	eoc_type("ACTIVATION")
 	//触发动态生成的 尝试近战攻击 事件
-	CNPC_EOC_TryMeleeHit();
-	CNPC_EOC_TryHit();
+	CNPC_EOC_TryMeleeAttack();
+	CNPC_EOC_TryAttack();
 	if(_hits==1)
-		CNPC_EOC_CauseMeleeHit();
+		CNPC_EOC_SucessMeleeAttack();
 	else
-		CNPC_EOC_MissMeleeHit();
+		CNPC_EOC_MissMeleeAttack();
 }
 //远程攻击主Eoc
 function CNPC_EOC_CommonRangeHitEvent(){
 	eoc_type("ACTIVATION")
 	//触发动态生成的 尝试远程攻击 事件
-	CNPC_EOC_TryRangeHit();
-	CNPC_EOC_TryHit();
+	CNPC_EOC_TryRangeAttack();
+	CNPC_EOC_TryAttack();
 }
 //受到攻击攻击主Eoc
 function CNPC_EOC_CommonTakeDamageEvent(){
@@ -282,7 +282,7 @@ function CNPC_EOC_CnpcDeathProcess(){
 }
 
 //Cnpc角色尝试攻击触发的eoc
-function CNPC_EOC_CnpcTryHitEvent(){
+function CNPC_EOC_CnpcTryAttackEvent(){
 	eoc_type("ACTIVATION")
 	//设置不在待机
 	u_notIdleOrMove=4;
@@ -297,7 +297,7 @@ function CNPC_EOC_CnpcTryHitEvent(){
 	u_inBattle = 60;
 
 	//触发动态生成的 尝试攻击 事件
-	CNPC_EOC_CnpcTryHit();
+	CNPC_EOC_CnpcTryAttack();
 }
 //Cnpc角色近战攻击主Eoc
 function CNPC_EOC_CnpcMeleeHitEvent(){
@@ -305,9 +305,9 @@ function CNPC_EOC_CnpcMeleeHitEvent(){
 	//产生法术标靶
 	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
 	//通用攻击
-	CNPC_EOC_CnpcTryHitEvent();
+	CNPC_EOC_CnpcTryAttackEvent();
 	//触发动态生成的 尝试远程攻击 事件
-	CNPC_EOC_CnpcTryRangeHit();
+	CNPC_EOC_CnpcTryRangeAttack();
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 //Cnpc角色远程攻击主Eoc
@@ -316,9 +316,9 @@ function CNPC_EOC_CnpcRangeHitEvent(){
 	//产生法术标靶
 	eobj({ "npc_cast_spell": { "id": "CNPC_SPELL_SummonSpellTarget" } })
 	//通用攻击
-	CNPC_EOC_CnpcTryHitEvent();
+	CNPC_EOC_CnpcTryAttackEvent();
 	//触发动态生成的 尝试近战攻击 事件
-	CNPC_EOC_CnpcTryMeleeHit();
+	CNPC_EOC_CnpcTryMeleeAttack();
 	eobj({"u_cast_spell":{"id":"CNPC_SPELL_KillSpellTarget"}}) //清理标靶
 }
 
