@@ -79,8 +79,6 @@ function CNPC_EOC_TryRangeAttackEvent(){
 //尝试攻击
 function CNPC_EOC_TryAttackEvent(){
 	eoc_type("ACTIVATION")
-	//设置不在待机
-	u_notIdleOrMove=4;
 	//触发动态生成的 尝试攻击 事件
 	CNPC_EOC_TryAttack();
 }
@@ -169,6 +167,7 @@ function CNPC_EOC_UpdateEvent(){
 		eobj({"run_eoc_with":"CNPC_EOC_CnpcDeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
 	}
 }
+//战斗刷新
 function CNPC_EOC_BattleUpdateEvent(){
 	eoc_type("ACTIVATION");
 	if(u_isDeath != 1){
@@ -176,6 +175,7 @@ function CNPC_EOC_BattleUpdateEvent(){
 		CNPC_EOC_BattleUpdate();
 	}
 }
+//非战斗刷新
 function CNPC_EOC_NonBattleUpdateEvent(){
 	eoc_type("ACTIVATION");
 	if(u_isDeath != 1){
@@ -183,6 +183,7 @@ function CNPC_EOC_NonBattleUpdateEvent(){
 		CNPC_EOC_NonBattleUpdate();
 	}
 }
+//慢速刷新
 function CNPC_EOC_SlowUpdateEvent(){
 	eoc_type("ACTIVATION");
 	if(u_isDeath != 1){
@@ -190,7 +191,22 @@ function CNPC_EOC_SlowUpdateEvent(){
 		CNPC_EOC_SlowUpdate();
 	}
 }
-
+//移动状态
+function CNPC_EOC_MoveStatusEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 移动状态 事件eoc
+		CNPC_EOC_MoveStatus();
+	}
+}
+//待机状态
+function CNPC_EOC_IdleStatusEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 待机状态 事件eoc
+		CNPC_EOC_IdleStatus();
+	}
+}
 
 
 //———————————————————— Cnpc事件处理 ————————————————————//
@@ -231,40 +247,6 @@ function CNPC_EOC_CnpcUpdateEvent(){
 	eoc_type("ACTIVATION")
 	//数值显示变量
 	let u_show_mana = u_val('mana');
-
-	//通过比较 loc字符串 检测移动
-	eobj({
-		"set_string_var": { "u_val": "u_char_preloc" },
-		"target_var": { "global_val": "char_preloc" }
-	})
-	if(eobj({
-		"compare_string": [
-			{ "global_val": "char_preloc" },
-			{ "mutator": "loc_relative_u", "target": "(0,0,0)" }
-		]
-	})){
-		//设置在待机
-		u_onMove=0;
-	} else{
-		//设置在移动
-		u_onMove=1;
-	}
-	//更新 loc字符串
-	eobj({"u_location_variable":{"u_val":"u_char_preloc"}});
-
-	//如果不在做其他短时动作
-	if(u_notIdleOrMove<=0){
-		u_notIdleOrMove=0;
-		//触发移动事件
-		if(u_onMove>=1){
-			//触发动态生成的 cnpc移动 事件eoc
-			CNPC_EOC_CnpcMove();
-		}else{//触发待机
-			//触发动态生成的 cnpc待机 事件eoc
-			CNPC_EOC_CnpcIdle();
-		}
-	}
-	u_notIdleOrMove=u_notIdleOrMove-1;
 }
 
 //死亡后处理

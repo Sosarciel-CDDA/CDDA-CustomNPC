@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CCnpcHookList, CCnpcHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
+import { CCharHookList, CCharHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
 
 
 
@@ -46,7 +46,7 @@ type CharData = {
     /**输出的角色Eoc事件 u为角色 npc为未定义  
      * id为 `${charName}_${etype}`  
      */
-    charEventEocs:Record<CCnpcHook,EventEffect[]>;
+    charEventEocs:Record<CCharHook,EventEffect[]>;
     /**角色设定 */
     charConfig:CharConfig;
 }
@@ -352,8 +352,8 @@ export class DataManager{
             }
 
             //角色事件eoc主体
-            const charEventEocs = CCnpcHookList.reduce((acc,etype)=>(
-                {...acc,[etype]:[]}),{} as Record<CCnpcHook,EventEffect[]>)
+            const charEventEocs = CCharHookList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CCharHook,EventEffect[]>)
 
             this.dataTable.charTable[charName] = {
                 defineData,
@@ -375,7 +375,7 @@ export class DataManager{
     /**添加 eoc的ID引用到 角色事件  
      * u为角色 npc为未定义  
      */
-    addCharEvent(charName:string,etype:CCnpcHook,weight:number,...events:Eoc[]){
+    addCharEvent(charName:string,etype:CCharHook,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
@@ -452,7 +452,7 @@ export class DataManager{
             const charEventEocs:Eoc[]=[];
             //遍历事件类型
             for(const etypeStr in charEventMap){
-                const etype = etypeStr as (CCnpcHook);
+                const etype = etypeStr as (CCharHook);
                 //降序排序事件
                 const charEventList = charEventMap[etype].sort((a,b)=>b.weight-a.weight);
                 //至少有一个角色事件才会创建

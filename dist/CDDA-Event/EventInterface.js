@@ -19,13 +19,16 @@ exports.CharHookList = [
     ...exports.InteractHookList, //
     "Init", //初始化
     "Update", //刷新
-    "SlowUpdate", //60秒刷新
+    "SlowUpdate", //慢速秒刷新
     "TakeDamage", //受到伤害
     "DeathPrev", //死亡
     "Death", //死亡
     "EnterBattle", //进入战斗
     "BattleUpdate", //进入战斗时 刷新
     "NonBattleUpdate", //非战斗时 刷新
+    "MoveStatus", //移动状态
+    "IdleStatus", //待机状态
+    "AttackStatus", //攻击状态
 ];
 /**全局事件列表 列表 */
 exports.GlobalHookList = [
@@ -38,11 +41,12 @@ exports.AnyEventTypeList = [
     ...exports.GlobalHookList,
     ...exports.CharHookList,
 ];
-function genDefineHookMap(prefix) {
+function genDefineHookMap(prefix, statusDur = 4, battleDur = 60, slowCounter = 60) {
     const eid = (id) => `${prefix}_${id}_EVENT`;
     const rune = (id) => ({ run_eocs: eid(id) });
     const uvar = (id) => `u_${prefix}_${id}`;
     const nvar = (id) => `n_${prefix}_${id}`;
+    const gvar = (id) => `${prefix}_${id}`;
     //默认Hook
     const defObj = {
         base_setting: {
@@ -143,10 +147,11 @@ function genDefineHookMap(prefix) {
         },
         TryAttack: {
             base_setting: defObj.base_setting,
+            before_effects: [{ math: [uvar("notIdleOrMoveStatus"), "=", `${statusDur}`] }],
             after_effects: [{
                     if: { math: [uvar("inBattle"), "<=", "0"] },
                     then: [rune("EnterBattle")],
-                }, { math: [uvar("inBattle"), "=", "60"] }]
+                }, { math: [uvar("inBattle"), "=", `${battleDur}`] }]
         },
         EnterBattle: defObj,
         BattleUpdate: defObj,
@@ -185,9 +190,29 @@ function genDefineHookMap(prefix) {
                     then: [rune("BattleUpdate"), { math: [uvar("inBattle"), "-=", "1"] }],
                     else: [rune("NonBattleUpdate")]
                 }, {
-                    if: { math: [uvar("slowCounter"), ">=", "60"] },
+                    if: { math: [uvar("slowCounter"), ">=", `${slowCounter}`] },
                     then: [rune("SlowUpdate"), { math: [uvar("slowCounter"), "=", "1"] }],
                     else: [{ math: [uvar("slowCounter"), "+=", "1"] }]
+                }, {
+                    set_string_var: { u_val: uvar("char_preloc") },
+                    target_var: { global_val: gvar("char_preloc") }
+                }, {
+                    if: { compare_string: [
+                            { global_val: gvar("char_preloc") },
+                            { mutator: "loc_relative_u", target: "(0,0,0)" }
+                        ] },
+                    then: [{ math: [uvar("onMoveStatus"), "=", "0"] }],
+                    else: [{ math: [uvar("onMoveStatus"), "=", "1"] }],
+                }, //更新 loc字符串
+                { u_location_variable: { u_val: uvar("char_preloc") } },
+                {
+                    if: { math: [uvar("notIdleOrMoveStatus"), "<=", "0"] },
+                    then: [{
+                            if: { math: [uvar("onMoveStatus"), ">=", "1"] },
+                            then: [rune("MoveStatus")],
+                            else: [rune("IdleStatus")],
+                        }],
+                    else: [rune("AttackStatus"), { math: [uvar("notIdleOrMoveStatus"), "-=", "1"] }]
                 }]
         },
         Init: defObj,
@@ -197,7 +222,10 @@ function genDefineHookMap(prefix) {
                 eoc_type: "RECURRING",
                 recurrence: 1
             }
-        }
+        },
+        MoveStatus: defObj,
+        IdleStatus: defObj,
+        AttackStatus: defObj,
     };
     return hookMap;
 }

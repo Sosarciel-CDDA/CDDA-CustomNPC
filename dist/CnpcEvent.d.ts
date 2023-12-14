@@ -10,19 +10,13 @@ export type CInteractHook = typeof CInteractHookList[number];
 /**任何角色通用的事件 列表
  * u为角色 n不存在
  */
-export declare const CCharHookList: readonly ["Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
+export declare const CCharHookList: readonly ["Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "IdleStatus", "MoveStatus", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**任何角色通用的事件类型
  * u为角色 n不存在
  */
 export type CCharHook = typeof CCharHookList[number];
-/**Cnpc角色事件列表
- * u为角色 n不存在
- */
-export declare const CCnpcHookList: readonly ["CnpcIdle", "CnpcMove", "Update", "Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
-/**Cnpc角色事件类型 */
-export type CCnpcHook = typeof CCnpcHookList[number];
 /**全局的事件列表 */
-export declare const CGlobalHookList: readonly ["AvatarUpdate", "GameBegin", "CnpcIdle", "CnpcMove", "Update", "Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
+export declare const CGlobalHookList: readonly ["AvatarUpdate", "GameBegin", "Update", "TakeDamage", "EnterBattle", "BattleUpdate", "NonBattleUpdate", "Death", "DeathPrev", "SlowUpdate", "Init", "IdleStatus", "MoveStatus", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack"];
 /**全局事件 */
 export type CGlobalHook = typeof CGlobalHookList[number];
 /**事件效果 */

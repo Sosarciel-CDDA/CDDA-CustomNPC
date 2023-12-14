@@ -389,10 +389,10 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 		//触发移动事件
 		if(u_onMove>=1){
 			//触发动态生成的 cnpc移动 事件eoc
-			CNPC_EOC_CnpcMove();
+			CNPC_EOC_MoveStatus();
 		}else{//触发待机
 			//触发动态生成的 cnpc待机 事件eoc
-			CNPC_EOC_CnpcIdle();
+			CNPC_EOC_IdleStatus();
 		}
 	}
 	u_notIdleOrMove=u_notIdleOrMove-1;

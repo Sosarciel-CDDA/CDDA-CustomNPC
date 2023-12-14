@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildEventFrame = exports.CGlobalHookList = exports.CCnpcHookList = exports.CCharHookList = exports.CInteractHookList = void 0;
+exports.buildEventFrame = exports.CGlobalHookList = exports.CCharHookList = exports.CInteractHookList = void 0;
 const CDDA_Event_1 = require("./CDDA-Event");
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
@@ -25,22 +25,15 @@ exports.CCharHookList = [
     "DeathPrev", //死亡前 回复生命可阻止死亡
     "SlowUpdate", //慢速刷新 60刷新触发一次
     "Init", //被创建时
+    "IdleStatus", //等待状态 刷新
+    "MoveStatus", //移动状态 刷新
     ...exports.CInteractHookList,
-];
-/**Cnpc角色事件列表
- * u为角色 n不存在
- */
-exports.CCnpcHookList = [
-    "CnpcIdle", //等待状态 刷新
-    "CnpcMove", //移动状态 刷新
-    "Update", //刷新
-    ...exports.CCharHookList,
 ];
 /**全局的事件列表 */
 exports.CGlobalHookList = [
     "AvatarUpdate", //玩家刷新
     "GameBegin", //每次进入游戏时
-    ...exports.CCnpcHookList
+    ...exports.CCharHookList
 ];
 function buildEventFrame() {
     const em = new CDDA_Event_1.EventManager("CNPCEF");
@@ -61,6 +54,8 @@ function buildEventFrame() {
     em.addInvoke("BattleUpdate", 0, "CNPC_EOC_BattleUpdateEvent");
     em.addInvoke("NonBattleUpdate", 0, "CNPC_EOC_NonBattleUpdateEvent");
     em.addInvoke("SlowUpdate", 0, "CNPC_EOC_SlowUpdateEvent");
+    em.addInvoke("MoveStatus", 0, "CNPC_EOC_MoveStatusEvent");
+    em.addInvoke("IdleStatus", 0, "CNPC_EOC_IdleStatusEvent");
     return em.build();
 }
 exports.buildEventFrame = buildEventFrame;

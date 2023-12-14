@@ -31,6 +31,8 @@ export const CCharHookList = [
     "DeathPrev"             ,//死亡前 回复生命可阻止死亡
     "SlowUpdate"            ,//慢速刷新 60刷新触发一次
     "Init"                  ,//被创建时
+    "IdleStatus"            ,//等待状态 刷新
+    "MoveStatus"            ,//移动状态 刷新
     ...CInteractHookList,
 ] as const;
 
@@ -39,23 +41,11 @@ export const CCharHookList = [
  */
 export type CCharHook = typeof CCharHookList[number];
 
-/**Cnpc角色事件列表  
- * u为角色 n不存在
- */
-export const CCnpcHookList = [
-    "CnpcIdle"                  ,//等待状态 刷新
-    "CnpcMove"                  ,//移动状态 刷新
-    "Update"                ,//刷新
-    ...CCharHookList      ,
-] as const;
-/**Cnpc角色事件类型 */
-export type CCnpcHook = typeof CCnpcHookList[number];
-
 /**全局的事件列表 */
 export const CGlobalHookList = [
     "AvatarUpdate"          ,   //玩家刷新
     "GameBegin"             ,   //每次进入游戏时
-    ...CCnpcHookList
+    ...CCharHookList
 ] as const;
 /**全局事件 */
 export type CGlobalHook = typeof CGlobalHookList[number];
@@ -92,5 +82,8 @@ export function buildEventFrame(){
     em.addInvoke("BattleUpdate"     ,0,"CNPC_EOC_BattleUpdateEvent");
     em.addInvoke("NonBattleUpdate"  ,0,"CNPC_EOC_NonBattleUpdateEvent");
     em.addInvoke("SlowUpdate"       ,0,"CNPC_EOC_SlowUpdateEvent");
+
+    em.addInvoke("MoveStatus"       ,0,"CNPC_EOC_MoveStatusEvent");
+    em.addInvoke("IdleStatus"       ,0,"CNPC_EOC_IdleStatusEvent");
     return em.build();
 }

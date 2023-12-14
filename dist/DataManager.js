@@ -261,7 +261,7 @@ class DataManager {
                 cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
             };
             //角色事件eoc主体
-            const charEventEocs = CnpcEvent_1.CCnpcHookList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const charEventEocs = CnpcEvent_1.CCharHookList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,

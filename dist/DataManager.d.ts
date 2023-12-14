@@ -1,7 +1,7 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID } from 'cdda-schema';
 import { CharConfig, AnimType } from './CharBuild';
-import { CCnpcHook, EventEffect, CGlobalHook } from "./CnpcEvent";
+import { CCharHook, EventEffect, CGlobalHook } from "./CnpcEvent";
 /**角色定义数据 */
 export type CharDefineData = Readonly<{
     /**角色名 */
@@ -38,7 +38,7 @@ type CharData = {
     /**输出的角色Eoc事件 u为角色 npc为未定义
      * id为 `${charName}_${etype}`
      */
-    charEventEocs: Record<CCnpcHook, EventEffect[]>;
+    charEventEocs: Record<CCharHook, EventEffect[]>;
     /**角色设定 */
     charConfig: CharConfig;
 };
@@ -112,7 +112,7 @@ export declare class DataManager {
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */
-    addCharEvent(charName: string, etype: CCnpcHook, weight: number, ...events: Eoc[]): void;
+    addCharEvent(charName: string, etype: CCharHook, weight: number, ...events: Eoc[]): void;
     /**获取 角色目录 */
     getCharPath(charName: string): string;
     /**获取 输出角色目录 */

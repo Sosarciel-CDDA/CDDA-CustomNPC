@@ -47,9 +47,9 @@ async function createAnimStatus(dm, charName) {
     const { defineData, outData } = await dm.getCharData(charName);
     const eocList = [];
     const animEventMap = {
-        Move: "CnpcMove",
+        Move: "MoveStatus",
         Attack: "TryAttack",
-        Idle: "CnpcIdle",
+        Idle: "IdleStatus",
         //Death:"Death",
     };
     //添加切换动画
