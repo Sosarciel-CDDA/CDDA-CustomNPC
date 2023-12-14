@@ -12,13 +12,13 @@ export declare const CharHookList: readonly ["TryMeleeAtkChar", "TryMeleeAtkMon"
  */
 export type CharHook = typeof CharHookList[number];
 /**全局事件列表 列表 */
-export declare const GlobalHookList: readonly ["AvaterMove", "AvaterUpdate", "GameBegin"];
+export declare const GlobalHookList: readonly ["AvatarMove", "AvatarUpdate", "GameBegin"];
 /**全局事件
  * u为主角 n未定义
  */
 export type GlobalHook = typeof GlobalHookList[number];
 /**任何事件 列表 */
-export declare const AnyEventTypeList: readonly ["AvaterMove", "AvaterUpdate", "GameBegin", "TryMeleeAtkChar", "TryMeleeAtkMon", "TryRangeAtkChar", "TryRangeAtkMon", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack", "Init", "Update", "SlowUpdate", "TakeDamage", "DeathPrev", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate"];
+export declare const AnyEventTypeList: readonly ["AvatarMove", "AvatarUpdate", "GameBegin", "TryMeleeAtkChar", "TryMeleeAtkMon", "TryRangeAtkChar", "TryRangeAtkMon", "TryMeleeAttack", "TryRangeAttack", "TryAttack", "SucessMeleeAttack", "MissMeleeAttack", "Init", "Update", "SlowUpdate", "TakeDamage", "DeathPrev", "Death", "EnterBattle", "BattleUpdate", "NonBattleUpdate"];
 /**任何事件
  * u n 均未定义
  */
@@ -43,4 +43,4 @@ export type HookObj = {
     /**运行此事件后将会附带调用的EocEffect */
     after_effects?: EocEffect[];
 };
-export declare function genDefineHookMap(prefix: string): Record<"TryMeleeAtkChar" | "TryMeleeAtkMon" | "TryRangeAtkChar" | "TryRangeAtkMon" | "TryMeleeAttack" | "TryRangeAttack" | "TryAttack" | "SucessMeleeAttack" | "MissMeleeAttack" | "Init" | "Update" | "SlowUpdate" | "TakeDamage" | "DeathPrev" | "Death" | "EnterBattle" | "BattleUpdate" | "NonBattleUpdate" | "AvaterMove" | "AvaterUpdate" | "GameBegin", HookObj>;
+export declare function genDefineHookMap(prefix: string): Record<"TryMeleeAtkChar" | "TryMeleeAtkMon" | "TryRangeAtkChar" | "TryRangeAtkMon" | "TryMeleeAttack" | "TryRangeAttack" | "TryAttack" | "SucessMeleeAttack" | "MissMeleeAttack" | "Init" | "Update" | "SlowUpdate" | "TakeDamage" | "DeathPrev" | "Death" | "EnterBattle" | "BattleUpdate" | "NonBattleUpdate" | "AvatarMove" | "AvatarUpdate" | "GameBegin", HookObj>;

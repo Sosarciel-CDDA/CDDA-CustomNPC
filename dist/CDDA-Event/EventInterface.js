@@ -29,8 +29,8 @@ exports.CharHookList = [
 ];
 /**全局事件列表 列表 */
 exports.GlobalHookList = [
-    "AvaterMove", //玩家移动
-    "AvaterUpdate", //玩家刷新
+    "AvatarMove", //玩家移动
+    "AvatarUpdate", //玩家刷新
     "GameBegin", //每次进入游戏时
 ];
 /**任何事件 列表 */
@@ -164,7 +164,7 @@ function genDefineHookMap(prefix) {
             //{ "character", character_id },
         },
         Death: defObj,
-        AvaterMove: {
+        AvatarMove: {
             base_setting: {
                 eoc_type: "OM_MOVE"
             }
@@ -192,7 +192,7 @@ function genDefineHookMap(prefix) {
         },
         Init: defObj,
         SlowUpdate: defObj,
-        AvaterUpdate: {
+        AvatarUpdate: {
             base_setting: {
                 eoc_type: "RECURRING",
                 recurrence: 1

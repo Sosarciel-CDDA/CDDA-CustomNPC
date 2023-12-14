@@ -38,8 +38,8 @@ export type CharHook = typeof CharHookList[number];
 
 /**全局事件列表 列表 */
 export const GlobalHookList = [
-    "AvaterMove"            ,//玩家移动
-    "AvaterUpdate"          ,//玩家刷新
+    "AvatarMove"            ,//玩家移动
+    "AvatarUpdate"          ,//玩家刷新
     "GameBegin"             ,//每次进入游戏时
 ] as const;
 /**全局事件  
@@ -205,7 +205,7 @@ export function genDefineHookMap(prefix:string){
             //{ "character", character_id },
         },
         Death:defObj,
-        AvaterMove:{
+        AvatarMove:{
             base_setting: {
                 eoc_type: "OM_MOVE"
             }
@@ -233,7 +233,7 @@ export function genDefineHookMap(prefix:string){
         },
         Init:defObj,
         SlowUpdate:defObj,
-        AvaterUpdate:{
+        AvatarUpdate:{
             base_setting: {
                 eoc_type:"RECURRING",
                 recurrence: 1

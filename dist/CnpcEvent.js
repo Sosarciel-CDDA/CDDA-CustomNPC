@@ -55,8 +55,8 @@ function buildEventFrame() {
     em.addInvoke("DeathPrev", 0, "CNPC_EOC_DeathPrevEvent");
     em.addInvoke("Death", 0, "CNPC_EOC_DeathEvent");
     em.addInvoke("Init", 0, "CNPC_EOC_InitEvent");
-    em.addInvoke("AvaterMove", 0, "CNPC_EOC_AvatarMoveEvent");
-    em.addInvoke("AvaterUpdate", 0, "CNPC_EOC_AvatarUpdateEvent");
+    em.addInvoke("AvatarMove", 0, "CNPC_EOC_AvatarMoveEvent");
+    em.addInvoke("AvatarUpdate", 0, "CNPC_EOC_AvatarUpdateEvent");
     em.addInvoke("Update", 0, "CNPC_EOC_UpdateEvent");
     em.addInvoke("BattleUpdate", 0, "CNPC_EOC_BattleUpdateEvent");
     em.addInvoke("NonBattleUpdate", 0, "CNPC_EOC_NonBattleUpdateEvent");
