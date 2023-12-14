@@ -5,7 +5,7 @@ import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
-import { CnpcEventTypeList, CnpcEventType, EventEffect, GlobalEventTypeList, GlobalEventType } from "CnpcEvent";
+import { CNPCEventTypeList, CNPCEventType, EventEffect, CNPCGlobalEventType, CNPCGlobalEventTypeList } from "CnpcEvent";
 
 
 
@@ -46,7 +46,7 @@ type CharData = {
     /**输出的角色Eoc事件 u为角色 npc为未定义  
      * id为 `${charName}_${etype}`  
      */
-    charEventEocs:Record<CnpcEventType,EventEffect[]>;
+    charEventEocs:Record<CNPCEventType,EventEffect[]>;
     /**角色设定 */
     charConfig:CharConfig;
 }
@@ -58,7 +58,7 @@ export type DataTable={
     /**输出的静态数据表 */
     staticTable:Record<string,JArray>;
     /**输出的Eoc事件 */
-    eventEocs:Record<GlobalEventType,EventEffect[]>;
+    eventEocs:Record<CNPCGlobalEventType,EventEffect[]>;
     /**共用资源表 */
     sharedTable:Record<string,Record<string,JObject>>;
 }
@@ -102,8 +102,8 @@ export class DataManager{
         charTable:{},
         staticTable:{},
         sharedTable:{},
-        eventEocs:GlobalEventTypeList.reduce((acc,etype)=>
-            ({...acc,[etype]:[]}),{} as Record<GlobalEventType,EventEffect[]>)
+        eventEocs:CNPCGlobalEventTypeList.reduce((acc,etype)=>
+            ({...acc,[etype]:[]}),{} as Record<CNPCGlobalEventType,EventEffect[]>)
     }
 
 
@@ -352,8 +352,8 @@ export class DataManager{
             }
 
             //角色事件eoc主体
-            const charEventEocs = CnpcEventTypeList.reduce((acc,etype)=>(
-                {...acc,[etype]:[]}),{} as Record<CnpcEventType,EventEffect[]>)
+            const charEventEocs = CNPCEventTypeList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CNPCEventType,EventEffect[]>)
 
             this.dataTable.charTable[charName] = {
                 defineData,
@@ -367,7 +367,7 @@ export class DataManager{
     /**添加 eoc的ID引用到 全局事件  
      * u为主角 npc为未定义  
      */
-    addEvent(etype:GlobalEventType,weight:number,...events:Eoc[]){
+    addEvent(etype:CNPCGlobalEventType,weight:number,...events:Eoc[]){
         this.dataTable.eventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
@@ -375,7 +375,7 @@ export class DataManager{
     /**添加 eoc的ID引用到 角色事件  
      * u为角色 npc为未定义  
      */
-    addCharEvent(charName:string,etype:CnpcEventType,weight:number,...events:Eoc[]){
+    addCharEvent(charName:string,etype:CNPCEventType,weight:number,...events:Eoc[]){
         this.dataTable.charTable[charName].charEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
@@ -452,7 +452,7 @@ export class DataManager{
             const charEventEocs:Eoc[]=[];
             //遍历事件类型
             for(const etypeStr in charEventMap){
-                const etype = etypeStr as (CnpcEventType);
+                const etype = etypeStr as (CNPCEventType);
                 //降序排序事件
                 const charEventList = charEventMap[etype].sort((a,b)=>b.weight-a.weight);
                 //至少有一个角色事件才会创建
@@ -484,7 +484,7 @@ export class DataManager{
         const eventEocs:Eoc[]=[];
         for(const etype in globalEvent){
             //降序排序事件
-            const globalEvents = globalEvent[etype as GlobalEventType].sort((a,b)=>b.weight-a.weight);
+            const globalEvents = globalEvent[etype as CNPCGlobalEventType].sort((a,b)=>b.weight-a.weight);
             //创建全局触发Eoc
             const globalEoc:Eoc={
                 type:"effect_on_condition",

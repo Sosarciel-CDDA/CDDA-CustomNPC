@@ -1,6 +1,6 @@
 import { DataManager } from "@src/DataManager";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "cdda-schema";
-import { CommonEventType, GlobalEventType } from "CnpcEvent";
+import { CNPCCommonEventType, CNPCGlobalEventType } from "CnpcEvent";
 import { genActEoc, genEOCID, genMutationID } from "ModDefine";
 
 
@@ -17,7 +17,7 @@ import { genActEoc, genEOCID, genMutationID } from "ModDefine";
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-export function genTriggerEffect(dm:DataManager,effect:Effect,hook:GlobalEventType,mode:"/2"|"-1"|"none",
+export function genTriggerEffect(dm:DataManager,effect:Effect,hook:CNPCGlobalEventType,mode:"/2"|"-1"|"none",
     eocEffects:EocEffect[],duration: (Time),condition?: (BoolObj),cooldown: (Time)=0){
     if(typeof cooldown == "number") cooldown = `${cooldown} s`;
     effect.int_decay_remove = true;

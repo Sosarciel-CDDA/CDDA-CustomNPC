@@ -1,9 +1,8 @@
 import { Eoc, EocEffect, EocID, EocType } from "@/cdda-schema";
 
 
-
-/**角色互动事件 */
-export type CharActEventType = [
+/**角色互动事件 列表 */
+export const InteractiveEventTypeList = [
     "MeleeAttackChar"       ,//尝试近战攻击角色
     "MeleeAttackMons"       ,//尝试近战攻击怪物
     "RangeAttackChar"       ,//尝试远程攻击角色
@@ -13,25 +12,50 @@ export type CharActEventType = [
     "Attack"                ,//尝试攻击
     "CauseMeleeHit"         ,//近战攻击命中
     "MissMeleeHit"          ,//近战攻击未命中
-][number];
-/**任何角色事件 */
-export type CharEventType = [
-    CharActEventType        ,
-    "Update"                ,//刷新
-    "SlowUpdate"            ,//60秒刷新
-    "TakeDamage"            ,//受到伤害
-    "Death"                 ,//死亡
-    "EnterBattle"           ,//进入战斗
-    "BattleUpdate"          ,//进入战斗时 刷新
-    "NonBattleUpdate"       ,//非战斗时 刷新
-][number];
-/**全局事件列表 */
-export type GlobalEventType = [
-    CharEventType           ,
+] as const;
+/**角色互动事件  
+ * u为角色 n为目标角色  
+ */
+export type InteractiveEventType = typeof InteractiveEventTypeList[number];
+
+/**任何角色事件 列表*/
+export const CharEventTypeList = [
+    ...InteractiveEventTypeList ,//
+    "Update"                    ,//刷新
+    "SlowUpdate"                ,//60秒刷新
+    "TakeDamage"                ,//受到伤害
+    "Death"                     ,//死亡
+    "EnterBattle"               ,//进入战斗
+    "BattleUpdate"              ,//进入战斗时 刷新
+    "NonBattleUpdate"           ,//非战斗时 刷新
+] as const;
+/**任何角色事件  
+ * u为角色 n未定义  
+ */
+export type CharEventType = typeof CharEventTypeList[number];
+
+/**全局事件列表 列表 */
+export const GlobalEventTypeList = [
     "AvaterMove"            ,//玩家移动
     "AvaterUpdate"          ,//玩家刷新
     "GameBegin"             ,//每次进入游戏时
-][number];
+] as const;
+/**全局事件  
+ * u为主角 n未定义  
+ */
+export type GlobalEventType = typeof GlobalEventTypeList[number];
+
+/**任何事件 列表 */
+export const AnyEventTypeList = [
+    ...GlobalEventTypeList  ,
+    ...CharEventTypeList    ,
+] as const;
+/**任何事件  
+ * u n 均未定义
+ */
+export type AnyEventType = typeof AnyEventTypeList[number];
+
+
 
 export type EventObj = {
     /**基础设置 */
@@ -51,9 +75,9 @@ export type EventObj = {
     invoke_effects?: EocEffect[];
 }
 
-export function genEventEoc(prefix:string){
-    const eid = (id:GlobalEventType)=>`${prefix}_${id}` as EocID;
-    const rune = (id:GlobalEventType)=>({run_eocs:eid("MeleeAttack")});
+export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
+    const eid = (id:AnyEventType)=>`${prefix}_${id}` as EocID;
+    const rune = (id:AnyEventType)=>({run_eocs:eid(id)});
     const uvar = (id:string)=>`u_${prefix}_${id}`;
     const nvar = (id:string)=>`n_${prefix}_${id}`;
     const defObj:EventObj={
@@ -61,7 +85,7 @@ export function genEventEoc(prefix:string){
             eoc_type: "ACTIVATION"
         }
     }
-    const eventMap:Record<GlobalEventType,EventObj>={
+    const eventMap:Record<AnyEventType,EventObj>={
         GameBegin:{
             base_setting: {
                 eoc_type: "EVENT",
@@ -166,9 +190,9 @@ export function genEventEoc(prefix:string){
             }
         }
     };
-    const eocMap:Record<GlobalEventType,Eoc> = {} as any;
+    const eocMap:Record<AnyEventType,Eoc> = {} as any;
     for(const key in eventMap){
-        const fixkey = key as GlobalEventType;
+        const fixkey = key as AnyEventType;
         const event = eventMap[fixkey];
         eocMap[fixkey] = {
             type:"effect_on_condition",

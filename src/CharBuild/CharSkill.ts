@@ -3,7 +3,7 @@ import { genActEoc, genEOCID, genSpellID } from "ModDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj, SoundEffectID, SoundEffectVariantID} from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
-import { CnpcEventTypeList, CnpcEventType, CommonInteractiveEventTypeList } from "CnpcEvent";
+import { CNPCEventTypeList, CNPCEventType, CNPCCommonInteractiveEventTypeList } from "CnpcEvent";
 import { SpecEffect, SpecProcMap, SpecSkillCastData } from "./CharSkillSpecEffect";
 
 
@@ -101,7 +101,7 @@ export type CastCondition={
      */
     condition?      : (BoolObj);
     /**时机 */
-    hook            :CnpcEventType;
+    hook            :CNPCEventType;
     /**瞄准方式  
      * auto 为 根据施法目标自动选择;  
      *  
@@ -427,7 +427,7 @@ async function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
         condition:{and:[...baseCond]},
     }
 
-    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
+    dm.addCharEvent(charName,hook as CNPCEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -519,7 +519,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
         condition:{and:[...baseCond]},
     }
 
-    dm.addCharEvent(charName,hook as CnpcEventType,0,castSelEoc);
+    dm.addCharEvent(charName,hook as CNPCEventType,0,castSelEoc);
 
     return [castEoc,castSelEoc,filterTargetSpell];
 }
@@ -556,9 +556,9 @@ async function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseS
     }
 
     //加入触发
-    if(!CommonInteractiveEventTypeList.includes(hook as any))
-        throw `直接命中 所用的事件必须为 交互事件: ${CommonInteractiveEventTypeList}`
-    dm.addCharEvent(charName,hook as CnpcEventType,0,castEoc);
+    if(!CNPCCommonInteractiveEventTypeList.includes(hook as any))
+        throw `直接命中 所用的事件必须为 交互事件: ${CNPCCommonInteractiveEventTypeList}`
+    dm.addCharEvent(charName,hook as CNPCEventType,0,castEoc);
 
     return [castEoc];
 }
@@ -581,7 +581,7 @@ async function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
         return ProcMap.filter_random(dm,charName,baseSkillData);
 
     //hook为互动事件 敌对目标 法术将直接命中
-    if((CommonInteractiveEventTypeList.includes(hook as any)) && isHostileTarget)
+    if((CNPCCommonInteractiveEventTypeList.includes(hook as any)) && isHostileTarget)
         return ProcMap.direct_hit(dm,charName,baseSkillData);
 
     //其他法术随机
