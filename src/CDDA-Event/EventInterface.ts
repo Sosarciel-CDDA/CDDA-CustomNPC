@@ -9,7 +9,7 @@ export const InteractiveHookList = [
     "TryRangeAtkMon"        ,//尝试远程攻击怪物
     "TryMeleeAttack"        ,//尝试近战攻击
     "TryRangeAttack"        ,//尝试远程攻击
-    "Attack"                ,//尝试攻击
+    "TryAttack"             ,//尝试攻击
     "SucessMeleeAttack"     ,//近战攻击命中
     "MissMeleeAttack"       ,//近战攻击未命中
 ] as const;
@@ -140,12 +140,12 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("Attack"),{
+            invoke_effects:[rune("TryAttack"),{
                 if:{math:["_hits","==","1"]},
                 then:[rune("SucessMeleeAttack")],
                 else:[rune("MissMeleeAttack")],
             }],
-            link_events:["Attack","TryMeleeAtkChar","TryMeleeAtkMon","SucessMeleeAttack","MissMeleeAttack"]
+            link_events:["TryAttack","TryMeleeAtkChar","TryMeleeAtkMon","SucessMeleeAttack","MissMeleeAttack"]
         },
         SucessMeleeAttack:{
             base_setting:defObj.base_setting,
@@ -186,10 +186,10 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("Attack")],
-            link_events:["Attack","TryRangeAttack"]
+            invoke_effects:[rune("TryAttack")],
+            link_events:["TryAttack","TryRangeAttack"]
         },
-        Attack:{
+        TryAttack:{
             base_setting:defObj.base_setting,
             invoke_effects:[{
                 if:{math:[uvar("inBattle"),"<=","0"]},
