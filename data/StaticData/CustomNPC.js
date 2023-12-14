@@ -69,8 +69,6 @@ function CNPC_EOC_EMAC(){
 	{ "victim_name", string },
 	*/
 	CNPC_EOC_CommonMeleeHitEvent();
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcMeleeHitEvent();
 }
 function CNPC_EOC_EMAM(){
 	eoc_type("EVENT");
@@ -82,8 +80,6 @@ function CNPC_EOC_EMAM(){
 	{ "victim_type", mtype_id },
 	*/
 	CNPC_EOC_CommonMeleeHitEvent();
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcMeleeHitEvent();
 }
 //远程攻击事件
 function CNPC_EOC_ERAC(){
@@ -96,8 +92,6 @@ function CNPC_EOC_ERAC(){
 	{ "victim_name", string },
 	*/
 	CNPC_EOC_CommonRangeHitEvent();
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcRangeHitEvent();
 }
 function CNPC_EOC_ERAM(){
 	eoc_type("EVENT");
@@ -108,8 +102,6 @@ function CNPC_EOC_ERAM(){
 	{ "victim_type", mtype_id },
 	*/
 	CNPC_EOC_CommonRangeHitEvent();
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcRangeHitEvent();
 }
 //玩家移动
 function CNPC_EOC_EPM(){
@@ -200,6 +192,8 @@ function CNPC_EOC_CommonRangeHitEvent(){
 function CNPC_EOC_CommonTryHitEvent(){
 	eoc_type("ACTIVATION")
 
+	//设置不在待机
+	u_notIdleOrMove=4;
 	//触发进入战斗
 	if(u_inBattle<=0){
 		//触发动态生成的 Cnpc角色进入战斗 事件eoc
@@ -301,19 +295,6 @@ function CNPC_EOC_CnpcDeathProcess(){
 	eobj({ "u_add_trait": "DEBUG_CLOAK" });
 	eobj({ "u_add_trait": "DEBUG_SPEED" });
 	u_isDeath = 1;
-}
-
-//Cnpc角色近战攻击主Eoc
-function CNPC_EOC_CnpcMeleeHitEvent(){
-	eoc_type("ACTIVATION")
-	//设置不在待机
-	u_notIdleOrMove=4;
-}
-//Cnpc角色远程攻击主Eoc
-function CNPC_EOC_CnpcRangeHitEvent(){
-	eoc_type("ACTIVATION")
-	//设置不在待机
-	u_notIdleOrMove=4;
 }
 
 //Cnpc角色的主循环函数
