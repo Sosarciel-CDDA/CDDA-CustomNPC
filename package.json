@@ -4,7 +4,7 @@
   "description": "快速定义cdda的随从npc",
   "main": "index.js",
   "scripts": {
-    "build-schema": "npx build-cdda-schema && node ./dist/BuildSchema.js",
+    "build-schema": "node ./dist/BuildSchema.js",
     "compile": "tsc && tsc-alias",
     "build": "npm run compile && node --trace-warnings index"
   },
