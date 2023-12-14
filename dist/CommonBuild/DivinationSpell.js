@@ -32,9 +32,9 @@ const OMNameIDMap = {
     "温泉": { om_terrain: "hot_springs", om_special: "Hot Springs" },
     "洞穴": { om_terrain: "cave", om_special: "Cave" },
     //资源点
-    "中央实验室": { om_terrain: "central_lab_finale", om_special: "Central Lab", global_unique: true },
-    "科学实验室": { om_terrain: "lab_stairs", om_special: "Lab" },
-    "冷冻实验室": { om_terrain: "ice_lab_stairs", om_special: "Ice Lab" },
+    "中央实验室": { om_terrain: "central_lab_finale", om_special: "Central Lab", global_unique: true }, //central_lab_entrance central_lab_finale
+    "科学实验室": { om_terrain: "lab_stairs", om_special: "Lab" }, //lab_stairs lab_finale
+    "冷冻实验室": { om_terrain: "ice_lab_stairs", om_special: "Ice Lab" }, //ice_lab_stairs ice_lab_finale
     "实验室大楼": { om_terrain: "tower_lab_finale", om_special: undefined },
     "科研大楼": { om_terrain: "lab_surface_brick_blockA0", om_special: "lab_surface_big" },
     "实验室隐藏入口": { om_terrain: "basement_hidden_lab_stairs", om_special: "basement_hidden_lab_entrance" },

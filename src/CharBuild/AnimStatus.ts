@@ -4,7 +4,7 @@ import { CharDefineData, DataManager } from "../DataManager";
 import * as path from 'path';
 import { Eoc } from "cdda-schema";
 import { genEOCID } from "ModDefine";
-import { CNPCEventType } from "CnpcEvent";
+import { CCnpcEventType } from "CnpcEvent";
 
 
 
@@ -49,7 +49,7 @@ export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:A
 export async function createAnimStatus(dm:DataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
     const eocList:Eoc[] = [];
-    const animEventMap:Record<AnimType,CNPCEventType|undefined>={
+    const animEventMap:Record<AnimType,CCnpcEventType|undefined>={
         Move:"CnpcMove",
         Attack:"TryHit",
         Idle:"CnpcIdle",

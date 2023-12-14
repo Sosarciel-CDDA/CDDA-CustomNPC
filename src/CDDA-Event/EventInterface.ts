@@ -73,6 +73,8 @@ export type EventObj = {
     }
     /**运行此事件时将会附带调用的EocEffect */
     invoke_effects?: EocEffect[];
+    /**关联事件 */
+    link_events?: AnyEventType[];
 }
 
 export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
@@ -97,20 +99,39 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_takes_damage"
             }
+            /*
+            { "character", character_id }
+            { "damage", int }
+	        */
         },
         MeleeAttackChar:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_character"
             },
-            invoke_effects:[rune("MeleeAttack")]
+            invoke_effects:[rune("MeleeAttack")],
+            link_events:["MeleeAttack"]
+            /*
+            { "attacker", character_id },
+            { "weapon", itype_id },
+            { "hits", bool },
+            { "victim", character_id },
+            { "victim_name", string },
+            */
         },
         MeleeAttackMons:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_monster"
             },
-            invoke_effects:[rune("MeleeAttack")]
+            invoke_effects:[rune("MeleeAttack")],
+            link_events:["MeleeAttack"]
+            /*
+            { "attacker", character_id },
+            { "weapon", itype_id },
+            { "hits", bool },
+            { "victim_type", mtype_id },
+            */
         },
         MeleeAttack:{
             base_setting: {
@@ -120,29 +141,50 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
                 if:{math:["_hits","==","1"]},
                 then:[rune("CauseMeleeHit")],
                 else:[rune("MissMeleeHit")],
-            }]
+            }],
+            link_events:["Attack","MeleeAttackChar","MeleeAttackMons","CauseMeleeHit","MissMeleeHit"]
         },
-        CauseMeleeHit:defObj,
-        MissMeleeHit:defObj,
+        CauseMeleeHit:{
+            base_setting:defObj.base_setting,
+            link_events:["MeleeAttack"]
+        },
+        MissMeleeHit:{
+            base_setting:defObj.base_setting,
+            link_events:["MeleeAttack"]
+        },
         RangeAttackChar:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_character"
             },
-            invoke_effects:[rune("RangeAttack")]
+            invoke_effects:[rune("RangeAttack")],
+            link_events:["RangeAttack"]
+            /*
+            { "attacker", character_id },
+            { "weapon", itype_id },
+            { "victim", character_id },
+            { "victim_name", string },
+            */
         },
         RangeAttackMons:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_monster"
             },
-            invoke_effects:[rune("RangeAttack")]
+            invoke_effects:[rune("RangeAttack")],
+            link_events:["RangeAttack"]
+            /*
+            { "attacker", character_id },
+            { "weapon", itype_id },
+            { "victim_type", mtype_id },
+            */
         },
         RangeAttack:{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("Attack")]
+            invoke_effects:[rune("Attack")],
+            link_events:["Attack","RangeAttack"]
         },
         Attack:{
             base_setting:defObj.base_setting,
@@ -159,6 +201,7 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_dies"
             }
+            //{ "character", character_id },
         },
         AvaterMove:{
             base_setting: {

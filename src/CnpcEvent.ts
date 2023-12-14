@@ -1,11 +1,12 @@
 import { EocEffect } from "cdda-schema";
+import { EventManager } from "./CDDA-Event";
 
 
 
 /**任何角色的交互事件 列表  
  * u为角色 n为怪物
  */
-export const CNPCCommonInteractiveEventTypeList = [
+export const CCommonInteractiveEventTypeList = [
     "TryMeleeHit"           ,//尝试近战攻击
     "TryRangeHit"           ,//尝试远程攻击
     "TryHit"                ,//尝试攻击
@@ -15,30 +16,30 @@ export const CNPCCommonInteractiveEventTypeList = [
 /**任何角色的交互事件  
  * u为角色 n为怪物
  */
-export type CNPCCommonInteractiveEventType = typeof CNPCCommonEventTypeList[number];
+export type CCommonInteractiveEventType = typeof CCommonEventTypeList[number];
 
 /**任何角色通用的事件 列表  
  * u为角色 n不存在
  */
-export const CNPCCommonEventTypeList = [
+export const CCommonEventTypeList = [
     "Update"                ,//刷新 Cnpc角色尽量使用 CnpcUpdate
     "TakeDamage"            ,//受到伤害
     "Death"                 ,//死亡
     "EnterBattle"           ,//进入战斗
     "BattleUpdate"          ,//进入战斗时 刷新
     "NonBattleUpdate"       ,//非战斗时 刷新
-    ...CNPCCommonInteractiveEventTypeList,
+    ...CCommonInteractiveEventTypeList,
 ] as const;
 
 /**任何角色通用的事件类型  
  * u为角色 n不存在
  */
-export type CNPCCommonEventType = typeof CNPCCommonEventTypeList[number];
+export type CCommonEventType = typeof CCommonEventTypeList[number];
 
 /**Cnpc角色事件列表  
  * u为角色 n不存在
  */
-export const CNPCEventTypeList = [
+export const CCnpcEventTypeList = [
     "CnpcIdle"                  ,//等待状态 刷新
     "CnpcMove"                  ,//移动状态 刷新
     "CnpcUpdate"                ,//刷新
@@ -47,19 +48,19 @@ export const CNPCEventTypeList = [
     "CnpcDeath"                 ,//死亡
     "CnpcDeathPrev"             ,//死亡前 回复生命可阻止死亡
     "CnpcDeathAfter"            ,//死亡后
-    ...CNPCCommonEventTypeList      ,
+    ...CCommonEventTypeList      ,
 ] as const;
 /**Cnpc角色事件类型 */
-export type CNPCEventType = typeof CNPCEventTypeList[number];
+export type CCnpcEventType = typeof CCnpcEventTypeList[number];
 
 /**全局的事件列表 */
-export const CNPCGlobalEventTypeList = [
+export const CGlobalEventTypeList = [
     "PlayerUpdate"          ,   //玩家刷新
     "GameBegin"             ,   //每次进入游戏时
-    ...CNPCEventTypeList
+    ...CCnpcEventTypeList
 ] as const;
 /**全局事件 */
-export type CNPCGlobalEventType = typeof CNPCGlobalEventTypeList[number];
+export type CGlobalEventType = typeof CGlobalEventTypeList[number];
 
 
 /**事件效果 */
@@ -70,6 +71,13 @@ export type EventEffect = {
     weight:number;
 }
 
-function buildFrame(){
-    
+async function buildEventFrame(){
+    const em = new EventManager("CNPCEF");
+    em.addInvoke("GameBegin"    ,0,"CNPC_EOC_EGB");
+    em.addInvoke("TakeDamage"   ,0,"CNPC_EOC_CommonTakeDamageEvent");
+    em.addInvoke("MeleeAttack"  ,0,"CNPC_EOC_CommonMeleeHitEvent");
+    em.addInvoke("RangeAttack"  ,0,"CNPC_EOC_CommonRangeHitEvent");
+    em.addInvoke("AvaterMove"   ,0,"CNPC_EOC_EPM");
+    em.addInvoke("Update"       ,0,"CNPC_EOC_EGU");
+    return em.build();
 }

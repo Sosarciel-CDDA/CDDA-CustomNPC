@@ -180,14 +180,14 @@ async function enchTest(dm, enchSets) {
                                         effect: [{
                                                 switch: { math: [testType] },
                                                 cases: [{
-                                                        case: 0,
+                                                        case: 0, //添加附魔
                                                         effect: [{
                                                                 run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "add")), NONEEocId],
                                                                 names: [...flatEnchSet.map((ench) => ench.name), "算了"],
                                                                 hide_failing: true
                                                             }]
                                                     }, {
-                                                        case: 1,
+                                                        case: 1, //移除附魔
                                                         effect: [{
                                                                 run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "remove")), NONEEocId],
                                                                 names: [...flatEnchSet.map((ench) => ench.name), "算了"],

@@ -1,6 +1,6 @@
 import { DataManager } from "../DataManager";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, Time, Effect, EffectID } from "cdda-schema";
-import { GlobalEventType } from "../Event";
+import { CGlobalEventType } from "../CnpcEvent";
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
  * @param dm 管理器
@@ -12,7 +12,7 @@ import { GlobalEventType } from "../Event";
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: GlobalEventType, mode: "/2" | "-1" | "none", eocEffects: EocEffect[], duration: (Time), condition?: (BoolObj), cooldown?: (Time)): Eoc;
+export declare function genTriggerEffect(dm: DataManager, effect: Effect, hook: CGlobalEventType, mode: "/2" | "-1" | "none", eocEffects: EocEffect[], duration: (Time), condition?: (BoolObj), cooldown?: (Time)): Eoc;
 /**创建添加效果的Eoc
  * EocID为 `${effect.id}_AddEffect`
  * 添加层数为 全局变量 `${effect.id}_count`

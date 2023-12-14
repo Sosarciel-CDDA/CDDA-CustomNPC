@@ -7,7 +7,7 @@ const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
 const ModDefine_1 = require("./ModDefine");
 const CharBuild_1 = require("./CharBuild");
-const Event_1 = require("./Event");
+const CnpcEvent_1 = require("./CnpcEvent");
 /**数据管理器 */
 class DataManager {
     /**资源目录 */
@@ -29,7 +29,7 @@ class DataManager {
         charTable: {},
         staticTable: {},
         sharedTable: {},
-        eventEocs: Event_1.GlobalEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
+        eventEocs: CnpcEvent_1.CGlobalEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {})
     };
     //———————————————————— 初始化 ————————————————————//
     /**
@@ -204,11 +204,11 @@ class DataManager {
                 };
                 //根据预留武器音效字段更改ID
                 const defineList = [
-                    "fire_gun",
-                    "fire_gun_distant",
-                    "reload",
-                    "melee_hit_flesh",
-                    "melee_hit_metal",
+                    "fire_gun", //枪械射击
+                    "fire_gun_distant", //枪械射击 远距
+                    "reload", //枪械装弹
+                    "melee_hit_flesh", //近战攻击肉质
+                    "melee_hit_metal", //近战攻击金属质
                     "melee_hit", //近战攻击
                 ];
                 //(武器id)_(类型)
@@ -261,7 +261,7 @@ class DataManager {
                 cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
             };
             //角色事件eoc主体
-            const charEventEocs = Event_1.CnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
+            const charEventEocs = CnpcEvent_1.CCnpcEventTypeList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
             this.dataTable.charTable[charName] = {
                 defineData,
                 charEventEocs,
@@ -359,17 +359,7 @@ class DataManager {
                         eoc_type: "ACTIVATION",
                         id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
                         effect: [...charEventList.map(event => event.effect)],
-                        condition: Event_1.CnpcEventTypeList.includes(etype) //判断是否为反转事件 并修改条件
-                            ? { and: [
-                                    { u_has_trait: charData.defineData.baseMutID },
-                                    ...(etype.includes("Death")
-                                        ? [{ math: ["u_isDeath", "!=", "1"] }] : [])
-                                ] }
-                            : { and: [
-                                    { npc_has_trait: charData.defineData.baseMutID },
-                                    ...(etype.includes("Death")
-                                        ? [{ math: ["n_isDeath", "!=", "1"] }] : [])
-                                ] }
+                        condition: { u_has_trait: charData.defineData.baseMutID }
                     };
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc
@@ -399,6 +389,8 @@ class DataManager {
             eventEocs.push(globalEoc);
         }
         this.saveToFile('event_eocs', eventEocs);
+        //导出event框架
+        //await buildEventFrame(path.join(this.outPath,"event_frame"));
         //编译所有eocscript
         const { stdout, stderr } = await utils_1.UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`);
         console.log(stdout);

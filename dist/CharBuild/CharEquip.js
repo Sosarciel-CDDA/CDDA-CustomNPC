@@ -104,15 +104,15 @@ async function createCharEquip(dm, charName) {
         volume: 0,
         symbol: "O",
         flags: [
-            "PERSONAL",
-            "UNBREAKABLE",
-            "INTEGRATED",
-            "ZERO_WEIGHT",
-            "TARDIS",
-            "PARTIAL_DEAF",
-            "NO_SALVAGE",
-            "ALLOWS_NATURAL_ATTACKS",
-            "PADDED",
+            "PERSONAL", //个人层
+            "UNBREAKABLE", //不会损坏
+            "INTEGRATED", //自体护甲
+            "ZERO_WEIGHT", //无重量体积
+            "TARDIS", //不会出售
+            "PARTIAL_DEAF", //降低音量到安全水平
+            "NO_SALVAGE", //无法拆分
+            "ALLOWS_NATURAL_ATTACKS", //不会妨碍特殊攻击
+            "PADDED", //有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
             defineData.baseItemFlagID
         ],
         pocket_data: pocketList,

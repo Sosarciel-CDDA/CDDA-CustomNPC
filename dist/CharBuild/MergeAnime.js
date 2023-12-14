@@ -20,7 +20,7 @@ async function mergeAnime(dm, charName, forcePackage = true) {
         throw `${charName} 若要使用其他动画, 则必须要有Idle动画`;
     //提供给打包脚本的info
     const tmpRawInfo = [{
-            width: 32,
+            width: 32, // default sprite size
             height: 32,
             pixelscale: 1 //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
         }];

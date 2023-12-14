@@ -4,14 +4,14 @@ exports.parseNumObj = exports.createCharSkill = exports.getDisableSpellVar = exp
 const ModDefine_1 = require("../ModDefine");
 const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
-const Event_1 = require("../Event");
+const CnpcEvent_1 = require("../CnpcEvent");
 const CharSkillSpecEffect_1 = require("./CharSkillSpecEffect");
 /**技能选择目标类型 列表 */
 const TargetTypeList = [
-    "auto",
-    "random",
-    "direct_hit",
-    "filter_random",
+    "auto", //自动         任意非翻转hook
+    "random", //原版随机     任意非翻转hook
+    "direct_hit", //直接命中交互单位 u为角色 n为受害者 hook必须为InteractiveCharEvent
+    "filter_random", //筛选目标随机 u为角色 n为受害者 处理时翻转 任意非翻转hook
     "control_cast", //玩家控制施法
 ];
 //全局冷却字段名
@@ -388,8 +388,8 @@ async function direct_hitProc(dm, charName, baseSkillData) {
         condition: { and: [...baseCond] },
     };
     //加入触发
-    if (!Event_1.CommonInteractiveEventTypeList.includes(hook))
-        throw `直接命中 所用的事件必须为 交互事件: ${Event_1.CommonInteractiveEventTypeList}`;
+    if (!CnpcEvent_1.CCommonInteractiveEventTypeList.includes(hook))
+        throw `直接命中 所用的事件必须为 交互事件: ${CnpcEvent_1.CCommonInteractiveEventTypeList}`;
     dm.addCharEvent(charName, hook, 0, castEoc);
     return [castEoc];
 }
@@ -408,7 +408,7 @@ async function autoProc(dm, charName, baseSkillData) {
     if (isAllyTarget && hasRange && castCondition.condition != undefined)
         return ProcMap.filter_random(dm, charName, baseSkillData);
     //hook为互动事件 敌对目标 法术将直接命中
-    if ((Event_1.CommonInteractiveEventTypeList.includes(hook)) && isHostileTarget)
+    if ((CnpcEvent_1.CCommonInteractiveEventTypeList.includes(hook)) && isHostileTarget)
         return ProcMap.direct_hit(dm, charName, baseSkillData);
     //其他法术随机
     return ProcMap.random(dm, charName, baseSkillData);

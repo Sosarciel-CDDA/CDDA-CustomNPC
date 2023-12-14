@@ -12,13 +12,13 @@ type EventEffect = {
     weight:number;
 }
 export class EventManager {
-    _eocMap:Record<AnyEventType,Eoc>;
-    _effectsMap:Partial<Record<AnyEventType,EventEffect[]>> = {};
+    private _eocMap:Record<AnyEventType,Eoc>;
+    private _effectsMap:Partial<Record<AnyEventType,EventEffect[]>> = {};
     constructor(prefix:string){
         this._eocMap=genEventEoc(prefix);
     }
     /**导出 */
-    build(filePath:string){
+    build(){
         const json:JObject[] = [];
         //加入effect
         const eocmap = UtilFunc.deepClone(this._eocMap);
@@ -35,12 +35,18 @@ export class EventManager {
             //整合eoc数组
             json.push(eoc);
         }
-        UtilFT.writeJSONFile(filePath,json);
+        return json;
     }
     /**添加事件 */
-    addEvent(etype:AnyEventType,weight:number,effect:EocEffect[]){
+    addEvent(etype:AnyEventType,weight:number,effects:EocEffect[]){
         this._effectsMap[etype] = this._effectsMap[etype]??[];
         const list = this._effectsMap[etype];
-        list?.push({effects: effect,weight})
+        list?.push({effects,weight})
+    }
+    /**添加调用eoc事件 */
+    addInvoke(etype:AnyEventType,weight:number,...eocids:EocID[]){
+        this._effectsMap[etype] = this._effectsMap[etype]??[];
+        const list = this._effectsMap[etype];
+        list?.push({effects:[{run_eocs:eocids}],weight})
     }
 }
