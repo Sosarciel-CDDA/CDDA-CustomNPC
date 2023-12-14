@@ -137,7 +137,7 @@ function EmergencyFreeze(dm:DataManager){
         desc:["即将死亡时会将血量完全恢复, 无敌8秒, 并击退且冻结周围敌人。"],
         max_intensity:1
     }
-    const teoc = genTriggerEffect(dm,eff,"CnpcDeathPrev","-1",[
+    const teoc = genTriggerEffect(dm,eff,"DeathPrev","-1",[
         "u_prevent_death",
         { run_eocs: FULL_RECIVERY_EOCID },
         { u_cast_spell:{id:tex.id}},

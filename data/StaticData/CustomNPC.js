@@ -124,15 +124,9 @@ function CNPC_EOC_EGU(){
 		if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 			CNPC_EOC_CnpcGlobalUpdateEvent();
 	}//如果含有已经死亡标记则触发死亡后
-	else CNPC_EOC_EDA()
-}
-//死亡后
-function CNPC_EOC_EDA(){
-	eoc_type("ACTIVATION")
-
-	//cnpc角色死亡后
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
-		CNPC_EOC_CnpcDeathAfterEvent();
+	else if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
+		eobj({"run_eoc_with":"CNPC_EOC_CnpcDeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
+	}
 }
 //玩家刷新
 function CNPC_EOC_EPU(){
@@ -244,8 +238,14 @@ function CNPC_EOC_CommonGlobalUpdateEvent(){
 //死亡主EOC
 function CNPC_EOC_CommonDeathEvent(){
 	eoc_type("ACTIVATION");
-	//触发动态生成的 死亡 事件
-	CNPC_EOC_Death();
+	//触发动态生成的 死亡前 事件
+	CNPC_EOC_DeathPrev();
+	//关键肢体生命值不足则判断为死亡
+	if(or(u_hp('head')<=0,u_hp('torso')<=0)){
+		//触发动态生成的 死亡 事件
+		CNPC_EOC_Death();
+	}else
+		eobj("u_prevent_death");//恢复生命则自动阻止死亡
 }
 
 
@@ -255,22 +255,15 @@ function CNPC_EOC_CommonDeathEvent(){
 //CNPC死亡事件
 function CNPC_EOC_CnpcDeathEvent(){
 	eoc_type("ACTIVATION");
-	//触发动态生成的 Cnpc角色死亡前 事件
-	CNPC_EOC_CnpcDeathPrev();
 	//关键肢体生命值不足则判断为死亡
 	if(or(u_hp('head')<=0,u_hp('torso')<=0))
 		CNPC_EOC_CnpcDeathProcess()
-	else
-		eobj("u_prevent_death")//阻止死亡
 }
 //Cnpc角色受伤死亡处理
 function CNPC_EOC_CnpcDeathProcess(){
 	eoc_type("ACTIVATION")
 
 	eobj("u_prevent_death")//阻止死亡
-
-	//触发动态生成的 Cnpc角色死亡时 事件
-	CNPC_EOC_CnpcDeath();
 
 	//眩晕附近怪物防止无形体受击报错
 	eobj({ "u_cast_spell": { "id": "CNPC_SPELL_DeathStunned" } });
@@ -360,14 +353,6 @@ function CNPC_EOC_CnpcGlobalUpdateEvent(){
 
 	if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
 		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" }) //如果无动画变异则添加替代素体
-}
-//死亡后事件
-function CNPC_EOC_CnpcDeathAfterEvent(){
-	eoc_type("ACTIVATION")
-
-	//触发动态生成的 Cnpc角色死亡后 事件
-	CNPC_EOC_CnpcDeathAfter();
-	eobj({"run_eoc_with":"CNPC_EOC_CnpcDeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
 }
 
 //死亡后处理

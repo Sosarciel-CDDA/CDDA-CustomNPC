@@ -22,6 +22,8 @@ exports.CCommonEventTypeList = [
     "EnterBattle", //进入战斗
     "BattleUpdate", //进入战斗时 刷新
     "NonBattleUpdate", //非战斗时 刷新
+    "Death", //死亡
+    "DeathPrev", //死亡前 回复生命可阻止死亡
     ...exports.CCommonInteractiveEventTypeList,
 ];
 /**Cnpc角色事件列表
@@ -33,9 +35,6 @@ exports.CCnpcEventTypeList = [
     "CnpcUpdate", //刷新
     "CnpcUpdateSlow", //慢速刷新 60刷新触发一次
     "CnpcInit", //被创建时
-    "CnpcDeath", //死亡
-    "CnpcDeathPrev", //死亡前 回复生命可阻止死亡
-    "CnpcDeathAfter", //死亡后
     ...exports.CCommonEventTypeList,
 ];
 /**全局的事件列表 */

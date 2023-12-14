@@ -171,14 +171,6 @@ async function createCharClass(dm, charName) {
         condition: { math: ["u_uid", "!=", `${charName}_uid`] }
     };
     dm.addCharEvent(charName, "CnpcUpdate", 0, charRemoveEoc);
-    /**死亡事件 */
-    const charDeathEoc = {
-        type: "effect_on_condition",
-        eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_DeathProcess`),
-        effect: []
-    };
-    dm.addCharEvent(charName, "CnpcDeath", -1000, charDeathEoc);
-    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charCardEoc, charCard, charDeathEoc, autoSave, charInitEoc, charRemoveEoc];
+    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charCardEoc, charCard, autoSave, charInitEoc, charRemoveEoc];
 }
 exports.createCharClass = createCharClass;

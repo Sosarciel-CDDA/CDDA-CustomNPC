@@ -180,13 +180,5 @@ export async function createCharClass(dm:DataManager,charName:string){
     }
     dm.addCharEvent(charName,"CnpcUpdate",0,charRemoveEoc);
 
-    /**死亡事件 */
-    const charDeathEoc:Eoc = {
-        type: "effect_on_condition",
-        eoc_type:"ACTIVATION",
-        id:genEOCID(`${charName}_DeathProcess`),
-        effect:[]
-    }
-    dm.addCharEvent(charName,"CnpcDeath",-1000,charDeathEoc);
-    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charCardEoc,charCard,charDeathEoc,autoSave,charInitEoc,charRemoveEoc];
+    outData['npc'] = [charClass,charInstance,charSpawner,charSpawnerEoc,charCardEoc,charCard,autoSave,charInitEoc,charRemoveEoc];
 }

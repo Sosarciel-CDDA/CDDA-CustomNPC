@@ -28,6 +28,8 @@ export const CCommonEventTypeList = [
     "EnterBattle"           ,//进入战斗
     "BattleUpdate"          ,//进入战斗时 刷新
     "NonBattleUpdate"       ,//非战斗时 刷新
+    "Death"                 ,//死亡
+    "DeathPrev"             ,//死亡前 回复生命可阻止死亡
     ...CCommonInteractiveEventTypeList,
 ] as const;
 
@@ -45,9 +47,6 @@ export const CCnpcEventTypeList = [
     "CnpcUpdate"                ,//刷新
     "CnpcUpdateSlow"            ,//慢速刷新 60刷新触发一次
     "CnpcInit"                  ,//被创建时
-    "CnpcDeath"                 ,//死亡
-    "CnpcDeathPrev"             ,//死亡前 回复生命可阻止死亡
-    "CnpcDeathAfter"            ,//死亡后
     ...CCommonEventTypeList      ,
 ] as const;
 /**Cnpc角色事件类型 */
