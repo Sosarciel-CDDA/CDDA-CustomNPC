@@ -1,8 +1,8 @@
 import { Eoc, EocEffect, EocID, EocType } from "cdda-schema";
 
-
+//Interactive
 /**角色互动事件 列表 */
-export const InteractiveHookList = [
+export const InteractHookList = [
     "TryMeleeAtkChar"       ,//尝试近战攻击角色
     "TryMeleeAtkMon"        ,//尝试近战攻击怪物
     "TryRangeAtkChar"       ,//尝试远程攻击角色
@@ -16,11 +16,12 @@ export const InteractiveHookList = [
 /**角色互动事件  
  * u为角色 n为目标角色  
  */
-export type InteractiveHook = typeof InteractiveHookList[number];
+export type InteractHook = typeof InteractHookList[number];
 
 /**任何角色事件 列表*/
 export const CharHookList = [
-    ...InteractiveHookList ,//
+    ...InteractHookList         ,//
+    "Init"                      ,//初始化
     "Update"                    ,//刷新
     "SlowUpdate"                ,//60秒刷新
     "TakeDamage"                ,//受到伤害
@@ -74,8 +75,6 @@ type DefineHookObj = {
     }
     /**运行此事件时将会附带调用的EocEffect */
     invoke_effects?: EocEffect[];
-    /**关联事件 */
-    link_events?: AnyHook[];
 }
 
 export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
@@ -112,8 +111,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_character"
             },
-            invoke_effects:[rune("TryMeleeAttack")],
-            link_events:["TryMeleeAttack"]
+            invoke_effects:[rune("TryMeleeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -127,8 +125,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_monster"
             },
-            invoke_effects:[rune("TryMeleeAttack")],
-            link_events:["TryMeleeAttack"]
+            invoke_effects:[rune("TryMeleeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -144,24 +141,20 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 if:{math:["_hits","==","1"]},
                 then:[rune("SucessMeleeAttack")],
                 else:[rune("MissMeleeAttack")],
-            }],
-            link_events:["TryAttack","TryMeleeAtkChar","TryMeleeAtkMon","SucessMeleeAttack","MissMeleeAttack"]
+            }]
         },
         SucessMeleeAttack:{
-            base_setting:defObj.base_setting,
-            link_events:["TryMeleeAttack"]
+            base_setting:defObj.base_setting
         },
         MissMeleeAttack:{
-            base_setting:defObj.base_setting,
-            link_events:["TryMeleeAttack"]
+            base_setting:defObj.base_setting
         },
         TryRangeAtkChar:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_character"
             },
-            invoke_effects:[rune("TryRangeAttack")],
-            link_events:["TryRangeAttack"]
+            invoke_effects:[rune("TryRangeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -174,8 +167,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_monster"
             },
-            invoke_effects:[rune("TryRangeAttack")],
-            link_events:["TryRangeAttack"]
+            invoke_effects:[rune("TryRangeAttack")]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -186,8 +178,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
-            invoke_effects:[rune("TryAttack")],
-            link_events:["TryAttack","TryRangeAttack"]
+            invoke_effects:[rune("TryAttack")]
         },
         TryAttack:{
             base_setting:defObj.base_setting,
@@ -224,6 +215,9 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 run_for_npcs: true
             },
             invoke_effects:[{
+                if:{math:[uvar("isInit"),"!=","0"]},
+                then:[rune("Init"),{math:[uvar("isInit"),"=","1"]}]
+            },{
                 if:{math:[uvar("inBattle"),">","0"]},
                 then:[rune("BattleUpdate"),{math:[uvar("inBattle"),"-=","1"]}],
                 else:[rune("NonBattleUpdate")]
@@ -233,6 +227,7 @@ export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
                 else:[{math:[uvar("slowCounter"),"+=","1"]}]
             }]
         },
+        Init:defObj,
         SlowUpdate:defObj,
         AvaterUpdate:{
             base_setting: {

@@ -2,13 +2,13 @@ import { ToolQuality, ToolQualityID } from "cdda-schema";
 import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { Eoc, Tool, ToolID, ItemToolQuality, EocID, Generic, FlagID, Flag, EocEffect, CondObj, BoolObj, Spell, DamageTypeID } from "cdda-schema";
-import { CCnpcEventType } from "CnpcEvent";
+import { CCnpcHook } from "CnpcEvent";
 import { genActEoc, genEOCID, genGenericID, genSpellID } from "ModDefine";
 import { CON_SPELL_FLAG } from "StaticData";
 
 
 /**手持触发 */
-function genWieldTrigger(dm:DataManager,flagId:FlagID,hook:CCnpcEventType,effects:EocEffect[],condition?:BoolObj){
+function genWieldTrigger(dm:DataManager,flagId:FlagID,hook:CCnpcHook,effects:EocEffect[],condition?:BoolObj){
     const eoc = genActEoc(`${flagId}_WieldTigger`,effects,{and:[
         {u_has_wielded_with_flag:flagId},
         ...(condition ? [condition] : [])
