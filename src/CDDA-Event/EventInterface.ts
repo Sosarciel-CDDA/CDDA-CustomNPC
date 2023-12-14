@@ -2,28 +2,29 @@ import { Eoc, EocEffect, EocID, EocType } from "cdda-schema";
 
 
 /**角色互动事件 列表 */
-export const InteractiveEventTypeList = [
-    "MeleeAttackChar"       ,//尝试近战攻击角色
-    "MeleeAttackMons"       ,//尝试近战攻击怪物
-    "RangeAttackChar"       ,//尝试远程攻击角色
-    "RangeAttackMons"       ,//尝试远程攻击怪物
-    "MeleeAttack"           ,//尝试近战攻击
-    "RangeAttack"           ,//尝试远程攻击
+export const InteractiveHookList = [
+    "TryMeleeAtkChar"       ,//尝试近战攻击角色
+    "TryMeleeAtkMon"        ,//尝试近战攻击怪物
+    "TryRangeAtkChar"       ,//尝试远程攻击角色
+    "TryRangeAtkMon"        ,//尝试远程攻击怪物
+    "TryMeleeAttack"        ,//尝试近战攻击
+    "TryRangeAttack"        ,//尝试远程攻击
     "Attack"                ,//尝试攻击
-    "CauseMeleeHit"         ,//近战攻击命中
-    "MissMeleeHit"          ,//近战攻击未命中
+    "SucessMeleeAttack"     ,//近战攻击命中
+    "MissMeleeAttack"       ,//近战攻击未命中
 ] as const;
 /**角色互动事件  
  * u为角色 n为目标角色  
  */
-export type InteractiveEventType = typeof InteractiveEventTypeList[number];
+export type InteractiveHook = typeof InteractiveHookList[number];
 
 /**任何角色事件 列表*/
-export const CharEventTypeList = [
-    ...InteractiveEventTypeList ,//
+export const CharHookList = [
+    ...InteractiveHookList ,//
     "Update"                    ,//刷新
     "SlowUpdate"                ,//60秒刷新
     "TakeDamage"                ,//受到伤害
+    "DeathPrev"                 ,//死亡
     "Death"                     ,//死亡
     "EnterBattle"               ,//进入战斗
     "BattleUpdate"              ,//进入战斗时 刷新
@@ -32,10 +33,10 @@ export const CharEventTypeList = [
 /**任何角色事件  
  * u为角色 n未定义  
  */
-export type CharEventType = typeof CharEventTypeList[number];
+export type CharHook = typeof CharHookList[number];
 
 /**全局事件列表 列表 */
-export const GlobalEventTypeList = [
+export const GlobalHookList = [
     "AvaterMove"            ,//玩家移动
     "AvaterUpdate"          ,//玩家刷新
     "GameBegin"             ,//每次进入游戏时
@@ -43,21 +44,21 @@ export const GlobalEventTypeList = [
 /**全局事件  
  * u为主角 n未定义  
  */
-export type GlobalEventType = typeof GlobalEventTypeList[number];
+export type GlobalHook = typeof GlobalHookList[number];
 
 /**任何事件 列表 */
 export const AnyEventTypeList = [
-    ...GlobalEventTypeList  ,
-    ...CharEventTypeList    ,
+    ...GlobalHookList  ,
+    ...CharHookList    ,
 ] as const;
 /**任何事件  
  * u n 均未定义
  */
-export type AnyEventType = typeof AnyEventTypeList[number];
+export type AnyHook = typeof AnyEventTypeList[number];
 
 
 
-export type EventObj = {
+type DefineHookObj = {
     /**基础设置 */
     base_setting:{
         /**eoc类型 */
@@ -74,20 +75,22 @@ export type EventObj = {
     /**运行此事件时将会附带调用的EocEffect */
     invoke_effects?: EocEffect[];
     /**关联事件 */
-    link_events?: AnyEventType[];
+    link_events?: AnyHook[];
 }
 
-export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
-    const eid = (id:AnyEventType)=>`${prefix}_${id}` as EocID;
-    const rune = (id:AnyEventType)=>({run_eocs:eid(id)});
+export function genEventEoc(prefix:string):Record<AnyHook,Eoc>{
+    const eid = (id:AnyHook)=>`${prefix}_${id}` as EocID;
+    const rune = (id:AnyHook)=>({run_eocs:eid(id)});
     const uvar = (id:string)=>`u_${prefix}_${id}`;
     const nvar = (id:string)=>`n_${prefix}_${id}`;
-    const defObj:EventObj={
+    //默认Hook
+    const defObj:DefineHookObj={
         base_setting: {
             eoc_type: "ACTIVATION"
         }
     }
-    const eventMap:Record<AnyEventType,EventObj>={
+    //预定义的Hook
+    const eventMap:Record<AnyHook,DefineHookObj>={
         GameBegin:{
             base_setting: {
                 eoc_type: "EVENT",
@@ -104,13 +107,13 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
             { "damage", int }
 	        */
         },
-        MeleeAttackChar:{
+        TryMeleeAtkChar:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_character"
             },
-            invoke_effects:[rune("MeleeAttack")],
-            link_events:["MeleeAttack"]
+            invoke_effects:[rune("TryMeleeAttack")],
+            link_events:["TryMeleeAttack"]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -119,13 +122,13 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
             { "victim_name", string },
             */
         },
-        MeleeAttackMons:{
+        TryMeleeAtkMon:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_melee_attacks_monster"
             },
-            invoke_effects:[rune("MeleeAttack")],
-            link_events:["MeleeAttack"]
+            invoke_effects:[rune("TryMeleeAttack")],
+            link_events:["TryMeleeAttack"]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -133,32 +136,32 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
             { "victim_type", mtype_id },
             */
         },
-        MeleeAttack:{
+        TryMeleeAttack:{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
             invoke_effects:[rune("Attack"),{
                 if:{math:["_hits","==","1"]},
-                then:[rune("CauseMeleeHit")],
-                else:[rune("MissMeleeHit")],
+                then:[rune("SucessMeleeAttack")],
+                else:[rune("MissMeleeAttack")],
             }],
-            link_events:["Attack","MeleeAttackChar","MeleeAttackMons","CauseMeleeHit","MissMeleeHit"]
+            link_events:["Attack","TryMeleeAtkChar","TryMeleeAtkMon","SucessMeleeAttack","MissMeleeAttack"]
         },
-        CauseMeleeHit:{
+        SucessMeleeAttack:{
             base_setting:defObj.base_setting,
-            link_events:["MeleeAttack"]
+            link_events:["TryMeleeAttack"]
         },
-        MissMeleeHit:{
+        MissMeleeAttack:{
             base_setting:defObj.base_setting,
-            link_events:["MeleeAttack"]
+            link_events:["TryMeleeAttack"]
         },
-        RangeAttackChar:{
+        TryRangeAtkChar:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_character"
             },
-            invoke_effects:[rune("RangeAttack")],
-            link_events:["RangeAttack"]
+            invoke_effects:[rune("TryRangeAttack")],
+            link_events:["TryRangeAttack"]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
@@ -166,25 +169,25 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
             { "victim_name", string },
             */
         },
-        RangeAttackMons:{
+        TryRangeAtkMon:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_ranged_attacks_monster"
             },
-            invoke_effects:[rune("RangeAttack")],
-            link_events:["RangeAttack"]
+            invoke_effects:[rune("TryRangeAttack")],
+            link_events:["TryRangeAttack"]
             /*
             { "attacker", character_id },
             { "weapon", itype_id },
             { "victim_type", mtype_id },
             */
         },
-        RangeAttack:{
+        TryRangeAttack:{
             base_setting: {
                 eoc_type: "ACTIVATION"
             },
             invoke_effects:[rune("Attack")],
-            link_events:["Attack","RangeAttack"]
+            link_events:["Attack","TryRangeAttack"]
         },
         Attack:{
             base_setting:defObj.base_setting,
@@ -196,13 +199,18 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
         EnterBattle:defObj,
         BattleUpdate:defObj,
         NonBattleUpdate:defObj,
-        Death:{
+        DeathPrev:{
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_dies"
-            }
+            },
+            invoke_effects:[{
+                if:{or:[{math:["u_hp('head')","<=","0"]},{math:["u_hp('torso')","<=","0"]}]},
+                then:[rune("Death")],
+            }]
             //{ "character", character_id },
         },
+        Death:defObj,
         AvaterMove:{
             base_setting: {
                 eoc_type: "OM_MOVE"
@@ -233,9 +241,9 @@ export function genEventEoc(prefix:string):Record<AnyEventType,Eoc>{
             }
         }
     };
-    const eocMap:Record<AnyEventType,Eoc> = {} as any;
+    const eocMap:Record<AnyHook,Eoc> = {} as any;
     for(const key in eventMap){
-        const fixkey = key as AnyEventType;
+        const fixkey = key as AnyHook;
         const event = eventMap[fixkey];
         eocMap[fixkey] = {
             type:"effect_on_condition",

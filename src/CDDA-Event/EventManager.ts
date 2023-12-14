@@ -1,6 +1,6 @@
 
-import { JObject, UtilFT, UtilFunc } from "@zwa73/utils";
-import { AnyEventType, genEventEoc, GlobalEventType} from "./EventInterface";
+import { AnyString, JObject, UtilFT, UtilFunc } from "@zwa73/utils";
+import { AnyHook, genEventEoc, GlobalHook} from "./EventInterface";
 import { Eoc, EocEffect, EocID } from "cdda-schema";
 
 
@@ -12,8 +12,9 @@ type EventEffect = {
     weight:number;
 }
 export class EventManager {
-    private _eocMap:Record<AnyEventType,Eoc>;
-    private _effectsMap:Partial<Record<AnyEventType,EventEffect[]>> = {};
+    private _eocMap:Record<AnyHook|AnyString,Eoc>;
+    private _effectsMap:Partial<Record<AnyHook|AnyString,EventEffect[]>> = {};
+
     constructor(prefix:string){
         this._eocMap=genEventEoc(prefix);
     }
@@ -23,7 +24,7 @@ export class EventManager {
         //加入effect
         const eocmap = UtilFunc.deepClone(this._eocMap);
         for(const key in eocmap){
-            const fixkey = key as AnyEventType;
+            const fixkey = key as AnyHook;
             const eoc = eocmap[fixkey];
             //加入effect
             eoc.effect = eoc.effect??[];
@@ -31,22 +32,32 @@ export class EventManager {
             elist.sort((a,b)=>b.weight-a.weight);
             const eventeffects:EocEffect[] = [];
             elist.forEach((e)=>eventeffects.push(...e.effects));
-            eoc.effect.push(...eventeffects);
+            eoc.effect.unshift(...eventeffects);
             //整合eoc数组
             json.push(eoc);
         }
         return json;
     }
     /**添加事件 */
-    addEvent(etype:AnyEventType,weight:number,effects:EocEffect[]){
-        this._effectsMap[etype] = this._effectsMap[etype]??[];
-        const list = this._effectsMap[etype];
+    addEvent(hook:AnyHook|AnyString,weight:number,effects:EocEffect[]){
+        this.verifyHook(hook);
+        this._effectsMap[hook] = this._effectsMap[hook]??[];
+        const list = this._effectsMap[hook];
         list?.push({effects,weight})
     }
     /**添加调用eoc事件 */
-    addInvoke(etype:AnyEventType,weight:number,...eocids:EocID[]){
-        this._effectsMap[etype] = this._effectsMap[etype]??[];
-        const list = this._effectsMap[etype];
+    addInvoke(hook:AnyHook|AnyString,weight:number,...eocids:EocID[]){
+        this.verifyHook(hook);
+        this._effectsMap[hook] = this._effectsMap[hook]??[];
+        const list = this._effectsMap[hook];
         list?.push({effects:[{run_eocs:eocids}],weight})
+    }
+    /**添加自定义的Hook */
+    addHook(hook:string,eoc:Eoc){
+        this._eocMap[hook] = eoc;
+    }
+    /**验证hook是否存在 */
+    private verifyHook(hook:string){
+        if(this._eocMap[hook]==null) throw `hook:${hook} 不存在`;
     }
 }
