@@ -25,9 +25,10 @@ export const CharHookList = [
     "Update"                    ,//刷新
     "SlowUpdate"                ,//慢速秒刷新
     "TakeDamage"                ,//受到伤害
-    "DeathPrev"                 ,//死亡
+    "DeathPrev"                 ,//死亡前 恢复生命将自动阻止死亡
     "Death"                     ,//死亡
     "EnterBattle"               ,//进入战斗
+    "LeaveBattle"               ,//离开战斗
     "BattleUpdate"              ,//进入战斗时 刷新
     "NonBattleUpdate"           ,//非战斗时 刷新
     "MoveStatus"                ,//移动状态
@@ -85,9 +86,9 @@ export type HookObj = {
 export function genDefineHookMap(prefix:string,statusDur=4,battleDur=60,slowCounter=60){
     const eid = (id:AnyHook)=>`${prefix}_${id}_EVENT` as EocID;
     const rune = (id:AnyHook)=>({run_eocs:eid(id)});
-    const uvar = (id:string)=>`u_${prefix}_${id}`;
-    const nvar = (id:string)=>`n_${prefix}_${id}`;
-    const gvar = (id:string)=>`${prefix}_${id}`;
+    const uv = (id:string)=>`u_${prefix}_${id}`;
+    const nv = (id:string)=>`n_${prefix}_${id}`;
+    const gv = (id:string)=>`${prefix}_${id}`;
 
     //默认Hook
     const defObj:HookObj={
@@ -107,7 +108,11 @@ export function genDefineHookMap(prefix:string,statusDur=4,battleDur=60,slowCoun
             base_setting: {
                 eoc_type: "EVENT",
                 required_event: "character_takes_damage"
-            }
+            },
+            after_effects:[{
+                if:{math:[uv("inBattle"),"<=","0"]},
+                then:[rune("EnterBattle")],
+            },{math:[uv("inBattle"),"=",`${battleDur}`]}]
             /*
             { "character", character_id }
             { "damage", int }
@@ -189,13 +194,14 @@ export function genDefineHookMap(prefix:string,statusDur=4,battleDur=60,slowCoun
         },
         TryAttack:{
             base_setting:defObj.base_setting,
-            before_effects:[{math:[uvar("notIdleOrMoveStatus"),"=",`${statusDur}`]}],
+            before_effects:[{math:[uv("notIdleOrMoveStatus"),"=",`${statusDur}`]}],
             after_effects:[{
-                if:{math:[uvar("inBattle"),"<=","0"]},
+                if:{math:[uv("inBattle"),"<=","0"]},
                 then:[rune("EnterBattle")],
-            },{math:[uvar("inBattle"),"=",`${battleDur}`]}]
+            },{math:[uv("inBattle"),"=",`${battleDur}`]}]
         },
         EnterBattle:defObj,
+        LeaveBattle:defObj,
         BattleUpdate:defObj,
         NonBattleUpdate:defObj,
         DeathPrev:{
@@ -224,37 +230,40 @@ export function genDefineHookMap(prefix:string,statusDur=4,battleDur=60,slowCoun
                 run_for_npcs: true
             },
             before_effects:[{
-                if:{math:[uvar("isInit"),"!=","1"]},
-                then:[rune("Init"),{math:[uvar("isInit"),"=","1"]}]
+                if:{math:[uv("isInit"),"!=","1"]},
+                then:[rune("Init"),{math:[uv("isInit"),"=","1"]}]
             }],
             after_effects:[{
-                if:{math:[uvar("inBattle"),">","0"]},
-                then:[rune("BattleUpdate"),{math:[uvar("inBattle"),"-=","1"]}],
+                if:{math:[uv("inBattle"),">","0"]},
+                then:[rune("BattleUpdate"),{math:[uv("inBattle"),"-=","1"]},{
+                    if:{math:[uv("inBattle"),"<=","0"]},
+                    then:[rune("LeaveBattle")],
+                }],
                 else:[rune("NonBattleUpdate")]
             },{
-                if:{math:[uvar("slowCounter"),">=",`${slowCounter}`]},
-                then:[rune("SlowUpdate"),{math:[uvar("slowCounter"),"=","1"]}],
-                else:[{math:[uvar("slowCounter"),"+=","1"]}]
+                if:{math:[uv("slowCounter"),">=",`${slowCounter}`]},
+                then:[rune("SlowUpdate"),{math:[uv("slowCounter"),"=","1"]}],
+                else:[{math:[uv("slowCounter"),"+=","1"]}]
             },{//将uvar转为全局var防止比较报错
-                set_string_var: { u_val: uvar("char_preloc") },
-                target_var: { global_val: gvar("char_preloc") }
+                set_string_var: { u_val: uv("char_preloc") },
+                target_var: { global_val: gv("char_preloc") }
             },{//通过比较 loc字符串 检测移动
                 if:{compare_string: [
-                        { global_val: gvar("char_preloc") },
+                        { global_val: gv("char_preloc") },
                         { mutator: "loc_relative_u", target: "(0,0,0)" }
                     ]},
-                then:[{math:[uvar("onMoveStatus"),"=","0"]}],
-                else:[{math:[uvar("onMoveStatus"),"=","1"]}],
+                then:[{math:[uv("onMoveStatus"),"=","0"]}],
+                else:[{math:[uv("onMoveStatus"),"=","1"]}],
             },//更新 loc字符串
-            {u_location_variable:{u_val:uvar("char_preloc")}},
+            {u_location_variable:{u_val:uv("char_preloc")}},
             {//触发互斥状态
-                if:{math:[uvar("notIdleOrMoveStatus"),"<=","0"]},
+                if:{math:[uv("notIdleOrMoveStatus"),"<=","0"]},
                 then:[{
-                    if:{math:[uvar("onMoveStatus"),">=","1"]},
+                    if:{math:[uv("onMoveStatus"),">=","1"]},
                     then:[rune("MoveStatus")],
                     else:[rune("IdleStatus")],
                 }],
-                else:[rune("AttackStatus"),{math:[uvar("notIdleOrMoveStatus"),"-=","1"]}]
+                else:[rune("AttackStatus"),{math:[uv("notIdleOrMoveStatus"),"-=","1"]}]
             }]
         },
         Init:defObj,

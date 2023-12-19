@@ -673,7 +673,6 @@ async function control_castProc(dm:DataManager,charName:string,baseSkillData:Bas
     }
 
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
-    outData['castcontrol_resp'] = outData['castcontrol_resp']??[];
-    outData['castcontrol_resp'].push(castResp);
+    defineData.castResp.push(castResp);
     return [controlEoc];
 }

@@ -138,7 +138,6 @@ function EmergencyFreeze(dm:DataManager){
         max_intensity:1
     }
     const teoc = genTriggerEffect(dm,eff,"DeathPrev","-1",[
-        "u_prevent_death",
         { run_eocs: FULL_RECIVERY_EOCID },
         { u_cast_spell:{id:tex.id}},
         { u_cast_spell:{id:tspell.id}},

@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
 import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
-import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID } from 'cdda-schema';
+import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID, Resp } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
 import { CCharHookList, CCharHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
 
@@ -22,11 +22,11 @@ export type CharDefineData=Readonly<{
     /**动画数据 */
     animData    : Record<AnimType,AnimData>;
     /**有效的动作动画 */
-    validAnim: AnimType[];
+    validAnim   : AnimType[];
     /**基础装备ID */
     baseArmorID : ArmorID;
     /**基础装备附魔ID */
-    baseEnchID : EnchantmentID;
+    baseEnchID  : EnchantmentID;
     /**基础武器FlagID 用于分辨是否为角色专用物品 */
     baseItemFlagID: FlagID;
     /**基础背包物品组 */
@@ -35,6 +35,8 @@ export type CharDefineData=Readonly<{
     talkTopicID   :TalkTopicID;
     /**卡片ID */
     cardID        :GenericID;
+    /**控制施法的Resp */
+    castResp      :Resp[];
 }>;
 
 /**角色数据 */
@@ -349,6 +351,7 @@ export class DataManager{
                 baseCarryGroup      : genItemGroupID(`${charName}_Carry`),
                 talkTopicID         : genTalkTopicID(charName),
                 cardID              : genGenericID(`${charName}_Card`),
+                castResp            : []
             }
 
             //角色事件eoc主体
@@ -389,11 +392,11 @@ export class DataManager{
         return path.join(this.outPath,'chars',charName);
     }
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(key:string,val:JObject,...filepaths:string[]){
-        const filepath = path.join(...filepaths);
-        if(this.dataTable.sharedTable[filepath]==null)
-            this.dataTable.sharedTable[filepath]={};
-        const table = this.dataTable.sharedTable[filepath];
+    addSharedRes(key:string,val:JObject,filePath:string,...filePaths:string[]){
+        const fixPath = path.join(filePath,...filePaths);
+        if(this.dataTable.sharedTable[fixPath]==null)
+            this.dataTable.sharedTable[fixPath]={};
+        const table = this.dataTable.sharedTable[fixPath];
         const oval = table[key];
         table[key]=val;
         if(oval!=null){
