@@ -22,6 +22,7 @@ const FullRecivery = {
     eoc_type: "ACTIVATION",
     id: exports.FULL_RECIVERY_EOCID,
     effect: [
+        "u_prevent_death",
         { math: ["u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)"] },
         { math: ["u_val('thirst')", "=", "min( u_val('thirst'), 800)"] },
         { math: ["u_val('vitamin', 'name: redcells')", "=", "0"] },

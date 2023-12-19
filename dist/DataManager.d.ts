@@ -1,5 +1,5 @@
 import { JArray, JObject, JToken } from '@zwa73/utils';
-import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID } from 'cdda-schema';
+import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID, Resp } from 'cdda-schema';
 import { CharConfig, AnimType } from './CharBuild';
 import { CCharHook, EventEffect, CGlobalHook } from "./CnpcEvent";
 /**角色定义数据 */
@@ -28,6 +28,8 @@ export type CharDefineData = Readonly<{
     talkTopicID: TalkTopicID;
     /**卡片ID */
     cardID: GenericID;
+    /**控制施法的Resp */
+    castResp: Resp[];
 }>;
 /**角色数据 */
 type CharData = {
@@ -118,7 +120,7 @@ export declare class DataManager {
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(key: string, val: JObject, ...filepaths: string[]): void;
+    addSharedRes(key: string, val: JObject, filePath: string, ...filePaths: string[]): void;
     /**添加静态资源 */
     addStaticData(arr: JObject[], filePath: string, ...filePaths: string[]): void;
     /**输出数据到角色目录 */

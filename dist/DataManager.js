@@ -259,6 +259,7 @@ class DataManager {
                 baseCarryGroup: (0, ModDefine_1.genItemGroupID)(`${charName}_Carry`),
                 talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
                 cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
+                castResp: []
             };
             //角色事件eoc主体
             const charEventEocs = CnpcEvent_1.CCharHookList.reduce((acc, etype) => ({ ...acc, [etype]: [] }), {});
@@ -292,11 +293,11 @@ class DataManager {
         return path.join(this.outPath, 'chars', charName);
     }
     /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(key, val, ...filepaths) {
-        const filepath = path.join(...filepaths);
-        if (this.dataTable.sharedTable[filepath] == null)
-            this.dataTable.sharedTable[filepath] = {};
-        const table = this.dataTable.sharedTable[filepath];
+    addSharedRes(key, val, filePath, ...filePaths) {
+        const fixPath = path.join(filePath, ...filePaths);
+        if (this.dataTable.sharedTable[fixPath] == null)
+            this.dataTable.sharedTable[fixPath] = {};
+        const table = this.dataTable.sharedTable[fixPath];
         const oval = table[key];
         table[key] = val;
         if (oval != null) {

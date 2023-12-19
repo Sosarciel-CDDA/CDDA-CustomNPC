@@ -136,7 +136,6 @@ function EmergencyFreeze(dm) {
         max_intensity: 1
     };
     const teoc = (0, UtilGener_1.genTriggerEffect)(dm, eff, "DeathPrev", "-1", [
-        "u_prevent_death",
         { run_eocs: StaticData_1.FULL_RECIVERY_EOCID },
         { u_cast_spell: { id: tex.id } },
         { u_cast_spell: { id: tspell.id } },

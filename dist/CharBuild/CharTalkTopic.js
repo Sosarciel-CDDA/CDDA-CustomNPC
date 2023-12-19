@@ -504,12 +504,11 @@ async function createCastControlResp(dm, charName) {
         id: castControlTalkTopicId,
         dynamic_line: `&当前魔法值: <npc_val:show_mana>`,
         //dynamic_line:{concatenate:["&",...dynLine]},
-        responses: [...(outData['castcontrol_resp'] ?? []), {
+        responses: [...defineData.castResp, {
                 text: "[返回]算了。",
                 topic: "TALK_NONE"
             }]
     };
-    delete outData['castcontrol_resp'];
     outData['castcontrol_talk_topic'] = [castControlTalkTopic];
     return castControlTalkTopicId;
 }
