@@ -75,7 +75,7 @@ const OMNameIDMap:OMNameMap={
     "地表4x4微型实验室"   : { om_terrain:"microlab_generic_surface_connector"            , om_special:"4x4_microlab_surface"        },
     "通风井4x4微型实验室" : { om_terrain:"microlab_generic_vent_shaft_connector"         , om_special:"4x4_microlab_vent_shaft"     },
     "地表实验室"          : { om_terrain:"lab_surface_brick_basementD1_hidden_lab_stairs", om_special:"lab_surface_big"             },
-    "帕维安实验室"        : { om_terrain:"psi_phavian_lab_basementD1_hidden_lab_stairs"  , om_special:"phavian_surface_lab"         , mod_is_loaded:"mindovermatter"},
+    "Phavian实验室"       : { om_terrain:"psi_phavian_lab_basementD1_hidden_lab_stairs"  , om_special:"phavian_surface_lab"         , mod_is_loaded:"mindovermatter"},
     "4x4恐龙实验室"       : { om_terrain:"microlab_DinoLab_surface"                      , om_special:"4x4_DinoLab_surface"         , mod_is_loaded:"DinoMod"    },
     "人体强化诊所"        : { om_terrain:"afs_augmentation_clinic_n1"                    , om_special:undefined                     , mod_is_loaded:"aftershock" },
     "精灵工坊"            : { om_terrain:"elf_workshop"                                  , om_special:"elf_workshop"                , mod_is_loaded:"magiclysm"  },

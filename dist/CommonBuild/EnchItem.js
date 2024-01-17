@@ -108,26 +108,24 @@ async function knockback(dm) {
 exports.knockback = knockback;
 async function enchTest(dm, enchSets) {
     const out = [];
-    let testTypeIndex = 0;
-    const testType = "enchTestType";
+    //展开附魔集等级标志
+    const flatEnchSet = [];
+    enchSets.forEach((enchset) => enchset.lvl.forEach((lvlobj) => flatEnchSet.push(lvlobj.ench)));
+    const NONEEocId = "EnchTestNone";
     const enchTestList = [
-        [(0, ModDefine_1.genActEoc)("EnchTestAdd", [
-                { math: [testType, "=", `${testTypeIndex++}`] }
-            ]), "添加附魔"],
-        [(0, ModDefine_1.genActEoc)("EnchTestRemove", [
-                { math: [testType, "=", `${testTypeIndex++}`] }
-            ]), "移除附魔"],
-        [(0, ModDefine_1.genActEoc)("EnchTestNone", [
-                { math: [testType, "=", `${testTypeIndex++}`] }
-            ]), "取消调试"],
+        [(0, ModDefine_1.genActEoc)("EnchTestAdd", [{
+                    run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "add")), NONEEocId],
+                    names: [...flatEnchSet.map((ench) => ench.name), "算了"],
+                    hide_failing: true
+                }]), "添加附魔"],
+        [(0, ModDefine_1.genActEoc)("EnchTestRemove", [{
+                    run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "remove")), NONEEocId],
+                    names: [...flatEnchSet.map((ench) => ench.name), "算了"],
+                    hide_failing: true
+                }]), "移除附魔"],
+        [(0, ModDefine_1.genActEoc)(NONEEocId, [], undefined, true), "取消调试"],
     ];
     out.push(...enchTestList.map((item) => item[0]));
-    const NONEEocId = "EnchTestNone";
-    out.push((0, ModDefine_1.genActEoc)(NONEEocId, [], undefined, true));
-    const flatEnchSet = [];
-    enchSets.forEach((enchset) => {
-        enchset.lvl.forEach((lvlobj) => flatEnchSet.push(lvlobj.ench));
-    });
     //添加附魔子eoc
     enchSets.forEach((enchset) => {
         enchset.lvl.forEach((lvlobj) => {
@@ -163,40 +161,17 @@ async function enchTest(dm, enchSets) {
                     eoc_type: "ACTIVATION",
                     id: (0, ModDefine_1.genEOCID)("EnchTestTool"),
                     effect: [{
-                            run_eoc_selector: enchTestList.map((item) => item[0].id),
-                            names: enchTestList.map((item) => item[1]),
-                            title: "选择选择调试类型"
-                        }, {
-                            if: { and: [
-                                    { math: ["testType", ">=", "0"] },
-                                    { math: ["testType", "<", `${testTypeIndex - 1}`] },
-                                ] },
-                            then: [{
-                                    u_run_inv_eocs: "manual",
-                                    title: "选择需要调试的物品",
-                                    true_eocs: {
-                                        id: "EnchTestTool_SelectItem",
-                                        eoc_type: "ACTIVATION",
-                                        effect: [{
-                                                switch: { math: [testType] },
-                                                cases: [{
-                                                        case: 0, //添加附魔
-                                                        effect: [{
-                                                                run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "add")), NONEEocId],
-                                                                names: [...flatEnchSet.map((ench) => ench.name), "算了"],
-                                                                hide_failing: true
-                                                            }]
-                                                    }, {
-                                                        case: 1, //移除附魔
-                                                        effect: [{
-                                                                run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "remove")), NONEEocId],
-                                                                names: [...flatEnchSet.map((ench) => ench.name), "算了"],
-                                                                hide_failing: true
-                                                            }]
-                                                    }]
-                                            }]
-                                    }
-                                }]
+                            u_run_inv_eocs: "manual",
+                            title: "选择需要调试的物品",
+                            true_eocs: {
+                                id: "EnchTestTool_SelectType",
+                                eoc_type: "ACTIVATION",
+                                effect: [{
+                                        run_eoc_selector: enchTestList.map((item) => item[0].id),
+                                        names: enchTestList.map((item) => item[1]),
+                                        title: "选择选择调试类型"
+                                    }]
+                            }
                         }]
                 }]
         }
