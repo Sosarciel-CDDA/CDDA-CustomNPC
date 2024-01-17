@@ -1,5 +1,6 @@
 import { EocEffect } from "cdda-schema";
-import { EventManager } from "./CDDA-Event";
+import { EventManager } from "cdda-event";
+import { JObject } from "@zwa73/utils";
 
 
 
@@ -59,7 +60,7 @@ export type EventEffect = {
     weight:number;
 }
 
-export function buildEventFrame(){
+export function buildEventFrame(): JObject[]{
     const em = new EventManager("CNPCEF");
     em.addInvoke("GameBegin"        ,0,"CNPC_EOC_GameBeginEvent");
     em.addInvoke("TakeDamage"       ,0,"CNPC_EOC_TakeDamageEvent");
