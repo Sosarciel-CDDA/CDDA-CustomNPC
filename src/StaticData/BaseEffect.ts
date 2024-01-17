@@ -1,5 +1,5 @@
 import { Effect } from "cdda-schema";
-import { genEffectID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 import { saveStaticData } from "./StaticData";
 
 
@@ -9,7 +9,7 @@ import { saveStaticData } from "./StaticData";
 /**取消逃跑效果 */
 const Courage:Effect={
     type:"effect_type",
-    id:genEffectID("Courage"),
+    id:CMDef.genEffectID("Courage"),
     name:["勇气"],
     desc:["npc不会逃跑"],
     removes_effects:["npc_run_away"],

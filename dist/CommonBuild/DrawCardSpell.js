@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createDrawCardSpell = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 async function createDrawCardSpell(dm) {
     const id = `DrawCardSpell`;
     const cdvar = `${id}_cooldown`;
@@ -12,7 +12,7 @@ async function createDrawCardSpell(dm) {
     const spellRange = 15;
     //卡片集
     const cardGroup = {
-        id: (0, ModDefine_1.genItemGroupID)(`CardDistribution`),
+        id: CMDefine_1.CMDef.genItemGroupID(`CardDistribution`),
         type: "item_group",
         subtype: "distribution",
         entries: charDataList.map(cd => ({

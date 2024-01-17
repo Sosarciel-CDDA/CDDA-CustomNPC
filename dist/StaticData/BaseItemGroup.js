@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseItemGroup = exports.EmptyGroup = exports.EMPTY_GROUP_ID = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 /**空物品组 ID */
-exports.EMPTY_GROUP_ID = (0, ModDefine_1.genItemGroupID)("EmptyGroup");
+exports.EMPTY_GROUP_ID = CMDefine_1.CMDef.genItemGroupID("EmptyGroup");
 /**空物品组 */
 exports.EmptyGroup = {
     type: "item_group",

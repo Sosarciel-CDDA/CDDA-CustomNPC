@@ -79,7 +79,7 @@ export async function mergeImage(dm:DataManager,charName:string,forcePackage:boo
     const tileSetMap:Record<string,PkgTilesetCfg> = {};
 
     //寻找图像配置
-    const cfgFilepaths = Object.values(UtilFT.fileSearch(imagePath,/image\/[^/]+\.json/.source));
+    const cfgFilepaths = Object.values(UtilFT.fileSearchRegex(imagePath,/image\/[^/]+\.json/.source));
     for(const cfgPath of cfgFilepaths){
         const cfgJson:ImageInfo = (await UtilFT.loadJSONFile(cfgPath)) as ImageInfo;
         const tilesetcfg = cfgJson.tileset;

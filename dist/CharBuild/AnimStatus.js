@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createAnimStatus = exports.changeAnimEoc = exports.removeOtherAnimEoc = void 0;
 const path = require("path");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 function hasAnim(outData, animType) {
     return outData[path.join("anime", animType)];
 }
@@ -14,7 +14,7 @@ function removeOtherAnimEoc(charName, baseData, animType) {
     const eoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(charName + "_RemoveOtherAnimEoc_" + animType),
+        id: CMDefine_1.CMDef.genEOCID(charName + "_RemoveOtherAnimEoc_" + animType),
         effect: [
             ...otherAnim.map(otherAnimType => ({
                 u_lose_trait: baseData.animData[otherAnimType].mutID
@@ -32,7 +32,7 @@ function changeAnimEoc(charName, baseData, animType) {
     const eoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(charName + "_ChangeAnimEoc_" + animType),
+        id: CMDefine_1.CMDef.genEOCID(charName + "_ChangeAnimEoc_" + animType),
         effect: [
             { "run_eocs": removeEoc.id },
             { "u_add_trait": baseData.animData[animType].mutID },

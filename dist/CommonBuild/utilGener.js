@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.genDIO = exports.genArmorMut = exports.genAddEffEoc = exports.genTriggerEffect = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
  * @param dm 管理器
@@ -24,7 +24,7 @@ function genTriggerEffect(dm, effect, hook, mode, eocEffects, duration, conditio
         fixMode.push({ u_add_effect: effect.id, intensity: { math: [`u_effect_intensity('${effect.id}')/2`] }, duration });
     const timevarId = `${effect.id}_Timer`;
     const eocid = `${effect.id}_Trigger`;
-    const triggerEoc = (0, ModDefine_1.genActEoc)(eocid, [
+    const triggerEoc = CMDefine_1.CMDef.genActEoc(eocid, [
         ...eocEffects,
         { u_add_var: timevarId, time: true },
         { run_eocs: {
@@ -56,7 +56,7 @@ exports.genTriggerEffect = genTriggerEffect;
  */
 function genAddEffEoc(effectID, duration, eocEffects) {
     const eocid = `${effectID}_AddEffect`;
-    const effecteoc = (0, ModDefine_1.genActEoc)(eocid, [
+    const effecteoc = CMDefine_1.CMDef.genActEoc(eocid, [
         { u_add_effect: effectID, intensity: { math: [`${effectID}_count`] }, duration },
         ...eocEffects ?? []
     ], undefined, true);

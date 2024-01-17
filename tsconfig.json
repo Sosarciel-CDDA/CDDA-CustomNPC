@@ -13,7 +13,7 @@
             "CnpcEvent"         : ["./src/CnpcEvent"],
             "CharBuild"         : ["./src/CharBuild"],
             "StaticData"        : ["./src/StaticData"],
-            "ModDefine"         : ["./src/ModDefine"],
+            "CMDefine"          : ["./src/CMDefine"],
 			"@src/*"            : ["./src/*"],
 			"@/*"               : ["./*"]
         }

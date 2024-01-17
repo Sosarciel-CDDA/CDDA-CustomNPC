@@ -1,6 +1,6 @@
 import { DataManager } from "@src/DataManager";
 import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Spell } from "cdda-schema";
-import { genEOCID, genSpellID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { genDIO } from "./UtilGener";
 import { SPELL_MAX_DAMAGE } from "StaticData";
 
@@ -33,7 +33,7 @@ function Electrify(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             //regenDmg,
             {u_message:"感电触发 <context_val:total_damage> <context_val:damage_taken>"},
@@ -72,7 +72,7 @@ function Discharge(dm:DataManager){
     const dmgeffid = "Electrify" as EffectID;
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Trigger`),
+        id:CMDef.genSpellID(`${did}_Trigger`),
         name:"放电感电触发伤害",
         description:"放电感电触发伤害",
         effect:"attack",
@@ -85,7 +85,7 @@ function Discharge(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             //regenDmg,
             {u_message:"放电触发 <context_val:total_damage> <context_val:damage_taken>"},
@@ -116,7 +116,7 @@ function Trauma(dm:DataManager){
     const dur = "15 s";
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Trigger`),
+        id:CMDef.genSpellID(`${did}_Trigger`),
         name:"创伤触发伤害",
         description:"创伤触发伤害",
         effect:"attack",
@@ -146,7 +146,7 @@ function Trauma(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             //regenDmg,
             {u_message:"创伤触发 <context_val:total_damage> <context_val:damage_taken>"},
@@ -182,7 +182,7 @@ function Laceration(dm:DataManager){
     const did = "Laceration" as DamageTypeID;
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Trigger`),
+        id:CMDef.genSpellID(`${did}_Trigger`),
         name:"撕裂创伤触发伤害",
         description:"撕裂创伤触发伤害",
         effect:"attack",
@@ -195,7 +195,7 @@ function Laceration(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             //regenDmg,
             {u_message:"撕裂触发 <context_val:total_damage> <context_val:damage_taken>"},
@@ -221,7 +221,7 @@ function Freeze(dm:DataManager){
     const dname = "冻结";
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Trigger`),
+        id:CMDef.genSpellID(`${did}_Trigger`),
         name:"冻结触发",
         description:"冻结触发",
         effect:"mod_moves",
@@ -233,7 +233,7 @@ function Freeze(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             {u_message:`${dname} 触发 <context_val:total_damage> <context_val:damage_taken>`},
             {math:[`tmp${did}Dmg`,"=","0 - (_total_damage*100)"]},
@@ -259,7 +259,7 @@ function Knockback(dm:DataManager){
     const tmddmg = `tmp${did}Dmg`;
     const tspell_base:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Base`),
+        id:CMDef.genSpellID(`${did}_Base`),
         name:"击退触发",
         description:"击退触发",
         effect:"directed_push",
@@ -273,7 +273,7 @@ function Knockback(dm:DataManager){
     }
     const tspell_bash:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Bash`),
+        id:CMDef.genSpellID(`${did}_Bash`),
         name:"击退触发破坏地形",
         description:"击退触发破坏地形",
         effect:"bash",
@@ -287,7 +287,7 @@ function Knockback(dm:DataManager){
     }
     const tspell_subdamage:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Subdamage`),
+        id:CMDef.genSpellID(`${did}_Subdamage`),
         name:"击退触发子伤害",
         description:"击退触发子伤害",
         effect:"attack",
@@ -302,7 +302,7 @@ function Knockback(dm:DataManager){
     }
     const tspell_subknockback:Spell={
         type:"SPELL",
-        id:genSpellID(`${did}_Subknockback`),
+        id:CMDef.genSpellID(`${did}_Subknockback`),
         name:"击退触发子击退",
         description:"击退触发子击退",
         effect:"area_push",
@@ -315,13 +315,13 @@ function Knockback(dm:DataManager){
     const onDmgEoc:Eoc={
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
-        id:genEOCID(`${did}_OnDamage`),
+        id:CMDef.genEOCID(`${did}_OnDamage`),
         effect:[
             {u_message:`${dname} 触发 <context_val:total_damage> <context_val:damage_taken>`},
             {math:[tmddmg,"=","_total_damage"]},
             {set_condition:{global_val:"knockback_cond"},condition:{math:[tmddmg,">","0"]}},
             {run_eoc_until:{
-                id:genEOCID(`${did}_OnDamage_each`),
+                id:CMDef.genEOCID(`${did}_OnDamage_each`),
                 eoc_type:"ACTIVATION",
                 effect:[
                     {npc_location_variable:{global_val:"tmp_knockback_loc"}},

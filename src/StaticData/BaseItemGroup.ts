@@ -1,11 +1,11 @@
 import { ItemGroup } from "cdda-schema"
 import { saveStaticData } from "./StaticData";
-import { genItemGroupID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 
 
 
 /**空物品组 ID */
-export const EMPTY_GROUP_ID = genItemGroupID("EmptyGroup");
+export const EMPTY_GROUP_ID = CMDef.genItemGroupID("EmptyGroup");
 /**空物品组 */
 export const EmptyGroup:ItemGroup={
     type:"item_group",

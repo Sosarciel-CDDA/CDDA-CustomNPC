@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildEventFrame = exports.CGlobalHookList = exports.CCharHookList = exports.CInteractHookList = void 0;
-const CDDA_Event_1 = require("./CDDA-Event");
+const cdda_event_1 = require("./cdda-event");
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */
@@ -36,7 +36,7 @@ exports.CGlobalHookList = [
     ...exports.CCharHookList
 ];
 function buildEventFrame() {
-    const em = new CDDA_Event_1.EventManager("CNPCEF");
+    const em = new cdda_event_1.EventManager("CNPCEF");
     em.addInvoke("GameBegin", 0, "CNPC_EOC_GameBeginEvent");
     em.addInvoke("TakeDamage", 0, "CNPC_EOC_TakeDamageEvent");
     em.addInvoke("TryMeleeAttack", 0, "CNPC_EOC_TryMeleeAttackEvent");

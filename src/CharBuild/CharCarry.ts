@@ -1,6 +1,6 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "cdda-schema";
 import { DataManager } from "../DataManager";
-import { genEOCID, genEnchantmentID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 
@@ -65,12 +65,12 @@ export async function createCharCarry(dm:DataManager,charName:string){
             const rechargeEoc:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
-                id:genEOCID(`${charName}_Recharge_${itemID}`),
+                id:CMDef.genEOCID(`${charName}_Recharge_${itemID}`),
                 effect:[
                     {math:[timerVar,"+=","1"]},
                     {run_eocs:{
                         eoc_type:"ACTIVATION",
-                        id:genEOCID(`${charName}_Recharge_${itemID}_Sub`),
+                        id:CMDef.genEOCID(`${charName}_Recharge_${itemID}_Sub`),
                         effect:[
                             {u_spawn_item:itemID,count:recharge_count??1},
                             {math:[timerVar,"=","0"]}

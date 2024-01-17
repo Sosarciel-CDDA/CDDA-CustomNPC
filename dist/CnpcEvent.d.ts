@@ -1,4 +1,5 @@
 import { EocEffect } from "cdda-schema";
+import { JObject } from "@zwa73/utils";
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */
@@ -26,4 +27,4 @@ export type EventEffect = {
     /**排序权重 */
     weight: number;
 };
-export declare function buildEventFrame(): import("@zwa73/utils").JObject[];
+export declare function buildEventFrame(): JObject[];

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharTalkTopic = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const CharConfig_1 = require("./CharConfig");
 const CharSkill_1 = require("./CharSkill");
 /**创建对话选项 */
@@ -50,13 +50,13 @@ exports.createCharTalkTopic = createCharTalkTopic;
 async function createUpgResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主升级话题ID
-    const upgtopicid = (0, ModDefine_1.genTalkTopicID)(`${charName}_upgrade`);
+    const upgtopicid = CMDefine_1.CMDef.genTalkTopicID(`${charName}_upgrade`);
     //显示素材不足开关变量ID
     const showNotEnough = `${charName}_showNotEnoughRes`;
     //初始化变量Eoc
     const InitUpgField = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_InitFieldVar`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_InitFieldVar`),
         eoc_type: "ACTIVATION",
         effect: []
     };
@@ -77,7 +77,7 @@ async function createUpgResp(dm, charName) {
         const ufield = (0, CharConfig_1.getTalkerFieldVarID)("u", field);
         const nfield = (0, CharConfig_1.getTalkerFieldVarID)("n", field);
         //子话题ID
-        const subTopicId = (0, ModDefine_1.genTalkTopicID)(globalFieldID);
+        const subTopicId = CMDefine_1.CMDef.genTalkTopicID(globalFieldID);
         //遍历升级项等级
         const maxLvl = upgObj.max_lvl ?? upgObj.require_resource.length;
         for (let lvl = 0; lvl < maxLvl; lvl++) {
@@ -106,7 +106,7 @@ async function createUpgResp(dm, charName) {
                     ] };
                 upgSubResCondList.push(cond);
                 //升级EocId
-                const upgEocId = (0, ModDefine_1.genEOCID)(`${globalFieldID}_UpgradeEoc_${index}`);
+                const upgEocId = CMDefine_1.CMDef.genEOCID(`${globalFieldID}_UpgradeEoc_${index}`);
                 /**使用材料 */
                 const charUpEoc = {
                     type: "effect_on_condition",
@@ -154,7 +154,7 @@ async function createUpgResp(dm, charName) {
             //创建变异EOC
             const mutEoc = {
                 type: "effect_on_condition",
-                id: (0, ModDefine_1.genEOCID)(`${field}_${mut.id}_${mut.lvl}`),
+                id: CMDefine_1.CMDef.genEOCID(`${field}_${mut.id}_${mut.lvl}`),
                 eoc_type: "ACTIVATION",
                 effect: [
                     { u_add_trait: mut.id }
@@ -235,11 +235,11 @@ async function createUpgResp(dm, charName) {
 async function createSkillResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主对话id
-    const skillTalkTopicId = (0, ModDefine_1.genTalkTopicID)(`${charName}_skill`);
+    const skillTalkTopicId = CMDefine_1.CMDef.genTalkTopicID(`${charName}_skill`);
     //初始化状态Eoc
     const InitSkill = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_InitSkill`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_InitSkill`),
         eoc_type: "ACTIVATION",
         effect: []
     };
@@ -252,7 +252,7 @@ async function createSkillResp(dm, charName) {
         const gstopVar = (0, CharSkill_1.getGlobalDisableSpellVar)(charName, spell);
         const nstopVar = (0, CharSkill_1.getDisableSpellVar)("n", spell);
         const ustopVar = (0, CharSkill_1.getDisableSpellVar)("u", spell);
-        const eocid = (0, ModDefine_1.genEOCID)(`${gstopVar}_switch`);
+        const eocid = CMDefine_1.CMDef.genEOCID(`${gstopVar}_switch`);
         const eoc = {
             type: "effect_on_condition",
             id: eocid,
@@ -313,13 +313,13 @@ async function createWeaponResp(dm, charName) {
     //透明物品ID
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     //主对话id
-    const weaponTalkTopicId = (0, ModDefine_1.genTalkTopicID)(`${charName}_weapon`);
+    const weaponTalkTopicId = CMDefine_1.CMDef.genTalkTopicID(`${charName}_weapon`);
     //武器对话数据
     const weaponData = [];
     //初始化状态Eoc
     const InitWeapon = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_InitWeapon`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_InitWeapon`),
         eoc_type: "ACTIVATION",
         effect: []
     };
@@ -327,7 +327,7 @@ async function createWeaponResp(dm, charName) {
     /**丢掉其他武器 */
     //const dropOtherWeapon:Eoc={
     //    type:"effect_on_condition",
-    //    id:genEOCID(`${charName}_DropOtherWeapon`),
+    //    id:CMDef.genEOCID(`${charName}_DropOtherWeapon`),
     //    condition:{and:[
     //        "u_can_drop_weapon",
     //        {not:{u_has_wielded_with_flag: baseWeaponFlag.id}}
@@ -335,7 +335,7 @@ async function createWeaponResp(dm, charName) {
     //    effect:[
     //        {u_location_variable:{global_val:"tmp_loc"}},
     //        {run_eoc_with:{
-    //            id:genEOCID(`${charName}_DropOtherWeapon_Sub`),
+    //            id:CMDef.genEOCID(`${charName}_DropOtherWeapon_Sub`),
     //            eoc_type:"ACTIVATION",
     //            effect:["drop_weapon"]
     //        },beta_loc:{"global_val":"tmp_loc"}} //把自己设为betaloc防止报错
@@ -403,7 +403,7 @@ async function createWeaponResp(dm, charName) {
             const giveWeapon = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
-                id: (0, ModDefine_1.genEOCID)(`${charName}_GiveWeapon_${item.id}`),
+                id: CMDefine_1.CMDef.genEOCID(`${charName}_GiveWeapon_${item.id}`),
                 condition: { and: [...giveCond] },
                 effect: [{ u_spawn_item: item.id }]
             };
@@ -412,7 +412,7 @@ async function createWeaponResp(dm, charName) {
             dm.addCharEvent(charName, "Init", 0, giveWeapon);
             weaponData.push(giveWeapon);
             /**如果禁用则删除 */
-            const rmweocid = (0, ModDefine_1.genEOCID)(`${charName}_RemoveWeapon_${item.id}`);
+            const rmweocid = CMDefine_1.CMDef.genEOCID(`${charName}_RemoveWeapon_${item.id}`);
             const removeWeapon = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
@@ -432,7 +432,7 @@ async function createWeaponResp(dm, charName) {
             //开关eoc
             const eoc = {
                 type: "effect_on_condition",
-                id: (0, ModDefine_1.genEOCID)(`${genable}_switch`),
+                id: CMDefine_1.CMDef.genEOCID(`${genable}_switch`),
                 eoc_type: "ACTIVATION",
                 effect: [
                     { math: [genable, "=", "0"] },
@@ -465,7 +465,7 @@ async function createWeaponResp(dm, charName) {
         /**默认启用第一个武器 */
         const DefEnableWeapon = {
             type: "effect_on_condition",
-            id: (0, ModDefine_1.genEOCID)(`${charName}_DefEnableWeapon`),
+            id: CMDefine_1.CMDef.genEOCID(`${charName}_DefEnableWeapon`),
             eoc_type: "ACTIVATION",
             effect: [
                 { math: [uEnableList[0], "=", "1"] },
@@ -497,7 +497,7 @@ async function createWeaponResp(dm, charName) {
 async function createCastControlResp(dm, charName) {
     const { defineData, outData, charConfig } = await dm.getCharData(charName);
     //主对话id
-    const castControlTalkTopicId = (0, ModDefine_1.genTalkTopicID)(`${charName}_castControl`);
+    const castControlTalkTopicId = CMDefine_1.CMDef.genTalkTopicID(`${charName}_castControl`);
     //施法主对话
     const castControlTalkTopic = {
         type: "talk_topic",

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
 /**创建角色职业和实例
@@ -31,13 +31,13 @@ async function createCharClass(dm, charName) {
             return [...acc, skill];
         }, []),
         traits: [
-            { "trait": (0, ModDefine_1.genMutationID)("CnpcFlag") },
+            { "trait": CMDefine_1.CMDef.genMutationID("CnpcFlag") },
             { "trait": defineData.baseMutID },
             ...(charConfig.base_mutation ?? [])
                 .map(mut => ({ trait: mut })),
             ...(defineData.validAnim.length >= 1
                 ? [{ "trait": defineData.animData.Idle.mutID }, { "trait": "TOUGH_FEET" }]
-                : [{ "trait": (0, ModDefine_1.genMutationID)("NoAnim") }])
+                : [{ "trait": CMDefine_1.CMDef.genMutationID("NoAnim") }])
         ]
     };
     /**NPC实例 */
@@ -63,14 +63,14 @@ async function createCharClass(dm, charName) {
     /**生成器 */
     const charSpawner = {
         type: "GENERIC",
-        id: (0, ModDefine_1.genGenericID)(spawnerId),
+        id: CMDefine_1.CMDef.genGenericID(spawnerId),
         name: { str_sp: `${displayName} 生成器` },
         description: `生成一个 ${displayName}`,
         use_action: {
             type: "effect_on_conditions",
             description: `生成一个 ${displayName}`,
             menu_text: `生成一个 ${displayName}`,
-            effect_on_conditions: [(0, ModDefine_1.genEOCID)(spawnerId)],
+            effect_on_conditions: [CMDefine_1.CMDef.genEOCID(spawnerId)],
         },
         weight: 1,
         volume: 1,
@@ -80,9 +80,9 @@ async function createCharClass(dm, charName) {
     const charSpawnerEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(spawnerId),
+        id: CMDefine_1.CMDef.genEOCID(spawnerId),
         effect: [
-            //{ u_consume_item: genGenericID(spawnerId), count: 1 },
+            //{ u_consume_item: CMDef.genGenericID(spawnerId), count: 1 },
             { math: [`${charName}_uid`, "+=", "1"] },
             {
                 u_spawn_npc: defineData.instanceID,
@@ -98,7 +98,7 @@ async function createCharClass(dm, charName) {
     const charCardEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_Card_Eoc`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_Card_Eoc`),
         effect: [
             { u_add_var: cardcdvar, time: true },
             { math: [`${charName}_uid`, "+=", "1"] },
@@ -136,7 +136,7 @@ async function createCharClass(dm, charName) {
     /**自动保存事件 */
     const autoSave = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_SaveProcess`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_SaveProcess`),
         eoc_type: "ACTIVATION",
         effect: [
             ...cdda_schema_1.DefineSkillList.map(item => {
@@ -150,7 +150,7 @@ async function createCharClass(dm, charName) {
     const charInitEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_InitProcess`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_InitProcess`),
         effect: [
             { math: [`u_uid`, "=", `${charName}_uid`] },
             ...cdda_schema_1.DefineSkillList.map(item => {
@@ -164,7 +164,7 @@ async function createCharClass(dm, charName) {
     const charRemoveEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
-        id: (0, ModDefine_1.genEOCID)(`${charName}_RemoveProcess`),
+        id: CMDefine_1.CMDef.genEOCID(`${charName}_RemoveProcess`),
         effect: [
             { run_eocs: "CNPC_EOC_CnpcDeathProcess" }
         ],

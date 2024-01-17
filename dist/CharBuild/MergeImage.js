@@ -62,7 +62,7 @@ async function mergeImage(dm, charName, forcePackage = true) {
     const mergePath = path.join(tmpPath, "merge");
     const tileSetMap = {};
     //寻找图像配置
-    const cfgFilepaths = Object.values(utils_1.UtilFT.fileSearch(imagePath, /image\/[^/]+\.json/.source));
+    const cfgFilepaths = Object.values(utils_1.UtilFT.fileSearchRegex(imagePath, /image\/[^/]+\.json/.source));
     for (const cfgPath of cfgFilepaths) {
         const cfgJson = (await utils_1.UtilFT.loadJSONFile(cfgPath));
         const tilesetcfg = cfgJson.tileset;

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharCarry = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const CharConfig_1 = require("./CharConfig");
 /**创建角色物品 */
 async function createCharCarry(dm, charName) {
@@ -57,12 +57,12 @@ async function createCharCarry(dm, charName) {
             const rechargeEoc = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
-                id: (0, ModDefine_1.genEOCID)(`${charName}_Recharge_${itemID}`),
+                id: CMDefine_1.CMDef.genEOCID(`${charName}_Recharge_${itemID}`),
                 effect: [
                     { math: [timerVar, "+=", "1"] },
                     { run_eocs: {
                             eoc_type: "ACTIVATION",
-                            id: (0, ModDefine_1.genEOCID)(`${charName}_Recharge_${itemID}_Sub`),
+                            id: CMDefine_1.CMDef.genEOCID(`${charName}_Recharge_${itemID}_Sub`),
                             effect: [
                                 { u_spawn_item: itemID, count: recharge_count ?? 1 },
                                 { math: [timerVar, "=", "0"] }

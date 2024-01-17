@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseTrait = exports.STAT_MOD_MUTID = exports.NO_ANIM = exports.BaseBodyOrdering = exports.CnpcBaseBody = exports.CnpcFlagMut = exports.CNPC_FLAG = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const BaseEnch_1 = require("./BaseEnch");
 /**标记此npc是cnpc的npc */
-exports.CNPC_FLAG = (0, ModDefine_1.genMutationID)("CnpcFlag");
+exports.CNPC_FLAG = CMDefine_1.CMDef.genMutationID("CnpcFlag");
 exports.CnpcFlagMut = {
     type: "mutation",
     id: exports.CNPC_FLAG,
@@ -18,7 +18,7 @@ exports.CnpcFlagMut = {
 };
 exports.CnpcBaseBody = {
     type: "mutation",
-    id: (0, ModDefine_1.genMutationID)("BaseBody"),
+    id: CMDefine_1.CMDef.genMutationID("BaseBody"),
     name: "自定义NPC替代素体",
     description: "代替原素体的贴图变异",
     purifiable: false,
@@ -30,11 +30,11 @@ exports.CnpcBaseBody = {
 exports.BaseBodyOrdering = {
     type: "overlay_order",
     overlay_ordering: [
-        { id: [(0, ModDefine_1.genMutationID)("BaseBody")], order: 0 }
+        { id: [CMDefine_1.CMDef.genMutationID("BaseBody")], order: 0 }
     ]
 };
 /**无动画变异ID */
-exports.NO_ANIM = (0, ModDefine_1.genMutationID)("NoAnim");
+exports.NO_ANIM = CMDefine_1.CMDef.genMutationID("NoAnim");
 const NoAnim = {
     type: "mutation",
     id: exports.NO_ANIM,
@@ -46,7 +46,7 @@ const NoAnim = {
     points: 0,
 };
 /**属性增强变异 */
-exports.STAT_MOD_MUTID = (0, ModDefine_1.genMutationID)("StatMod");
+exports.STAT_MOD_MUTID = CMDefine_1.CMDef.genMutationID("StatMod");
 const StatMod = {
     type: "mutation",
     id: exports.STAT_MOD_MUTID,

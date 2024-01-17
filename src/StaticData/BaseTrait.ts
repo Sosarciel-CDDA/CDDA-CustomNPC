@@ -1,10 +1,10 @@
 import { Mutation, OverlayOrdering } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
-import { genMutationID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 import { STAT_MOD_ENCHID } from "./BaseEnch";
 
 /**标记此npc是cnpc的npc */
-export const CNPC_FLAG = genMutationID("CnpcFlag");
+export const CNPC_FLAG = CMDef.genMutationID("CnpcFlag");
 
 export const CnpcFlagMut:Mutation={
     type:"mutation",
@@ -18,7 +18,7 @@ export const CnpcFlagMut:Mutation={
 }
 export const CnpcBaseBody:Mutation={
     type:"mutation",
-    id:genMutationID("BaseBody"),
+    id:CMDef.genMutationID("BaseBody"),
     name:"自定义NPC替代素体",
     description:"代替原素体的贴图变异",
     purifiable:false,
@@ -30,12 +30,12 @@ export const CnpcBaseBody:Mutation={
 export const BaseBodyOrdering:OverlayOrdering={
     type:"overlay_order",
     overlay_ordering:[
-        {id:[genMutationID("BaseBody")],order:0}
+        {id:[CMDef.genMutationID("BaseBody")],order:0}
     ]
 }
 
 /**无动画变异ID */
-export const NO_ANIM = genMutationID("NoAnim");
+export const NO_ANIM = CMDef.genMutationID("NoAnim");
 const NoAnim:Mutation={
     type:"mutation",
     id:NO_ANIM,
@@ -48,7 +48,7 @@ const NoAnim:Mutation={
 }
 
 /**属性增强变异 */
-export const STAT_MOD_MUTID = genMutationID("StatMod");
+export const STAT_MOD_MUTID = CMDef.genMutationID("StatMod");
 const StatMod:Mutation={
     type:"mutation",
     id:STAT_MOD_MUTID,

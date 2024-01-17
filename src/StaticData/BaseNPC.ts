@@ -1,12 +1,12 @@
 import { NpcClass, NpcInstance } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
-import { genNpcClassID, genNpcInstanceID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 
 
 
 const BaseNpcClass:NpcClass={
     type:'npc_class',
-    id:genNpcClassID("BaseNpcClass"),
+    id:CMDef.genNpcClassID("BaseNpcClass"),
     name:"BaseNpcClass",
     job_description:"基础NPC职业",
     common:false,
@@ -14,8 +14,8 @@ const BaseNpcClass:NpcClass={
 }
 const BaseNpcInstance:NpcInstance={
     type:"npc",
-    id:genNpcInstanceID("BaseNpc"),
-    class:genNpcClassID("BaseNpcClass"),
+    id:CMDef.genNpcInstanceID("BaseNpc"),
+    class:CMDef.genNpcClassID("BaseNpcClass"),
     attitude: 0,
     mission: 0,
     faction: "your_followers",

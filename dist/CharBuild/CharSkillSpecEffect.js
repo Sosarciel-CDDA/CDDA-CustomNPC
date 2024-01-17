@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpecProcMap = void 0;
 const CharSkill_1 = require("./CharSkill");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("../StaticData");
 /**特殊效果的处理表 */
 exports.SpecProcMap = {
@@ -25,7 +25,7 @@ function processAddEffect(dm, charName, baseSkillData, spec, index) {
     }
     const addEoc = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(mainid),
+        id: CMDefine_1.CMDef.genEOCID(mainid),
         eoc_type: "ACTIVATION",
         effect: [
             spec.is_stack == true
@@ -41,7 +41,7 @@ function processAddEffect(dm, charName, baseSkillData, spec, index) {
     const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
     extraEffects.push({
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
+        id: CMDefine_1.CMDef.genSpellID(mainid),
         effect: "effect_on_condition",
         effect_str: addEoc.id,
         name: `${spell.name}_${index}_AddEffect`,
@@ -60,7 +60,7 @@ function processRunEoc(dm, charName, baseSkillData, spec, index) {
     const mainid = `${spell.id}_${index}_RunEoc`;
     const runEoc = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(mainid),
+        id: CMDefine_1.CMDef.genEOCID(mainid),
         eoc_type: "ACTIVATION",
         effect: []
     };
@@ -68,7 +68,7 @@ function processRunEoc(dm, charName, baseSkillData, spec, index) {
         runEoc.effect?.push({ run_eocs: spec.eoc });
     if (spec.effect != undefined) {
         let inline = {
-            id: (0, ModDefine_1.genEOCID)(`${mainid}_inline`),
+            id: CMDefine_1.CMDef.genEOCID(`${mainid}_inline`),
             eoc_type: "ACTIVATION",
             effect: spec.effect,
         };
@@ -83,7 +83,7 @@ function processRunEoc(dm, charName, baseSkillData, spec, index) {
     const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
     extraEffects.push({
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
+        id: CMDefine_1.CMDef.genSpellID(mainid),
         effect: "effect_on_condition",
         effect_str: runEoc.id,
         name: `${spell.name}_${index}_RunEoc`,
@@ -106,7 +106,7 @@ function processExtDamage(dm, charName, baseSkillData, spec, index) {
     const { min_aoe, max_aoe, aoe_increment, min_range, max_range, range_increment, max_level, shape, valid_targets, targeted_monster_ids, targeted_monster_species } = spell;
     extraEffects.push({
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(mainid),
+        id: CMDefine_1.CMDef.genSpellID(mainid),
         effect: "attack",
         name: `${spell.name}_${index}_ExtDamage`,
         description: spell.name + "额外伤害子法术",

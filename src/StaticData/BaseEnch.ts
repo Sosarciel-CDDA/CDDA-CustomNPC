@@ -1,11 +1,11 @@
 import { EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, EnchantmentID } from "cdda-schema";
-import { genEnchantmentID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 import { saveStaticData } from "./StaticData";
 
 
 
 /**属性映射附魔 */
-const STATUS_VAR_MAP_ENCHID = genEnchantmentID("StatusMap");
+const STATUS_VAR_MAP_ENCHID = CMDef.genEnchantmentID("StatusMap");
 const StatusVarMap:Enchantment={
     id:STATUS_VAR_MAP_ENCHID,
     type:"enchantment",
@@ -19,7 +19,7 @@ const StatusVarMap:Enchantment={
     values:[]
 }
 /**属性增强附魔 */
-export const STAT_MOD_ENCHID = genEnchantmentID("StatMod");
+export const STAT_MOD_ENCHID = CMDef.genEnchantmentID("StatMod");
 export const StatMod:Enchantment={
     id:STAT_MOD_ENCHID,
     type:"enchantment",
@@ -37,7 +37,7 @@ export const StatMod:Enchantment={
     }]
 }
 /**无痛附魔 */
-export const NO_PAIN_ENCHID = genEnchantmentID("NoPain");
+export const NO_PAIN_ENCHID = CMDef.genEnchantmentID("NoPain");
 export const NoPain:Enchantment={
     id:NO_PAIN_ENCHID,
     type:"enchantment",

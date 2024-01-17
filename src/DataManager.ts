@@ -2,11 +2,10 @@ import * as path from 'path';
 import * as  fs from 'fs';
 import { JArray, JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
-import { genArmorID, genEOCID, genEnchantmentID , genFlagID, genGenericID, genItemGroupID, genMutationID, genNpcClassID, genNpcInstanceID, genTalkTopicID } from 'ModDefine';
 import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, GunID, EnchantmentID, GenericID, SoundEffect, SoundEffectVariantID, SoundEffectID, AnyCddaJson, AnyItemID, BoolObj, TalkTopicID, Resp } from 'cdda-schema';
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
 import { CCharHookList, CCharHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
-
+import { CMDef } from 'CMDefine';
 
 
 /**角色定义数据 */
@@ -206,11 +205,11 @@ export class DataManager{
             //替换tiles
             fileObj.tiles = tilesList.filter(tilesObj => {
                 if(tilesObj.id=="npc_female"){
-                    tilesObj.id = `overlay_female_mutation_${genMutationID("BaseBody")}`
+                    tilesObj.id = `overlay_female_mutation_${CMDef.genMutationID("BaseBody")}`
                     findFemale=true;
                     return true;
                 }else if (tilesObj.id=="npc_male"){
-                    tilesObj.id = `overlay_male_mutation_${genMutationID("BaseBody")}`
+                    tilesObj.id = `overlay_male_mutation_${CMDef.genMutationID("BaseBody")}`
                     findMale=true;
                     return true;
                 }
@@ -328,9 +327,9 @@ export class DataManager{
             const animData = AnimTypeList.map(animType=>({
                 animType:animType,
                 animName:formatAnimName(charName,animType),
-                mutID:genMutationID(formatAnimName(charName,animType)),
-                armorID:genArmorID(formatAnimName(charName,animType)),
-                itemGroupID:genItemGroupID(formatAnimName(charName,animType)),
+                mutID:CMDef.genMutationID(formatAnimName(charName,animType)),
+                armorID:CMDef.genArmorID(formatAnimName(charName,animType)),
+                itemGroupID:CMDef.genItemGroupID(formatAnimName(charName,animType)),
             })).reduce((acc, curr) => {
                 acc[curr.animType] = curr;
                 return acc;
@@ -340,17 +339,17 @@ export class DataManager{
             console.log(charConfig);
             const defineData:CharDefineData = {
                 charName            : charName,
-                baseMutID           : genMutationID(charName),
-                classID             : genNpcClassID(charName),
-                instanceID          : genNpcInstanceID(charName),
+                baseMutID           : CMDef.genMutationID(charName),
+                classID             : CMDef.genNpcClassID(charName),
+                instanceID          : CMDef.genNpcInstanceID(charName),
                 animData            : animData,
                 validAnim           : [],
-                baseArmorID         : genArmorID(charName),
-                baseEnchID          : genEnchantmentID(charName),
-                baseItemFlagID      : genFlagID(`${charName}_WeaponFlag`),
-                baseCarryGroup      : genItemGroupID(`${charName}_Carry`),
-                talkTopicID         : genTalkTopicID(charName),
-                cardID              : genGenericID(`${charName}_Card`),
+                baseArmorID         : CMDef.genArmorID(charName),
+                baseEnchID          : CMDef.genEnchantmentID(charName),
+                baseItemFlagID      : CMDef.genFlagID(`${charName}_WeaponFlag`),
+                baseCarryGroup      : CMDef.genItemGroupID(`${charName}_Carry`),
+                talkTopicID         : CMDef.genTalkTopicID(charName),
+                cardID              : CMDef.genGenericID(`${charName}_Card`),
                 castResp            : []
             }
 
@@ -464,7 +463,7 @@ export class DataManager{
                     const eventEoc:Eoc = {
                         type:"effect_on_condition",
                         eoc_type:"ACTIVATION",
-                        id:genEOCID(`${charName}_${etype}`),
+                        id:CMDef.genEOCID(`${charName}_${etype}`),
                         effect:[...charEventList.map(event=>event.effect)],
                         condition:{u_has_trait:charData.defineData.baseMutID}
                     }
@@ -492,7 +491,7 @@ export class DataManager{
             const globalEoc:Eoc={
                 type:"effect_on_condition",
                 eoc_type:"ACTIVATION",
-                id:genEOCID(etype),
+                id:CMDef.genEOCID(etype),
                 effect:[...globalEvents.map(event=>event.effect)],
             }
             eventEocs.push(globalEoc);
@@ -522,7 +521,7 @@ export class CddaJson{
 
         //加载所有json
         const plist:Promise<JToken>[] = [];
-        const jsonFilePathList = Object.values(UtilFT.fileSearch(game_path,/\.json$/.source));
+        const jsonFilePathList = Object.values(UtilFT.fileSearchRegex(game_path,/\.json$/.source));
         jsonFilePathList.filter(filePath => !filePath.includes("CNPC") )
             .forEach(filePath => plist.push(UtilFT.loadJSONFile(filePath)) );
         const rawJsonList = await Promise.all(plist);

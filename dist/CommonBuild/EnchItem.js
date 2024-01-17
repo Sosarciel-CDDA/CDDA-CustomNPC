@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.enchTest = exports.knockback = exports.createEnchItem = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("../StaticData");
 /**手持触发 */
 function genWieldTrigger(dm, flagId, hook, effects, condition) {
-    const eoc = (0, ModDefine_1.genActEoc)(`${flagId}_WieldTigger`, effects, { and: [
+    const eoc = CMDefine_1.CMDef.genActEoc(`${flagId}_WieldTigger`, effects, { and: [
             { u_has_wielded_with_flag: flagId },
             ...(condition ? [condition] : [])
         ] });
@@ -75,7 +75,7 @@ async function knockback(dm) {
             info: `<color_white>[${subName}]</color> 这件物品可以造成 ${i} 点击退伤害`,
         };
         const tspell = {
-            id: (0, ModDefine_1.genSpellID)(subid),
+            id: CMDefine_1.CMDef.genSpellID(subid),
             type: "SPELL",
             flags: [...StaticData_1.CON_SPELL_FLAG],
             min_damage: i,
@@ -113,23 +113,23 @@ async function enchTest(dm, enchSets) {
     enchSets.forEach((enchset) => enchset.lvl.forEach((lvlobj) => flatEnchSet.push(lvlobj.ench)));
     const NONEEocId = "EnchTestNone";
     const enchTestList = [
-        [(0, ModDefine_1.genActEoc)("EnchTestAdd", [{
+        [CMDefine_1.CMDef.genActEoc("EnchTestAdd", [{
                     run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "add")), NONEEocId],
                     names: [...flatEnchSet.map((ench) => ench.name), "算了"],
                     hide_failing: true
                 }]), "添加附魔"],
-        [(0, ModDefine_1.genActEoc)("EnchTestRemove", [{
+        [CMDefine_1.CMDef.genActEoc("EnchTestRemove", [{
                     run_eoc_selector: [...flatEnchSet.map((ench) => enchEID(ench, "remove")), NONEEocId],
                     names: [...flatEnchSet.map((ench) => ench.name), "算了"],
                     hide_failing: true
                 }]), "移除附魔"],
-        [(0, ModDefine_1.genActEoc)(NONEEocId, [], undefined, true), "取消调试"],
+        [CMDefine_1.CMDef.genActEoc(NONEEocId, [], undefined, true), "取消调试"],
     ];
     out.push(...enchTestList.map((item) => item[0]));
     //添加附魔子eoc
     enchSets.forEach((enchset) => {
         enchset.lvl.forEach((lvlobj) => {
-            out.push((0, ModDefine_1.genActEoc)(enchEID(lvlobj.ench, "add"), [
+            out.push(CMDefine_1.CMDef.genActEoc(enchEID(lvlobj.ench, "add"), [
                 { npc_set_flag: lvlobj.ench.id },
                 { npc_set_flag: enchset.main.id }
             ], { not: { npc_has_flag: enchset.main.id } }, true));
@@ -138,14 +138,14 @@ async function enchTest(dm, enchSets) {
     //移除附魔子eoc
     enchSets.forEach((enchset) => {
         enchset.lvl.forEach((lvlobj) => {
-            out.push((0, ModDefine_1.genActEoc)(enchEID(lvlobj.ench, "remove"), [
+            out.push(CMDefine_1.CMDef.genActEoc(enchEID(lvlobj.ench, "remove"), [
                 { npc_unset_flag: lvlobj.ench.id },
                 { npc_unset_flag: enchset.main.id }
             ], { npc_has_flag: lvlobj.ench.id }, true));
         });
     });
     const EnchTestTool = {
-        id: (0, ModDefine_1.genGenericID)("EnchTestTool"),
+        id: CMDefine_1.CMDef.genGenericID("EnchTestTool"),
         type: "GENERIC",
         name: { str_sp: "附魔调试工具" },
         description: "附魔调试工具",
@@ -159,7 +159,7 @@ async function enchTest(dm, enchSets) {
             menu_text: "附魔调试",
             effect_on_conditions: [{
                     eoc_type: "ACTIVATION",
-                    id: (0, ModDefine_1.genEOCID)("EnchTestTool"),
+                    id: CMDefine_1.CMDef.genEOCID("EnchTestTool"),
                     effect: [{
                             u_run_inv_eocs: "manual",
                             title: "选择需要调试的物品",

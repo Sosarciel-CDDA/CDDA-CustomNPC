@@ -1,7 +1,7 @@
 import { DataManager } from "@src/DataManager";
 import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, Spell, SpellFlag, Time } from "cdda-schema";
 import { CharSkill, parseNumObj } from "./CharSkill";
-import { genEOCID, genSpellID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE } from "StaticData";
 
 
@@ -85,7 +85,7 @@ function processAddEffect(dm:DataManager,charName:string,baseSkillData:SpecSkill
 
     const addEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(mainid),
+        id:CMDef.genEOCID(mainid),
         eoc_type:"ACTIVATION",
         effect:[
             spec.is_stack==true
@@ -107,7 +107,7 @@ function processAddEffect(dm:DataManager,charName:string,baseSkillData:SpecSkill
 
     extraEffects.push({
         type:"SPELL",
-        id:genSpellID(mainid),
+        id:CMDef.genSpellID(mainid),
         effect:"effect_on_condition",
         effect_str:addEoc.id,
         name:`${spell.name}_${index}_AddEffect`,
@@ -127,7 +127,7 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCas
 
     const runEoc:Eoc={
         type:"effect_on_condition",
-        id:genEOCID(mainid),
+        id:CMDef.genEOCID(mainid),
         eoc_type:"ACTIVATION",
         effect:[]
     }
@@ -135,7 +135,7 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCas
         runEoc.effect?.push({run_eocs:spec.eoc});
     if(spec.effect!=undefined){
         let inline:InlineEoc={
-            id:genEOCID(`${mainid}_inline`),
+            id:CMDef.genEOCID(`${mainid}_inline`),
             eoc_type:"ACTIVATION",
             effect:spec.effect,
         }
@@ -156,7 +156,7 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCas
 
     extraEffects.push({
         type:"SPELL",
-        id:genSpellID(mainid),
+        id:CMDef.genSpellID(mainid),
         effect:"effect_on_condition",
         effect_str:runEoc.id,
         name:`${spell.name}_${index}_RunEoc`,
@@ -185,7 +185,7 @@ function processExtDamage(dm:DataManager,charName:string,baseSkillData:SpecSkill
 
     extraEffects.push({
         type:"SPELL",
-        id:genSpellID(mainid),
+        id:CMDef.genSpellID(mainid),
         effect:"attack",
         name:`${spell.name}_${index}_ExtDamage`,
         description:spell.name+"额外伤害子法术",

@@ -1,5 +1,5 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
-import { genActEoc, genEOCID, genSpellID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj, SoundEffectID, SoundEffectVariantID} from "cdda-schema";
 import { DataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
@@ -165,7 +165,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
     const skillDataList:JObject[] = [];
 
     //全局冷却事件
-    const GCDEoc=genActEoc(`${charName}_CoCooldown`,
+    const GCDEoc=CMDef.genActEoc(`${charName}_CoCooldown`,
         [{math:[gcdValName,"-=","1"]}],
         {math:[gcdValName,">","0"]});
     dm.addCharEvent(charName,"Update",0,GCDEoc);
@@ -210,17 +210,17 @@ export async function createCharSkill(dm:DataManager,charName:string){
                 const cdid = `audio_${audioObj.id}_cooldown`;
                 if(audioObj.cooldown){
                     //冷却
-                    const cdeoc=genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
+                    const cdeoc=CMDef.genActEoc(cdid,[{math:[cdid,"-=","1"]}],{math:[cdid,">","0"]});
                     dm.addCharEvent(charName,"BattleUpdate",0,cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
-                    const initeoc=genActEoc(cdid+"_init",[{math:[cdid,"=","0"]}]);
+                    const initeoc=CMDef.genActEoc(cdid+"_init",[{math:[cdid,"=","0"]}]);
                     dm.addCharEvent(charName,"EnterBattle",0,initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect:EocEffect = {
                     run_eocs:{
-                        id:genEOCID(`${charName}_${audioObj.id}_Chance`),
+                        id:CMDef.genEOCID(`${charName}_${audioObj.id}_Chance`),
                         eoc_type:"ACTIVATION",
                         condition:{and:[
                             {one_in_chance:audioObj.one_in_chance??1},
@@ -313,7 +313,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
             dm.addSharedRes(exspell.id,exspell,"common_resource","common_spell");
         //冷却事件
         if(cooldown!=null){
-            const CDEoc=genActEoc(`${charName}_${spell.id}_cooldown`,
+            const CDEoc=CMDef.genActEoc(`${charName}_${spell.id}_cooldown`,
                 [{math:[cdValName,"-=","1"]}],
                 {math:[cdValName,">","0"]})
             dm.addCharEvent(charName,"Update",0,CDEoc);
@@ -390,10 +390,10 @@ function parseSpellNumObj(spell:Spell,field:keyof Spell){
 }
 
 function genCastEocID(charName:string,spell:Spell,ccuid:string):EocID{
-    return genEOCID(`${charName}_Cast${spell.id}_${ccuid}`);
+    return CMDef.genEOCID(`${charName}_Cast${spell.id}_${ccuid}`);
 }
 function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
-    return genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`)
+    return CMDef.genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`)
 }
 
 
@@ -469,7 +469,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
 
     //创建记录坐标Eoc
     const locEoc:Eoc={
-        id:genEOCID(`${spell.id}_RecordLoc`),
+        id:CMDef.genEOCID(`${spell.id}_RecordLoc`),
         type:"effect_on_condition",
         eoc_type:"ACTIVATION",
         effect:[
@@ -491,7 +491,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
     const {min_range,max_range,range_increment,
         max_level,valid_targets,targeted_monster_ids} = spell;
     const filterTargetSpell:Spell = {
-        id:genSpellID(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
+        id:CMDef.genSpellID(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
         type:"SPELL",
         name:spell.name+"_筛选索敌",
         description:`${spell.name}的筛选索敌法术`,
@@ -509,7 +509,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
     //创建释放索敌法术的eoc
     const castSelEoc:Eoc = {
         type:"effect_on_condition",
-        id:genEOCID(`Cast${filterTargetSpell.id}`),
+        id:CMDef.genEOCID(`Cast${filterTargetSpell.id}`),
         eoc_type:"ACTIVATION",
         effect:[
             {u_cast_spell:{id:filterTargetSpell.id,once_in:one_in_chance,}},

@@ -1,7 +1,7 @@
 import { DataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "cdda-schema";
-import { genItemGroupID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { CON_SPELL_FLAG } from "StaticData";
 
 
@@ -18,7 +18,7 @@ export async function createDrawCardSpell(dm:DataManager){
 
     //卡片集
     const cardGroup:ItemGroup={
-        id:genItemGroupID(`CardDistribution`),
+        id:CMDef.genItemGroupID(`CardDistribution`),
         type:"item_group",
         subtype:"distribution",
         entries:charDataList.map(cd=>({

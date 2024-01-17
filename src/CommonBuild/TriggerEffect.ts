@@ -1,6 +1,6 @@
 import { DataManager } from "@src/DataManager";
 import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "cdda-schema";
-import { genEOCID, genEffectID, genEnchantmentID, genSpellID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
 import { FULL_RECIVERY_EOCID } from "StaticData";
 
@@ -25,7 +25,7 @@ function FrostShield(dm:DataManager){
     const effid = "FrostShield" as EffectID;
     const tex:Spell={
         type:"SPELL",
-        id:genSpellID(`${effid}_Trigger1`),
+        id:CMDef.genSpellID(`${effid}_Trigger1`),
         name:"霜盾触发推动",
         description:"霜盾触发推动",
         effect:"area_push",
@@ -37,7 +37,7 @@ function FrostShield(dm:DataManager){
     }
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${effid}_Trigger2`),
+        id:CMDef.genSpellID(`${effid}_Trigger2`),
         name:"霜盾触发冻结",
         description:"霜盾触发冻结",
         effect:"attack",
@@ -80,7 +80,7 @@ function EmergencyFreeze(dm:DataManager){
     const effid = "EmergencyFreeze" as EffectID;
     const tex:Spell={
         type:"SPELL",
-        id:genSpellID(`${effid}_Trigger1`),
+        id:CMDef.genSpellID(`${effid}_Trigger1`),
         name:"紧急冻结推动",
         description:"紧急冻结推动",
         effect:"area_push",
@@ -92,7 +92,7 @@ function EmergencyFreeze(dm:DataManager){
     }
     const tspell:Spell={
         type:"SPELL",
-        id:genSpellID(`${effid}_Trigger2`),
+        id:CMDef.genSpellID(`${effid}_Trigger2`),
         name:"紧急冻结触发冻结",
         description:"紧急冻结触发冻结",
         effect:"attack",
@@ -107,7 +107,7 @@ function EmergencyFreeze(dm:DataManager){
     }
     const freeze:Effect={
         type:"effect_type",
-        id:genEffectID(`${effid}_Trigger3_Freeze`),
+        id:CMDef.genEffectID(`${effid}_Trigger3_Freeze`),
         name:["冰封"],
         desc:["无视所有伤害"],
         enchantments:[{
@@ -120,7 +120,7 @@ function EmergencyFreeze(dm:DataManager){
     }
     const tfreeze:Spell={
         type:"SPELL",
-        id:genSpellID(`${effid}_Trigger3`),
+        id:CMDef.genSpellID(`${effid}_Trigger3`),
         name:"紧急冻结无敌",
         description:"紧急冻结无敌",
         effect:"attack",

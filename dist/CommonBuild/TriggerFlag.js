@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTriggerFlag = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("../StaticData");
 async function createTriggerFlag(dm) {
     await shotInterval(dm);
@@ -18,7 +18,7 @@ async function shotInterval(dm) {
             type: "json_flag",
             id: flagid
         };
-        const triggerEoc = (0, ModDefine_1.genActEoc)(flagid, [
+        const triggerEoc = CMDefine_1.CMDef.genActEoc(flagid, [
             { math: [StaticData_1.SPELL_CT_MODMOVE_VAR, "=", num + ""] },
             { u_cast_spell: { id: StaticData_1.SPELL_CT_MODMOVE, hit_self: true } },
         ], { u_has_wielded_with_flag: flagid });

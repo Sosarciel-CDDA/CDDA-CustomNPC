@@ -1,10 +1,10 @@
 import { Monster } from "cdda-schema";
 import { saveStaticData } from "./StaticData";
-import { genMonsterID } from "@src/ModDefine";
+import { CMDef } from "CMDefine";
 
 
 /**标靶怪物ID */
-export const TARGET_MON_ID = genMonsterID("SpellTarget");
+export const TARGET_MON_ID = CMDef.genMonsterID("SpellTarget");
 /**标靶 */
 const Target:Monster = {
     type: "MONSTER",

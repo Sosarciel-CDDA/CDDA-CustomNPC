@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseEnch = exports.RangeModify = exports.MeleeModify = exports.DefenseModify = exports.NoPain = exports.NO_PAIN_ENCHID = exports.StatMod = exports.STAT_MOD_ENCHID = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("./StaticData");
 /**属性映射附魔 */
-const STATUS_VAR_MAP_ENCHID = (0, ModDefine_1.genEnchantmentID)("StatusMap");
+const STATUS_VAR_MAP_ENCHID = CMDefine_1.CMDef.genEnchantmentID("StatusMap");
 const StatusVarMap = {
     id: STATUS_VAR_MAP_ENCHID,
     type: "enchantment",
@@ -18,7 +18,7 @@ const StatusVarMap = {
     values: []
 };
 /**属性增强附魔 */
-exports.STAT_MOD_ENCHID = (0, ModDefine_1.genEnchantmentID)("StatMod");
+exports.STAT_MOD_ENCHID = CMDefine_1.CMDef.genEnchantmentID("StatMod");
 exports.StatMod = {
     id: exports.STAT_MOD_ENCHID,
     type: "enchantment",
@@ -36,7 +36,7 @@ exports.StatMod = {
         }]
 };
 /**无痛附魔 */
-exports.NO_PAIN_ENCHID = (0, ModDefine_1.genEnchantmentID)("NoPain");
+exports.NO_PAIN_ENCHID = CMDefine_1.CMDef.genEnchantmentID("NoPain");
 exports.NoPain = {
     id: exports.NO_PAIN_ENCHID,
     type: "enchantment",

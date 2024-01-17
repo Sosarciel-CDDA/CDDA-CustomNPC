@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTest = void 0;
 const UtilGener_1 = require("./UtilGener");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 async function createTest(dm) {
     let outData = [];
-    const effid = (0, ModDefine_1.genEffectID)("TestEff");
+    const effid = CMDefine_1.CMDef.genEffectID("TestEff");
     const eff = {
         id: effid,
         type: "effect_type",
@@ -16,7 +16,7 @@ async function createTest(dm) {
     outData.push(eff);
     const eoc = (0, UtilGener_1.genAddEffEoc)(effid, 120);
     const spell = {
-        id: (0, ModDefine_1.genSpellID)("effecTest"),
+        id: CMDefine_1.CMDef.genSpellID("effecTest"),
         type: "SPELL",
         valid_targets: ["self"],
         shape: "blast",

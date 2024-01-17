@@ -1,7 +1,7 @@
 import { DataManager } from "@src/DataManager";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "cdda-schema";
 import { CCharHook, CGlobalHook } from "CnpcEvent";
-import { genActEoc, genEOCID, genMutationID } from "ModDefine";
+import { CMDef } from "CMDefine";
 
 
 
@@ -30,7 +30,7 @@ export function genTriggerEffect(dm:DataManager,effect:Effect,hook:CGlobalHook,m
 
     const timevarId = `${effect.id}_Timer`
     const eocid = `${effect.id}_Trigger`;
-    const triggerEoc=genActEoc(eocid,[
+    const triggerEoc=CMDef.genActEoc(eocid,[
         ...eocEffects,
         {u_add_var:timevarId,time:true},
         {run_eocs:{
@@ -64,7 +64,7 @@ export function genTriggerEffect(dm:DataManager,effect:Effect,hook:CGlobalHook,m
  */
 export function genAddEffEoc(effectID:EffectID,duration: (Time), eocEffects?:EocEffect[]){
     const eocid = `${effectID}_AddEffect`;
-    const effecteoc = genActEoc(eocid,[
+    const effecteoc = CMDef.genActEoc(eocid,[
         {u_add_effect:effectID,intensity:{math:[`${effectID}_count`]},duration},
         ...eocEffects??[]
     ],undefined,true);

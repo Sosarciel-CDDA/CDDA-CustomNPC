@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const CharConfig_1 = require("./CharConfig");
 const StaticData_1 = require("../StaticData");
 /**创建角色装备 */
@@ -29,7 +29,7 @@ async function createCharEquip(dm, charName) {
         const ufield = (0, CharConfig_1.getTalkerFieldVarID)("u", field);
         /**字段基础附魔 */
         const fdBaseEnch = {
-            id: (0, ModDefine_1.genEnchantmentID)(`${field}_base`),
+            id: CMDefine_1.CMDef.genEnchantmentID(`${field}_base`),
             type: "enchantment",
             condition: "ALWAYS",
             values: (0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status)
@@ -45,7 +45,7 @@ async function createCharEquip(dm, charName) {
         };
         /**字段等级附魔 */
         const fdLvlEnch = {
-            id: (0, ModDefine_1.genEnchantmentID)(`${field}_lvl`),
+            id: CMDefine_1.CMDef.genEnchantmentID(`${field}_lvl`),
             type: "enchantment",
             condition: "ALWAYS",
             values: (0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status)
@@ -137,7 +137,7 @@ async function createCharEquip(dm, charName) {
     };
     /**基础变量 */
     if (charConfig.base_var) {
-        const initBaseVarEoc = (0, ModDefine_1.genActEoc)(`${charName}_InitBaseVar`, [
+        const initBaseVarEoc = CMDefine_1.CMDef.genActEoc(`${charName}_InitBaseVar`, [
             ...Object.entries(charConfig.base_var).map(entry => {
                 const eff = { math: [entry[0], "=", entry[1] + ""] };
                 return eff;

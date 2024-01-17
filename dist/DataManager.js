@@ -5,9 +5,9 @@ const path = require("path");
 const fs = require("fs");
 const utils_1 = require("@zwa73/utils");
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("./ModDefine");
 const CharBuild_1 = require("./CharBuild");
 const CnpcEvent_1 = require("./CnpcEvent");
+const CMDefine_1 = require("./CMDefine");
 /**数据管理器 */
 class DataManager {
     /**资源目录 */
@@ -126,12 +126,12 @@ class DataManager {
             //替换tiles
             fileObj.tiles = tilesList.filter(tilesObj => {
                 if (tilesObj.id == "npc_female") {
-                    tilesObj.id = `overlay_female_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
+                    tilesObj.id = `overlay_female_mutation_${CMDefine_1.CMDef.genMutationID("BaseBody")}`;
                     findFemale = true;
                     return true;
                 }
                 else if (tilesObj.id == "npc_male") {
-                    tilesObj.id = `overlay_male_mutation_${(0, ModDefine_1.genMutationID)("BaseBody")}`;
+                    tilesObj.id = `overlay_male_mutation_${CMDefine_1.CMDef.genMutationID("BaseBody")}`;
                     findMale = true;
                     return true;
                 }
@@ -237,9 +237,9 @@ class DataManager {
             const animData = CharBuild_1.AnimTypeList.map(animType => ({
                 animType: animType,
                 animName: (0, CharBuild_1.formatAnimName)(charName, animType),
-                mutID: (0, ModDefine_1.genMutationID)((0, CharBuild_1.formatAnimName)(charName, animType)),
-                armorID: (0, ModDefine_1.genArmorID)((0, CharBuild_1.formatAnimName)(charName, animType)),
-                itemGroupID: (0, ModDefine_1.genItemGroupID)((0, CharBuild_1.formatAnimName)(charName, animType)),
+                mutID: CMDefine_1.CMDef.genMutationID((0, CharBuild_1.formatAnimName)(charName, animType)),
+                armorID: CMDefine_1.CMDef.genArmorID((0, CharBuild_1.formatAnimName)(charName, animType)),
+                itemGroupID: CMDefine_1.CMDef.genItemGroupID((0, CharBuild_1.formatAnimName)(charName, animType)),
             })).reduce((acc, curr) => {
                 acc[curr.animType] = curr;
                 return acc;
@@ -248,17 +248,17 @@ class DataManager {
             console.log(charConfig);
             const defineData = {
                 charName: charName,
-                baseMutID: (0, ModDefine_1.genMutationID)(charName),
-                classID: (0, ModDefine_1.genNpcClassID)(charName),
-                instanceID: (0, ModDefine_1.genNpcInstanceID)(charName),
+                baseMutID: CMDefine_1.CMDef.genMutationID(charName),
+                classID: CMDefine_1.CMDef.genNpcClassID(charName),
+                instanceID: CMDefine_1.CMDef.genNpcInstanceID(charName),
                 animData: animData,
                 validAnim: [],
-                baseArmorID: (0, ModDefine_1.genArmorID)(charName),
-                baseEnchID: (0, ModDefine_1.genEnchantmentID)(charName),
-                baseItemFlagID: (0, ModDefine_1.genFlagID)(`${charName}_WeaponFlag`),
-                baseCarryGroup: (0, ModDefine_1.genItemGroupID)(`${charName}_Carry`),
-                talkTopicID: (0, ModDefine_1.genTalkTopicID)(charName),
-                cardID: (0, ModDefine_1.genGenericID)(`${charName}_Card`),
+                baseArmorID: CMDefine_1.CMDef.genArmorID(charName),
+                baseEnchID: CMDefine_1.CMDef.genEnchantmentID(charName),
+                baseItemFlagID: CMDefine_1.CMDef.genFlagID(`${charName}_WeaponFlag`),
+                baseCarryGroup: CMDefine_1.CMDef.genItemGroupID(`${charName}_Carry`),
+                talkTopicID: CMDefine_1.CMDef.genTalkTopicID(charName),
+                cardID: CMDefine_1.CMDef.genGenericID(`${charName}_Card`),
                 castResp: []
             };
             //角色事件eoc主体
@@ -358,7 +358,7 @@ class DataManager {
                     const eventEoc = {
                         type: "effect_on_condition",
                         eoc_type: "ACTIVATION",
-                        id: (0, ModDefine_1.genEOCID)(`${charName}_${etype}`),
+                        id: CMDefine_1.CMDef.genEOCID(`${charName}_${etype}`),
                         effect: [...charEventList.map(event => event.effect)],
                         condition: { u_has_trait: charData.defineData.baseMutID }
                     };
@@ -384,7 +384,7 @@ class DataManager {
             const globalEoc = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
-                id: (0, ModDefine_1.genEOCID)(etype),
+                id: CMDefine_1.CMDef.genEOCID(etype),
                 effect: [...globalEvents.map(event => event.effect)],
             };
             eventEocs.push(globalEoc);
@@ -411,7 +411,7 @@ class CddaJson {
         const table = {};
         //加载所有json
         const plist = [];
-        const jsonFilePathList = Object.values(utils_1.UtilFT.fileSearch(game_path, /\.json$/.source));
+        const jsonFilePathList = Object.values(utils_1.UtilFT.fileSearchRegex(game_path, /\.json$/.source));
         jsonFilePathList.filter(filePath => !filePath.includes("CNPC"))
             .forEach(filePath => plist.push(utils_1.UtilFT.loadJSONFile(filePath)));
         const rawJsonList = await Promise.all(plist);

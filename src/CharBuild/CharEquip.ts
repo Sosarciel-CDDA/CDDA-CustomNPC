@@ -1,6 +1,6 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "cdda-schema";
 import { DataManager } from "../DataManager";
-import { genActEoc, genEOCID, genEnchantmentID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 import { NO_PAIN_ENCHID } from "StaticData";
@@ -39,7 +39,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         const ufield = getTalkerFieldVarID("u",field);
         /**字段基础附魔 */
         const fdBaseEnch:Enchantment={
-            id:genEnchantmentID(`${field}_base`),
+            id:CMDef.genEnchantmentID(`${field}_base`),
             type:"enchantment",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.ench_status)
@@ -53,7 +53,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
         }
         /**字段等级附魔 */
         const fdLvlEnch:Enchantment={
-            id:genEnchantmentID(`${field}_lvl`),
+            id:CMDef.genEnchantmentID(`${field}_lvl`),
             type:"enchantment",
             condition:"ALWAYS",
             values:parseEnchStatTable(upgObj.lvl_ench_status)
@@ -146,7 +146,7 @@ export async function createCharEquip(dm:DataManager,charName:string){
 
     /**基础变量 */
     if(charConfig.base_var){
-        const initBaseVarEoc=genActEoc(`${charName}_InitBaseVar`,[
+        const initBaseVarEoc=CMDef.genActEoc(`${charName}_InitBaseVar`,[
             ...Object.entries(charConfig.base_var).map(entry=>{
                 const eff:EocEffect = {math:[entry[0],"=",entry[1]+""]}
                 return eff;

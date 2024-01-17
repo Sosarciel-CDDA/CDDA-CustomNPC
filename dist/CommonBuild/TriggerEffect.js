@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTriggerEffect = void 0;
 const cdda_schema_1 = require("cdda-schema");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const UtilGener_1 = require("./UtilGener");
 const StaticData_1 = require("../StaticData");
 /**回复收到的伤害 */
@@ -25,7 +25,7 @@ function FrostShield(dm) {
     const effid = "FrostShield";
     const tex = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger1`),
+        id: CMDefine_1.CMDef.genSpellID(`${effid}_Trigger1`),
         name: "霜盾触发推动",
         description: "霜盾触发推动",
         effect: "area_push",
@@ -37,7 +37,7 @@ function FrostShield(dm) {
     };
     const tspell = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger2`),
+        id: CMDefine_1.CMDef.genSpellID(`${effid}_Trigger2`),
         name: "霜盾触发冻结",
         description: "霜盾触发冻结",
         effect: "attack",
@@ -78,7 +78,7 @@ function EmergencyFreeze(dm) {
     const effid = "EmergencyFreeze";
     const tex = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger1`),
+        id: CMDefine_1.CMDef.genSpellID(`${effid}_Trigger1`),
         name: "紧急冻结推动",
         description: "紧急冻结推动",
         effect: "area_push",
@@ -90,7 +90,7 @@ function EmergencyFreeze(dm) {
     };
     const tspell = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger2`),
+        id: CMDefine_1.CMDef.genSpellID(`${effid}_Trigger2`),
         name: "紧急冻结触发冻结",
         description: "紧急冻结触发冻结",
         effect: "attack",
@@ -105,7 +105,7 @@ function EmergencyFreeze(dm) {
     };
     const freeze = {
         type: "effect_type",
-        id: (0, ModDefine_1.genEffectID)(`${effid}_Trigger3_Freeze`),
+        id: CMDefine_1.CMDef.genEffectID(`${effid}_Trigger3_Freeze`),
         name: ["冰封"],
         desc: ["无视所有伤害"],
         enchantments: [{
@@ -118,7 +118,7 @@ function EmergencyFreeze(dm) {
     };
     const tfreeze = {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)(`${effid}_Trigger3`),
+        id: CMDefine_1.CMDef.genSpellID(`${effid}_Trigger3`),
         name: "紧急冻结无敌",
         description: "紧急冻结无敌",
         effect: "attack",

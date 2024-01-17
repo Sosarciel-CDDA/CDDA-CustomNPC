@@ -3,7 +3,7 @@ import { AnimType } from "./AnimTool";
 import { CharDefineData, DataManager } from "../DataManager";
 import * as path from 'path';
 import { Eoc } from "cdda-schema";
-import { genEOCID } from "ModDefine";
+import { CMDef } from "CMDefine";
 import { CCharHook } from "CnpcEvent";
 
 
@@ -19,7 +19,7 @@ export function removeOtherAnimEoc(charName:string,baseData:CharDefineData,animT
     const eoc:Eoc={
         type:"effect_on_condition",
         eoc_type: "ACTIVATION",
-        id:genEOCID(charName+"_RemoveOtherAnimEoc_"+animType),
+        id:CMDef.genEOCID(charName+"_RemoveOtherAnimEoc_"+animType),
         effect:[
             ...otherAnim.map(otherAnimType=>({
                     u_lose_trait:baseData.animData[otherAnimType].mutID
@@ -35,7 +35,7 @@ export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:A
     const eoc:Eoc={
         type:"effect_on_condition",
         eoc_type: "ACTIVATION",
-        id:genEOCID(charName+"_ChangeAnimEoc_"+animType),
+        id:CMDef.genEOCID(charName+"_ChangeAnimEoc_"+animType),
         effect:[
             {"run_eocs":removeEoc.id},
             {"u_add_trait": baseData.animData[animType].mutID },

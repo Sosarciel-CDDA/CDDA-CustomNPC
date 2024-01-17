@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseNpc = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const BaseNpcClass = {
     type: 'npc_class',
-    id: (0, ModDefine_1.genNpcClassID)("BaseNpcClass"),
+    id: CMDefine_1.CMDef.genNpcClassID("BaseNpcClass"),
     name: "BaseNpcClass",
     job_description: "基础NPC职业",
     common: false,
@@ -13,8 +13,8 @@ const BaseNpcClass = {
 };
 const BaseNpcInstance = {
     type: "npc",
-    id: (0, ModDefine_1.genNpcInstanceID)("BaseNpc"),
-    class: (0, ModDefine_1.genNpcClassID)("BaseNpcClass"),
+    id: CMDefine_1.CMDef.genNpcInstanceID("BaseNpc"),
+    class: CMDefine_1.CMDef.genNpcClassID("BaseNpcClass"),
     attitude: 0,
     mission: 0,
     faction: "your_followers",

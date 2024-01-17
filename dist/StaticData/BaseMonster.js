@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseMonster = exports.TARGET_MON_ID = void 0;
 const StaticData_1 = require("./StaticData");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 /**标靶怪物ID */
-exports.TARGET_MON_ID = (0, ModDefine_1.genMonsterID)("SpellTarget");
+exports.TARGET_MON_ID = CMDefine_1.CMDef.genMonsterID("SpellTarget");
 /**标靶 */
 const Target = {
     type: "MONSTER",

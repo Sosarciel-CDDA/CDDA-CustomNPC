@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseSpell = exports.CON_SPELL_FLAG = exports.SPELL_M1T = exports.SPELL_CT_MODMOVE_VAR = exports.SPELL_CT_MODMOVE = exports.SPELL_MAX_DAMAGE = exports.MELEE_RANGE = exports.BATTLE_RANGE = void 0;
 const StaticData_1 = require("./StaticData");
 const BaseMonster_1 = require("./BaseMonster");
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 /**n格以内算作进入战斗/远程攻击范围 */
 exports.BATTLE_RANGE = 30;
 /**n格以内算作进入近战 */
@@ -11,17 +11,17 @@ exports.MELEE_RANGE = 3;
 /**最大法术伤害 */
 exports.SPELL_MAX_DAMAGE = 10000000;
 /**施法后摇法术ID */
-exports.SPELL_CT_MODMOVE = (0, ModDefine_1.genSpellID)(`CastTimeModMove`);
+exports.SPELL_CT_MODMOVE = CMDefine_1.CMDef.genSpellID(`CastTimeModMove`);
 /**施法后摇变量 */
 exports.SPELL_CT_MODMOVE_VAR = 'casttime_modmove';
 /**加速一回合 */
-exports.SPELL_M1T = (0, ModDefine_1.genSpellID)("Mod1Turn");
+exports.SPELL_M1T = CMDefine_1.CMDef.genSpellID("Mod1Turn");
 /**用于必定成功的控制法术的flags */
 exports.CON_SPELL_FLAG = ["SILENT", "NO_HANDS", "NO_LEGS", "NO_FAIL", "NO_EXPLOSION_SFX"];
 exports.BaseSpell = [
     {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("SummonSpellTarget"),
+        id: CMDefine_1.CMDef.genSpellID("SummonSpellTarget"),
         name: "召唤法术标靶",
         description: "召唤法术标靶怪物",
         flags: ["HOSTILE_SUMMON", ...exports.CON_SPELL_FLAG],
@@ -38,7 +38,7 @@ exports.BaseSpell = [
     },
     /*{
         type: "SPELL",
-        id: genSpellID("TeleportSpellTarget"),
+        id: CMDef.genSpellID("TeleportSpellTarget"),
         name: "传送法术标靶",
         description: "将附近法术标靶传送到自身位置",
         flags: [...CON_SPELL_FLAG],
@@ -51,7 +51,7 @@ exports.BaseSpell = [
         targeted_monster_ids: [TARGET_MON_ID],
     },*/
     {
-        id: (0, ModDefine_1.genSpellID)("KillSpellTarget"),
+        id: CMDefine_1.CMDef.genSpellID("KillSpellTarget"),
         type: "SPELL",
         name: "清除法术标靶",
         description: "清除法术标靶",
@@ -64,7 +64,7 @@ exports.BaseSpell = [
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
     {
-        id: (0, ModDefine_1.genSpellID)("DeathStunned"),
+        id: CMDefine_1.CMDef.genSpellID("DeathStunned"),
         type: "SPELL",
         name: "死亡眩晕",
         description: "死亡时将周围怪物眩晕",
@@ -91,7 +91,7 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("InitCurrHP"),
+        id: CMDefine_1.CMDef.genSpellID("InitCurrHP"),
         name: "初始化当前生命值",
         description: "初始化当前生命值变量",
         flags: [...exports.CON_SPELL_FLAG],
@@ -104,7 +104,7 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Range"),
+        id: CMDefine_1.CMDef.genSpellID("CheckCurrHP_Range"),
         name: "检测当前生命值_远程",
         description: "检测战斗范围内的敌人当前生命值是否有变动",
         flags: [...exports.CON_SPELL_FLAG],
@@ -117,7 +117,7 @@ exports.BaseSpell = [
     },
     {
         type: "SPELL",
-        id: (0, ModDefine_1.genSpellID)("CheckCurrHP_Melee"),
+        id: CMDefine_1.CMDef.genSpellID("CheckCurrHP_Melee"),
         name: "检测当前生命值_近战",
         description: "检测近战范围内的敌人当前生命值是否有变动",
         flags: [...exports.CON_SPELL_FLAG],
@@ -129,7 +129,7 @@ exports.BaseSpell = [
         shape: "blast",
     },
     {
-        id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG"),
+        id: CMDefine_1.CMDef.genSpellID("TestConeSpell_DMG"),
         type: "SPELL",
         name: "测试用锥形法术 伤害部分",
         description: "测试用锥形法术 伤害部分",
@@ -144,7 +144,7 @@ exports.BaseSpell = [
         damage_type: "heat",
     },
     {
-        id: (0, ModDefine_1.genSpellID)("TestConeSpell"),
+        id: CMDefine_1.CMDef.genSpellID("TestConeSpell"),
         type: "SPELL",
         name: "测试用锥形法术",
         description: "测试用锥形法术",
@@ -157,7 +157,7 @@ exports.BaseSpell = [
         min_aoe: 90,
         min_range: exports.BATTLE_RANGE,
         base_casting_time: 100,
-        extra_effects: [{ id: (0, ModDefine_1.genSpellID)("TestConeSpell_DMG") }],
+        extra_effects: [{ id: CMDefine_1.CMDef.genSpellID("TestConeSpell_DMG") }],
         targeted_monster_ids: [BaseMonster_1.TARGET_MON_ID],
     },
     {

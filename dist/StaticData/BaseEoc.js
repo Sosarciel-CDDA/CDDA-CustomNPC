@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseEoc = exports.FULL_RECIVERY_EOCID = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("./StaticData");
 const BaseSpell_1 = require("./BaseSpell");
 /**初始化变量 */
 const InitVar = {
     type: "effect_on_condition",
     eoc_type: "ACTIVATION",
-    id: (0, ModDefine_1.genEOCID)("InitVar"),
+    id: CMDefine_1.CMDef.genEOCID("InitVar"),
     effect: [
         { math: [`BATTLE_RANGE`, "=", `${BaseSpell_1.BATTLE_RANGE}`] },
         { math: [`MELEE_RANGE`, "=", `${BaseSpell_1.MELEE_RANGE}`] },
     ]
 };
 /**完全回复EOC */
-exports.FULL_RECIVERY_EOCID = (0, ModDefine_1.genEOCID)("FullRecovery");
+exports.FULL_RECIVERY_EOCID = CMDefine_1.CMDef.genEOCID("FullRecovery");
 /**完全回复 */
 const FullRecivery = {
     type: "effect_on_condition",

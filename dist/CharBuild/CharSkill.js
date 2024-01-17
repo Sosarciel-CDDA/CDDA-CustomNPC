@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseNumObj = exports.createCharSkill = exports.getDisableSpellVar = exports.getGlobalDisableSpellVar = void 0;
-const ModDefine_1 = require("../ModDefine");
+const CMDefine_1 = require("../CMDefine");
 const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
 const CnpcEvent_1 = require("../CnpcEvent");
@@ -57,7 +57,7 @@ async function createCharSkill(dm, charName) {
     const skills = (charConfig.skill ?? []).sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0));
     const skillDataList = [];
     //全局冷却事件
-    const GCDEoc = (0, ModDefine_1.genActEoc)(`${charName}_CoCooldown`, [{ math: [gcdValName, "-=", "1"] }], { math: [gcdValName, ">", "0"] });
+    const GCDEoc = CMDefine_1.CMDef.genActEoc(`${charName}_CoCooldown`, [{ math: [gcdValName, "-=", "1"] }], { math: [gcdValName, ">", "0"] });
     dm.addCharEvent(charName, "Update", 0, GCDEoc);
     skillDataList.push(GCDEoc);
     //遍历技能
@@ -93,17 +93,17 @@ async function createCharSkill(dm, charName) {
                 const cdid = `audio_${audioObj.id}_cooldown`;
                 if (audioObj.cooldown) {
                     //冷却
-                    const cdeoc = (0, ModDefine_1.genActEoc)(cdid, [{ math: [cdid, "-=", "1"] }], { math: [cdid, ">", "0"] });
+                    const cdeoc = CMDefine_1.CMDef.genActEoc(cdid, [{ math: [cdid, "-=", "1"] }], { math: [cdid, ">", "0"] });
                     dm.addCharEvent(charName, "BattleUpdate", 0, cdeoc);
                     skillDataList.push(cdeoc);
                     //初始化
-                    const initeoc = (0, ModDefine_1.genActEoc)(cdid + "_init", [{ math: [cdid, "=", "0"] }]);
+                    const initeoc = CMDefine_1.CMDef.genActEoc(cdid + "_init", [{ math: [cdid, "=", "0"] }]);
                     dm.addCharEvent(charName, "EnterBattle", 0, initeoc);
                     skillDataList.push(initeoc);
                 }
                 const effect = {
                     run_eocs: {
-                        id: (0, ModDefine_1.genEOCID)(`${charName}_${audioObj.id}_Chance`),
+                        id: CMDefine_1.CMDef.genEOCID(`${charName}_${audioObj.id}_Chance`),
                         eoc_type: "ACTIVATION",
                         condition: { and: [
                                 { one_in_chance: audioObj.one_in_chance ?? 1 },
@@ -185,7 +185,7 @@ async function createCharSkill(dm, charName) {
             dm.addSharedRes(exspell.id, exspell, "common_resource", "common_spell");
         //冷却事件
         if (cooldown != null) {
-            const CDEoc = (0, ModDefine_1.genActEoc)(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
+            const CDEoc = CMDefine_1.CMDef.genActEoc(`${charName}_${spell.id}_cooldown`, [{ math: [cdValName, "-=", "1"] }], { math: [cdValName, ">", "0"] });
             dm.addCharEvent(charName, "Update", 0, CDEoc);
             skillDataList.push(CDEoc);
         }
@@ -239,10 +239,10 @@ function parseSpellNumObj(spell, field) {
     return parseNumObj(spell[field]);
 }
 function genCastEocID(charName, spell, ccuid) {
-    return (0, ModDefine_1.genEOCID)(`${charName}_Cast${spell.id}_${ccuid}`);
+    return CMDefine_1.CMDef.genEOCID(`${charName}_Cast${spell.id}_${ccuid}`);
 }
 function genTrueEocID(charName, spell, ccuid) {
-    return (0, ModDefine_1.genEOCID)(`${charName}_${spell.id}TrueEoc_${ccuid}`);
+    return CMDefine_1.CMDef.genEOCID(`${charName}_${spell.id}TrueEoc_${ccuid}`);
 }
 async function randomProc(dm, charName, baseSkillData) {
     const { skill, baseCond, TEffect, castCondition, PreEffect, extraEffects } = baseSkillData;
@@ -309,7 +309,7 @@ async function filter_randomProc(dm, charName, baseSkillData) {
     };
     //创建记录坐标Eoc
     const locEoc = {
-        id: (0, ModDefine_1.genEOCID)(`${spell.id}_RecordLoc`),
+        id: CMDefine_1.CMDef.genEOCID(`${spell.id}_RecordLoc`),
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
         effect: [
@@ -328,7 +328,7 @@ async function filter_randomProc(dm, charName, baseSkillData) {
         flags.push("IGNORE_WALLS");
     const { min_range, max_range, range_increment, max_level, valid_targets, targeted_monster_ids } = spell;
     const filterTargetSpell = {
-        id: (0, ModDefine_1.genSpellID)(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
+        id: CMDefine_1.CMDef.genSpellID(`${charName}_${spell.id}_FilterTarget_${ccuid}`),
         type: "SPELL",
         name: spell.name + "_筛选索敌",
         description: `${spell.name}的筛选索敌法术`,
@@ -345,7 +345,7 @@ async function filter_randomProc(dm, charName, baseSkillData) {
     //创建释放索敌法术的eoc
     const castSelEoc = {
         type: "effect_on_condition",
-        id: (0, ModDefine_1.genEOCID)(`Cast${filterTargetSpell.id}`),
+        id: CMDefine_1.CMDef.genEOCID(`Cast${filterTargetSpell.id}`),
         eoc_type: "ACTIVATION",
         effect: [
             { u_cast_spell: { id: filterTargetSpell.id, once_in: one_in_chance, } },
