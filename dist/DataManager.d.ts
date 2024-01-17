@@ -1,7 +1,8 @@
-import { JArray, JObject, JToken } from '@zwa73/utils';
+import { JArray, JToken } from '@zwa73/utils';
 import { Eoc, MutationID, ItemGroupID, NpcClassID, NpcInstanceID, FlagID, ArmorID, EnchantmentID, GenericID, AnyCddaJson, TalkTopicID, Resp } from 'cdda-schema';
 import { CharConfig, AnimType } from './CharBuild';
 import { CCharHook, EventEffect, CGlobalHook } from "./CnpcEvent";
+import { DataManager } from 'cdda-event';
 /**角色定义数据 */
 export type CharDefineData = Readonly<{
     /**角色名 */
@@ -44,17 +45,6 @@ type CharData = {
     /**角色设定 */
     charConfig: CharConfig;
 };
-/**主资源表 */
-export type DataTable = {
-    /**输出的角色数据表 */
-    charTable: Record<string, CharData>;
-    /**输出的静态数据表 */
-    staticTable: Record<string, JArray>;
-    /**输出的Eoc事件 */
-    eventEocs: Record<CGlobalHook, EventEffect[]>;
-    /**共用资源表 */
-    sharedTable: Record<string, Record<string, JObject>>;
-};
 /**build配置 */
 export type BuildSetting = {
     /**游戏目录 */
@@ -72,11 +62,7 @@ export type GameData = {
     game_json?: CddaJson;
 };
 /**数据管理器 */
-export declare class DataManager {
-    /**资源目录 */
-    dataPath: string;
-    /**输出目录 */
-    outPath: string;
+export declare class CDataManager extends DataManager {
     /**角色目录 */
     charPath: string;
     /**角色列表 */
@@ -87,8 +73,10 @@ export declare class DataManager {
     buildSetting: BuildSetting;
     /**游戏数据 */
     gameData: GameData;
-    /**主资源表 */
-    private dataTable;
+    /**输出的角色数据表 */
+    private charTable;
+    /**输出的Eoc事件 */
+    private eventEocs;
     /**
      * @param dataPath 输入数据路径
      * @param outPath  输出数据路径
@@ -98,7 +86,7 @@ export declare class DataManager {
      * @param dataPath 输入数据路径
      * @param outPath  输出数据路径
      */
-    static create(dataPath?: string, outPath?: string): Promise<DataManager>;
+    static create(dataPath?: string, outPath?: string): Promise<CDataManager>;
     /**初始化 处理贴图包 */
     private processGfxpack;
     /**初始化 处理音效包 */
@@ -110,7 +98,7 @@ export declare class DataManager {
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
-    addEvent(etype: CGlobalHook, weight: number, ...events: Eoc[]): void;
+    addCEvent(etype: CGlobalHook, weight: number, ...events: Eoc[]): void;
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */
@@ -119,14 +107,8 @@ export declare class DataManager {
     getCharPath(charName: string): string;
     /**获取 输出角色目录 */
     getOutCharPath(charName: string): string;
-    /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(key: string, val: JObject, filePath: string, ...filePaths: string[]): void;
-    /**添加静态资源 */
-    addStaticData(arr: JObject[], filePath: string, ...filePaths: string[]): void;
     /**输出数据到角色目录 */
     saveToCharFile(charName: string, filePath: string, obj: JToken): Promise<void>;
-    /**输出数据到主目录 */
-    saveToFile(filePath: string, obj: JToken): Promise<void>;
     /**输出数据 */
     saveAllData(): Promise<void>;
 }

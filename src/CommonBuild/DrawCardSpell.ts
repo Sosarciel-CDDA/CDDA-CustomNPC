@@ -1,11 +1,11 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "cdda-schema";
 import { CMDef } from "CMDefine";
 import { CON_SPELL_FLAG } from "StaticData";
 
 
-export async function createDrawCardSpell(dm:DataManager){
+export async function createDrawCardSpell(dm:CDataManager){
     const id = `DrawCardSpell`;
     const cdvar = `${id}_cooldown`;
     const out:JObject[]=[];

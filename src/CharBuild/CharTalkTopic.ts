@@ -3,7 +3,7 @@ import { CMDef } from "CMDefine";
 import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "cdda-schema";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 
 
 
@@ -11,7 +11,7 @@ import { DataManager } from "../DataManager";
 
 
 /**创建对话选项 */
-export async function createCharTalkTopic(dm:DataManager,charName:string){
+export async function createCharTalkTopic(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
     //扩展对话
@@ -59,7 +59,7 @@ export async function createCharTalkTopic(dm:DataManager,charName:string){
 
 
 /**创建升级对话 */
-async function createUpgResp(dm:DataManager,charName:string){
+async function createUpgResp(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
     //主升级话题ID
@@ -259,7 +259,7 @@ async function createUpgResp(dm:DataManager,charName:string){
 }
 
 /**创建技能对话 */
-async function createSkillResp(dm:DataManager,charName:string){
+async function createSkillResp(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //主对话id
     const skillTalkTopicId = CMDef.genTalkTopicID(`${charName}_skill`);
@@ -344,7 +344,7 @@ async function createSkillResp(dm:DataManager,charName:string){
 }
 
 /**创建武器对话 */
-async function createWeaponResp(dm:DataManager,charName:string){
+async function createWeaponResp(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //透明物品ID
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
@@ -555,7 +555,7 @@ async function createWeaponResp(dm:DataManager,charName:string){
 }
 
 /**创建施法对话 */
-async function createCastControlResp(dm:DataManager,charName:string){
+async function createCastControlResp(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //主对话id
     const castControlTalkTopicId = CMDef.genTalkTopicID(`${charName}_castControl`);

@@ -1,4 +1,4 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "cdda-schema";
 import { CMDef } from "CMDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
@@ -8,7 +8,7 @@ import { FULL_RECIVERY_EOCID } from "StaticData";
 //const regenDmg = {npc_set_hp:{arithmetic:[{npc_val:"hp",bodypart:{context_val:"bp"}} as any,"+",{context_val:"damage_taken"}]}};
 //const regenDmg = {math:["n_hp(_bp)","+=","_damage_taken"]} as any;
 
-export async function createTriggerEffect(dm:DataManager){
+export async function createTriggerEffect(dm:CDataManager){
     await FrostShield(dm);
     await EmergencyFreeze(dm);
     await HealReserve(dm);
@@ -20,7 +20,7 @@ const UPG_TEFF_DUR = '20 s';
 const TEFF_MAX = 1000000;
 
 //霜盾
-function FrostShield(dm:DataManager){
+function FrostShield(dm:CDataManager){
     const taoe = 3;
     const effid = "FrostShield" as EffectID;
     const tex:Spell={
@@ -75,7 +75,7 @@ function FrostShield(dm:DataManager){
 
 
 //紧急冻结
-function EmergencyFreeze(dm:DataManager){
+function EmergencyFreeze(dm:CDataManager){
     const taoe = 5;
     const effid = "EmergencyFreeze" as EffectID;
     const tex:Spell={
@@ -148,7 +148,7 @@ function EmergencyFreeze(dm:DataManager){
 }
 
 //治疗储备
-function HealReserve(dm:DataManager){
+function HealReserve(dm:CDataManager){
     const effid = "HealReserve" as EffectID;
     const eff:Effect = {
         type:"effect_type",

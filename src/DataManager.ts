@@ -6,6 +6,7 @@ import { Eoc,MutationID,ItemGroupID,NpcClassID,NpcInstanceID,FlagID, ArmorID, Gu
 import { CharConfig, loadCharConfig, AnimType, AnimTypeList, formatAnimName } from 'CharBuild';
 import { CCharHookList, CCharHook, EventEffect, CGlobalHook, CGlobalHookList, buildEventFrame } from "CnpcEvent";
 import { CMDef } from 'CMDefine';
+import { DataManager } from 'cdda-event';
 
 
 /**角色定义数据 */
@@ -52,18 +53,6 @@ type CharData = {
     charConfig:CharConfig;
 }
 
-/**主资源表 */
-export type DataTable={
-    /**输出的角色数据表 */
-    charTable:Record<string,CharData>;
-    /**输出的静态数据表 */
-    staticTable:Record<string,JArray>;
-    /**输出的Eoc事件 */
-    eventEocs:Record<CGlobalHook,EventEffect[]>;
-    /**共用资源表 */
-    sharedTable:Record<string,Record<string,JObject>>;
-}
-
 /**build配置 */
 export type BuildSetting={
     /**游戏目录 */
@@ -83,11 +72,7 @@ export type GameData={
 }
 
 /**数据管理器 */
-export class DataManager{
-    /**资源目录 */
-    dataPath = path.join(process.cwd(),'data');
-    /**输出目录 */
-    outPath:string;// = path.join(process.cwd(),'CustomNPC');
+export class CDataManager extends DataManager{
     /**角色目录 */
     charPath:string;
     /**角色列表 */
@@ -98,16 +83,12 @@ export class DataManager{
     buildSetting:BuildSetting = null as any;
     /**游戏数据 */
     gameData:GameData = {};
-    /**主资源表 */
-    private dataTable:DataTable={
-        charTable:{},
-        staticTable:{},
-        sharedTable:{},
-        eventEocs:CGlobalHookList.reduce((acc,etype)=>
-            ({...acc,[etype]:[]}),{} as Record<CGlobalHook,EventEffect[]>)
-    }
 
-
+    /**输出的角色数据表 */
+    private charTable:Record<string,CharData> = {};
+    /**输出的Eoc事件 */
+    private eventEocs:Record<CGlobalHook,EventEffect[]> = CGlobalHookList.reduce((acc,etype)=>
+        ({...acc,[etype]:[]}),{} as Record<CGlobalHook,EventEffect[]>);
 
     //———————————————————— 初始化 ————————————————————//
     /**
@@ -115,15 +96,14 @@ export class DataManager{
      * @param outPath  输出数据路径  
      */
     private constructor(dataPath?:string,outPath?:string){
+        super(dataPath??path.join(process.cwd(),'data'),outPath);
+        if(this._dataPath==null) throw "";
         //合并静态数据
-        this.dataTable.staticTable = Object.assign({},
-            this.dataTable.staticTable,StaticDataMap);
+        for(const key in StaticDataMap)
+            this.addStaticData(StaticDataMap[key],key)
 
         //初始化资源io路径
-        this.outPath  = outPath as any;
-        this.dataPath = dataPath||this.dataPath;
-
-        this.charPath = path.join(this.dataPath,'chars');
+        this.charPath = path.join(this._dataPath,'chars');
 
         //创建角色列表
         this.virtualCharList = [];
@@ -143,12 +123,13 @@ export class DataManager{
      * @param dataPath 输入数据路径  
      * @param outPath  输出数据路径  
      */
-    static async create(dataPath?:string,outPath?:string):Promise<DataManager>{
-        let dm = new DataManager(dataPath,outPath);
+    static async create(dataPath?:string,outPath?:string):Promise<CDataManager>{
+        let dm = new CDataManager(dataPath,outPath);
+        if(dm._dataPath==null) throw "";
         //读取build设置
-        dm.buildSetting = (await UtilFT.loadJSONFile(path.join(dm.dataPath,'build_setting')))as BuildSetting;
+        dm.buildSetting = (await UtilFT.loadJSONFile(path.join(dm._dataPath,'build_setting')))as BuildSetting;
         const bs = dm.buildSetting;
-        dm.outPath = dm.outPath || path.join(bs.game_path,'data','mods','CustomNPC');
+        dm._outPath = dm._outPath || path.join(bs.game_path,'data','mods','CustomNPC');
 
         await dm.processGfxpack();
         await dm.processSoundpack();
@@ -323,7 +304,7 @@ export class DataManager{
     /**获取角色表 如无则初始化 */
     async getCharData(charName:string){
         //初始化基础数据
-        if(this.dataTable.charTable[charName] == null){
+        if(this.charTable[charName] == null){
             const animData = AnimTypeList.map(animType=>({
                 animType:animType,
                 animName:formatAnimName(charName,animType),
@@ -357,20 +338,20 @@ export class DataManager{
             const charEventEocs = CCharHookList.reduce((acc,etype)=>(
                 {...acc,[etype]:[]}),{} as Record<CCharHook,EventEffect[]>)
 
-            this.dataTable.charTable[charName] = {
+            this.charTable[charName] = {
                 defineData,
                 charEventEocs,
                 charConfig,
                 outData:{},
             }
         }
-        return this.dataTable.charTable[charName];
+        return this.charTable[charName];
     }
     /**添加 eoc的ID引用到 全局事件  
      * u为主角 npc为未定义  
      */
-    addEvent(etype:CGlobalHook,weight:number,...events:Eoc[]){
-        this.dataTable.eventEocs[etype].push(
+    addCEvent(etype:CGlobalHook,weight:number,...events:Eoc[]){
+        this.eventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
@@ -378,7 +359,7 @@ export class DataManager{
      * u为角色 npc为未定义  
      */
     addCharEvent(charName:string,etype:CCharHook,weight:number,...events:Eoc[]){
-        this.dataTable.charTable[charName].charEventEocs[etype].push(
+        this.charTable[charName].charEventEocs[etype].push(
             ...events.map(eoc=>({effect:{"run_eocs":eoc.id},weight}))
         );
     }
@@ -388,61 +369,22 @@ export class DataManager{
     }
     /**获取 输出角色目录 */
     getOutCharPath(charName:string){
-        return path.join(this.outPath,'chars',charName);
+        if(this._outPath==null) throw "";
+        return path.join(this._outPath,'chars',charName);
     }
-    /**添加共享资源 同filepath+key会覆盖 出现与原数据不同的数据时会提示 */
-    addSharedRes(key:string,val:JObject,filePath:string,...filePaths:string[]){
-        const fixPath = path.join(filePath,...filePaths);
-        if(this.dataTable.sharedTable[fixPath]==null)
-            this.dataTable.sharedTable[fixPath]={};
-        const table = this.dataTable.sharedTable[fixPath];
-        const oval = table[key];
-        table[key]=val;
-        if(oval!=null){
-            if(JSON.stringify(oval)!=JSON.stringify(val))
-                console.log(`addSharedRes 出现了一个不相同的数据 \n原数据:${JSON.stringify(oval)}\n新数据:${JSON.stringify(val)}`);
-        }
-    }
-    /**添加静态资源 */
-    addStaticData(arr:JObject[],filePath:string,...filePaths:string[]){
-        this.dataTable.staticTable[path.join(filePath,...filePaths)] = arr;
-    }
-
-
 
     //———————————————————— 输出 ————————————————————//
     /**输出数据到角色目录 */
     async saveToCharFile(charName:string,filePath:string,obj:JToken) {
         return UtilFT.writeJSONFile(path.join(this.getOutCharPath(charName),filePath),obj);
     }
-    /**输出数据到主目录 */
-    async saveToFile(filePath:string,obj:JToken){
-        return UtilFT.writeJSONFile(path.join(this.outPath,filePath),obj);
-    }
     /**输出数据 */
     async saveAllData(){
-        //复制静态数据
-        const staticDataPath = path.join(this.dataPath,"StaticData");
-        UtilFT.ensurePathExists(staticDataPath,true);
-        //await
-        fs.promises.cp(staticDataPath,this.outPath,{ recursive: true });
-
-        //导出js静态数据
-        const staticData = this.dataTable.staticTable;
-        for(let filePath in staticData){
-            let obj = staticData[filePath];
-            //await
-            this.saveToFile(filePath,obj);
-        }
-
-        //导出共用资源
-        for(const filePath in this.dataTable.sharedTable)
-            this.saveToFile(filePath,Object.values(this.dataTable.sharedTable[filePath]));
-
+        super.saveAllData();
 
         //导出角色数据
         for(let charName of this.charList){
-            const charData = this.dataTable.charTable[charName];
+            const charData = this.charTable[charName];
             const charOutData = charData.outData;
             for(let key in charOutData){
                 let obj = charOutData[key];
@@ -469,7 +411,7 @@ export class DataManager{
                     }
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc
-                    this.addEvent(etype,0,eventEoc);
+                    this.addCEvent(etype,0,eventEoc);
                 }
             }
             this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
@@ -482,7 +424,7 @@ export class DataManager{
         }
 
         //导出全局EOC
-        const globalEvent = this.dataTable.eventEocs;
+        const globalEvent = this.eventEocs;
         const eventEocs:Eoc[]=[];
         for(const etype in globalEvent){
             //降序排序事件
@@ -502,7 +444,7 @@ export class DataManager{
         this.saveToFile('event_frame',buildEventFrame());
 
         //编译所有eocscript
-        const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ${this.outPath} --output ${this.outPath}`)
+        const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ${this._outPath} --output ${this._outPath}`)
         console.log(stdout);
     }
 }

@@ -1,3 +1,3 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 /**创建角色物品 */
-export declare function createCharCarry(dm: DataManager, charName: string): Promise<void>;
+export declare function createCharCarry(dm: CDataManager, charName: string): Promise<void>;

@@ -1,4 +1,4 @@
-import { DataManager } from "./DataManager";
+import { CDataManager } from "./DataManager";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeAnime } from "./CharBuild";
@@ -9,7 +9,7 @@ import { mergeImage } from "./CharBuild/MergeImage";
 
 
 
-export async function buildChar(dm:DataManager,charName:string){
+export async function buildChar(dm:CDataManager,charName:string){
     UtilFT.ensurePathExists(dm.getOutCharPath(charName),true);
     await mergeImage(dm,charName);
     await mergeAnime(dm,charName,false);
@@ -25,7 +25,7 @@ export async function buildChar(dm:DataManager,charName:string){
 
 
 export async function main(){
-    const dm = await DataManager.create();
+    const dm = await CDataManager.create();
 
     await commonBuild(dm);
     const plist:Promise<void>[] = []

@@ -1,6 +1,6 @@
 import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
-import { DataManager } from '../DataManager';
+import { CDataManager } from '../DataManager';
 /**动态读取的角色设定 */
 export type CharConfig = {
     /**角色名 继承自哪个角色
@@ -152,5 +152,5 @@ type StatModVal = {
 export declare function getGlobalFieldVarID(charName: string, field: string): string;
 export declare function getTalkerFieldVarID(talker: "u" | "n", field: string): string;
 /**读取某个角色的CharConfig */
-export declare function loadCharConfig(dm: DataManager, charName: string): Promise<CharConfig>;
+export declare function loadCharConfig(dm: CDataManager, charName: string): Promise<CharConfig>;
 export {};

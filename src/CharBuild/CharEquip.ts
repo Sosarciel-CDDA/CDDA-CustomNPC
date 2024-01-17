@@ -1,5 +1,5 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
@@ -10,7 +10,7 @@ import { NO_PAIN_ENCHID } from "StaticData";
 
 
 /**创建角色装备 */
-export async function createCharEquip(dm:DataManager,charName:string){
+export async function createCharEquip(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
     const outs:JObject[]=[];

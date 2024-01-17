@@ -1,16 +1,16 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { Armor, ArmorID } from "cdda-schema";
 import { genArmorMut } from "./UtilGener";
 
 
 
 
-export async function createCommonItem(dm:DataManager){
+export async function createCommonItem(dm:CDataManager){
     //await AkasetGauntlet(dm);
 }
 
 //Akaset的手套
-function AkasetGauntlet(dm:DataManager){
+function AkasetGauntlet(dm:CDataManager){
     const glove:Armor={
         type:"ARMOR",
         id:"AkasetGauntlet" as ArmorID,

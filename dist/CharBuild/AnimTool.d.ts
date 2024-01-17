@@ -1,4 +1,4 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 /**可用的动画类型列表 */
 export declare const AnimTypeList: readonly ["Idle", "Move", "Attack"];
 /**动画类型 */
@@ -8,4 +8,4 @@ export declare function formatAnimName(charName: string, animType: AnimType): st
 /**创建动画辅助工具
  * @param charName 角色名
  */
-export declare function createAnimTool(dm: DataManager, charName: string): Promise<void>;
+export declare function createAnimTool(dm: CDataManager, charName: string): Promise<void>;

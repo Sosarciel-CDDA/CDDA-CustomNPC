@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { Armor, BodyPartList, Mutation, ItemGroup } from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 
 
 
@@ -20,7 +20,7 @@ export function formatAnimName(charName:string,animType:AnimType){
 /**创建动画辅助工具  
  * @param charName 角色名  
  */
-export async function createAnimTool(dm:DataManager,charName:string){
+export async function createAnimTool(dm:CDataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
     for(const animType of defineData.validAnim){
         const animData = defineData.animData[animType];

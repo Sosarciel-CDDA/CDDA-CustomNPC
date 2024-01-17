@@ -1,7 +1,7 @@
 import { JArray, JObject, JToken, UtilFunc } from "@zwa73/utils";
 import { CMDef } from "CMDefine";
 import { Spell, SpellEnergySource, SpellID ,AnyItemID, FlagID, BoolObj, Eoc, EocEffect, EocID, NumMathExp, NumObj, NoParamTalkerCondList, WeaponCategoryID, EffectID, Time, ParamsEoc, InlineEoc, SpellFlag, DamageTypeID, Resp, CondObj, SoundEffectID, SoundEffectVariantID} from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { CON_SPELL_FLAG, SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_M1T, SPELL_MAX_DAMAGE,TARGET_MON_ID } from "StaticData";
 import { CCharHookList, CCharHook, CInteractHookList } from "CnpcEvent";
 import { SpecEffect, SpecProcMap, SpecSkillCastData } from "./CharSkillSpecEffect";
@@ -159,7 +159,7 @@ const costMap:Record<SpellEnergySource,string|undefined>={
 }
 
 /**处理角色技能 */
-export async function createCharSkill(dm:DataManager,charName:string){
+export async function createCharSkill(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const skills = (charConfig.skill??[]).sort((a,b)=>(b.weight??0)-(a.weight??0));
     const skillDataList:JObject[] = [];
@@ -325,7 +325,7 @@ export async function createCharSkill(dm:DataManager,charName:string){
 }
 
 /**处理方式表 */
-const ProcMap:Record<TargetType,(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData)=>Promise<JObject[]>>={
+const ProcMap:Record<TargetType,(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData)=>Promise<JObject[]>>={
     "auto"          : autoProc,
     "random"        : randomProc,
     "direct_hit"    : direct_hitProc,
@@ -397,7 +397,7 @@ function genTrueEocID(charName:string,spell:Spell,ccuid:string):EocID{
 }
 
 
-async function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function randomProc(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
@@ -432,7 +432,7 @@ async function randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkill
     return [castEoc];
 }
 
-async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function filter_randomProc(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData){
     let {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
@@ -524,7 +524,7 @@ async function filter_randomProc(dm:DataManager,charName:string,baseSkillData:Ba
     return [castEoc,castSelEoc,filterTargetSpell];
 }
 
-async function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function direct_hitProc(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,baseCond,TEffect,castCondition,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     const {hook} = castCondition;
@@ -563,7 +563,7 @@ async function direct_hitProc(dm:DataManager,charName:string,baseSkillData:BaseS
     return [castEoc];
 }
 
-async function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function autoProc(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,castCondition} = baseSkillData;
     const {spell} = skill;
     const {hook} = castCondition;
@@ -588,7 +588,7 @@ async function autoProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCa
     return ProcMap.random(dm,charName,baseSkillData);
 }
 
-async function control_castProc(dm:DataManager,charName:string,baseSkillData:BaseSkillCastData){
+async function control_castProc(dm:CDataManager,charName:string,baseSkillData:BaseSkillCastData){
     const {skill,castCondition,extraEffects} = baseSkillData;
     let {baseCond,TEffect,PreEffect} = baseSkillData;
     const {name,spell,one_in_chance} = skill;

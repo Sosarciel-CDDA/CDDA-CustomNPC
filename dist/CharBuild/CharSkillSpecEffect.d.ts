@@ -1,4 +1,4 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { BoolObj, DamageTypeID, EffectID, EocEffect, NumObj, ParamsEoc, Spell, Time } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
 /**子项数据 */
@@ -50,5 +50,5 @@ type ExtDamage = {
 /**特殊的字效果 */
 export type SpecEffect = RunEoc | AddEffect | ExtDamage;
 /**特殊效果的处理表 */
-export declare const SpecProcMap: Record<SpecEffect["type"], (dm: DataManager, charName: string, baseSkillData: SpecSkillCastData, spec: SpecEffect, index: number) => void>;
+export declare const SpecProcMap: Record<SpecEffect["type"], (dm: CDataManager, charName: string, baseSkillData: SpecSkillCastData, spec: SpecEffect, index: number) => void>;
 export {};

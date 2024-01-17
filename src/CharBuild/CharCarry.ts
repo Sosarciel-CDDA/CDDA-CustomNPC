@@ -1,5 +1,5 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
@@ -9,7 +9,7 @@ import { JObject } from "@zwa73/utils";
 
 
 /**创建角色物品 */
-export async function createCharCarry(dm:DataManager,charName:string){
+export async function createCharCarry(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //透明物品ID
     const TransparentItem = "CNPC_GENERIC_TransparentItem";

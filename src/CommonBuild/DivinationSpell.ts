@@ -1,5 +1,5 @@
 import { EmptyMissionDialog, MissionDefinition, MissionDefinitionID, OMTMatchType } from "cdda-schema";
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { BoolObj, Eoc, EocID, Spell, SpellID, OvermapTerrainID, OverMapSpecialID } from "cdda-schema";
 
@@ -173,7 +173,7 @@ const OMNameIDMap:OMNameMap={
 } as const as any;
 
 
-export async function createDivinationSpell(dm:DataManager){
+export async function createDivinationSpell(dm:CDataManager){
     const out:JObject[]=[];
     const sid = "DivinationSpell";
     const sname = "预言术";

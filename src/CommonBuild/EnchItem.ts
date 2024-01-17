@@ -1,5 +1,5 @@
 import { ToolQuality, ToolQualityID } from "cdda-schema";
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { Eoc, Tool, ToolID, ItemToolQuality, EocID, Generic, FlagID, Flag, EocEffect, CondObj, BoolObj, Spell, DamageTypeID } from "cdda-schema";
 import { CCharHook } from "CnpcEvent";
@@ -8,12 +8,12 @@ import { CON_SPELL_FLAG } from "StaticData";
 
 
 /**手持触发 */
-function genWieldTrigger(dm:DataManager,flagId:FlagID,hook:CCharHook,effects:EocEffect[],condition?:BoolObj){
+function genWieldTrigger(dm:CDataManager,flagId:FlagID,hook:CCharHook,effects:EocEffect[],condition?:BoolObj){
     const eoc = CMDef.genActEoc(`${flagId}_WieldTigger`,effects,{and:[
         {u_has_wielded_with_flag:flagId},
         ...(condition ? [condition] : [])
     ]});
-    dm.addEvent(hook,0,eoc);
+    dm.addCEvent(hook,0,eoc);
     return eoc;
 }
 
@@ -63,14 +63,14 @@ type EnchSet = {
 }
 
 
-export async function createEnchItem(dm:DataManager){
+export async function createEnchItem(dm:CDataManager){
     const EnchList:EnchSet[] = [
         await knockback(dm),
     ];
     await enchTest(dm,EnchList);
 }
 
-export async function knockback(dm:DataManager) {
+export async function knockback(dm:CDataManager) {
     const enchName = "击退";
     const enchId = "Knockback";
     const maxLvl = 5;
@@ -129,7 +129,7 @@ export async function knockback(dm:DataManager) {
 }
 
 
-export async function enchTest(dm:DataManager,enchSets:EnchSet[]){
+export async function enchTest(dm:CDataManager,enchSets:EnchSet[]){
     const out:JObject[] = [];
 
     //展开附魔集等级标志

@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
 import { JObject, UtilFT } from "@zwa73/utils";
-import { DataManager } from '../DataManager';
+import { CDataManager } from '../DataManager';
 
 
 
@@ -193,7 +193,7 @@ export function getTalkerFieldVarID(talker:"u"|"n",field:string){
 
 let count=0;
 /**读取某个角色的CharConfig */
-export async function loadCharConfig(dm:DataManager,charName:string):Promise<CharConfig>{
+export async function loadCharConfig(dm:CDataManager,charName:string):Promise<CharConfig>{
     count++;
     if(count>1000) throw 'loadCharConfig 调用次数过多(>1000) 可能是循环继承';
     const charConfig:CharConfig = await UtilFT.loadJSONFile(path.join(dm.getCharPath(charName),'config')) as any;

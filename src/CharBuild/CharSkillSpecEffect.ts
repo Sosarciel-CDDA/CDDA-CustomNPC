@@ -1,4 +1,4 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, Spell, SpellFlag, Time } from "cdda-schema";
 import { CharSkill, parseNumObj } from "./CharSkill";
 import { CMDef } from "CMDefine";
@@ -60,14 +60,14 @@ type ExtDamage = {
 /**特殊的字效果 */
 export type SpecEffect = RunEoc|AddEffect|ExtDamage;
 /**特殊效果的处理表 */
-export const SpecProcMap:Record<SpecEffect["type"],(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number)=>void>={
+export const SpecProcMap:Record<SpecEffect["type"],(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number)=>void>={
     AddEffect   :processAddEffect   ,
     RunEoc      :processRunEoc      ,
     ExtDamage   :processExtDamage   ,
 }
 
 
-function processAddEffect(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+function processAddEffect(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec = spec as AddEffect;
@@ -118,7 +118,7 @@ function processAddEffect(dm:DataManager,charName:string,baseSkillData:SpecSkill
         targeted_monster_ids,targeted_monster_species,flags
     })
 };
-function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+function processRunEoc(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec=spec as RunEoc;
@@ -167,7 +167,7 @@ function processRunEoc(dm:DataManager,charName:string,baseSkillData:SpecSkillCas
         targeted_monster_ids,targeted_monster_species,flags
     })
 };
-function processExtDamage(dm:DataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
+function processExtDamage(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
     const {spell,one_in_chance} = skill;
     spec=spec as ExtDamage;

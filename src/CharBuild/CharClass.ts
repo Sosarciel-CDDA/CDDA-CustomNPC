@@ -1,5 +1,5 @@
 import { Armor, BodyPartList, Eoc, EocEffect, Generic, Mutation, MutationID, NPCClassBaseSkill, NpcClass, NpcInstance } from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { DefineSkillList, SkillID } from "cdda-schema";
 import { EMPTY_GROUP_ID } from "StaticData";
@@ -11,7 +11,7 @@ import { EMPTY_GROUP_ID } from "StaticData";
 /**创建角色职业和实例  
  * @param charName 角色名  
  */
-export async function createCharClass(dm:DataManager,charName:string){
+export async function createCharClass(dm:CDataManager,charName:string){
     const {defineData,outData,charConfig} = await dm.getCharData(charName);
     const displayName = charName.replaceAll("_"," ");
     /**NPC职业 */

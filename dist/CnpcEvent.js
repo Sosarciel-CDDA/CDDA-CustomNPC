@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildEventFrame = exports.CGlobalHookList = exports.CCharHookList = exports.CInteractHookList = void 0;
-const cdda_event_1 = require("./cdda-event");
+const cdda_event_1 = require("cdda-event");
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
  */
@@ -37,25 +37,25 @@ exports.CGlobalHookList = [
 ];
 function buildEventFrame() {
     const em = new cdda_event_1.EventManager("CNPCEF");
-    em.addInvoke("GameBegin", 0, "CNPC_EOC_GameBeginEvent");
-    em.addInvoke("TakeDamage", 0, "CNPC_EOC_TakeDamageEvent");
-    em.addInvoke("TryMeleeAttack", 0, "CNPC_EOC_TryMeleeAttackEvent");
-    em.addInvoke("SucessMeleeAttack", 0, "CNPC_EOC_SucessMeleeAttackEvent");
-    em.addInvoke("MissMeleeAttack", 0, "CNPC_EOC_MissMeleeAttackEvent");
-    em.addInvoke("TryRangeAttack", 0, "CNPC_EOC_TryRangeAttackEvent");
-    em.addInvoke("TryAttack", 0, "CNPC_EOC_TryAttackEvent");
-    em.addInvoke("EnterBattle", 0, "CNPC_EOC_EnterBattleEvent");
-    em.addInvoke("DeathPrev", 0, "CNPC_EOC_DeathPrevEvent");
-    em.addInvoke("Death", 0, "CNPC_EOC_DeathEvent");
-    em.addInvoke("Init", 0, "CNPC_EOC_InitEvent");
-    em.addInvoke("AvatarMove", 0, "CNPC_EOC_AvatarMoveEvent");
-    em.addInvoke("AvatarUpdate", 0, "CNPC_EOC_AvatarUpdateEvent");
-    em.addInvoke("Update", 0, "CNPC_EOC_UpdateEvent");
-    em.addInvoke("BattleUpdate", 0, "CNPC_EOC_BattleUpdateEvent");
-    em.addInvoke("NonBattleUpdate", 0, "CNPC_EOC_NonBattleUpdateEvent");
-    em.addInvoke("SlowUpdate", 0, "CNPC_EOC_SlowUpdateEvent");
-    em.addInvoke("MoveStatus", 0, "CNPC_EOC_MoveStatusEvent");
-    em.addInvoke("IdleStatus", 0, "CNPC_EOC_IdleStatusEvent");
+    em.addInvokeID("GameBegin", 0, "CNPC_EOC_GameBeginEvent");
+    em.addInvokeID("TakeDamage", 0, "CNPC_EOC_TakeDamageEvent");
+    em.addInvokeID("TryMeleeAttack", 0, "CNPC_EOC_TryMeleeAttackEvent");
+    em.addInvokeID("SucessMeleeAttack", 0, "CNPC_EOC_SucessMeleeAttackEvent");
+    em.addInvokeID("MissMeleeAttack", 0, "CNPC_EOC_MissMeleeAttackEvent");
+    em.addInvokeID("TryRangeAttack", 0, "CNPC_EOC_TryRangeAttackEvent");
+    em.addInvokeID("TryAttack", 0, "CNPC_EOC_TryAttackEvent");
+    em.addInvokeID("EnterBattle", 0, "CNPC_EOC_EnterBattleEvent");
+    em.addInvokeID("DeathPrev", 0, "CNPC_EOC_DeathPrevEvent");
+    em.addInvokeID("Death", 0, "CNPC_EOC_DeathEvent");
+    em.addInvokeID("Init", 0, "CNPC_EOC_InitEvent");
+    em.addInvokeID("AvatarMove", 0, "CNPC_EOC_AvatarMoveEvent");
+    em.addInvokeID("AvatarUpdate", 0, "CNPC_EOC_AvatarUpdateEvent");
+    em.addInvokeID("Update", 0, "CNPC_EOC_UpdateEvent");
+    em.addInvokeID("BattleUpdate", 0, "CNPC_EOC_BattleUpdateEvent");
+    em.addInvokeID("NonBattleUpdate", 0, "CNPC_EOC_NonBattleUpdateEvent");
+    em.addInvokeID("SlowUpdate", 0, "CNPC_EOC_SlowUpdateEvent");
+    em.addInvokeID("MoveStatus", 0, "CNPC_EOC_MoveStatusEvent");
+    em.addInvokeID("IdleStatus", 0, "CNPC_EOC_IdleStatusEvent");
     return em.build();
 }
 exports.buildEventFrame = buildEventFrame;

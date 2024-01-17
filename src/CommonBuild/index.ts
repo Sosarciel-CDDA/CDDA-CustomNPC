@@ -1,4 +1,4 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { createTest } from "./Test";
 import { createTriggerEffect } from "./TriggerEffect";
 import { createCommonItem } from "./CommonItem";
@@ -10,7 +10,7 @@ import { createEnchItem } from "./EnchItem";
 
 
 /**构建通用数据 */
-export async function commonBuild(dm:DataManager){
+export async function commonBuild(dm:CDataManager){
     await createTest(dm);
     await createTriggerEffect(dm);
     await createCommonItem(dm);

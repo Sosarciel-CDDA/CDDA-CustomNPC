@@ -1,11 +1,11 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Spell } from "cdda-schema";
 import { CMDef } from "CMDefine";
 import { genDIO } from "./UtilGener";
 import { SPELL_MAX_DAMAGE } from "StaticData";
 
 
-export async function createDamageType(dm:DataManager){
+export async function createDamageType(dm:CDataManager){
     await Electrify(dm);
     await Discharge(dm);
     await Trauma(dm);
@@ -17,7 +17,7 @@ export async function createDamageType(dm:DataManager){
 const TEFF_MAX = 1000000;
 
 //感电
-function Electrify(dm:DataManager){
+function Electrify(dm:CDataManager){
     const did = "Electrify" as DamageTypeID;
     const extid = "Serial" as EffectID;
     const dur = "60 s";
@@ -67,7 +67,7 @@ function Electrify(dm:DataManager){
 }
 
 //放电
-function Discharge(dm:DataManager){
+function Discharge(dm:CDataManager){
     const did = "Discharge" as DamageTypeID;
     const dmgeffid = "Electrify" as EffectID;
     const tspell:Spell={
@@ -109,7 +109,7 @@ function Discharge(dm:DataManager){
 }
 
 //创伤
-function Trauma(dm:DataManager){
+function Trauma(dm:CDataManager){
     const did = "Trauma" as DamageTypeID;
     const extid = "HeavyTrauma" as EffectID;
     const stackcount = TEFF_MAX;
@@ -178,7 +178,7 @@ function Trauma(dm:DataManager){
 }
 
 //撕裂
-function Laceration(dm:DataManager){
+function Laceration(dm:CDataManager){
     const did = "Laceration" as DamageTypeID;
     const tspell:Spell={
         type:"SPELL",
@@ -216,7 +216,7 @@ function Laceration(dm:DataManager){
 }
 
 //冻结
-function Freeze(dm:DataManager){
+function Freeze(dm:CDataManager){
     const did = "Freeze" as DamageTypeID;
     const dname = "冻结";
     const tspell:Spell={
@@ -253,7 +253,7 @@ function Freeze(dm:DataManager){
 }
 
 //击退
-function Knockback(dm:DataManager){
+function Knockback(dm:CDataManager){
     const did = "Knockback" as DamageTypeID;
     const dname = "击退";
     const tmddmg = `tmp${did}Dmg`;

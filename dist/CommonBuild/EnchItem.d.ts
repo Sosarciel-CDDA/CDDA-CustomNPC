@@ -1,4 +1,4 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { Flag } from "cdda-schema";
 /**附魔集 */
 type EnchSet = {
@@ -12,7 +12,7 @@ type EnchSet = {
         weight: number;
     }[];
 };
-export declare function createEnchItem(dm: DataManager): Promise<void>;
-export declare function knockback(dm: DataManager): Promise<EnchSet>;
-export declare function enchTest(dm: DataManager, enchSets: EnchSet[]): Promise<void>;
+export declare function createEnchItem(dm: CDataManager): Promise<void>;
+export declare function knockback(dm: CDataManager): Promise<EnchSet>;
+export declare function enchTest(dm: CDataManager, enchSets: EnchSet[]): Promise<void>;
 export {};

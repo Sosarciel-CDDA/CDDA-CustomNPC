@@ -20,7 +20,7 @@ async function buildChar(dm, charName) {
 }
 exports.buildChar = buildChar;
 async function main() {
-    const dm = await DataManager_1.DataManager.create();
+    const dm = await DataManager_1.CDataManager.create();
     await (0, CommonBuild_1.commonBuild)(dm);
     const plist = [];
     for (let charName of dm.charList)

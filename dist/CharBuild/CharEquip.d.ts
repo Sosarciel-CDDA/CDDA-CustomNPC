@@ -1,3 +1,3 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 /**创建角色装备 */
-export declare function createCharEquip(dm: DataManager, charName: string): Promise<void>;
+export declare function createCharEquip(dm: CDataManager, charName: string): Promise<void>;

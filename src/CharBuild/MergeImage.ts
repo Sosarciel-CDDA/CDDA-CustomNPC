@@ -1,4 +1,4 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
@@ -67,7 +67,7 @@ function getTilesetUID(cfg:PkgTilesetCfg):string{
 
 
 /**合并图像 */
-export async function mergeImage(dm:DataManager,charName:string,forcePackage:boolean=true){
+export async function mergeImage(dm:CDataManager,charName:string,forcePackage:boolean=true){
     const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName),"image");
     if(!(await UtilFT.pathExists(imagePath))) return;

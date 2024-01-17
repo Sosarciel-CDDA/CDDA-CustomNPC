@@ -1,11 +1,11 @@
-import { DataManager } from "@src/DataManager";
+import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { genAddEffEoc, genTriggerEffect } from "./UtilGener";
 import { CMDef } from "CMDefine";
 import { Effect, Spell } from "cdda-schema";
 
 
-export async function createTest(dm:DataManager){
+export async function createTest(dm:CDataManager){
     let outData:JObject[] = [];
 
     const effid = CMDef.genEffectID("TestEff");

@@ -1,2 +1,2 @@
-import { DataManager } from "../DataManager";
-export declare function createDrawCardSpell(dm: DataManager): Promise<void>;
+import { CDataManager } from "../DataManager";
+export declare function createDrawCardSpell(dm: CDataManager): Promise<void>;

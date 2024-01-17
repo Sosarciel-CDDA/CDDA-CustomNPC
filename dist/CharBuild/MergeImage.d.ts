@@ -1,3 +1,3 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 /**合并图像 */
-export declare function mergeImage(dm: DataManager, charName: string, forcePackage?: boolean): Promise<void>;
+export declare function mergeImage(dm: CDataManager, charName: string, forcePackage?: boolean): Promise<void>;

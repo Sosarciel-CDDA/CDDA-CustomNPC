@@ -1,5 +1,5 @@
 import { Spell, FlagID, BoolObj, EocEffect, WeaponCategoryID } from "cdda-schema";
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import { CCharHook } from "../CnpcEvent";
 import { SpecEffect } from "./CharSkillSpecEffect";
 /**技能选择目标类型 列表 */
@@ -113,7 +113,7 @@ export declare function getGlobalDisableSpellVar(charName: string, spell: Spell)
 /**使某个技能停止使用的变量 */
 export declare function getDisableSpellVar(talker: "u" | "n", spell: Spell): string;
 /**处理角色技能 */
-export declare function createCharSkill(dm: DataManager, charName: string): Promise<void>;
+export declare function createCharSkill(dm: CDataManager, charName: string): Promise<void>;
 /**解析NumObj为math表达式 */
 export declare function parseNumObj(value: any): string;
 export {};

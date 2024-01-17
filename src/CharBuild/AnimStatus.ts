@@ -1,6 +1,6 @@
 import { JArray } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { CharDefineData, DataManager } from "../DataManager";
+import { CharDefineData, CDataManager } from "../DataManager";
 import * as path from 'path';
 import { Eoc } from "cdda-schema";
 import { CMDef } from "CMDefine";
@@ -46,7 +46,7 @@ export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:A
 }
 
 /**创建动画状态机事件 */
-export async function createAnimStatus(dm:DataManager,charName:string){
+export async function createAnimStatus(dm:CDataManager,charName:string){
     const {defineData,outData} = await dm.getCharData(charName);
     const eocList:Eoc[] = [];
     const animEventMap:Record<AnimType,CCharHook|undefined>={

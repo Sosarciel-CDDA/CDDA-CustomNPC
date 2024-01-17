@@ -1,4 +1,4 @@
-import { DataManager } from "../DataManager";
+import { CDataManager } from "../DataManager";
 import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
@@ -29,7 +29,7 @@ type AnimeInfo = Partial<Record<AnimType,{
 
 
 /**合并并创建序列帧 */
-export async function mergeAnime(dm:DataManager,charName:string,forcePackage:boolean=true){
+export async function mergeAnime(dm:CDataManager,charName:string,forcePackage:boolean=true){
     const {defineData,outData} = await dm.getCharData(charName);
     const imagePath = path.join(dm.getCharPath(charName),"anime");
     if(!(await UtilFT.pathExists(imagePath))) return;
