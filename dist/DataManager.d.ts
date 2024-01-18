@@ -98,7 +98,7 @@ export declare class CDataManager extends DataManager {
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
-    addCEvent(etype: CGlobalHook, weight: number, ...events: Eoc[]): void;
+    addGEvent(etype: CGlobalHook, weight: number, ...events: Eoc[]): void;
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */

@@ -273,14 +273,14 @@ class CDataManager extends cdda_event_1.DataManager {
     /**添加 eoc的ID引用到 全局事件
      * u为主角 npc为未定义
      */
-    addCEvent(etype, weight, ...events) {
-        this.eventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
+    addGEvent(etype, weight, ...events) {
+        this.eventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": [eoc.id] }, weight })));
     }
     /**添加 eoc的ID引用到 角色事件
      * u为角色 npc为未定义
      */
     addCharEvent(charName, etype, weight, ...events) {
-        this.charTable[charName].charEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": eoc.id }, weight })));
+        this.charTable[charName].charEventEocs[etype].push(...events.map(eoc => ({ effect: { "run_eocs": [eoc.id] }, weight })));
     }
     /**获取 角色目录 */
     getCharPath(charName) {
@@ -300,6 +300,26 @@ class CDataManager extends cdda_event_1.DataManager {
     /**输出数据 */
     async saveAllData() {
         super.saveAllData();
+        function mergeEffects(effect) {
+            const mergeeffects = [];
+            effect.forEach((e) => {
+                const lastobj = mergeeffects[mergeeffects.length - 1];
+                if (typeof lastobj == "object" && 'run_eocs' in lastobj && Array.isArray(lastobj.run_eocs) &&
+                    typeof e == "object" && 'run_eocs' in e && Array.isArray(e.run_eocs)) {
+                    lastobj.run_eocs.push(...e.run_eocs);
+                }
+                else
+                    mergeeffects.push(e);
+            });
+            return mergeeffects;
+        }
+        function pareEffects(events) {
+            events = events.sort((a, b) => b.weight - a.weight);
+            //展开合并
+            const eventeffects = [];
+            events.forEach((e) => eventeffects.push(e.effect));
+            return mergeEffects(eventeffects);
+        }
         //导出角色数据
         for (let charName of this.charList) {
             const charData = this.charTable[charName];
@@ -316,7 +336,7 @@ class CDataManager extends cdda_event_1.DataManager {
             for (const etypeStr in charEventMap) {
                 const etype = etypeStr;
                 //降序排序事件
-                const charEventList = charEventMap[etype].sort((a, b) => b.weight - a.weight);
+                const charEventList = pareEffects(charEventMap[etype]);
                 //至少有一个角色事件才会创建
                 if (charEventList.length > 0) {
                     //创建角色触发Eoc
@@ -324,12 +344,12 @@ class CDataManager extends cdda_event_1.DataManager {
                         type: "effect_on_condition",
                         eoc_type: "ACTIVATION",
                         id: CMDefine_1.CMDef.genEOCID(`${charName}_${etype}`),
-                        effect: [...charEventList.map(event => event.effect)],
+                        effect: [...charEventList],
                         condition: { u_has_trait: charData.defineData.baseMutID }
                     };
                     charEventEocs.push(eventEoc);
                     //将角色触发eoc注册入全局eoc
-                    this.addCEvent(etype, 0, eventEoc);
+                    this.addGEvent(etype, 0, eventEoc);
                 }
             }
             this.saveToCharFile(charName, 'char_event_eocs', charEventEocs);
@@ -342,15 +362,16 @@ class CDataManager extends cdda_event_1.DataManager {
         //导出全局EOC
         const globalEvent = this.eventEocs;
         const eventEocs = [];
-        for (const etype in globalEvent) {
+        for (const etypeStr in globalEvent) {
+            const etype = etypeStr;
             //降序排序事件
-            const globalEvents = globalEvent[etype].sort((a, b) => b.weight - a.weight);
+            const globalEvents = pareEffects(globalEvent[etype]);
             //创建全局触发Eoc
             const globalEoc = {
                 type: "effect_on_condition",
                 eoc_type: "ACTIVATION",
                 id: CMDefine_1.CMDef.genEOCID(etype),
-                effect: [...globalEvents.map(event => event.effect)],
+                effect: [...globalEvents],
             };
             eventEocs.push(globalEoc);
         }

@@ -48,7 +48,7 @@ export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CGlobalHook,
         ]},
         ...condition? [condition]:[]]
     },true);
-    dm.addCEvent(hook,0,triggerEoc);
+    dm.addGEvent(hook,0,triggerEoc);
 
 
     return triggerEoc;

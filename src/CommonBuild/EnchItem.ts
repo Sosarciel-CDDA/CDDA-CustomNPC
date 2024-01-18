@@ -13,7 +13,7 @@ function genWieldTrigger(dm:CDataManager,flagId:FlagID,hook:CCharHook,effects:Eo
         {u_has_wielded_with_flag:flagId},
         ...(condition ? [condition] : [])
     ]});
-    dm.addCEvent(hook,0,eoc);
+    dm.addGEvent(hook,0,eoc);
     return eoc;
 }
 

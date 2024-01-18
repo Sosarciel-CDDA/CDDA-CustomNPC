@@ -9,7 +9,7 @@ function genWieldTrigger(dm, flagId, hook, effects, condition) {
             { u_has_wielded_with_flag: flagId },
             ...(condition ? [condition] : [])
         ] });
-    dm.addCEvent(hook, 0, eoc);
+    dm.addGEvent(hook, 0, eoc);
     return eoc;
 }
 function numToRoman(num) {
