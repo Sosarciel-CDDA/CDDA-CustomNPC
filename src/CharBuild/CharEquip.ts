@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect } from "cdda-schema";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect, ArmorFlag } from "cdda-schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
@@ -120,7 +120,7 @@ export async function createCharEquip(dm:CDataManager,charName:string){
             "NO_SALVAGE"            , //无法拆分
             "ALLOWS_NATURAL_ATTACKS", //不会妨碍特殊攻击
             "PADDED"                , //有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
-            defineData.baseItemFlagID
+            defineData.baseItemFlagID as ArmorFlag
         ],
         pocket_data : pocketList,
         relic_data:{
