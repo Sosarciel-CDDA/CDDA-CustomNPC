@@ -61,10 +61,9 @@ class CDataManager extends cdda_event_1.DataManager {
      */
     static async create(dataPath, outPath) {
         let dm = new CDataManager(dataPath, outPath);
-        if (dm._dataPath == null)
-            throw "";
+        const envPath = path.join(process.cwd(), "..");
         //读取build设置
-        dm.buildSetting = (await utils_1.UtilFT.loadJSONFile(path.join(dm._dataPath, 'build_setting')));
+        dm.buildSetting = (await utils_1.UtilFT.loadJSONFile(path.join(envPath, 'build_setting')));
         const bs = dm.buildSetting;
         dm._outPath = dm._outPath || path.join(bs.game_path, 'data', 'mods', 'CustomNPC');
         await dm.processGfxpack();
