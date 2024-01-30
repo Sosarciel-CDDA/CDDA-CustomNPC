@@ -125,9 +125,9 @@ export class CDataManager extends DataManager{
      */
     static async create(dataPath?:string,outPath?:string):Promise<CDataManager>{
         let dm = new CDataManager(dataPath,outPath);
-        if(dm._dataPath==null) throw "";
+        const envPath = path.join(process.cwd(),"..");
         //读取build设置
-        dm.buildSetting = (await UtilFT.loadJSONFile(path.join(dm._dataPath,'build_setting')))as BuildSetting;
+        dm.buildSetting = (await UtilFT.loadJSONFile(path.join(envPath,'build_setting'))) as BuildSetting;
         const bs = dm.buildSetting;
         dm._outPath = dm._outPath || path.join(bs.game_path,'data','mods','CustomNPC');
 

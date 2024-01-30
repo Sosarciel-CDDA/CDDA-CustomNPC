@@ -1,10 +1,7 @@
 import { CDataManager } from "./DataManager";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
-import { StaticDataMap } from "./StaticData";
 import { createAnimStatus, createAnimTool, createCharCarry, createCharClass, createCharEquip, createCharSkill, createCharTalkTopic, mergeAnime } from "./CharBuild";
 import { commonBuild } from "./CommonBuild";
-import { createDivinationSpell } from "./CommonBuild/DivinationSpell";
-import { createDrawCardSpell } from "./CommonBuild/DrawCardSpell";
 import { mergeImage } from "./CharBuild/MergeImage";
 
 
