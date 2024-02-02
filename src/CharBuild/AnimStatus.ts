@@ -13,7 +13,7 @@ function hasAnim(outData:Record<string,JArray>,animType:AnimType){
 }
 
 /**移除其他动作变异 */
-export function removeOtherAnimEoc(charName:string,baseData:CharDefineData,animType:AnimType){
+function removeOtherAnimEoc(charName:string,baseData:CharDefineData,animType:AnimType){
     const otherAnim = baseData.validAnim.filter(item=> item!=animType);
     if(otherAnim.length<=0) return null;
     const eoc:Eoc={
@@ -29,7 +29,7 @@ export function removeOtherAnimEoc(charName:string,baseData:CharDefineData,animT
     return eoc;
 }
 /**切换动作EOC */
-export function changeAnimEoc(charName:string,baseData:CharDefineData,animType:AnimType){
+function changeAnimEoc(charName:string,baseData:CharDefineData,animType:AnimType){
     const removeEoc = removeOtherAnimEoc(charName,baseData,animType);
     if(removeEoc==null) return [];
     const eoc:Eoc={

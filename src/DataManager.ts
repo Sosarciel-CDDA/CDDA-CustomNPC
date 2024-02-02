@@ -523,9 +523,5 @@ export type AnimData = Readonly<{
     animName:string;
     /**动画变异ID */
     mutID:MutationID;
-    /**动画装备ID */
-    armorID:ArmorID;
-    /**动画装备物品组ID */
-    itemGroupID:ItemGroupID;
 }>;
 
