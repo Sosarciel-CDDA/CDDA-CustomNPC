@@ -37,23 +37,24 @@ export async function createAnimTool(dm:CDataManager,charName:string){
             valid:false,
             player_display:false,
         }
-        const animArmor:Armor={
-            type:"ARMOR",
-            id:animData.armorID,
-            name:`${charName}的${animType}动画变异装备`,
-            description:`${charName}的${animType}动画变异装备`,
-            category:"clothing",
-            weight: 0,
-            volume: 0,
-            symbol: "O",
-            flags:["AURA","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT"],
-        }
-        const animArmorGroup:ItemGroup={
-            type:"item_group",
-            id:animData.itemGroupID,
-            subtype:"collection",
-            items:[animData.armorID]
-        }
-        outData[path.join("anime",animType)] = [animMut,animArmor,animArmorGroup];
+        //const animArmor:Armor={
+        //    type:"ARMOR",
+        //    id:animData.armorID,
+        //    name:`${charName}的${animType}动画变异装备`,
+        //    description:`${charName}的${animType}动画变异装备`,
+        //    category:"clothing",
+        //    weight: 0,
+        //    volume: 0,
+        //    symbol: "O",
+        //    flags:["AURA","UNBREAKABLE","INTEGRATED","ZERO_WEIGHT"],
+        //}
+        //const animArmorGroup:ItemGroup={
+        //    type:"item_group",
+        //    id:animData.itemGroupID,
+        //    subtype:"collection",
+        //    items:[animData.armorID]
+        //}
+        //outData[path.join("anime",animType)] = [animMut,animArmor,animArmorGroup];
+        outData[path.join("anime",animType)] = [animMut];
     }
 }
