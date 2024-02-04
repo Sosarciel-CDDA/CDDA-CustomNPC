@@ -31,5 +31,7 @@ export const getCharCastSpellPath = (charName:string)=>path.join(CASTSPELL_PATH,
 
 /**获取角色路径 */
 export const getCharPath = (charName:string) => path.join(DATA_PATH,"Chars",charName);
+/**角色绝对输出路径 */
+export const getCharOutPathAbs = (charName:string) => path.join(OUT_PATH,"Chars",charName);
 /**角色输出路径 */
-export const getCharOutPath = (charName:string) => path.join(OUT_PATH,"Chars",charName);
+export const getCharOutPath = (charName:string) => path.join("Chars",charName);

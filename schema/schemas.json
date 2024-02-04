@@ -26532,6 +26532,10 @@
 					"$ref": "#/definitions/Partial_34",
 					"description": "基础技能  \n00->02 1  \n02->03 1  \n03->04 2  \n04->05 2  \n05->06 3  \n06->07 3  \n07->08 4  \n08->09 4  \n09->10 5"
 				},
+				"base_spell": {
+					"$ref": "#/definitions/NpcBaseSpells",
+					"description": "基础法术"
+				},
 				"base_status": {
 					"$ref": "#/definitions/Record_9",
 					"description": "基础属性  \n最低4 最高14  \n04-12 每级 1  \n12-14 每级 2"
@@ -47820,6 +47824,18 @@
 			],
 			"type": "number"
 		},
+		"NpcBaseSpells": {
+			"$ref": "#/definitions/NpcBaseSpells_1"
+		},
+		"NpcBaseSpells_1": {
+			"$ref": "#/definitions/Array_1"
+		},
+		"NpcBaseTraits": {
+			"$ref": "#/definitions/NpcBaseTraits_1"
+		},
+		"NpcBaseTraits_1": {
+			"$ref": "#/definitions/Array"
+		},
 		"NpcClass": {
 			"$ref": "#/definitions/__type_67"
 		},
@@ -57496,12 +57512,6 @@
 			],
 			"type": "string"
 		},
-		"Spells": {
-			"$ref": "#/definitions/Spells_1"
-		},
-		"Spells_1": {
-			"$ref": "#/definitions/Array_1"
-		},
 		"SpriteCfg": {
 			"allOf": [
 				{
@@ -58238,12 +58248,6 @@
 				}
 			],
 			"description": "工具品质ID"
-		},
-		"Traits": {
-			"$ref": "#/definitions/Traits_1"
-		},
-		"Traits_1": {
-			"$ref": "#/definitions/Array"
 		},
 		"UACastSpell": {
 			"$ref": "#/definitions/__type_43"
@@ -90925,11 +90929,11 @@
 					"type": "array"
 				},
 				"spells": {
-					"$ref": "#/definitions/Spells",
+					"$ref": "#/definitions/NpcBaseSpells",
 					"description": "基础法术"
 				},
 				"traits": {
-					"$ref": "#/definitions/Traits",
+					"$ref": "#/definitions/NpcBaseTraits",
 					"description": "基础变异"
 				},
 				"type": {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCharOutPath = exports.getCharPath = exports.getCharCastSpellPath = exports.CASTSPELL_PATH = exports.getCharCastAIPath = exports.CASTAI_PATH = exports.OUT_PATH = exports.GAME_PATH = exports.ENV_PATH = exports.CHARS_PATH = exports.DATA_PATH = exports.CMDef = exports.MOD_PREFIX = void 0;
+exports.getCharOutPath = exports.getCharOutPathAbs = exports.getCharPath = exports.getCharCastSpellPath = exports.CASTSPELL_PATH = exports.getCharCastAIPath = exports.CASTAI_PATH = exports.OUT_PATH = exports.GAME_PATH = exports.ENV_PATH = exports.CHARS_PATH = exports.DATA_PATH = exports.CMDef = exports.MOD_PREFIX = void 0;
 const utils_1 = require("@zwa73/utils");
 const cdda_schema_1 = require("cdda-schema");
 const path = require("path");
@@ -32,6 +32,9 @@ exports.getCharCastSpellPath = getCharCastSpellPath;
 /**获取角色路径 */
 const getCharPath = (charName) => path.join(exports.DATA_PATH, "Chars", charName);
 exports.getCharPath = getCharPath;
+/**角色绝对输出路径 */
+const getCharOutPathAbs = (charName) => path.join(exports.OUT_PATH, "Chars", charName);
+exports.getCharOutPathAbs = getCharOutPathAbs;
 /**角色输出路径 */
-const getCharOutPath = (charName) => path.join(exports.OUT_PATH, "Chars", charName);
+const getCharOutPath = (charName) => path.join("Chars", charName);
 exports.getCharOutPath = getCharOutPath;

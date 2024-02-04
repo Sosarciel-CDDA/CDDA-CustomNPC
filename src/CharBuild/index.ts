@@ -14,13 +14,11 @@ export async function createChar(dm:CDataManager){
     const charList = await getCharList();
     createDrawCardSpell(dm);
     for(const charName of charList){
-        await Promise.all([
-            createCharCarry(dm,charName),
-            createCharClass(dm,charName),
-            createCharEquip(dm,charName),
-            createCharGener(dm,charName),
-            createCharSkill(dm,charName),
-            createCharTalkTopic(dm,charName),
-        ])
+        await createCharCarry(dm,charName);
+        await createCharClass(dm,charName);
+        await createCharEquip(dm,charName);
+        await createCharGener(dm,charName);
+        await createCharSkill(dm,charName);
+        await createCharTalkTopic(dm,charName);
     }
 }

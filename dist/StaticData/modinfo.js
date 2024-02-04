@@ -11,7 +11,7 @@ exports.modinfo = [
         "maintainers": ["zwa73"],
         "description": "CustomNPC",
         "category": "other",
-        "dependencies": ["dda", "aftershock", "magiclysm", "cnpcench"]
+        "dependencies": ["dda", "aftershock", "magiclysm", "cench", "cmedia", "smartnpc"]
     }
 ];
 (0, StaticData_1.saveStaticData)(exports.modinfo, 'modinfo');

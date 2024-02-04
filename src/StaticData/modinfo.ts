@@ -9,7 +9,7 @@ export const modinfo = [
         "maintainers": ["zwa73"],
         "description": "CustomNPC",
         "category": "other",
-        "dependencies": ["dda","aftershock","magiclysm","cnpcench"]
+        "dependencies": ["dda","aftershock","magiclysm","cench","cmedia","smartnpc"]
     }
 ]
 saveStaticData(modinfo,'modinfo');

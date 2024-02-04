@@ -22,5 +22,7 @@ export declare const CASTSPELL_PATH: string;
 export declare const getCharCastSpellPath: (charName: string) => string;
 /**获取角色路径 */
 export declare const getCharPath: (charName: string) => string;
+/**角色绝对输出路径 */
+export declare const getCharOutPathAbs: (charName: string) => string;
 /**角色输出路径 */
 export declare const getCharOutPath: (charName: string) => string;

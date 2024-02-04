@@ -14,14 +14,12 @@ async function createChar(dm) {
     const charList = await (0, CharData_1.getCharList)();
     (0, DrawCardSpell_1.createDrawCardSpell)(dm);
     for (const charName of charList) {
-        await Promise.all([
-            (0, CharCarry_1.createCharCarry)(dm, charName),
-            (0, CharClass_1.createCharClass)(dm, charName),
-            (0, CharEquip_1.createCharEquip)(dm, charName),
-            (0, CharGener_1.createCharGener)(dm, charName),
-            (0, CharSkill_1.createCharSkill)(dm, charName),
-            (0, CharTalkTopic_1.createCharTalkTopic)(dm, charName),
-        ]);
+        await (0, CharCarry_1.createCharCarry)(dm, charName);
+        await (0, CharClass_1.createCharClass)(dm, charName);
+        await (0, CharEquip_1.createCharEquip)(dm, charName);
+        await (0, CharGener_1.createCharGener)(dm, charName);
+        await (0, CharSkill_1.createCharSkill)(dm, charName);
+        await (0, CharTalkTopic_1.createCharTalkTopic)(dm, charName);
     }
 }
 exports.createChar = createChar;

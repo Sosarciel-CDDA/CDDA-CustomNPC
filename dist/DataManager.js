@@ -42,7 +42,7 @@ class CDataManager extends cdda_event_1.DataManager {
             const charStaticDataPath = path.join((0, CMDefine_1.getCharPath)(charName), "StaticData");
             await utils_1.UtilFT.ensurePathExists(charStaticDataPath, true);
             //await
-            fs.promises.cp(charStaticDataPath, (0, CMDefine_1.getCharOutPath)(charName), { recursive: true });
+            fs.promises.cp(charStaticDataPath, (0, CMDefine_1.getCharOutPathAbs)(charName), { recursive: true });
         });
         Promise.all([...funcs.map((func) => func())]);
         //编译所有eocscript

@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
 import { Eoc, AnyCddaJson, EocEffect } from 'cdda-schema';
-import { DATA_PATH, OUT_PATH, getCharOutPath, getCharPath } from 'CMDefine';
+import { DATA_PATH, OUT_PATH, getCharOutPath, getCharOutPathAbs, getCharPath } from 'CMDefine';
 import { CharHook, DataManager } from 'cdda-event';
 import { getCharMutId } from './CharBuild/UtilGener';
 
@@ -13,7 +13,7 @@ export class CDataManager extends DataManager{
 
     //———————————————————— 初始化 ————————————————————//
     constructor(){
-        super(DATA_PATH,OUT_PATH,"CNPCef");
+        super(DATA_PATH,OUT_PATH,"CNPCEF");
         if(this._dataPath==null) throw "";
         //合并静态数据
         for(const key in StaticDataMap)
@@ -44,7 +44,7 @@ export class CDataManager extends DataManager{
                 const charStaticDataPath = path.join(getCharPath(charName),"StaticData");
                 await UtilFT.ensurePathExists(charStaticDataPath,true);
                 //await
-                fs.promises.cp(charStaticDataPath,getCharOutPath(charName),{ recursive: true });
+                fs.promises.cp(charStaticDataPath,getCharOutPathAbs(charName),{ recursive: true });
             })
         Promise.all([...funcs.map((func)=>func())]);
 

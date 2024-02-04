@@ -49,15 +49,12 @@ export const getCharList = async ()=>{
     let baseList = (await fs.promises.readdir(CHARS_PATH))
         .filter(fileName=>fs.statSync(path.join(CHARS_PATH,fileName)).isDirectory());
 
-    console.log(baseList)
     const filteredList = (await Promise.all(baseList.map(async charName => {
         const charConfig = await getCharConfig(charName);
-        console.log(charConfig)
         if (charConfig.virtual !== true) return charName;
         return null;
     }))).filter((item)=>item!==null) as string[];
 
     CharList.push(...filteredList);
-    console.log(CharList)
     return CharList;
 }
