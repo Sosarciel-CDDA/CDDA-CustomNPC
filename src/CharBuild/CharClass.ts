@@ -62,20 +62,6 @@ export async function createCharClass(dm:CDataManager,charName:string){
         gender  :charConfig.desc?.gender,
     }
 
-    /**自动保存事件 */
-    const autoSave:Eoc = {
-        type:"effect_on_condition",
-        id:CMDef.genEOCID(`${charName}_SaveProcess`),
-        eoc_type:"ACTIVATION",
-        effect:[
-            ...DefineSkillList.map(item=>{
-                const math:EocEffect = {math:[`${charName}_skill_${item}`,"=",`u_skill(${item})`]};
-                return math;
-            })
-        ]
-    }
-    dm.addCharInvokeEoc(charName,"SlowUpdate",0,autoSave);
-
 
     /**初始化事件 */
     const charInitEoc:Eoc = {
@@ -83,11 +69,9 @@ export async function createCharClass(dm:CDataManager,charName:string){
         eoc_type:"ACTIVATION",
         id:CMDef.genEOCID(`${charName}_InitProcess`),
         effect:[
-            {math:[`u_uid`,"=",`${charName}_uid`]},
-            ...DefineSkillList.map(item=>{
-                const math:EocEffect = {math:[`u_skill(${item})`,"=",`${charName}_skill_${item}`]};
-                return math;
-            })
+            {if:{math:[`${charName}_hasInstance`,"==","1"]},
+            then:[{math:["u_needRemove","=","1"]}]},
+            {math:[`${charName}_hasInstance`,"=","1"]}
         ]
     }
     dm.addCharInvokeEoc(charName,"Init",1000,charInitEoc);
@@ -100,10 +84,10 @@ export async function createCharClass(dm:CDataManager,charName:string){
         effect:[
             {run_eocs:"CNPC_EOC_CnpcDeathProcess"}
         ],
-        condition:{math:["u_uid","!=",`${charName}_uid`]}
+        condition:{math:["u_needRemove","==",`1`]}
     }
     dm.addCharInvokeEoc(charName,"Update",0,charRemoveEoc);
     dm.addCharStaticData(charName,
-        [charClass,charInstance,autoSave,charInitEoc,charRemoveEoc],
+        [charClass,charInstance,charInitEoc,charRemoveEoc],
         'npc');
 }

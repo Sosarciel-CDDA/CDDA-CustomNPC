@@ -33,7 +33,6 @@ export async function createCharGener(dm:CDataManager,charName:string) {
         id: CMDef.genEOCID(spawnerId),
         effect: [
             //{ u_consume_item: CMDef.genGenericID(spawnerId), count: 1 },
-            {math:[`${charName}_uid`,"+=","1"]},
             {
                 u_spawn_npc: getCharInstanceId(charName),
                 real_count: 1,
@@ -52,7 +51,6 @@ export async function createCharGener(dm:CDataManager,charName:string) {
         id: CMDef.genEOCID(`${charName}_Card_Eoc`),
         effect: [
             {u_add_var:cardcdvar,time:true},
-            {math:[`${charName}_uid`,"+=","1"]},
             {
                 u_spawn_npc: getCharInstanceId(charName),
                 real_count: 1,

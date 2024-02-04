@@ -33,6 +33,69 @@ function CNPC_EOC_UpdateStat(){
 	*/
 }
 
+
+
+//———————————————————— 基础事件路由 ————————————————————//
+//每次进入游戏时事件
+//游戏开始时
+function CNPC_EOC_GameBeginEvent(){
+	eoc_type("ACTIVATION")
+	//调用外部提供的初始化变量eoc
+	CNPC_EOC_InitVar();
+	//触发动态生成的 游戏开始时 事件
+	CNPC_EOC_GameBegin();
+}
+//受到攻击
+function CNPC_EOC_TakeDamageEvent(){
+	eoc_type("ACTIVATION")
+	//触发动态生成的 受到伤害 事件
+	CNPC_EOC_TakeDamage();
+}
+//尝试近战攻击
+function CNPC_EOC_TryMeleeAttackEvent(){
+	eoc_type("ACTIVATION");
+	//触发动态生成的 尝试近战攻击 事件
+	CNPC_EOC_TryMeleeAttack();
+}
+//近战攻击命中
+function CNPC_EOC_SucessMeleeAttackEvent(){
+	eoc_type("ACTIVATION");
+	//触发动态生成的 近战攻击命中 事件
+	CNPC_EOC_SucessMeleeAttack();
+
+}
+//近战攻击未命中
+function CNPC_EOC_MissMeleeAttackEvent(){
+	eoc_type("ACTIVATION");
+	//触发动态生成的 近战攻击未命中 事件
+	CNPC_EOC_MissMeleeAttack();
+}
+//尝试远程攻击
+function CNPC_EOC_TryRangeAttackEvent(){
+	eoc_type("ACTIVATION");
+	//触发动态生成的 尝试远程攻击 事件
+	CNPC_EOC_TryRangeAttack();
+}
+//尝试攻击
+function CNPC_EOC_TryAttackEvent(){
+	eoc_type("ACTIVATION")
+	//触发动态生成的 尝试攻击 事件
+	CNPC_EOC_TryAttack();
+}
+//进入战斗
+function CNPC_EOC_EnterBattleEvent(){
+	eoc_type("ACTIVATION")
+	//触发动态生成的 进入战斗 事件
+	CNPC_EOC_EnterBattle()
+}
+//死亡前
+function CNPC_EOC_DeathPrevEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 死亡前 事件
+		CNPC_EOC_DeathPrev();
+	}
+}
 //死亡
 function CNPC_EOC_DeathEvent(){
 	eoc_type("ACTIVATION");
@@ -49,6 +112,9 @@ function CNPC_EOC_InitEvent(){
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
+
+	//触发动态生成的 初始化 事件eoc
+	CNPC_EOC_Init();
 }
 //玩家移动
 function CNPC_EOC_AvatarMoveEvent(){
@@ -64,17 +130,71 @@ function CNPC_EOC_AvatarUpdateEvent(){
 
 	//记录坐标
 	eobj({"u_location_variable":{"global_val":"avatar_loc"}});
+
+	//每轮刷新怪物血量
+	//eobj({ "u_cast_spell": { "id": "CNPC_SPELL_InitCurrHP" } })
+	//CNPC_EOC_UpdateStat();
+	//print_global_val(mag3);
+	//print_global_val(mag1);
+	//print_global_val(mag2);
+
+	//触发动态生成的 玩家刷新 事件eoc
+	CNPC_EOC_AvatarUpdate();
 }
 //刷新
 function CNPC_EOC_UpdateEvent(){
 	eoc_type("ACTIVATION");
+	//通用刷新 如果含有已经死亡标记则不触发
 	if(u_isDeath!=1){
+		//触发动态生成的 刷新 事件
+		CNPC_EOC_Update();
+
 		//Cnpc角色刷新
 		if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" }))
 			CNPC_EOC_CnpcUpdateEvent();
 	}//如果含有已经死亡标记则触发死亡后处理
 	else if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
 		eobj({"run_eoc_with":"CNPC_EOC_CnpcDeathAfterProcess","beta_loc":{"global_val":"avatar_loc"}})
+	}
+}
+//战斗刷新
+function CNPC_EOC_BattleUpdateEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 战斗刷新 事件eoc
+		CNPC_EOC_BattleUpdate();
+	}
+}
+//非战斗刷新
+function CNPC_EOC_NonBattleUpdateEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 cnpc非战斗刷新 事件eoc
+		CNPC_EOC_NonBattleUpdate();
+	}
+}
+//慢速刷新
+function CNPC_EOC_SlowUpdateEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 cnpc慢速刷新 事件eoc
+		CNPC_EOC_SlowUpdate();
+	}
+}
+//移动状态
+function CNPC_EOC_MoveStatusEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 移动状态 事件eoc
+		CNPC_EOC_MoveStatus();
+	}
+}
+//待机状态
+function CNPC_EOC_IdleStatusEvent(){
+	eoc_type("ACTIVATION");
+	if(u_isDeath != 1){
+		//触发动态生成的 待机状态 事件eoc
+		CNPC_EOC_IdleStatus();
 	}
 }
 
@@ -110,6 +230,13 @@ function CNPC_EOC_CnpcDeathProcess(){
 	eobj({ "u_add_trait": "DEBUG_CLOAK" });
 	eobj({ "u_add_trait": "DEBUG_SPEED" });
 	u_isDeath = 1;
+}
+
+//Cnpc角色的主循环函数
+function CNPC_EOC_CnpcUpdateEvent(){
+	eoc_type("ACTIVATION")
+	//数值显示变量
+	let u_show_mana = u_val('mana');
 }
 
 //死亡后处理
