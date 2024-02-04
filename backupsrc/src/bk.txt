@@ -1,0 +1,102 @@
+    /**基础武器 */
+    const baseWeapon:Gun={
+        type:"GUN",
+        id:baseData.baseWeaponID,
+        name:`${charName}的武器`,
+        description:`${charName}的武器`,
+        ammo:[baseData.baseAmmoTypeID],
+        relic_data: {
+            charge_info: {
+                recharge_type: "periodic",
+                time: 1,
+                regenerate_ammo: true
+            }
+        },
+        ammo_to_fire:0,
+        pocket_data: [{
+            pocket_type: "MAGAZINE",
+            ammo_restriction: { [baseData.baseAmmoTypeID]: 10 }
+        }],
+        skill:"rifle",
+        weight:0,
+        volume:0,
+        symbol:"O",
+        looks_like:TransparentItem,
+        flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
+            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP",
+            baseData.baseWeaponFlagID],
+        countdown_interval: 1,
+        range:30,
+        ranged_damage:{
+            damage_type:"bullet",
+            amount:50,
+            armor_penetration:10,
+        },
+        melee_damage:{
+            cut:20
+        },
+        modes:[["MELEE","近战",6],["DEFAULT","默认",2],["AUTO","全自动",4]]
+    }
+    /**基础弹药类型 */
+    const baseAmmoType:AmmiunitionType={
+        type:"ammunition_type",
+        name:`${charName}的子弹类型`,
+        id:baseData.baseAmmoTypeID,
+        default:baseData.baseAmmoID,
+    }
+    /**基础武器所用的弹药 */
+    const baseAmmo:Ammo={
+        type:"AMMO",
+        ammo_type:baseData.baseAmmoTypeID,
+        id:baseData.baseAmmoID,
+        name:`${charName}的子弹`,
+        description:`${charName}的子弹`,
+        weight:0,
+        volume:0,
+        symbol:"O",
+        flags:["ZERO_WEIGHT"],
+    }
+
+
+
+
+
+
+//角色事件eoc主体
+const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_${etype}`),
+        effect:[],
+        condition:{u_has_trait:baseData.baseMutID}
+    }
+    return {
+        ...acc,
+        [etype]:subEoc
+}},{} as Record<CharEventType,Eoc>)
+//角色反转事件eoc主体
+const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(`${charName}_${etype}`),
+        effect:[],
+        condition:{npc_has_trait:baseData.baseMutID}
+    }
+    return {
+        ...acc,
+        [etype]:subEoc
+}},{} as Record<ReverseCharEventType,Eoc>)
+
+eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
+    const subEoc:Eoc={
+        type:"effect_on_condition",
+        eoc_type:"ACTIVATION",
+        id:genEOCID(item),
+        effect:[],
+    }
+    return {
+        ...acc,
+        [item]:subEoc
+}},{} as Record<GlobalEventType,Eoc>)

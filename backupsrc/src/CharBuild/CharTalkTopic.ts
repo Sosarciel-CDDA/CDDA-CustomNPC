@@ -1,11 +1,9 @@
 import { JObject } from "@zwa73/utils";
 import { CMDef } from "CMDefine";
 import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "cdda-schema";
-import { RequireResource } from "./CharInterface";
+import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
 import { CDataManager } from "../DataManager";
-import { getCharConfig } from "./CharData";
-import { getCharBaseItemFlagId, getCharMutId, getCharTalkTopicId, getGlobalFieldVarID, getTalkerFieldVarID } from "./UtilGener";
 
 
 
@@ -14,15 +12,20 @@ import { getCharBaseItemFlagId, getCharMutId, getCharTalkTopicId, getGlobalField
 
 /**创建对话选项 */
 export async function createCharTalkTopic(dm:CDataManager,charName:string){
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+
     //扩展对话
     const extTalkTopic:TalkTopic={
         type:"talk_topic",
         id:["TALK_FRIEND","TALK_FRIEND_GUARD"],
-        insert_before_standard_exits:true,
         responses:[{
-            condition:{npc_has_trait:getCharMutId(charName)},
+            condition:{npc_has_trait:defineData.baseMutID},
             text:"[CNPC]我想聊聊关于你的事。",
-            topic:getCharTalkTopicId(charName)
+            topic:defineData.talkTopicID
+        },{
+            condition:{npc_has_trait:defineData.baseMutID},
+            text : "[施法]我想你释放技能。",
+            topic: await createCastControlResp(dm,charName)
         }]
     }
 
@@ -30,11 +33,15 @@ export async function createCharTalkTopic(dm:CDataManager,charName:string){
     /**主对话 */
     const mainTalkTopic:TalkTopic={
         type:"talk_topic",
-        id:getCharTalkTopicId(charName),
+        id:defineData.talkTopicID,
         dynamic_line:"&",
         responses:[{
             text : "[强化]我想提升你的能力。",
             topic: await createUpgResp(dm,charName)
+        },
+        {
+            text : "[技能]我想调整你的技能。",
+            topic: await createSkillResp(dm,charName)
         },
         {
             text : "[武器]我想更换你的武器。",
@@ -46,13 +53,14 @@ export async function createCharTalkTopic(dm:CDataManager,charName:string){
         }]
     }
 
-    dm.addCharStaticData(charName,[extTalkTopic,mainTalkTopic],'talk_topic');
+
+    outData['talk_topic'] = [extTalkTopic,mainTalkTopic];
 }
 
 
 /**创建升级对话 */
 async function createUpgResp(dm:CDataManager,charName:string){
-    const charConfig = await getCharConfig(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
     //主升级话题ID
     const upgtopicid = CMDef.genTalkTopicID(`${charName}_upgrade`);
@@ -179,8 +187,8 @@ async function createUpgResp(dm:CDataManager,charName:string){
                 ]}
             }
 
-            dm.addCharInvokeEoc(charName,"SlowUpdate",0,mutEoc);
-            dm.addCharInvokeEoc(charName,"Init",0,mutEoc);
+            dm.addCharEvent(charName,"SlowUpdate",0,mutEoc);
+            dm.addCharEvent(charName,"Init",0,mutEoc);
             dm.addSharedRes(mutEoc.id,mutEoc,"common_resource","field_mut_eoc");
         }
 
@@ -244,14 +252,100 @@ async function createUpgResp(dm:CDataManager,charName:string){
         }]
     }
     //注册初始化eoc
-    dm.addCharInvokeEoc(charName,"Init",10,InitUpgField);
-    dm.addCharStaticData(charName,[InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList],'upgrade_talk_topic');
+    dm.addCharEvent(charName,"Init",10,InitUpgField);
+
+    outData['upgrade_talk_topic'] = [InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList];
     return upgtopicid;
+}
+
+/**创建技能对话 */
+async function createSkillResp(dm:CDataManager,charName:string){
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    //主对话id
+    const skillTalkTopicId = CMDef.genTalkTopicID(`${charName}_skill`);
+
+    //初始化状态Eoc
+    const InitSkill:Eoc={
+        type:"effect_on_condition",
+        id:CMDef.genEOCID(`${charName}_InitSkill`),
+        eoc_type:"ACTIVATION",
+        effect:[]
+    }
+
+    //遍历技能
+    const skillRespList:Resp[] = [];
+    const skillRespEocList:Eoc[] = [];
+    const dynLine:DynamicLine[] = [];
+    for(const skill of charConfig.skill??[]){
+        const {spell,name} = skill;
+        const gstopVar = getGlobalDisableSpellVar(charName,spell);
+        const nstopVar = getDisableSpellVar("n",spell);
+        const ustopVar = getDisableSpellVar("u",spell);
+
+        const eocid = CMDef.genEOCID(`${gstopVar}_switch`)
+        const eoc:Eoc={
+            type:"effect_on_condition",
+            id:eocid,
+            eoc_type:"ACTIVATION",
+            effect:[
+                {math:[gstopVar,"=","0"]},
+                {math:[nstopVar,"=","0"]},
+            ],
+            false_effect:[
+                {math:[gstopVar,"=","1"]},
+                {math:[nstopVar,"=","1"]},
+            ],
+            condition:{math:[nstopVar,"==","1"]},
+        }
+        skillRespEocList.push(eoc)
+
+        const resp:Resp={
+            truefalsetext:{
+                condition:{math:[nstopVar,"==","1"]},
+                true:`[已停用] ${name}`,
+                false:`[已启用] ${name}`,
+            },
+            effect:{run_eocs:eocid},
+            topic:skillTalkTopicId,
+        }
+        if(skill.require_field){
+            let fdarr = typeof skill.require_field == "string"
+                ? [skill.require_field,1] as const : skill.require_field;
+            resp.condition = {math:[getTalkerFieldVarID("n",fdarr[0]),">=",`${fdarr[1]}`]}
+        }
+        skillRespList.push(resp);
+
+        dynLine.push({
+            math:[nstopVar,"==","1"],
+            yes:`${charName} 不会使用 ${name}\n`,
+            no:`${charName} 会尝试使用 ${name}\n`,
+        })
+
+        //添加初始化
+        InitSkill.effect?.push({math:[ustopVar,"=",`${gstopVar}`]});
+    }
+
+    //技能主对话
+    const skillTalkTopic:TalkTopic={
+        type:"talk_topic",
+        id:skillTalkTopicId,
+        dynamic_line:"&",
+        //dynamic_line:{concatenate:["&",...dynLine]},
+        responses:[...skillRespList,{
+            text : "[继续]走吧。",
+            topic: "TALK_DONE"
+        }]
+    }
+
+    //注册初始化eoc
+    dm.addCharEvent(charName,"Init",10,InitSkill);
+    outData['skill_talk_topic'] = [skillTalkTopic,...skillRespEocList,InitSkill];
+    return skillTalkTopicId;
 }
 
 /**创建武器对话 */
 async function createWeaponResp(dm:CDataManager,charName:string){
-    const charConfig = await getCharConfig(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //透明物品ID
     const TransparentItem = "CNPC_GENERIC_TransparentItem";
     //主对话id
@@ -334,8 +428,8 @@ async function createWeaponResp(dm:CDataManager,charName:string){
                 "TRADER_KEEP"               ,//不会出售
                 "UNBREAKABLE"               ,//不会损坏
                 "NO_SALVAGE"                ,//无法拆分
-                getCharBaseItemFlagId(charName)   ,//基础flag
-                weapnFlag.id                      ,//武器flag
+                defineData.baseItemFlagID   ,//基础flag
+                weapnFlag.id                ,//武器flag
             );
             if(item.type=="GUN"){
                 item.flags?.push(
@@ -364,9 +458,9 @@ async function createWeaponResp(dm:CDataManager,charName:string){
                 condition:{and:[...giveCond]},
                 effect:[{u_spawn_item:item.id}]
             }
-            dm.addCharInvokeEoc(charName,"SlowUpdate"  ,0,giveWeapon);
-            dm.addCharInvokeEoc(charName,"BattleUpdate",0,giveWeapon);
-            dm.addCharInvokeEoc(charName,"Init",0,giveWeapon);
+            dm.addCharEvent(charName,"SlowUpdate"  ,0,giveWeapon);
+            dm.addCharEvent(charName,"BattleUpdate",0,giveWeapon);
+            dm.addCharEvent(charName,"Init",0,giveWeapon);
             weaponData.push(giveWeapon)
 
             /**如果禁用则删除 */
@@ -384,8 +478,8 @@ async function createWeaponResp(dm:CDataManager,charName:string){
                     {run_eocs:rmweocid}
                 ]
             }
-            dm.addCharInvokeEoc(charName,"BattleUpdate",0,removeWeapon);
-            dm.addCharInvokeEoc(charName,"SlowUpdate"  ,0,removeWeapon);
+            dm.addCharEvent(charName,"BattleUpdate",0,removeWeapon);
+            dm.addCharEvent(charName,"SlowUpdate"  ,0,removeWeapon);
             weaponData.push(removeWeapon)
 
 
@@ -438,7 +532,7 @@ async function createWeaponResp(dm:CDataManager,charName:string){
         }
         weaponData.push(DefEnableWeapon);
         //注册初始化eoc
-        dm.addCharInvokeEoc(charName,"Init",10,DefEnableWeapon);
+        dm.addCharEvent(charName,"Init",10,DefEnableWeapon);
     }
 
 
@@ -455,7 +549,28 @@ async function createWeaponResp(dm:CDataManager,charName:string){
     }
 
     //注册初始化eoc
-    dm.addCharInvokeEoc(charName,"Init",10,InitWeapon);
-    dm.addCharStaticData(charName,[weaponTalkTopic,...weaponData],'weapon_talk_topic');
+    dm.addCharEvent(charName,"Init",10,InitWeapon);
+    outData['weapon_talk_topic'] = [weaponTalkTopic,...weaponData];
     return weaponTalkTopicId;
+}
+
+/**创建施法对话 */
+async function createCastControlResp(dm:CDataManager,charName:string){
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
+    //主对话id
+    const castControlTalkTopicId = CMDef.genTalkTopicID(`${charName}_castControl`);
+
+    //施法主对话
+    const castControlTalkTopic:TalkTopic={
+        type:"talk_topic",
+        id:castControlTalkTopicId,
+        dynamic_line:`&当前魔法值: <npc_val:show_mana>`,
+        //dynamic_line:{concatenate:["&",...dynLine]},
+        responses:[...defineData.castResp,{
+            text : "[返回]算了。",
+            topic: "TALK_NONE"
+        }]
+    }
+    outData['castcontrol_talk_topic'] = [castControlTalkTopic];
+    return castControlTalkTopicId;
 }

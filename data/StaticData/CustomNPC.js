@@ -109,19 +109,6 @@ function CNPC_EOC_DeathEvent(){
 //初始化
 function CNPC_EOC_InitEvent(){
 	eoc_type("ACTIVATION");
-	//初始化cnpc角色
-	if(eobj({ "u_has_trait": "CNPC_MUT_CnpcFlag" })){
-		//添加用于防止逃跑的勇气效果
-		eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" });
-		//如果无动画变异则添加替代素体
-		if(and(eobj({ "u_has_trait": "CNPC_MUT_NoAnim" }),not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))))
-			eobj({ "u_add_trait": "CNPC_MUT_BaseBody" })
-	}//初始化非cnpc角色
-	else if(not(eobj({ "u_has_trait": "CNPC_MUT_BaseBody" }))){
-		//如果不是cnpc单位则添加替代素体
-		eobj({ "u_add_trait": "CNPC_MUT_BaseBody" })
-	}
-
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })

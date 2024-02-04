@@ -1,6 +1,7 @@
 export * from "./StaticData";
 export * from "./modinfo";
 export * from "./BaseSpell";
+export * from "./BaseNPC";
 export * from "./BaseTrait";
 export * from "./BaseItemGroup";
 export * from "./BaseEnch";
@@ -8,3 +9,4 @@ export * from "./BaseEffect";
 export * from "./BaseMathFunction";
 export * from "./BaseEoc";
 export * from "./BaseMonster";
+export * from "./BaseDamageType";

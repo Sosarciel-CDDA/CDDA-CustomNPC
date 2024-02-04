@@ -1,6 +1,6 @@
 import { CDataManager } from "@src/DataManager";
-import { CharHook, GlobalHook } from "cdda-event";
 import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "cdda-schema";
+import { CCharHook, CGlobalHook } from "CnpcEvent";
 import { CMDef } from "CMDefine";
 
 
@@ -17,7 +17,7 @@ import { CMDef } from "CMDefine";
  * @param condition 触发条件
  * @param cooldown 触发间隔
  */
-export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CharHook,mode:"/2"|"-1"|"none",
+export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CGlobalHook,mode:"/2"|"-1"|"none",
     eocEffects:EocEffect[],duration: (Time),condition?: (BoolObj),cooldown: (Time)=0){
     if(typeof cooldown == "number") cooldown = `${cooldown} s`;
     effect.int_decay_remove = true;
@@ -48,7 +48,7 @@ export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CharHook,mod
         ]},
         ...condition? [condition]:[]]
     },true);
-    dm.addInvokeEoc(hook,0,triggerEoc);
+    dm.addGEvent(hook,0,triggerEoc);
 
 
     return triggerEoc;

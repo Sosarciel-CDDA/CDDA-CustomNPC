@@ -1,9 +1,8 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "cdda-schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
+import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
-import { getCharConfig } from "./CharData";
-import { getCharBaseCarryGroup, getCharBaseItemFlagId, getTalkerFieldVarID } from "./UtilGener";
 
 
 
@@ -11,15 +10,15 @@ import { getCharBaseCarryGroup, getCharBaseItemFlagId, getTalkerFieldVarID } fro
 
 /**创建角色物品 */
 export async function createCharCarry(dm:CDataManager,charName:string){
-    const charConfig = await getCharConfig(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
     //透明物品ID
-    const TransparentItem = "TransparentItem";
+    const TransparentItem = "CNPC_GENERIC_TransparentItem";
 
     //背包物品组
     const carryItemGroup:ItemGroup={
         type:"item_group",
         subtype:"collection",
-        id:getCharBaseCarryGroup(charName),
+        id:defineData.baseCarryGroup,
         entries:[]
     }
     const carryData:JObject[] = [];
@@ -34,11 +33,11 @@ export async function createCharCarry(dm:CDataManager,charName:string){
             item.looks_like = item.looks_like??TransparentItem;
             item.flags = item.flags||[];
             item.flags?.push(
-                "ACTIVATE_ON_PLACE"             ,//自动销毁
-                "TRADER_KEEP"                   ,//不会出售
-                "UNBREAKABLE"                   ,//不会损坏
-                "NO_SALVAGE"                    ,//无法拆分
-                getCharBaseItemFlagId(charName) ,//基础flag
+                "ACTIVATE_ON_PLACE"         ,//自动销毁
+                "TRADER_KEEP"               ,//不会出售
+                "UNBREAKABLE"               ,//不会损坏
+                "NO_SALVAGE"                ,//无法拆分
+                defineData.baseItemFlagID   ,//基础flag
             );
             item.countdown_interval= 1; //自动销毁
             carryData.push(item);
@@ -81,10 +80,11 @@ export async function createCharCarry(dm:CDataManager,charName:string){
                 ],
                 condition:{and:[...cond]}
             }
-            dm.addCharInvokeEoc(charName,"SlowUpdate",0,rechargeEoc);
+            dm.addCharEvent(charName,"SlowUpdate",0,rechargeEoc);
             carryData.push(rechargeEoc);
         }
 
     }
-    dm.addCharStaticData(charName,[...carryData,carryItemGroup],"carry");
+
+    outData['carry'] = [...carryData,carryItemGroup];
 }

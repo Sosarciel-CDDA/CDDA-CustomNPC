@@ -24,7 +24,7 @@ async function shotInterval(dm:CDataManager){
             {math:[SPELL_CT_MODMOVE_VAR,"=",num+""]},
             {u_cast_spell:{id:SPELL_CT_MODMOVE,hit_self:true}},
         ],{u_has_wielded_with_flag:flagid});
-        dm.addInvokeEoc("TryRangeAttack",0,triggerEoc);
+        dm.addGEvent("TryRangeAttack",0,triggerEoc);
         outlist.push(flag,triggerEoc);
     }
     dm.addStaticData([...outlist],"common_resource","trigger_flag","shot_interval");

@@ -69,7 +69,7 @@ export const SpecProcMap:Record<SpecEffect["type"],(dm:CDataManager,charName:str
 
 function processAddEffect(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
-    const {spell} = skill;
+    const {spell,one_in_chance} = skill;
     spec = spec as AddEffect;
 
     const mainid = `${spell.id}_${index}_AddEffect`;
@@ -120,7 +120,7 @@ function processAddEffect(dm:CDataManager,charName:string,baseSkillData:SpecSkil
 };
 function processRunEoc(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
-    const {spell} = skill;
+    const {spell,one_in_chance} = skill;
     spec=spec as RunEoc;
 
     const mainid = `${spell.id}_${index}_RunEoc`;
@@ -169,7 +169,7 @@ function processRunEoc(dm:CDataManager,charName:string,baseSkillData:SpecSkillCa
 };
 function processExtDamage(dm:CDataManager,charName:string,baseSkillData:SpecSkillCastData,spec:SpecEffect,index:number){
     const {skill,TEffect,PreEffect,extraEffects} = baseSkillData;
-    const {spell} = skill;
+    const {spell,one_in_chance} = skill;
     spec=spec as ExtDamage;
 
     const mainid = `${spell.id}_${index}_ExtDamage`;

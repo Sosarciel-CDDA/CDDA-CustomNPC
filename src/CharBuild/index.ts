@@ -1,9 +1,26 @@
-export * from './AnimStatus';
-export * from './AnimTool';
-export * from './CharCarry';
-export * from './CharClass';
-export * from './CharConfig';
-export * from './CharEquip';
-export * from './CharSkill';
-export * from './CharTalkTopic';
-export * from './MergeAnime';
+import { CDataManager } from "@src/DataManager";
+import { getCharList } from "./CharData";
+import { createCharCarry } from "./CharCarry";
+import { createCharClass } from "./CharClass";
+import { createCharEquip } from "./CharEquip";
+import { createCharGener } from "./CharGener";
+import { createCharTalkTopic } from "./CharTalkTopic";
+import { createCharSkill } from "./CharSkill";
+import { createDrawCardSpell } from "./DrawCardSpell";
+
+
+/**创建角色 */
+export async function createChar(dm:CDataManager){
+    const charList = await getCharList();
+    createDrawCardSpell(dm);
+    for(const charName of charList){
+        await Promise.all([
+            createCharCarry(dm,charName),
+            createCharClass(dm,charName),
+            createCharEquip(dm,charName),
+            createCharGener(dm,charName),
+            createCharSkill(dm,charName),
+            createCharTalkTopic(dm,charName),
+        ])
+    }
+}

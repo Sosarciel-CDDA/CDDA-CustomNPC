@@ -1,102 +1,213 @@
-    /**基础武器 */
-    const baseWeapon:Gun={
-        type:"GUN",
-        id:baseData.baseWeaponID,
-        name:`${charName}的武器`,
-        description:`${charName}的武器`,
-        ammo:[baseData.baseAmmoTypeID],
-        relic_data: {
-            charge_info: {
-                recharge_type: "periodic",
-                time: 1,
-                regenerate_ammo: true
+/**数据管理器 */
+export class CDataManager extends DataManager{
+    /**角色目录 */
+    charPath:string;
+    /**角色列表 */
+    charList:string[];
+    /**虚拟角色列表 */
+    virtualCharList:string[];
+    /**游戏数据 */
+    gameData:GameData = {};
+
+    /**输出的角色数据表 */
+    private charTable:Record<string,CharData> = {};
+    /**输出的Eoc事件 */
+    private eventEocs:Record<CGlobalHook,EventEffect[]> = CGlobalHookList.reduce((acc,etype)=>
+        ({...acc,[etype]:[]}),{} as Record<CGlobalHook,EventEffect[]>);
+
+    //———————————————————— 初始化 ————————————————————//
+    /**
+     * @param dataPath 输入数据路径  
+     * @param outPath  输出数据路径  
+     */
+    constructor(dataPath?:string,outPath?:string){
+        super(dataPath??path.join(process.cwd(),'data'),outPath);
+        if(this._dataPath==null) throw "";
+        //合并静态数据
+        for(const key in StaticDataMap)
+            this.addStaticData(StaticDataMap[key],key)
+
+        //初始化资源io路径
+        this.charPath = path.join(this._dataPath,'chars');
+
+        //创建角色列表
+        this.virtualCharList = [];
+        this.charList = fs.readdirSync(this.charPath).filter(fileName=>{
+            const filePath = this.getCharPath(fileName);
+            if(!fs.statSync(filePath).isDirectory()) return false;
+            const configFile = path.join(filePath,"config.json");
+            if(!UtilFT.pathExistsSync(configFile)) return false;
+            if(UtilFT.loadJSONFileSync(configFile).virtual === true){
+                this.virtualCharList.push(fileName);
+                return false;
             }
-        },
-        ammo_to_fire:0,
-        pocket_data: [{
-            pocket_type: "MAGAZINE",
-            ammo_restriction: { [baseData.baseAmmoTypeID]: 10 }
-        }],
-        skill:"rifle",
-        weight:0,
-        volume:0,
-        symbol:"O",
-        looks_like:TransparentItem,
-        flags:["ZERO_WEIGHT","ACTIVATE_ON_PLACE", "NO_RELOAD", "NO_UNLOAD",
-            "NEVER_JAMS", "NON_FOULING","NEEDS_NO_LUBE", "TRADER_KEEP",
-            baseData.baseWeaponFlagID],
-        countdown_interval: 1,
-        range:30,
-        ranged_damage:{
-            damage_type:"bullet",
-            amount:50,
-            armor_penetration:10,
-        },
-        melee_damage:{
-            cut:20
-        },
-        modes:[["MELEE","近战",6],["DEFAULT","默认",2],["AUTO","全自动",4]]
+            return true;
+        });
     }
-    /**基础弹药类型 */
-    const baseAmmoType:AmmiunitionType={
-        type:"ammunition_type",
-        name:`${charName}的子弹类型`,
-        id:baseData.baseAmmoTypeID,
-        default:baseData.baseAmmoID,
-    }
-    /**基础武器所用的弹药 */
-    const baseAmmo:Ammo={
-        type:"AMMO",
-        ammo_type:baseData.baseAmmoTypeID,
-        id:baseData.baseAmmoID,
-        name:`${charName}的子弹`,
-        description:`${charName}的子弹`,
-        weight:0,
-        volume:0,
-        symbol:"O",
-        flags:["ZERO_WEIGHT"],
+    /**载入所有json */
+    private async processJson(){
+        const dm = this;
+
+        const cddajson = await CddaJson.create(GAME_PATH);
+        dm.gameData.game_json = cddajson;
     }
 
 
 
 
+    //———————————————————— 工具 ————————————————————//
+    /**获取角色表 如无则初始化 */
+    async getCharData(charName:string){
+        //初始化基础数据
+        if(this.charTable[charName] == null){
+            const charConfig:CharConfig = await loadCharConfig(this,charName);
+            console.log(charConfig);
+            const defineData:CharDefineData = {
+                charName            : charName,
+                baseMutID           : CMDef.genMutationID(charName),
+                classID             : CMDef.genNpcClassID(charName),
+                instanceID          : CMDef.genNpcInstanceID(charName),
+                baseArmorID         : CMDef.genArmorID(charName),
+                baseEnchID          : CMDef.genEnchantmentID(charName),
+                baseItemFlagID      : CMDef.genFlagID(`${charName}_WeaponFlag`),
+                baseCarryGroup      : CMDef.genItemGroupID(`${charName}_Carry`),
+                talkTopicID         : CMDef.genTalkTopicID(charName),
+                cardID              : CMDef.genGenericID(`${charName}_Card`),
+            }
 
+            //角色事件eoc主体
+            const charEventEocs = CCharHookList.reduce((acc,etype)=>(
+                {...acc,[etype]:[]}),{} as Record<CCharHook,EventEffect[]>)
 
-//角色事件eoc主体
-const charEventEocs = CharEvemtTypeList.reduce((acc,etype)=>{
-    const subEoc:Eoc={
-        type:"effect_on_condition",
-        eoc_type:"ACTIVATION",
-        id:genEOCID(`${charName}_${etype}`),
-        effect:[],
-        condition:{u_has_trait:baseData.baseMutID}
+            this.charTable[charName] = {
+                defineData,
+                charEventEocs,
+                charConfig,
+                outData:{},
+            }
+        }
+        return this.charTable[charName];
     }
-    return {
-        ...acc,
-        [etype]:subEoc
-}},{} as Record<CharEventType,Eoc>)
-//角色反转事件eoc主体
-const reverseCharEventEocs = ReverseCharEvemtTypeList.reduce((acc,etype)=>{
-    const subEoc:Eoc={
-        type:"effect_on_condition",
-        eoc_type:"ACTIVATION",
-        id:genEOCID(`${charName}_${etype}`),
-        effect:[],
-        condition:{npc_has_trait:baseData.baseMutID}
+    /**添加 eoc的ID引用到 全局事件  
+     * u为主角 npc为未定义  
+     */
+    addGEvent(etype:CGlobalHook,weight:number,...events:Eoc[]){
+        this.eventEocs[etype].push(
+            ...events.map(eoc=>({effect:{"run_eocs":[eoc.id]},weight}))
+        );
     }
-    return {
-        ...acc,
-        [etype]:subEoc
-}},{} as Record<ReverseCharEventType,Eoc>)
+    /**添加 eoc的ID引用到 角色事件  
+     * u为角色 npc为未定义  
+     */
+    addCharEvent(charName:string,etype:CCharHook,weight:number,...events:Eoc[]){
+        this.charTable[charName].charEventEocs[etype].push(
+            ...events.map(eoc=>({effect:{"run_eocs":[eoc.id]},weight}))
+        );
+    }
+    /**获取 角色目录 */
+    getCharPath(charName:string){
+        return path.join(this.charPath,charName);
+    }
+    /**获取 输出角色目录 */
+    getOutCharPath(charName:string){
+        if(this._outPath==null) throw "";
+        return path.join(this._outPath,'chars',charName);
+    }
 
-eventEocs:GlobalEvemtTypeList.reduce((acc,item)=>{
-    const subEoc:Eoc={
-        type:"effect_on_condition",
-        eoc_type:"ACTIVATION",
-        id:genEOCID(item),
-        effect:[],
+    //———————————————————— 输出 ————————————————————//
+    /**输出数据到角色目录 */
+    async saveToCharFile(charName:string,filePath:string,obj:JToken) {
+        return UtilFT.writeJSONFile(path.join(this.getOutCharPath(charName),filePath),obj);
     }
-    return {
-        ...acc,
-        [item]:subEoc
-}},{} as Record<GlobalEventType,Eoc>)
+    /**输出数据 */
+    async saveAllData(){
+        super.saveAllData();
+        function mergeEffects(effect:EocEffect[]){
+            const mergeeffects:EocEffect[]=[];
+            effect.forEach((e)=>{
+                const lastobj = mergeeffects[mergeeffects.length-1];
+                if( typeof lastobj == "object" && 'run_eocs' in lastobj && Array.isArray(lastobj.run_eocs) &&
+                    typeof e == "object" && 'run_eocs' in e && Array.isArray(e.run_eocs)){
+                        lastobj.run_eocs.push(...e.run_eocs)
+                    }
+                else
+                    mergeeffects.push(e)
+            })
+            return mergeeffects;
+        }
+        function pareEffects(events:EventEffect[]){
+            events = events.sort((a,b)=>b.weight-a.weight);
+            //展开合并
+            const eventeffects:EocEffect[] = [];
+            events.forEach((e)=>eventeffects.push(e.effect));
+            return mergeEffects(eventeffects);
+        }
+
+        //导出角色数据
+        for(let charName of this.charList){
+            const charData = this.charTable[charName];
+            const charOutData = charData.outData;
+            for(let key in charOutData){
+                let obj = charOutData[key];
+                //await
+                this.saveToCharFile(charName,key,obj);
+            }
+            //导出角色EOC
+            const charEventMap = Object.assign({},charData.charEventEocs);
+            const charEventEocs:Eoc[]=[];
+            //遍历事件类型
+            for(const etypeStr in charEventMap){
+                const etype = etypeStr as (CCharHook);
+                //降序排序事件
+                const charEventList = pareEffects(charEventMap[etype]);
+
+                //至少有一个角色事件才会创建
+                if(charEventList.length>0){
+                    //创建角色触发Eoc
+                    const eventEoc:Eoc = {
+                        type:"effect_on_condition",
+                        eoc_type:"ACTIVATION",
+                        id:CMDef.genEOCID(`${charName}_${etype}`),
+                        effect:[...charEventList],
+                        condition:{u_has_trait:charData.defineData.baseMutID}
+                    }
+                    charEventEocs.push(eventEoc);
+                    //将角色触发eoc注册入全局eoc
+                    this.addGEvent(etype,0,eventEoc);
+                }
+            }
+            this.saveToCharFile(charName,'char_event_eocs',charEventEocs);
+
+            //复制角色静态数据
+            const charStaticDataPath = path.join(this.getCharPath(charName),"StaticData");
+            await UtilFT.ensurePathExists(charStaticDataPath,true);
+            //await
+            fs.promises.cp(charStaticDataPath,this.getOutCharPath(charName),{ recursive: true });
+        }
+
+        //导出全局EOC
+        const globalEvent = this.eventEocs;
+        const eventEocs:Eoc[]=[];
+        for(const etypeStr in globalEvent){
+            const etype = etypeStr as (CGlobalHook);
+            //降序排序事件
+            const globalEvents = pareEffects(globalEvent[etype]);
+            //创建全局触发Eoc
+            const globalEoc:Eoc={
+                type:"effect_on_condition",
+                eoc_type:"ACTIVATION",
+                id:CMDef.genEOCID(etype),
+                effect:[...globalEvents],
+            }
+            eventEocs.push(globalEoc);
+        }
+        this.saveToFile('event_eocs',eventEocs);
+
+        //导出event框架
+        this.saveToFile('event_frame',buildEventFrame());
+
+        //编译所有eocscript
+        const {stdout,stderr} = await UtilFunc.exec(`\"./tools/EocScript\" --input ${this._outPath} --output ${this._outPath}`)
+        console.log(stdout);
+    }
+}

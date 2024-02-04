@@ -1,11 +1,9 @@
 import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect, ArmorFlag } from "cdda-schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
-import { parseEnchStatTable } from "./CharInterface";
+import { getTalkerFieldVarID, parseEnchStatTable } from "./CharConfig";
 import { JObject } from "@zwa73/utils";
 import { NO_PAIN_ENCHID } from "StaticData";
-import { getCharBaseArmorId, getCharBaseEnchId, getCharBaseItemFlagId, getCharMutId, getTalkerFieldVarID } from "./UtilGener";
-import { getCharConfig } from "./CharData";
 
 
 
@@ -13,7 +11,7 @@ import { getCharConfig } from "./CharData";
 
 /**创建角色装备 */
 export async function createCharEquip(dm:CDataManager,charName:string){
-    const charConfig = await getCharConfig(charName);
+    const {defineData,outData,charConfig} = await dm.getCharData(charName);
 
     const outs:JObject[]=[];
 
@@ -22,13 +20,13 @@ export async function createCharEquip(dm:CDataManager,charName:string){
     /**基础物品的识别flag */
     const baseItemFlag:Flag={
         type:"json_flag",
-        id:getCharBaseItemFlagId(charName),
+        id:defineData.baseItemFlagID,
     }
 
     /**构造附魔属性 */
     /**基础附魔 */
     const baseEnch:Enchantment={
-        id:getCharBaseEnchId(charName),
+        id:defineData.baseEnchID,
         type:"enchantment",
         condition:"ALWAYS",
         values:parseEnchStatTable(charConfig.ench_status)
@@ -95,7 +93,7 @@ export async function createCharEquip(dm:CDataManager,charName:string){
     } as const;
     const pocketList:PocketData[] = [{
         ...basePocket,
-        flag_restriction:[getCharBaseItemFlagId(charName)],
+        flag_restriction:[defineData.baseItemFlagID],
     }];
     if(itemres) pocketList.push({
         ...basePocket,
@@ -105,7 +103,7 @@ export async function createCharEquip(dm:CDataManager,charName:string){
     /**基础装备 */
     const baseArmor:Armor={
         type        : "ARMOR",
-        id          : getCharBaseArmorId(charName),
+        id          : defineData.baseArmorID,
         name        : `${displayName}的基础装备`,
         description : `${displayName}的基础装备`,
         category    : "clothing",
@@ -122,7 +120,7 @@ export async function createCharEquip(dm:CDataManager,charName:string){
             "NO_SALVAGE"            , //无法拆分
             "ALLOWS_NATURAL_ATTACKS", //不会妨碍特殊攻击
             "PADDED"                , //有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
-            getCharBaseItemFlagId(charName) as ArmorFlag
+            defineData.baseItemFlagID as ArmorFlag
         ],
         pocket_data : pocketList,
         relic_data:{
@@ -136,11 +134,11 @@ export async function createCharEquip(dm:CDataManager,charName:string){
     /**基础变异 */
     const baseMut:Mutation = {
         type            : "mutation",
-        id              : getCharMutId(charName),
+        id              : defineData.baseMutID,
         name            : `${displayName}的基础变异`,
         description     : `${displayName}的基础变异`,
         points          : 0,
-        integrated_armor: [getCharBaseArmorId(charName)],
+        integrated_armor: [defineData.baseArmorID],
         valid:false,
         purifiable:false,
         player_display:false,
@@ -154,10 +152,10 @@ export async function createCharEquip(dm:CDataManager,charName:string){
                 return eff;
             })
         ])
-        dm.addCharInvokeEoc(charName,"Init",0,initBaseVarEoc);
+        dm.addCharEvent(charName,"Init",0,initBaseVarEoc);
         outs.push(initBaseVarEoc);
     }
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    dm.addCharStaticData(charName,[baseMut,baseArmor,baseEnch,baseItemFlag,...outs],'equip');
+    outData['equip'] = [baseMut,baseArmor,baseEnch,baseItemFlag,...outs];
 }
