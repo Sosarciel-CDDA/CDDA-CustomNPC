@@ -18,14 +18,15 @@
     "weapon":[],
 	"skill": [
 		{
-			"name": "战术镇压 充能",
-			"cast_condition":[{
-				"hook": "BattleUpdate"
-			},{
-				"hook": "TryAttack",
-				"target": "control_cast"
-			}],
-			"audio": ["Asuna:PreciseSnipeSF"],
+			"cast_ai": {
+				"cast_condition":[{
+					"hook": "BattleUpdate"
+				},{
+					"hook": "TryAttack",
+					"target": "control_cast"
+				}],
+				"cooldown": 64
+			},
 			"spell": {
 				"type": "SPELL",
 				"id": "战术镇压_充能",
@@ -41,16 +42,20 @@
 				"effect_id":"战术镇压充能",
 				"intensity": 5,
 				"duration": 64
-			}],
-			"cooldown": 64
+			},{
+				"type": "Audio",
+				"audio": ["Asuna:PreciseSnipeSF"]
+			}]
 		},
 		{
-			"name": "战术镇压 攻击",
-			"cast_condition":[{
-				"hook": "TryRangeAttack",
-				"condition":{"math": ["u_effect_intensity('战术镇压充能')",">=","1"]}
-			}],
-			"audio": ["BaseAudio:BashHit"],
+			"cast_ai": {
+				"cast_condition":[{
+					"hook": "TryRangeAttack",
+					"condition":{"math": ["u_effect_intensity('战术镇压充能')",">=","1"]}
+				}],
+				"weight": 1,
+				"cooldown": 1
+			},
 			"spell": {
 				"id":"战术镇压_攻击",
 				"type": "SPELL",
@@ -68,7 +73,7 @@
 				"min_duration": 200,
 				"valid_targets": ["ground","hostile"]
 			},
-			"extra_effect": [{
+			"extra_effects": [{
 				"type": "SPELL",
 				"id": "战术镇压_攻击_击退",
 				"name": "战术镇压 攻击 击退",
@@ -81,17 +86,21 @@
 				"min_range": 15,
 				"valid_targets": ["hostile"]
 			}],
-			"after_effect": [{
-				"if":{"math":["u_effect_intensity('战术镇压充能')","<=","1"]},
-				"then":[{"u_lose_effect":"战术镇压充能"}],
-				"else":[{
-					"u_add_effect":"战术镇压充能",
-					"intensity":{"math":["u_effect_intensity('战术镇压充能')-1"]},
-					"duration":10
+			"spec_effect": [{
+				"type": "RunEoc",
+				"effect": [{
+					"if":{"math":["u_effect_intensity('战术镇压充能')","<=","1"]},
+					"then":[{"u_lose_effect":"战术镇压充能"}],
+					"else":[{
+						"u_add_effect":"战术镇压充能",
+						"intensity":{"math":["u_effect_intensity('战术镇压充能')-1"]},
+						"duration":10
+					}]
 				}]
-			}],
-			"weight": 1,
-			"cooldown": 1
+			},{
+				"type": "Audio",
+				"audio": ["BaseAudio:BashHit"]
+			}]
 		}
 	],
 	"desc": {

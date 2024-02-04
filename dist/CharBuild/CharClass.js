@@ -4,22 +4,24 @@ exports.createCharClass = void 0;
 const CMDefine_1 = require("../CMDefine");
 const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
+const CharData_1 = require("./CharData");
+const UtilGener_1 = require("./UtilGener");
 /**创建角色职业和实例
  * @param charName 角色名
  */
 async function createCharClass(dm, charName) {
-    const { defineData, outData, charConfig } = await dm.getCharData(charName);
-    const displayName = charName.replaceAll("_", " ");
+    const charConfig = await (0, CharData_1.getCharConfig)(charName);
+    const displayName = (0, UtilGener_1.getCharDisplayName)(charName);
     /**NPC职业 */
     const charClass = {
         type: "npc_class",
-        id: defineData.classID,
+        id: (0, UtilGener_1.getCharClassId)(charName),
         name: displayName,
         job_description: `${displayName}专用的职业`,
         common: false,
         worn_override: StaticData_1.EMPTY_GROUP_ID,
         weapon_override: StaticData_1.EMPTY_GROUP_ID,
-        carry_override: defineData.baseCarryGroup,
+        carry_override: (0, UtilGener_1.getCharBaseCarryGroup)(charName),
         skills: Object.entries(charConfig.base_skill || []).reduce((acc, item) => {
             if (item[1] == null)
                 return acc;
@@ -30,22 +32,20 @@ async function createCharClass(dm, charName) {
             };
             return [...acc, skill];
         }, []),
+        spells: charConfig.base_spell,
         traits: [
             { "trait": CMDefine_1.CMDef.genMutationID("CnpcFlag") },
-            { "trait": defineData.baseMutID },
+            { "trait": (0, UtilGener_1.getCharMutId)(charName) },
             ...(charConfig.base_mutation ?? [])
                 .map(mut => ({ trait: mut })),
-            ...(defineData.validAnim.length >= 1
-                ? [{ "trait": defineData.animData.Idle.mutID }, { "trait": "TOUGH_FEET" }]
-                : [{ "trait": CMDefine_1.CMDef.genMutationID("NoAnim") }])
         ]
     };
     /**NPC实例 */
     const charInstance = {
         type: "npc",
-        id: defineData.instanceID,
+        id: (0, UtilGener_1.getCharInstanceId)(charName),
         name_unique: displayName,
-        class: defineData.classID,
+        class: (0, UtilGener_1.getCharClassId)(charName),
         faction: "your_followers",
         chat: "TALK_DONE",
         attitude: 3,
@@ -57,81 +57,6 @@ async function createCharClass(dm, charName) {
         height: charConfig.desc?.height,
         age: charConfig.desc?.age,
         gender: charConfig.desc?.gender,
-    };
-    /**生成器ID */
-    const spawnerId = `${charName}_Spawner`;
-    /**生成器 */
-    const charSpawner = {
-        type: "GENERIC",
-        id: CMDefine_1.CMDef.genGenericID(spawnerId),
-        name: { str_sp: `${displayName} 生成器` },
-        description: `生成一个 ${displayName}`,
-        use_action: {
-            type: "effect_on_conditions",
-            description: `生成一个 ${displayName}`,
-            menu_text: `生成一个 ${displayName}`,
-            effect_on_conditions: [CMDefine_1.CMDef.genEOCID(spawnerId)],
-        },
-        weight: 1,
-        volume: 1,
-        symbol: "O"
-    };
-    /**生成器EOC */
-    const charSpawnerEoc = {
-        type: "effect_on_condition",
-        eoc_type: "ACTIVATION",
-        id: CMDefine_1.CMDef.genEOCID(spawnerId),
-        effect: [
-            //{ u_consume_item: CMDef.genGenericID(spawnerId), count: 1 },
-            { math: [`${charName}_uid`, "+=", "1"] },
-            {
-                u_spawn_npc: defineData.instanceID,
-                real_count: 1,
-                min_radius: 1,
-                max_radius: 1,
-            },
-        ],
-    };
-    //卡片冷却变量
-    const cardcdvar = `${charName}_cooldown`;
-    /**卡片EOC */
-    const charCardEoc = {
-        type: "effect_on_condition",
-        eoc_type: "ACTIVATION",
-        id: CMDefine_1.CMDef.genEOCID(`${charName}_Card_Eoc`),
-        effect: [
-            { u_add_var: cardcdvar, time: true },
-            { math: [`${charName}_uid`, "+=", "1"] },
-            {
-                u_spawn_npc: defineData.instanceID,
-                real_count: 1,
-                min_radius: 1,
-                max_radius: 1,
-            },
-        ],
-        condition: { or: [
-                { u_compare_time_since_var: cardcdvar, op: ">=", time: "1 d" },
-                { not: { u_has_var: cardcdvar, time: true } }
-            ] },
-        false_effect: [{ u_message: "卡片没什么反应, 等一会再试吧……" }]
-    };
-    /**卡片 */
-    const charCard = {
-        type: "GENERIC",
-        id: defineData.cardID,
-        name: { str_sp: `${displayName} 卡片` },
-        description: `召唤 ${displayName}`,
-        use_action: {
-            type: "effect_on_conditions",
-            description: `召唤 ${displayName}`,
-            menu_text: `召唤 ${displayName}`,
-            effect_on_conditions: [charCardEoc.id],
-        },
-        flags: ["UNBREAKABLE"],
-        weight: 1,
-        volume: 1,
-        symbol: ",",
-        looks_like: "memory_card"
     };
     /**自动保存事件 */
     const autoSave = {
@@ -145,7 +70,7 @@ async function createCharClass(dm, charName) {
             })
         ]
     };
-    dm.addCharEvent(charName, "SlowUpdate", 0, autoSave);
+    dm.addCharInvokeEoc(charName, "SlowUpdate", 0, autoSave);
     /**初始化事件 */
     const charInitEoc = {
         type: "effect_on_condition",
@@ -159,7 +84,7 @@ async function createCharClass(dm, charName) {
             })
         ]
     };
-    dm.addCharEvent(charName, "Init", 1000, charInitEoc);
+    dm.addCharInvokeEoc(charName, "Init", 1000, charInitEoc);
     /**销毁事件 */
     const charRemoveEoc = {
         type: "effect_on_condition",
@@ -170,7 +95,7 @@ async function createCharClass(dm, charName) {
         ],
         condition: { math: ["u_uid", "!=", `${charName}_uid`] }
     };
-    dm.addCharEvent(charName, "Update", 0, charRemoveEoc);
-    outData['npc'] = [charClass, charInstance, charSpawner, charSpawnerEoc, charCardEoc, charCard, autoSave, charInitEoc, charRemoveEoc];
+    dm.addCharInvokeEoc(charName, "Update", 0, charRemoveEoc);
+    dm.addCharStaticData(charName, [charClass, charInstance, autoSave, charInitEoc, charRemoveEoc], 'npc');
 }
 exports.createCharClass = createCharClass;

@@ -35,6 +35,7 @@ export async function createCharClass(dm:CDataManager,charName:string){
             }
             return [...acc,skill];
         },[] as NPCClassBaseSkill[]),
+        spells:charConfig.base_spell,
         traits:[
             { "trait": CMDef.genMutationID("CnpcFlag") },
             { "trait": getCharMutId(charName) },

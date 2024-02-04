@@ -79,12 +79,12 @@
 	],
 	"skill": [
 		{
-			"name": "蒸发未来",
-			"cast_condition":{"hook": "TryRangeAttack"},
-			"audio":[
-				{"id":"EvaporateFuture","cooldown": 180},
-				"EvaporateFutureSF","BaseAudio:BashHit"
-			],
+			"cast_ai":{
+				"type": "Inherit",
+				"base": "RangeTargetDamage",
+				"cooldown":64,
+				"weight": 1
+			},
 			"spell": {
 				"id":"EvaporateFuture",
 				"type": "SPELL",
@@ -101,20 +101,25 @@
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"after_effect":[
-				{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1)*u_EvaporateFuture_cooldown"]}
-			],
-			"cooldown":64,
-			"weight": 1,
+			"spec_effect": [{
+				"type": "Audio",
+				"audio":[
+					{"id":"EvaporateFuture","cooldown": 180},
+					"EvaporateFutureSF","BaseAudio:BashHit"
+				]
+			},{
+				"type": "RunEoc",
+				"effect": [{"math": ["u_EvaporateFuture_cooldown","=","rng(0, 1)*u_EvaporateFuture_cooldown"]}]
+			}],
 			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
-			"name": "精准狙击",
-			"cast_condition":{
-				"hook": "BattleUpdate",
-				"condition":{"not":{"u_has_effect":"PreciseSnipe"}}
+			"cast_ai":{
+				"type": "Inherit",
+				"base": "BattleSelfBuff",
+				"cooldown":16,
+				"weight": 2
 			},
-			"audio":["PreciseSnipe","PreciseSnipeSF"],
 			"spell": {
 				"type": "SPELL",
 				"id":"PreciseSnipe",
@@ -128,15 +133,18 @@
 				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"cooldown":16,
-			"weight": 2,
+			"spec_effect": [{
+				"audio":["PreciseSnipe","PreciseSnipeSF"],
+				"type": "Audio"
+			}],
 			"require_weapon_flag": ["AsunaM9"]
 		},
 		{
-			"name": "作战指挥",
-			"cast_condition":{
-				"hook": "BattleUpdate",
-				"condition":{"not":{"u_has_effect":"CombatCommand"}}
+			"cast_ai":{
+				"type": "Inherit",
+				"base": "BattleSelfBuff",
+				"common_cooldown": 0,
+				"weight": 10
 			},
 			"spell": {
 				"type": "SPELL",
@@ -149,18 +157,15 @@
 				"shape": "blast",
 				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
-			},
-			"common_cooldown": 0,
-			"weight": 10
+			}
 		},
 		{
-			"name": "刀锋打击",
-			"cast_condition":{"hook": "TryMeleeAttack"},
-			"cooldown":64,
-			"audio":[
-				{"id":"BladeStrike_","cooldown": 180},
-				"BladeStrikeSF","BaseAudio:BashHit"
-			],
+			"cast_ai":{
+				"type": "Inherit",
+				"base": "MeleeTargetDamage",
+				"cooldown":64,
+				"weight": 1
+			},
 			"spell": {
 				"id":"BladeStrike",
 				"type": "SPELL",
@@ -184,21 +189,22 @@
 				"type": "ExtDamage",
 				"damage_type":"Laceration",
 				"amount": 40
+			},{
+				"audio":[
+					{"id":"BladeStrike_","cooldown": 180},
+					"BladeStrikeSF","BaseAudio:BashHit"
+				],
+				"type": "Audio"
 			}],
-			"weight": 1,
 			"require_weapon_flag": ["AsunaKnife"]
 		},
 		{
-			"name": "情报破译",
-			"cast_condition":{
-				"hook": "BattleUpdate",
-				"target": "filter_random",
-				"condition":{"not":{"npc_has_effect":"IntelligenceDeciphered"}}
+			"cast_ai":{
+				"base": "BattleTargetBuff",
+				"type": "Inherit",
+				"cooldown":24,
+				"weight": 2
 			},
-			"cooldown":24,
-			"audio":[
-				"IntelligenceDecipheredSF"
-			],
 			"spell": {
 				"id":"IntelligenceDeciphered",
 				"type": "SPELL",
@@ -214,17 +220,20 @@
 				"min_aoe": 2,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"weight": 2
+			"spec_effect": [{
+				"audio":["IntelligenceDecipheredSF"],
+				"type": "Audio"
+			}]
 		},
 		{
-			"name": "创伤之刃",
-			"cast_condition":{
-				"hook": "TryMeleeAttack"
+			"cast_ai":{
+				"base": "MeleeTargetDamage",
+				"cast_condition":{
+					"hook": "TryMeleeAttack"
+				},
+				"cooldown":16,
+				"weight": 2
 			},
-			"audio":[
-				{"id":"BladeofTrauma","cooldown": 180},
-				"BladeofTraumaSF","BaseAudio:BashHit"
-			],
 			"spell": {
 				"id":"BladeofTrauma",
 				"type": "SPELL",
@@ -246,20 +255,22 @@
 				"type": "ExtDamage",
 				"damage_type":"Trauma",
 				"amount": {"math": ["DexDamage(u_damage) * 0.6"]}
+			},{
+				"audio":[
+					{"id":"BladeofTrauma","cooldown": 180},
+					"BladeofTraumaSF","BaseAudio:BashHit"
+				],
+				"type": "Audio"
 			}],
-			"cooldown":16,
-			"weight": 2,
 			"require_weapon_flag": ["AsunaKnife"]
 		},
 		{
-			"name": "战场先锋",
-			"cast_condition":[{
-				"hook": "BattleUpdate",
-				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
-			},{
-				"hook": "SlowUpdate",
-				"condition":{"not":{"u_has_effect":"BattlefieldVanguard"}}
-			}],
+			"cast_ai":{
+				"base": "AlawaySelfBuff",
+				"type": "Inherit",
+				"common_cooldown": 0,
+				"weight": 10
+			},
 			"spell": {
 				"type": "SPELL",
 				"id":"BattlefieldVanguard",
@@ -271,13 +282,14 @@
 				"shape": "blast",
 				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
-			},
-			"common_cooldown": 0,
-			"weight": 10
+			}
 		},
 		{
-			"name": "弱点重创",
-			"cast_condition":{"hook": "TryAttack"},
+			"cast_ai":{
+				"cast_condition":{"hook": "TryAttack"},
+				"common_cooldown": 0,
+				"weight": 10
+			},
 			"spell": {
 				"type": "SPELL",
 				"id":"WeaknessHit",
@@ -290,9 +302,7 @@
 				"valid_targets": ["hostile"],
 				"shape": "blast",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
-			},
-			"common_cooldown": 0,
-			"weight": 10
+			}
 		}
 	],
 	"base_mutation": [],

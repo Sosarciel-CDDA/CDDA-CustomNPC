@@ -4,9 +4,9 @@
   "description": "快速定义cdda的随从npc",
   "main": "index.js",
   "scripts": {
-    "build-schema": "node ./dist/BuildSchema.js",
+    "build-schema": "node buildSchema",
     "compile": "tsc && tsc-alias",
-    "build": "npm run compile && node --trace-warnings index"
+    "build": "npm run compile && node --trace-warnings build"
   },
   "author": "zwa73",
   "license": "ISC",

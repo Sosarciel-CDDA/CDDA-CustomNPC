@@ -2,17 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharCarry = void 0;
 const CMDefine_1 = require("../CMDefine");
-const CharConfig_1 = require("./CharConfig");
+const CharData_1 = require("./CharData");
+const UtilGener_1 = require("./UtilGener");
 /**创建角色物品 */
 async function createCharCarry(dm, charName) {
-    const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    const charConfig = await (0, CharData_1.getCharConfig)(charName);
     //透明物品ID
-    const TransparentItem = "CNPC_GENERIC_TransparentItem";
+    const TransparentItem = "TransparentItem";
     //背包物品组
     const carryItemGroup = {
         type: "item_group",
         subtype: "collection",
-        id: defineData.baseCarryGroup,
+        id: (0, UtilGener_1.getCharBaseCarryGroup)(charName),
         entries: []
     };
     const carryData = [];
@@ -30,7 +31,7 @@ async function createCharCarry(dm, charName) {
             "TRADER_KEEP", //不会出售
             "UNBREAKABLE", //不会损坏
             "NO_SALVAGE", //无法拆分
-            defineData.baseItemFlagID);
+            (0, UtilGener_1.getCharBaseItemFlagId)(charName));
             item.countdown_interval = 1; //自动销毁
             carryData.push(item);
         }
@@ -51,7 +52,7 @@ async function createCharCarry(dm, charName) {
                 const fixfield = typeof require_field == "string"
                     ? [require_field, 1]
                     : require_field;
-                cond.push({ math: [(0, CharConfig_1.getTalkerFieldVarID)("u", fixfield[0]), ">=", `${fixfield[1]}`] });
+                cond.push({ math: [(0, UtilGener_1.getTalkerFieldVarID)("u", fixfield[0]), ">=", `${fixfield[1]}`] });
             }
             const timerVar = `u_${itemID}_timer`;
             const rechargeEoc = {
@@ -72,10 +73,10 @@ async function createCharCarry(dm, charName) {
                 ],
                 condition: { and: [...cond] }
             };
-            dm.addCharEvent(charName, "SlowUpdate", 0, rechargeEoc);
+            dm.addCharInvokeEoc(charName, "SlowUpdate", 0, rechargeEoc);
             carryData.push(rechargeEoc);
         }
     }
-    outData['carry'] = [...carryData, carryItemGroup];
+    dm.addCharStaticData(charName, [...carryData, carryItemGroup], "carry");
 }
 exports.createCharCarry = createCharCarry;

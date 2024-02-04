@@ -5,12 +5,8 @@ import { CharSkill } from "./CharSkill";
 export type SpecSkillCastData = Readonly<{
     /**技能 */
     skill: CharSkill;
-    /**基础成功eoc效果 */
-    TEffect: EocEffect[];
-    /**基础准备释放Eoc */
-    PreEffect: EocEffect[];
     /**子法术 */
-    extraEffects: Spell[];
+    extra_effects: Spell[];
 }>;
 /**添加效果 */
 type AddEffect = {
@@ -32,7 +28,7 @@ type RunEoc = {
     /**生成一个运行的子法术 */
     type: "RunEoc";
     /**运行的Eoc */
-    eoc: (ParamsEoc);
+    eoc?: (ParamsEoc);
     /**自动生成eoc并运行 */
     effect?: EocEffect[];
     /**自动生成的eoc的运行条件 */
@@ -47,8 +43,30 @@ type ExtDamage = {
     /**伤害类型id */
     damage_type: DamageTypeID;
 };
+/**产生音效 */
+type Audio = {
+    /**音频 */
+    type: "Audio";
+    audio: (string | {
+        /**音效变体ID */
+        id: string;
+        /**产生音效的概率 1/n 默认1 */
+        one_in_chance?: number;
+        /**音量 1-128 默认100 */
+        volume?: number;
+        /**声音冷却
+         * 每隔n次战斗刷新可触发
+         */
+        cooldown?: number;
+    })[];
+};
 /**特殊的字效果 */
-export type SpecEffect = RunEoc | AddEffect | ExtDamage;
+export type SpecEffect = [
+    RunEoc,
+    AddEffect,
+    ExtDamage,
+    Audio
+][number];
 /**特殊效果的处理表 */
 export declare const SpecProcMap: Record<SpecEffect["type"], (dm: CDataManager, charName: string, baseSkillData: SpecSkillCastData, spec: SpecEffect, index: number) => void>;
 export {};

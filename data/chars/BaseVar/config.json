@@ -7,6 +7,6 @@
         "u_critical_damage":0.5
     },
     "ench_status": {
-        "add_AVOID_FRIENDRY_FIRE": 1
+        "AVOID_FRIENDRY_FIRE": {"add":1}
     }
 }

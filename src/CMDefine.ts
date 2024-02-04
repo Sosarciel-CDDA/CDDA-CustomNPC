@@ -9,6 +9,8 @@ export const CMDef = new ModDefine(MOD_PREFIX);
 
 /**data文件夹路径 */
 export const DATA_PATH = path.join(process.cwd(),'data');
+/**角色列表文件夹路径 */
+export const CHARS_PATH = path.join(DATA_PATH,"Chars");
 /**sosarcielEnv文件夹路径 */
 export const ENV_PATH = path.join(process.cwd(),'..');
 /**build设定 */
@@ -18,7 +20,16 @@ export const GAME_PATH = BuilfSetting.game_path as string;
 /**build输出路径 */
 export const OUT_PATH = path.join(GAME_PATH,'data','mods','CustomNPC');
 
+/**SmartNpc 施法数据输出路径 */
+export const CASTAI_PATH = path.join(ENV_PATH,"CDDA-SmartNPC","data","CastAI","cnpc");
+/**获取角色的施法AI数据输出路径 */
+export const getCharCastAIPath = (charName:string)=>path.join(CASTAI_PATH,charName);
+/**SmartNpc 施法法术数据输出路径 */
+export const CASTSPELL_PATH = path.join(ENV_PATH,"CDDA-SmartNPC","spell","CustomNPC");
+/**获取角色的施法AI数据输出路径 */
+export const getCharCastSpellPath = (charName:string)=>path.join(CASTSPELL_PATH,charName);
+
 /**获取角色路径 */
-export const getCharPath = (charName:string) => path.join(DATA_PATH,charName);
+export const getCharPath = (charName:string) => path.join(DATA_PATH,"Chars",charName);
 /**角色输出路径 */
-export const getCharOutPath = (charName:string) => path.join(OUT_PATH,charName);
+export const getCharOutPath = (charName:string) => path.join(OUT_PATH,"Chars",charName);

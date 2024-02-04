@@ -75,14 +75,13 @@
 	}],
 	"skill": [
 		{
-			"name": "霜盾",
-			"cast_condition":{
-				"hook": "BattleUpdate"
+			"cast_ai": {
+				"cast_condition":{
+					"hook": "BattleUpdate"
+				},
+				"cooldown":64,
+				"weight": 2
 			},
-			"audio":[
-				{"id":"FrostShield","cooldown": 180},
-				"FrostShieldSF"
-			],
 			"spell": {
 				"id":"FrostShield",
 				"type": "SPELL",
@@ -106,16 +105,24 @@
 					"intensity": 1000,
 					"duration": 100,
 					"effect_id": "HealReserve"
+				},{
+					"type": "Audio",
+					"audio":[
+						{"id":"FrostShield","cooldown": 180},
+						"FrostShieldSF"
+					]
 				}
 			],
-			"cooldown":64,
-			"weight": 2,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
-			"name": "情报分析",
-			"cast_condition":{
-				"hook": "BattleUpdate"
+			"cast_ai":{
+				"cast_condition":{
+					"hook": "BattleUpdate"
+				},
+				"cooldown":16,
+				"common_cooldown": 0,
+				"weight": 10
 			},
 			"spell": {
 				"id":"IntelligenceAnalysis",
@@ -130,20 +137,16 @@
 				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","IGNORE_WALLS","NO_EXPLOSION_SFX"]
 			},
-			"cooldown":16,
-			"common_cooldown": 0,
-			"weight": 10,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
-			"name": "弹幕冰刺",
-			"cast_condition":{
-				"hook": "TryMeleeAttack"
+			"cast_ai": {
+				"cast_condition":{
+					"hook": "TryMeleeAttack"
+				},
+				"cooldown":24,
+				"weight": 1
 			},
-			"audio":[
-				{"id":"BarrageIceSpike","cooldown": 180},
-				"BarrageIceSpikeSF","BaseAudio:IceHit"
-			],
 			"spell": {
 				"id":"BarrageIceSpike",
 				"type": "SPELL",
@@ -166,20 +169,23 @@
 					"type": "ExtDamage",
 					"damage_type": "Freeze",
 					"amount": 2
+				},{
+					"type": "Audio",
+					"audio": [
+						{"id":"BarrageIceSpike","cooldown": 180},
+						"BarrageIceSpikeSF","BaseAudio:IceHit"
+					]
 				}
 			],
-			"cooldown":24,
-			"weight": 1,
 			"require_weapon_flag": ["AkasetGauntlet"]
 		},
 		{
-			"name": "雷霆轰击",
-			"cast_condition":{"hook": "TryAttack"},
-			"cooldown":16,
-			"audio":[
-				{"id":"ElectricStrike","cooldown": 180},
-				"ElectricStrikeSF","BaseAudio:ElectHit"
-			],
+			"cast_ai": {
+				"type":"Inherit",
+				"base":"TargetDamage",
+				"weight": 2,
+				"cooldown":16
+			},
 			"spell": {
 				"id":"ElectricStrike",
 				"type": "SPELL",
@@ -196,16 +202,22 @@
 				"effect": "attack",
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"weight": 2,
+			"spec_effect": [{
+				"type": "Audio",
+				"audio":[
+					{"id":"ElectricStrike","cooldown": 180},
+					"ElectricStrikeSF","BaseAudio:ElectHit"
+				]
+			}],
 			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
-			"name": "离子风暴",
-			"cast_condition":[
-				{"hook": "TryAttack"},
-				{"hook": "TryAttack", "target": "control_cast"}
-			],
-			"audio":["IonStormSF","BaseAudio:ElectHit"],
+			"cast_ai": {
+				"type":"Inherit",
+				"base":"TargetDamage",
+				"cooldown":24,
+				"weight": 1
+			},
 			"spell": {
 				"id":"IonStorm",
 				"type": "SPELL",
@@ -228,20 +240,19 @@
 				"type": "ExtDamage",
 				"damage_type":"Discharge",
 				"amount": 10
+			},{
+				"type": "Audio",
+				"audio": ["IonStormSF","BaseAudio:ElectHit"]
 			}],
-			"cooldown":24,
-			"weight": 1,
 			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
-			"name": "TD光束",
-			"cast_condition":{
-				"hook": "TryAttack"
+			"cast_ai": {
+				"type":"Inherit",
+				"base":"TargetDamage",
+				"cooldown":64,
+				"weight": 3
 			},
-			"audio":[
-				{"id":"ThunderDischargeBeam","cooldown": 180},
-				"ThunderDischargeBeamSF","BaseAudio:ElectHit"
-			],
 			"spell": {
 				"id":"ThunderDischargeBeam",
 				"type": "SPELL",
@@ -260,19 +271,20 @@
 				"min_duration": 6000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS"]
 			},
-			"cooldown":64,
-			"weight": 3,
+			"spec_effect": [{
+				"audio": [{"id":"ThunderDischargeBeam","cooldown": 180},
+				"ThunderDischargeBeamSF","BaseAudio:ElectHit"],
+				"type": "Audio"
+			}],
 			"require_weapon_flag": ["AkasetLaserCannon"]
 		},
 		{
-			"name": "功率强化",
-			"cast_condition":[{
-				"hook": "BattleUpdate",
-				"condition":{"not":{"u_has_effect":"PowerBoost"}}
-			},{
-				"hook": "SlowUpdate",
-				"condition":{"not":{"u_has_effect":"PowerBoost"}}
-			}],
+			"cast_ai": {
+				"type":"Inherit",
+				"base":"AlawaySelfBuff",
+				"common_cooldown": 0,
+				"weight": 10
+			},
 			"spell": {
 				"type": "SPELL",
 				"id":"PowerBoost",
@@ -284,19 +296,16 @@
 				"shape": "blast",
 				"min_duration": 12000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
-			},
-			"common_cooldown": 0,
-			"weight": 10
+			}
 		},
 		{
-			"name": "紧急冻结",
-			"cast_condition":[{
-				"hook": "BattleUpdate",
-				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
-			},{
-				"hook": "SlowUpdate",
-				"condition":{"not":{"u_has_effect":"EmergencyFreeze"}}
-			}],
+			"cast_ai": {
+				"type":"Inherit",
+				"base":"AlawaySelfBuff",
+				"common_cooldown": 0,
+				"cooldown": 3600,
+				"weight": 10
+			},
 			"spell": {
 				"type": "SPELL",
 				"id":"EmergencyFreeze",
@@ -308,10 +317,7 @@
 				"shape": "blast",
 				"min_duration": 86400000,
 				"flags": ["NO_FAIL","NO_HANDS","NO_LEGS","NO_EXPLOSION_SFX","SILENT"]
-			},
-			"common_cooldown": 0,
-			"cooldown": 3600,
-			"weight": 10
+			}
 		}
 	],
 	"desc": {

@@ -22,7 +22,7 @@ async function shotInterval(dm) {
             { math: [StaticData_1.SPELL_CT_MODMOVE_VAR, "=", num + ""] },
             { u_cast_spell: { id: StaticData_1.SPELL_CT_MODMOVE, hit_self: true } },
         ], { u_has_wielded_with_flag: flagid });
-        dm.addGEvent("TryRangeAttack", 0, triggerEoc);
+        dm.addInvokeEoc("TryRangeAttack", 0, triggerEoc);
         outlist.push(flag, triggerEoc);
     }
     dm.addStaticData([...outlist], "common_resource", "trigger_flag", "shot_interval");

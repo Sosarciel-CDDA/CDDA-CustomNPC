@@ -2,7 +2,7 @@ import { JObject, UtilFT } from "@zwa73/utils";
 import { CharConfig } from "./CharInterface";
 import * as path from 'path';
 import * as fs from 'fs';
-import { DATA_PATH, getCharPath } from "CMDefine";
+import { CHARS_PATH, DATA_PATH, getCharPath } from "CMDefine";
 
 //处理角色配置文件
 const CharList:string[] = [];
@@ -15,6 +15,7 @@ function extendCharConfig(target:JObject,...sources:JObject[]):JObject{
     for(const obj of sources){
         for(const key in obj){
             if(key=="extends") continue;
+            if(key=="virtual") continue;
             const value = obj[key];
             if(Array.isArray(value)){
                 out[key] = out[key]==null
@@ -45,14 +46,18 @@ export const getCharConfig = async (charName:string):Promise<CharConfig>=>{
 /**获取角色列表 */
 export const getCharList = async ()=>{
     if(CharList.length>0) return CharList;
-    CharList.push(...(await fs.promises.readdir(DATA_PATH))
-        .filter(fileName=>fs.statSync(path.join(DATA_PATH,fileName)).isDirectory()));
+    let baseList = (await fs.promises.readdir(CHARS_PATH))
+        .filter(fileName=>fs.statSync(path.join(CHARS_PATH,fileName)).isDirectory());
 
-    const filteredList = (await Promise.all(CharList.map(async fileName => {
-        const charConfig = await getCharConfig(fileName);
-        if (charConfig.virtual !== true) return fileName;
+    console.log(baseList)
+    const filteredList = (await Promise.all(baseList.map(async charName => {
+        const charConfig = await getCharConfig(charName);
+        console.log(charConfig)
+        if (charConfig.virtual !== true) return charName;
         return null;
-    }))).filter(Boolean) as string[];
+    }))).filter((item)=>item!==null) as string[];
 
-    return filteredList;
+    CharList.push(...filteredList);
+    console.log(CharList)
+    return CharList;
 }

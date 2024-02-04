@@ -1,2 +1,0 @@
-node rename.js
-pause

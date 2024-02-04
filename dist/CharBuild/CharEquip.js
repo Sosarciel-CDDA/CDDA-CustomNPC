@@ -2,37 +2,39 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharEquip = void 0;
 const CMDefine_1 = require("../CMDefine");
-const CharConfig_1 = require("./CharConfig");
+const CharInterface_1 = require("./CharInterface");
 const StaticData_1 = require("../StaticData");
+const UtilGener_1 = require("./UtilGener");
+const CharData_1 = require("./CharData");
 /**创建角色装备 */
 async function createCharEquip(dm, charName) {
-    const { defineData, outData, charConfig } = await dm.getCharData(charName);
+    const charConfig = await (0, CharData_1.getCharConfig)(charName);
     const outs = [];
     const displayName = charName.replaceAll("_", " ");
     /**基础物品的识别flag */
     const baseItemFlag = {
         type: "json_flag",
-        id: defineData.baseItemFlagID,
+        id: (0, UtilGener_1.getCharBaseItemFlagId)(charName),
     };
     /**构造附魔属性 */
     /**基础附魔 */
     const baseEnch = {
-        id: defineData.baseEnchID,
+        id: (0, UtilGener_1.getCharBaseEnchId)(charName),
         type: "enchantment",
         condition: "ALWAYS",
-        values: (0, CharConfig_1.parseEnchStatTable)(charConfig.ench_status)
+        values: (0, CharInterface_1.parseEnchStatTable)(charConfig.ench_status)
     };
     //字段附魔
     const enchList = [];
     for (const upgObj of charConfig.upgrade || []) {
         const field = upgObj.field;
-        const ufield = (0, CharConfig_1.getTalkerFieldVarID)("u", field);
+        const ufield = (0, UtilGener_1.getTalkerFieldVarID)("u", field);
         /**字段基础附魔 */
         const fdBaseEnch = {
             id: CMDefine_1.CMDef.genEnchantmentID(`${field}_base`),
             type: "enchantment",
             condition: "ALWAYS",
-            values: (0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status)
+            values: (0, CharInterface_1.parseEnchStatTable)(upgObj.ench_status)
                 .map(item => {
                 const { value, add, multiply } = item;
                 let out = { value };
@@ -48,7 +50,7 @@ async function createCharEquip(dm, charName) {
             id: CMDefine_1.CMDef.genEnchantmentID(`${field}_lvl`),
             type: "enchantment",
             condition: "ALWAYS",
-            values: (0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status)
+            values: (0, CharInterface_1.parseEnchStatTable)(upgObj.lvl_ench_status)
                 .map(item => {
                 const { value, add, multiply } = item;
                 let out = { value };
@@ -59,11 +61,11 @@ async function createCharEquip(dm, charName) {
                 return out;
             })
         };
-        if ((0, CharConfig_1.parseEnchStatTable)(upgObj.ench_status).length > 0) {
+        if ((0, CharInterface_1.parseEnchStatTable)(upgObj.ench_status).length > 0) {
             dm.addSharedRes(fdBaseEnch.id, fdBaseEnch, "common_resource", "common_ench");
             enchList.push(fdBaseEnch);
         }
-        if ((0, CharConfig_1.parseEnchStatTable)(upgObj.lvl_ench_status).length > 0) {
+        if ((0, CharInterface_1.parseEnchStatTable)(upgObj.lvl_ench_status).length > 0) {
             dm.addSharedRes(fdLvlEnch.id, fdLvlEnch, "common_resource", "common_ench");
             enchList.push(fdLvlEnch);
         }
@@ -86,7 +88,7 @@ async function createCharEquip(dm, charName) {
     };
     const pocketList = [{
             ...basePocket,
-            flag_restriction: [defineData.baseItemFlagID],
+            flag_restriction: [(0, UtilGener_1.getCharBaseItemFlagId)(charName)],
         }];
     if (itemres)
         pocketList.push({
@@ -96,7 +98,7 @@ async function createCharEquip(dm, charName) {
     /**基础装备 */
     const baseArmor = {
         type: "ARMOR",
-        id: defineData.baseArmorID,
+        id: (0, UtilGener_1.getCharBaseArmorId)(charName),
         name: `${displayName}的基础装备`,
         description: `${displayName}的基础装备`,
         category: "clothing",
@@ -113,7 +115,7 @@ async function createCharEquip(dm, charName) {
             "NO_SALVAGE", //无法拆分
             "ALLOWS_NATURAL_ATTACKS", //不会妨碍特殊攻击
             "PADDED", //有内衬 即使没有任何特定材料是柔软的, 这种盔甲也算舒适。
-            defineData.baseItemFlagID
+            (0, UtilGener_1.getCharBaseItemFlagId)(charName)
         ],
         pocket_data: pocketList,
         relic_data: {
@@ -126,11 +128,11 @@ async function createCharEquip(dm, charName) {
     /**基础变异 */
     const baseMut = {
         type: "mutation",
-        id: defineData.baseMutID,
+        id: (0, UtilGener_1.getCharMutId)(charName),
         name: `${displayName}的基础变异`,
         description: `${displayName}的基础变异`,
         points: 0,
-        integrated_armor: [defineData.baseArmorID],
+        integrated_armor: [(0, UtilGener_1.getCharBaseArmorId)(charName)],
         valid: false,
         purifiable: false,
         player_display: false,
@@ -143,10 +145,10 @@ async function createCharEquip(dm, charName) {
                 return eff;
             })
         ]);
-        dm.addCharEvent(charName, "Init", 0, initBaseVarEoc);
+        dm.addCharInvokeEoc(charName, "Init", 0, initBaseVarEoc);
         outs.push(initBaseVarEoc);
     }
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    outData['equip'] = [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs];
+    dm.addCharStaticData(charName, [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs], 'equip');
 }
 exports.createCharEquip = createCharEquip;

@@ -1,11 +1,10 @@
 import { JObject } from "@zwa73/utils";
 import { CMDef } from "CMDefine";
-import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "cdda-schema";
+import { Resp, TalkTopic, BoolObj, Eoc, EocEffect, Flag, FlagID } from "cdda-schema";
 import { RequireResource } from "./CharInterface";
-import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
 import { CDataManager } from "../DataManager";
 import { getCharConfig } from "./CharData";
-import { getCharBaseItemFlagId, getCharMutId, getCharTalkTopicId, getGlobalFieldVarID, getTalkerFieldVarID } from "./UtilGener";
+import { getCharBaseItemFlagId, getCharMutId, getCharTalkTopicId, getTalkerFieldVarID } from "./UtilGener";
 
 
 
@@ -52,7 +51,7 @@ export async function createCharTalkTopic(dm:CDataManager,charName:string){
 
 /**创建升级对话 */
 async function createUpgResp(dm:CDataManager,charName:string){
-    const charConfig = await getCharConfig(charName);
+    const {upgrade} = await getCharConfig(charName);
 
     //主升级话题ID
     const upgtopicid = CMDef.genTalkTopicID(`${charName}_upgrade`);
@@ -73,20 +72,19 @@ async function createUpgResp(dm:CDataManager,charName:string){
     const upgTopicList:TalkTopic[] = [];
     const upgEocList:Eoc[] = [];
     //遍历升级项
-    for(const upgObj of charConfig.upgrade??[]){
+    for(const upgObj of upgrade??[]){
         //子话题的回复
         const upgSubRespList:Resp[] = [];
         //判断是否有任何子选项可以升级
         const upgSubResCondList: (BoolObj)[] = [];
-        //全局字段变量
-        const globalFieldID = getGlobalFieldVarID(charName,upgObj.field);
 
         //字段
         const field = upgObj.field;
         const ufield = getTalkerFieldVarID("u",field);
         const nfield = getTalkerFieldVarID("n",field);
+        const fieldUid = `${charName}_${upgObj.field}`;
         //子话题ID
-        const subTopicId = CMDef.genTalkTopicID(globalFieldID);
+        const subTopicId = CMDef.genTalkTopicID(fieldUid);
 
         //遍历升级项等级
         const maxLvl = upgObj.max_lvl??upgObj.require_resource.length;
@@ -117,7 +115,7 @@ async function createUpgResp(dm:CDataManager,charName:string){
                 ]}
                 upgSubResCondList.push(cond)
                 //升级EocId
-                const upgEocId = CMDef.genEOCID(`${globalFieldID}_UpgradeEoc_${index}`);
+                const upgEocId = CMDef.genEOCID(`${fieldUid}_UpgradeEoc_${index}`);
                 /**使用材料 */
                 const charUpEoc:Eoc={
                     type:"effect_on_condition",
@@ -130,8 +128,6 @@ async function createUpgResp(dm:CDataManager,charName:string){
                                 count: item.count??1,
                                 popup:true
                             })),
-                        {math:[globalFieldID,"+=","1"]},
-                        {math:[nfield,"=",globalFieldID]},
                         {u_message:`${charName} 升级了 ${upgObj.field}`},
                         ...upgObj.effect??[],//应用升级效果
                     ],
@@ -220,8 +216,7 @@ async function createUpgResp(dm:CDataManager,charName:string){
         })
 
         //添加初始化
-        InitUpgField.effect?.push({math:[globalFieldID,"=",`${globalFieldID}<=0 ? 0 : ${globalFieldID}`]});
-        InitUpgField.effect?.push({math:[ufield,"=",`${globalFieldID}`]});
+        InitUpgField.effect?.push({math:[ufield,"=",`0`]});
     }
     //升级主对话
     const upgTalkTopic:TalkTopic={

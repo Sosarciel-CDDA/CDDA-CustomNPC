@@ -1,9 +1,3 @@
-export * from './AnimStatus';
-export * from './AnimTool';
-export * from './CharCarry';
-export * from './CharClass';
-export * from './CharConfig';
-export * from './CharEquip';
-export * from './CharSkill';
-export * from './CharTalkTopic';
-export * from './MergeAnime';
+import { CDataManager } from "../DataManager";
+/**创建角色 */
+export declare function createChar(dm: CDataManager): Promise<void>;

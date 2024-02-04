@@ -1,4 +1,4 @@
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcBaseSpells, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
 import { CharSkill } from "./CharSkill";
 
 
@@ -34,12 +34,14 @@ export type CharConfig = {
      * 09->10 5  
      */
     base_skill?:Partial<Record<SkillID|"ALL",number>>;
+    /**基础法术 */
+    base_spell?:NpcBaseSpells;
     /**基础变量 将会直接在初始化时应用 */
     base_var?  :Record<string,number>;
     /**基础变异 */
     base_mutation?:MutationID[];
     /**附魔属性 */
-    ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
+    ench_status?:EnchStatTable;
     /**固定的武器  
      * 如果武器丢失会自动刷新
      */
@@ -91,9 +93,9 @@ export type CharUpgrade = {
      */
     require_resource:(RequireResource|AnyItemID)[][][];
     /**每个强化等级提升的附魔属性 */
-    lvl_ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
+    lvl_ench_status?:EnchStatTable;
     /**只要拥有此字段就会添加的附魔属性 */
-    ench_status?:Partial<Record<EnchStat,number|NumMathExp>>;
+    ench_status?:EnchStatTable;
     /**到达特定强化等级时将会获得的变异  
      * [拥有字段时获得的变异ID,[变异ID,强化等级],[第二个变异ID,强化等级]]  
      */
@@ -131,40 +133,28 @@ export type CharCarry = {
     require_field?:[string,number]|string;
 }
 
-
-/**变量属性 */
-export type EnchStat = `${"add"|"multiply"}_${EnchValType}`;
 /**变量属性表 */
-export type EnchStatTable = Partial<Record<EnchStat,NumObj>>;
-/**解析变量属性Obj */
-export function parseEnchStat(stat:EnchStat){
-    let match = stat.match(/(add|multiply)_(.*)/);
-    if(match==null) throw `parseEnchStat 传入了一个错误值 ${stat}`
-    return {
-        category:match[1] as "add"|"multiply",
-        field:match[2] as EnchGenericValType|EnchArmorValType
-    }
+export type EnchStatTable = Partial<Record<
+    EnchGenericValType|EnchArmorValType,
+    Pick<EnchModVal,"multiply"|"add">
+>>;
+function parseMath(obj?:NumObj):NumMathExp|undefined{
+    if(obj===undefined) return undefined;
+    if(typeof obj==="number") return {math:[`${obj}`]};
+    if("math" in obj) return {math:[obj.math[0]]};
+    throw `属性仅支持 number 或 math表达式 无效的附魔属性:${obj}`;
 }
 /**解析变量属性表 */
 export function parseEnchStatTable(table?:EnchStatTable):StatModVal[]{
     if(table==null) return[];
     let out:StatModVal[] = [];
     for(const key in table){
-        const enchStat = key as EnchStat;
-        const value = table[enchStat]!;
-        let parseObj = parseEnchStat(enchStat);
-        const {category,field} = parseObj;
-
-        let modstr = "0";
-        if(typeof value=="number")
-            modstr = value+"";
-        else if("math" in value)
-            modstr = value.math[0];
-        else throw `附魔属性仅支持 number 或 math表达式 无效的附魔属性:${value}`
-
+        const field = key as EnchGenericValType|EnchArmorValType;
+        const {add,multiply} = table[field]!;
         out.push({
             value:field,
-            [category]:{math:[modstr]}
+            add:parseMath(add),
+            multiply:parseMath(multiply)
         })
     }
     return out;

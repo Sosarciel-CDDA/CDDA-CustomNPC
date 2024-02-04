@@ -1,3 +1,2 @@
-import { CDataManager } from "./DataManager";
-export declare function buildChar(dm: CDataManager, charName: string): Promise<void>;
-export declare function main(): Promise<void>;
+export * from './Build';
+export * from './BuildSchema';

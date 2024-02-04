@@ -1,25 +1,27 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./AnimStatus"), exports);
-__exportStar(require("./AnimTool"), exports);
-__exportStar(require("./CharCarry"), exports);
-__exportStar(require("./CharClass"), exports);
-__exportStar(require("./CharConfig"), exports);
-__exportStar(require("./CharEquip"), exports);
-__exportStar(require("./CharSkill"), exports);
-__exportStar(require("./CharTalkTopic"), exports);
-__exportStar(require("./MergeAnime"), exports);
+exports.createChar = void 0;
+const CharData_1 = require("./CharData");
+const CharCarry_1 = require("./CharCarry");
+const CharClass_1 = require("./CharClass");
+const CharEquip_1 = require("./CharEquip");
+const CharGener_1 = require("./CharGener");
+const CharTalkTopic_1 = require("./CharTalkTopic");
+const CharSkill_1 = require("./CharSkill");
+const DrawCardSpell_1 = require("./DrawCardSpell");
+/**创建角色 */
+async function createChar(dm) {
+    const charList = await (0, CharData_1.getCharList)();
+    (0, DrawCardSpell_1.createDrawCardSpell)(dm);
+    for (const charName of charList) {
+        await Promise.all([
+            (0, CharCarry_1.createCharCarry)(dm, charName),
+            (0, CharClass_1.createCharClass)(dm, charName),
+            (0, CharEquip_1.createCharEquip)(dm, charName),
+            (0, CharGener_1.createCharGener)(dm, charName),
+            (0, CharSkill_1.createCharSkill)(dm, charName),
+            (0, CharTalkTopic_1.createCharTalkTopic)(dm, charName),
+        ]);
+    }
+}
+exports.createChar = createChar;

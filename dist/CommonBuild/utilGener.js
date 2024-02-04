@@ -43,7 +43,7 @@ function genTriggerEffect(dm, effect, hook, mode, eocEffects, duration, conditio
             ...condition ? [condition] : []
         ]
     }, true);
-    dm.addGEvent(hook, 0, triggerEoc);
+    dm.addInvokeEoc(hook, 0, triggerEoc);
     return triggerEoc;
 }
 exports.genTriggerEffect = genTriggerEffect;
