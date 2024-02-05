@@ -12,12 +12,12 @@ const UtilGener_1 = require("./CharBuild/UtilGener");
 class CDataManager extends cdda_event_1.DataManager {
     //———————————————————— 初始化 ————————————————————//
     constructor() {
-        super(CMDefine_1.DATA_PATH, CMDefine_1.OUT_PATH, "CNPCef");
+        super(CMDefine_1.DATA_PATH, CMDefine_1.OUT_PATH, "CNPCEF");
         if (this._dataPath == null)
             throw "";
         //合并静态数据
         for (const key in StaticData_1.StaticDataMap)
-            this.addStaticData(StaticData_1.StaticDataMap[key], key);
+            this.addData(StaticData_1.StaticDataMap[key], key);
     }
     /**添加 eoc的ID引用到 */
     addCharInvokeEoc(charName, etype, weight, ...events) {
@@ -28,8 +28,8 @@ class CDataManager extends cdda_event_1.DataManager {
         super.addEvent(etype, weight, [effect]);
     }
     /**添加角色静态资源 */
-    addCharStaticData(charName, arr, filePath, ...filePaths) {
-        super.addStaticData(arr, path.join((0, CMDefine_1.getCharOutPath)(charName), filePath, ...filePaths));
+    addCharData(charName, arr, filePath, ...filePaths) {
+        super.addData(arr, path.join((0, CMDefine_1.getCharOutPath)(charName), filePath, ...filePaths));
     }
     /**输出数据 */
     async saveAllData() {

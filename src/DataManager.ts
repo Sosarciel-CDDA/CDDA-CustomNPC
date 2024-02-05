@@ -17,7 +17,7 @@ export class CDataManager extends DataManager{
         if(this._dataPath==null) throw "";
         //合并静态数据
         for(const key in StaticDataMap)
-            this.addStaticData(StaticDataMap[key],key)
+            this.addData(StaticDataMap[key],key)
     }
 
     /**添加 eoc的ID引用到 */
@@ -29,8 +29,8 @@ export class CDataManager extends DataManager{
         super.addEvent(etype,weight,[effect]);
     }
     /**添加角色静态资源 */
-    addCharStaticData(charName:string,arr: JObject[], filePath: string, ...filePaths: string[]){
-        super.addStaticData(arr,path.join(getCharOutPath(charName),filePath,...filePaths));
+    addCharData(charName:string,arr: JObject[], filePath: string, ...filePaths: string[]){
+        super.addData(arr,path.join(getCharOutPath(charName),filePath,...filePaths));
     }
     /**输出数据 */
     async saveAllData(){

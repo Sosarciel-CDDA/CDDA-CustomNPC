@@ -82,6 +82,6 @@ export async function createCharGener(dm:CDataManager,charName:string) {
         symbol: ",",
         looks_like: "memory_card"
     }
-    dm.addCharStaticData(charName,
+    dm.addCharData(charName,
         [charSpawner,charSpawnerEoc,charCardEoc,charCard],'gener');
 }

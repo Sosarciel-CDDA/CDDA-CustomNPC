@@ -7,7 +7,7 @@ export declare class CDataManager extends DataManager {
     /**添加 eoc的ID引用到 */
     addCharInvokeEoc(charName: string, etype: CharHook, weight: number, ...events: Eoc[]): void;
     /**添加角色静态资源 */
-    addCharStaticData(charName: string, arr: JObject[], filePath: string, ...filePaths: string[]): void;
+    addCharData(charName: string, arr: JObject[], filePath: string, ...filePaths: string[]): void;
     /**输出数据 */
     saveAllData(): Promise<void>;
 }

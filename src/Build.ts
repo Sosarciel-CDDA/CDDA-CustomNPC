@@ -14,6 +14,6 @@ export async function build(){
     await commonBuild(CMDm);
     //合并静态数据
     for(const key in StaticDataMap)
-        CMDm.addStaticData(StaticDataMap[key],key)
+        CMDm.addData(StaticDataMap[key],key)
     CMDm.saveAllData();
 }

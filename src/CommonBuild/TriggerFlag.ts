@@ -27,5 +27,5 @@ async function shotInterval(dm:CDataManager){
         dm.addInvokeEoc("TryRangeAttack",0,triggerEoc);
         outlist.push(flag,triggerEoc);
     }
-    dm.addStaticData([...outlist],"common_resource","trigger_flag","shot_interval");
+    dm.addData([...outlist],"common_resource","trigger_flag","shot_interval");
 }

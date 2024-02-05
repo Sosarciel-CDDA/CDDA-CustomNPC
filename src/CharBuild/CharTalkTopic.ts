@@ -45,7 +45,7 @@ export async function createCharTalkTopic(dm:CDataManager,charName:string){
         }]
     }
 
-    dm.addCharStaticData(charName,[extTalkTopic,mainTalkTopic],'talk_topic');
+    dm.addCharData(charName,[extTalkTopic,mainTalkTopic],'talk_topic');
 }
 
 
@@ -240,7 +240,7 @@ async function createUpgResp(dm:CDataManager,charName:string){
     }
     //注册初始化eoc
     dm.addCharInvokeEoc(charName,"Init",10,InitUpgField);
-    dm.addCharStaticData(charName,[InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList],'upgrade_talk_topic');
+    dm.addCharData(charName,[InitUpgField,upgTalkTopic,...upgEocList,...upgTopicList],'upgrade_talk_topic');
     return upgtopicid;
 }
 
@@ -451,6 +451,6 @@ async function createWeaponResp(dm:CDataManager,charName:string){
 
     //注册初始化eoc
     dm.addCharInvokeEoc(charName,"Init",10,InitWeapon);
-    dm.addCharStaticData(charName,[weaponTalkTopic,...weaponData],'weapon_talk_topic');
+    dm.addCharData(charName,[weaponTalkTopic,...weaponData],'weapon_talk_topic');
     return weaponTalkTopicId;
 }

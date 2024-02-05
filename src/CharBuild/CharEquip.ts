@@ -159,5 +159,5 @@ export async function createCharEquip(dm:CDataManager,charName:string){
     }
 
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    dm.addCharStaticData(charName,[baseMut,baseArmor,baseEnch,baseItemFlag,...outs],'equip');
+    dm.addCharData(charName,[baseMut,baseArmor,baseEnch,baseItemFlag,...outs],'equip');
 }

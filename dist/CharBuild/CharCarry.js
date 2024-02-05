@@ -77,6 +77,6 @@ async function createCharCarry(dm, charName) {
             carryData.push(rechargeEoc);
         }
     }
-    dm.addCharStaticData(charName, [...carryData, carryItemGroup], "carry");
+    dm.addCharData(charName, [...carryData, carryItemGroup], "carry");
 }
 exports.createCharCarry = createCharCarry;

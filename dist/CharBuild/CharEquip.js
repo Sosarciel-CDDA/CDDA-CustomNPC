@@ -149,6 +149,6 @@ async function createCharEquip(dm, charName) {
         outs.push(initBaseVarEoc);
     }
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
-    dm.addCharStaticData(charName, [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs], 'equip');
+    dm.addCharData(charName, [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs], 'equip');
 }
 exports.createCharEquip = createCharEquip;

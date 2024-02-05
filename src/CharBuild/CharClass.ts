@@ -87,7 +87,7 @@ export async function createCharClass(dm:CDataManager,charName:string){
         condition:{math:["u_needRemove","==",`1`]}
     }
     dm.addCharInvokeEoc(charName,"Update",0,charRemoveEoc);
-    dm.addCharStaticData(charName,
+    dm.addCharData(charName,
         [charClass,charInstance,charInitEoc,charRemoveEoc],
         'npc');
 }

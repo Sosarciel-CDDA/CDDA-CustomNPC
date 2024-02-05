@@ -87,7 +87,7 @@ export async function createCharSkill(dm:CDataManager,charName:string){
         for(const exspell of fixExtraEffects)
             dm.addSharedRes(exspell.id,exspell,"common_resource","common_spell");
     }
-    dm.addCharStaticData(charName,skillDataList,'skill');
+    dm.addCharData(charName,skillDataList,'skill');
     await UtilFT.writeJSONFile(getCharCastAIPath(charName),castAIJson);
     await UtilFT.writeJSONFile(getCharCastSpellPath(charName),spells);
 }

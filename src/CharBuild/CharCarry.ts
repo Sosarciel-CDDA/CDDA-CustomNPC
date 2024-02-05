@@ -86,5 +86,5 @@ export async function createCharCarry(dm:CDataManager,charName:string){
         }
 
     }
-    dm.addCharStaticData(charName,[...carryData,carryItemGroup],"carry");
+    dm.addCharData(charName,[...carryData,carryItemGroup],"carry");
 }

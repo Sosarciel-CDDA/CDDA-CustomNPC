@@ -47,7 +47,7 @@ async function createCharSkill(dm, charName) {
         for (const exspell of fixExtraEffects)
             dm.addSharedRes(exspell.id, exspell, "common_resource", "common_spell");
     }
-    dm.addCharStaticData(charName, skillDataList, 'skill');
+    dm.addCharData(charName, skillDataList, 'skill');
     await utils_1.UtilFT.writeJSONFile((0, CMDefine_1.getCharCastAIPath)(charName), castAIJson);
     await utils_1.UtilFT.writeJSONFile((0, CMDefine_1.getCharCastSpellPath)(charName), spells);
 }

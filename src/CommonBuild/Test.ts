@@ -33,5 +33,5 @@ export async function createTest(dm:CDataManager){
 
     outData.push(eoc,spell);
 
-    dm.addStaticData(outData,"test");
+    dm.addData(outData,"test");
 }

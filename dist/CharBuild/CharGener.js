@@ -30,7 +30,6 @@ async function createCharGener(dm, charName) {
         id: CMDefine_1.CMDef.genEOCID(spawnerId),
         effect: [
             //{ u_consume_item: CMDef.genGenericID(spawnerId), count: 1 },
-            { math: [`${charName}_uid`, "+=", "1"] },
             {
                 u_spawn_npc: (0, UtilGener_1.getCharInstanceId)(charName),
                 real_count: 1,
@@ -48,7 +47,6 @@ async function createCharGener(dm, charName) {
         id: CMDefine_1.CMDef.genEOCID(`${charName}_Card_Eoc`),
         effect: [
             { u_add_var: cardcdvar, time: true },
-            { math: [`${charName}_uid`, "+=", "1"] },
             {
                 u_spawn_npc: (0, UtilGener_1.getCharInstanceId)(charName),
                 real_count: 1,
@@ -80,6 +78,6 @@ async function createCharGener(dm, charName) {
         symbol: ",",
         looks_like: "memory_card"
     };
-    dm.addCharStaticData(charName, [charSpawner, charSpawnerEoc, charCardEoc, charCard], 'gener');
+    dm.addCharData(charName, [charSpawner, charSpawnerEoc, charCardEoc, charCard], 'gener');
 }
 exports.createCharGener = createCharGener;

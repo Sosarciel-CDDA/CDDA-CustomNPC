@@ -46,6 +46,6 @@ async function createDrawCardSpell(dm) {
         valid_targets: ["self"]
     };
     out.push(mainSpell);
-    dm.addStaticData(out, "common_resource", "DetonateTearSpell");
+    dm.addData(out, "common_resource", "DetonateTearSpell");
 }
 exports.createDrawCardSpell = createDrawCardSpell;

@@ -26,6 +26,6 @@ async function createTest(dm) {
         effect_str: eoc.id
     };
     outData.push(eoc, spell);
-    dm.addStaticData(outData, "test");
+    dm.addData(outData, "test");
 }
 exports.createTest = createTest;

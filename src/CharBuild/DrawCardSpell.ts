@@ -54,5 +54,5 @@ export async function createDrawCardSpell(dm:CDataManager){
     out.push(mainSpell);
 
 
-    dm.addStaticData(out,"common_resource","DetonateTearSpell");
+    dm.addData(out,"common_resource","DetonateTearSpell");
 }

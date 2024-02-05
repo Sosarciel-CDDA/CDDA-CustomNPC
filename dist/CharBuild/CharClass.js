@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCharClass = void 0;
 const CMDefine_1 = require("../CMDefine");
-const cdda_schema_1 = require("cdda-schema");
 const StaticData_1 = require("../StaticData");
 const CharData_1 = require("./CharData");
 const UtilGener_1 = require("./UtilGener");
@@ -58,30 +57,15 @@ async function createCharClass(dm, charName) {
         age: charConfig.desc?.age,
         gender: charConfig.desc?.gender,
     };
-    /**自动保存事件 */
-    const autoSave = {
-        type: "effect_on_condition",
-        id: CMDefine_1.CMDef.genEOCID(`${charName}_SaveProcess`),
-        eoc_type: "ACTIVATION",
-        effect: [
-            ...cdda_schema_1.DefineSkillList.map(item => {
-                const math = { math: [`${charName}_skill_${item}`, "=", `u_skill(${item})`] };
-                return math;
-            })
-        ]
-    };
-    dm.addCharInvokeEoc(charName, "SlowUpdate", 0, autoSave);
     /**初始化事件 */
     const charInitEoc = {
         type: "effect_on_condition",
         eoc_type: "ACTIVATION",
         id: CMDefine_1.CMDef.genEOCID(`${charName}_InitProcess`),
         effect: [
-            { math: [`u_uid`, "=", `${charName}_uid`] },
-            ...cdda_schema_1.DefineSkillList.map(item => {
-                const math = { math: [`u_skill(${item})`, "=", `${charName}_skill_${item}`] };
-                return math;
-            })
+            { if: { math: [`${charName}_hasInstance`, "==", "1"] },
+                then: [{ math: ["u_needRemove", "=", "1"] }] },
+            { math: [`${charName}_hasInstance`, "=", "1"] }
         ]
     };
     dm.addCharInvokeEoc(charName, "Init", 1000, charInitEoc);
@@ -93,9 +77,9 @@ async function createCharClass(dm, charName) {
         effect: [
             { run_eocs: "CNPC_EOC_CnpcDeathProcess" }
         ],
-        condition: { math: ["u_uid", "!=", `${charName}_uid`] }
+        condition: { math: ["u_needRemove", "==", `1`] }
     };
     dm.addCharInvokeEoc(charName, "Update", 0, charRemoveEoc);
-    dm.addCharStaticData(charName, [charClass, charInstance, autoSave, charInitEoc, charRemoveEoc], 'npc');
+    dm.addCharData(charName, [charClass, charInstance, charInitEoc, charRemoveEoc], 'npc');
 }
 exports.createCharClass = createCharClass;

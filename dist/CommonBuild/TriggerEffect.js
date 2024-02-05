@@ -70,7 +70,7 @@ function FrostShield(dm) {
         { u_cast_spell: { id: tspell.id } },
         { sound_effect: "IceHit", id: "BaseAudio", volume: 100 }
     ], TEFF_DUR, undefined, "1 s");
-    dm.addStaticData([tex, tspell, eff, teoc], "common_resource", "trigger_effect", "FrostShield");
+    dm.addData([tex, tspell, eff, teoc], "common_resource", "trigger_effect", "FrostShield");
 }
 //紧急冻结
 function EmergencyFreeze(dm) {
@@ -142,7 +142,7 @@ function EmergencyFreeze(dm) {
         { u_cast_spell: { id: tfreeze.id } },
         { sound_effect: "IceHit", id: "BaseAudio", volume: 100 }
     ], "PERMANENT");
-    dm.addStaticData([tex, tspell, tfreeze, freeze, eff, teoc], "common_resource", "trigger_effect", "EmergencyFreeze");
+    dm.addData([tex, tspell, tfreeze, freeze, eff, teoc], "common_resource", "trigger_effect", "EmergencyFreeze");
 }
 //治疗储备
 function HealReserve(dm) {
@@ -171,5 +171,5 @@ function HealReserve(dm) {
         }),
         { math: ["u_pain()", "=", "0"] },
     ], UPG_TEFF_DUR, undefined, undefined);
-    dm.addStaticData([eff, teoc], "common_resource", "trigger_effect", "HealReserve");
+    dm.addData([eff, teoc], "common_resource", "trigger_effect", "HealReserve");
 }
