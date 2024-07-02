@@ -12,13 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "@zwa73/utils": "^1.0.60",
-    "cdda-event": "file:CDDA-Event",
-    "cdda-schema": "file:CDDA-Schema",
-    "cdda-custommedia": "file:CDDA-CustomMedia",
-    "cdda-smartnpc": "file:CDDA-SmartNPC",
-    "commander": "^11.1.0",
-    "tsc-alias": "^1.8.8",
-    "typescript": "^5.3.3",
-    "typescript-json-schema": "^0.62.0"
+    "cdda-event": "file:../CDDA-Event",
+    "cdda-schema": "file:../CDDA-Schema",
+    "cdda-custommedia": "file:../CDDA-CustomMedia",
+    "cdda-smartnpc": "file:../CDDA-SmartNPC"
   }
 }
