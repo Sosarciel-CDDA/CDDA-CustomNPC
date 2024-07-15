@@ -16,7 +16,7 @@ export const ENV_PATH = path.join(process.cwd(),'..');
 /**build设定 */
 const BuilfSetting = UtilFT.loadJSONFileSync(path.join(ENV_PATH,'build_setting.json'));
 /**build目标游戏路径 */
-export const GAME_PATH = BuilfSetting.game_path as string;
+export const GAME_PATH = (BuilfSetting as any).game_path as string;
 /**build输出路径 */
 export const OUT_PATH = path.join(GAME_PATH,'data','mods','CustomNPC');
 

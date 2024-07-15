@@ -49,7 +49,10 @@ function CNPC_EOC_InitEvent(){
 	//添加属性增强变异
 	if(not(eobj({ "u_has_trait": "CNPC_MUT_StatMod" })))
 		eobj({ "u_add_trait": "CNPC_MUT_StatMod" })
+	//添加用于防止逃跑的勇气效果
+	eobj({ "u_add_effect": "CNPC_EFF_Courage", "duration": "PERMANENT" })
 }
+
 //玩家移动
 function CNPC_EOC_AvatarMoveEvent(){
 	eoc_type("ACTIVATION")

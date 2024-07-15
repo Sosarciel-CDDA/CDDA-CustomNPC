@@ -42,7 +42,7 @@ export class CDataManager extends DataManager{
             .map(charName=> async ()=>{
                 //复制角色静态数据
                 const charStaticDataPath = path.join(getCharPath(charName),"StaticData");
-                await UtilFT.ensurePathExists(charStaticDataPath,true);
+                await UtilFT.ensurePathExists(charStaticDataPath,{dir:true});
                 //await
                 fs.promises.cp(charStaticDataPath,getCharOutPathAbs(charName),{ recursive: true });
             })
