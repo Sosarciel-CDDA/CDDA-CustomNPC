@@ -81,6 +81,14 @@ function CNPC_EOC_UpdateEvent(){
 	}
 }
 
+//游戏开始
+function CNPC_EOC_GameBeginEvent(){
+	eoc_type("ACTIVATION");
+
+	//初始化变量
+	CNPC_EOC_InitVar();
+}
+
 //———————————————————— Cnpc事件处理 ————————————————————//
 //CNPC死亡事件
 //Cnpc角色受伤死亡处理

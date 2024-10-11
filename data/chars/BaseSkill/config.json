@@ -20,7 +20,7 @@
             },
             "spec_effect": [{
                 "type": "RunEoc",
-                "effect": [{"u_teleport":{"global_val": "tactical_transfer_control_cast_loc"}}]
+                "effect": [{"npc_teleport":{"global_val": "tactical_transfer_control_cast_loc"}}]
             }]
         }
     ]

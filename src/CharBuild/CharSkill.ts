@@ -79,7 +79,10 @@ export async function createCharSkill(dm:CDataManager,charName:string){
         //加入子效果
         if(fixExtraEffects.length>0){
             spell.extra_effects=spell.extra_effects??[];
-            spell.extra_effects.push(...fixExtraEffects.map(spell=>({id:spell.id})))
+            spell.extra_effects.push(...fixExtraEffects.map(spell=>({
+                id:spell.id,
+                hit_self:spell.valid_targets.length==1 && spell.valid_targets[0]=='self' ? true : undefined
+            })))
         }
         //生成法术
         dm.addSharedRes(spell.id,spell,"common_resource","common_spell");

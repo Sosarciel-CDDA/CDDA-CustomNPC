@@ -23,7 +23,7 @@ const FullRecivery = {
     id: exports.FULL_RECIVERY_EOCID,
     effect: [
         "u_prevent_death",
-        { math: ["u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)"] },
+        { math: ["u_calories()", "=", "max( u_calories(), 9000)"] },
         { math: ["u_val('thirst')", "=", "min( u_val('thirst'), 800)"] },
         { math: ["u_vitamin('redcells')", "=", "0"] },
         { math: ["u_vitamin('bad_food')", "=", "0"] },
@@ -31,9 +31,10 @@ const FullRecivery = {
         { math: ["u_vitamin('instability')", "=", "0"] },
         { math: ["u_pain()", "=", "0"] },
         { math: ["u_val('rad')", "=", "0"] },
-        { math: ["u_hp('ALL')", "=", "u_hp_max('bp_null')"] },
+        { math: ["u_hp('ALL')", "=", "999"] },
         //{ u_set_hp: 1000, max: true},
         { u_add_effect: "cureall", duration: "1 s", intensity: 1 },
+        { u_add_effect: "panacea", duration: "30 s", intensity: 1 },
         { u_lose_effect: "corroding" },
         { u_lose_effect: "onfire" },
         { u_lose_effect: "dazed" },
@@ -50,7 +51,7 @@ const FullRecivery = {
         { u_lose_effect: "sap" },
         { u_lose_effect: "nausea" },
         { u_lose_effect: "bleed" },
-    ]
+    ],
 };
 exports.BaseEoc = [InitVar, FullRecivery];
 (0, StaticData_1.saveStaticData)(exports.BaseEoc, 'static_resource', "base_eoc");

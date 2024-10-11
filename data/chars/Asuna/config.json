@@ -191,7 +191,7 @@
 				"amount": 40
 			},{
 				"audio":[
-					{"id":"BladeStrike_","cooldown": 180},
+					{"id":"BladeStrike","cooldown": 180},
 					"BladeStrikeSF","BaseAudio:BashHit"
 				],
 				"type": "Audio"
