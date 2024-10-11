@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseEnchStatTable = void 0;
+exports.parseEnchStatTable = parseEnchStatTable;
 function parseMath(obj) {
     if (obj === undefined)
         return undefined;
@@ -26,4 +26,3 @@ function parseEnchStatTable(table) {
     }
     return out;
 }
-exports.parseEnchStatTable = parseEnchStatTable;

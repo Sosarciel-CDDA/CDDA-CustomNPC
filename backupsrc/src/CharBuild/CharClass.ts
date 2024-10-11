@@ -115,7 +115,7 @@ export async function createCharClass(dm:CDataManager,charName:string){
         ],
         condition:{or:[
             {u_compare_time_since_var:cardcdvar,op:">=",time:"1 d"},
-            {not:{u_has_var:cardcdvar,time:true}}
+            {not:{compare_string: [ "yes", { u_val: cardcdvar } ] }}
         ]},
         false_effect:[{u_message:"卡片没什么反应, 等一会再试吧……"}]
     };

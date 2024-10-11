@@ -44,7 +44,7 @@ export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CGlobalHook,
         {u_has_effect:effect.id},
         {or:[
             {u_compare_time_since_var:timevarId,op:">=",time:cooldown},
-            {not:{u_has_var:timevarId,time:true}},
+            {not:{compare_string: [ "yes", { u_val: timevarId } ] }}
         ]},
         ...condition? [condition]:[]]
     },true);

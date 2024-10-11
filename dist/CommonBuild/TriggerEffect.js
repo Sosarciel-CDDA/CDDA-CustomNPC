@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTriggerEffect = void 0;
+exports.createTriggerEffect = createTriggerEffect;
 const cdda_schema_1 = require("cdda-schema");
 const CMDefine_1 = require("../CMDefine");
 const UtilGener_1 = require("./UtilGener");
@@ -13,7 +13,6 @@ async function createTriggerEffect(dm) {
     await EmergencyFreeze(dm);
     await HealReserve(dm);
 }
-exports.createTriggerEffect = createTriggerEffect;
 /**触发效果持续时间 */
 const TEFF_DUR = '60 s';
 /**刷新触发的效果持续时间 */

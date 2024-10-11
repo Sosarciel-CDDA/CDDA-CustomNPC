@@ -81,7 +81,6 @@ function CNPC_EOC_UpdateEvent(){
 	}
 }
 
-
 //———————————————————— Cnpc事件处理 ————————————————————//
 //CNPC死亡事件
 //Cnpc角色受伤死亡处理
@@ -124,6 +123,11 @@ function CNPC_EOC_CnpcDeathAfterProcess(){
 	//npc传送会使玩家一起传送 需要将玩家传送回原地
     eobj({npc_teleport:{global_val:"avatar_loc"},force:true})
     eobj({math:["u_hp('ALL')","=","0"]})
+}
+
+//刷新处理
+function CNPC_EOC_CnpcUpdateEvent(){
+	eoc_type("ACTIVATION");
 }
 
 

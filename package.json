@@ -4,7 +4,7 @@
   "description": "快速定义cdda的随从npc",
   "main": "index.js",
   "scripts": {
-    "build-schema": "node buildSchema",
+    "build-schema": "zcli Gen-Schema -i src/Schema/**/*.ts",
     "compile": "tsc && tsc-alias",
     "build": "npm run compile && node --trace-warnings build"
   },

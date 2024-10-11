@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharCarry = void 0;
+exports.createCharCarry = createCharCarry;
 const CMDefine_1 = require("../CMDefine");
 const CharData_1 = require("./CharData");
 const UtilGener_1 = require("./UtilGener");
@@ -79,4 +79,3 @@ async function createCharCarry(dm, charName) {
     }
     dm.addCharData(charName, [...carryData, carryItemGroup], "carry");
 }
-exports.createCharCarry = createCharCarry;

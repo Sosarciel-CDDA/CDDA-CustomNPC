@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTriggerFlag = void 0;
+exports.createTriggerFlag = createTriggerFlag;
 const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("../StaticData");
 async function createTriggerFlag(dm) {
     await shotInterval(dm);
 }
-exports.createTriggerFlag = createTriggerFlag;
 /**射击间隔 */
 async function shotInterval(dm) {
     const baseId = "SHOTINT";

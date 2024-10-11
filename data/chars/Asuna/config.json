@@ -305,7 +305,9 @@
 			}
 		}
 	],
-	"base_mutation": [],
+	"base_mutation": [
+		"Asuna_anime"
+	],
 	"desc": {
 		"age": 17,
 		"gender": "female",

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createDrawCardSpell = void 0;
+exports.createDrawCardSpell = createDrawCardSpell;
 const CharData_1 = require("../CharBuild/CharData");
 const CMDefine_1 = require("../CMDefine");
 const UtilGener_1 = require("./UtilGener");
@@ -48,4 +48,3 @@ async function createDrawCardSpell(dm) {
     out.push(mainSpell);
     dm.addData(out, "common_resource", "DetonateTearSpell");
 }
-exports.createDrawCardSpell = createDrawCardSpell;

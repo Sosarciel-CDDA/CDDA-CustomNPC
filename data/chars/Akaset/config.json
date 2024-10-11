@@ -324,5 +324,8 @@
 		"age": 310,
 		"gender": "female",
 		"height": 158
-	}
+	},
+	"base_mutation": [
+		"Akaset_anime"
+	]
 }

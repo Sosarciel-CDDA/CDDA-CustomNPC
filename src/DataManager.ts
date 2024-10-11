@@ -3,7 +3,7 @@ import * as  fs from 'fs';
 import { JObject, JToken, UtilFT, UtilFunc } from '@zwa73/utils';
 import { StaticDataMap } from 'StaticData';
 import { Eoc, AnyCddaJson, EocEffect } from 'cdda-schema';
-import { DATA_PATH, OUT_PATH, getCharOutPath, getCharOutPathAbs, getCharPath } from 'CMDefine';
+import { CHARS_PATH, DATA_PATH, OUT_PATH, getCharOutPath, getCharOutPathAbs, getCharPath } from 'CMDefine';
 import { CharHook, DataManager } from 'cdda-event';
 import { getCharMutId } from './CharBuild/UtilGener';
 
@@ -37,8 +37,8 @@ export class CDataManager extends DataManager{
         super.saveAllData();
 
         //读取并处理角色
-        const funcs = (await fs.promises.readdir(DATA_PATH))
-            .filter(fileName=>fs.statSync(path.join(DATA_PATH,fileName)).isDirectory())
+        const funcs = (await fs.promises.readdir(CHARS_PATH))
+            .filter(fileName=>fs.statSync(path.join(CHARS_PATH,fileName)).isDirectory())
             .map(charName=> async ()=>{
                 //复制角色静态数据
                 const charStaticDataPath = path.join(getCharPath(charName),"StaticData");

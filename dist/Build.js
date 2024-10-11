@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build = void 0;
+exports.build = build;
 const CharBuild_1 = require("./CharBuild");
 const DataManager_1 = require("./DataManager");
 const CommonBuild_1 = require("./CommonBuild");
@@ -16,4 +16,3 @@ async function build() {
         CMDm.addData(StaticData_1.StaticDataMap[key], key);
     CMDm.saveAllData();
 }
-exports.build = build;

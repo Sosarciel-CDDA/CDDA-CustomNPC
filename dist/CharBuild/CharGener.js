@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharGener = void 0;
+exports.createCharGener = createCharGener;
 const UtilGener_1 = require("./UtilGener");
 const CMDefine_1 = require("../CMDefine");
 async function createCharGener(dm, charName) {
@@ -55,8 +55,8 @@ async function createCharGener(dm, charName) {
             },
         ],
         condition: { or: [
-                { u_compare_time_since_var: cardcdvar, op: ">=", time: "1 d" },
-                { not: { u_has_var: cardcdvar, time: true } }
+                { math: [`time_since(u_${cardcdvar})`, ">=", "time('1 d')"] },
+                { not: { compare_string: ["yes", { u_val: cardcdvar }] } }
             ] },
         false_effect: [{ u_message: "卡片没什么反应, 等一会再试吧……" }]
     };
@@ -80,4 +80,3 @@ async function createCharGener(dm, charName) {
     };
     dm.addCharData(charName, [charSpawner, charSpawnerEoc, charCardEoc, charCard], 'gener');
 }
-exports.createCharGener = createCharGener;

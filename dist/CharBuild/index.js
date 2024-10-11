@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createChar = void 0;
+exports.createChar = createChar;
 const CharData_1 = require("./CharData");
 const CharCarry_1 = require("./CharCarry");
 const CharClass_1 = require("./CharClass");
@@ -22,4 +22,3 @@ async function createChar(dm) {
         await (0, CharTalkTopic_1.createCharTalkTopic)(dm, charName);
     }
 }
-exports.createChar = createChar;

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseNumObj = exports.createCharSkill = void 0;
+exports.createCharSkill = createCharSkill;
+exports.parseNumObj = parseNumObj;
 const utils_1 = require("@zwa73/utils");
 const CharSkillSpecEffect_1 = require("./CharSkillSpecEffect");
 const CharData_1 = require("./CharData");
@@ -51,7 +52,6 @@ async function createCharSkill(dm, charName) {
     await utils_1.UtilFT.writeJSONFile((0, CMDefine_1.getCharCastAIPath)(charName), castAIJson);
     await utils_1.UtilFT.writeJSONFile((0, CMDefine_1.getCharCastSpellPath)(charName), spells);
 }
-exports.createCharSkill = createCharSkill;
 function procCommonCond(skill) {
     const { require_weapon_flag, require_weapon_category, require_unarmed, require_field } = skill;
     const commonCondList = [];
@@ -85,7 +85,6 @@ function parseNumObj(value) {
     }
     return strExp;
 }
-exports.parseNumObj = parseNumObj;
 /**解析法术伤害字符串 */
 function parseSpellNumObj(spell, field) {
     return parseNumObj(spell[field]);

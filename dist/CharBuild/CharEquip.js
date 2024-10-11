@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharEquip = void 0;
+exports.createCharEquip = createCharEquip;
 const CMDefine_1 = require("../CMDefine");
 const CharInterface_1 = require("./CharInterface");
 const StaticData_1 = require("../StaticData");
@@ -151,4 +151,3 @@ async function createCharEquip(dm, charName) {
     //dm.addCharEvent(charName,"CharUpdate",giveWeapon);
     dm.addCharData(charName, [baseMut, baseArmor, baseEnch, baseItemFlag, ...outs], 'equip');
 }
-exports.createCharEquip = createCharEquip;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharClass = void 0;
+exports.createCharClass = createCharClass;
 const CMDefine_1 = require("../CMDefine");
 const StaticData_1 = require("../StaticData");
 const CharData_1 = require("./CharData");
@@ -82,4 +82,3 @@ async function createCharClass(dm, charName) {
     dm.addCharInvokeEoc(charName, "Update", 0, charRemoveEoc);
     dm.addCharData(charName, [charClass, charInstance, charInitEoc, charRemoveEoc], 'npc');
 }
-exports.createCharClass = createCharClass;

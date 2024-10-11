@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCharDisplayName = exports.getTalkerFieldVarID = exports.getGlobalFieldVarID = exports.getCharCardId = exports.getCharTalkTopicId = exports.getCharBaseCarryGroup = exports.getCharBaseItemFlagId = exports.getCharBaseEnchId = exports.getCharBaseArmorId = exports.getCharInstanceId = exports.getCharClassId = exports.getCharMutId = void 0;
+exports.getCharDisplayName = exports.getCharCardId = exports.getCharTalkTopicId = exports.getCharBaseCarryGroup = exports.getCharBaseItemFlagId = exports.getCharBaseEnchId = exports.getCharBaseArmorId = exports.getCharInstanceId = exports.getCharClassId = exports.getCharMutId = void 0;
+exports.getGlobalFieldVarID = getGlobalFieldVarID;
+exports.getTalkerFieldVarID = getTalkerFieldVarID;
 const CMDefine_1 = require("../CMDefine");
 /**获取角色变异ID */
 const getCharMutId = (charName) => `${charName}_cnpc`;
@@ -33,11 +35,9 @@ exports.getCharCardId = getCharCardId;
 function getGlobalFieldVarID(charName, field) {
     return `${charName}_${field}`;
 }
-exports.getGlobalFieldVarID = getGlobalFieldVarID;
 function getTalkerFieldVarID(talker, field) {
     return `${talker}_${field}`;
 }
-exports.getTalkerFieldVarID = getTalkerFieldVarID;
 /**获取角色展示名 */
 const getCharDisplayName = (charName) => charName.replaceAll("_", " ");
 exports.getCharDisplayName = getCharDisplayName;

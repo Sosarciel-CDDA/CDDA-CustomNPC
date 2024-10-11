@@ -43,8 +43,8 @@ export function genTriggerEffect(dm:CDataManager,effect:Effect,hook:CharHook,mod
     ],{and:[
         {u_has_effect:effect.id},
         {or:[
-            {u_compare_time_since_var:timevarId,op:">=",time:cooldown},
-            {not:{u_has_var:timevarId,time:true}},
+            {math: [ `time_since(u_${timevarId})`, ">=", `time('${cooldown}')` ] },
+            {not:{compare_string: [ "yes", { u_val: timevarId } ] }}
         ]},
         ...condition? [condition]:[]]
     },true);

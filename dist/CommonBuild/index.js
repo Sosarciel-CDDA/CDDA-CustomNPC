@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.commonBuild = void 0;
+exports.commonBuild = commonBuild;
 const Test_1 = require("./Test");
 const TriggerEffect_1 = require("./TriggerEffect");
 const TriggerFlag_1 = require("./TriggerFlag");
@@ -10,4 +10,3 @@ async function commonBuild(dm) {
     await (0, TriggerEffect_1.createTriggerEffect)(dm);
     await (0, TriggerFlag_1.createTriggerFlag)(dm);
 }
-exports.commonBuild = commonBuild;

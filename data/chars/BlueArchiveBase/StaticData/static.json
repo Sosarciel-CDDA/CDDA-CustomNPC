@@ -1,0 +1,28 @@
+[
+    {
+        "id": "BAmag",
+        "type": "MAGAZINE",
+        "copy-from": "glock17_17",
+        "name": {
+            "str_sp": "BA 格洛克 9x19mm 17发弹匣"
+        },
+        "description": "BA 格洛克 9x19mm 17发弹匣",
+        "flags": [
+            "MAG_DESTROY",
+            "NO_UNLOAD",
+            "ACTIVATE_ON_PLACE",
+            "TRADER_KEEP",
+            "UNBREAKABLE",
+            "NO_SALVAGE",
+            "ACTIVATE_ON_PLACE",
+            "TRADER_KEEP",
+            "UNBREAKABLE",
+            "NO_SALVAGE"
+        ],
+        "count": 17,
+        "price": 0,
+        "price_postapoc": 0,
+        "looks_like": "TransparentItem",
+        "countdown_interval": 1
+    }
+]

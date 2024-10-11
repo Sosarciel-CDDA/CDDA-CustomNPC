@@ -1,5 +1,5 @@
 {
-	"extends": ["BlueArchiveBase","BaseField","BaseSkill","BaseVar","AnimStatModify"],
+	"extends": ["BaseField","BaseSkill","BaseVar","AnimStatModify"],
     "base_status":{
         "str":12,
         "dex":12,
@@ -15,7 +15,26 @@
 	"base_mutation": [
 		"CNPC_MUT_小鸟游_星野"
 	],
-    "weapon":[],
+    "weapon":[{
+		"item":{
+            "id": "BAPistol",
+            "name": "BA 格洛克勤务手枪",
+            "description": "BA 格洛克勤务手枪",
+            "copy-from": "glock_17",
+            "looks_like": "glock_17",
+            "type": "GUN",
+            "flags": ["ALLOWS_BODY_BLOCK","NO_UNLOAD","SHOTINT_100"],
+            "modes": [
+                ["DEFAULT"	,"auto", 10]
+            ],
+			"faults": [],
+            "pocket_data": [{
+                "pocket_type": "MAGAZINE_WELL",
+                "item_restriction": ["BAmag"]
+            }],
+            "ammo_to_fire": 0
+        }
+	}],
 	"skill": [
 		{
 			"cast_ai": {

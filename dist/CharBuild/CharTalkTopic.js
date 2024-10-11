@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createCharTalkTopic = void 0;
+exports.createCharTalkTopic = createCharTalkTopic;
 const CMDefine_1 = require("../CMDefine");
 const CharData_1 = require("./CharData");
 const UtilGener_1 = require("./UtilGener");
@@ -37,7 +37,6 @@ async function createCharTalkTopic(dm, charName) {
     };
     dm.addCharData(charName, [extTalkTopic, mainTalkTopic], 'talk_topic');
 }
-exports.createCharTalkTopic = createCharTalkTopic;
 /**创建升级对话 */
 async function createUpgResp(dm, charName) {
     const { upgrade } = await (0, CharData_1.getCharConfig)(charName);

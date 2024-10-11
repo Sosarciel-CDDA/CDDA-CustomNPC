@@ -35,12 +35,12 @@ class CDataManager extends cdda_event_1.DataManager {
     async saveAllData() {
         super.saveAllData();
         //读取并处理角色
-        const funcs = (await fs.promises.readdir(CMDefine_1.DATA_PATH))
-            .filter(fileName => fs.statSync(path.join(CMDefine_1.DATA_PATH, fileName)).isDirectory())
+        const funcs = (await fs.promises.readdir(CMDefine_1.CHARS_PATH))
+            .filter(fileName => fs.statSync(path.join(CMDefine_1.CHARS_PATH, fileName)).isDirectory())
             .map(charName => async () => {
             //复制角色静态数据
             const charStaticDataPath = path.join((0, CMDefine_1.getCharPath)(charName), "StaticData");
-            await utils_1.UtilFT.ensurePathExists(charStaticDataPath, true);
+            await utils_1.UtilFT.ensurePathExists(charStaticDataPath, { dir: true });
             //await
             fs.promises.cp(charStaticDataPath, (0, CMDefine_1.getCharOutPathAbs)(charName), { recursive: true });
         });

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTest = void 0;
+exports.createTest = createTest;
 const UtilGener_1 = require("./UtilGener");
 const CMDefine_1 = require("../CMDefine");
 async function createTest(dm) {
@@ -28,4 +28,3 @@ async function createTest(dm) {
     outData.push(eoc, spell);
     dm.addData(outData, "test");
 }
-exports.createTest = createTest;
