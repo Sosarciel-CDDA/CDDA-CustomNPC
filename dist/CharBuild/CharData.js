@@ -47,8 +47,8 @@ const getCharConfig = async (charName) => {
     if (charConfig.extends?.includes(charName))
         throw `${charName} 不应继承自身`;
     const exts = [];
-    for (const char of charConfig.extends || [])
-        exts.push(await (0, exports.getCharConfig)(char));
+    for (const char of charConfig.extends ?? [])
+        exts.push(utils_1.UtilFunc.deepClone(await (0, exports.getCharConfig)(char)));
     CharConfigMap[charName] = extendCharConfig(charConfig, ...exts);
     return CharConfigMap[charName];
 };

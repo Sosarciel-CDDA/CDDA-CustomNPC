@@ -21,6 +21,8 @@ async function createCharSkill(dm, charName) {
     //遍历技能
     for (const skill of skills) {
         const { spell, extra_effects, spec_effect, cast_ai } = skill;
+        //if(spell.id=='tactical_transfer')
+        //    console.log(skill)
         //共同条件
         castAIJson.table[spell.id] = cast_ai;
         const procCommCond = procCommonCond(skill);

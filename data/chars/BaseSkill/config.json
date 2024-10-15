@@ -1,27 +1,5 @@
 
 {
     "virtual": true,
-    "base_spell": [{"id":"tactical_transfer","level": 0}],
-    "skill": [
-        {
-            "cast_ai":{
-                "cast_condition":{"hook": "TryAttack","target": "control_cast"},
-                "cooldown": 64
-            },
-            "spell": {
-                "type": "SPELL",
-                "id": "tactical_transfer",
-                "description": "传送到视野范围内的另一个位置。",
-                "name": "战术转移",
-                "valid_targets": ["ground"],
-                "effect": "attack",
-                "min_range":{"math": ["BATTLE_RANGE"]},
-                "shape": "blast"
-            },
-            "spec_effect": [{
-                "type": "RunEoc",
-                "effect": [{"npc_teleport":{"global_val": "tactical_transfer_control_cast_loc"}}]
-            }]
-        }
-    ]
+    "skill": []
 }

@@ -1,4 +1,4 @@
-import { JObject, UtilFT } from "@zwa73/utils";
+import { JObject, UtilFT, UtilFunc } from "@zwa73/utils";
 import { CharConfig } from "./CharInterface";
 import * as path from 'path';
 import * as fs from 'fs';
@@ -38,8 +38,8 @@ export const getCharConfig = async (charName:string):Promise<CharConfig>=>{
     const charConfig:CharConfig = await UtilFT.loadJSONFile(path.join(getCharPath(charName),'config')) as any;
     if(charConfig.extends?.includes(charName)) throw `${charName} 不应继承自身`;
     const exts:CharConfig[] = [];
-    for(const char of charConfig.extends||[])
-        exts.push(await getCharConfig(char));
+    for(const char of charConfig.extends??[])
+        exts.push(UtilFunc.deepClone(await getCharConfig(char)));
     CharConfigMap[charName] = extendCharConfig(charConfig,...exts);
     return CharConfigMap[charName];
 }
