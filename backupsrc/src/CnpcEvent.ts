@@ -1,5 +1,5 @@
-import { EocEffect } from "cdda-schema";
-import { EventManager } from "cdda-event";
+import { EocEffect } from "@sosarciel-cdda/cdda-schema";
+import { EventManager } from "@sosarciel-cdda/cdda-event";
 import { JObject } from "@zwa73/utils";
 
 

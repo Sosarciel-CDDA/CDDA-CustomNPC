@@ -1,5 +1,5 @@
 import { UtilFT } from "@zwa73/utils";
-import { ModDefine } from "cdda-schema";
+import { ModDefine } from "@sosarciel-cdda/cdda-schema";
 import * as path from 'path';
 
 /**mod物品前缀 */

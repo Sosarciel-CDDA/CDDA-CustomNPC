@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { UtilFunc } from "@zwa73/utils";
-import { expandSchema } from "cdda-schema";
+import { expandSchema } from "@sosarciel-cdda/cdda-schema";
 
 
 async function main(){
