@@ -1,7 +1,7 @@
-import { EmptyMissionDialog, MissionDefinition, MissionDefinitionID, OMTMatchType } from "cdda-schema";
+import { EmptyMissionDialog, MissionDefinition, MissionDefinitionID, OMTMatchType } from "@sosarciel-cdda/sclema";
 import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
-import { BoolObj, Eoc, EocID, Spell, SpellID, OvermapTerrainID, OverMapSpecialID } from "cdda-schema";
+import { BoolObj, Eoc, EocID, Spell, SpellID, OvermapTerrainID, OverMapSpecialID } from "@sosarciel-cdda/sclema";
 
 
 

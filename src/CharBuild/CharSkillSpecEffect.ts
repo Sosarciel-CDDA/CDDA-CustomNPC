@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, SoundEffectID, SoundEffectVariantID, Spell, SpellFlag, Time } from "cdda-schema";
+import { BoolObj, DamageTypeID, EffectID, Eoc, EocEffect, InlineEoc, NumObj, ParamsEoc, SoundEffectID, SoundEffectVariantID, Spell, SpellFlag, Time } from "@sosarciel-cdda/sclema";
 import { CharSkill, parseNumObj } from "./CharSkill";
 import { CMDef } from "CMDefine";
 import { CON_SPELL_FLAG, SPELL_MAX_DAMAGE } from "StaticData";

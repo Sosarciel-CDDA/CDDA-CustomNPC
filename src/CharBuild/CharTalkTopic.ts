@@ -1,6 +1,6 @@
 import { JObject } from "@zwa73/utils";
 import { CMDef } from "CMDefine";
-import { Resp, TalkTopic, BoolObj, Eoc, EocEffect, Flag, FlagID } from "cdda-schema";
+import { Resp, TalkTopic, BoolObj, Eoc, EocEffect, Flag, FlagID } from "@sosarciel-cdda/sclema";
 import { RequireResource } from "./CharInterface";
 import { CDataManager } from "../DataManager";
 import { getCharConfig } from "./CharData";

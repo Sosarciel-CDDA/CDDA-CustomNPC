@@ -1,4 +1,4 @@
-import { Mutation, OverlayOrdering } from "cdda-schema";
+import { Mutation, OverlayOrdering } from "@sosarciel-cdda/sclema";
 import { saveStaticData } from "./StaticData";
 import { CMDef } from "CMDefine";
 import { STAT_MOD_ENCHID } from "./BaseEnch";

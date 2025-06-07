@@ -1,4 +1,4 @@
-import { MathFunction, MathFunctionID } from "cdda-schema";
+import { MathFunction, MathFunctionID } from "@sosarciel-cdda/sclema";
 import { saveStaticData } from "./StaticData";
 
 

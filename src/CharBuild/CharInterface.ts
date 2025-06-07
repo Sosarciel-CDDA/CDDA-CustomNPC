@@ -1,4 +1,4 @@
-import { AnyItem, AnyItemID, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcBaseSpells, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchArmorValTypeList, EnchGenericValType, EnchModVal, EnchValType, EocEffect, Generic, Gun, MutationID, NpcBaseSpells, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "@sosarciel-cdda/sclema";
 import { CharSkill } from "./CharSkill";
 
 

@@ -1,4 +1,4 @@
-import { ModDefine } from "cdda-schema";
+import { ModDefine } from "@sosarciel-cdda/sclema";
 /**mod物品前缀 */
 export declare const MOD_PREFIX = "CNPC";
 export declare const CMDef: ModDefine;

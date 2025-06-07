@@ -1,4 +1,4 @@
-import { NpcClass, NpcInstance } from "cdda-schema";
+import { NpcClass, NpcInstance } from "@sosarciel-cdda/sclema";
 import { saveStaticData } from "./StaticData";
 import { CMDef } from "CMDefine";
 

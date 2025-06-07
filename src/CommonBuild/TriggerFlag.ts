@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Flag, FlagID, Spell } from "cdda-schema";
+import { DamageType, DamageTypeID, Effect, EffectID, Eoc, Flag, FlagID, Spell } from "@sosarciel-cdda/sclema";
 import { CMDef } from "CMDefine";
 import { genDIO } from "./UtilGener";
 import { SPELL_CT_MODMOVE, SPELL_CT_MODMOVE_VAR, SPELL_MAX_DAMAGE } from "StaticData";

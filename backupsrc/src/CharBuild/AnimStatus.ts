@@ -2,7 +2,7 @@ import { JArray } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
 import { CharDefineData, CDataManager } from "../DataManager";
 import * as path from 'path';
-import { Eoc } from "cdda-schema";
+import { Eoc } from "@sosarciel-cdda/sclema";
 import { CMDef } from "CMDefine";
 import { CCharHook } from "CnpcEvent";
 

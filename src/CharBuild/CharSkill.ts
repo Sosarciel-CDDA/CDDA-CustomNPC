@@ -1,5 +1,5 @@
 import { JObject, JToken, UtilFT, UtilFunc } from "@zwa73/utils";
-import { Spell, FlagID, WeaponCategoryID, BoolObj } from "cdda-schema";
+import { Spell, FlagID, WeaponCategoryID, BoolObj } from "@sosarciel-cdda/sclema";
 import { CDataManager } from "@src/DataManager";
 import { SpecEffect, SpecProcMap, SpecSkillCastData } from "./CharSkillSpecEffect";
 import { getCharConfig } from "./CharData";

@@ -1,4 +1,4 @@
-import { Spell, FlagID, WeaponCategoryID } from "cdda-schema";
+import { Spell, FlagID, WeaponCategoryID } from "@sosarciel-cdda/sclema";
 import { CDataManager } from "../DataManager";
 import { SpecEffect } from "./CharSkillSpecEffect";
 import { CastAIData, Inherit } from "cdda-smartnpc";

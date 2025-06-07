@@ -1,4 +1,4 @@
-import { Eoc } from "cdda-schema";
+import { Eoc } from "@sosarciel-cdda/sclema";
 import { CMDef } from "CMDefine";
 import { saveStaticData } from "./StaticData";
 import { BATTLE_RANGE, MELEE_RANGE } from "./BaseSpell";

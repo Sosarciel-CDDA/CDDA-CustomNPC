@@ -1,4 +1,4 @@
-import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "cdda-schema";
+import { AnyItem, AnyItemID, EnchArmorValType, EnchGenericValType, EnchValType, EocEffect, MutationID, NpcGender, NumMathExp, NumObj, SkillID, StatusSimple } from "@sosarciel-cdda/sclema";
 import { CharSkill } from "./CharSkill";
 import { CDataManager } from '../DataManager';
 /**动态读取的角色设定 */

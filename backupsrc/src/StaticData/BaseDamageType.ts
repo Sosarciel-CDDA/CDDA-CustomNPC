@@ -1,5 +1,5 @@
 import { saveStaticData } from "./StaticData";
-import { DamageInfoOrder, DamageType, DamageTypeID, Eoc } from "cdda-schema";
+import { DamageInfoOrder, DamageType, DamageTypeID, Eoc } from "@sosarciel-cdda/sclema";
 
 
 

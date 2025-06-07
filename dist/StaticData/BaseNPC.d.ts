@@ -1,2 +1,2 @@
-import { NpcClass, NpcInstance } from "cdda-schema";
+import { NpcClass, NpcInstance } from "@sosarciel-cdda/sclema";
 export declare const BaseNpc: (NpcClass | NpcInstance)[];

@@ -1,5 +1,5 @@
 import { CDataManager } from "../DataManager";
-import { BoolObj, DamageTypeID, EffectID, EocEffect, NumObj, ParamsEoc, Spell, Time } from "cdda-schema";
+import { BoolObj, DamageTypeID, EffectID, EocEffect, NumObj, ParamsEoc, Spell, Time } from "@sosarciel-cdda/sclema";
 import { CharSkill } from "./CharSkill";
 /**子项数据 */
 export type SpecSkillCastData = Readonly<{
