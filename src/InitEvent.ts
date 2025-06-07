@@ -1,4 +1,4 @@
-import { DataManager } from "@sosarciel-cdda/cdda-event";
+import { DataManager } from "@sosarciel-cdda/event";
 
 
 

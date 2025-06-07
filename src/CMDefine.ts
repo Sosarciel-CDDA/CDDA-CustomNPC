@@ -1,5 +1,5 @@
 import { UtilFT } from "@zwa73/utils";
-import { ModDefine } from "@sosarciel-cdda/cdda-schema";
+import { ModDefine } from "@sosarciel-cdda/schema";
 import * as path from 'path';
 
 /**mod物品前缀 */
@@ -21,11 +21,11 @@ export const GAME_PATH = (BuilfSetting as any).game_path as string;
 export const OUT_PATH = path.join(GAME_PATH,'data','mods','CustomNPC');
 
 /**SmartNpc 施法数据输出路径 */
-export const CASTAI_PATH = path.join(ENV_PATH,"CDDA-SmartNPC","data","CastAI","cnpc");
+export const CASTAI_PATH = path.join(ENV_PATH,"SmartNPC","data","CastAI","cnpc");
 /**获取角色的施法AI数据输出路径 */
 export const getCharCastAIPath = (charName:string)=>path.join(CASTAI_PATH,charName);
 /**SmartNpc 施法法术数据输出路径 */
-export const CASTSPELL_PATH = path.join(ENV_PATH,"CDDA-SmartNPC","spell","CustomNPC");
+export const CASTSPELL_PATH = path.join(ENV_PATH,"SmartNPC","spell","CustomNPC");
 /**获取角色的施法AI数据输出路径 */
 export const getCharCastSpellPath = (charName:string)=>path.join(CASTSPELL_PATH,charName);
 

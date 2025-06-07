@@ -1,4 +1,4 @@
-//import { SchemaBuilder } from "@sosarciel-cdda/cdda-schema";
+//import { SchemaBuilder } from "@sosarciel-cdda/schema";
 //
 //
 //export async function buildSchema(){

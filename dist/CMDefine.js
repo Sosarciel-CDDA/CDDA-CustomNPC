@@ -20,12 +20,12 @@ exports.GAME_PATH = BuilfSetting.game_path;
 /**build输出路径 */
 exports.OUT_PATH = path.join(exports.GAME_PATH, 'data', 'mods', 'CustomNPC');
 /**SmartNpc 施法数据输出路径 */
-exports.CASTAI_PATH = path.join(exports.ENV_PATH, "CDDA-SmartNPC", "data", "CastAI", "cnpc");
+exports.CASTAI_PATH = path.join(exports.ENV_PATH, "SmartNPC", "data", "CastAI", "cnpc");
 /**获取角色的施法AI数据输出路径 */
 const getCharCastAIPath = (charName) => path.join(exports.CASTAI_PATH, charName);
 exports.getCharCastAIPath = getCharCastAIPath;
 /**SmartNpc 施法法术数据输出路径 */
-exports.CASTSPELL_PATH = path.join(exports.ENV_PATH, "CDDA-SmartNPC", "spell", "CustomNPC");
+exports.CASTSPELL_PATH = path.join(exports.ENV_PATH, "SmartNPC", "spell", "CustomNPC");
 /**获取角色的施法AI数据输出路径 */
 const getCharCastSpellPath = (charName) => path.join(exports.CASTSPELL_PATH, charName);
 exports.getCharCastSpellPath = getCharCastSpellPath;

@@ -1,5 +1,5 @@
 {
-  "name": "@sosarciel-cdda/cdda-customnpc",
+  "name": "@sosarciel-cdda/customnpc",
   "version": "1.0.0",
   "description": "快速定义cdda的随从npc",
   "main": "index.js",
@@ -11,10 +11,10 @@
   "author": "zwa73",
   "license": "ISC",
   "dependencies": {
-    "@sosarciel-cdda/cdda-custommedia": "^1.0.0",
-    "@sosarciel-cdda/cdda-event": "^1.0.0",
-    "@sosarciel-cdda/cdda-schema": "^1.0.0",
-    "@sosarciel-cdda/cdda-smartnpc": "^1.0.0",
+    "@sosarciel-cdda/custommedia": "^1.0.0",
+    "@sosarciel-cdda/event": "^1.0.0",
+    "@sosarciel-cdda/schema": "^1.0.0",
+    "@sosarciel-cdda/smartnpc": "^1.0.0",
     "@zwa73/utils": "^1.0.164"
   }
 }

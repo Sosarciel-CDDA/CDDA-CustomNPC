@@ -1,4 +1,4 @@
-import { ModDefine } from "@sosarciel-cdda/cdda-schema";
+import { ModDefine } from "@sosarciel-cdda/schema";
 
 
 /**mod物品前缀 */
