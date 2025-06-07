@@ -1,6 +1,6 @@
 import { AnimType } from "./AnimTool";
 import { CharDefineData, CDataManager } from "../DataManager";
-import { Eoc } from "@sosarciel-cdda/sclema";
+import { Eoc } from "@sosarciel-cdda/schema";
 /**移除其他动作变异 */
 export declare function removeOtherAnimEoc(charName: string, baseData: CharDefineData, animType: AnimType): Eoc | null;
 /**切换动作EOC */

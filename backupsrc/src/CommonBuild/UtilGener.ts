@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "@sosarciel-cdda/sclema";
+import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, MutationID, Spell, Time, Effect, EffectID } from "@sosarciel-cdda/schema";
 import { CCharHook, CGlobalHook } from "CnpcEvent";
 import { CMDef } from "CMDefine";
 

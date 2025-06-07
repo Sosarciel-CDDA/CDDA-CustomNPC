@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "@sosarciel-cdda/sclema";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, BoolObj } from "@sosarciel-cdda/schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { JObject } from "@zwa73/utils";

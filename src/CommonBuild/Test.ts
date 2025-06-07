@@ -2,7 +2,7 @@ import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
 import { genAddEffEoc, genTriggerEffect } from "./UtilGener";
 import { CMDef } from "CMDefine";
-import { Effect, Spell } from "@sosarciel-cdda/sclema";
+import { Effect, Spell } from "@sosarciel-cdda/schema";
 
 
 export async function createTest(dm:CDataManager){

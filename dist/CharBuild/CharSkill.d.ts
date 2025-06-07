@@ -1,7 +1,7 @@
-import { Spell, FlagID, WeaponCategoryID } from "@sosarciel-cdda/sclema";
+import { Spell, FlagID, WeaponCategoryID } from "@sosarciel-cdda/schema";
 import { CDataManager } from "../DataManager";
 import { SpecEffect } from "./CharSkillSpecEffect";
-import { CastAIData, Inherit } from "cdda-smartnpc";
+import { CastAIData, Inherit } from "@sosarciel-cdda/smartnpc";
 /**角色技能 */
 export type CharSkill = {
     /**施法AI */

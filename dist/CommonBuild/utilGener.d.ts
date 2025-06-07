@@ -1,6 +1,6 @@
 import { CDataManager } from "../DataManager";
-import { CharHook } from "cdda-event";
-import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, Time, Effect, EffectID } from "@sosarciel-cdda/sclema";
+import { CharHook } from "@sosarciel-cdda/event";
+import { Armor, BoolObj, DamageInfoOrder, DamageType, Eoc, EocEffect, Mutation, Time, Effect, EffectID } from "@sosarciel-cdda/schema";
 /**修改效果为触发性效果, 并创建触发Eoc
  * EocID为 `${effect.id}_Trigger`
  * @param dm 管理器

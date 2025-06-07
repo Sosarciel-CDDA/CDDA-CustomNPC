@@ -1,4 +1,4 @@
-import { Enchantment, EnchantmentID } from "@sosarciel-cdda/sclema";
+import { Enchantment, EnchantmentID } from "@sosarciel-cdda/schema";
 /**属性增强附魔 */
 export declare const STAT_MOD_ENCHID: EnchantmentID;
 export declare const StatMod: Enchantment;

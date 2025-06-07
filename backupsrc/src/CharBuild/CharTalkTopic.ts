@@ -1,6 +1,6 @@
 import { JObject } from "@zwa73/utils";
 import { CMDef } from "CMDefine";
-import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "@sosarciel-cdda/sclema";
+import { DynamicLine, Resp, TalkTopic, AnyItem, AnyItemID, BoolObj, Eoc, EocEffect, Flag, FlagID, ItemGroup } from "@sosarciel-cdda/schema";
 import { RequireResource, getGlobalFieldVarID, getTalkerFieldVarID } from "./CharConfig";
 import { getGlobalDisableSpellVar, getDisableSpellVar } from "./CharSkill";
 import { CDataManager } from "../DataManager";

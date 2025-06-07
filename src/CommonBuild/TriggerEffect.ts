@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "@sosarciel-cdda/sclema";
+import { BodyPartList, DamageType, DamageTypeID, Effect, EffectID, Enchantment, Eoc, EocEffect, EocID, SoundEffectID, SoundEffectVariantID, Spell } from "@sosarciel-cdda/schema";
 import { CMDef } from "CMDefine";
 import { genAddEffEoc, genDIO, genTriggerEffect } from "./UtilGener";
 import { FULL_RECIVERY_EOCID } from "StaticData";

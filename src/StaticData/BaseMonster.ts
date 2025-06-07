@@ -1,4 +1,4 @@
-import { Monster } from "@sosarciel-cdda/sclema";
+import { Monster } from "@sosarciel-cdda/schema";
 import { saveStaticData } from "./StaticData";
 import { CMDef } from "CMDefine";
 

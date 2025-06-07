@@ -1,6 +1,6 @@
 import { CDataManager } from "@src/DataManager";
 import { JObject } from "@zwa73/utils";
-import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "@sosarciel-cdda/sclema";
+import { Eoc, EocID, Explosion, ItemGroup, ItemGroupID, Monster, MonsterID, Spell, SpellID } from "@sosarciel-cdda/schema";
 import { CMDef } from "CMDefine";
 import { CON_SPELL_FLAG } from "StaticData";
 

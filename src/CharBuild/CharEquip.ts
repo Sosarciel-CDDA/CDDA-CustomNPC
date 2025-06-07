@@ -1,4 +1,4 @@
-import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect, ArmorFlag } from "@sosarciel-cdda/sclema";
+import { Armor, Enchantment, Eoc, Flag, Gun, ItemGroup, Mutation, NumObj, EnchModVal, BodyPartList, AnyItemID, PocketData, EocEffect, ArmorFlag } from "@sosarciel-cdda/schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
 import { parseEnchStatTable } from "./CharInterface";

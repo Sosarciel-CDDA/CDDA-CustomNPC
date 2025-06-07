@@ -2,8 +2,8 @@ import { CDataManager } from "@src/DataManager";
 import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
-import { PkgImageCfg, OverlayOrdering, PkgSpriteCfg, PkgTilesetCfg, PkgTilesetInfo, TilesetCfg } from "@sosarciel-cdda/sclema";
-import { ModTileset } from "@sosarciel-cdda/sclema";
+import { PkgImageCfg, OverlayOrdering, PkgSpriteCfg, PkgTilesetCfg, PkgTilesetInfo, TilesetCfg } from "@sosarciel-cdda/schema";
+import { ModTileset } from "@sosarciel-cdda/schema";
 
 
 

@@ -1,22 +1,22 @@
-import { MutationID } from "@sosarciel-cdda/sclema";
+import { MutationID } from "@sosarciel-cdda/schema";
 /**获取角色变异ID */
 export declare const getCharMutId: (charName: string) => MutationID;
 /**获取职业ID */
-export declare const getCharClassId: (charName: string) => import("@sosarciel-cdda/sclema").NpcClassID;
+export declare const getCharClassId: (charName: string) => import("@sosarciel-cdda/schema").NpcClassID;
 /**获取实例ID */
-export declare const getCharInstanceId: (charName: string) => import("@sosarciel-cdda/sclema").NpcInstanceID;
+export declare const getCharInstanceId: (charName: string) => import("@sosarciel-cdda/schema").NpcInstanceID;
 /**获取基础装甲ID */
-export declare const getCharBaseArmorId: (charName: string) => import("@sosarciel-cdda/sclema").ArmorID;
+export declare const getCharBaseArmorId: (charName: string) => import("@sosarciel-cdda/schema").ArmorID;
 /**获取基础附魔ID */
-export declare const getCharBaseEnchId: (charName: string) => import("@sosarciel-cdda/sclema").EnchantmentID;
+export declare const getCharBaseEnchId: (charName: string) => import("@sosarciel-cdda/schema").EnchantmentID;
 /**获取基础物品标志ID */
-export declare const getCharBaseItemFlagId: (charName: string) => import("@sosarciel-cdda/sclema").FlagID;
+export declare const getCharBaseItemFlagId: (charName: string) => import("@sosarciel-cdda/schema").FlagID;
 /**获取基础携带组 */
-export declare const getCharBaseCarryGroup: (charName: string) => import("@sosarciel-cdda/sclema").ItemGroupID;
+export declare const getCharBaseCarryGroup: (charName: string) => import("@sosarciel-cdda/schema").ItemGroupID;
 /**获取对话主题ID */
-export declare const getCharTalkTopicId: (charName: string) => import("@sosarciel-cdda/sclema").TalkTopicID;
+export declare const getCharTalkTopicId: (charName: string) => import("@sosarciel-cdda/schema").TalkTopicID;
 /**获取卡片ID */
-export declare const getCharCardId: (charName: string) => import("@sosarciel-cdda/sclema").GenericID;
+export declare const getCharCardId: (charName: string) => import("@sosarciel-cdda/schema").GenericID;
 /**获取全局的强化字段的变量ID */
 export declare function getGlobalFieldVarID(charName: string, field: string): string;
 export declare function getTalkerFieldVarID(talker: "u" | "n", field: string): string;

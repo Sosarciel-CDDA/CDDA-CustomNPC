@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { Armor, BodyPartList, Mutation, ItemGroup } from "@sosarciel-cdda/sclema";
+import { Armor, BodyPartList, Mutation, ItemGroup } from "@sosarciel-cdda/schema";
 import { CDataManager } from "../DataManager";
 
 

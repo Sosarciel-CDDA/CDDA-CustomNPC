@@ -1,9 +1,9 @@
 import { JObject, JToken, UtilFT, UtilFunc } from "@zwa73/utils";
-import { Spell, FlagID, WeaponCategoryID, BoolObj } from "@sosarciel-cdda/sclema";
+import { Spell, FlagID, WeaponCategoryID, BoolObj } from "@sosarciel-cdda/schema";
 import { CDataManager } from "@src/DataManager";
 import { SpecEffect, SpecProcMap, SpecSkillCastData } from "./CharSkillSpecEffect";
 import { getCharConfig } from "./CharData";
-import { CastAIData, CastAIDataJsonTable, Inherit } from "cdda-smartnpc";
+import { CastAIData, CastAIDataJsonTable, Inherit } from "@sosarciel-cdda/smartnpc";
 import { getCharMutId } from "./UtilGener";
 import { getCharCastAIPath, getCharCastSpellPath } from "CMDefine";
 

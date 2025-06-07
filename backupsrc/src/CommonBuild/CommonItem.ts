@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { Armor, ArmorID } from "@sosarciel-cdda/sclema";
+import { Armor, ArmorID } from "@sosarciel-cdda/schema";
 import { genArmorMut } from "./UtilGener";
 
 

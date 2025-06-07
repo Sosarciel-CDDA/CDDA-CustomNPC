@@ -1,4 +1,4 @@
-import { EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, EnchantmentID } from "@sosarciel-cdda/sclema";
+import { EnchArmorValTypeList, EnchGenericValTypeList, Enchantment, EnchantmentID } from "@sosarciel-cdda/schema";
 import { CMDef } from "CMDefine";
 import { saveStaticData } from "./StaticData";
 

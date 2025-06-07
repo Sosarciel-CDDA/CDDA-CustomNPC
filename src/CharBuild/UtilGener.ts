@@ -1,5 +1,5 @@
 import { CMDef } from "CMDefine";
-import { MutationID } from "@sosarciel-cdda/sclema";
+import { MutationID } from "@sosarciel-cdda/schema";
 
 
 

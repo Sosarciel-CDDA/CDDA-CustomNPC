@@ -1,4 +1,4 @@
-import { ItemGroup } from "@sosarciel-cdda/sclema"
+import { ItemGroup } from "@sosarciel-cdda/schema"
 import { saveStaticData } from "./StaticData";
 import { CMDef } from "CMDefine";
 

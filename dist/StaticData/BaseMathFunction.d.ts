@@ -1,2 +1,2 @@
-import { MathFunction } from "@sosarciel-cdda/sclema";
+import { MathFunction } from "@sosarciel-cdda/schema";
 export declare const BaseMathFunction: MathFunction[];

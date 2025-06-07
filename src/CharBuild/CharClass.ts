@@ -1,7 +1,7 @@
-import { Eoc, EocEffect, Generic, NPCClassBaseSkill, NpcClass, NpcInstance } from "@sosarciel-cdda/sclema";
+import { Eoc, EocEffect, Generic, NPCClassBaseSkill, NpcClass, NpcInstance } from "@sosarciel-cdda/schema";
 import { CDataManager } from "../DataManager";
 import { CMDef } from "CMDefine";
-import { DefineSkillList, SkillID } from "@sosarciel-cdda/sclema";
+import { DefineSkillList, SkillID } from "@sosarciel-cdda/schema";
 import { EMPTY_GROUP_ID } from "StaticData";
 import { getCharConfig } from "./CharData";
 import { getCharBaseCarryGroup, getCharCardId, getCharClassId, getCharDisplayName, getCharInstanceId, getCharMutId } from "./UtilGener";

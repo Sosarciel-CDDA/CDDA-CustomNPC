@@ -1,4 +1,4 @@
-import { Effect } from "@sosarciel-cdda/sclema";
+import { Effect } from "@sosarciel-cdda/schema";
 import { CMDef } from "CMDefine";
 import { saveStaticData } from "./StaticData";
 

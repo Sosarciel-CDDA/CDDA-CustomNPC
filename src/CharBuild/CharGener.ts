@@ -1,5 +1,5 @@
 import { CDataManager } from "@src/DataManager";
-import { Eoc, Generic } from "@sosarciel-cdda/sclema";
+import { Eoc, Generic } from "@sosarciel-cdda/schema";
 import { getCharCardId, getCharDisplayName, getCharInstanceId } from "./UtilGener";
 import { CMDef } from "CMDefine";
 

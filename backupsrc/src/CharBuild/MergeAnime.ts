@@ -3,7 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { UtilFT, UtilFunc } from "@zwa73/utils";
 import { AnimType } from "./AnimTool";
-import { OverlayOrdering, PkgTilesetInfo, TilesetCfg, ModTileset } from "@sosarciel-cdda/sclema";
+import { OverlayOrdering, PkgTilesetInfo, TilesetCfg, ModTileset } from "@sosarciel-cdda/schema";
 
 
 

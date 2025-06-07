@@ -1,4 +1,4 @@
-import { EocEffect } from "@sosarciel-cdda/sclema";
+import { EocEffect } from "@sosarciel-cdda/schema";
 import { JObject } from "@zwa73/utils";
 /**任何角色的交互事件 列表
  * u为角色 n为怪物
